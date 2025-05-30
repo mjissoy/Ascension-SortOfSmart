@@ -1,5 +1,7 @@
 package net.thejadeproject.ascension;
 
+import net.minecraft.world.item.CreativeModeTabs;
+import net.thejadeproject.ascension.items.ModItems;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -34,6 +36,8 @@ public class AscensionCraft {
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
+        ModItems.register(modEventBus);
+
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
@@ -47,6 +51,10 @@ public class AscensionCraft {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+            event.accept(ModItems.JADE);
+            event.accept(ModItems.RAW_JADE);
+        }
 
     }
 
