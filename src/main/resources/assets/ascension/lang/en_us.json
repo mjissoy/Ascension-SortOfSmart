@@ -1,4 +1,9 @@
 {
   "item.ascension.jade": "Jade",
-  "item.ascension.raw_jade": "Raw Jade"
+  "item.ascension.raw_jade": "Raw Jade",
+
+
+
+  "creativetab.ascension.items": "Ascension Items",
+  "creativetab.ascension.blocks": "Ascension Blocks"
 }
