@@ -1,4 +1,7 @@
 package net.thejadeproject.ascension.datagen;
 
-public class ModBlockTagProvider {
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+
+public class ModBlockTagProvider extends BlockTagsProvider {
+
 }

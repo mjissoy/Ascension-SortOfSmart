@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.blocks.ModBlocks;
 
 import java.util.function.Supplier;
 
@@ -25,10 +26,11 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.JADE_ORE.get()))
                     .title(Component.translatable("creativetab.ascension.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.RAW_JADE);
+                        output.accept(ModBlocks.JADE_ORE);
+
 
                     }).build());
 

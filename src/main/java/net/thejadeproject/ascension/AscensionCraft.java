@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension;
 
 import net.minecraft.world.item.CreativeModeTabs;
+import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import org.slf4j.Logger;
@@ -54,9 +55,6 @@ public class AscensionCraft {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if(event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
-
-        }
 
     }
 
