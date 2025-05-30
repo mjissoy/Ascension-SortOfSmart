@@ -15,6 +15,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         blockWithItem(ModBlocks.JADE_ORE);
+        blockWithItem(ModBlocks.JADE_BLOCK);
 
     }
 

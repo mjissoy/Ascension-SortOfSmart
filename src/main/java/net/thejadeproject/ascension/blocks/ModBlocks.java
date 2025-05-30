@@ -20,10 +20,13 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> JADE_ORE = registerBlock("jade_ore",
             () -> new Block(BlockBehaviour.Properties.of()
-                .strength(4f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST)));
+                .strength(4.5f, 3.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST)));
+    public static final DeferredBlock<Block> JADE_BLOCK = registerBlock("jade_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                .strength(5.5f, 4.5f).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
-        DeferredBlock<T> toReturn = BLOCKS.register(name, block);
+        DeferredBlock<T> toReturn = BLOCK.register(name, block);
         registerBlockItem(name, toReturn);
         return toReturn;
     }
@@ -33,6 +36,6 @@ public class ModBlocks {
     }
 
     public static void register(IEventBus eventBus) {
-        BLOCKS.register(eventBus);
+        BLOCK.register(eventBus);
     }
 }

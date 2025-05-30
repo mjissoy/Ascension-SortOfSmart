@@ -30,6 +30,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.JADE_ORE);
+                        output.accept(ModBlocks.JADE_BLOCK);
 
 
                     }).build());
