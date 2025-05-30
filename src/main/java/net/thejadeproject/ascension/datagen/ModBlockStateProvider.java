@@ -14,12 +14,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
     @Override
     protected void registerStatesAndModels() {
-        blockWithItem(ModBlocks.JADE_ORE);
-        blockWithItem(ModBlocks.JADE_BLOCK);
+        simpleBlockWithItem(ModBlocks.JADE_ORE);
+        simpleBlockWithItem(ModBlocks.JADE_BLOCK);
 
     }
 
-    private void blockWithItem(DeferredBlock<?> deferredBlock) {
+    private void simpleBlockWithItem(DeferredBlock<?> deferredBlock) {
         simpleBlockWithItem(deferredBlock.get(), cubeAll(deferredBlock.get()));
     }
 }
