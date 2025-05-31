@@ -23,7 +23,8 @@ public class lang extends LanguageProvider {
         //GUI & Other Stuff
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.blocks", "Ascension Blocks");
-        add("key.ascension.cultivate", "Ascension");
+        add("category.ascension.cultivation", "Ascension");
+        add("key.ascension.cultivate", "Cultivate");
 
     }
 }
