@@ -13,6 +13,8 @@ import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 
+import java.util.UUID;
+
 public class NetworkHandler {
     public static void register(final RegisterPayloadHandlersEvent event) {
         event.registrar(AscensionCraft.MOD_ID)
@@ -21,13 +23,21 @@ public class NetworkHandler {
                         CultivationUpdatePayload.TYPE,
                         CultivationUpdatePayload.STREAM_CODEC,
                         new DirectionalPayloadHandler<>(NetworkHandler::handleCultivationUpdate, NetworkHandler::handleCultivationUpdate
-                ));
+                        ));
     }
 
     private static void handleCultivationUpdate(CultivationUpdatePayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             ClientCultivationData.update(payload.data());
         });
+    }
+
+    public static void sendCultivationStart(UUID playerId) {
+        PacketDistributor.sendToServer(new CultivationStartPayLoad(playerId));
+    }
+
+    public record CultivationStartPayLoad(UUID playerId) implements CustomPacketPayload {
+        public static final ResourceLocation ID = new ResourceLocation(AscensionCraft.MOD_ID, "cultivation_start");
     }
 
 

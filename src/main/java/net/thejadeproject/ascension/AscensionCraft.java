@@ -1,9 +1,12 @@
 package net.thejadeproject.ascension;
 
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.cultivation.NetworkHandler;
+import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.keybinds.KeyBindings;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -32,7 +35,6 @@ public class AscensionCraft {
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(NetworkHandler::register);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -49,6 +51,28 @@ public class AscensionCraft {
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+
+        modEventBus.addListener(this::registerKeyBindings);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerLogin);
+    }
+
+    private void registerKeyBindings(RegisterKeyMappingsEvent event) {
+        event.register(KeyBindings.CULTIVATE_KEY);
+    }
+
+    private void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START && !event.player.level().isClientSide) {
+            if (KeyBindings.CULTIVATE_KEY.isDown()) {
+                // Handle cultivation progress
+                CultivationSystem.cultivate(event.player);
+            }
+        }
+    }
+
+    private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        CultivationSystem.initPlayerCultivation(event.getEntity());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
