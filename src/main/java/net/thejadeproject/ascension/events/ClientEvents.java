@@ -23,7 +23,7 @@ public class ClientEvents {
         CultivationUI.setProgress(ClientCultivationData.getProgress());
 
         // Render the custom UI
-        CultivationUI.render(event.getGuiGraphics(), event.getPartialTick(0.5f, 0.2f));
+        CultivationUI.render(event.getGuiGraphics(), 0.1f);
 
         // Optional: Still show realm info
         String realmText = CultivationSystem.getRealmName(

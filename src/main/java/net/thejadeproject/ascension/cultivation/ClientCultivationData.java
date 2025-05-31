@@ -26,10 +26,6 @@ public class ClientCultivationData {
         data = newData;
     }
 
-    public static void startCultivation(CompoundTag newData) {
-        data = newData;
-    }
-
     public static void setCultivating(boolean cultivating) {
         isCultivating = cultivating;
     }
