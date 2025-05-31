@@ -13,6 +13,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.thejadeproject.ascension.AscensionCraft;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

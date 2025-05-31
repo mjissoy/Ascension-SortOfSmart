@@ -11,7 +11,7 @@ public class CultivationSystem {
 
     public static void initPlayerCultivation(Player player) {
         CompoundTag persistentData = player.getPersistentData();
-        CompoundTag cultivationData = player.getCompound("Cultivation");
+        CompoundTag cultivationData = persistentData.getCompound("Cultivation");
 
         if (!cultivationData.contains("MajorRealm")) {
             cultivationData.putInt("MajorRealm", 0);
@@ -44,7 +44,7 @@ public class CultivationSystem {
             updatePlayerAttributes(player);
 
             if (player instanceof ServerPlayer serverPlayer) {
-                NetworkHandler.sendCultivationUpdate(serverPlayer);
+                NetworkHandler.sendCultivationUpdate(serverPlayer, cultivationData);
             }
         }
 
@@ -83,7 +83,9 @@ public class CultivationSystem {
                 "True Immortal", "Golden Immortal"
         };
 
-        String name = majorRealm < realms.length ? realms[majorRealm] : "Realm " + (majorRealm + 1);
+        String name = majorRealm < majorRealmNames.length ?
+                majorRealmNames[majorRealm] :
+                "Realm " + (majorRealm + 1);
         return name + " Stage " + minorRealm;
     }
 }

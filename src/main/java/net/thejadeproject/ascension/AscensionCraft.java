@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension;
 
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.cultivation.NetworkHandler;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ public class AscensionCraft {
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(NetworkHandler::register);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.

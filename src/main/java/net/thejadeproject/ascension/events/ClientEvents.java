@@ -1,10 +1,13 @@
-package net.thejadeproject.ascension.events.;
+package net.thejadeproject.ascension.events;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.thejadeproject.ascension.cultivation.ClientCultivationData;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 
 @OnlyIn(Dist.CLIENT)
@@ -15,14 +18,14 @@ public class ClientEvents {
         int width = event.getGuiGraphics().guiWidth();
 
         String realmText = CultivationSystem.getRealmName(
-                ClientData.getMajorRealm(),
-                ClientData.getMinorRealm()
+                ClientCultivationData.getMajorRealm(),
+                ClientCultivationData.getMinorRealm()
         );
 
-        String progressText = String.format("%.0f%%", ClientData.getProgress() * 100);
+        String progressText = String.format("%.0f%%", ClientCultivationData.getProgress() * 100);
 
         guiGraphics.drawString(
-                event.getGuiGraphics()..getFont(),
+                Minecraft.getInstance().font,
                 realmText,
                 width - 150,
                 10,
@@ -30,7 +33,7 @@ public class ClientEvents {
         );
 
         guiGraphics.drawString(
-                event.getWindow().getFont(),
+                Minecraft.getInstance().font,
                 progressText,
                 width - 150,
                 20,
