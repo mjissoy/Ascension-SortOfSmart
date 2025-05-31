@@ -20,4 +20,8 @@ public class ClientCultivationData {
     public static float getProgress() {
         return data.getFloat("Progress");
     }
+
+    public static void startCultivation(CompoundTag newData) {
+        data = newData;
+    }
 }

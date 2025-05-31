@@ -23,7 +23,12 @@ public class NetworkHandler {
                         CultivationUpdatePayload.TYPE,
                         CultivationUpdatePayload.STREAM_CODEC,
                         new DirectionalPayloadHandler<>(NetworkHandler::handleCultivationUpdate, NetworkHandler::handleCultivationUpdate
-                        ));
+                        ))
+                .playBidirectional(
+                        CultivationStartPayLoad.TYPE,
+                        CultivationStartPayLoad.STREAM_CODEC,
+                        new DirectionalPayloadHandler<>(NetworkHandler::handleCultivationStart, NetworkHandler::handleCultivationStart)
+                );
     }
 
     private static void handleCultivationUpdate(CultivationUpdatePayload payload, IPayloadContext context) {
@@ -32,12 +37,30 @@ public class NetworkHandler {
         });
     }
 
+    private static void handleCultivationStart(CultivationUpdatePayload payload, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            ClientCultivationData.startCultivation(payload.data());
+        });
+    }
+
+
     public static void sendCultivationStart(UUID playerId) {
         PacketDistributor.sendToServer(new CultivationStartPayLoad(playerId));
     }
 
     public record CultivationStartPayLoad(UUID playerId) implements CustomPacketPayload {
-        public static final ResourceLocation ID = new ResourceLocation(AscensionCraft.MOD_ID, "cultivation_start");
+        public static final CustomPacketPayload.Type<CultivationUpdatePayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cultivation_start"));
+
+        public static final StreamCodec<ByteBuf, CultivationUpdatePayload> STREAM_CODEC = StreamCodec.composite(
+                ByteBufCodecs.COMPOUND_TAG,
+                CultivationUpdatePayload::data,
+                CultivationUpdatePayload::new
+        );
+
+        @Override
+        public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
     }
 
 

@@ -8,6 +8,8 @@ import net.minecraft.world.entity.player.Player;
 public class CultivationSystem {
     private static final float MINOR_REALM_MULTIPLIER = 0.03f;
     private static final float MAJOR_REALM_MULTIPLIER = 0.2f;
+    private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.5f;
+    private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 2.0f;
 
     public static void initPlayerCultivation(Player player) {
         CompoundTag persistentData = player.getPersistentData();
@@ -24,13 +26,20 @@ public class CultivationSystem {
     }
 
     public static void cultivate(Player player) {
+        CompoundTag cultivationData = player.getPersistentData().getCompound("Cultivation");
+        int majorRealmProgress = cultivationData.getInt("MajorRealm");
+        int minorRealmProgress = cultivationData.getInt("MinorRealm");
+        //Cultivation Stage Max
+        float CultivationStageMax = 1.0f +
+                (majorRealmProgress * MAJOR_REALM_PROGRESS_MULTIPLIER) *
+                (minorRealmProgress * MINOR_REALM_PROGRESS_MULTIPLIER);
+
         if (player.level().isClientSide) return;
 
-        CompoundTag cultivationData = player.getPersistentData().getCompound("Cultivation");
         float progress = cultivationData.getFloat("CultivationProgress");
         progress += 0.01f;
 
-        if (progress >= 1.0f) {
+        if (progress >= CultivationStageMax) {
             progress = 0;
             int minorRealm = cultivationData.getInt("MinorRealm");
             minorRealm++;

@@ -10,11 +10,11 @@ public class KeyHandler {
         if (player.level().isClientSide) {
             boolean isDown = KeyBindings.CULTIVATE_KEY.isDown();
             if (isDown && !wasCultivating) {
-                NetworkHandler.sendCultivationUpdate(player.getUUID());
+                NetworkHandler.sendCultivationStart(player.getUUID());
             }
             wasCultivating = isDown;
             return isDown;
         }
-        return player.getPersistentData().getBoolean("isCultivating")
+        return player.getPersistentData().getBoolean("isCultivating");
     }
 }

@@ -2,11 +2,13 @@ package net.thejadeproject.ascension;
 
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.keybinds.KeyBindings;
+import net.thejadeproject.ascension.keybinds.KeyHandler;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -62,11 +64,11 @@ public class AscensionCraft {
         event.register(KeyBindings.CULTIVATE_KEY);
     }
 
-    private void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.phase == TickEvent.Phase.START && !event.player.level().isClientSide) {
-            if (KeyBindings.CULTIVATE_KEY.isDown()) {
-                // Handle cultivation progress
-                CultivationSystem.cultivate(event.player);
+    private void onPlayerTick(PlayerTickEvent.Pre event) {
+        // Only process on server side
+        if (!event.getEntity().level().isClientSide) {
+            if (KeyHandler.isCultivating(event.getEntity())) {
+                CultivationSystem.cultivate(event.getEntity());
             }
         }
     }
