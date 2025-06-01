@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension;
 
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -31,6 +32,10 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 public class AscensionCraft {
     public static final String MOD_ID = "ascension";
     private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static ResourceLocation prefix(String name){
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+    }
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
