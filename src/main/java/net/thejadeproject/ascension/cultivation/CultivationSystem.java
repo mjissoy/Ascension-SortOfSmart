@@ -11,7 +11,15 @@ public class CultivationSystem {
     private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.5f;
     private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 2.0f;
 
+    private static final         String[] majorRealmNames = {
+            "Mortal", "Qi Condensation", "Foundation Establishment",
+            "Core Formation", "Nascent Soul", "Spirit Severing",
+            "Soul Formation", "Soul Transformation", "Immortal Ascension",
+            "True Immortal", "Golden Immortal"
+    };
+
     public static void initPlayerCultivation(Player player) {
+        CultivationData.player = player;
         CompoundTag persistentData = player.getPersistentData();
         CompoundTag cultivationData = persistentData.getCompound("Cultivation");
 
@@ -19,11 +27,15 @@ public class CultivationSystem {
             cultivationData.putInt("MajorRealm", 0);
             cultivationData.putInt("MinorRealm", 0);
             cultivationData.putInt("CultivationProgress", 0);
+            cultivationData.putBoolean("CultivationState",false);
             persistentData.put("Cultivation", cultivationData);
 
             updatePlayerAttributes(player);
         }
     }
+
+
+
 
     public static void cultivate(Player player) {
         CompoundTag cultivationData = player.getPersistentData().getCompound("Cultivation");
@@ -52,9 +64,7 @@ public class CultivationSystem {
             cultivationData.putInt("MinorRealm", minorRealm);
             updatePlayerAttributes(player);
 
-            if (player instanceof ServerPlayer serverPlayer) {
-                NetworkHandler.sendCultivationUpdate(serverPlayer, cultivationData);
-            }
+
         }
 
         cultivationData.putFloat("CultivationProgress", progress);
@@ -84,13 +94,12 @@ public class CultivationSystem {
         player.setHealth(player.getMaxHealth());
     }
 
+    public static String getMajorRealmName(int majorRealm){
+        return majorRealmNames[majorRealm];
+    }
+
     public static String getRealmName(int majorRealm, int minorRealm) {
-        String[] majorRealmNames = {
-                "Mortal", "Qi Condensation", "Foundation Establishment",
-                "Core Formation", "Nascent Soul", "Spirit Severing",
-                "Soul Formation", "Soul Transformation", "Immortal Ascension",
-                "True Immortal", "Golden Immortal"
-        };
+
 
         String name = majorRealm < majorRealmNames.length ?
                 majorRealmNames[majorRealm] :

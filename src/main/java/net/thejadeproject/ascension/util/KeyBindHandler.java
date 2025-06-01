@@ -43,10 +43,12 @@ public class KeyBindHandler {
     }
 
     public static void handleKeyInputEvent(ClientTickEvent.Post event) {
+        if(Minecraft.getInstance().level == null && Minecraft.getInstance().getConnection() == null) return;
         if(INTROSPECTION_KEY.consumeClick()){
             Minecraft.getInstance().setScreen(new Overlay(Component.literal("Introspection"),Minecraft.getInstance().player));
         }
-        CultivationData.setCultivating(net.thejadeproject.ascension.util.KeyBindHandler.CULTIVATE_KEY.isDown());
+
+        CultivationData.setCultivating(CULTIVATE_KEY.isDown());
 
     }
 }

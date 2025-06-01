@@ -1,16 +1,16 @@
 package net.thejadeproject.ascension;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import org.slf4j.Logger;
@@ -76,7 +76,9 @@ public class AscensionCraft {
     private void onPlayerTick(PlayerTickEvent.Pre event) {
         // Only process on server side
         if (!event.getEntity().level().isClientSide) {
-            if (KeyBindHandler.isCultivating(event.getEntity())) {
+            if (event.getEntity().getPersistentData().getCompound("Cultivation").getBoolean("CultivationState")) {
+                System.out.println("cultivating");
+                System.out.println(event.getEntity().getPersistentData().getCompound("Cultivation").getFloat("CultivationProgress"));
                 CultivationSystem.cultivate(event.getEntity());
             }
         }
@@ -107,6 +109,10 @@ public class AscensionCraft {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
+        }
+        @SubscribeEvent
+        public static void registerPayloads(RegisterPayloadHandlersEvent event){
+            ModPayloads.registerPayloads(event);
         }
     }
 }
