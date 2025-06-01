@@ -1,13 +1,14 @@
-package net.thejadeproject.ascension.keybinds;
+package net.thejadeproject.ascension.util;
 
-import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import net.thejadeproject.ascension.cultivation.ClientCultivationData;
+import net.thejadeproject.ascension.cultivation.CultivationData;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
 
 public class KeyBindHandler {
@@ -29,12 +30,7 @@ public class KeyBindHandler {
     }
 
 
-    private static final int KEY_C = 67;
-
-
-
     public static final KeyMapping CULTIVATE_KEY = new KeyMapping("key.ascension.cultivate", 67, "category.ascension.cultivation");
-
 
 
     public static void register() {
@@ -42,13 +38,8 @@ public class KeyBindHandler {
         eventBus.addListener(EventPriority.HIGH, KeyBindHandler::handleKeyInputEvent);
     }
 
-    public static void handleKeyInputEvent(ClientTickEvent.Pre event) {
-        boolean isDown = KeyBindHandler.CULTIVATE_KEY.isDown();
-        ClientCultivationData.setCultivating(isDown);
-    }
+    public static void handleKeyInputEvent(ClientTickEvent.Post event) {
+        CultivationData.setCultivating(net.thejadeproject.ascension.util.KeyBindHandler.CULTIVATE_KEY.isDown());
 
-    public static void onClientTick(ClientTickEvent event) {
-        boolean isDown = KeyBindHandler.CULTIVATE_KEY.isDown();
-        ClientCultivationData.setCultivating(isDown);
     }
 }
