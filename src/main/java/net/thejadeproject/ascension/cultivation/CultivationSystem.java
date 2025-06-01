@@ -49,6 +49,7 @@ public class CultivationSystem {
         if (player.level().isClientSide) return;
 
         float progress = cultivationData.getFloat("CultivationProgress");
+        if(player.getPersistentData().getCompound("Cultivation").getInt("MajorRealm") >= majorRealmNames.length) return;
         if (player.getPersistentData().getCompound("Cultivation").getInt("MajorRealm") == majorRealmNames.length-1 && player.getPersistentData().getCompound("Cultivation").getInt("MinorRealm") == 9) {
             return;
         }
