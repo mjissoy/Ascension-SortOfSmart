@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.util;
 import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
@@ -10,6 +11,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.cultivation.CultivationData;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
+import net.thejadeproject.ascension.guis.Introspection.Overlay;
 
 public class KeyBindHandler {
     private static boolean wasCultivating = false;
@@ -32,6 +34,8 @@ public class KeyBindHandler {
 
     public static final KeyMapping CULTIVATE_KEY = new KeyMapping("key.ascension.cultivate", 67, "category.ascension.cultivation");
 
+    public static final KeyMapping INTROSPECTION_KEY = new KeyMapping("key.ascension.introspection", 73, "category.ascension.cultivation");
+
 
     public static void register() {
         IEventBus eventBus = NeoForge.EVENT_BUS;
@@ -39,6 +43,9 @@ public class KeyBindHandler {
     }
 
     public static void handleKeyInputEvent(ClientTickEvent.Post event) {
+        if(INTROSPECTION_KEY.consumeClick()){
+            Minecraft.getInstance().setScreen(new Overlay(Component.literal("Introspection"),Minecraft.getInstance().player));
+        }
         CultivationData.setCultivating(net.thejadeproject.ascension.util.KeyBindHandler.CULTIVATE_KEY.isDown());
 
     }

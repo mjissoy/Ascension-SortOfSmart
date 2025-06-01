@@ -1,6 +1,8 @@
 package net.thejadeproject.ascension.cultivation;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 
 public class CultivationData {
     private static CompoundTag data = new CompoundTag();
@@ -35,5 +37,16 @@ public class CultivationData {
         }
 
 
+        public static Component getProgressUI() {
+            return Component.literal(String.valueOf(data.getInt("Progress")));
+        }
+
+        public static Component getMajorRealmUI() {
+            return Component.literal(String.valueOf(data.getInt("MajorRealm")));
+        }
+
+        public static Component getMinorRealmUI() {
+            return Component.literal(String.valueOf(data.getInt("MinorRealm")));
+        }
     }
 }

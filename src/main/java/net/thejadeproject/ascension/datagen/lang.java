@@ -25,6 +25,7 @@ public class lang extends LanguageProvider {
         add("creativetab.ascension.blocks", "Ascension Blocks");
         add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");
+        add("key.ascension.introspection", "Introspection");
 
     }
 }
