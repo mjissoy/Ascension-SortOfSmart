@@ -15,6 +15,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         basicItem(ModItems.JADE.get());
+        basicItem(ModItems.JADE_NUGGET.get());
         basicItem(ModItems.RAW_JADE.get());
     }
 }

@@ -30,11 +30,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("JJJ")
                 .pattern("JJJ")
                 .define('J', ModItems.JADE.get())
-                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput);
+                .unlockedBy("has_jade_ingot1", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_block_from_jade");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE.get())
+                .pattern("JJJ")
+                .pattern("JJJ")
+                .pattern("JJJ")
+                .define('J', ModItems.JADE_NUGGET.get())
+                .unlockedBy("has_jade_ingot", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_ingot_from_nugget");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.JADE.get(), 9)
                 .requires(ModBlocks.JADE_BLOCK)
-                .unlockedBy("has_jade_block", has(ModBlocks.JADE_BLOCK)).save(recipeOutput);
+                .unlockedBy("has_block_of_jade", has(ModBlocks.JADE_BLOCK)).save(recipeOutput, "ascension:shapeless/jade_from_jade_block");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.JADE_NUGGET.get(), 9)
+                .requires(ModItems.JADE)
+                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shapeless/jade_nugget_from_jade");
 
 
 
