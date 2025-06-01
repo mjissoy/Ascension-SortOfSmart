@@ -11,7 +11,7 @@ public class CultivationSystem {
     private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.5f;
     private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 2.0f;
 
-    private static final         String[] majorRealmNames = {
+    private static final String[] majorRealmNames = {
             "Mortal", "Qi Condensation", "Foundation Establishment",
             "Core Formation", "Nascent Soul", "Spirit Severing",
             "Soul Formation", "Soul Transformation", "Immortal Ascension",
@@ -97,6 +97,7 @@ public class CultivationSystem {
     }
 
     public static String getMajorRealmName(int majorRealm){
+        if(majorRealm >= majorRealmNames.length) return "Boundless";
         return majorRealmNames[majorRealm];
     }
 
