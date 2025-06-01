@@ -6,6 +6,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
+import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.keybinds.KeyBindHandler;
@@ -50,7 +51,7 @@ public class AscensionCraft {
 
 
         ModCreativeModeTabs.register(modEventBus);
-
+        RealmRegistry.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
         // Register the item to a creative tab

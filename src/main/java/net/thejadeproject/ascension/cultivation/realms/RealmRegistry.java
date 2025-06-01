@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.cultivation.realms;
 
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -24,6 +25,12 @@ public class RealmRegistry {
         QI_REFINING_2 = SUB_REALMS.register("realm_1_2", location -> new SubRealm(location.getPath(), 200));
         QI_REFINING_3 = SUB_REALMS.register("realm_1_3", location -> new SubRealm(location.getPath(), 300));
         QI_REFINING_4 = SUB_REALMS.register("realm_1_4", location -> new SubRealm(location.getPath(), 400));
-        HEAVEN_QI_REFINING = REALMS.register("qi_refining", location -> new Realm(Realm.Types.HEAVEN, "qi_refining", QI_REFINING_1, QI_REFINING_2, QI_REFINING_3, QI_REFINING_4));
+        HEAVEN_QI_REFINING = REALMS.register("heaven_qi_refining", location -> new Realm(Realm.Types.HEAVEN, "qi_refining", QI_REFINING_1, QI_REFINING_2, QI_REFINING_3, QI_REFINING_4));
+        EARTH_QI_REFINING = REALMS.register("earth_qi_refining", location -> new Realm(Realm.Types.EARTH, "qi_refining", QI_REFINING_1, QI_REFINING_2, QI_REFINING_3, QI_REFINING_4));
+    }
+
+    public static void register(IEventBus modEventBus) {
+        REALMS.register(modEventBus);
+        SUB_REALMS.register(modEventBus);
     }
 }
