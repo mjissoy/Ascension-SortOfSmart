@@ -6,6 +6,6 @@ import net.thejadeproject.ascension.keybinds.KeyBindHandler;
 
 public class ClientSetup {
     public static void init(IEventBus modEventBus) {
-        NeoForge.EVENT_BUS.addListener(KeyBindHandler::onClientTick);
+    //    NeoForge.EVENT_BUS.addListener(KeyBindHandler::);
     }
 }
