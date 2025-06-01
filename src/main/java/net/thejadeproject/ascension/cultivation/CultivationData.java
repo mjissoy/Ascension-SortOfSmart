@@ -16,7 +16,7 @@ public class CultivationData {
     public static boolean isCultivating() {
         return isCultivating;
     }
-    public class ClientCultivationData {
+    public static class ClientCultivationData {
 
         public static void update(CompoundTag newData) {
             data = newData;

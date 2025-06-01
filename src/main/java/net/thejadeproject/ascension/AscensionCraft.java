@@ -1,5 +1,7 @@
 package net.thejadeproject.ascension;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -7,7 +9,7 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.keybinds.KeyBindHandler;
+import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import org.slf4j.Logger;
 
@@ -58,11 +60,6 @@ public class AscensionCraft {
         modEventBus.addListener(this::registerKeyBindings);
         NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogin);
-    }
-
-    @SubscribeEvent
-    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
-        event.register(KeyBindHandler.CULTIVATE_KEY);
     }
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {

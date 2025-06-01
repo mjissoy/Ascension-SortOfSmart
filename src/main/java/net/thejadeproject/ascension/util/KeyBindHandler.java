@@ -1,6 +1,8 @@
-package net.thejadeproject.ascension.keybinds;
+package net.thejadeproject.ascension.util;
 
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
@@ -28,9 +30,7 @@ public class KeyBindHandler {
     }
 
 
-
     public static final KeyMapping CULTIVATE_KEY = new KeyMapping("key.ascension.cultivate", 67, "category.ascension.cultivation");
-
 
 
     public static void register() {
@@ -39,6 +39,7 @@ public class KeyBindHandler {
     }
 
     public static void handleKeyInputEvent(ClientTickEvent.Post event) {
-        CultivationData.setCultivating(KeyBindHandler.CULTIVATE_KEY.isDown());
+        CultivationData.setCultivating(net.thejadeproject.ascension.util.KeyBindHandler.CULTIVATE_KEY.isDown());
+
     }
 }
