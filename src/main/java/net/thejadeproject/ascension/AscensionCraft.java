@@ -66,6 +66,7 @@ public class AscensionCraft {
         modEventBus.addListener(this::registerKeyBindings);
         NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogin);
+
     }
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
