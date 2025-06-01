@@ -7,8 +7,8 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.keybinds.KeyBindings;
-import net.thejadeproject.ascension.keybinds.KeyHandler;
+import net.thejadeproject.ascension.keybinds.KeyBindHandler;
+
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -61,13 +61,13 @@ public class AscensionCraft {
     }
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
-        event.register(KeyBindings.CULTIVATE_KEY);
+        event.register(KeyBindHandler.CULTIVATE_KEY);
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {
         // Only process on server side
         if (!event.getEntity().level().isClientSide) {
-            if (KeyHandler.isCultivating(event.getEntity())) {
+            if (KeyBindHandler.isCultivating(event.getEntity())) {
                 CultivationSystem.cultivate(event.getEntity());
             }
         }
