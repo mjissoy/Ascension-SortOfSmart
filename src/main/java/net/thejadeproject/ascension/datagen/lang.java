@@ -14,6 +14,7 @@ public class lang extends LanguageProvider {
 
         //Items
         add("item.ascension.jade", "Jade");
+        add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.raw_jade", "Raw Jade");
 
         //Blocks
@@ -23,7 +24,7 @@ public class lang extends LanguageProvider {
         //GUI & Other Stuff
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.blocks", "Ascension Blocks");
-        add("category.ascension.cultivation", "Ascension");
+        add("category.ascension.main", "Ascension");
         add("key.ascension.cultivate", "Cultivate");
         add("key.ascension.introspection", "Introspection");
 
