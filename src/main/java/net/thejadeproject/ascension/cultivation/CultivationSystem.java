@@ -4,9 +4,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.Config;
 
 public class CultivationSystem {
-    private static final float MINOR_REALM_MULTIPLIER = 0.03f;
     private static final float MAJOR_REALM_MULTIPLIER = 0.3f;
     private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.5f;
     private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 2.0f;
@@ -79,9 +79,9 @@ public class CultivationSystem {
         int majorRealm = cultivationData.getInt("MajorRealm");
         int minorRealm = cultivationData.getInt("MinorRealm");
 
-        float totalMultiplier = 1.0f +
-                (majorRealm * MAJOR_REALM_MULTIPLIER) +
-                (minorRealm * MINOR_REALM_MULTIPLIER);
+        float totalMultiplier = (float) (1.0f +
+                        (majorRealm * MAJOR_REALM_MULTIPLIER) +
+                        (Config.Common.MINOR_REALM_MULTIPLIER.get()));
 
         player.getAttribute(Attributes.MAX_HEALTH)
                 .setBaseValue(20.0 * totalMultiplier);
@@ -92,7 +92,7 @@ public class CultivationSystem {
         player.getAttribute(Attributes.MOVEMENT_SPEED)
                 .setBaseValue(0.1 * totalMultiplier);
         player.getAttribute(Attributes.JUMP_STRENGTH)
-                .setBaseValue(0.42 * totalMultiplier);
+                .setBaseValue(0.32 * totalMultiplier);
 
         player.setHealth(player.getMaxHealth());
     }
