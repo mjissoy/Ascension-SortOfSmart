@@ -90,6 +90,7 @@ public class AscensionCraft {
 
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         CultivationSystem.initPlayerCultivation(event.getEntity());
+        CultivationSystem.updatePlayerAttributes(event.getEntity());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

@@ -1,9 +1,11 @@
 package net.thejadeproject.ascension.cultivation;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.server.command.NeoForgeCommand;
 import net.thejadeproject.ascension.Config;
 
 public class CultivationSystem {
@@ -11,12 +13,15 @@ public class CultivationSystem {
     private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.5f;
     private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 2.0f;
 
+
     private static final String[] majorRealmNames = {
             "Mortal", "Qi Condensation", "Foundation Establishment",
             "Core Formation", "Nascent Soul", "Spirit Severing",
             "Soul Formation", "Soul Transformation", "Immortal Ascension",
             "True Immortal", "Golden Immortal"
     };
+
+    public static final int RealmAmount = majorRealmNames.length;
 
     public static void initPlayerCultivation(Player player) {
         CultivationData.player = player;
@@ -46,6 +51,7 @@ public class CultivationSystem {
                 (majorRealmProgress * MAJOR_REALM_PROGRESS_MULTIPLIER) *
                 (minorRealmProgress * MINOR_REALM_PROGRESS_MULTIPLIER);
 
+
         if (player.level().isClientSide) return;
 
         float progress = cultivationData.getFloat("CultivationProgress");
@@ -53,7 +59,7 @@ public class CultivationSystem {
         if (player.getPersistentData().getCompound("Cultivation").getInt("MajorRealm") == majorRealmNames.length-1 && player.getPersistentData().getCompound("Cultivation").getInt("MinorRealm") == 9) {
             return;
         }
-        progress += 10.01f;
+        progress +=  Config.Common.PROGRESS_SPEED.get();
         if (progress >= CultivationStageMax) {
             progress = 0;
             int minorRealm = cultivationData.getInt("MinorRealm");
@@ -79,22 +85,33 @@ public class CultivationSystem {
         int majorRealm = cultivationData.getInt("MajorRealm");
         int minorRealm = cultivationData.getInt("MinorRealm");
 
-        float totalMultiplier = (float) (1.0f +
-                        (majorRealm * MAJOR_REALM_MULTIPLIER) +
-                        (Config.Common.MINOR_REALM_MULTIPLIER.get()));
+        float totalMultiplier = (float) ((majorRealm * Config.Common.MAJOR_REALM_MULTIPLIER.get()) +
+                        (minorRealm * Config.Common.MINOR_REALM_MULTIPLIER.get()));
 
         player.getAttribute(Attributes.MAX_HEALTH)
-                .setBaseValue(20.0 * totalMultiplier);
+                .setBaseValue(20.0 + 1.0 * totalMultiplier);
         player.getAttribute(Attributes.ATTACK_DAMAGE)
-                .setBaseValue(1.0 * totalMultiplier);
+                .setBaseValue(2.0 + 1.0 * totalMultiplier);
         player.getAttribute(Attributes.ATTACK_SPEED)
-                .setBaseValue(4.0 * totalMultiplier);
-        player.getAttribute(Attributes.MOVEMENT_SPEED)
-                .setBaseValue(0.1 * totalMultiplier);
+                .setBaseValue(4.0 + 4.0 * totalMultiplier);
         player.getAttribute(Attributes.JUMP_STRENGTH)
-                .setBaseValue(0.32 * totalMultiplier);
+                .setBaseValue(0.42 + 0.42 * totalMultiplier);
+        player.getAttribute(Attributes.SAFE_FALL_DISTANCE)
+                .setBaseValue( 3 + 5 * totalMultiplier);
+        if (0.1 + 0.1 * totalMultiplier < Config.Common.MAX_SPEED_MULT.get()) {
+            player.getAttribute(Attributes.MOVEMENT_SPEED)
+                    .setBaseValue(0.1 + 0.1 * totalMultiplier);
+        }
 
         player.setHealth(player.getMaxHealth());
+
+        if (majorRealm >= Config.Common.FLIGHT_REALM.get()) {
+            player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT)
+                    .setBaseValue(1);
+        } else {
+            player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT)
+                    .setBaseValue(0);
+        }
     }
 
     public static String getMajorRealmName(int majorRealm){
