@@ -16,5 +16,6 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         basicItem(ModItems.JADE.get());
         basicItem(ModItems.RAW_JADE.get());
+        basicItem(ModItems.REGENERATION_PILL.get());
     }
 }

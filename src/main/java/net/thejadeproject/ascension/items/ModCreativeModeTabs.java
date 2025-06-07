@@ -23,6 +23,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.RAW_JADE);
                         output.accept(ModItems.JADE);
+                        output.accept(ModItems.REGENERATION_PILL);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",

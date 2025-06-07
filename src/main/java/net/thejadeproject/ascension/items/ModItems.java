@@ -13,6 +13,8 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> JADE = ITEMS.register("jade",
             () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> REGENERATION_PILL = ITEMS.register("regeneration_pill",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL)));
 
 
 
