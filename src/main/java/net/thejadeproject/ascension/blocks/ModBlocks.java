@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.blocks;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.blocks.blockentities.PillCauldronLowHuman;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -19,6 +20,9 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCK =
             DeferredRegister.createBlocks(AscensionCraft.MOD_ID);
+
+    public static final DeferredBlock<Block> HUMAN_CAULDRON = registerBlock("pill_cauldron_low_human",
+            () -> new PillCauldronLowHuman());
 
     public static final DeferredBlock<Block> JADE_ORE = registerBlock("jade_ore",
             () -> new DropExperienceBlock(UniformInt.of(2, 4),

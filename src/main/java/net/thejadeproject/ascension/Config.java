@@ -30,7 +30,7 @@ public class Config {
                     BUILDER.comment(" The amount to increase stats between Major Realms [Default: 30]");
                     MAJOR_REALM_MULTIPLIER = BUILDER.defineInRange("Major_Cultivation_Stats_Multiplier", 30, 1f, Double.MAX_VALUE);
 
-                    BUILDER.comment("Realm at which Creative Flight is given");
+                    BUILDER.comment("Which Major Realm should give Creative Flight 0 = Mortal, 10 = Golden Immortal");
                     FLIGHT_REALM = BUILDER.defineInRange("Flight_Realm", 3, 0, CultivationSystem.RealmAmount-1);
                 BUILDER.pop();
 

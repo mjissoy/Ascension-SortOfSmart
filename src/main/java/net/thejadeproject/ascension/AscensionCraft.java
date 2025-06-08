@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
+import net.thejadeproject.ascension.entity.ModBlockEntities;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.network.ModPayloads;
@@ -58,6 +59,7 @@ public class AscensionCraft {
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
         // Register the item to a creative tab
