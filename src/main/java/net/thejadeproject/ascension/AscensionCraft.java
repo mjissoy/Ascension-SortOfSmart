@@ -1,6 +1,9 @@
 package net.thejadeproject.ascension;
 
+import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -14,6 +17,8 @@ import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModBlockEntities;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
+import net.thejadeproject.ascension.items.pills.ItemColorProvider;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
@@ -98,6 +103,8 @@ public class AscensionCraft {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        DynamicPillsSystem.loadPills();
+        DynamicPillsSystem.registerPills();
 
     }
 
@@ -114,6 +121,31 @@ public class AscensionCraft {
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    /*public class ClientModInitializer {
+        public static void setup(IEventBus modEventBus) {
+            modEventBus.addListener(ClientModInitializer::clientSetup);
+        }
+
+
+        private static void clientSetup(FMLClientSetupEvent event) {
+            event.enqueueWork(() -> {
+                DynamicPillsSystem.PILL_CONFIGS.forEach((id, config) -> {
+                    Item item = Registries.ITEM.get(id);
+                    if (item instanceof DynamicPillsSystem.PillItem) {
+                        ItemColors.register(new ItemColorProvider(), item);
+                    }
+                });
+            });
+        }
+    }
+*/
+
+
+
+
+
+
+
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
