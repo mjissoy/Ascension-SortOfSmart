@@ -41,6 +41,7 @@ public class lang extends LanguageProvider {
 
         add("ascension.configuration.AttributeMultipliers", "Attributes Multipliers");
         add("ascension.configuration.Speed_Multiplier_Max", "Max Speed");
+        add("block.ascension.pill_cauldron", "Pill Cauldron");
 
     }
 }

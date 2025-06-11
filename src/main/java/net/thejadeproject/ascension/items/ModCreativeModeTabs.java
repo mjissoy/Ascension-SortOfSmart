@@ -32,6 +32,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.JADE_ORE);
                         output.accept(ModBlocks.JADE_BLOCK);
+                        output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
 
 
                     }).build());

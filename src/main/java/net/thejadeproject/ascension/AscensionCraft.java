@@ -5,21 +5,24 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
-import net.thejadeproject.ascension.entity.ModBlockEntities;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
-import net.thejadeproject.ascension.items.pills.ItemColorProvider;
 import net.thejadeproject.ascension.network.ModPayloads;
+import net.thejadeproject.ascension.recipe.ModRecipes;
+import net.thejadeproject.ascension.screen.ModMenuTypes;
+import net.thejadeproject.ascension.screen.custom.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import org.slf4j.Logger;
@@ -65,6 +68,8 @@ public class AscensionCraft {
         RealmRegistry.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModRecipes.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
         // Register the item to a creative tab
@@ -140,12 +145,6 @@ public class AscensionCraft {
     }
 */
 
-
-
-
-
-
-
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
@@ -154,6 +153,11 @@ public class AscensionCraft {
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event){
             ModPayloads.registerPayloads(event);
+        }
+
+        @SubscribeEvent
+        public static void registerScreens(RegisterMenuScreensEvent event) {
+            event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
         }
     }
 }
