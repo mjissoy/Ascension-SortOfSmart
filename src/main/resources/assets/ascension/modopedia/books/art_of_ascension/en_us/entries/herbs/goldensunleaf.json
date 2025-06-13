@@ -1,0 +1,24 @@
+{
+  "title": "Golden Sun Leaf",
+  "icon": { "id": "ascension:golden_sun_leaf" },
+  "assigned_items": ["ascension:golden_sun_leaf"],
+  "pages": [
+    {
+      "components": [
+        {
+          "template": "modopedia:image",
+          "images": "ascension:golden_sun_leaf",
+          "width": 32,
+          "height": 32
+        }
+      ],
+      "components": [
+        {
+          "template": "modopedia:headered_text",
+          "header": "Golden Sun Leaf",
+          "text": "Golden Sun Leaf is a mystical herb that has Absorbed the suns Light!\n\nBy absorbing so much of the sunlight it has gained the Fire Element, \nThis herb also boosts Yang Energy, Enhances Stamina and Cultivation Speed"
+        }
+      ]
+    }
+  ]
+}

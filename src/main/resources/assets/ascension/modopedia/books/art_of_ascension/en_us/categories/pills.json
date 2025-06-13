@@ -1,0 +1,9 @@
+{
+  "title": "Pills",
+  "landing_text": "This will tell you all about Pill creation! and what they do!",
+  "icon": { "id": "ascension:regeneration_pill", "count": 1},
+  "entries": [
+
+  ],
+  "display_on_front_page": false
+}

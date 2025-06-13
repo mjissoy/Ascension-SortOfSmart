@@ -1,0 +1,16 @@
+{
+  "title": "Pills & Herbs",
+  "landing_text": "All about Pills & Herbs",
+  "icon": { "id": "ascension:pill_cauldron_low_human", "count": 1},
+  "entries": [
+
+  ],
+  "display_on_front_page": true,
+  "children": [
+    "pills",
+    "herbs"
+  ],
+{
+
+}
+}

@@ -14,7 +14,7 @@ public class lang extends LanguageProvider {
 
         //GuideBook
         add("book.title.ascension.art_of_ascension", "Ascension Guide");
-        add("book.subtitle.ascension.art_of_ascension", "This is the almighty scroll. That will teach you everything about Ascension.");
+        add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance         ");
 
 
         //Items
