@@ -1,0 +1,9 @@
+{
+  "title": "Herbs",
+  "landing_text": "This will tell you how to get all the Herbs and the usage!",
+  "icon": { "id": "ascension:golden_sun_leaf", "count": 1},
+  "entries": [
+    "herbs/goldensunleaf"
+  ],
+  "display_on_front_page": false
+}
