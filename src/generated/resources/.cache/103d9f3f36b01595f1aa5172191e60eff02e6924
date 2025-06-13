@@ -1,7 +1,0 @@
-// 1.21.1	2025-06-13T14:55:06.5664366	Registries
-9aa603ce73a8c3b8abd491012b4c7bdd56e9688a data/ascension/neoforge/biome_modifier/add_golden_palm.json
-51af2d310185bc1723409c6ff71297e3add4e38b data/ascension/neoforge/biome_modifier/add_jade_ore.json
-5f3f62784aa31c915043e874c7288f82a3b21ed7 data/ascension/worldgen/configured_feature/golden_palm.json
-fd67eb580e9f99d169a2dc1f07acbbb7022be43b data/ascension/worldgen/configured_feature/jade_ore.json
-ff78d76ba7a9f7ae8da2dba7c98368102d25807e data/ascension/worldgen/placed_feature/golden_palm_placed.json
-4305a2890964c35d23440a1837b5cfadc6f6b3f4 data/ascension/worldgen/placed_feature/jade_ore.json
