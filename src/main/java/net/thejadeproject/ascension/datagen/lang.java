@@ -12,18 +12,40 @@ public class lang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+        //GuideBook
+        add("book.title.ascension.art_of_ascension", "Ascension Guide");
+        add("book.subtitle.ascension.art_of_ascension", "This is the almighty scroll. That will teach you everything about Ascension.");
+
+
         //Items
         add("item.ascension.jade", "Jade");
         add("item.ascension.raw_jade", "Raw Jade");
         add("item.ascension.regeneration_pill", "Regeneration Pill");
 
+        //Herbs
+        add("item.ascension.golden_sun_leaf", "Golden Sun Leaf");
+        add("block.ascension.golden_sun_leaf_block", "Golden Sun Leaf");
+
         //Blocks
+        add("block.ascension.golden_palm_log", "Golden Palm Log");
+        add("block.ascension.golden_palm_wood", "Golden Palm Wood");
+        add("block.ascension.stripped_golden_palm_log", "Stripped Golden Palm Log");
+        add("block.ascension.stripped_golden_palm_wood", "Stripped Golden Palm Wood");
+        add("block.ascension.golden_palm_planks", "Golden Palm Planks");
+        add("block.ascension.golden_palm_leaves", "Golden Palm Leaves");
+        add("block.ascension.golden_palm_sapling", "Golden Palm Sapling");
+
+
+
+
         add("block.ascension.jade_ore", "Jade Ore");
         add("block.ascension.jade_block", "Jade Block");
+        add("block.ascension.pill_cauldron_low_human", "Pill Cauldron");
 
         //GUI & Other Stuff
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.blocks", "Ascension Blocks");
+        add("creativetab.ascension.herbs", "Ascension Herbs");
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
         add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");

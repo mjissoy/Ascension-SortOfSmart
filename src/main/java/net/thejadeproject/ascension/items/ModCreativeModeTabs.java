@@ -30,9 +30,29 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.JADE_ORE.get()))
                     .title(Component.translatable("creativetab.ascension.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModBlocks.GOLDEN_PALM_LOG);
+                        output.accept(ModBlocks.GOLDEN_PALM_WOOD);
+
+                        output.accept(ModBlocks.STRIPPED_GOLDEN_PALM_LOG);
+                        output.accept(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD);
+
+                        output.accept(ModBlocks.GOLDEN_PALM_PLANKS);
+                        output.accept(ModBlocks.GOLDEN_PALM_SAPLING);
+
+                        output.accept(ModBlocks.GOLDEN_PALM_LEAVES);
+
                         output.accept(ModBlocks.JADE_ORE);
                         output.accept(ModBlocks.JADE_BLOCK);
                         output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
+
+
+                    }).build());
+
+    public static final Supplier<CreativeModeTab> ASCENSION_HERBS_TAB = CREATIVE_MODE_TAB.register("ascension_herbs_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GOLDEN_SUN_LEAF.get()))
+                    .title(Component.translatable("creativetab.ascension.herbs"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.GOLDEN_SUN_LEAF);
 
 
                     }).build());

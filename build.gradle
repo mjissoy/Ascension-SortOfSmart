@@ -16,8 +16,12 @@ tasks.named('wrapper', Wrapper).configure {
 version = mod_version
 group = mod_group_id
 
+// This is the repositories block in your build.gradle. NOT the one in publishing, or in buildscript. If it does not exist already, create it.
 repositories {
-    mavenLocal()
+    maven {
+        name = 'Favouriteless Maven'
+        url 'https://maven.favouriteless.net/releases'
+    }
 }
 
 base {
@@ -112,6 +116,9 @@ configurations {
 }
 
 dependencies {
+
+
+    implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"

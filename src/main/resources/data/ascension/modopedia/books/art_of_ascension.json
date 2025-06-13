@@ -1,0 +1,9 @@
+{
+  "title": "book.title.ascension.art_of_ascension",
+  "subtitle": "book.subtitle.ascension.art_of_ascension",
+  "landing_text": "$(b)Landing Text$() example!",
+  "texture": "ascension:scroll",
+  "creative_tab": "ascension:ascension_items_tab",
+  "model": "modopedia:item/modopedia_books/brown_brass",
+  "type": "modopedia:classic"
+}
