@@ -6,8 +6,12 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
@@ -28,6 +32,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.GOLDEN_SUN_LEAF.get());
         tag(ModTags.Items.MEDICINAL)
                 .add(ModItems.GOLDEN_SUN_LEAF.get());
+        tag(ModTags.Items.ALCHEMY_FAILURE)
+                .add(Items.APPLE);
+
 
         this.tag(ItemTags.LOGS_THAT_BURN)
                 .add(ModBlocks.GOLDEN_PALM_LOG.get().asItem())

@@ -13,7 +13,7 @@ public class ModTags {
 
         public static final TagKey<Item> FIRE = createTag("herbs/elements");
         public static final TagKey<Item> MEDICINAL = createTag("herbs/medicinal");
-
+        public static final TagKey<Item> ALCHEMY_FAILURE = createTag("herbs/alchemy_failure");
 
 
         private static TagKey<Item> createTag(String name) {

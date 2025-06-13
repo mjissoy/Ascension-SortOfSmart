@@ -20,12 +20,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
 import net.thejadeproject.ascension.recipe.ModRecipes;
-import net.thejadeproject.ascension.recipe.PillCauldronLowHumanRecipe;
-import net.thejadeproject.ascension.recipe.PillCauldronLowHumanRecipeInput;
+import net.thejadeproject.ascension.recipe.PillCauldronInput;
 import net.thejadeproject.ascension.screen.custom.PillCauldronLowHumanMenu;
+import net.thejadeproject.ascension.util.ModTags;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 
 public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvider {
@@ -129,7 +131,9 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
+
         if (hasRecipe()) {
+
             increaseCraftingProgress();
             setChanged(level, blockPos, blockState);
 
@@ -150,18 +154,19 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     }
 
     private void craftItem() {
-        Optional<RecipeHolder<PillCauldronLowHumanRecipe>> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
         ItemStack output = recipe.get().value().output();
 
         itemHandler.extractItem(INPUT_SLOT0, 1, false);
         itemHandler.extractItem(INPUT_SLOT1, 1, false);
         itemHandler.extractItem(INPUT_SLOT2, 1, false);
-        if (OUTPUT_SLOT0 == 0) {
-            itemHandler.setStackInSlot(OUTPUT_SLOT0, new ItemStack(output.getItem(),
-                    itemHandler.getStackInSlot(OUTPUT_SLOT0).getCount() + output.getCount()));
-        } else
-            itemHandler.setStackInSlot(OUTPUT_SLOT1, new ItemStack(output.getItem(),
-                    itemHandler.getStackInSlot(OUTPUT_SLOT1).getCount() + output.getCount()));
+        if(output.is(ModTags.Items.ALCHEMY_FAILURE)){
+            itemHandler.setStackInSlot(OUTPUT_SLOT1,new ItemStack(output.getItem(),
+                    itemHandler.getStackInSlot(OUTPUT_SLOT1).getCount()+output.getCount()));
+            return;
+        }
+        itemHandler.setStackInSlot(OUTPUT_SLOT0,new ItemStack(output.getItem(),
+                itemHandler.getStackInSlot(OUTPUT_SLOT0).getCount()+output.getCount()));
     }
 
     private boolean hasCraftingFinished() {
@@ -172,29 +177,38 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         progress++;
     }
 
+    //TODO modify
     private boolean hasRecipe() {
-        Optional<RecipeHolder<PillCauldronLowHumanRecipe>> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
+
         if (recipe.isEmpty()) {
             return false;
         }
 
-        ItemStack output = recipe.get().value().output();
-        return canInsertAmountIntoOutputSlot(output.getCount()) && canInsertItemIntoOutputSlot(output);
+        ItemStack output = recipe.get().value().getSuccess();
+        ItemStack output2 = recipe.get().value().getFail();
+
+        return canInsertAmountIntoOutputSlot(OUTPUT_SLOT0,output.getCount()) && canInsertItemIntoOutputSlot(output,OUTPUT_SLOT0) &&
+                canInsertAmountIntoOutputSlot(OUTPUT_SLOT1,output2.getCount()) && canInsertItemIntoOutputSlot(output2,OUTPUT_SLOT1) ;
     }
 
-    private Optional<RecipeHolder<PillCauldronLowHumanRecipe>> getCurrentRecipe() {
+    private Optional<RecipeHolder<LowHumanPillCauldronRecipe>> getCurrentRecipe() {
         return this.level.getRecipeManager()
-                .getRecipeFor(ModRecipes.CAULDRON_LOW_HUMAN_TYPE.get(), new PillCauldronLowHumanRecipeInput(itemHandler.getStackInSlot(INPUT_SLOT0)), level);
+                .getRecipeFor(ModRecipes.CAULDRON_LOW_HUMAN_TYPE.get(), new PillCauldronInput(3, List.of(
+                        itemHandler.getStackInSlot(INPUT_SLOT0),
+                        itemHandler.getStackInSlot(INPUT_SLOT1),
+                        itemHandler.getStackInSlot(INPUT_SLOT2)
+                )), level);
     }
 
-    private boolean canInsertItemIntoOutputSlot(ItemStack output) {
-        return itemHandler.getStackInSlot(OUTPUT_SLOT0).isEmpty() ||
-                itemHandler.getStackInSlot(OUTPUT_SLOT0).getItem() == output.getItem();
+    private boolean canInsertItemIntoOutputSlot(ItemStack output,int outputSlot) {
+        return itemHandler.getStackInSlot(outputSlot).isEmpty() ||
+                itemHandler.getStackInSlot(outputSlot).getItem() == output.getItem();
     }
 
-    private boolean canInsertAmountIntoOutputSlot(int count) {
-        int maxCount = itemHandler.getStackInSlot(OUTPUT_SLOT0).isEmpty() ? 64 : itemHandler.getStackInSlot(OUTPUT_SLOT0).getMaxStackSize();
-        int currentCount = itemHandler.getStackInSlot(OUTPUT_SLOT0).getCount();
+    private boolean canInsertAmountIntoOutputSlot(int outputSlot,int count) {
+        int maxCount = itemHandler.getStackInSlot(outputSlot).isEmpty() ? 64 : itemHandler.getStackInSlot(outputSlot).getMaxStackSize();
+        int currentCount = itemHandler.getStackInSlot(outputSlot).getCount();
 
         return maxCount >= currentCount + count;
     }
