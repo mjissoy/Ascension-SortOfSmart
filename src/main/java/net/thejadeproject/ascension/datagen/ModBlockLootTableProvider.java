@@ -35,6 +35,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.add(ModBlocks.GOLDEN_PALM_LEAVES.get(), block ->
                 createLeavesDrops(block, ModBlocks.GOLDEN_PALM_SAPLING.get(), NORMAL_LEAVES_SAPLING_CHANCES));
 
+
     }
 
     @Override

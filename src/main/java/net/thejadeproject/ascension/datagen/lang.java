@@ -19,7 +19,10 @@ public class lang extends LanguageProvider {
 
         //Items
         add("item.ascension.jade", "Jade");
+        add("item.ascension.ascension_icon", "Ascension Icon");
         add("item.ascension.raw_jade", "Raw Jade");
+        add("item.ascension.undead_core", "Undead Core");
+        add("item.ascension.living_core", "Living Core");
         add("item.ascension.regeneration_pill", "Regeneration Pill");
 
         //Herbs

@@ -13,6 +13,22 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> JADE = ITEMS.register("jade",
             () -> new Item(new Item.Properties()));
+
+
+
+    //NotUsedStuff
+    public static final DeferredItem<Item> ASCENSION_ICON = ITEMS.register("ascension_icon",
+            () -> new Item(new Item.Properties()));
+
+
+    //Drops
+    public static final DeferredItem<Item> LIVING_CORE = ITEMS.register("living_core",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> UNDEAD_CORE = ITEMS.register("undead_core",
+            () -> new Item(new Item.Properties()));
+
+
+    //Pills
     public static final DeferredItem<Item> REGENERATION_PILL = ITEMS.register("regeneration_pill",
             () -> new Item(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL)));
 

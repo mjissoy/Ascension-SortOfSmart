@@ -23,6 +23,8 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.RAW_JADE);
                         output.accept(ModItems.JADE);
+                        output.accept(ModItems.UNDEAD_CORE);
+                        output.accept(ModItems.LIVING_CORE);
                         output.accept(ModItems.REGENERATION_PILL);
                     }).build());
 

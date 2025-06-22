@@ -1,6 +1,6 @@
 {
   "title": "Herbs",
-  "landing_text": "This will tell you how to get all the Herbs and the usage!",
+  "landing_text": "This will tell you how to get all the Herbs and the usage! \n\n There are over 125 (W.I.P.) different types of herbs each having tier own Element and Categories!",
   "icon": { "id": "ascension:golden_sun_leaf", "count": 1},
   "entries": [
     "herbs/goldensunleaf"

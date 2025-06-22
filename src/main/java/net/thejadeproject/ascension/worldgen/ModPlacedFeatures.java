@@ -31,7 +31,7 @@ public class ModPlacedFeatures {
 
 
         register(context, GOLDEN_PALM_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.GOLDEN_PALM_KEY),
-                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.035f, 1),
+                VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.1f, 1),
                         ModBlocks.GOLDEN_PALM_SAPLING.get()));
 
     }

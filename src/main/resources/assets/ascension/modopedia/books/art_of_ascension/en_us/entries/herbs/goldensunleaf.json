@@ -6,17 +6,38 @@
     {
       "components": [
         {
-          "template": "modopedia:image",
-          "images": "ascension:golden_sun_leaf",
-          "width": 32,
-          "height": 32
+          "type": "modopedia:large_frame"
+        },
+        {
+          "type": "modopedia:image",
+          "images": [
+            "ascension:textures/item/golden_sun_leaf.png"
+          ]
+        },
+        {
+          "type": "modopedia:text",
+          "x": 5,
+          "y": 103,
+          "line_height": 10,
+          "text": "This is how the Golden Sun Leaf looks! It gets its appearance from absorbing a lot of sun light!"
         }
-      ],
+      ]
+    },
+    {
       "components": [
         {
           "template": "modopedia:headered_text",
-          "header": "Golden Sun Leaf",
+          "header": "§2Golden Sun Leaf",
           "text": "Golden Sun Leaf is a mystical herb that has Absorbed the suns Light!\n\nBy absorbing so much of the sunlight it has gained the Fire Element, \nThis herb also boosts Yang Energy, Enhances Stamina and Cultivation Speed"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "template": "modopedia:headered_text",
+          "header": "§2How to get this herb.",
+          "text": "Golden Sun Leaf is rarely found by cutting down the Golden Palm Tree\n\nThe Golden Palm Tree can be found in beach biomes very rarely! \nThis Herb is also one of the Common Herbs that can be found!"
         }
       ]
     }

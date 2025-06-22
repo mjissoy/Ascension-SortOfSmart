@@ -26,10 +26,13 @@
   "creativetab.ascension.herbs": "Ascension Herbs",
   "creativetab.ascension.items": "Ascension Items",
   "effect.ascension.qi_enhanced_regeneration": "Qi Enhanced Regen",
+  "item.ascension.ascension_icon": "Ascension Icon",
   "item.ascension.golden_sun_leaf": "Golden Sun Leaf",
   "item.ascension.jade": "Jade",
+  "item.ascension.living_core": "Living Core",
   "item.ascension.raw_jade": "Raw Jade",
   "item.ascension.regeneration_pill": "Regeneration Pill",
+  "item.ascension.undead_core": "Undead Core",
   "key.ascension.cultivate": "Cultivate",
   "key.ascension.introspection": "Introspection"
 }

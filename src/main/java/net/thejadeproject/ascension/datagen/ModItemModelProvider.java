@@ -26,6 +26,15 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.JADE.get());
         basicItem(ModItems.RAW_JADE.get());
 
+        //Drops
+        basicItem(ModItems.LIVING_CORE.get());
+        basicItem(ModItems.UNDEAD_CORE.get());
+
+
+
+        //Not Used For Anything in mod except being icons etc...
+        basicItem(ModItems.ASCENSION_ICON.get());
+
 
 
         //Pills

@@ -1,0 +1,9 @@
+{
+  "title": "Cultivation Nic Naqs",
+  "landing_text": "This page will explain everything you need to know on how to cultivate!",
+  "icon": { "id": "ascension:ascension_icon", "count": 1},
+  "entries": [
+
+  ],
+  "display_on_front_page": true
+}
