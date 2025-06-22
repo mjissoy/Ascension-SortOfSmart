@@ -13,6 +13,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
+import net.neoforged.neoforge.common.util.RecipeMatcher;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -22,12 +24,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
     private static final int MAX_INPUT_ITEMS = 3;
-    final NonNullList<Ingredient> ingredients;
+    final NonNullList<SizedIngredient> ingredients;
     final double chance;
     final ItemStack success;
     final ItemStack fail;
 
-    public LowHumanPillCauldronRecipe(NonNullList<Ingredient> ingredients, ItemStack success,ItemStack fail,double chance){
+    public LowHumanPillCauldronRecipe(NonNullList<SizedIngredient> ingredients, ItemStack success,ItemStack fail,double chance){
 
         this.ingredients = ingredients;
         this.chance = chance;
@@ -38,21 +40,20 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
 
     public static class Serializer implements RecipeSerializer<LowHumanPillCauldronRecipe> {
         public static final MapCodec<LowHumanPillCauldronRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-                Ingredient.CODEC_NONEMPTY
+                SizedIngredient.FLAT_CODEC
                         .listOf()
                         .fieldOf("ingredients")
                         .flatXmap(
                                 inputs ->{
 
-                                    Ingredient[] aingredient = inputs.toArray(Ingredient[]::new);
-
-                                    if (aingredient.length == 0) {
-                                        return DataResult.error(() -> "No ingredients for Low human pill cauldron recipe");
-                                    } else {
-                                        return aingredient.length > LowHumanPillCauldronRecipe.MAX_INPUT_ITEMS
-                                                ? DataResult.error(() -> "Too many ingredients for Low human pill cauldron recipe. The maximum is: %s".formatted(LowHumanPillCauldronRecipe.MAX_INPUT_ITEMS))
-                                                : DataResult.success(NonNullList.of(Ingredient.EMPTY, aingredient));
+                                    if (inputs.isEmpty()) {
+                                        return DataResult.error(() -> "No ingredients");
+                                    } else if (inputs.size() > MAX_INPUT_ITEMS) {
+                                        return DataResult.error(() -> "Too many ingredients");
                                     }
+                                    NonNullList<SizedIngredient> list = NonNullList.create();
+                                    list.addAll(inputs);
+                                    return DataResult.success(list);
                                 },
                                 DataResult::success
                         )
@@ -77,10 +78,10 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
             return STREAM_CODEC;
         }
         private static LowHumanPillCauldronRecipe fromNetwork(RegistryFriendlyByteBuf buffer){
-
+            //TODO
             int i = buffer.readVarInt();
-            NonNullList<Ingredient> nonnulllist = NonNullList.withSize(i, Ingredient.EMPTY);
-            nonnulllist.replaceAll(ingredient -> Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
+            NonNullList<SizedIngredient> nonnulllist = NonNullList.withSize(i, new SizedIngredient(Ingredient.EMPTY,1));
+            nonnulllist.replaceAll(ingredient -> SizedIngredient.STREAM_CODEC.decode(buffer));
             ItemStack itemStack = ItemStack.STREAM_CODEC.decode(buffer);
             ItemStack itemStack2 = ItemStack.STREAM_CODEC.decode(buffer);
             double chance = buffer.readDouble();
@@ -89,10 +90,10 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
 
         private static void toNetwork(RegistryFriendlyByteBuf buffer, LowHumanPillCauldronRecipe recipe) {
 
-            buffer.writeVarInt(recipe.getIngredients().size());
+            buffer.writeVarInt(recipe.getSizedIngredients().size());
 
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
+            for (SizedIngredient ingredient : recipe.getSizedIngredients()) {
+                SizedIngredient.STREAM_CODEC.encode(buffer,ingredient);
             }
 
             ItemStack.STREAM_CODEC.encode(buffer, recipe.getSuccess());
@@ -116,29 +117,28 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
         return chance;
     }
 
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
+
+    public NonNullList<SizedIngredient> getSizedIngredients() {
         return ingredients;
     }
 
+    //TODO
     @Override
     public boolean matches(@NotNull PillCauldronInput pillCauldronInput, Level level) {
         if (level.isClientSide()) {
             return false;
         }
+        if(pillCauldronInput.items.isEmpty()) return false;
+        for(ItemStack item:pillCauldronInput.items){
 
-        for(ItemStack input:pillCauldronInput.items){
+            boolean found = false;
+            for(SizedIngredient ingredient: getSizedIngredients()){
 
-            boolean result = false;
-
-            for(Ingredient ingredient: getIngredients()){
-
-                result = ingredient.test(input);
-                if (result) break;
+                found = ingredient.test(item);
+                if(found) break;
             }
-            if(result) continue;
-            else return false;
-
+            if(found) continue;
+            return false;
         }
         return true;
     }
