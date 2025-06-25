@@ -39,6 +39,8 @@ public class ModItems {
     //Herbs
     public static final DeferredItem<Item> GOLDEN_SUN_LEAF = ITEMS.register("golden_sun_leaf",
             () -> new Item(new Item.Properties().food(ModFoodProperties.GOLDEN_SUN_LEAF)));
+    public static final DeferredItem<Item> IRONWOOD_SPROUT = ITEMS.register("ironwood_sprout",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.IRONWOOD_SPROUT)));
 
 
 

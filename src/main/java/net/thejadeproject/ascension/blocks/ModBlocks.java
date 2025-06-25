@@ -6,6 +6,8 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.CustomHerbs;
 import net.thejadeproject.ascension.blocks.custom.GoldenPalmSapling;
@@ -21,6 +23,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.worldgen.tree.ModTreeGrowers;
 
 
+import java.awt.*;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -65,6 +68,33 @@ public class ModBlocks {
                     return 5;
                 }
             });
+
+    public static final DeferredBlock<StairBlock> GOLDEN_PALM_STAIRS = registerBlock("golden_palm_stairs",
+            () -> new StairBlock(ModBlocks.GOLDEN_PALM_PLANKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)));
+    public static final DeferredBlock<SlabBlock> GOLDEN_PALM_SLAB = registerBlock("golden_palm_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)));
+
+    public static final DeferredBlock<PressurePlateBlock> GOLDEN_PALM_PRESSURE_PLATE = registerBlock("golden_palm_pressure_plate",
+            () -> new PressurePlateBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
+    public static final DeferredBlock<ButtonBlock> GOLDEN_PALM_BUTTON = registerBlock("golden_palm_button",
+            () -> new ButtonBlock(BlockSetType.OAK, 20, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON).noCollission()));
+
+    public static final DeferredBlock<FenceBlock> GOLDEN_PALM_FENCE = registerBlock("golden_palm_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+    public static final DeferredBlock<FenceGateBlock> GOLDEN_PALM_FENCE_GATE = registerBlock("golden_palm_fence_gate",
+            () -> new FenceGateBlock(WoodType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
+
+    public static final DeferredBlock<DoorBlock> GOLDEN_PALM_DOOR = registerBlock("golden_palm_door",
+            () -> new DoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final DeferredBlock<TrapDoorBlock> GOLDEN_PALM_TRAPDOOR = registerBlock("golden_palm_trapdoor",
+            () -> new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).noOcclusion()));
+
+
+
+
+
+
     public static final DeferredBlock<Block> GOLDEN_PALM_LEAVES = registerBlock("golden_palm_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)) {
                 @Override
@@ -86,7 +116,9 @@ public class ModBlocks {
 
     //Herbs
     public static final DeferredBlock<Block> GOLDEN_SUN_LEAF_BLOCK = registerBlock("golden_sun_leaf_block",
-            () -> new CustomHerbs());
+            () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
+    public static final DeferredBlock<Block> IRONWOOD_SPROUT_BLOCK = registerBlock("ironwood_sprout_block",
+            () -> new CustomHerbs(() -> Blocks.STONE));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCK.register(name, block);

@@ -24,6 +24,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
     @Override
     protected void registerStatesAndModels() {
+
+
+        //Herbs Blocks
+        simpleBlock(ModBlocks.IRONWOOD_SPROUT_BLOCK.get(),
+                models().cross("ironwood_sprout_block", blockTexture(ModBlocks.IRONWOOD_SPROUT_BLOCK.get()))
+                        .renderType("cutout"));
+
+
         simpleBlockWithItem(ModBlocks.JADE_ORE);
         simpleBlockWithItem(ModBlocks.JADE_BLOCK);
 
@@ -42,6 +50,22 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         leavesBlock(ModBlocks.GOLDEN_PALM_LEAVES);
         saplingBlock(ModBlocks.GOLDEN_PALM_SAPLING);
+
+        stairsBlock(ModBlocks.GOLDEN_PALM_STAIRS.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        slabBlock(ModBlocks.GOLDEN_PALM_SLAB.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        buttonBlock(ModBlocks.GOLDEN_PALM_BUTTON.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        pressurePlateBlock(ModBlocks.GOLDEN_PALM_PRESSURE_PLATE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        fenceBlock(ModBlocks.GOLDEN_PALM_FENCE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        fenceGateBlock(ModBlocks.GOLDEN_PALM_FENCE_GATE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        doorBlockWithRenderType(ModBlocks.GOLDEN_PALM_DOOR.get(), modLoc("block/golden_palm_door_bottom"), modLoc("block/golden_palm_door_top"), "cutout");
+        trapdoorBlockWithRenderType(ModBlocks.GOLDEN_PALM_TRAPDOOR.get(), modLoc("block/golden_palm_trapdoor"), true, "cutout");
+
+
+        blockItem(ModBlocks.GOLDEN_PALM_STAIRS);
+        blockItem(ModBlocks.GOLDEN_PALM_SLAB);
+        blockItem(ModBlocks.GOLDEN_PALM_PRESSURE_PLATE);
+        blockItem(ModBlocks.GOLDEN_PALM_FENCE_GATE);
+        blockItem(ModBlocks.GOLDEN_PALM_TRAPDOOR, "_bottom");
     }
 
     private void simpleBlockWithItem(DeferredBlock<?> deferredBlock) {

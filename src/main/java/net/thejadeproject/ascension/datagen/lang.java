@@ -14,7 +14,7 @@ public class lang extends LanguageProvider {
 
         //GuideBook
         add("book.title.ascension.art_of_ascension", "Ascension Guide");
-        add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance         ");
+        add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance");
 
 
         //Items
@@ -23,11 +23,18 @@ public class lang extends LanguageProvider {
         add("item.ascension.raw_jade", "Raw Jade");
         add("item.ascension.undead_core", "Undead Core");
         add("item.ascension.living_core", "Living Core");
+
+
+        //Pills
         add("item.ascension.regeneration_pill", "Regeneration Pill");
+
+
 
         //Herbs
         add("item.ascension.golden_sun_leaf", "Golden Sun Leaf");
+        add("item.ascension.ironwood_sprout", "Ironwood Sprout");
         add("block.ascension.golden_sun_leaf_block", "Golden Sun Leaf");
+        add("block.ascension.ironwood_sprout_block", "Ironwood Sprout");
 
         //Blocks
         add("block.ascension.golden_palm_log", "Golden Palm Log");
@@ -37,6 +44,14 @@ public class lang extends LanguageProvider {
         add("block.ascension.golden_palm_planks", "Golden Palm Planks");
         add("block.ascension.golden_palm_leaves", "Golden Palm Leaves");
         add("block.ascension.golden_palm_sapling", "Golden Palm Sapling");
+        add("block.ascension.golden_palm_slab", "Golden Palm Slab");
+        add("block.ascension.golden_palm_stairs", "Golden Palm Stair");
+        add("block.ascension.golden_palm_button", "Golden Palm Button");
+        add("block.ascension.golden_palm_pressure_plate", "Golden Palm Pressure Plate");
+        add("block.ascension.golden_palm_fence", "Golden Palm Fence");
+        add("block.ascension.golden_palm_fence_gate", "Golden Palm Fence Gate");
+        add("block.ascension.golden_palm_door", "Golden Palm Door");
+        add("block.ascension.golden_palm_trapdoor", "Golden Palm Trapdoor");
 
 
 

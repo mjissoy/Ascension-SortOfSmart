@@ -28,6 +28,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.JADE_BLOCK.get())
                 .add(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
 
+        tag(BlockTags.FENCES)
+                .add(ModBlocks.GOLDEN_PALM_FENCE.get());
+        tag(BlockTags.FENCE_GATES)
+                .add(ModBlocks.GOLDEN_PALM_FENCE_GATE.get());
+
         this.tag(BlockTags.LOGS_THAT_BURN)
                 .add(ModBlocks.GOLDEN_PALM_LOG.get())
                 .add(ModBlocks.GOLDEN_PALM_WOOD.get())

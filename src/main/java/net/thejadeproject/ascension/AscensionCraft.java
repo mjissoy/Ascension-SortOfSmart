@@ -1,16 +1,17 @@
 package net.thejadeproject.ascension;
 
-import net.minecraft.client.color.item.ItemColors;
-import net.minecraft.core.registries.Registries;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
@@ -19,6 +20,7 @@ import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
+import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.screen.ModMenuTypes;
@@ -54,6 +56,8 @@ public class AscensionCraft {
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
+
+
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -66,10 +70,15 @@ public class AscensionCraft {
 
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
+
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+
         ModRecipes.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+
+        ModLootModifiers.register(modEventBus);
+
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
         // Register the item to a creative tab

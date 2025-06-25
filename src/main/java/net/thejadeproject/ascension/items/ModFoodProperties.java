@@ -10,4 +10,6 @@ public class ModFoodProperties {
             .effect(() -> new MobEffectInstance(ModEffects.QI_ENHANCED_REGENERATION, 200), 1f).build();
     public static final FoodProperties GOLDEN_SUN_LEAF = new FoodProperties.Builder().fast().alwaysEdible()
             .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 50), 1f).build();
+    public static final FoodProperties IRONWOOD_SPROUT = new FoodProperties.Builder().fast().alwaysEdible()
+            .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 50), 1f).build();
 }

@@ -42,6 +42,14 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.GOLDEN_PALM_SAPLING);
 
                         output.accept(ModBlocks.GOLDEN_PALM_LEAVES);
+                        output.accept(ModBlocks.GOLDEN_PALM_STAIRS);
+                        output.accept(ModBlocks.GOLDEN_PALM_SLAB);
+                        output.accept(ModBlocks.GOLDEN_PALM_PRESSURE_PLATE);
+                        output.accept(ModBlocks.GOLDEN_PALM_BUTTON);
+                        output.accept(ModBlocks.GOLDEN_PALM_FENCE);
+                        output.accept(ModBlocks.GOLDEN_PALM_FENCE_GATE);
+                        output.accept(ModBlocks.GOLDEN_PALM_DOOR);
+                        output.accept(ModBlocks.GOLDEN_PALM_TRAPDOOR);
 
                         output.accept(ModBlocks.JADE_ORE);
                         output.accept(ModBlocks.JADE_BLOCK);
@@ -55,6 +63,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.herbs"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
+                        output.accept(ModItems.IRONWOOD_SPROUT);
 
 
                     }).build());

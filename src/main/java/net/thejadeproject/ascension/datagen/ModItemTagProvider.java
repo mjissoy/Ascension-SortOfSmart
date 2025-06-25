@@ -30,8 +30,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(ModTags.Items.FIRE)
                 .add(ModItems.GOLDEN_SUN_LEAF.get());
+        tag(ModTags.Items.EARTH)
+                .add(ModItems.IRONWOOD_SPROUT.get());
         tag(ModTags.Items.MEDICINAL)
-                .add(ModItems.GOLDEN_SUN_LEAF.get());
+                .add(ModItems.GOLDEN_SUN_LEAF.get())
+                .add(ModItems.IRONWOOD_SPROUT.get());
         tag(ModTags.Items.ALCHEMY_FAILURE)
                 .add(Items.APPLE);
 

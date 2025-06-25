@@ -9,35 +9,49 @@
           "type": "modopedia:large_frame"
         },
         {
-          "type": "modopedia:image",
-          "images": [
-            "ascension:textures/item/golden_sun_leaf.png"
-          ]
+          "type": "modopedia:showcase",
+          "items": [
+            {
+              "id":  "ascension:golden_sun_leaf"
+            }]
         },
         {
           "type": "modopedia:text",
           "x": 5,
           "y": 103,
           "line_height": 10,
-          "text": "This is how the Golden Sun Leaf looks! It gets its appearance from absorbing a lot of sun light!"
+          "text": "The Golden Sun Leaf gains its eponymous golden hue from absorbing a great amount of sunlight!"
         }
       ]
     },
     {
       "components": [
         {
-          "template": "modopedia:headered_text",
           "header": "§2Golden Sun Leaf",
-          "text": "Golden Sun Leaf is a mystical herb that has Absorbed the suns Light!\n\nBy absorbing so much of the sunlight it has gained the Fire Element, \nThis herb also boosts Yang Energy, Enhances Stamina and Cultivation Speed"
+          "template": "modopedia:page/headered_text",
+          "text": "The Golden Sun Leaf is a fire element aligned herb that grows by absorbing the sun's light!\n\nThis herb boosts Yang energy, enhances stamina, and increases cultivation speed!\n\nIt's possible to eat this raw but using this in a Pill Cauldron will reveal it's true capabilities!"
         }
       ]
     },
     {
       "components": [
         {
-          "template": "modopedia:headered_text",
           "header": "§2How to get this herb.",
-          "text": "Golden Sun Leaf is rarely found by cutting down the Golden Palm Tree\n\nThe Golden Palm Tree can be found in beach biomes very rarely! \nThis Herb is also one of the Common Herbs that can be found!"
+          "template": "modopedia:page/headered_text",
+          "text": "Golden Sun Leaf has a 0.5% chance of dropping when Golden Palm Leaves are decaying\n\nThe Golden Palm Tree can be found in Beach biomes very rarely! \nThis Herb is also one of the Common Herbs that can be found!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "type": "modopedia:large_frame",
+          "y": 20
+        },
+        {
+          "type": "modopedia:multiblock",
+          "multiblock_id": "ascension:golden_palm_tree",
+          "y": 20
         }
       ]
     }

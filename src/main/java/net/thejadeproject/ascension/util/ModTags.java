@@ -12,6 +12,7 @@ public class ModTags {
     public static class Items {
 
         public static final TagKey<Item> FIRE = createTag("herbs/elements");
+        public static final TagKey<Item> EARTH = createTag("herbs/elements");
         public static final TagKey<Item> MEDICINAL = createTag("herbs/medicinal");
         public static final TagKey<Item> ALCHEMY_FAILURE = createTag("herbs/alchemy_failure");
 
