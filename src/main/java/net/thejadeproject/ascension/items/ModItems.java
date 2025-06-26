@@ -41,6 +41,8 @@ public class ModItems {
             () -> new Item(new Item.Properties().food(ModFoodProperties.GOLDEN_SUN_LEAF)));
     public static final DeferredItem<Item> IRONWOOD_SPROUT = ITEMS.register("ironwood_sprout",
             () -> new Item(new Item.Properties().food(ModFoodProperties.IRONWOOD_SPROUT)));
+    public static final DeferredItem<Item> WHITE_JADE_ORCHID = ITEMS.register("white_jade_orchid",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.WHITE_JADE_ORCHID)));
 
 
 

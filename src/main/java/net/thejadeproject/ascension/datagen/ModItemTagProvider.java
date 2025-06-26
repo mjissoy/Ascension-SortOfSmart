@@ -32,8 +32,15 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.GOLDEN_SUN_LEAF.get());
         tag(ModTags.Items.EARTH)
                 .add(ModItems.IRONWOOD_SPROUT.get());
+        tag(ModTags.Items.METAL)
+                .add(ModItems.WHITE_JADE_ORCHID.get());
         tag(ModTags.Items.MEDICINAL)
                 .add(ModItems.GOLDEN_SUN_LEAF.get())
+                .add(ModItems.WHITE_JADE_ORCHID.get())
+                .add(ModItems.IRONWOOD_SPROUT.get());
+        tag(ModTags.Items.HUMAN)
+                .add(ModItems.GOLDEN_SUN_LEAF.get())
+                .add(ModItems.WHITE_JADE_ORCHID.get())
                 .add(ModItems.IRONWOOD_SPROUT.get());
         tag(ModTags.Items.ALCHEMY_FAILURE)
                 .add(Items.APPLE);

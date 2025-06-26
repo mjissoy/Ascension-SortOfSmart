@@ -1,6 +1,9 @@
-// 1.21.1	2025-06-25T19:28:56.5140736	Tags for minecraft:item mod id ascension
+// 1.21.1	2025-06-26T16:01:53.2732007	Tags for minecraft:item mod id ascension
 b33dde3cf95c3f821d49bc84b8c46f9fd65289e8 data/ascension/tags/item/herbs/alchemy_failure.json
-87b0149005fa9ef19035e7f7416289d35c055595 data/ascension/tags/item/herbs/elements.json
-87b0149005fa9ef19035e7f7416289d35c055595 data/ascension/tags/item/herbs/medicinal.json
+e4a74e3bac20e15f887a95ee7b0c12d6d885c4cd data/ascension/tags/item/herbs/elements/earth.json
+f4384704423a2719b0bec2158d2c41d8d79296e8 data/ascension/tags/item/herbs/elements/fire.json
+c823cbbea6ccfbbf9a1549014bc917445435287b data/ascension/tags/item/herbs/elements/metal.json
+3d289cfd2baac4e15e60b57a0ccda868fbb2c655 data/ascension/tags/item/herbs/human.json
+3d289cfd2baac4e15e60b57a0ccda868fbb2c655 data/ascension/tags/item/herbs/medicinal.json
 83eacd83689146e557ef948eab4bfdd0e856d564 data/minecraft/tags/item/logs_that_burn.json
 f294f4737fdfa8a77f41bda0c509e5a3b2d3e2e8 data/minecraft/tags/item/planks.json

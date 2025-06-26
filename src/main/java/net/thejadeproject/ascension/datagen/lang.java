@@ -33,8 +33,10 @@ public class lang extends LanguageProvider {
         //Herbs
         add("item.ascension.golden_sun_leaf", "Golden Sun Leaf");
         add("item.ascension.ironwood_sprout", "Ironwood Sprout");
+        add("item.ascension.white_jade_orchid", "White Jade Orchid");
         add("block.ascension.golden_sun_leaf_block", "Golden Sun Leaf");
         add("block.ascension.ironwood_sprout_block", "Ironwood Sprout");
+        add("block.ascension.white_jade_orchid_block", "White Jade Orchid");
 
         //Blocks
         add("block.ascension.golden_palm_log", "Golden Palm Log");
@@ -64,7 +66,11 @@ public class lang extends LanguageProvider {
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.blocks", "Ascension Blocks");
         add("creativetab.ascension.herbs", "Ascension Herbs");
+
+
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
+        add("effect.ascension.cleansing", "Cleansing");
+
         add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");
         add("key.ascension.introspection", "Introspection");

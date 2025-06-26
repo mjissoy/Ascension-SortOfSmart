@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-25T19:31:28.9176823	Item Models: ascension
+// 1.21.1	2025-06-26T15:56:18.2211131	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 922e3b4df3ad678fc0b44e8e93d1a2891111ab36 assets/ascension/models/item/golden_palm_button.json
 52f45159c085e04ea6b39386e0b56a0a544ba074 assets/ascension/models/item/golden_palm_door.json
@@ -12,3 +12,5 @@ f4620bd1077fc4a91989544ff2c32d49e2778286 assets/ascension/models/item/ironwood_s
 9551df3d7f36fcc88161462890d272ce303d8f20 assets/ascension/models/item/raw_jade.json
 85b92cd02f38c7969952aa8895fa2365442fb0f8 assets/ascension/models/item/regeneration_pill.json
 57f9654f314244059c37d411dc62a3e9d69d4c15 assets/ascension/models/item/undead_core.json
+5bfc048f5d1dfefcc6c12c7155bbf83e74710c4a assets/ascension/models/item/white_jade_orchid.json
+f5a0e6e81d9b41d164e050b33d93b8998723d8da assets/ascension/models/item/white_jade_orchid_block.json

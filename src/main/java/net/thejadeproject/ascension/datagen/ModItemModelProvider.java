@@ -57,6 +57,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.IRONWOOD_SPROUT.get());
         withExistingParent("ironwood_sprout_block", "item/generated")
                 .texture("layer0", "ascension:block/ironwood_sprout_block");
+        basicItem(ModItems.WHITE_JADE_ORCHID.get());
+        withExistingParent("white_jade_orchid_block", "item/generated")
+                .texture("layer0", "ascension:block/white_jade_orchid_block");
 
         //Saplings
         saplingItem(ModBlocks.GOLDEN_PALM_SAPLING);

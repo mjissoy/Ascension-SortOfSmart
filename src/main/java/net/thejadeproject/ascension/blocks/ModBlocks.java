@@ -23,7 +23,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.worldgen.tree.ModTreeGrowers;
 
 
-import java.awt.*;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -119,6 +118,8 @@ public class ModBlocks {
             () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
     public static final DeferredBlock<Block> IRONWOOD_SPROUT_BLOCK = registerBlock("ironwood_sprout_block",
             () -> new CustomHerbs(() -> Blocks.STONE));
+    public static final DeferredBlock<Block> WHITE_JADE_ORCHID_BLOCK = registerBlock("white_jade_orchid_block",
+            () -> new CustomHerbs(() -> ModBlocks.JADE_ORE.get()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCK.register(name, block);

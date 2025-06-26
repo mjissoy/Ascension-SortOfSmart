@@ -64,6 +64,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
                         output.accept(ModItems.IRONWOOD_SPROUT);
+                        output.accept(ModItems.WHITE_JADE_ORCHID);
 
 
                     }).build());

@@ -1,21 +1,21 @@
 {
   "type": "ascension:pill_cauldron_low_human",
   "ingredients": [
-    {"item": "minecraft:apple",
-    "count": 4},
-    {"item": "minecraft:carrot",
-      "count": 4},
+    {"item": "ascension:golden_sun_leaf",
+    "count": 2},
     {"item": "minecraft:golden_apple",
-      "count": 4}
+      "count": 1},
+    {"item": "ascension:ironwood_sprout",
+      "count": 2}
   ],
 
-  "chance": 0.5,
+  "chance": 0.25,
   "success": {
     "id": "ascension:regeneration_pill",
-    "count": 20
+    "count": 1
   },
   "fail": {
-    "id": "minecraft:apple"
+    "id": "minecraft:gunpowder"
   }
 
 }

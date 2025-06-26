@@ -1,4 +1,4 @@
-// 1.21.1	2025-06-25T19:31:28.9118908	Block States: ascension
+// 1.21.1	2025-06-26T15:56:18.2150069	Block States: ascension
 f5ef3508296dbf3a7a5b282eabd7f1dbd6cb1d26 assets/ascension/blockstates/golden_palm_button.json
 51ccf04d5ee6fb6ec9ec1de831e9d31e9d73d1bc assets/ascension/blockstates/golden_palm_door.json
 f7fed4608b1741530fae591bfc34351ea26ccb7f assets/ascension/blockstates/golden_palm_fence.json
@@ -17,6 +17,7 @@ edd98a3b59f53a47a23db11b31f7ce43caaf4358 assets/ascension/blockstates/jade_block
 7378a8bf69eeb313133dcdd8ec57a7ffc34e2289 assets/ascension/blockstates/jade_ore.json
 b6b017a28b194dfc940cc57876f304694e1d4f25 assets/ascension/blockstates/stripped_golden_palm_log.json
 d1c80a83462022835082b73e1e3a320664d805f6 assets/ascension/blockstates/stripped_golden_palm_wood.json
+b37ad9e0cb0c14c26f04821359071869cb24401c assets/ascension/blockstates/white_jade_orchid_block.json
 0a7ae1cb9cb5747ae33ccde812b3d28f2cae80bc assets/ascension/models/block/golden_palm_button.json
 89d345423c9b6a2ecdbc7440496b0144daac560a assets/ascension/models/block/golden_palm_button_pressed.json
 e505b5969c0cd432f7a97eeb5eca6c0f113cb23e assets/ascension/models/block/golden_palm_door_bottom_left.json
@@ -57,6 +58,7 @@ f4c81fb800512c6253ccb1e90d23bc0bfa07f2ad assets/ascension/models/block/stripped_
 8e18af7a4207560e8123ae18996a4c6e1702c878 assets/ascension/models/block/stripped_golden_palm_log_horizontal.json
 2560bc216f6a4421158bfe247c93b4029b1dbf62 assets/ascension/models/block/stripped_golden_palm_wood.json
 526f56d9d2487d1d0e31995979074d74bca565e7 assets/ascension/models/block/stripped_golden_palm_wood_horizontal.json
+6738c57424abc73290a166245404a3fd84b554cb assets/ascension/models/block/white_jade_orchid_block.json
 60e3b63fd88f317de74d216ecba736b553e8ed7c assets/ascension/models/item/golden_palm_fence_gate.json
 86e389d8a0b8de27fd7e0049d477aaa69342ad6b assets/ascension/models/item/golden_palm_leaves.json
 07e0e663abaadb7e82ad8d804be1b38fdcd7f7e8 assets/ascension/models/item/golden_palm_log.json

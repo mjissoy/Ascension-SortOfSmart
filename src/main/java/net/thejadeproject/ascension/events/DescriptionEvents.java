@@ -16,8 +16,17 @@ public class DescriptionEvents {
             if (event.getItemStack().is(ModTags.Items.MEDICINAL)) {
                 event.getTooltipElements().add(Either.left(Component.literal("§a[Medicinal]")));
             }
+            if (event.getItemStack().is(ModTags.Items.HUMAN)) {
+                event.getTooltipElements().add(Either.left(Component.literal("§8[Human]")));
+            }
             if (event.getItemStack().is(ModTags.Items.FIRE)) {
                 event.getTooltipElements().add(Either.left(Component.literal("§4Fire")));
+            }
+            if (event.getItemStack().is(ModTags.Items.EARTH)) {
+                event.getTooltipElements().add(Either.left(Component.literal("§6Earth")));
+            }
+            if (event.getItemStack().is(ModTags.Items.METAL)) {
+                event.getTooltipElements().add(Either.left(Component.literal("§7Metal")));
             }
         }
     }

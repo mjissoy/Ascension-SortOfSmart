@@ -3,9 +3,7 @@ package net.thejadeproject.ascension.datagen;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -19,7 +17,6 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
 
@@ -40,6 +37,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createSingleItemTable(ModItems.GOLDEN_SUN_LEAF.get()));
         add(ModBlocks.IRONWOOD_SPROUT_BLOCK.get(),
                 block -> createSingleItemTable(ModItems.IRONWOOD_SPROUT.get()));
+        add(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get(),
+                block -> createSingleItemTable(ModItems.WHITE_JADE_ORCHID.get()));
 
 
         add(ModBlocks.JADE_ORE.get(),

@@ -4,9 +4,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.SweetBerryBushBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -14,8 +11,6 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.thejadeproject.ascension.blocks.ModBlocks;
-
-import java.util.function.Function;
 
 
 public class ModBlockStateProvider extends BlockStateProvider {
@@ -29,6 +24,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         //Herbs Blocks
         simpleBlock(ModBlocks.IRONWOOD_SPROUT_BLOCK.get(),
                 models().cross("ironwood_sprout_block", blockTexture(ModBlocks.IRONWOOD_SPROUT_BLOCK.get()))
+                        .renderType("cutout"));
+        simpleBlock(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get(),
+                models().cross("white_jade_orchid_block", blockTexture(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get()))
                         .renderType("cutout"));
 
 

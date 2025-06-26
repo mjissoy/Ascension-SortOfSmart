@@ -12,4 +12,6 @@ public class ModFoodProperties {
             .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 50), 1f).build();
     public static final FoodProperties IRONWOOD_SPROUT = new FoodProperties.Builder().fast().alwaysEdible()
             .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 50), 1f).build();
+    public static final FoodProperties WHITE_JADE_ORCHID = new FoodProperties.Builder().fast().alwaysEdible()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 50), 1f).build();
 }

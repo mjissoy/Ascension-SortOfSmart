@@ -12,9 +12,11 @@ public class ModEffects {
     public static final DeferredRegister<MobEffect> MOB_EFFECT =
             DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, AscensionCraft.MOD_ID);
 
+    public static final Holder<MobEffect> CLEANSING = MOB_EFFECT.register("cleansing",
+            () -> new CleanseEffect(MobEffectCategory.BENEFICIAL, 0xDDF3F5));
+
     public static final Holder<MobEffect> QI_ENHANCED_REGENERATION = MOB_EFFECT.register("qi_enhanced_regeneration",
-            () -> new QiEnhancedRegeneration(MobEffectCategory.BENEFICIAL, 0x34e5eb)
-    );
+            () -> new QiEnhancedRegeneration(MobEffectCategory.BENEFICIAL, 0x34e5eb));
 
 
 
