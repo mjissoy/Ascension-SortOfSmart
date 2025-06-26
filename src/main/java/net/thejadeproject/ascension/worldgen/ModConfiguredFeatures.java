@@ -37,7 +37,7 @@ public class ModConfiguredFeatures {
 
         register(context, OVERWORLD_JADE_ORE_KEY, Feature.ORE, new OreConfiguration(overworldJadeOres, 4));
 
-        //register(context, IRONWOOD_SPROUT_KEY, Feature.NO_BONEMEAL_FLOWER, new RandomPatchConfiguration(1,1,1,));
+        //register(context, IRONWOOD_SPROUT_KEY, Feature.NO_BONEMEAL_FLOWER, new RandomPatchConfiguration(1,1,1,));test
         
 
 
