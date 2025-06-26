@@ -5,6 +5,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
@@ -30,7 +31,7 @@ public class ModItems {
 
     //Pills
     public static final DeferredItem<Item> REGENERATION_PILL = ITEMS.register("regeneration_pill",
-            () -> new Item(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL)));
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL), 50));
 
 
 
