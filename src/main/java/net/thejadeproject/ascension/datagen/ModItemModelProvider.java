@@ -41,6 +41,11 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
 
+        //Spiritual Fires
+        basicItem(ModItems.CRIMSON_LOTUS_FLAME.get());
+
+
+
         //Not Used For Anything in mod except being icons etc...
         basicItem(ModItems.ASCENSION_ICON.get());
 

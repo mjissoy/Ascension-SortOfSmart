@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.items;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -19,13 +20,17 @@ public class ModItems {
 
     //NotUsedStuff
     public static final DeferredItem<Item> ASCENSION_ICON = ITEMS.register("ascension_icon",
-            () -> new Item(new Item.Properties()));
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
 
 
     //Drops
     public static final DeferredItem<Item> LIVING_CORE = ITEMS.register("living_core",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> UNDEAD_CORE = ITEMS.register("undead_core",
+            () -> new Item(new Item.Properties()));
+
+    //Spiritual Fires
+    public static final DeferredItem<Item> CRIMSON_LOTUS_FLAME = ITEMS.register("crimson_lotus_flame",
             () -> new Item(new Item.Properties()));
 
 

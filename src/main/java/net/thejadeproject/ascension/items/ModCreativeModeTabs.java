@@ -62,6 +62,7 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GOLDEN_SUN_LEAF.get()))
                     .title(Component.translatable("creativetab.ascension.herbs"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.CRIMSON_LOTUS_FLAME);
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
                         output.accept(ModItems.IRONWOOD_SPROUT);
                         output.accept(ModItems.WHITE_JADE_ORCHID);

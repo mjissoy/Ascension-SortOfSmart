@@ -23,6 +23,7 @@ public class lang extends LanguageProvider {
         add("item.ascension.raw_jade", "Raw Jade");
         add("item.ascension.undead_core", "Undead Core");
         add("item.ascension.living_core", "Living Core");
+        add("item.ascension.crimson_lotus_flame", "Crimson Lotus Flame");
 
 
         //Pills
