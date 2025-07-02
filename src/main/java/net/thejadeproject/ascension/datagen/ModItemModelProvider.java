@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.datagen;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
@@ -42,7 +43,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         //Spiritual Fires
-        basicItem(ModItems.CRIMSON_LOTUS_FLAME.get());
+        handheldItem(ModItems.CRIMSON_LOTUS_FLAME.get());
 
 
 
@@ -70,6 +71,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         saplingItem(ModBlocks.GOLDEN_PALM_SAPLING);
 
 
+        //MobEggs
+        withExistingParent(ModItems.RAT_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+
+
 
     }
 
@@ -78,6 +83,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 ResourceLocation.parse("item/generated")).texture("layer0",
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"block/" + item.getId().getPath()));
     }
+
 
     public void buttonItem(DeferredBlock<?> block, DeferredBlock<Block> baseBlock) {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/button_inventory"))

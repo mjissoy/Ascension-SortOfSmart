@@ -1,9 +1,13 @@
 package net.thejadeproject.ascension;
 
 import com.mojang.serialization.MapCodec;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
@@ -17,11 +21,15 @@ import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
+import net.thejadeproject.ascension.entity.ModEntities;
+import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
+import net.thejadeproject.ascension.particle.ModParticles;
+import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.screen.ModMenuTypes;
 import net.thejadeproject.ascension.screen.custom.PillCauldronLowHumanScreen;
@@ -79,6 +87,9 @@ public class AscensionCraft {
 
         ModLootModifiers.register(modEventBus);
 
+        ModParticles.register(modEventBus);
+        ModEntities.register(modEventBus);
+
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
         // Register the item to a creative tab
@@ -124,6 +135,9 @@ public class AscensionCraft {
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            event.accept(ModItems.RAT_SPAWN_EGG);
+        }
 
     }
 
@@ -157,8 +171,16 @@ public class AscensionCraft {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
 
         }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ModParticles.CULTIVATION_PARTICLES.get(), CultivationParticles.Provider::new);
+        }
+
+
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event){
             ModPayloads.registerPayloads(event);

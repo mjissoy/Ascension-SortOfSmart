@@ -24,6 +24,10 @@ public class lang extends LanguageProvider {
         add("item.ascension.undead_core", "Undead Core");
         add("item.ascension.living_core", "Living Core");
         add("item.ascension.crimson_lotus_flame", "Crimson Lotus Flame");
+        add("item.ascension.rat_spawn_egg", "Treasure Rat Spawn Egg");
+
+        //Mobs
+        add("entity.mcourse.rat", "Treasure Rat");
 
 
         //Pills

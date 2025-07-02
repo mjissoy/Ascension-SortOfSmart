@@ -3,9 +3,11 @@ package net.thejadeproject.ascension.items;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 
 public class ModItems {
@@ -49,6 +51,12 @@ public class ModItems {
             () -> new Item(new Item.Properties().food(ModFoodProperties.IRONWOOD_SPROUT)));
     public static final DeferredItem<Item> WHITE_JADE_ORCHID = ITEMS.register("white_jade_orchid",
             () -> new Item(new Item.Properties().food(ModFoodProperties.WHITE_JADE_ORCHID)));
+
+
+    //MobEggs
+    public static final DeferredItem<Item> RAT_SPAWN_EGG = ITEMS.register("rat_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.RAT, 0x4F2242, 0x703240,
+                    new Item.Properties()));
 
 
 
