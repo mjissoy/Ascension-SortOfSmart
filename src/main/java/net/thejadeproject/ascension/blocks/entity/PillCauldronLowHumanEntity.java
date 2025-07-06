@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -15,12 +16,14 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
@@ -165,13 +168,38 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         itemHandler.extractItem(INPUT_SLOT0,ingredients.get(INPUT_SLOT0).count(), false);
         itemHandler.extractItem(INPUT_SLOT1, ingredients.get(INPUT_SLOT1).count(), false);
         itemHandler.extractItem(INPUT_SLOT2, ingredients.get(INPUT_SLOT2).count(), false);
-        if(output.is(ModTags.Items.ALCHEMY_FAILURE)){
-            itemHandler.setStackInSlot(OUTPUT_SLOT1,new ItemStack(output.getItem(),
-                    itemHandler.getStackInSlot(OUTPUT_SLOT1).getCount()+output.getCount()));
-            return;
+
+        ItemStack slot1 = itemHandler.getStackInSlot(OUTPUT_SLOT0);
+        ItemStack slot2 = itemHandler.getStackInSlot(OUTPUT_SLOT1);
+
+        TagKey<Item> currentTag = null;
+        if(output.is(ModTags.Items.ALCHEMY_FAILURE)) currentTag = ModTags.Items.ALCHEMY_FAILURE;
+        else currentTag = ModTags.Items.ALCHEMY_SUCCESS;
+        if(output.is(currentTag)){
+            if(slot1.is(currentTag)
+                    && slot1.getCount() < slot1.getMaxStackSize()){
+                itemHandler.setStackInSlot(OUTPUT_SLOT0,new ItemStack(output.getItem(),
+                        slot1.getCount()+output.getCount()));
+                return;
+            }
+            if(slot2.is(currentTag)
+                    && slot2.getCount() < slot2.getMaxStackSize()){
+                itemHandler.setStackInSlot(OUTPUT_SLOT1,new ItemStack(output.getItem(),
+                        slot2.getCount()+output.getCount()));
+                return;
+            }
+
+            if(slot1.isEmpty()){
+                itemHandler.setStackInSlot(OUTPUT_SLOT0,new ItemStack(output.getItem(),
+                        output.getCount()));
+                return;
+            }
+            if(slot2.isEmpty()){
+                itemHandler.setStackInSlot(OUTPUT_SLOT1,new ItemStack(output.getItem(),
+                        output.getCount()));
+                return;
+            }
         }
-        itemHandler.setStackInSlot(OUTPUT_SLOT0,new ItemStack(output.getItem(),
-                itemHandler.getStackInSlot(OUTPUT_SLOT0).getCount()+output.getCount()));
     }
 
     private boolean hasCraftingFinished() {
@@ -190,11 +218,23 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
             return false;
         }
 
+
         ItemStack output = recipe.get().value().getSuccess();
         ItemStack output2 = recipe.get().value().getFail();
+        ItemStack output_slot1 = itemHandler.getStackInSlot(OUTPUT_SLOT0);
+        ItemStack output_slot2 = itemHandler.getStackInSlot(OUTPUT_SLOT1);
+        if((output_slot1.is(ModTags.Items.ALCHEMY_FAILURE) && output_slot2.is(ModTags.Items.ALCHEMY_FAILURE)) || (output_slot1.is(ModTags.Items.ALCHEMY_SUCCESS) && output_slot2.is(ModTags.Items.ALCHEMY_SUCCESS))) return false;
 
-        return canInsertAmountIntoOutputSlot(OUTPUT_SLOT0,output.getCount()) && canInsertItemIntoOutputSlot(output,OUTPUT_SLOT0) &&
-                canInsertAmountIntoOutputSlot(OUTPUT_SLOT1,output2.getCount()) && canInsertItemIntoOutputSlot(output2,OUTPUT_SLOT1) ;
+
+        int outputSlot= OUTPUT_SLOT0;
+        int output2Slot = OUTPUT_SLOT1;
+        if(output_slot1.is(ModTags.Items.ALCHEMY_FAILURE)){
+            outputSlot = OUTPUT_SLOT1;
+            output2Slot = OUTPUT_SLOT0;
+        }
+
+        return canInsertAmountIntoOutputSlot(outputSlot,output.getCount()) && canInsertItemIntoOutputSlot(output,outputSlot) &&
+                canInsertAmountIntoOutputSlot(output2Slot,output2.getCount()) && canInsertItemIntoOutputSlot(output2,output2Slot) ;
     }
 
     private Optional<RecipeHolder<LowHumanPillCauldronRecipe>> getCurrentRecipe() {

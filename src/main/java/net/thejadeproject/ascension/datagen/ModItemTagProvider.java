@@ -43,9 +43,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.WHITE_JADE_ORCHID.get())
                 .add(ModItems.IRONWOOD_SPROUT.get());
         tag(ModTags.Items.ALCHEMY_FAILURE)
-                .add(Items.APPLE);
-
-
+                .add(Items.GUNPOWDER);
+        tag(ModTags.Items.ALCHEMY_SUCCESS)
+                .add(ModItems.REGENERATION_PILL.get());
         this.tag(ItemTags.LOGS_THAT_BURN)
                 .add(ModBlocks.GOLDEN_PALM_LOG.get().asItem())
                 .add(ModBlocks.GOLDEN_PALM_WOOD.get().asItem())

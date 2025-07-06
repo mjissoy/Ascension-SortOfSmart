@@ -17,6 +17,8 @@ public class ModTags {
         public static final TagKey<Item> MEDICINAL = createTag("herbs/medicinal");
         public static final TagKey<Item> HUMAN = createTag("herbs/human");
         public static final TagKey<Item> ALCHEMY_FAILURE = createTag("herbs/alchemy_failure");
+        public static final TagKey<Item> ALCHEMY_SUCCESS = createTag("herbs/alchemy_success");
+
 
 
         private static TagKey<Item> createTag(String name) {
