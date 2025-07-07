@@ -127,7 +127,7 @@ configurations {
 
 dependencies {
 
-    implementation "net.lucent.easygui:easy_gui_1.21.1:1.0.3"
+    implementation "net.lucent.easygui:easy_gui_1.21.1:1.0.6"
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
 
     // Example optional mod dependency with JEI

@@ -1,15 +1,25 @@
 package net.thejadeproject.ascension;
 
 import com.mojang.serialization.MapCodec;
+import net.lucent.easygui.elements.containers.View;
+import net.lucent.easygui.elements.other.ProgressBar;
+import net.lucent.easygui.overlays.EasyGuiOverlay;
+import net.lucent.easygui.overlays.EasyGuiOverlayManager;
+import net.lucent.easygui.util.textures.TextureData;
+import net.lucent.easygui.util.textures.TextureDataSubSection;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -104,7 +114,72 @@ public class AscensionCraft {
         NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogin);
 
+
+
+        //setup overlays
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            generateOverlays(modEventBus);
+            EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH, new EasyGuiOverlay((eventHolder, overlay) ->{
+                View view = new View(overlay,0,0){
+
+                };
+
+                overlay.addView(view);
+                view.setUseMinecraftScale(true);
+
+                TextureDataSubSection background = new TextureDataSubSection(
+                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/health_bar.png"),
+                        81,
+                        18,
+                        0,
+                        0,
+                        81,
+                        9
+                );
+                TextureDataSubSection bar = new TextureDataSubSection(
+                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/health_bar.png"),
+                        81,
+                        18,
+                        0,
+                        9,
+                        81,
+                        18
+                );
+
+                ProgressBar progressBar = new ProgressBar(
+                        overlay,
+                        bar,
+                        background,
+                        view.getScaledWidth()/2-91,
+                        view.getScaledHeight()-39
+                ){
+                    @Override
+                    public double getProgress() {
+                        if(Minecraft.getInstance().player == null) return 0;
+                        double currentHealth = Minecraft.getInstance().player.getHealth();
+                        double maxHealth = Minecraft.getInstance().player.getMaxHealth();
+                        return  currentHealth/maxHealth;
+                    }
+                    @Override
+                    public void recalculatePos(int oldWidth, int oldHeight) {
+
+                        setX((getRoot()).getScaledWidth()/2-91);
+                        setY((getRoot()).getScaledHeight() - 39);
+                    }
+                    @Override
+                    public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+
+                        super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
+
+                    }
+                };
+                progressBar.setSticky(true);
+                view.addChild(progressBar);
+            }));
+        }
+
     }
+    public void generateOverlays(IEventBus modEventBus){}
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindHandler.INTROSPECTION_KEY);
