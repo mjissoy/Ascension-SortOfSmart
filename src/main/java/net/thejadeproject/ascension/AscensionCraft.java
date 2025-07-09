@@ -2,9 +2,12 @@ package net.thejadeproject.ascension;
 
 import com.mojang.serialization.MapCodec;
 import net.lucent.easygui.elements.containers.View;
+import net.lucent.easygui.elements.other.Image;
+import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.elements.other.ProgressBar;
 import net.lucent.easygui.overlays.EasyGuiOverlay;
 import net.lucent.easygui.overlays.EasyGuiOverlayManager;
+import net.lucent.easygui.templating.actions.Action;
 import net.lucent.easygui.util.textures.TextureData;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.Minecraft;
@@ -33,6 +36,7 @@ import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
+import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
@@ -105,6 +109,9 @@ public class AscensionCraft {
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
+        //register easy gui actions
+        ModActions.register(modEventBus);
+
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
@@ -119,10 +126,31 @@ public class AscensionCraft {
         //setup overlays
         if (FMLEnvironment.dist == Dist.CLIENT) {
             generateOverlays(modEventBus);
-            EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH, new EasyGuiOverlay((eventHolder, overlay) ->{
-                View view = new View(overlay,0,0){
+            EasyGuiOverlayManager.addLayer(
+                    ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),
+                    new EasyGuiOverlay((eventHolder, overlay)->{
+                        View view = new View(overlay,0,0);
+                        overlay.addView(view);
+                        view.setUseMinecraftScale(true);
 
-                };
+                        Image image = new Image(overlay,
+                                new TextureDataSubSection(
+                                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/gui_all.png"),
+                                        256,256,
+                                        0,147,
+                                        53,163
+                                ),
+                                0,0);
+                        Label progressLabel = (new Label.Builder()).screen(overlay).centered(true).x(26).y((163-147)/2).build();
+                        progressLabel.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Progress"}));
+                        image.addChild(progressLabel);
+
+                        view.addChild(image);
+                    })
+            );
+
+            EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH, new EasyGuiOverlay((eventHolder, overlay) ->{
+                View view = new View(overlay,0,0);
 
                 overlay.addView(view);
                 view.setUseMinecraftScale(true);
@@ -166,12 +194,6 @@ public class AscensionCraft {
                         setX((getRoot()).getScaledWidth()/2-91);
                         setY((getRoot()).getScaledHeight() - 39);
                     }
-                    @Override
-                    public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-
-                        super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
-
-                    }
                 };
                 progressBar.setSticky(true);
                 view.addChild(progressBar);
@@ -191,7 +213,7 @@ public class AscensionCraft {
         if (!event.getEntity().level().isClientSide) {
             if (event.getEntity().getPersistentData().getCompound("Cultivation").getBoolean("CultivationState")) {
                 System.out.println("cultivating");
-                System.out.println(event.getEntity().getPersistentData().getCompound("Cultivation").getFloat("CultivationProgress"));
+
                 CultivationSystem.cultivate(event.getEntity());
             }
         }

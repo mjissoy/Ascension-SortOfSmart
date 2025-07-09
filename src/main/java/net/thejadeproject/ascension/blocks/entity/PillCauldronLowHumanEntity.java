@@ -164,7 +164,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
         ItemStack output = recipe.get().value().output();
         NonNullList<SizedIngredient> ingredients = recipe.get().value().getSizedIngredients();
-        System.out.println(Arrays.toString(ingredients.getFirst().getItems()));
+
         itemHandler.extractItem(INPUT_SLOT0,ingredients.get(INPUT_SLOT0).count(), false);
         itemHandler.extractItem(INPUT_SLOT1, ingredients.get(INPUT_SLOT1).count(), false);
         itemHandler.extractItem(INPUT_SLOT2, ingredients.get(INPUT_SLOT2).count(), false);

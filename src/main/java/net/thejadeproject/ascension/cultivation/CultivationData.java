@@ -44,7 +44,7 @@ public class CultivationData {
 
 
         public static Component getProgressUI() {
-            System.out.println(getProgress());
+
             return Component.literal(String.valueOf(getProgress()));
         }
 

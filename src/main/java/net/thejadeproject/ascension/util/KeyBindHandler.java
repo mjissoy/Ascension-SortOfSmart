@@ -12,6 +12,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.cultivation.CultivationData;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
 import net.thejadeproject.ascension.guis.Introspection.Overlay;
+import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 
 public class KeyBindHandler {
     private static boolean wasCultivating = false;
@@ -45,7 +46,12 @@ public class KeyBindHandler {
     public static void handleKeyInputEvent(ClientTickEvent.Post event) {
         if(Minecraft.getInstance().level == null && Minecraft.getInstance().getConnection() == null) return;
         if(INTROSPECTION_KEY.consumeClick()){
-            Minecraft.getInstance().setScreen(new Overlay(Component.literal("Introspection"),Minecraft.getInstance().player));
+            try {
+                Minecraft.getInstance().setScreen(new MainScreen(Component.literal("Introspection")));
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                System.out.println("failed to open introspection menu");
+            }
         }
 
         CultivationData.setCultivating(CULTIVATE_KEY.isDown());

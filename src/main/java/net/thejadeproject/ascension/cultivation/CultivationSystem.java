@@ -52,7 +52,7 @@ public class CultivationSystem {
                 (minorRealmProgress * MINOR_REALM_PROGRESS_MULTIPLIER);
 
 
-        if (player.level().isClientSide) return;
+        if (player.level().isClientSide()) return;
 
         float progress = cultivationData.getFloat("CultivationProgress");
         if(player.getPersistentData().getCompound("Cultivation").getInt("MajorRealm") >= majorRealmNames.length) return;

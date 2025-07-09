@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.guis.easygui;
+package net.thejadeproject.ascension.guis.easygui.elements;
 
 import net.lucent.easygui.holders.EasyGuiEventHolder;
 import net.lucent.easygui.overlays.EasyGuiOverlay;
