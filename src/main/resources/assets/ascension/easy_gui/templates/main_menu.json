@@ -1,0 +1,71 @@
+{
+  "views": [
+    {
+      "type": "easy_gui:view",
+      "use_minecraft_scaling": false,
+      "children": [
+        {
+          "type": "easy_gui:image",
+          "texture": {
+            "file": "ascension:textures/gui/overlay/gui_all.png",
+            "texture_width": 256,
+            "texture_height": 256,
+            "width": 143,
+            "height": 142,
+            "v": 4
+          },
+          "sticky": true,
+          "x": "parent.scaledWidth/2-71",
+          "y": "parent.scaledHeight/2-10",
+          "children": [
+            {
+              "type": "easy_gui:color_button",
+              "default_color" : 0,
+              "hovered_color": 1686472069,
+              "pressed_color": -1601862267,
+              "focused_color": 0,
+              "id": "stats_button",
+              "on_click": {
+                "function": "ascension:change_active_panel"
+              },
+              "x": 33,
+              "y": 0,
+              "width": 32,
+              "height": 19
+            },
+            {
+              "type": "easy_gui:color_button",
+              "default_color" : 0,
+              "hovered_color": 1686472069,
+              "pressed_color": -1601862267,
+              "focused_color": 0,
+              "id": "other_button",
+              "on_click": {
+                "function": "ascension:change_active_panel"
+              },
+              "x": 78,
+              "y": 0,
+              "width": 32,
+              "height": 19
+            },
+            {
+              "type": "easy_gui:panel",
+              "background_color": 0,
+              "border_color": 0,
+              "border_width": 0,
+              "id": "stats_panel"
+            },
+            {
+              "type": "easy_gui:panel",
+              "active": false,
+              "background_color": 0,
+              "border_color": 0,
+              "border_width": 0,
+              "id": "other_panel"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

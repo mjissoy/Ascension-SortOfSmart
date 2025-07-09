@@ -12,21 +12,87 @@ public class lang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+        //GuideBook
+        add("book.title.ascension.art_of_ascension", "Ascension Guide");
+        add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance");
+
+
         //Items
         add("item.ascension.jade", "Jade");
-        add("item.ascension.jade_nugget", "Jade Nugget");
+        add("item.ascension.ascension_icon", "Ascension Icon");
         add("item.ascension.raw_jade", "Raw Jade");
+        add("item.ascension.undead_core", "Undead Core");
+        add("item.ascension.living_core", "Living Core");
+        add("item.ascension.crimson_lotus_flame", "Crimson Lotus Flame");
+        add("item.ascension.rat_spawn_egg", "Treasure Rat Spawn Egg");
+
+        //Mobs
+        add("entity.mcourse.rat", "Treasure Rat");
+
+
+        //Pills
+        add("item.ascension.regeneration_pill", "Regeneration Pill");
+
+
+
+        //Herbs
+        add("item.ascension.golden_sun_leaf", "Golden Sun Leaf");
+        add("item.ascension.ironwood_sprout", "Ironwood Sprout");
+        add("item.ascension.white_jade_orchid", "White Jade Orchid");
+        add("block.ascension.golden_sun_leaf_block", "Golden Sun Leaf");
+        add("block.ascension.ironwood_sprout_block", "Ironwood Sprout");
+        add("block.ascension.white_jade_orchid_block", "White Jade Orchid");
 
         //Blocks
+        add("block.ascension.golden_palm_log", "Golden Palm Log");
+        add("block.ascension.golden_palm_wood", "Golden Palm Wood");
+        add("block.ascension.stripped_golden_palm_log", "Stripped Golden Palm Log");
+        add("block.ascension.stripped_golden_palm_wood", "Stripped Golden Palm Wood");
+        add("block.ascension.golden_palm_planks", "Golden Palm Planks");
+        add("block.ascension.golden_palm_leaves", "Golden Palm Leaves");
+        add("block.ascension.golden_palm_sapling", "Golden Palm Sapling");
+        add("block.ascension.golden_palm_slab", "Golden Palm Slab");
+        add("block.ascension.golden_palm_stairs", "Golden Palm Stair");
+        add("block.ascension.golden_palm_button", "Golden Palm Button");
+        add("block.ascension.golden_palm_pressure_plate", "Golden Palm Pressure Plate");
+        add("block.ascension.golden_palm_fence", "Golden Palm Fence");
+        add("block.ascension.golden_palm_fence_gate", "Golden Palm Fence Gate");
+        add("block.ascension.golden_palm_door", "Golden Palm Door");
+        add("block.ascension.golden_palm_trapdoor", "Golden Palm Trapdoor");
+
+
+
+
         add("block.ascension.jade_ore", "Jade Ore");
         add("block.ascension.jade_block", "Jade Block");
+        add("block.ascension.pill_cauldron_low_human", "Pill Cauldron");
 
         //GUI & Other Stuff
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.blocks", "Ascension Blocks");
-        add("category.ascension.main", "Ascension");
+        add("creativetab.ascension.herbs", "Ascension Herbs");
+
+
+        add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
+        add("effect.ascension.cleansing", "Cleansing");
+
+        add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");
         add("key.ascension.introspection", "Introspection");
+
+
+
+
+        add("ascension.configuration.Multipliers", "Stats Multipliers");
+        add("ascension.configuration.CultivationMultipliers", "Cultivation Multipliers");
+        add("ascension.configuration.Cultivation_Speed", "Cultivation Speed");
+        add("ascension.configuration.Minor_Cultivation_Stats_Multiplier", "Minor Cultivation Stats Multiplier");
+        add("ascension.configuration.Major_Cultivation_Stats_Multiplier", "Major Cultivation Stats Multiplier");
+        add("ascension.configuration.Flight_Realm", "Flight Realm");
+
+        add("ascension.configuration.AttributeMultipliers", "Attributes Multipliers");
+        add("ascension.configuration.Speed_Multiplier_Max", "Max Speed");
+        add("block.ascension.pill_cauldron", "Pill Cauldron");
 
     }
 }

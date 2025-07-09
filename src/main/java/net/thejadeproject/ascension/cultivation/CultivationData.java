@@ -3,50 +3,57 @@ package net.thejadeproject.ascension.cultivation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.thejadeproject.ascension.network.serverBound.SyncCultivationSyncPayload;
 
 public class CultivationData {
-    private static CompoundTag data = new CompoundTag();
-    public static boolean isCultivating = false;
-    public static void startCultivation(CompoundTag newData) {
-        data = newData;
-    }
+    public static Player player;
+
 
     public static void setCultivating(boolean cultivating) {
-        isCultivating = cultivating;
+        if(cultivating) System.out.println("KeyDown");
+        if(player.getPersistentData().getCompound("Cultivation").getBoolean("CultivationState") == cultivating) return;
+        player.getPersistentData().getCompound("Cultivation").putBoolean("CultivationState",cultivating);
+
+
+        PacketDistributor.sendToServer(new SyncCultivationSyncPayload(cultivating));
+
     }
 
     public static boolean isCultivating() {
-        return isCultivating;
+        return player.getPersistentData().getCompound("Cultivation").getBoolean("CultivationState");
     }
     public static class ClientCultivationData {
 
-        public static void update(CompoundTag newData) {
-            data = newData;
+
+        public static boolean getCultivationState(){
+            return player.getPersistentData().getCompound("Cultivation").getBoolean("CultivationState");
         }
 
         public static int getMajorRealm() {
-            return data.getInt("MajorRealm");
+            return player.getPersistentData().getCompound("Cultivation").getInt("MajorRealm");
         }
 
         public static int getMinorRealm() {
-            return data.getInt("MinorRealm");
+            return player.getPersistentData().getCompound("Cultivation").getInt("MinorRealm");
         }
 
         public static float getProgress() {
-            return data.getFloat("Progress");
+            return player.getPersistentData().getCompound("Cultivation").getFloat("CultivationProgress");
         }
 
 
         public static Component getProgressUI() {
-            return Component.literal(String.valueOf(data.getInt("Progress")));
+
+            return Component.literal(String.valueOf(getProgress()));
         }
 
         public static Component getMajorRealmUI() {
-            return Component.literal(String.valueOf(data.getInt("MajorRealm")));
+            return Component.literal(CultivationSystem.getMajorRealmName(getMajorRealm()));
         }
 
-        public static Component getMinorRealmUI() {
-            return Component.literal(String.valueOf(data.getInt("MinorRealm")));
+        public static Component getMinorRealmUI( ) {
+            return Component.literal(String.valueOf(getMinorRealm()));
         }
     }
 }

@@ -18,11 +18,12 @@ public class ClientEvents {
             return;
         }
 
+
         // Update UI progress
-        CultivationUI.setProgress(CultivationData.ClientCultivationData.getProgress());
+        //CultivationUI.setProgress(CultivationData.ClientCultivationData.getProgress());
 
         // Render the custom UI
-        CultivationUI.render(event.getGuiGraphics(), 0.1f);
+        //CultivationUI.render(event.getGuiGraphics(), 0.1f);
 
         // Optional: Still show realm info
         String realmText = CultivationSystem.getRealmName(
@@ -38,4 +39,15 @@ public class ClientEvents {
                 0xFFFFFF
         );
     }
+//    private void renderTabList(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+//        Scoreboard scoreboard = this.minecraft.level.getScoreboard();
+//        Objective objective = scoreboard.getDisplayObjective(DisplaySlot.LIST);
+//        if (!this.minecraft.options.keyPlayerList.isDown()
+//                || this.minecraft.isLocalServer() && this.minecraft.player.connection.getListedOnlinePlayers().size() <= 1 && objective == null) {
+//            this.tabList.setVisible(false);
+//        } else {
+//            this.tabList.setVisible(true);
+//            this.tabList.render(guiGraphics, guiGraphics.guiWidth(), scoreboard, objective);
+//        }
+//    }
 }

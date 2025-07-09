@@ -33,13 +33,13 @@ public class NetworkHandler {
 
     private static void handleCultivationUpdate(CultivationUpdatePayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
-            CultivationData.ClientCultivationData.update(payload.data());
+
         });
     }
 
     private static void handleCultivationStart(CultivationUpdatePayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
-            CultivationData.startCultivation(payload.data());
+
         });
     }
 

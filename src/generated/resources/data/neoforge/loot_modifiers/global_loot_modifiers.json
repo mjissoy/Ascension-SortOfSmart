@@ -1,0 +1,17 @@
+{
+  "entries": [
+    "ascension:undead_core_from_wither",
+    "ascension:undead_core_from_husk",
+    "ascension:undead_core_from_zombie_villager",
+    "ascension:undead_core_from_zombie",
+    "ascension:undead_core_from_zombie_horse",
+    "ascension:undead_core_from_stray",
+    "ascension:undead_core_from_skeleton",
+    "ascension:undead_core_from_wither_skeleton",
+    "ascension:undead_core_from_drowned",
+    "ascension:undead_core_from_zombified_piglin",
+    "ascension:undead_core_from_phantom",
+    "ascension:undead_core_from_zoglin"
+  ],
+  "replace": false
+}

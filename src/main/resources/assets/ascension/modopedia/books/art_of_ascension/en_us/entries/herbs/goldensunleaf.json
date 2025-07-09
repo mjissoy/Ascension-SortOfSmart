@@ -1,0 +1,59 @@
+{
+  "title": "Golden Sun Leaf",
+  "icon": { "id": "ascension:golden_sun_leaf" },
+  "assigned_items": ["ascension:golden_sun_leaf"],
+  "pages": [
+    {
+      "components": [
+        {
+          "type": "modopedia:large_frame"
+        },
+        {
+          "type": "modopedia:showcase",
+          "items": [
+            {
+              "id":  "ascension:golden_sun_leaf"
+            }]
+        },
+        {
+          "type": "modopedia:text",
+          "x": 5,
+          "y": 103,
+          "line_height": 10,
+          "text": "The Golden Sun Leaf gains its eponymous golden hue from absorbing a great amount of sunlight!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§2Golden Sun Leaf",
+          "template": "modopedia:page/headered_text",
+          "text": "The Golden Sun Leaf is a fire element aligned herb that grows by absorbing the sun's light!\n\nThis herb boosts Yang energy, enhances stamina, and increases cultivation speed!\n\nIt's possible to eat this raw but using this in a Pill Cauldron will reveal it's true capabilities!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§2How to get this herb.",
+          "template": "modopedia:page/headered_text",
+          "text": "Golden Sun Leaf has a 0.5% chance of dropping when Golden Palm Leaves are decaying\n\nThe Golden Palm Tree can be found in Beach biomes very rarely! \nThis Herb is also one of the Common Herbs that can be found!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "type": "modopedia:large_frame",
+          "y": 20
+        },
+        {
+          "type": "modopedia:multiblock",
+          "multiblock_id": "ascension:golden_palm_tree",
+          "y": 20
+        }
+      ]
+    }
+  ]
+}

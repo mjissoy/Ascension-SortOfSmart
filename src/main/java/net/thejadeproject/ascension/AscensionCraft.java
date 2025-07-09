@@ -1,16 +1,52 @@
 package net.thejadeproject.ascension;
 
-import net.minecraft.resources.ResourceLocation;
+import com.mojang.serialization.MapCodec;
+import net.lucent.easygui.elements.containers.View;
+import net.lucent.easygui.elements.other.Image;
+import net.lucent.easygui.elements.other.Label;
+import net.lucent.easygui.elements.other.ProgressBar;
+import net.lucent.easygui.overlays.EasyGuiOverlay;
+import net.lucent.easygui.overlays.EasyGuiOverlayManager;
+import net.lucent.easygui.templating.actions.Action;
+import net.lucent.easygui.util.textures.TextureData;
+import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
+import net.thejadeproject.ascension.effects.ModEffects;
+import net.thejadeproject.ascension.entity.ModEntities;
+import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
+import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
+import net.thejadeproject.ascension.loot.ModLootModifiers;
+import net.thejadeproject.ascension.network.ModPayloads;
+import net.thejadeproject.ascension.particle.ModParticles;
+import net.thejadeproject.ascension.particle.particles.CultivationParticles;
+import net.thejadeproject.ascension.recipe.ModRecipes;
+import net.thejadeproject.ascension.screen.ModMenuTypes;
+import net.thejadeproject.ascension.screen.custom.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import org.slf4j.Logger;
@@ -42,6 +78,8 @@ public class AscensionCraft {
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
+
+
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -54,19 +92,116 @@ public class AscensionCraft {
 
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
+
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+
+        ModRecipes.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
+
+        ModLootModifiers.register(modEventBus);
+
+        ModParticles.register(modEventBus);
+        ModEntities.register(modEventBus);
+
         ModItems.register(modEventBus);
+        ModEffects.register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
+        //register easy gui actions
+        ModActions.register(modEventBus);
+
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
 
         modEventBus.addListener(this::registerKeyBindings);
         NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogin);
+
+
+
+        //setup overlays
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            generateOverlays(modEventBus);
+            EasyGuiOverlayManager.addLayer(
+                    ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),
+                    new EasyGuiOverlay((eventHolder, overlay)->{
+                        View view = new View(overlay,0,0);
+                        overlay.addView(view);
+                        view.setUseMinecraftScale(true);
+
+                        Image image = new Image(overlay,
+                                new TextureDataSubSection(
+                                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/gui_all.png"),
+                                        256,256,
+                                        0,147,
+                                        53,163
+                                ),
+                                0,0);
+                        Label progressLabel = (new Label.Builder()).screen(overlay).centered(true).x(26).y((163-147)/2).build();
+                        progressLabel.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Progress"}));
+                        image.addChild(progressLabel);
+
+                        view.addChild(image);
+                    })
+            );
+
+            EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH, new EasyGuiOverlay((eventHolder, overlay) ->{
+                View view = new View(overlay,0,0);
+
+                overlay.addView(view);
+                view.setUseMinecraftScale(true);
+
+                TextureDataSubSection background = new TextureDataSubSection(
+                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/health_bar.png"),
+                        81,
+                        18,
+                        0,
+                        0,
+                        81,
+                        9
+                );
+                TextureDataSubSection bar = new TextureDataSubSection(
+                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/health_bar.png"),
+                        81,
+                        18,
+                        0,
+                        9,
+                        81,
+                        18
+                );
+
+                ProgressBar progressBar = new ProgressBar(
+                        overlay,
+                        bar,
+                        background,
+                        view.getScaledWidth()/2-91,
+                        view.getScaledHeight()-39
+                ){
+                    @Override
+                    public double getProgress() {
+                        if(Minecraft.getInstance().player == null) return 0;
+                        double currentHealth = Minecraft.getInstance().player.getHealth();
+                        double maxHealth = Minecraft.getInstance().player.getMaxHealth();
+                        return  currentHealth/maxHealth;
+                    }
+                    @Override
+                    public void recalculatePos(int oldWidth, int oldHeight) {
+
+                        setX((getRoot()).getScaledWidth()/2-91);
+                        setY((getRoot()).getScaledHeight() - 39);
+                    }
+                };
+                progressBar.setSticky(true);
+                view.addChild(progressBar);
+            }));
+        }
+
     }
+    public void generateOverlays(IEventBus modEventBus){}
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindHandler.INTROSPECTION_KEY);
@@ -76,7 +211,9 @@ public class AscensionCraft {
     private void onPlayerTick(PlayerTickEvent.Pre event) {
         // Only process on server side
         if (!event.getEntity().level().isClientSide) {
-            if (KeyBindHandler.isCultivating(event.getEntity())) {
+            if (event.getEntity().getPersistentData().getCompound("Cultivation").getBoolean("CultivationState")) {
+                System.out.println("cultivating");
+
                 CultivationSystem.cultivate(event.getEntity());
             }
         }
@@ -84,14 +221,20 @@ public class AscensionCraft {
 
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         CultivationSystem.initPlayerCultivation(event.getEntity());
+        CultivationSystem.updatePlayerAttributes(event.getEntity());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        DynamicPillsSystem.loadPills();
+        DynamicPillsSystem.registerPills();
 
     }
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            event.accept(ModItems.RAT_SPAWN_EGG);
+        }
 
     }
 
@@ -103,10 +246,46 @@ public class AscensionCraft {
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    /*public class ClientModInitializer {
+        public static void setup(IEventBus modEventBus) {
+            modEventBus.addListener(ClientModInitializer::clientSetup);
+        }
+
+
+        private static void clientSetup(FMLClientSetupEvent event) {
+            event.enqueueWork(() -> {
+                DynamicPillsSystem.PILL_CONFIGS.forEach((id, config) -> {
+                    Item item = Registries.ITEM.get(id);
+                    if (item instanceof DynamicPillsSystem.PillItem) {
+                        ItemColors.register(new ItemColorProvider(), item);
+                    }
+                });
+            });
+        }
+    }
+*/
+
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
 
+        }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ModParticles.CULTIVATION_PARTICLES.get(), CultivationParticles.Provider::new);
+        }
+
+
+        @SubscribeEvent
+        public static void registerPayloads(RegisterPayloadHandlersEvent event){
+            ModPayloads.registerPayloads(event);
+        }
+
+        @SubscribeEvent
+        public static void registerScreens(RegisterMenuScreensEvent event) {
+            event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
         }
     }
 }
