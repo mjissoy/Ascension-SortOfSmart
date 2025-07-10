@@ -114,5 +114,10 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.major_realm_jump_strength_increase","Major Realm Increase");
         add("ascension.configuration.jump_strength_applicable_realms","Applicable Realms");
 
+        add("ascension.configuration.MovementSpeedMultipliers","Movement Speed Multipliers");
+        add("ascension.configuration.minor_realm_movement_speed_increase","Minor Realm Increase");
+        add("ascension.configuration.major_realm_movement_speed_increase","Major Realm Increase");
+        add("ascension.configuration.movement_speed_applicable_realms","Applicable Realms");
+
     }
 }

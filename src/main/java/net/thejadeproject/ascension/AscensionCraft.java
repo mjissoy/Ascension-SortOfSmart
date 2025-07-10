@@ -48,6 +48,7 @@ import net.thejadeproject.ascension.screen.ModMenuTypes;
 import net.thejadeproject.ascension.screen.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
+import net.thejadeproject.ascension.util.ModAttachments;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -99,6 +100,7 @@ public class AscensionCraft {
         ModMenuTypes.register(modEventBus);
 
         ModLootModifiers.register(modEventBus);
+        ModAttachments.register(modEventBus);
 
         ModParticles.register(modEventBus);
         ModEntities.register(modEventBus);
@@ -150,8 +152,11 @@ public class AscensionCraft {
         CultivationSystem.initPlayerCultivation(event.getEntity());
         CultivationSystem.updatePlayerAttributes(event.getEntity());
         Player player = (Player) event.getEntity();
+        player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
         PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
     }
+
+
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         DynamicPillsSystem.loadPills();

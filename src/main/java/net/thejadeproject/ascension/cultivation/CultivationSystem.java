@@ -12,6 +12,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.server.command.NeoForgeCommand;
 import net.thejadeproject.ascension.Config;
 import net.thejadeproject.ascension.network.clientBound.attributeSync.SyncAttackDamageAttribute;
+import net.thejadeproject.ascension.util.ModAttachments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,17 @@ public class CultivationSystem {
         if(Config.Common.JUMP_STRENGTH_APPLICABLE_REALMS.get().contains(majorRealm)) {
             incrementBaseValue(player, player.getAttribute(Attributes.JUMP_STRENGTH), Config.Common.MAJOR_REALM_JUMP_STRENGTH_INCREASE.get());
         }
+        if(Config.Common.MOVEMENT_SPEED_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            if (player.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue() < Config.Common.MAX_SPEED_MULT.get()) {
+                incrementBaseValue(player, player.getAttribute(Attributes.MOVEMENT_SPEED), Config.Common.MAJOR_REALM_MOVEMENT_SPEED_INCREASE.get());
+
+            }
+            else{
+                player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(Config.Common.MAX_SPEED_MULT.get());
+            }
+            player.setData(ModAttachments.MOVEMENT_SPEED,player.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue());
+
+        }
         PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
     }
     public static void updateMinorRealm(Player player){
@@ -128,6 +140,16 @@ public class CultivationSystem {
         if(Config.Common.JUMP_STRENGTH_APPLICABLE_REALMS.get().contains(majorRealm)) {
             incrementBaseValue(player, player.getAttribute(Attributes.JUMP_STRENGTH), Config.Common.MINOR_REALM_JUMP_STRENGTH_INCREASE.get());
         }
+        if(Config.Common.MOVEMENT_SPEED_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            if (player.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue() < Config.Common.MAX_SPEED_MULT.get()) {
+                incrementBaseValue(player, player.getAttribute(Attributes.MOVEMENT_SPEED), Config.Common.MINOR_REALM_MOVEMENT_SPEED_INCREASE.get());
+
+            }else{
+                player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(Config.Common.MAX_SPEED_MULT.get());
+            }
+            player.setData(ModAttachments.MOVEMENT_SPEED,player.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue());
+        }
+
         PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 
     }

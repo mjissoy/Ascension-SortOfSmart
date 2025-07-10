@@ -1,6 +1,0 @@
-// 1.21.1	2025-06-25T11:57:54.2027466	Tags for minecraft:block mod id ascension
-c3e08fedd026c20868c42be54c3f829fdd7bb562 data/minecraft/tags/block/fences.json
-1a16bd78a62350575e23c16b8500b0915cff3bdd data/minecraft/tags/block/fence_gates.json
-83eacd83689146e557ef948eab4bfdd0e856d564 data/minecraft/tags/block/logs_that_burn.json
-3857b04aad66aea60775cbf4b7d03ce82fafc22b data/minecraft/tags/block/mineable/pickaxe.json
-78d99101d390b007603a8635afc82a1b8e82fa42 data/minecraft/tags/block/needs_diamond_tool.json

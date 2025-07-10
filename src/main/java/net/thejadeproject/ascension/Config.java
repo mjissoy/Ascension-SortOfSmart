@@ -33,6 +33,10 @@ public class Config {
         public static ModConfigSpec.DoubleValue MINOR_REALM_JUMP_STRENGTH_INCREASE;
         public static ModConfigSpec.DoubleValue MAJOR_REALM_JUMP_STRENGTH_INCREASE;
         public static ModConfigSpec.ConfigValue<List<? extends Integer>>JUMP_STRENGTH_APPLICABLE_REALMS;
+
+        public static ModConfigSpec.DoubleValue MINOR_REALM_MOVEMENT_SPEED_INCREASE;
+        public static ModConfigSpec.DoubleValue MAJOR_REALM_MOVEMENT_SPEED_INCREASE;
+        public static ModConfigSpec.ConfigValue<List<? extends Integer>>MOVEMENT_SPEED_APPLICABLE_REALMS;
         static {
             BUILDER.push("Multipliers");
                 BUILDER.push("CultivationMultipliers");
@@ -70,6 +74,14 @@ public class Config {
                         MAJOR_REALM_MAX_HEALTH_INCREASE = BUILDER.defineInRange("major_realm_max_health_increase",1,0,Double.MAX_VALUE);
                         BUILDER.comment(" Applicable realms");
                         MAX_HEALTH_APPLICABLE_REALMS = BUILDER.defineListAllowEmpty("attack_speed_applicable_realms", CultivationSystem::getRealmsIdList,(item)->true);
+                    BUILDER.pop();
+                    BUILDER.push("MovementSpeedMultipliers");
+                        BUILDER.comment(" Movement Speed increase per minor realm");
+                        MINOR_REALM_MOVEMENT_SPEED_INCREASE = BUILDER.defineInRange("minor_realm_movement_speed_increase",1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Movement Speed increase per major realm");
+                        MAJOR_REALM_MOVEMENT_SPEED_INCREASE = BUILDER.defineInRange("major_realm_movement_speed_increase",1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Applicable realms");
+                        MOVEMENT_SPEED_APPLICABLE_REALMS = BUILDER.defineListAllowEmpty("movement_speed_applicable_realms", CultivationSystem::getRealmsIdList,(item)->true);
                     BUILDER.pop();
 
                     BUILDER.comment(" The amount to increase cultivation progress when cultivating [Default: 30]");
