@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.screen.custom;
+package net.thejadeproject.ascension.screen.custom.pill_cauldron;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;

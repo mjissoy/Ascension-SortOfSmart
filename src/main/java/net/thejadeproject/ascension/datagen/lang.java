@@ -94,5 +94,25 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.Speed_Multiplier_Max", "Max Speed");
         add("block.ascension.pill_cauldron", "Pill Cauldron");
 
+        add("ascension.configuration.AttackDamageMultipliers","Attack Damage Multipliers");
+        add("ascension.configuration.minor_realm_attack_damage_increase","Minor Realm Increase");
+        add("ascension.configuration.major_realm_attack_damage_increase","Major Realm Increase");
+        add("ascension.configuration.attack_damage_applicable_realms","Applicable Realms");
+
+        add("ascension.configuration.AttackSpeedMultipliers","Attack Speed Multipliers");
+        add("ascension.configuration.minor_realm_attack_speed_increase","Minor Realm Increase");
+        add("ascension.configuration.major_realm_attack_speed_increase","Major Realm Increase");
+        add("ascension.configuration.attack_speed_applicable_realms","Applicable Realms");
+
+        add("ascension.configuration.MaxHealthMultipliers","Max Health Multipliers");
+        add("ascension.configuration.minor_realm_max_health_increase","Minor Realm Increase");
+        add("ascension.configuration.major_realm_max_health_increase","Major Realm Increase");
+        add("ascension.configuration.max_health_applicable_realms","Applicable Realms");
+
+        add("ascension.configuration.JumpStrengthMultipliers","Jump Strength Multipliers");
+        add("ascension.configuration.minor_realm_jump_strength_increase","Minor Realm Increase");
+        add("ascension.configuration.major_realm_jump_strength_increase","Major Realm Increase");
+        add("ascension.configuration.jump_strength_applicable_realms","Applicable Realms");
+
     }
 }

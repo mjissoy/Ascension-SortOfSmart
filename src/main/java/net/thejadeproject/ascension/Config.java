@@ -4,6 +4,8 @@ import io.netty.util.Attribute;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 
+import java.util.List;
+
 
 public class Config {
     public static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -16,10 +18,59 @@ public class Config {
         public static ModConfigSpec.IntValue FLIGHT_REALM;
         public static ModConfigSpec.DoubleValue MAX_SPEED_MULT;
 
+        public static ModConfigSpec.DoubleValue MINOR_REALM_ATTACK_DAMAGE_INCREASE;
+        public static ModConfigSpec.DoubleValue MAJOR_REALM_ATTACK_DAMAGE_INCREASE;
+        public static ModConfigSpec.ConfigValue<List<? extends Integer>> ATTACK_DAMAGE_APPLICABLE_REALMS;
 
+        public static ModConfigSpec.DoubleValue MINOR_REALM_ATTACK_SPEED_INCREASE;
+        public static ModConfigSpec.DoubleValue MAJOR_REALM_ATTACK_SPEED_INCREASE;
+        public static ModConfigSpec.ConfigValue<List<? extends Integer>> ATTACK_SPEED_APPLICABLE_REALMS;
+
+        public static ModConfigSpec.DoubleValue MINOR_REALM_MAX_HEALTH_INCREASE;
+        public static ModConfigSpec.DoubleValue MAJOR_REALM_MAX_HEALTH_INCREASE;
+        public static ModConfigSpec.ConfigValue<List<? extends Integer>>MAX_HEALTH_APPLICABLE_REALMS;
+
+        public static ModConfigSpec.DoubleValue MINOR_REALM_JUMP_STRENGTH_INCREASE;
+        public static ModConfigSpec.DoubleValue MAJOR_REALM_JUMP_STRENGTH_INCREASE;
+        public static ModConfigSpec.ConfigValue<List<? extends Integer>>JUMP_STRENGTH_APPLICABLE_REALMS;
         static {
             BUILDER.push("Multipliers");
                 BUILDER.push("CultivationMultipliers");
+                    BUILDER.push("AttackDamageMultipliers");
+                        BUILDER.comment(" Attack increase per minor realm");
+                        MINOR_REALM_ATTACK_DAMAGE_INCREASE = BUILDER.defineInRange("minor_realm_attack_damage_increase",1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Attack increase per major realm");
+                        MAJOR_REALM_ATTACK_DAMAGE_INCREASE = BUILDER.defineInRange("major_realm_attack_damage_increase",1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" realms this increase applies too");
+                        ATTACK_DAMAGE_APPLICABLE_REALMS = BUILDER.defineListAllowEmpty("attack_damage_applicable_realms", CultivationSystem::getRealmsIdList,(item)->true);
+                    BUILDER.pop();
+
+                    BUILDER.push("AttackSpeedMultipliers");
+                        BUILDER.comment(" Attack Speed increase per minor realm");
+                        MINOR_REALM_ATTACK_SPEED_INCREASE = BUILDER.defineInRange("minor_realm_attack_speed_increase",1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Attack Speed increase per major realm");
+                        MAJOR_REALM_ATTACK_SPEED_INCREASE = BUILDER.defineInRange("major_realm_attack_speed_increase",1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Applicable realms");
+                        ATTACK_SPEED_APPLICABLE_REALMS = BUILDER.defineListAllowEmpty("attack_speed_applicable_realms", CultivationSystem::getRealmsIdList,(item)->true);
+                    BUILDER.pop();
+
+                    BUILDER.push("JumpStrengthMultipliers");
+                        BUILDER.comment(" Jump Strength increase per minor realm");
+                        MINOR_REALM_JUMP_STRENGTH_INCREASE = BUILDER.defineInRange("minor_realm_jump_strength_increase",0.1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Jump Strength increase per major realm");
+                        MAJOR_REALM_JUMP_STRENGTH_INCREASE = BUILDER.defineInRange("major_realm_jump_strength_increase",0.1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Applicable realms");
+                        JUMP_STRENGTH_APPLICABLE_REALMS = BUILDER.defineListAllowEmpty("jump_strength_applicable_realms", CultivationSystem::getRealmsIdList,(item)->true);
+                    BUILDER.pop();
+
+                    BUILDER.push("MaxHealthMultipliers");
+                        BUILDER.comment(" Max Health increase per minor realm");
+                        MINOR_REALM_MAX_HEALTH_INCREASE = BUILDER.defineInRange("minor_realm_max_health_increase",1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Max Health increase per major realm");
+                        MAJOR_REALM_MAX_HEALTH_INCREASE = BUILDER.defineInRange("major_realm_max_health_increase",1,0,Double.MAX_VALUE);
+                        BUILDER.comment(" Applicable realms");
+                        MAX_HEALTH_APPLICABLE_REALMS = BUILDER.defineListAllowEmpty("attack_speed_applicable_realms", CultivationSystem::getRealmsIdList,(item)->true);
+                    BUILDER.pop();
 
                     BUILDER.comment(" The amount to increase cultivation progress when cultivating [Default: 30]");
                     PROGRESS_SPEED = BUILDER.defineInRange("Cultivation_Speed", 1, 1, Double.MAX_VALUE);

@@ -4,6 +4,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.network.clientBound.attributeSync.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationSyncPayload;
 
 public class ModPayloads {
@@ -15,6 +16,11 @@ public class ModPayloads {
                 SyncCultivationSyncPayload.STREAM_CODEC,
                 SyncCultivationSyncPayload::handlePayload
 
+        );
+        registrar.playToClient(
+                SyncAttackDamageAttribute.TYPE,
+                SyncAttackDamageAttribute.STREAM_CODEC,
+                SyncAttackDamageAttribute::handlePayload
         );
     }
 }

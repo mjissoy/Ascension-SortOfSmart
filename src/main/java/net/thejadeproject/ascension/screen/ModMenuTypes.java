@@ -9,7 +9,7 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.screen.custom.PillCauldronLowHumanMenu;
+import net.thejadeproject.ascension.screen.custom.pill_cauldron.PillCauldronLowHumanMenu;
 
 
 public class ModMenuTypes {

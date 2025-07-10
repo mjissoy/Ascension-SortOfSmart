@@ -1,12 +1,20 @@
 package net.thejadeproject.ascension.cultivation;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.server.command.NeoForgeCommand;
 import net.thejadeproject.ascension.Config;
+import net.thejadeproject.ascension.network.clientBound.attributeSync.SyncAttackDamageAttribute;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CultivationSystem {
     private static final float MAJOR_REALM_MULTIPLIER = 0.3f;
@@ -20,6 +28,13 @@ public class CultivationSystem {
             "Soul Formation", "Soul Transformation", "Immortal Ascension",
             "True Immortal", "Golden Immortal"
     };
+    public static List<Integer> getRealmsIdList(){
+        List<Integer> list = new ArrayList<>();
+        for(int i = 0;i < majorRealmNames.length;i++){
+            list.add(i);
+        }
+        return list;
+    }
 
     public static final int RealmAmount = majorRealmNames.length;
 
@@ -68,18 +83,60 @@ public class CultivationSystem {
             if (minorRealm >= 10) {
                 minorRealm = 0;
                 cultivationData.putInt("MajorRealm", cultivationData.getInt("MajorRealm") + 1);
+                updateMajorRealm(player);
             }
 
             cultivationData.putInt("MinorRealm", minorRealm);
-            updatePlayerAttributes(player);
-
+            //updatePlayerAttributes(player);
+            updateMinorRealm(player);
 
         }
 
         cultivationData.putFloat("CultivationProgress", progress);
         player.getPersistentData().put("Cultivation", cultivationData);
     }
+    public static void updateMajorRealm(Player player){
+        CompoundTag cultivationData = player.getPersistentData().getCompound("Cultivation");
+        int majorRealm = cultivationData.getInt("MajorRealm");
+        if(Config.Common.MAX_HEALTH_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            incrementBaseValue(player, player.getAttribute(Attributes.MAX_HEALTH), Config.Common.MAJOR_REALM_MAX_HEALTH_INCREASE.get());
+        }
+        if(Config.Common.ATTACK_DAMAGE_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            incrementBaseValue(player, player.getAttribute(Attributes.ATTACK_DAMAGE), Config.Common.MAJOR_REALM_ATTACK_DAMAGE_INCREASE.get());
+        }
+        if(Config.Common.ATTACK_SPEED_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            incrementBaseValue(player, player.getAttribute(Attributes.ATTACK_SPEED), Config.Common.MAJOR_REALM_ATTACK_SPEED_INCREASE.get());
+        }
+        if(Config.Common.JUMP_STRENGTH_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            incrementBaseValue(player, player.getAttribute(Attributes.JUMP_STRENGTH), Config.Common.MAJOR_REALM_JUMP_STRENGTH_INCREASE.get());
+        }
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+    }
+    public static void updateMinorRealm(Player player){
+        CompoundTag cultivationData = player.getPersistentData().getCompound("Cultivation");
 
+        int majorRealm = cultivationData.getInt("MajorRealm");
+        if(Config.Common.MAX_HEALTH_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            incrementBaseValue(player, player.getAttribute(Attributes.MAX_HEALTH), Config.Common.MINOR_REALM_MAX_HEALTH_INCREASE.get());
+        }
+        if(Config.Common.ATTACK_DAMAGE_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            incrementBaseValue(player, player.getAttribute(Attributes.ATTACK_DAMAGE), Config.Common.MINOR_REALM_ATTACK_DAMAGE_INCREASE.get());
+        }
+        if(Config.Common.ATTACK_SPEED_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            incrementBaseValue(player, player.getAttribute(Attributes.ATTACK_SPEED), Config.Common.MINOR_REALM_ATTACK_SPEED_INCREASE.get());
+        }
+        if(Config.Common.JUMP_STRENGTH_APPLICABLE_REALMS.get().contains(majorRealm)) {
+            incrementBaseValue(player, player.getAttribute(Attributes.JUMP_STRENGTH), Config.Common.MINOR_REALM_JUMP_STRENGTH_INCREASE.get());
+        }
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+
+    }
+    public static void incrementBaseValue(Player player, AttributeInstance attribute, Double value){
+        attribute.setBaseValue(attribute.getBaseValue()+value);
+    }
+    public static void incrementBaseValue(AttributeInstance attribute,Integer value){
+        attribute.setBaseValue(attribute.getBaseValue()+value);
+    }
     public static void updatePlayerAttributes(Player player) {
         CompoundTag cultivationData = player.getPersistentData().getCompound("Cultivation");
         int majorRealm = cultivationData.getInt("MajorRealm");
@@ -88,16 +145,6 @@ public class CultivationSystem {
         float totalMultiplier = (float) ((majorRealm * Config.Common.MAJOR_REALM_MULTIPLIER.get()) +
                         (minorRealm * Config.Common.MINOR_REALM_MULTIPLIER.get()));
 
-        player.getAttribute(Attributes.MAX_HEALTH)
-                .setBaseValue(20.0 + 1.0 * totalMultiplier);
-        player.getAttribute(Attributes.ATTACK_DAMAGE)
-                .setBaseValue(2.0 + 1.0 * totalMultiplier);
-        player.getAttribute(Attributes.ATTACK_SPEED)
-                .setBaseValue(4.0 + 4.0 * totalMultiplier);
-        player.getAttribute(Attributes.JUMP_STRENGTH)
-                .setBaseValue(0.42 + 0.42 * totalMultiplier);
-        player.getAttribute(Attributes.SAFE_FALL_DISTANCE)
-                .setBaseValue( 3 + 5 * totalMultiplier);
         if (0.1 + 0.1 * totalMultiplier < Config.Common.MAX_SPEED_MULT.get()) {
             player.getAttribute(Attributes.MOVEMENT_SPEED)
                     .setBaseValue(0.1 + 0.1 * totalMultiplier);

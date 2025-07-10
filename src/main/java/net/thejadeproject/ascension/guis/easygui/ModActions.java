@@ -48,8 +48,10 @@ public class ModActions {
                     if(customArgs.length != 1) return;
                     String attribute = customArgs[0] instanceof JsonPrimitive ? ((JsonPrimitive) customArgs[0]).getAsString() : (String) customArgs[0];
                     Player player = Minecraft.getInstance().player;
+
                     Label label = ((Label) renderable);
                     if(player == null )return;
+                    System.out.println(player.getName());
                     if(attribute.equals("Progress")){
                         label.text = CultivationData.ClientCultivationData.getProgressUI();
                     }else if(attribute.equals("Major Realm")){
@@ -63,14 +65,14 @@ public class ModActions {
                     }else if(attribute.equals("Armor")){
                         label.text =  Component.literal(Double.toString(player.getArmorValue()));
                     }else if(attribute.equals("Attack")){
-                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.ATTACK_DAMAGE).getValue()));
+                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
                     }else if(attribute.equals("Speed")){
                         label.text =  Component.literal(Double.toString(player.getSpeed()));
                     }else if(attribute.equals("Attack Speed")){
-                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.ATTACK_SPEED).getValue()));
+                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.ATTACK_SPEED).getBaseValue()));
                     }
                     else if(attribute.equals("Jump Strength")){
-                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.JUMP_STRENGTH).getValue()));
+                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue()));
                     }
 
                     label.width = label.font.width(label.text);

@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension;
 
-import com.mojang.serialization.MapCodec;
 import net.lucent.easygui.elements.containers.View;
 import net.lucent.easygui.elements.other.Image;
 import net.lucent.easygui.elements.other.Label;
@@ -8,13 +7,13 @@ import net.lucent.easygui.elements.other.ProgressBar;
 import net.lucent.easygui.overlays.EasyGuiOverlay;
 import net.lucent.easygui.overlays.EasyGuiOverlayManager;
 import net.lucent.easygui.templating.actions.Action;
-import net.lucent.easygui.util.textures.TextureData;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
@@ -23,12 +22,10 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
-import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
@@ -37,16 +34,18 @@ import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
+import net.thejadeproject.ascension.guis.easygui.ModOverlays;
 import net.thejadeproject.ascension.items.ModCreativeModeTabs;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
+import net.thejadeproject.ascension.network.clientBound.attributeSync.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.screen.ModMenuTypes;
-import net.thejadeproject.ascension.screen.custom.PillCauldronLowHumanScreen;
+import net.thejadeproject.ascension.screen.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import org.slf4j.Logger;
@@ -125,83 +124,11 @@ public class AscensionCraft {
 
         //setup overlays
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            generateOverlays(modEventBus);
-            EasyGuiOverlayManager.addLayer(
-                    ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),
-                    new EasyGuiOverlay((eventHolder, overlay)->{
-                        View view = new View(overlay,0,0);
-                        overlay.addView(view);
-                        view.setUseMinecraftScale(true);
+            ModOverlays.register();
 
-                        Image image = new Image(overlay,
-                                new TextureDataSubSection(
-                                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/gui_all.png"),
-                                        256,256,
-                                        0,147,
-                                        53,163
-                                ),
-                                0,0);
-                        Label progressLabel = (new Label.Builder()).screen(overlay).centered(true).x(26).y((163-147)/2).build();
-                        progressLabel.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Progress"}));
-                        image.addChild(progressLabel);
-
-                        view.addChild(image);
-                    })
-            );
-
-            EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH, new EasyGuiOverlay((eventHolder, overlay) ->{
-                View view = new View(overlay,0,0);
-
-                overlay.addView(view);
-                view.setUseMinecraftScale(true);
-
-                TextureDataSubSection background = new TextureDataSubSection(
-                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/health_bar.png"),
-                        81,
-                        18,
-                        0,
-                        0,
-                        81,
-                        9
-                );
-                TextureDataSubSection bar = new TextureDataSubSection(
-                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/health_bar.png"),
-                        81,
-                        18,
-                        0,
-                        9,
-                        81,
-                        18
-                );
-
-                ProgressBar progressBar = new ProgressBar(
-                        overlay,
-                        bar,
-                        background,
-                        view.getScaledWidth()/2-91,
-                        view.getScaledHeight()-39
-                ){
-                    @Override
-                    public double getProgress() {
-                        if(Minecraft.getInstance().player == null) return 0;
-                        double currentHealth = Minecraft.getInstance().player.getHealth();
-                        double maxHealth = Minecraft.getInstance().player.getMaxHealth();
-                        return  currentHealth/maxHealth;
-                    }
-                    @Override
-                    public void recalculatePos(int oldWidth, int oldHeight) {
-
-                        setX((getRoot()).getScaledWidth()/2-91);
-                        setY((getRoot()).getScaledHeight() - 39);
-                    }
-                };
-                progressBar.setSticky(true);
-                view.addChild(progressBar);
-            }));
         }
 
     }
-    public void generateOverlays(IEventBus modEventBus){}
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindHandler.INTROSPECTION_KEY);
@@ -222,6 +149,8 @@ public class AscensionCraft {
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         CultivationSystem.initPlayerCultivation(event.getEntity());
         CultivationSystem.updatePlayerAttributes(event.getEntity());
+        Player player = (Player) event.getEntity();
+        PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
