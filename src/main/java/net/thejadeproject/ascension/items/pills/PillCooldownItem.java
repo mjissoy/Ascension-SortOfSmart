@@ -14,21 +14,34 @@ public class PillCooldownItem extends Item {
     public PillCooldownItem(Properties properties, Integer value) {
         super(properties);
         this.cooldownTimeValue = value;
-        }
+    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if (player.getCooldowns().isOnCooldown(this)) return InteractionResultHolder.fail(player.getItemInHand(usedHand));
-        return super.use(level, player, usedHand);
+        ItemStack itemstack = player.getItemInHand(usedHand);
+        // Check if the item is on cooldown
+        if (player.getCooldowns().isOnCooldown(this)) {
+            return InteractionResultHolder.fail(itemstack);
+        }
+        // Start the eating process for food items
+        if (player.canEat(false)) {
+            player.startUsingItem(usedHand);
+            return InteractionResultHolder.consume(itemstack);
+        }
+        return InteractionResultHolder.fail(itemstack);
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
-        if(livingEntity instanceof Player player && level.isClientSide()){
-            player.getCooldowns().addCooldown(this,cooldownTimeValue);
+        if (!level.isClientSide() && livingEntity instanceof Player player) {
+            // Apply cooldown on server side
+            player.getCooldowns().addCooldown(this, cooldownTimeValue);
+            // Consume one item from the stack
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
         }
+        // Call super to handle food effects (e.g., regeneration)
         return super.finishUsingItem(stack, level, livingEntity);
     }
 }
-
-
