@@ -119,5 +119,11 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.major_realm_movement_speed_increase","Major Realm Increase");
         add("ascension.configuration.movement_speed_applicable_realms","Applicable Realms");
 
+
+        add("ascension.configuration.StartingPhysiqueOptions","Starting Physique Options");
+        add("ascension.configuration.intent_options","Intent Options");
+        add("ascension.configuration.body_options","Body Options");
+        add("ascension.configuration.essence_options","Essence Options");
+
     }
 }

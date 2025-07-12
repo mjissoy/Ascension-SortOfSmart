@@ -2,16 +2,13 @@ package net.thejadeproject.ascension.cultivation;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.server.command.NeoForgeCommand;
 import net.thejadeproject.ascension.Config;
-import net.thejadeproject.ascension.network.clientBound.attributeSync.SyncAttackDamageAttribute;
+import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.util.ModAttachments;
 
 import java.util.ArrayList;

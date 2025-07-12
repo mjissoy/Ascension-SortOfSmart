@@ -15,6 +15,9 @@ public class ModAttachments {
     public static final Supplier<AttachmentType<Double>> MOVEMENT_SPEED = ATTACHMENT_TYPES.register(
             "movement_speed", () -> AttachmentType.builder(() -> 0.1).serialize(Codec.DOUBLE).copyOnDeath().build()
     );
+    public static final Supplier<AttachmentType<String>> PHYSIQUE = ATTACHMENT_TYPES.register(
+            "physique", () -> AttachmentType.builder(() -> "heavens_forgotten").serialize(Codec.STRING).copyOnDeath().build()
+    );
 
     public static void register(IEventBus modEventBus){
         ATTACHMENT_TYPES.register(modEventBus);

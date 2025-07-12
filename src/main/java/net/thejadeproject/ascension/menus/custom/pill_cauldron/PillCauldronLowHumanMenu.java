@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.screen.custom.pill_cauldron;
+package net.thejadeproject.ascension.menus.custom.pill_cauldron;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.PillCauldronLowHumanEntity;
-import net.thejadeproject.ascension.screen.ModMenuTypes;
+import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 
 public class PillCauldronLowHumanMenu extends AbstractContainerMenu {

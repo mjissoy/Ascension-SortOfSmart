@@ -1,15 +1,8 @@
 package net.thejadeproject.ascension;
 
-import net.lucent.easygui.elements.containers.View;
-import net.lucent.easygui.elements.other.Image;
-import net.lucent.easygui.elements.other.Label;
-import net.lucent.easygui.elements.other.ProgressBar;
-import net.lucent.easygui.overlays.EasyGuiOverlay;
-import net.lucent.easygui.overlays.EasyGuiOverlayManager;
-import net.lucent.easygui.templating.actions.Action;
-import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,13 +14,14 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+import net.thejadeproject.ascension.physiques.ModPhysiques;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
@@ -40,12 +34,12 @@ import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
-import net.thejadeproject.ascension.network.clientBound.attributeSync.SyncAttackDamageAttribute;
+import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
-import net.thejadeproject.ascension.screen.ModMenuTypes;
-import net.thejadeproject.ascension.screen.custom.pill_cauldron.PillCauldronLowHumanScreen;
+import net.thejadeproject.ascension.menus.ModMenuTypes;
+import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -107,6 +101,7 @@ public class AscensionCraft {
 
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
+        ModPhysiques.register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
@@ -149,11 +144,23 @@ public class AscensionCraft {
     }
 
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+
+
+
         CultivationSystem.initPlayerCultivation(event.getEntity());
         CultivationSystem.updatePlayerAttributes(event.getEntity());
         Player player = (Player) event.getEntity();
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
         PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+
+        if(!player.hasData(ModAttachments.PHYSIQUE)){
+            //open menu
+            Minecraft.getInstance().tell(()->{
+                Minecraft.getInstance().setScreen(new GeneratePhysiqueScreen(Component.literal("generate")));
+
+            });
+
+        }
     }
 
 

@@ -19,14 +19,6 @@ group = mod_group_id
 // This is the repositories block in your build.gradle. NOT the one in publishing, or in buildscript. If it does not exist already, create it.
 repositories {
     maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/oliverhesse/easygui")
-        credentials {
-            username =  project.findProperty("gpr.user")
-            password =   project.findProperty("gpr.key")
-        }
-    }
-    maven {
         name = 'Favouriteless Maven'
         url 'https://maven.favouriteless.net/releases'
     }

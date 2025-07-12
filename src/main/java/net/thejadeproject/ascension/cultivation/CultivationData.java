@@ -1,10 +1,9 @@
 package net.thejadeproject.ascension.cultivation;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.thejadeproject.ascension.network.serverBound.SyncCultivationSyncPayload;
+import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 
 public class CultivationData {
     public static Player player;
@@ -16,7 +15,7 @@ public class CultivationData {
         player.getPersistentData().getCompound("Cultivation").putBoolean("CultivationState",cultivating);
 
 
-        PacketDistributor.sendToServer(new SyncCultivationSyncPayload(cultivating));
+        PacketDistributor.sendToServer(new SyncCultivationPayload(cultivating));
 
     }
 

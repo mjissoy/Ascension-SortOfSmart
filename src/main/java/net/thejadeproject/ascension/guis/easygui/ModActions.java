@@ -51,7 +51,7 @@ public class ModActions {
 
                     Label label = ((Label) renderable);
                     if(player == null )return;
-                    System.out.println(player.getName());
+
                     if(attribute.equals("Progress")){
                         label.text = CultivationData.ClientCultivationData.getProgressUI();
                     }else if(attribute.equals("Major Realm")){

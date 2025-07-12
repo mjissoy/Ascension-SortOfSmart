@@ -9,19 +9,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 
-public record SyncCultivationSyncPayload(Boolean newState) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<SyncCultivationSyncPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sync_cultivation_state"));
-    public static final StreamCodec<ByteBuf, SyncCultivationSyncPayload> STREAM_CODEC = StreamCodec.composite(
+public record SyncCultivationPayload(Boolean newState) implements CustomPacketPayload {
+    public static final CustomPacketPayload.Type<SyncCultivationPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sync_cultivation_state"));
+    public static final StreamCodec<ByteBuf, SyncCultivationPayload> STREAM_CODEC = StreamCodec.composite(
 
             ByteBufCodecs.BOOL,
-            SyncCultivationSyncPayload::newState,
-            SyncCultivationSyncPayload::new
+            SyncCultivationPayload::newState,
+            SyncCultivationPayload::new
     );
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
-    public static void handlePayload(SyncCultivationSyncPayload payload, IPayloadContext context) {
+    public static void handlePayload(SyncCultivationPayload payload, IPayloadContext context) {
         System.out.println("Received Packet");
         CompoundTag data = context.player().getPersistentData().getCompound("Cultivation");
         data.putBoolean("CultivationState",payload.newState);

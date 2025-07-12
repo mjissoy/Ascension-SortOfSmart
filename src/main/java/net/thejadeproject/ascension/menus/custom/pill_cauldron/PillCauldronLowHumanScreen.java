@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.screen.custom.pill_cauldron;
+package net.thejadeproject.ascension.menus.custom.pill_cauldron;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;

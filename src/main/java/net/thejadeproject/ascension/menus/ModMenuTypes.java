@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.screen;
+package net.thejadeproject.ascension.menus;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -9,7 +9,7 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.screen.custom.pill_cauldron.PillCauldronLowHumanMenu;
+import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 
 
 public class ModMenuTypes {

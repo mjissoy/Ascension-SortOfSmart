@@ -27,7 +27,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.recipe.PillCauldronInput;
-import net.thejadeproject.ascension.screen.custom.pill_cauldron.PillCauldronLowHumanMenu;
+import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 import net.thejadeproject.ascension.util.ModTags;
 import org.jetbrains.annotations.Nullable;
 

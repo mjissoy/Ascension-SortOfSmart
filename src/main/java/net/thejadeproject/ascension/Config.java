@@ -4,6 +4,7 @@ import io.netty.util.Attribute;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,6 +18,11 @@ public class Config {
         public static ModConfigSpec.DoubleValue MAJOR_REALM_MULTIPLIER;
         public static ModConfigSpec.IntValue FLIGHT_REALM;
         public static ModConfigSpec.DoubleValue MAX_SPEED_MULT;
+
+        public static ModConfigSpec.ConfigValue<List<? extends String>> AVAILABLE_STARTING_ESSENCE_PHYSIQUE;
+        public static ModConfigSpec.ConfigValue<List<? extends String>> AVAILABLE_STARTING_BODY_PHYSIQUE;
+        public static ModConfigSpec.ConfigValue<List<? extends String>> AVAILABLE_STARTING_INTENT_PHYSIQUE;
+
 
         public static ModConfigSpec.DoubleValue MINOR_REALM_ATTACK_DAMAGE_INCREASE;
         public static ModConfigSpec.DoubleValue MAJOR_REALM_ATTACK_DAMAGE_INCREASE;
@@ -38,6 +44,36 @@ public class Config {
         public static ModConfigSpec.DoubleValue MAJOR_REALM_MOVEMENT_SPEED_INCREASE;
         public static ModConfigSpec.ConfigValue<List<? extends Integer>>MOVEMENT_SPEED_APPLICABLE_REALMS;
         static {
+            BUILDER.push("StartingPhysiqueOptions");
+                BUILDER.comment("Intent options");
+                AVAILABLE_STARTING_INTENT_PHYSIQUE = BUILDER.defineList("intent_options",()->
+                        new ArrayList<>(){{
+                            add("pure_sword_physique");
+                            add("pure_spear_physique");
+                            add("pure_bow_physique");
+                            add("pure_blade_physique");
+                            add("pure_fist_physique");
+                        }},(item)->true);
+                BUILDER.comment("Body options");
+                AVAILABLE_STARTING_BODY_PHYSIQUE =  BUILDER.defineList("body_options",()->
+                    new ArrayList<>(){{
+                        add("iron_bone_physique");
+                        add("undying_asura_physique");
+                        add("i_am_bad_at_names_1");
+                        add("i_am_bad_at_names_2");
+                        add("i_am_bad_at_names_3");
+                    }},(item)->true);
+                BUILDER.comment("Essence options");
+                AVAILABLE_STARTING_ESSENCE_PHYSIQUE = BUILDER.defineList("essence_options",()->
+                        new ArrayList<>(){{
+                            add("i_am_bad_at_names_1");
+                            add("i_am_bad_at_names_2");
+                            add("i_am_bad_at_names_3");
+                            add("i_am_bad_at_names_4");
+                            add("i_am_bad_at_names_5");
+                        }},(item)->true);
+            BUILDER.pop();
+
             BUILDER.push("Multipliers");
                 BUILDER.push("CultivationMultipliers");
                     BUILDER.push("AttackDamageMultipliers");
