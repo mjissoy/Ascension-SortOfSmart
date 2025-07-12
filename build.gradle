@@ -30,7 +30,7 @@ repositories {
         name = 'Favouriteless Maven'
         url 'https://maven.favouriteless.net/releases'
     }
-
+    maven { url 'https://jitpack.io' }
 
 }
 
@@ -126,8 +126,8 @@ configurations {
 }
 
 dependencies {
-
-    implementation "net.lucent.easygui:easy_gui_1.21.1:1.0.7"
+    implementation 'com.github.OliverHesse:EasyGui:49edc111d5'
+    //implementation "net.lucent.easygui:easy_gui_1.21.1:1.0.7"
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
 
     // Example optional mod dependency with JEI
