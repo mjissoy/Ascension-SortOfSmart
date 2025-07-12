@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.physiques;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 
@@ -19,6 +20,8 @@ public interface IPhysique {
     void onPlayerLogOut(Player player);
 
     void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event);
+
+    ResourceLocation getPhysiqueImage();
 
     //run when a player acquires a constitution
     void onPhysiqueAcquisition(Player player);
