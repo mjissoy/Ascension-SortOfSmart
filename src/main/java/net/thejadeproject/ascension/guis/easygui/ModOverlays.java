@@ -10,6 +10,7 @@ import net.lucent.easygui.templating.actions.Action;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -20,7 +21,7 @@ public class ModOverlays {
         View view = new View(overlay,0,0);
         overlay.addView(view);
         view.setUseMinecraftScale(true);
-
+        view.setCustomScale(2);
         Image image = new Image(overlay,
                 new TextureDataSubSection(
                         ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/gui_all.png"),
@@ -37,7 +38,7 @@ public class ModOverlays {
     });
 
     public static EasyGuiOverlay HEALTH_BAR = new EasyGuiOverlay((eventHolder, overlay) ->{
-        View view = new View(overlay,0,0);
+        View view = new View(overlay,0,0){};
 
         overlay.addView(view);
         view.setUseMinecraftScale(true);
@@ -81,6 +82,8 @@ public class ModOverlays {
                 setX((getRoot()).getScaledWidth()/2-91);
                 setY((getRoot()).getScaledHeight() - 39);
             }
+
+
         };
         progressBar.setSticky(true);
         view.addChild(progressBar);
