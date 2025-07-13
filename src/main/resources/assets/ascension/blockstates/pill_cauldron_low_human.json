@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "facing=east": {
+      "model": "ascension:block/pill_cauldron_low_human",
+      "y": 90
+    },
+    "facing=north": {
       "model": "ascension:block/pill_cauldron_low_human"
+    },
+    "facing=south": {
+      "model": "ascension:block/pill_cauldron_low_human",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "ascension:block/pill_cauldron_low_human",
+      "y": 270
     }
   }
 }
