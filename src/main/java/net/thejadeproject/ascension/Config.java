@@ -48,29 +48,29 @@ public class Config {
                 BUILDER.comment("Intent options");
                 AVAILABLE_STARTING_INTENT_PHYSIQUE = BUILDER.defineList("intent_options",()->
                         new ArrayList<>(){{
-                            add("pure_sword_physique");
-                            add("pure_spear_physique");
-                            add("pure_bow_physique");
-                            add("pure_blade_physique");
-                            add("pure_fist_physique");
+                            add("ascension:pure_sword_body");
+                            add("ascension:pure_spear_body");
+                            add("ascension:pure_bow_body");
+                            add("ascension:pure_blade_body");
+                            add("ascension:pure_fist_body");
                         }},(item)->true);
                 BUILDER.comment("Body options");
                 AVAILABLE_STARTING_BODY_PHYSIQUE =  BUILDER.defineList("body_options",()->
                     new ArrayList<>(){{
-                        add("iron_bone_physique");
-                        add("undying_asura_physique");
-                        add("i_am_bad_at_names_1");
-                        add("i_am_bad_at_names_2");
-                        add("i_am_bad_at_names_3");
+                        add("ascension:iron_bone_physique");
+                        add("ascension:burning_skin_physique");
+                        add("ascension:hundred_poison_physique");
+                        add("ascension:sacred_sapling_physique");
+                        add("ascension:suppressed_yin_physique");
                     }},(item)->true);
                 BUILDER.comment("Essence options");
                 AVAILABLE_STARTING_ESSENCE_PHYSIQUE = BUILDER.defineList("essence_options",()->
                         new ArrayList<>(){{
-                            add("i_am_bad_at_names_1");
-                            add("i_am_bad_at_names_2");
-                            add("i_am_bad_at_names_3");
-                            add("i_am_bad_at_names_4");
-                            add("i_am_bad_at_names_5");
+                            add("ascension:pure_water_body");
+                            add("ascension:pure_fire_body");
+                            add("ascension:pure_earth_body");
+                            add("ascension:pure_metal_body");
+                            add("ascension:pure_wood_body");
                         }},(item)->true);
             BUILDER.pop();
 

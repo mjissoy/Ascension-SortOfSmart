@@ -9,10 +9,12 @@ import java.util.List;
 public class GatherEfficiencyModifiersEvent extends Event {
     public  final  Player player;
     public final String ascensionAttributeID;
+    public final String pathID;
     private List<Double> multipliers;
-    public GatherEfficiencyModifiersEvent(Player player, String ascensionAttributeID){
+    public GatherEfficiencyModifiersEvent(Player player,String pathID,String ascensionAttributeID){
         this.ascensionAttributeID =  ascensionAttributeID;
         this.player = player;
+        this.pathID = pathID;
     }
     public void addMultiplier(Double mul){
         multipliers.add(mul);

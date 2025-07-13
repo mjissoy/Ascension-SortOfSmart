@@ -26,7 +26,7 @@ public class GeneratePhysiqueScreen extends EasyGuiScreen {
         addView(view);
         view.setID("main_view");
         view.setUseMinecraftScale(true);
-        ColorButton button1 = new ColorButton(this,view.getScaledWidth()/2-50,view.getScaledHeight()-15,100,30){
+        ColorButton button1 = new ColorButton(this,view.getScaledWidth()/2-50,view.getScaledHeight()/2-15,100,30){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
@@ -51,7 +51,7 @@ public class GeneratePhysiqueScreen extends EasyGuiScreen {
         button1.addChild(new Label.Builder().centered(true).x(50).y(15).screen(this).text("Intent Physique").build());
         view.addChild(button1);
 
-        ColorButton button2 = new ColorButton(this,view.getScaledWidth()/2-50,view.getScaledHeight()-60,100,30){
+        ColorButton button2 = new ColorButton(this,view.getScaledWidth()/2-50,view.getScaledHeight()/2-60,100,30){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
@@ -78,7 +78,7 @@ public class GeneratePhysiqueScreen extends EasyGuiScreen {
         button2.addChild(new Label.Builder().centered(true).x(50).y(15).screen(this).text("Body Physique").build());
         view.addChild(button2);
 
-        ColorButton button3 = new ColorButton(this,view.getScaledWidth()/2-50,view.getScaledHeight()+30,100,30){
+        ColorButton button3 = new ColorButton(this,view.getScaledWidth()/2-50,view.getScaledHeight()/2+30,100,30){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
