@@ -40,6 +40,7 @@ import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
+import net.thejadeproject.ascension.skills.ModSkills;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -102,6 +103,7 @@ public class AscensionCraft {
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
         ModPhysiques.register(modEventBus);
+        ModSkills.register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
