@@ -116,6 +116,7 @@ public class AscensionCraft {
         modEventBus.addListener(this::registerKeyBindings);
         NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogin);
+        NeoForge.EVENT_BUS.addListener(this::onPlayerLogOut);
 
 
 
@@ -142,7 +143,9 @@ public class AscensionCraft {
             }
         }
     }
-
+    private  void onPlayerLogOut(PlayerEvent.PlayerLoggedOutEvent event){
+        System.out.println(event.getEntity().getData(ModAttachments.PHYSIQUE));
+    }
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 
 
@@ -153,7 +156,7 @@ public class AscensionCraft {
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
         PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 
-        if(!player.hasData(ModAttachments.PHYSIQUE)){
+        if(player.getData(ModAttachments.PHYSIQUE).equals("ascension:empty_vessel")){
             //open menu
             Minecraft.getInstance().tell(()->{
                 Minecraft.getInstance().setScreen(new GeneratePhysiqueScreen(Component.literal("generate")));

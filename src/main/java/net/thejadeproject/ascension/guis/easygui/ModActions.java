@@ -10,6 +10,7 @@ import net.lucent.easygui.templating.actions.IAction;
 import net.lucent.easygui.templating.registry.EasyGuiRegistries;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +20,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.CultivationData;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.util.ModAttachments;
+
+import java.util.Arrays;
 
 public class ModActions {
     public static final DeferredRegister<IAction> ACTIONS =DeferredRegister.create(EasyGuiRegistries.Actions.ACTION_REGISTRY,AscensionCraft.MOD_ID);
@@ -73,6 +78,16 @@ public class ModActions {
                     }
                     else if(attribute.equals("Jump Strength")){
                         label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue()));
+                    }else if(attribute.equals("Physique")){
+
+                        String[] physique = player.getData(ModAttachments.PHYSIQUE).split(":");
+
+                        label.text = Component.literal(
+                                AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.fromNamespaceAndPath(
+                                        physique[0],
+                                        physique[1]
+                                )).getDisplayTitle()
+                        );
                     }
 
                     label.width = label.font.width(label.text);

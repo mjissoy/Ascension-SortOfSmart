@@ -1,5 +1,7 @@
 package net.thejadeproject.ascension.physiques;
 
+import net.lucent.easygui.util.textures.TextureDataSubSection;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -14,6 +16,15 @@ public class ModPhysiques {
 
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
+    public static final DeferredHolder<IPhysique,GenericPhysique> HEAVENS_FORGOTTEN = PHYSIQUES.register("heavens_forgotten",
+            ()-> new GenericPhysique("Heavens Forgotten",
+                    new HashMap<>(){{
+                        put("Intent",0.1);
+                        put("Body",0.1);
+                        put("Essence",0.1);
+                    }},
+                    new HashMap<>())
+    );
 
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_SWORD_BODY = PHYSIQUES.register("pure_sword_body",
             ()-> new GenericPhysique("Pure Sword Body",
@@ -80,7 +91,17 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("Water",3.0);
-                    }})
+                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    ResourceLocation.fromNamespaceAndPath(
+                            AscensionCraft.MOD_ID,
+                            "textures/physiques/5_element_physique_cards.png"
+                    ),
+                    512,
+                    512,
+                    340,
+                    0,
+                    340+78,104
+            ))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_EARTH_BODY = PHYSIQUES.register("pure_earth_body",
             ()-> new GenericPhysique("Pure Earth Body",
@@ -91,7 +112,17 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("Earth",3.0);
-                    }})
+                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    ResourceLocation.fromNamespaceAndPath(
+                            AscensionCraft.MOD_ID,
+                            "textures/physiques/5_element_physique_cards.png"
+                    ),
+                    512,
+                    512,
+                    0,
+                    0,
+                    78,104
+            ))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_FIRE_BODY = PHYSIQUES.register("pure_fire_body",
             ()-> new GenericPhysique("Pure Fire Body",
@@ -102,7 +133,17 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("Fire",3.0);
-                    }})
+                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    ResourceLocation.fromNamespaceAndPath(
+                            AscensionCraft.MOD_ID,
+                            "textures/physiques/5_element_physique_cards.png"
+                    ),
+                    512,
+                    512,
+                    170,
+                    0,
+                    170+78,104
+            ))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_WOOD_BODY = PHYSIQUES.register("pure_wood_body",
             ()-> new GenericPhysique("Pure Wood Body",
@@ -113,7 +154,17 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("Wood",3.0);
-                    }})
+                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    ResourceLocation.fromNamespaceAndPath(
+                            AscensionCraft.MOD_ID,
+                            "textures/physiques/5_element_physique_cards.png"
+                    ),
+                    512,
+                    512,
+                    255,
+                    0,
+                    255+78,104
+            ))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_METAL_BODY = PHYSIQUES.register("pure_metal_body",
             ()-> new GenericPhysique("Pure Metal Body",
@@ -124,7 +175,17 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("Metal",3.0);
-                    }})
+                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    ResourceLocation.fromNamespaceAndPath(
+                            AscensionCraft.MOD_ID,
+                            "textures/physiques/5_element_physique_cards.png"
+                    ),
+                    512,
+                    512,
+                    85,
+                    0,
+                    85+78,104
+            ))
     );
 
     public static final DeferredHolder<IPhysique,GenericPhysique> IRON_BONE_PHYSIQUE = PHYSIQUES.register("iron_bone_physique",

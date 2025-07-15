@@ -84,10 +84,12 @@ public class MainScreen extends EasyGuiScreen {
         Label l6 = (new Label.Builder()).screen(this).x(12).y(80).customScaling(0.5).width(140).build();
         Label l7Title = (new Label.Builder()).screen(this).x(12).y(85).text(Component.literal("Attack Damage:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
         Label l7 = (new Label.Builder()).screen(this).x(12).y(90).customScaling(0.5).width(140).build();
-        Label l8Title = (new Label.Builder()).screen(this).x(10).y(95).text(Component.literal("Movement Speed:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
+        Label l8Title = (new Label.Builder()).screen(this).x(12).y(95).text(Component.literal("Movement Speed:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
         Label l8 = (new Label.Builder()).screen(this).x(12).y(100).customScaling(0.5).width(140).build();
         Label l9Title = (new Label.Builder()).screen(this).x(12).y(105).text(Component.literal("Jump Strength:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
         Label l9 = (new Label.Builder()).screen(this).x(12).y(110).customScaling(0.5).width(140).build();
+        Label l10Title = (new Label.Builder()).screen(this).x(12).y(115).text(Component.literal("Physique:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
+        Label l10 = (new Label.Builder()).screen(this).x(12).y(120).customScaling(0.5).width(140).build();
 
         l1.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Progress"}));
         l2.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Major Realm"}));
@@ -98,6 +100,7 @@ public class MainScreen extends EasyGuiScreen {
         l7.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Attack"}));
         l8.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Speed"}));
         l9.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Jump Strength"}));
+        l10.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Physique"}));
 
         bg.addChild(btn1);
         bg.addChild(btn2);
@@ -119,7 +122,8 @@ public class MainScreen extends EasyGuiScreen {
         bg.addChild(l8);
         bg.addChild(l9Title);
         bg.addChild(l9);
-
+        bg.addChild(l10Title);
+        bg.addChild(l10);
 
     }
 }

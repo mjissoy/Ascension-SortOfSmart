@@ -22,7 +22,7 @@ public class CardHolderView extends View {
     public CardHolderView(IEasyGuiScreen screen){
         super(screen);
         setUseMinecraftScale(true);
-        CardButton card1 = new CardButton(screen,getScaledWidth()/2-120,getScaledHeight()/2-50,40,100){
+        CardButton card1 = new CardButton(screen,getScaledWidth()/2-215,getScaledHeight()/2-52){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
@@ -41,8 +41,8 @@ public class CardHolderView extends View {
             }
             @Override
             public void recalculatePos(int oldWidth, int oldHeight) {
-                setX(getRoot().getScaledWidth()/2-120);
-                setY(getRoot().getScaledHeight()/2-50);
+                setX(getRoot().getScaledWidth()/2-215);
+                setY(getRoot().getScaledHeight()/2-52);
             }
             public void onResize(int oldWidth, int oldHeight, double oldScale) {
                 recalculatePos(0,0);
@@ -51,7 +51,7 @@ public class CardHolderView extends View {
         };
         card1.setSticky(true);
         addChild(card1);
-        CardButton card2 = new CardButton(screen,getScaledWidth()/2-70,getScaledHeight()/2-50,40,100){
+        CardButton card2 = new CardButton(screen,getScaledWidth()/2-127,getScaledHeight()/2-52){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
@@ -70,8 +70,8 @@ public class CardHolderView extends View {
             }
             @Override
             public void recalculatePos(int oldWidth, int oldHeight) {
-                setX(getRoot().getScaledWidth()/2-70);
-                setY(getRoot().getScaledHeight()/2-50);
+                setX(getRoot().getScaledWidth()/2-127);
+                setY(getRoot().getScaledHeight()/2-52);
             }
             public void onResize(int oldWidth, int oldHeight, double oldScale) {
                 recalculatePos(0,0);
@@ -80,7 +80,7 @@ public class CardHolderView extends View {
         };
         card2.setSticky(true);
         addChild(card2);
-        CardButton card3 = new CardButton(screen,getScaledWidth()/2-20,getScaledHeight()/2-50,40,100){
+        CardButton card3 = new CardButton(screen,getScaledWidth()/2-39,getScaledHeight()/2-52){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
@@ -99,8 +99,8 @@ public class CardHolderView extends View {
             }
             @Override
             public void recalculatePos(int oldWidth, int oldHeight) {
-                setX(getRoot().getScaledWidth()/2-20);
-                setY(getRoot().getScaledHeight()/2-50);
+                setX(getRoot().getScaledWidth()/2-39);
+                setY(getRoot().getScaledHeight()/2-52);
             }
             public void onResize(int oldWidth, int oldHeight, double oldScale) {
                 recalculatePos(0,0);
@@ -109,7 +109,7 @@ public class CardHolderView extends View {
         };
         card3.setSticky(true);
         addChild(card3);
-        CardButton card4 = new CardButton(screen,getScaledWidth()/2+30,getScaledHeight()/2-50,40,100){
+        CardButton card4 = new CardButton(screen,getScaledWidth()/2+49,getScaledHeight()/2-52){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
@@ -128,8 +128,8 @@ public class CardHolderView extends View {
             }
             @Override
             public void recalculatePos(int oldWidth, int oldHeight) {
-                setX(getRoot().getScaledWidth()/2+30);
-                setY(getRoot().getScaledHeight()/2-50);
+                setX(getRoot().getScaledWidth()/2+49);
+                setY(getRoot().getScaledHeight()/2-52);
             }
             public void onResize(int oldWidth, int oldHeight, double oldScale) {
                 recalculatePos(0,0);
@@ -138,7 +138,7 @@ public class CardHolderView extends View {
         };
         card4.setSticky(true);
         addChild(card4);
-        CardButton card5 = new CardButton(screen,getScaledWidth()/2+80,getScaledHeight()/2-50,40,100){
+        CardButton card5 = new CardButton(screen,getScaledWidth()/2+137,getScaledHeight()/2-52){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
@@ -159,8 +159,8 @@ public class CardHolderView extends View {
 
             @Override
             public void recalculatePos(int oldWidth, int oldHeight) {
-                setX(getRoot().getScaledWidth()/2+80);
-                setY(getRoot().getScaledHeight()/2-50);
+                setX(getRoot().getScaledWidth()/2+137);
+                setY(getRoot().getScaledHeight()/2-52);
             }
             public void onResize(int oldWidth, int oldHeight, double oldScale) {
                 recalculatePos(0,0);
@@ -204,18 +204,13 @@ public class CardHolderView extends View {
         List<String> otherOptions = new ArrayList<>(Arrays.stream(otherPhysiques).toList());
         for(ContainerRenderable renderable:getChildren()){
             if(selected == renderable){
-                ((CardButton) renderable).cardPhysique = generatedPhysique;
-                renderable.addChild(new Label.Builder().screen(screen).centered(true).width(40).x(20).y(50)
-                        .text(AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
-                                ResourceLocation.fromNamespaceAndPath(generatedPhysique.split(":")[0],generatedPhysique.split(":")[1])
-                        ).getDisplayTitle()).build());
+                ((CardButton) renderable).setCardPhysique(generatedPhysique);
+
             }else{
                 if(otherOptions.isEmpty()) continue;
                 String physique = otherOptions.removeFirst();
-                ((CardButton) renderable).cardPhysique = physique;
-                renderable.addChild(new Label.Builder().screen(screen).centered(true).width(40).x(20).y(50).text(AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
-                        ResourceLocation.fromNamespaceAndPath(physique.split(":")[0],physique.split(":")[1])
-                ).getDisplayTitle()).build());
+                ((CardButton) renderable).setCardPhysique(physique);
+
 
             }
         }

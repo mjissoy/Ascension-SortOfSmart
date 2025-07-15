@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.physiques;
 
+import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 
@@ -17,12 +18,16 @@ public class GenericPhysique implements IPhysique{
     public Map<String,Double> pathBonuses;
     public Map<String,Double> otherBonuses;
     public final String title;
+    public ITextureData textureData;
     public GenericPhysique(String title, Map<String,Double> pathBonuses, Map<String,Double> otherBonuses){
         this.pathBonuses = pathBonuses;
         this.otherBonuses = otherBonuses;
         this.title = title;
     }
-
+    public GenericPhysique setPhysiqueCard(ITextureData textureData){
+        this.textureData = textureData;
+        return this;
+    }
     @Override
     public List<String> getDisplayPathBonuses() {
         List<String> bonuses = new ArrayList<>();
@@ -50,8 +55,8 @@ public class GenericPhysique implements IPhysique{
     }
 
     @Override
-    public ResourceLocation getPhysiqueImage() {
-        return null;
+    public ITextureData getPhysiqueImage() {
+        return textureData;
     }
 
     @Override
