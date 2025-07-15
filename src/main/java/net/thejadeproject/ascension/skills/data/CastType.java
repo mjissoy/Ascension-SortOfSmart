@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.skills;
+package net.thejadeproject.ascension.skills.data;
 /*
     INSTANT -> no cast time
     LONG -> casts after a set time

@@ -2,14 +2,15 @@ package net.thejadeproject.ascension.cultivation;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.skills.ISkill;
-import org.checkerframework.checker.units.qual.C;
+import net.thejadeproject.ascension.skills.data.CastType;
+import net.thejadeproject.ascension.skills.data.ICastData;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PlayerData {
     public PlayerData(ServerPlayer player){
@@ -59,6 +60,18 @@ public class PlayerData {
         pathDataHashMap.put(pathId,data);
         return data;
     }
+
+    public void setPathProgress(String pathId,double pathProgress){
+        pathDataHashMap.get(pathId).pathProgress = pathProgress;
+    }
+
+    public void setPathMajorRealm(String pathId,int majorRealm){
+        pathDataHashMap.get(pathId).majorRealm = majorRealm;
+    }
+    public void setPathMinorRealm(String pathId,int minorRealm){
+        pathDataHashMap.get(pathId).minorRealm = minorRealm;
+    }
+
 
     public CompoundTag writePathNBTData(){
         CompoundTag tag = new CompoundTag();
@@ -159,8 +172,65 @@ public class PlayerData {
     }
 
 
+    /********* Cooldown Data *******************************************************/
 
 
+    /********* Casting Data *******************************************************/
+
+    private double castDuration = 0;
+    private double castDurationRemaining = 0;
+    private CastType castType;
+    private ICastData additionalCastData;
+    private boolean casting;
+    private ResourceLocation castSkillId;
+    public void resetCastingState() {
+
+        this.castDuration = 0;
+        this.castDurationRemaining = 0;
+        this.castType = CastType.NONE;
+        this.casting = false;
+        this.castSkillId = null;
+
+    }
+
+    public void castSkill(ISkill skill,int castDuration){
+        this.castDuration = castDuration;
+        this.castDurationRemaining = castDuration;
+        this.castType = skill.getCastType();
+        casting = true;
+        castSkillId = AscensionRegistries.Skills.SKILL_REGISTRY.getKey(skill);
+    }
+    public ICastData getAdditionalCastData() {
+        return additionalCastData;
+    }
+    public void setAdditionalCastData(ICastData newCastData) {
+        additionalCastData = newCastData;
+    }
+    public void resetAdditionalCastData() {
+        if (additionalCastData != null) {
+            additionalCastData.reset();
+            additionalCastData = null;
+        }
+    }
+    public boolean isCasting() {
+        return casting;
+    }
+    public ResourceLocation getCastSkillId(){
+        return castSkillId;
+    }
+    public CastType getCastType() {
+        return castType;
+    }
+    public double getCastDurationRemaining() {
+        return castDurationRemaining;
+    }
+
+    public double getCastDuration() {
+        return castDuration;
+    }
+    public void setCastDurationRemaining(double durationRemaining){
+        this.castDurationRemaining = durationRemaining;
+    }
     /********* SYSTEM *******************************************************/
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
         loadPathNBTData(tag.getCompound("path_data"));

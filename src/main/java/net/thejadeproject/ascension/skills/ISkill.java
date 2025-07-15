@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.skills;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.skills.data.CastType;
 
 import java.util.List;
 
@@ -19,6 +20,6 @@ public interface ISkill {
 
     //this skill will no be removed by physiques and techniques changing
     default boolean isFixedSkill(){return false;}
-
+    default CastType getCastType(){return CastType.NONE;}
     void setFixedSkill(boolean fixed);
 }

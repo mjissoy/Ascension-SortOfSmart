@@ -1,5 +1,7 @@
 package net.thejadeproject.ascension.skills;
 
+import net.thejadeproject.ascension.skills.data.CastType;
+
 public abstract class AbstractActiveSkill implements ISkill{
     public String path;
     public double qiCost;
