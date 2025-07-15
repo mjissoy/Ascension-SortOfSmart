@@ -19,7 +19,7 @@ import java.util.Arrays;
 
 
 public class GeneratePhysiqueScreen extends EasyGuiScreen {
-
+    boolean physiqueGenerated = false;
     public GeneratePhysiqueScreen(Component title) {
         super(title);
         View view = new View(this,0,0);
@@ -112,6 +112,17 @@ public class GeneratePhysiqueScreen extends EasyGuiScreen {
 
     }
 
+    @Override
+    public boolean shouldCloseOnEsc() {
+        if(!physiqueGenerated) return false;
+        return super.shouldCloseOnEsc();
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        return super.keyPressed(keyCode, scanCode, modifiers);
+
+    }
 
     @Override
     public boolean isPauseScreen() {
@@ -119,9 +130,10 @@ public class GeneratePhysiqueScreen extends EasyGuiScreen {
     }
 
     public void updateGeneratedPhysiques(String generated_physique, String[] other_physique){
-        //TODO
+
         System.out.println("generated physique: "+ generated_physique);
         System.out.println("with extra : " + Arrays.toString(other_physique));
+        physiqueGenerated = true;
         ((CardHolderView)getElementByID("card_view")).updateGeneratedPhysiques(generated_physique,other_physique);
     }
 }

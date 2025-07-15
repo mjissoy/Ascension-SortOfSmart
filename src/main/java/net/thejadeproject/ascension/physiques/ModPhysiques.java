@@ -16,7 +16,7 @@ public class ModPhysiques {
 
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
-    public static final DeferredHolder<IPhysique,GenericPhysique> HEAVENS_FORGOTTEN = PHYSIQUES.register("heavens_forgotten",
+    public static final DeferredHolder<IPhysique,GenericPhysique> EMPTY_VESSEL = PHYSIQUES.register("empty_vessel",
             ()-> new GenericPhysique("Heavens Forgotten",
                     new HashMap<>(){{
                         put("Intent",0.1);
@@ -94,7 +94,7 @@ public class ModPhysiques {
                     }}).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
-                            "textures/physiques/5_element_physique_cards.png"
+                            "textures/physiques/root_cards.png"
                     ),
                     512,
                     512,
@@ -115,7 +115,7 @@ public class ModPhysiques {
                     }}).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
-                            "textures/physiques/5_element_physique_cards.png"
+                            "textures/physiques/root_cards.png"
                     ),
                     512,
                     512,
@@ -136,7 +136,7 @@ public class ModPhysiques {
                     }}).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
-                            "textures/physiques/5_element_physique_cards.png"
+                            "textures/physiques/root_cards.png"
                     ),
                     512,
                     512,
@@ -157,7 +157,7 @@ public class ModPhysiques {
                     }}).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
-                            "textures/physiques/5_element_physique_cards.png"
+                            "textures/physiques/root_cards.png"
                     ),
                     512,
                     512,
@@ -178,7 +178,7 @@ public class ModPhysiques {
                     }}).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
-                            "textures/physiques/5_element_physique_cards.png"
+                            "textures/physiques/root_cards.png"
                     ),
                     512,
                     512,

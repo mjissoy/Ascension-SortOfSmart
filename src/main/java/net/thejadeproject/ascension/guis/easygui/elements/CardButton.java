@@ -7,6 +7,7 @@ import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.lucent.easygui.util.math.BoundChecker;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -23,24 +24,24 @@ public class CardButton extends TextureButton {
     public ITextureData focusedBorder = new TextureDataSubSection(
             ResourceLocation.fromNamespaceAndPath(
                     AscensionCraft.MOD_ID,
-                    "textures/physiques/5_element_physique_cards.png"
+                    "textures/physiques/root_cards.png"
             ),
             512,
             512,
-            84,
+            254,
             104,
-            84+80,104+106
+            254+80,104+106
     );
     public ITextureData hoveredSpecialTexture =  new TextureDataSubSection(
             ResourceLocation.fromNamespaceAndPath(
                     AscensionCraft.MOD_ID,
-                    "textures/physiques/5_element_physique_cards.png"
+                    "textures/physiques/root_cards.png"
             ),
             512,
             512,
-            170,
+            340,
             105,
-            170+78,209
+            340+78,209
     );
 
     public CardButton(IEasyGuiScreen screen,int x, int y){
@@ -48,36 +49,36 @@ public class CardButton extends TextureButton {
                 new TextureDataSubSection(
                         ResourceLocation.fromNamespaceAndPath(
                                 AscensionCraft.MOD_ID,
-                                "textures/physiques/5_element_physique_cards.png"
+                                "textures/physiques/root_cards.png"
                         ),
                         512,
                         512,
-                        0,
-                        104,
-                        78,208
+                        170,
+                        105,
+                        170+78,209
                 )
                 ,
                 new TextureDataSubSection(
                         ResourceLocation.fromNamespaceAndPath(
                                 AscensionCraft.MOD_ID,
-                                "textures/physiques/5_element_physique_cards.png"
+                                "textures/physiques/root_cards.png"
                         ),
                         512,
                         512,
-                        0,
-                        104,
-                        78,208
+                        170,
+                        105,
+                        170+78,209
                 ),
                 new TextureDataSubSection(
                         ResourceLocation.fromNamespaceAndPath(
                                 AscensionCraft.MOD_ID,
-                                "textures/physiques/5_element_physique_cards.png"
+                                "textures/physiques/root_cards.png"
                         ),
                         512,
                         512,
-                        0,
-                        104,
-                        78,208
+                        170,
+                        105,
+                        170+78,209
                 )
                 );
 
@@ -100,13 +101,16 @@ public class CardButton extends TextureButton {
             RenderSystem.defaultBlendFunc();
             BoundChecker.Vec2 point = screenToLocalPoint(mouseX,mouseY);
             hoveredSpecialTexture.renderTexture(guiGraphics);
+            guiGraphics.pose().pushPose();
+            guiGraphics.pose().translate(0,0,500);
             if(cardPhysique != null) {
                 guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal(AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
                         ResourceLocation.fromNamespaceAndPath(cardPhysique.split(":")[0],cardPhysique.split(":")[1])
                 ).getDisplayTitle()),point.x,point.y);
             }
-            else guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("???????"),point.x,point.y);
+            else guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("?????"),point.x,point.y);
             RenderSystem.disableBlend();
+            guiGraphics.pose().popPose();
         }
     }
 

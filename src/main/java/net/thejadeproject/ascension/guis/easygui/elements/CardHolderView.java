@@ -170,7 +170,7 @@ public class CardHolderView extends View {
         card5.setSticky(true);
         addChild(card5);
 
-        ColorButton confirmButton = new ColorButton(screen, getScaledWidth()/2-100,getScaledHeight()/2+100,200,20){
+        ConfirmButton confirmButton = new ConfirmButton(screen, getScaledWidth()/2-24,getScaledHeight()/2+80){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
@@ -182,14 +182,14 @@ public class CardHolderView extends View {
 
             @Override
             public void recalculatePos(int oldWidth, int oldHeight) {
-                setX(getRoot().getScaledWidth()/2-100);
-                setY(getRoot().getScaledHeight()/2+100);
+                setX(getRoot().getScaledWidth()/2-24);
+                setY(getRoot().getScaledHeight()/2+80);
             }
             public void onResize(int oldWidth, int oldHeight, double oldScale) {
                 recalculatePos(0,0);
             }
         };
-        confirmButton.addChild(new Label.Builder().screen(screen).text("CONFIRM").centered(true).x(100).y(10).build());
+        confirmButton.setCustomScale(1.5);
         confirmButton.setID("confirmBtn");
         confirmButton.visible = false;
         confirmButton.setSticky(true);
@@ -224,4 +224,5 @@ public class CardHolderView extends View {
         PacketDistributor.sendToServer(new TriggerGeneratePhysique(path,4));
 
     }
+
 }

@@ -20,9 +20,9 @@ public class GatherEfficiencyModifiersEvent extends Event {
         multipliers.add(mul);
     }
     public Double getTotalEfficiencyMultiplier(){
-        Double total = 0.0;
+        Double total = 1.0;
         for(Double v : multipliers){
-            total += v;
+            total *= v;
         }
         return total;
     }
