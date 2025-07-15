@@ -1,9 +1,12 @@
 package net.thejadeproject.ascension.physiques;
 
 import net.lucent.easygui.interfaces.ITextureData;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
+import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.skills.skill_lists.AcquirableSkillData;
+import net.thejadeproject.ascension.skills.skill_lists.SkillList;
 
 import java.util.List;
 
@@ -13,9 +16,9 @@ public interface IPhysique {
 
 
     //run when a players minor realm increases
-    default void onMinorRealmIncrease(Player player){}
+    default void onMinorRealmIncrease(MinorRealmChangeEvent event){}
     //run when a players major realm increases
-    default void onMajorRealmIncrease(Player player){}
+    default void onMajorRealmIncrease(MajorRealmChangeEvent event){}
 
     //run when a player logs in (if you need to load data)
      default void onPlayerLogIn(Player player){}
@@ -32,6 +35,8 @@ public interface IPhysique {
     default void onPhysiqueAcquisition(Player player){}
 
     default void onRemoveSpiritRoot(Player player){}
+
+    SkillList getSkillList();
 
     String getDisplayTitle();
     List<String> getDisplayPathBonuses();

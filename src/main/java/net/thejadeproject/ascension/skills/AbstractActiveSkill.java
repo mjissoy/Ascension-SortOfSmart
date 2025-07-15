@@ -5,6 +5,16 @@ public abstract class AbstractActiveSkill implements ISkill{
     public double qiCost;
 
 
+    @Override
+    public boolean isFixedSkill() {
+        //todo uses nbt
+        return false;
+    }
+    @Override
+    public void setFixedSkill(boolean fixedSkill) {
+        //todo uses nbt data.
+    }
+
     public double getQiCost(){
         return qiCost;
     };

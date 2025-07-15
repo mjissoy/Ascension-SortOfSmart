@@ -3,13 +3,17 @@ package net.thejadeproject.ascension.skills;
 import net.minecraft.world.entity.player.Player;
 
 public abstract class AbstractPassiveSkill implements ISkill{
-    @Override
-    public void onSkillAdded(Player player) {
+    public String path;
 
-    }
 
     @Override
-    public void onSkillRemoved(Player player) {
-
+    public boolean isFixedSkill() {
+        //todo uses nbt
+        return false;
     }
+    @Override
+    public void setFixedSkill(boolean fixedSkill) {
+       //todo uses nbt data.
+    }
+
 }

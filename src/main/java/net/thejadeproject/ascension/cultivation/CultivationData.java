@@ -55,4 +55,16 @@ public class CultivationData {
             return Component.literal(String.valueOf(getMinorRealm()));
         }
     }
+
+    public static class PlayerCultivationData{
+        public static int getMajorRealm(String path,Player player){
+            return player.getPersistentData().getCompound("Cultivation").getCompound(path).getInt("MajorRealm");
+        }
+        public static int getMinorRealm(String path,Player player){
+            return player.getPersistentData().getCompound("Cultivation").getCompound(path).getInt("MinorRealm");
+        }
+        public static int getProgress(String path,Player player){
+            return player.getPersistentData().getCompound("Cultivation").getCompound(path).getInt("Progress");
+        }
+    }
 }
