@@ -39,7 +39,7 @@ public class ModBlocks {
                 .strength(5.5f, 4.5f).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
 
     public static final DeferredBlock<Block> PILL_CAULDRON_HUMAN_LOW = registerBlock("pill_cauldron_low_human",
-            () -> new PillCauldronLowHumanBlock(BlockBehaviour.Properties.of()));
+            () -> new PillCauldronLowHumanBlock(BlockBehaviour.Properties.of().noOcclusion()));
 
 
     //Wood
