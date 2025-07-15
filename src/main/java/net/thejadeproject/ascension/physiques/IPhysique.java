@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.physiques;
 
 import net.lucent.easygui.interfaces.ITextureData;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
@@ -41,4 +42,5 @@ public interface IPhysique {
     String getDisplayTitle();
     List<String> getDisplayPathBonuses();
     List<String> getDisplayOtherBonuses();
+    List<MutableComponent> getDisplayComponents();
 }

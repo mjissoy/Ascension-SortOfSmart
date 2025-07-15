@@ -66,5 +66,8 @@ public class CultivationData {
         public static int getProgress(String path,Player player){
             return player.getPersistentData().getCompound("Cultivation").getCompound(path).getInt("Progress");
         }
+        public static boolean hasSkill(Player player,String skill_id,String skillType){
+            return player.getPersistentData().getCompound("Skills").getCompound(skillType).hasUUID(skill_id);
+        }
     }
 }

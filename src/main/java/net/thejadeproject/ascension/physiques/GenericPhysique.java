@@ -1,12 +1,12 @@
 package net.thejadeproject.ascension.physiques;
 
 import net.lucent.easygui.interfaces.ITextureData;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.thejadeproject.ascension.cultivation.CultivationData;
-import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.*;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.skills.ISkill;
@@ -17,6 +17,7 @@ import oshi.util.tuples.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 
 //if you want some sort of extra progress data separate from standard use direct nbt write
@@ -30,11 +31,21 @@ public class GenericPhysique implements IPhysique{
     public final String title;
     public ITextureData textureData;
     public SkillList skillList;
-
+    public Supplier<MajorRealmChangeEvent> majorRealmAction;
+    public Supplier<MinorRealmChangeEvent> minorRealmAction;
     public GenericPhysique(String title, Map<String,Double> pathBonuses, Map<String,Double> otherBonuses){
         this.pathBonuses = pathBonuses;
         this.otherBonuses = otherBonuses;
         this.title = title;
+    }
+
+    public GenericPhysique setOnMajorRealmIncrease(Supplier<MajorRealmChangeEvent> action){
+        majorRealmAction = action;
+        return this;
+    }
+    public GenericPhysique setOnMinorRealmIncrease(Supplier<MinorRealmChangeEvent> action){
+        minorRealmAction = action;
+        return this;
     }
 
     public GenericPhysique setSkillList(List<AcquirableSkillData> skillList){
@@ -61,6 +72,11 @@ public class GenericPhysique implements IPhysique{
             bonuses.add(entry.getKey() + ": "+entry.getValue().toString());
         }
         return bonuses;
+    }
+
+    @Override
+    public List<MutableComponent> getDisplayComponents() {
+        return List.of();
     }
 
     @Override
