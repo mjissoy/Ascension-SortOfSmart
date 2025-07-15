@@ -5,10 +5,7 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.events.custom.CultivateEvent;
-import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.*;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 
@@ -34,6 +31,18 @@ public class PhysiqueEventListener{
                     ResourceLocation.fromNamespaceAndPath(physique_id.split(":")[0],physique_id.split(":")[1])
             );
             physique.onMinorRealmIncrease(event);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPhysiqueChange(PhysiqueChangeEvent event){
+        if(!event.player.hasData(ModAttachments.PHYSIQUE)) return;
+        String physique_id = event.player.getData(ModAttachments.PHYSIQUE);
+        if(event.newPhysique.equals(physique_id)){
+            IPhysique oldPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(event.oldPhysique,':'));
+            IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(event.newPhysique,':'));
+            oldPhysique.onRemovePhysique(event.player);
+            newPhysique.onPhysiqueAcquisition(event.player);
         }
     }
 }

@@ -34,7 +34,7 @@ public interface IPhysique {
     //run when a player acquires a constitution
     default void onPhysiqueAcquisition(Player player){}
 
-    default void onRemoveSpiritRoot(Player player){}
+    default void onRemovePhysique(Player player){}
 
     SkillList getSkillList();
 

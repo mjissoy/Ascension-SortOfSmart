@@ -4,6 +4,10 @@ public abstract class AbstractActiveSkill implements ISkill{
     public String path;
     public double qiCost;
 
+    @Override
+    public String getSkillPath() {
+        return path;
+    }
 
     @Override
     public boolean isFixedSkill() {

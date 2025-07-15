@@ -16,4 +16,8 @@ public abstract class AbstractPassiveSkill implements ISkill{
        //todo uses nbt data.
     }
 
+    @Override
+    public String getSkillPath() {
+        return path;
+    }
 }

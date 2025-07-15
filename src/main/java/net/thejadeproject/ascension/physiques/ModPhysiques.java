@@ -9,8 +9,10 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.skills.skill_lists.AcquirableSkillData;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class ModPhysiques {
 
@@ -198,6 +200,9 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:metal",1.2);
                     }})
+                    .setSkillList( List.of(
+                            new AcquirableSkillData("ascension:body",0,0,"ascension:iron_bones_passive_skill",true)
+                    ))
     );
 
     public static final DeferredHolder<IPhysique,GenericPhysique> BURNING_SKIN_PHYSIQUE = PHYSIQUES.register("burning_skin_physique",

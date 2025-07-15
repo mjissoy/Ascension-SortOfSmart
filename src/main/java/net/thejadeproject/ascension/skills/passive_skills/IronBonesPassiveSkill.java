@@ -7,41 +7,23 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.events.custom.*;
 import net.thejadeproject.ascension.physiques.PhysiqueEventListener;
 import net.thejadeproject.ascension.skills.AbstractPassiveSkill;
 import net.thejadeproject.ascension.techniques.TechniquesEventListener;
 
-@EventBusSubscriber(modid = AscensionCraft.MOD_ID)
+
 public class IronBonesPassiveSkill extends AbstractPassiveSkill {
 
     public boolean updateOnRealmIncrease = true;
 
     public IronBonesPassiveSkill(){
         this.path = "ascension:body";
+    }
 
-    }
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onTechniqueChange(TechniqueChangeEvent event){
-        if(!isFixedSkill()) return;
-        onSkillAdded(event.player);
-    }
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onPhysiqueChange(PhysiqueChangeEvent event){
-        if(!isFixedSkill()) return;
-        onSkillAdded(event.player);
-    }
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onMinorRealmChange(MinorRealmChangeEvent event){
-        if(!isFixedSkill()) return;
-        onSkillAdded(event.player);
-    }
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onMajorRealmChange(MajorRealmChangeEvent event){
-        if(!isFixedSkill()) return;
-        onSkillAdded(event.player);
-    }
+    //TODO have it update on realm change and technique change and physique change
     @Override
     public void onSkillAdded(Player player) {
         super.onSkillAdded(player);

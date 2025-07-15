@@ -32,13 +32,14 @@ public class GenericPhysique implements IPhysique{
     public SkillList skillList;
 
     public GenericPhysique(String title, Map<String,Double> pathBonuses, Map<String,Double> otherBonuses){
-        this(title,pathBonuses,otherBonuses,new ArrayList<>());
-    }
-    public GenericPhysique(String title, Map<String,Double> pathBonuses, Map<String,Double> otherBonuses,List<AcquirableSkillData> skillList){
         this.pathBonuses = pathBonuses;
         this.otherBonuses = otherBonuses;
         this.title = title;
+    }
+
+    public GenericPhysique setSkillList(List<AcquirableSkillData> skillList){
         this.skillList = new SkillList(skillList);
+        return this;
     }
     public GenericPhysique setPhysiqueCard(ITextureData textureData){
         this.textureData = textureData;
@@ -99,7 +100,9 @@ public class GenericPhysique implements IPhysique{
         updatePlayerSkills(event.player,event.path,CultivationData.PlayerCultivationData.getMajorRealm(event.path, event.player),event.newRealm);
     }
     public void updatePlayerSkills(Player player, String path, int majorRealm, int minorRealm){
+        if(skillList == null) return;
         List<Pair<String,Boolean>> newSkills = skillList.getSkillsOfPathAndRealm(path,majorRealm,minorRealm);
+
         for(Pair<String,Boolean> skillData :newSkills){
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
             String skillType = "Passive";
@@ -112,5 +115,23 @@ public class GenericPhysique implements IPhysique{
             skill.onSkillAdded(player);
         }
 
+    }
+
+    public void removePlayerSkills(Player player){
+
+    }
+    @Override
+    public void onPhysiqueAcquisition(Player player) {
+        System.out.println("physique acquired");
+        IPhysique.super.onPhysiqueAcquisition(player);
+        for(String path : pathBonuses.keySet()){
+            updatePlayerSkills(player,path,0,0);
+        }
+    }
+
+    @Override
+    public void onRemovePhysique(Player player) {
+        IPhysique.super.onRemovePhysique(player);
+        removePlayerSkills(player);
     }
 }

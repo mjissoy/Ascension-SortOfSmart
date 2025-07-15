@@ -4,13 +4,14 @@ package net.thejadeproject.ascension.events.custom;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GatherEfficiencyModifiersEvent extends Event {
     public  final  Player player;
     public final String ascensionAttributeID;
     public final String pathID;
-    private List<Double> multipliers;
+    private final List<Double> multipliers = new ArrayList<>();
     public GatherEfficiencyModifiersEvent(Player player,String pathID,String ascensionAttributeID){
         this.ascensionAttributeID =  ascensionAttributeID;
         this.player = player;

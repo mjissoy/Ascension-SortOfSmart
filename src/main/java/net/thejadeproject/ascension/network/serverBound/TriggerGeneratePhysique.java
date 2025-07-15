@@ -7,10 +7,12 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.Config;
+import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncGeneratedPhysique;
 import net.thejadeproject.ascension.util.ModAttachments;
 
@@ -54,6 +56,8 @@ public record TriggerGeneratePhysique(String physiquePath,int numberOfExtra) imp
         }
 
         context.player().setData(ModAttachments.PHYSIQUE,generatedPhysique);
+        PhysiqueChangeEvent event = new PhysiqueChangeEvent(context.player(), "ascension:empty_vessel",generatedPhysique);
+        NeoForge.EVENT_BUS.post(event);
         PacketDistributor.sendToPlayer((ServerPlayer) context.player(), new SyncGeneratedPhysique(
                 generatedPhysique,
                 String.join(";",extra).getBytes(StandardCharsets.UTF_8)
