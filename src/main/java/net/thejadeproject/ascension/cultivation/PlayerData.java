@@ -68,7 +68,7 @@ public class PlayerData {
 
     public PathData getPathData(String pathId){
 
-        if(pathDataHashMap.containsKey(pathId)) pathDataHashMap.get(pathId);
+        if(pathDataHashMap.containsKey(pathId)) return pathDataHashMap.get(pathId);
         PathData data = new PathData(pathId,0,0,0);
         pathDataHashMap.put(pathId,data);
         return data;

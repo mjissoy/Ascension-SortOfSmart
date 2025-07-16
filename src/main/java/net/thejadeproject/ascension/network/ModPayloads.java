@@ -4,10 +4,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
-import net.thejadeproject.ascension.network.clientBound.SyncGeneratedPhysique;
-import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
-import net.thejadeproject.ascension.network.clientBound.SyncSkillDataPayload;
+import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
 
@@ -45,6 +42,11 @@ public class ModPayloads {
                 SyncPathDataPayload.TYPE,
                 SyncPathDataPayload.STREAM_CODEC,
                 SyncPathDataPayload::handlePayload
+        );
+        registrar.playToClient(
+                SyncPlayerPhysique.TYPE,
+                SyncPlayerPhysique.STREAM_CODEC,
+                SyncPlayerPhysique::handlePayload
         );
     }
 }

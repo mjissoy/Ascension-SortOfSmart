@@ -21,6 +21,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.physiques.ModPhysiques;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
@@ -163,7 +164,10 @@ public class AscensionCraft {
                 Minecraft.getInstance().setScreen(new GeneratePhysiqueScreen(Component.literal("generate")));
 
             });
-
+        }else{
+            Minecraft.getInstance().tell(()->{
+               PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPlayerPhysique(event.getEntity().getData(ModAttachments.PHYSIQUE)));
+            });
         }
     }
 

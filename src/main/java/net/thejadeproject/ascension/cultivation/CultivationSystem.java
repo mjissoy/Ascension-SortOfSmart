@@ -45,7 +45,7 @@ public class CultivationSystem {
         });
     }};
 
-    public String getPathMajorRealmName(String pathId,int majorRealm){
+    public static String getPathMajorRealmName(String pathId,int majorRealm){
         return realmNameMap.get(pathId)[majorRealm];
     }
 
