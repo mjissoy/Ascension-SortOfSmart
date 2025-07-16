@@ -90,7 +90,7 @@ public class ModOverlays {
     });
 
     public static void register(){
-        EasyGuiOverlayManager.addLayer( ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),QI_TRACKER);
+        //EasyGuiOverlayManager.addLayer( ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),QI_TRACKER);
         EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH,HEALTH_BAR);
     }
 }

@@ -5,19 +5,99 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.Config;
+import net.thejadeproject.ascension.events.custom.CultivateEvent;
+import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
+import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
+import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.util.ModAttachments;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CultivationSystem {
     private static final float MAJOR_REALM_MULTIPLIER = 0.3f;
     private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.5f;
     private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 2.0f;
+
+    private static final double BASE_PROGRESS_INCREASE = 0.2;
+
+    private static final HashMap<String,String[]> realmNameMap = new HashMap<>(){{
+        put("ascension:essence",new String[]{   "Mortal", "Qi Condensation", "Foundation Establishment",
+                "Core Formation", "Nascent Soul", "Spirit Severing",
+                "Soul Formation", "Soul Transformation", "Immortal Ascension",
+                "True Immortal", "Golden Immortal"});
+        put("ascension:intent",new String[]{ "Third rate","Second Rate","First Rate",
+                "Peak Master","Three Flower Summit","Converging 5 Energies",
+                "Pinnacle","Ultimate Pinnacle","First Stage Manifestation",
+                "Treading Heaven","Heaven Ultimate Pinnacle"});
+        put("ascension:body",new String[]{
+                "mortal tempering","mortal inner tempering","mortal true tempering",
+                "foundation tempering","foundation inner tempering","foundation true tempering",
+                "immortal tempering", "immortal inner tempering","immortal true tempering",
+                "true immortal tempering","true immortal inner tempering","true immortal true tempering"
+        });
+    }};
+
+    public String getPathMajorRealmName(String pathId,int majorRealm){
+        return realmNameMap.get(pathId)[majorRealm];
+    }
+
+    private static final String[] essenceMajorRealmNames = {
+            "Mortal", "Qi Condensation", "Foundation Establishment",
+            "Core Formation", "Nascent Soul", "Spirit Severing",
+            "Soul Formation", "Soul Transformation", "Immortal Ascension",
+            "True Immortal", "Golden Immortal"
+    };
+    public static void cultivate(Player player, String path){
+        //TODO change to use technique for base rate
+        //TODO fire is temp
+        PlayerData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getPathData(path);
+        System.out.println("path Progress:" + pathData.pathProgress);
+        //TODO store the max realm some where
+        if(pathData.majorRealm >= realmNameMap.get(path).length-1 && pathData.minorRealm >= 9) return;
+
+        GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,"ascension:fire");
+        NeoForge.EVENT_BUS.post(effEvent);
+        CultivateEvent cultivateEvent = new CultivateEvent(player,BASE_PROGRESS_INCREASE,path,List.of("ascension:fire"));
+        NeoForge.EVENT_BUS.post(cultivateEvent);
+
+        double progressIncrement = (cultivateEvent.baseRate+cultivateEvent.flatBaseRateIncrease)
+                *(1+cultivateEvent.multiplier)
+                *(1+effEvent.getTotalEfficiencyMultiplier())
+                +cultivateEvent.flatFinalRateIncrease;
+        System.out.println(progressIncrement);
+        float CultivationStageMax = 1.0f +
+                (pathData.majorRealm * MAJOR_REALM_PROGRESS_MULTIPLIER) *
+                        (pathData.minorRealm * MINOR_REALM_PROGRESS_MULTIPLIER);
+
+        double progress = pathData.pathProgress + progressIncrement;
+
+        if(progress >= CultivationStageMax){
+            //minor realm increase
+            progress = 0;
+            int minorRealm = pathData.minorRealm;
+            minorRealm ++;
+            if(minorRealm >= 10){
+                pathData.majorRealm += 1;
+                pathData.minorRealm = 0;
+                NeoForge.EVENT_BUS.post(new MajorRealmChangeEvent(player,path, pathData.majorRealm-1, pathData.majorRealm));
+            }else{
+                NeoForge.EVENT_BUS.post(new MinorRealmChangeEvent(player,path, pathData.minorRealm,minorRealm ));
+                pathData.minorRealm = minorRealm;
+            }
+        }
+        pathData.pathProgress = progress;
+        System.out.println(pathData.pathProgress);
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(path, pathData.majorRealm, pathData.minorRealm, pathData.pathProgress));
+    }
+
 
 
     private static final String[] majorRealmNames = {

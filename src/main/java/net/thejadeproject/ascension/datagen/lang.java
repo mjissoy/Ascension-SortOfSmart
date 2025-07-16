@@ -126,5 +126,11 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.body_options","Body Options");
         add("ascension.configuration.essence_options","Essence Options");
 
+        add("ascension.configuration.CultivationModifiers","Cultivation Modifiers");
+        add("ascension.configuration.essence_path_modifier","Essence Options");
+        add("ascension.configuration.body_path_modifier","Body Options");
+        add("ascension.configuration.intent_path_modifier","Intent Options");
+
+
     }
 }

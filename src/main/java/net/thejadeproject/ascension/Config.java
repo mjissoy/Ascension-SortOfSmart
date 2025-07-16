@@ -13,6 +13,13 @@ public class Config {
     public static ModConfigSpec SPEC;
 
     public static class Common {
+
+        public static ModConfigSpec.DoubleValue ESSENCE_PATH_CULTIVATION_MODIFIER;
+        public static ModConfigSpec.DoubleValue INTENT_PATH_CULTIVATION_MODIFIER;
+        public static ModConfigSpec.DoubleValue BODY_PATH_CULTIVATION_MODIFIER;
+
+
+
         public static ModConfigSpec.DoubleValue PROGRESS_SPEED;
         public static ModConfigSpec.DoubleValue MINOR_REALM_MULTIPLIER;
         public static ModConfigSpec.DoubleValue MAJOR_REALM_MULTIPLIER;
@@ -44,6 +51,15 @@ public class Config {
         public static ModConfigSpec.DoubleValue MAJOR_REALM_MOVEMENT_SPEED_INCREASE;
         public static ModConfigSpec.ConfigValue<List<? extends Integer>>MOVEMENT_SPEED_APPLICABLE_REALMS;
         static {
+            BUILDER.push("CultivationModifiers");
+
+            BUILDER.comment("Path Modifiers");
+            ESSENCE_PATH_CULTIVATION_MODIFIER = BUILDER.defineInRange("essence_path_modifier",1,1,Double.MAX_VALUE);
+            INTENT_PATH_CULTIVATION_MODIFIER = BUILDER.defineInRange("intent_path_modifier",1,1,Double.MAX_VALUE);
+            BODY_PATH_CULTIVATION_MODIFIER = BUILDER.defineInRange("body_path_modifier",1,1,Double.MAX_VALUE);
+
+
+            BUILDER.pop();
             BUILDER.push("StartingPhysiqueOptions");
                 BUILDER.comment("Intent options");
                 AVAILABLE_STARTING_INTENT_PHYSIQUE = BUILDER.defineList("intent_options",()->

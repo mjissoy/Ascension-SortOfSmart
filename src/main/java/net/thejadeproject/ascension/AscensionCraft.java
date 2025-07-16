@@ -138,10 +138,9 @@ public class AscensionCraft {
     private void onPlayerTick(PlayerTickEvent.Pre event) {
         // Only process on server side
         if (!event.getEntity().level().isClientSide) {
-            if (event.getEntity().getPersistentData().getCompound("Cultivation").getBoolean("CultivationState")) {
+            if (event.getEntity().getData(ModAttachments.PLAYER_DATA).isCultivating()) {
                 System.out.println("cultivating");
-
-                CultivationSystem.cultivate(event.getEntity());
+                CultivationSystem.cultivate(event.getEntity(),"ascension:essence");
             }
         }
     }

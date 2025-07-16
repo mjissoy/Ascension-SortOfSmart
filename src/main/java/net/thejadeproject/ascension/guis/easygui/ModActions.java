@@ -20,6 +20,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.CultivationData;
+import net.thejadeproject.ascension.cultivation.PlayerData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 
@@ -56,13 +57,20 @@ public class ModActions {
 
                     Label label = ((Label) renderable);
                     if(player == null )return;
-
+                    if(player.getData(ModAttachments.PLAYER_DATA) == null) return;
+                    PlayerData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence");
                     if(attribute.equals("Progress")){
-                        label.text = CultivationData.ClientCultivationData.getProgressUI();
+                        label.text = Component.literal(String.valueOf(
+                                pathData.pathProgress
+                        ));
                     }else if(attribute.equals("Major Realm")){
-                        label.text = CultivationData.ClientCultivationData.getMajorRealmUI();
+                        label.text = Component.literal(String.valueOf(
+                                pathData.majorRealm
+                        ));
                     }else if(attribute.equals("Minor Realm")){
-                        label.text = CultivationData.ClientCultivationData.getMinorRealmUI();
+                        label.text = Component.literal(String.valueOf(
+                                pathData.minorRealm
+                        ));
                     }else if(attribute.equals("Max Health")){
                         label.text =  Component.literal(Double.toString(player.getMaxHealth()));
                     }else if(attribute.equals("Health")){

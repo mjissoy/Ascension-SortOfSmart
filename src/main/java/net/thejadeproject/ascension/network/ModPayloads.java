@@ -6,6 +6,8 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.network.clientBound.SyncGeneratedPhysique;
+import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
+import net.thejadeproject.ascension.network.clientBound.SyncSkillDataPayload;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
 
@@ -33,6 +35,16 @@ public class ModPayloads {
                 TriggerGeneratePhysique.TYPE,
                 TriggerGeneratePhysique.STREAM_CODEC,
                 TriggerGeneratePhysique::handlePayload
+        );
+        registrar.playToClient(
+                SyncSkillDataPayload.TYPE,
+                SyncSkillDataPayload.STREAM_CODEC,
+                SyncSkillDataPayload::handlePayload
+        );
+        registrar.playToClient(
+                SyncPathDataPayload.TYPE,
+                SyncPathDataPayload.STREAM_CODEC,
+                SyncPathDataPayload::handlePayload
         );
     }
 }

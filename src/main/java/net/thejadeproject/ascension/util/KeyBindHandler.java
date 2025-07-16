@@ -9,10 +9,12 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.CultivationData;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
 import net.thejadeproject.ascension.guis.Introspection.Overlay;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
+import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 
 public class KeyBindHandler {
     private static boolean wasCultivating = false;
@@ -54,7 +56,14 @@ public class KeyBindHandler {
             }
         }
 
-        CultivationData.setCultivating(CULTIVATE_KEY.isDown());
+        boolean cultivating = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).isCultivating();
 
+        Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).setCultivating(CULTIVATE_KEY.isDown());
+
+
+        if(cultivating != Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).isCultivating()){
+            System.out.println("sending sync packer");
+            PacketDistributor.sendToServer(new SyncCultivationPayload(Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).isCultivating()));
+        }
     }
 }

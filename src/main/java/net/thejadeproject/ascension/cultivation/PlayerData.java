@@ -4,7 +4,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.skills.ISkill;
 import net.thejadeproject.ascension.skills.data.CastType;
 import net.thejadeproject.ascension.skills.data.ICastData;
@@ -13,10 +16,19 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PlayerData {
-    public PlayerData(ServerPlayer player){
+    public PlayerData(Player player){
 
     }
     /********* CULTIVATION PROGRESS *******************************************************/
+
+    private boolean cultivating;
+    public boolean isCultivating(){return cultivating;}
+    public void setCultivating(boolean state){
+        if(state != cultivating){
+            cultivating = state;
+        }
+    }
+
 
     public static class PathData{
         public String pathId;
@@ -55,6 +67,7 @@ public class PlayerData {
     private final HashMap<String,PathData> pathDataHashMap = new HashMap<>();
 
     public PathData getPathData(String pathId){
+
         if(pathDataHashMap.containsKey(pathId)) pathDataHashMap.get(pathId);
         PathData data = new PathData(pathId,0,0,0);
         pathDataHashMap.put(pathId,data);
@@ -115,21 +128,38 @@ public class PlayerData {
     private final HashMap<String,SkillData> activeSkillHashMap = new HashMap<>();
     private final HashMap<String,SkillData> passiveSkillHashMap = new HashMap<>();
 
+
+
     public SkillData getActiveSkill(String skillId){
         if(activeSkillHashMap.containsKey(skillId)) return activeSkillHashMap.get(skillId);
-        return null;
+        SkillData data = new SkillData(skillId,false);
+        activeSkillHashMap.put(skillId,data);
+        return data;
     }
     public SkillData getPassiveSkill(String skillId){
         if(passiveSkillHashMap.containsKey(skillId)) return passiveSkillHashMap.get(skillId);
-        return null;
+        SkillData data = new SkillData(skillId,false);
+        passiveSkillHashMap.put(skillId,data);
+        return data;
+    }
+    public SkillData getSkill(String skillId){
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillId,':'));
+        if(skill instanceof AbstractActiveSkill) return getActiveSkill(skillId);
+        return getPassiveSkill(skillId);
     }
 
+    public boolean hasSkill(String skillId){
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillId,':'));
+        if(skill instanceof AbstractActiveSkill) return hasActiveSkill(skillId);
+        return hasPassiveSkill(skillId);
+    }
     public boolean hasActiveSkill(String skillId){
-        return getActiveSkill(skillId) != null;
+        return activeSkillHashMap.containsKey(skillId);
     }
     public boolean hasPassiveSkill(String skillId){
-        return getPassiveSkill(skillId) != null;
+        return passiveSkillHashMap.containsKey(skillId);
     }
+
 
     public List<SkillData> getActiveSkills(){
         return activeSkillHashMap.values().stream().toList();
@@ -170,9 +200,6 @@ public class PlayerData {
             passiveSkillHashMap.put(key,SkillData.loadSkillNBTData(compound.getCompound("Passive").getCompound(key)));
         }
     }
-
-
-    /********* Cooldown Data *******************************************************/
 
 
     /********* Casting Data *******************************************************/
@@ -231,6 +258,10 @@ public class PlayerData {
     public void setCastDurationRemaining(double durationRemaining){
         this.castDurationRemaining = durationRemaining;
     }
+
+    /********* Cooldown Data *******************************************************/
+
+    //TODO
     /********* SYSTEM *******************************************************/
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
         loadPathNBTData(tag.getCompound("path_data"));
