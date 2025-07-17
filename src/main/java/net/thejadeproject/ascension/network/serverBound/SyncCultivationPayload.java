@@ -10,10 +10,11 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.util.ModAttachments;
 
-public record SyncCultivationPayload(Boolean newState) implements CustomPacketPayload {
+public record SyncCultivationPayload(String path,Boolean newState) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SyncCultivationPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sync_cultivation_state"));
     public static final StreamCodec<ByteBuf, SyncCultivationPayload> STREAM_CODEC = StreamCodec.composite(
-
+            ByteBufCodecs.STRING_UTF8,
+            SyncCultivationPayload::path,
             ByteBufCodecs.BOOL,
             SyncCultivationPayload::newState,
             SyncCultivationPayload::new
@@ -24,7 +25,7 @@ public record SyncCultivationPayload(Boolean newState) implements CustomPacketPa
     }
     public static void handlePayload(SyncCultivationPayload payload, IPayloadContext context) {
         System.out.println("Received Packet");
-        context.player().getData(ModAttachments.PLAYER_DATA).setCultivating(payload.newState);
+        context.player().getData(ModAttachments.PLAYER_DATA).getPathData(payload.path).setCultivating(payload.newState);
         CompoundTag data = context.player().getPersistentData().getCompound("Cultivation");
         data.putBoolean("CultivationState",payload.newState);
         context.player().getPersistentData().put("Cultivation",data);

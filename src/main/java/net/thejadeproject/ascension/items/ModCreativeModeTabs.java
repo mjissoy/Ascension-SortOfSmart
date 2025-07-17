@@ -9,6 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.techniques.ModTechniques;
 
 import java.util.function.Supplier;
 
@@ -70,6 +71,14 @@ public class ModCreativeModeTabs {
 
 
                     }).build());
+
+    public static final Supplier<CreativeModeTab> ASCENSION_TECHNIQUE_MANUALS = CREATIVE_MODE_TAB.register("ascension_technique_manuals",
+            ()->CreativeModeTab.builder().icon(()-> new ItemStack(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get()))
+                    .title(Component.translatable("creativetab.ascension.manuals"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModTechniques.PURE_FIRE_TECHNIQUE.manual);
+                    })
+                    .build());
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TAB.register(eventBus);

@@ -9,15 +9,7 @@ public class CultivationData {
     public static Player player;
 
 
-    public static void setCultivating(boolean cultivating) {
-        if(cultivating) System.out.println("KeyDown");
-        if(player.getPersistentData().getCompound("Cultivation").getBoolean("CultivationState") == cultivating) return;
-        player.getPersistentData().getCompound("Cultivation").putBoolean("CultivationState",cultivating);
 
-
-        PacketDistributor.sendToServer(new SyncCultivationPayload(cultivating));
-
-    }
 
     public static boolean isCultivating() {
         return player.getPersistentData().getCompound("Cultivation").getBoolean("CultivationState");

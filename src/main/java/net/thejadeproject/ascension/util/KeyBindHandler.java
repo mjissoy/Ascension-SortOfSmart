@@ -12,6 +12,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.CultivationData;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
+import net.thejadeproject.ascension.cultivation.PlayerData;
 import net.thejadeproject.ascension.guis.Introspection.Overlay;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
@@ -56,14 +57,14 @@ public class KeyBindHandler {
             }
         }
 
-        boolean cultivating = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).isCultivating();
+        PlayerData.PathData data =  Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence");
+        boolean cultivating = data.isCultivating();
 
-        Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).setCultivating(CULTIVATE_KEY.isDown());
+        data.setCultivating(CULTIVATE_KEY.isDown());
 
-
-        if(cultivating != Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).isCultivating()){
+        if(cultivating != data.isCultivating()){
             System.out.println("sending sync packer");
-            PacketDistributor.sendToServer(new SyncCultivationPayload(Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).isCultivating()));
+            PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence",data.isCultivating()));
         }
     }
 }

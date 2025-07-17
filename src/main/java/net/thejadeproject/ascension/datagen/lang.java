@@ -34,7 +34,8 @@ public class lang extends LanguageProvider {
         //Pills
         add("item.ascension.regeneration_pill", "Regeneration Pill");
 
-
+        //manuals
+        add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");
 
         //Herbs
         add("item.ascension.golden_sun_leaf", "Golden Sun Leaf");
@@ -72,7 +73,7 @@ public class lang extends LanguageProvider {
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.blocks", "Ascension Blocks");
         add("creativetab.ascension.herbs", "Ascension Herbs");
-
+        add("creativetab.ascension.manuals", "Ascension Manuals");
 
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
         add("effect.ascension.cleansing", "Cleansing");

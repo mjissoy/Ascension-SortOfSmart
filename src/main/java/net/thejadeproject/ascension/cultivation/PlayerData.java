@@ -12,8 +12,10 @@ import net.thejadeproject.ascension.skills.ISkill;
 import net.thejadeproject.ascension.skills.data.CastType;
 import net.thejadeproject.ascension.skills.data.ICastData;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class PlayerData {
     public PlayerData(Player player){
@@ -35,12 +37,21 @@ public class PlayerData {
         public int majorRealm;
         public int minorRealm;
         public double pathProgress;
+        public String technique;
 
-        public PathData(String pathId, int majorRealm, int minorRealm,double pathProgress){
+        public boolean cultivating = false;
+
+        public boolean isCultivating(){return cultivating;}
+        public void setCultivating(boolean state){
+            cultivating = state;
+        }
+
+        public PathData(String pathId, int majorRealm, int minorRealm,double pathProgress,String technique){
             this.pathId = pathId;
             this.majorRealm = majorRealm;
             this.minorRealm = minorRealm;
             this.pathProgress = pathProgress;
+            this.technique = technique;
 
         }
         public PathData(){}
@@ -50,6 +61,7 @@ public class PlayerData {
             tag.putInt("major_realm",majorRealm);
             tag.putInt("minor_realm",minorRealm);
             tag.putDouble("progress",pathProgress);
+            tag.putString("technique",technique);
             return tag;
 
         }
@@ -59,6 +71,7 @@ public class PlayerData {
             pathData.majorRealm = compound.getInt("major_realm");
             pathData.minorRealm = compound.getInt("minor_realm");
             pathData.pathProgress = compound.getDouble("progress");
+            pathData.technique = compound.getString("technique");
             return pathData;
         }
     }
@@ -69,9 +82,13 @@ public class PlayerData {
     public PathData getPathData(String pathId){
 
         if(pathDataHashMap.containsKey(pathId)) return pathDataHashMap.get(pathId);
-        PathData data = new PathData(pathId,0,0,0);
+        PathData data = new PathData(pathId,0,0,0,"ascension:none");
         pathDataHashMap.put(pathId,data);
         return data;
+    }
+
+    public Collection<PathData> getPaths(){
+        return pathDataHashMap.values();
     }
 
     public void setPathProgress(String pathId,double pathProgress){
@@ -85,6 +102,7 @@ public class PlayerData {
         pathDataHashMap.get(pathId).minorRealm = minorRealm;
     }
 
+    public void setPathTechnique(String pathId,String technique){pathDataHashMap.get(pathId).technique = technique;}
 
     public CompoundTag writePathNBTData(){
         CompoundTag tag = new CompoundTag();

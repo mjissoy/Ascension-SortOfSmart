@@ -55,23 +55,25 @@ public class CultivationSystem {
             "Soul Formation", "Soul Transformation", "Immortal Ascension",
             "True Immortal", "Golden Immortal"
     };
-    public static void cultivate(Player player, String path){
+    public static void cultivate(Player player, String path,Double baseRate,List<String> attributes){
         //TODO change to use technique for base rate
         //TODO fire is temp
         PlayerData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getPathData(path);
         System.out.println("path Progress:" + pathData.pathProgress);
         //TODO store the max realm some where
         if(pathData.majorRealm >= realmNameMap.get(path).length-1 && pathData.minorRealm >= 9) return;
-
-        GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,"ascension:fire");
+        GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,attributes);
         NeoForge.EVENT_BUS.post(effEvent);
-        CultivateEvent cultivateEvent = new CultivateEvent(player,BASE_PROGRESS_INCREASE,path,List.of("ascension:fire"));
+
+        System.out.println("cultivating with effective: "+effEvent.getTotalEfficiencyMultiplier());
+        CultivateEvent cultivateEvent = new CultivateEvent(player,baseRate,path,attributes);
         NeoForge.EVENT_BUS.post(cultivateEvent);
 
         double progressIncrement = (cultivateEvent.baseRate+cultivateEvent.flatBaseRateIncrease)
                 *(1+cultivateEvent.multiplier)
-                *(1+effEvent.getTotalEfficiencyMultiplier())
+                *(effEvent.getTotalEfficiencyMultiplier())
                 +cultivateEvent.flatFinalRateIncrease;
+        System.out.println("base: "+cultivateEvent.baseRate);
         System.out.println(progressIncrement);
         float CultivationStageMax = 1.0f +
                 (pathData.majorRealm * MAJOR_REALM_PROGRESS_MULTIPLIER) *
@@ -95,7 +97,7 @@ public class CultivationSystem {
         }
         pathData.pathProgress = progress;
         System.out.println(pathData.pathProgress);
-        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(path, pathData.majorRealm, pathData.minorRealm, pathData.pathProgress));
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(path, pathData.majorRealm, pathData.minorRealm, pathData.pathProgress,pathData.technique));
     }
 
 

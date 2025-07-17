@@ -83,7 +83,10 @@ public class GenericPhysique implements IPhysique{
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
 
         if(event.pathID != null && pathBonuses.containsKey(event.pathID)) event.addMultiplier(pathBonuses.get(event.pathID));
-        if(event.ascensionAttributeID != null && otherBonuses.containsKey(event.ascensionAttributeID)) event.addMultiplier(otherBonuses.get(event.ascensionAttributeID));
+        for(String attributeId : event.ascensionAttributeID()){
+            if( otherBonuses.containsKey(attributeId)) event.addMultiplier(otherBonuses.get(attributeId));
+
+        }
 
     }
 

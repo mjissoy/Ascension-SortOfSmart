@@ -15,6 +15,8 @@ import net.thejadeproject.ascension.physiques.PhysiqueEventListener;
 import net.thejadeproject.ascension.skills.AbstractPassiveSkill;
 import net.thejadeproject.ascension.techniques.TechniquesEventListener;
 
+import java.util.List;
+
 
 public class IronBonesPassiveSkill extends AbstractPassiveSkill {
 
@@ -39,7 +41,7 @@ public class IronBonesPassiveSkill extends AbstractPassiveSkill {
 
     }
     public void updateSkillData(Player player){
-        GatherEfficiencyModifiersEvent event = new GatherEfficiencyModifiersEvent(player,this.path,"ascension:metal");
+        GatherEfficiencyModifiersEvent event = new GatherEfficiencyModifiersEvent(player,this.path, List.of("ascension:metal"));
         PhysiqueEventListener.gatherEfficiencyMultipliers(event);
         TechniquesEventListener.gatherEfficiencyMultipliers(event);
         player.getAttribute(Attributes.MAX_HEALTH).addOrReplacePermanentModifier(new AttributeModifier(

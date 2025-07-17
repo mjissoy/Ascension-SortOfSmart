@@ -1,17 +1,22 @@
 package net.thejadeproject.ascension.datagen;
 
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.techniques.ModTechniques;
+
+import java.util.Objects;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -51,7 +56,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Not Used For Anything in mod except being icons etc...
         basicItem(ModItems.ASCENSION_ICON.get());
 
-
+        //Manuals
+        manual(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get());
 
         //Pills
         basicItem(ModItems.REGENERATION_PILL.get());
@@ -102,6 +108,22 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.withExistingParent(block.getId().getPath(), mcLoc("block/wall_inventory"))
                 .texture("wall",  ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,
                         "block/" + baseBlock.getId().getPath()));
+    }
+    public ItemModelBuilder manual(Item item){
+        return basicItemWithSharedTexture(item,ResourceLocation.fromNamespaceAndPath(
+                AscensionCraft.MOD_ID,
+                "generic_manual_texture"
+        ));
+    }
+    public ItemModelBuilder basicItemWithSharedTexture(Item item,ResourceLocation texture){
+        return basicItemWithSharedTexture(
+                Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)),
+                texture
+        );
+    }
+    public ItemModelBuilder basicItemWithSharedTexture(ResourceLocation item,ResourceLocation texture) {
+        return (this.getBuilder(item.toString())).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(texture.getNamespace(), "item/" + texture.getPath()));
     }
 
 }

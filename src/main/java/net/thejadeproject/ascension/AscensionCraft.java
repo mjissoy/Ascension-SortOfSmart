@@ -20,6 +20,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.cultivation.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.physiques.ModPhysiques;
@@ -41,7 +42,9 @@ import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.skills.ModSkills;
+import net.thejadeproject.ascension.techniques.ModTechniques;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -61,6 +64,8 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+
+import java.util.List;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AscensionCraft.MOD_ID)
@@ -105,6 +110,7 @@ public class AscensionCraft {
         ModEffects.register(modEventBus);
         ModPhysiques.register(modEventBus);
         ModSkills.register(modEventBus);
+        ModTechniques.register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
@@ -139,9 +145,11 @@ public class AscensionCraft {
     private void onPlayerTick(PlayerTickEvent.Pre event) {
         // Only process on server side
         if (!event.getEntity().level().isClientSide) {
-            if (event.getEntity().getData(ModAttachments.PLAYER_DATA).isCultivating()) {
-                System.out.println("cultivating");
-                CultivationSystem.cultivate(event.getEntity(),"ascension:essence");
+            if (event.getEntity().getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence").isCultivating()
+            && !event.getEntity().getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence").technique.equals("ascension:none")){
+                System.out.println("cultivating essence");
+                String technique = event.getEntity().getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence").technique;
+                AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(technique,':')).tryCultivate(event.getEntity());
             }
         }
     }
