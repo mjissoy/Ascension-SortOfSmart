@@ -2,6 +2,8 @@ package net.thejadeproject.ascension.events;
 
 import com.mojang.datafixers.util.Either;
 import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
@@ -13,6 +15,19 @@ public class DescriptionEvents {
     public class TagDescriptionEvents {
         @SubscribeEvent
         public static void onHoverText(RenderTooltipEvent.GatherComponents event) {
+            event.getItemStack().getTags().forEach(itemTagKey -> {
+                if(ModTags.Items.tagDisplayData.containsKey(itemTagKey)) {
+                    var list = event.getTooltipElements();
+                    if(list.size() > 2){
+                        event.getTooltipElements().add(1,Either.left(ModTags.Items.tagDisplayData.get(itemTagKey)));
+
+                    }else{
+                        event.getTooltipElements().add(Either.left(ModTags.Items.tagDisplayData.get(itemTagKey)));
+
+                    }
+                 }
+            });
+
             if (event.getItemStack().is(ModTags.Items.MEDICINAL)) {
                 event.getTooltipElements().add(Either.left(Component.literal("§a[Medicinal]")));
             }

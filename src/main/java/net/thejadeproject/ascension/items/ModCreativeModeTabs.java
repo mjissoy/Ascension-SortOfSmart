@@ -77,6 +77,9 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.manuals"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModTechniques.PURE_FIRE_TECHNIQUE.manual);
+                        output.accept(ModTechniques.PURE_WATER_TECHNIQUE.manual);
+                        output.accept(ModTechniques.PURE_SWORD_INTENT.manual);
+                        output.accept(ModTechniques.PURE_FIST_INTENT.manual);
                     })
                     .build());
 

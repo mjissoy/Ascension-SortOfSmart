@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-17T22:18:00.6641347	Item Models: ascension
+// 1.21.1	2025-07-18T23:53:42.0585417	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 0ecaa4ce7327deb77cc78c43842f8da9ef45a2df assets/ascension/models/item/crimson_lotus_flame.json
 922e3b4df3ad678fc0b44e8e93d1a2891111ab36 assets/ascension/models/item/golden_palm_button.json
@@ -12,6 +12,9 @@ f4620bd1077fc4a91989544ff2c32d49e2778286 assets/ascension/models/item/ironwood_s
 dc985f6e9fbe09d8d740c4f130b29eec1e1db883 assets/ascension/models/item/jade_nugget.json
 8da9eb9aacae551eb96ae48d1049339862219689 assets/ascension/models/item/living_core.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/pure_fire_technique.json
+7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/pure_fist_intent.json
+7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/pure_sword_intent.json
+7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/pure_water_technique.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/ascension/models/item/rat_spawn_egg.json
 9551df3d7f36fcc88161462890d272ce303d8f20 assets/ascension/models/item/raw_jade.json
 85b92cd02f38c7969952aa8895fa2365442fb0f8 assets/ascension/models/item/regeneration_pill.json

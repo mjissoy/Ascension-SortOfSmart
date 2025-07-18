@@ -25,7 +25,7 @@ public abstract class AbstractActiveSkill implements ISkill{
         return qiCost;
     };
 
-    abstract CastType castType();
+    protected abstract CastType castType();
 
 
     abstract void cast();

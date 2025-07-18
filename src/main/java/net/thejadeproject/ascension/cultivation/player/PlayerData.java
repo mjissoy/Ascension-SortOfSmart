@@ -1,11 +1,9 @@
-package net.thejadeproject.ascension.cultivation;
+package net.thejadeproject.ascension.cultivation.player;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.skills.ISkill;
@@ -15,7 +13,6 @@ import net.thejadeproject.ascension.skills.data.ICastData;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 public class PlayerData {
     public PlayerData(Player player){
@@ -73,6 +70,18 @@ public class PlayerData {
             pathData.pathProgress = compound.getDouble("progress");
             pathData.technique = compound.getString("technique");
             return pathData;
+        }
+
+        @Override
+        public String toString() {
+            return "PathData{" +
+                    "pathId='" + pathId + '\'' +
+                    ", majorRealm=" + majorRealm +
+                    ", minorRealm=" + minorRealm +
+                    ", pathProgress=" + pathProgress +
+                    ", technique='" + technique + '\'' +
+                    ", cultivating=" + cultivating +
+                    '}';
         }
     }
 

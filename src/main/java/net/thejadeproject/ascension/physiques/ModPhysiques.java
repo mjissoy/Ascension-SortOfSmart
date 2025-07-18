@@ -81,7 +81,9 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:fist_intent",3.0);
-                    }})
+                    }}).setSkillList(List.of(
+                            new AcquirableSkillData("ascension:intent",0,0,"ascension:fist_aura_skill",true)
+            ))
     );
 
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_WATER_BODY = PHYSIQUES.register("pure_water_body",

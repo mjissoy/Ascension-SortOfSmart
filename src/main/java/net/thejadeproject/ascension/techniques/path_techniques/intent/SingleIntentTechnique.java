@@ -1,30 +1,24 @@
-package net.thejadeproject.ascension.techniques.path_techniques.essence;
+package net.thejadeproject.ascension.techniques.path_techniques.intent;
 
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
+import net.thejadeproject.ascension.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.techniques.path_techniques.AbstractTechnique;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
-public class SingleElementTechnique extends AbstractTechnique {
+public class SingleIntentTechnique extends AbstractTechnique {
 
+    public String intent;
 
-    public String element;
-
-
-    public SingleElementTechnique(String title,String element,Double baseRate){
-        super(title,baseRate,"ascension:essence");
-        this.element = element;
-
+    public SingleIntentTechnique(String title, double baseRate,String intent) {
+        super(title, baseRate,"ascension:intent");
+        this.intent = intent;
     }
-
 
     @Override
     public List<MutableComponent> getDescription() {
@@ -33,16 +27,13 @@ public class SingleElementTechnique extends AbstractTechnique {
 
     @Override
     public List<String> getCultivationAttributes() {
-        return List.of(element);
+        return List.of(intent);
     }
-
-
 
     @Override
     public void tryCultivate(Player player) {
         if(player.level().isClientSide()) return;
-        CultivationSystem.cultivate(player,"ascension:essence",baseRate,List.of(element));
+        System.out.println("Trying to cultivate intent");
+        CultivationSystem.cultivate(player,getPath(),baseRate,getCultivationAttributes());
     }
-
-
 }

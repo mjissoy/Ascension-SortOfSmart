@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.skills.ISkill;
 import net.thejadeproject.ascension.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.skills.skill_lists.SkillList;
+import net.thejadeproject.ascension.util.ModAttachments;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
@@ -127,10 +128,12 @@ public class GenericPhysique implements IPhysique{
             String skillType = "Passive";
             if(skill instanceof AbstractActiveSkill) skillType = "Active";
             boolean fixed = false;
-            if(player.getPersistentData().getCompound("Skills").getCompound(skillType).hasUUID(skillData.getA())){
-                fixed = player.getPersistentData().getCompound("Skills").getCompound(skillType).getBoolean(skillData.getA());
+
+            if(player.getData(ModAttachments.PLAYER_DATA).hasSkill(skillData.getA())){
+                fixed = player.getData(ModAttachments.PLAYER_DATA).getSkill(skillData.getA()).fixed;
             }
-            player.getPersistentData().getCompound("Skills").getCompound(skillType).putBoolean(skillType,fixed || skillData.getB());
+            player.getData(ModAttachments.PLAYER_DATA).getSkill(skillData.getA()).fixed = fixed || skillData.getB();
+
             skill.onSkillAdded(player);
         }
 

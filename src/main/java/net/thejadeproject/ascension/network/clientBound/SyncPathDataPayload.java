@@ -1,18 +1,14 @@
 package net.thejadeproject.ascension.network.clientBound;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.PlayerData;
-import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.util.ModAttachments;
-
-import java.nio.charset.StandardCharsets;
 
 public record SyncPathDataPayload(String pathId,int majorRealm,int minorRealm,double progress,String technique) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SyncPathDataPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sync_path_data"));

@@ -7,7 +7,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.PlayerData;
+import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.util.ModAttachments;
 
 public record SyncSkillDataPayload(String skillId, boolean fixed) implements CustomPacketPayload {

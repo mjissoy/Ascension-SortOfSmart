@@ -37,6 +37,7 @@ public class lang extends LanguageProvider {
         //manuals
         add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");
         add("item.ascension.pure_water_technique","Pure Water Technique Manual");
+        add("item.ascension.pure_sword_intent","Pure Sword Intent Manual");
 
         //Herbs
         add("item.ascension.golden_sun_leaf", "Golden Sun Leaf");
@@ -122,7 +123,6 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.major_realm_movement_speed_increase","Major Realm Increase");
         add("ascension.configuration.movement_speed_applicable_realms","Applicable Realms");
 
-
         add("ascension.configuration.StartingPhysiqueOptions","Starting Physique Options");
         add("ascension.configuration.intent_options","Intent Options");
         add("ascension.configuration.body_options","Body Options");
@@ -133,6 +133,8 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.body_path_modifier","Body Options");
         add("ascension.configuration.intent_path_modifier","Intent Options");
 
+
+        //tags
 
     }
 }

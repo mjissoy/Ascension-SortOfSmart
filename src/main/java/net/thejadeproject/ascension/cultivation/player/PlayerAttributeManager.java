@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.cultivation;
+package net.thejadeproject.ascension.cultivation.player;
 
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
@@ -6,12 +6,9 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.util.ModAttachments;
-
-import java.util.Map;
 
 public class PlayerAttributeManager {
 

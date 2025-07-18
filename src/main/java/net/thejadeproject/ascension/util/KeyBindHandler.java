@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension.util;
 
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -10,10 +9,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.thejadeproject.ascension.cultivation.CultivationData;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
-import net.thejadeproject.ascension.cultivation.PlayerData;
-import net.thejadeproject.ascension.guis.Introspection.Overlay;
+import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 

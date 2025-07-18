@@ -9,6 +9,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.Config;
+import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.events.custom.CultivateEvent;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;

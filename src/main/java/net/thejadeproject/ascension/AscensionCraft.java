@@ -22,8 +22,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
-import net.thejadeproject.ascension.cultivation.PlayerAttributeManager;
-import net.thejadeproject.ascension.cultivation.PlayerData;
+import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
+import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
@@ -68,8 +68,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-
-import java.util.List;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AscensionCraft.MOD_ID)

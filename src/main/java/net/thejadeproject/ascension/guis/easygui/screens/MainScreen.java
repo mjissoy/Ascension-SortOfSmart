@@ -14,14 +14,22 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
+import net.thejadeproject.ascension.util.ModAttachments;
 
 import java.io.IOException;
 
 public class MainScreen extends EasyGuiScreen {
     public MainScreen(Component title) throws IOException {
         super(title);
+        System.out.println("path data:");
+        for(PlayerData.PathData pathData : Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getPaths()){
+            System.out.println(pathData.toString());
+        }
+
         /*
         (new EasyGuiBuilder(ResourceLocation.fromNamespaceAndPath(
                 AscensionCraft.MOD_ID,
