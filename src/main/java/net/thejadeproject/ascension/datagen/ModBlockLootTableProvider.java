@@ -31,6 +31,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(ModBlocks.JADE_BLOCK.get());
+        dropSelf(ModBlocks.SPIRITUAL_STONE_CLUSTER.get());
         dropSelf(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
 
         add(ModBlocks.GOLDEN_SUN_LEAF_BLOCK.get(),

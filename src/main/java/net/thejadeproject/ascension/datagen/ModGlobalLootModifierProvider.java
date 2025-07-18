@@ -24,6 +24,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
 
 
+        //Living Core Drop Regular Mobs
 
 
 
