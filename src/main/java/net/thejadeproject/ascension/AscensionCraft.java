@@ -6,8 +6,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -20,8 +22,10 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.cultivation.PlayerAttributeManager;
 import net.thejadeproject.ascension.cultivation.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.physiques.ModPhysiques;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
@@ -84,7 +88,7 @@ public class AscensionCraft {
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
-
+        modEventBus.addListener(this::onLoadComplete);
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
@@ -177,9 +181,25 @@ public class AscensionCraft {
                PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPlayerPhysique(event.getEntity().getData(ModAttachments.PHYSIQUE)));
             });
         }
+        for(PlayerData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getPaths()){
+
+            Minecraft.getInstance().tell(()->{
+                PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPathDataPayload(
+                        path.pathId,
+                        path.majorRealm,
+                        path.minorRealm,
+                        path.pathProgress,
+                        path.technique
+                ));
+            });
+        }
     }
 
 
+    public void onLoadComplete(FMLLoadCompleteEvent event) {
+        PlayerAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.MAX_HEALTH.value());
+
+    }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         DynamicPillsSystem.loadPills();

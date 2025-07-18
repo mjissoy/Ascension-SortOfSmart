@@ -14,6 +14,10 @@ public class Config {
 
     public static class Common {
 
+        public static ModConfigSpec.DoubleValue MAX_BASE_MAX_HEALTH;
+
+
+
         public static ModConfigSpec.DoubleValue ESSENCE_PATH_CULTIVATION_MODIFIER;
         public static ModConfigSpec.DoubleValue INTENT_PATH_CULTIVATION_MODIFIER;
         public static ModConfigSpec.DoubleValue BODY_PATH_CULTIVATION_MODIFIER;
@@ -60,6 +64,9 @@ public class Config {
 
 
             BUILDER.pop();
+
+
+
             BUILDER.push("StartingPhysiqueOptions");
                 BUILDER.comment("Intent options");
                 AVAILABLE_STARTING_INTENT_PHYSIQUE = BUILDER.defineList("intent_options",()->

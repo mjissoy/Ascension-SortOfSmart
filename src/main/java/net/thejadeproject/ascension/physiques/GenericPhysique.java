@@ -110,13 +110,13 @@ public class GenericPhysique implements IPhysique{
     @Override
     public void onMajorRealmIncrease(MajorRealmChangeEvent event) {
         if(event.oldRealm > event.newRealm) return;
-        updatePlayerSkills(event.player,event.path,event.newRealm,CultivationData.PlayerCultivationData.getMinorRealm(event.path, event.player));
+        updatePlayerSkills(event.player,event.pathId,event.newRealm,CultivationData.PlayerCultivationData.getMinorRealm(event.pathId, event.player));
     }
 
     @Override
     public void onMinorRealmIncrease(MinorRealmChangeEvent event) {
         if(event.oldRealm > event.newRealm)return;
-        updatePlayerSkills(event.player,event.path,CultivationData.PlayerCultivationData.getMajorRealm(event.path, event.player),event.newRealm);
+        updatePlayerSkills(event.player,event.pathId,CultivationData.PlayerCultivationData.getMajorRealm(event.pathId, event.player),event.newRealm);
     }
     public void updatePlayerSkills(Player player, String path, int majorRealm, int minorRealm){
         if(skillList == null) return;
