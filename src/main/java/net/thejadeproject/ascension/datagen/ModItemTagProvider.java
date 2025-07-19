@@ -56,11 +56,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.GOLDEN_PALM_PLANKS.asItem());
 
         tag(ModTags.Items.SWORD_INTENT)
-                .add(Items.WOODEN_SWORD)
-                .add(Items.IRON_SWORD)
-                .add(Items.GOLDEN_SWORD)
-                .add(Items.NETHERITE_SWORD)
-                .add(Items.DIAMOND_SWORD);
+                .addTag(ItemTags.SWORDS);
+
+        tag(ModTags.Items.BOW_INTENT)
+                .add(Items.BOW)
+                .add(Items.CROSSBOW);
 
 
     }

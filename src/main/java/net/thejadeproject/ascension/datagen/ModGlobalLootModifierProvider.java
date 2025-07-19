@@ -25,6 +25,32 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
 
         //Living Core Drop Regular Mobs
+        this.add("living_core_from_strider", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/strider")).build(),
+                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+        this.add("living_core_from_piglin", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/piglin")).build(),
+                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+        this.add("living_core_from_hoglin", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/hoglin")).build(),
+                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+        this.add("living_core_from_zoglin", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/zoglin")).build(),
+                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+        this.add("living_core_from_vex", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/vex")).build(),
+                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+        this.add("living_core_from_allay", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/allay")).build(),
+                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+        this.add("living_core_from_golem", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/iron_golem")).build(),
+                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+
+        //Living Core Drop Boss Undead
+        this.add("living_core_from_ender_dragon", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/ender_dragon")).build(),
+                LootItemRandomChanceCondition.randomChance(0.14F).build()}, ModItems.LIVING_CORE.get()));
 
 
 
