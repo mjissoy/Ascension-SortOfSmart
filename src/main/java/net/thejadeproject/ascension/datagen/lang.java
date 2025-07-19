@@ -18,6 +18,7 @@ public class lang extends LanguageProvider {
 
 
         //Items
+        add("item.ascension.spiritual_stone", "Spiritual Stone");
         add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.ascension_icon", "Ascension Icon");
@@ -70,6 +71,7 @@ public class lang extends LanguageProvider {
 
 
         add("block.ascension.jade_ore", "Jade Ore");
+        add("block.ascension.spiritual_stone_cluster", "Spiritual Stone Cluster");
         add("block.ascension.jade_block", "Jade Block");
         add("block.ascension.pill_cauldron_low_human", "Pill Cauldron");
 

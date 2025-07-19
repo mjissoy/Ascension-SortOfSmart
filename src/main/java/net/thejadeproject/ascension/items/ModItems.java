@@ -19,6 +19,8 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> JADE_NUGGET = ITEMS.register("jade_nugget",
             () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> SPIRITUAL_STONE = ITEMS.register("spiritual_stone",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
 
 
 

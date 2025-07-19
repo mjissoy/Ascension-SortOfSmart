@@ -22,6 +22,7 @@ public class ModCreativeModeTabs {
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_blocks_tab"))
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.SPIRITUAL_STONE);
                         output.accept(ModItems.RAW_JADE);
                         output.accept(ModItems.JADE_NUGGET);
                         output.accept(ModItems.JADE);
@@ -55,6 +56,7 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModBlocks.JADE_ORE);
                         output.accept(ModBlocks.JADE_BLOCK);
+                        output.accept(ModBlocks.SPIRITUAL_STONE_CLUSTER);
                         output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
 
 
