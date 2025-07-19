@@ -61,6 +61,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.PURE_WATER_TECHNIQUE.manual.get());
         manual(ModTechniques.PURE_SWORD_INTENT.manual.get());
         manual(ModTechniques.PURE_FIST_INTENT.manual.get());
+        manual(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get());
 
         //Pills
         basicItem(ModItems.REGENERATION_PILL.get());

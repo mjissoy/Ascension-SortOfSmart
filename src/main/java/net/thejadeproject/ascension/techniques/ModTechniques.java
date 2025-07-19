@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.technique_manuals.GenericTechniqueManual;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.techniques.path_techniques.body.SingleAttributeTechnique;
 import net.thejadeproject.ascension.techniques.path_techniques.essence.SingleElementTechnique;
 import net.thejadeproject.ascension.techniques.path_techniques.intent.SingleIntentTechnique;
 
@@ -102,6 +103,27 @@ public class ModTechniques {
             ()->new SingleIntentTechnique("Pure Fist Technique",8.0,"ascension:fist_intent")
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fist_intent",2.0);
+                    }}).setOnMinorRealmChange(event -> {
+                        Player player = event.player;
+                        PlayerAttributeManager.increaseAttribute(player,5.0,Attributes.MAX_HEALTH);
+                        PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
+                        PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
+                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
+
+
+                    })
+                    .setOnMajorRealmChange(event ->{
+                        Player player = event.player;
+                        PlayerAttributeManager.increaseAttribute(player,10.0,Attributes.MAX_HEALTH);
+                        PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
+                        PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
+                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
+                    }));
+
+    public static final TechniqueHolder DIVINE_PHOENIX_TECHNIQUE = createTechnique("divine_phoenix_technique",
+            ()->new SingleAttributeTechnique("Divine Phoenix Technique",8.0,"ascension:fire")
+                    .setEfficiencyAttributes(new HashMap<>(){{
+                        put("ascension:fire",2.0);
                     }}).setOnMinorRealmChange(event -> {
                         Player player = event.player;
                         PlayerAttributeManager.increaseAttribute(player,5.0,Attributes.MAX_HEALTH);

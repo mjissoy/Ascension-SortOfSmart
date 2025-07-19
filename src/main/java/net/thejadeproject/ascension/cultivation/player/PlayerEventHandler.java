@@ -45,23 +45,27 @@ public class PlayerEventHandler {
          }
     }
     @SubscribeEvent
-    public static void cultivateIntent(LivingDamageEvent.Post event){
-        if(event.getSource().getEntity() != null) {
+    public static void postDamageListener(LivingDamageEvent.Post event){
+        if(event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Player player) {
 
             //gather attributes
-            if (!(event.getSource().getEntity() instanceof Player player)) return;
+
             System.out.println("Trying to cultivate intent");
 
-            List<String> attributes = new ArrayList<>();
-            if (event.getSource().getWeaponItem() == ItemStack.EMPTY) attributes.add("ascension:fist_intent");
-            event.getSource().getWeaponItem().getTags().forEach(itemTagKey -> {
 
-                if (ModTags.Items.ASCENSION_ATTRIBUTES.contains(itemTagKey))
-                    attributes.add(itemTagKey.location().toString());
-            });
             if(player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:intent").technique.equals("ascension:none")) return;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
                     player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:intent").technique,
+                    ':'
+            )).tryCultivate(player);
+        }
+        System.out.println("damaged entity : "+ event.getEntity());
+        if(event.getEntity() instanceof Player player){
+            //cultivate body
+            System.out.println("trying to cultivate body");
+            if(player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:body").technique.equals("ascension:none")) return;
+            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
+                    player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:body").technique,
                     ':'
             )).tryCultivate(player);
         }

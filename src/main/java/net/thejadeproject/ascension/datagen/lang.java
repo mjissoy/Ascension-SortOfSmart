@@ -38,6 +38,8 @@ public class lang extends LanguageProvider {
         add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");
         add("item.ascension.pure_water_technique","Pure Water Technique Manual");
         add("item.ascension.pure_sword_intent","Pure Sword Intent Manual");
+        add("item.ascension.pure_fist_intent","Pure Fist Intent Manual");
+        add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique Manual");
 
         //Herbs
         add("item.ascension.golden_sun_leaf", "Golden Sun Leaf");
