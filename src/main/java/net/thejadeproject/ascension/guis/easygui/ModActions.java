@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.guis.easygui;
 
 import com.google.gson.JsonPrimitive;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.ContainerRenderable;
 import net.lucent.easygui.interfaces.events.Clickable;
@@ -15,8 +16,10 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
+import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.PhysiqueDataContainer;
+import net.thejadeproject.ascension.guis.easygui.elements.main_menu.path_data.DisplayPathDataContainer;
+import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.TechniqueDataContainer;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 
@@ -29,7 +32,7 @@ public class ModActions {
 
             @Override
             public void run(ContainerRenderable renderable, double mouseX, double mouseY, int button, boolean clicked, Object[] args) {
-                if(!clicked) return;
+                if(!clicked || button != InputConstants.MOUSE_BUTTON_LEFT) return;
                 if(renderable.getID().equals("stats_button")){
                     renderable.getScreen().getElementByID("stats_panel").setActive(true);
                     renderable.getScreen().getElementByID("other_panel").setActive(false);
@@ -40,6 +43,47 @@ public class ModActions {
 
             }
         }
+    );
+
+    public static final DeferredHolder<IAction, Clickable.IClickAction> CREATE_CONTAINER = ACTIONS.register("create_container",
+            ()->
+                    new Clickable.IClickAction(){
+
+                        @Override
+                        public void run(ContainerRenderable renderable, double mouseX, double mouseY, int button, boolean clicked, Object[] args) {
+                            if(!clicked || button != InputConstants.MOUSE_BUTTON_LEFT) return;
+                            if(args.length != 1) return;
+                            Player player = Minecraft.getInstance().player;
+                            if(player == null) return;
+                            System.out.println("running");
+                            String id = args[0] instanceof JsonPrimitive ? ((JsonPrimitive) args[0]).getAsString() : (String) args[0];
+                            if(id.equals("technique_data")){
+                                renderable.getRoot().addChild(new TechniqueDataContainer(renderable.getScreen(),0,0, ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique));
+                            } else if (id.equals("physique_data")) {
+                                System.out.println("tried to display physique data");
+                                renderable.getRoot().addChild(new PhysiqueDataContainer(renderable.getScreen(),0,0,player.getData(ModAttachments.PHYSIQUE)));
+                            }
+                            System.out.println("trying to build container");
+                            //renderable.getRoot().addChild(new DraggableDataContainer(renderable.getScreen(),0,0));
+                            System.out.println("built container");
+                        }
+                    }
+    );
+
+    public static final DeferredHolder<IAction, Clickable.IClickAction> CHANGE_VISIBILITY = ACTIONS.register("change_visibility",
+            ()->
+                    new Clickable.IClickAction(){
+
+                        @Override
+                        public void run(ContainerRenderable renderable, double mouseX, double mouseY, int button, boolean clicked, Object[] args) {
+                            if(!clicked || button != InputConstants.MOUSE_BUTTON_LEFT) return;
+                            if(args.length != 1) return;
+                            String id = args[0] instanceof JsonPrimitive ? ((JsonPrimitive) args[0]).getAsString() : (String) args[0];
+
+                            ContainerRenderable renderable1 = renderable.getScreen().getElementByID(id);
+                            renderable1.setVisible(!renderable1.isVisible());
+                        }
+                    }
     );
     public static final DeferredHolder<IAction,IAction> DISPLAY_ATTRIBUTE_VALUE = ACTIONS.register("display_attribute",
             ()->new IAction(){
@@ -52,17 +96,8 @@ public class ModActions {
                     Label label = ((Label) renderable);
                     if(player == null )return;
                     PlayerData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence");
-                    if(attribute.equals("Progress")){
-                        label.text = Component.literal(String.valueOf(
-                                pathData.pathProgress
-                        ));
-                    }else if(attribute.equals("Major Realm")){
-                        label.text = Component.literal(CultivationSystem.getPathMajorRealmName("ascension:essence",pathData.majorRealm));
-                    }else if(attribute.equals("Minor Realm")){
-                        label.text = Component.literal(String.valueOf(
-                                pathData.minorRealm
-                        ));
-                    }else if(attribute.equals("Max Health")){
+
+                    if(attribute.equals("Max Health")){
                         label.text =  Component.literal(Double.toString(player.getMaxHealth()));
                     }else if(attribute.equals("Health")){
                         label.text = Component.literal(Double.toString(player.getHealth()));

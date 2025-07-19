@@ -120,7 +120,7 @@ configurations {
 
 dependencies {
 
-    implementation 'com.github.OliverHesse:EasyGui:132bb459a7'
+    implementation 'com.github.OliverHesse:EasyGui:80dbbb6c3c'
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
 
     // Example optional mod dependency with JEI
