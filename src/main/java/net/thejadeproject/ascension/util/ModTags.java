@@ -16,9 +16,6 @@ public class ModTags {
 
     public static class Items {
 
-        public static final TagKey<Item> FIRE = createTag("herbs/elements/fire");
-        public static final TagKey<Item> EARTH = createTag("herbs/elements/earth");
-        public static final TagKey<Item> METAL = createTag("herbs/elements/metal");
         public static final TagKey<Item> MEDICINAL = createTag("herbs/medicinal");
         public static final TagKey<Item> HUMAN = createTag("herbs/human");
         public static final TagKey<Item> ALCHEMY_FAILURE = createTag("herbs/alchemy_failure");
@@ -36,6 +33,9 @@ public class ModTags {
         public static final TagKey<Item> SPEAR_INTENT = createAscensionAttributeTag("spear_intent","§8[Spear Intent]");
         public static final TagKey<Item> BLADE_INTENT = createAscensionAttributeTag("blade_intent","§8[Blade Intent]");
         public static final TagKey<Item> BOW_INTENT = createAscensionAttributeTag("bow_intent","§8[Bow Intent]");
+        public static final TagKey<Item> FIRE = createAscensionAttributeTag("fire","§4[Fire]");
+        public static final TagKey<Item> EARTH = createAscensionAttributeTag("earth","§e[Earth]");
+        public static final TagKey<Item> METAL = createAscensionAttributeTag("metal","§f[Metal]");
 
         private static TagKey<Item> createAscensionAttributeTag(String name,String displayName){
             TagKey<Item> tag = createTag(name);

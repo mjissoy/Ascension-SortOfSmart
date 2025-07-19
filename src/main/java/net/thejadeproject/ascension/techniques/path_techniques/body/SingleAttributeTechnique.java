@@ -16,10 +16,7 @@ public class SingleAttributeTechnique extends AbstractTechnique {
             this.attribute = attribute;
     }
 
-    @Override
-    public List<MutableComponent> getDescription() {
-        return List.of();
-    }
+
 
     @Override
     public List<String> getCultivationAttributes() {

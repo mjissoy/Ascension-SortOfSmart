@@ -26,10 +26,7 @@ public class SingleElementTechnique extends AbstractTechnique {
     }
 
 
-    @Override
-    public List<MutableComponent> getDescription() {
-        return List.of();
-    }
+
 
     @Override
     public List<String> getCultivationAttributes() {

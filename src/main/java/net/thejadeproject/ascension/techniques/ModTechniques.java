@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.techniques;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +19,7 @@ import net.thejadeproject.ascension.techniques.path_techniques.essence.SingleEle
 import net.thejadeproject.ascension.techniques.path_techniques.intent.SingleIntentTechnique;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class ModTechniques {
@@ -57,7 +59,10 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
-                    }));
+                    })
+                    .setDescription(List.of(
+                            Component.literal("breathe in pure ").append("§4fire ").append("and purify ones essence")
+                    )));
 
     public static final TechniqueHolder PURE_WATER_TECHNIQUE = createTechnique("pure_water_technique",
             ()->new SingleElementTechnique("Pure Water Technique","ascension:water",2.0)
@@ -118,7 +123,10 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
-                    }));
+                    }).setDescription(List.of(
+                            Component.literal("what heavens? under my").append(" §8Fist ").append("all is equal"),
+                            Component.literal("and all is weak")
+                    )));
 
     public static final TechniqueHolder DIVINE_PHOENIX_TECHNIQUE = createTechnique("divine_phoenix_technique",
             ()->new SingleAttributeTechnique("Divine Phoenix Technique",8.0,"ascension:fire")

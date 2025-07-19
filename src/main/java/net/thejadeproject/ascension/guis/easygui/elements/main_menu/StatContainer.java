@@ -87,6 +87,6 @@ public class StatContainer extends EmptyContainer {
     @Override
     public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
-        System.out.println("rendering stat container");
+
     }
 }

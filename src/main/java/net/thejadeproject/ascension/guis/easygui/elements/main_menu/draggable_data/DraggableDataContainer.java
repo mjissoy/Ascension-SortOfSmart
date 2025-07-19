@@ -30,7 +30,7 @@ public class DraggableDataContainer extends EmptyDraggableContainer {
         setWidth(bg.getWidth());
         setHeight(bg.getHeight());
 
-        BigButton closeButton = new BigButton(easyGuiScreen,117,0,
+        BigButton closeButton = new BigButton(easyGuiScreen,121,-4,
                 new TextureDataSubSection(
                         ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,
                                 "textures/gui/screen/gui_all.png"),

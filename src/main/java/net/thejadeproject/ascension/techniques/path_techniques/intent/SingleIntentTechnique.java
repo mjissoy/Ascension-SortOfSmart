@@ -20,10 +20,7 @@ public class SingleIntentTechnique extends AbstractTechnique {
         this.intent = intent;
     }
 
-    @Override
-    public List<MutableComponent> getDescription() {
-        return List.of();
-    }
+
 
     @Override
     public List<String> getCultivationAttributes() {
