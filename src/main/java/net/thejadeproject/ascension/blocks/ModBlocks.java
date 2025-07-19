@@ -9,10 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.custom.CustomHerbs;
-import net.thejadeproject.ascension.blocks.custom.GoldenPalmSapling;
-import net.thejadeproject.ascension.blocks.custom.ModFlammableRotatePillarBlock;
-import net.thejadeproject.ascension.blocks.custom.PillCauldronLowHumanBlock;
+import net.thejadeproject.ascension.blocks.custom.*;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -37,9 +34,9 @@ public class ModBlocks {
                     BlockBehaviour.Properties.of()
                 .strength(4.5f, 3.5f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
     public static final DeferredBlock<Block> SPIRITUAL_STONE_CLUSTER = registerBlock("spiritual_stone_cluster",
-            () -> new DropExperienceBlock(UniformInt.of(2, 4),
-                    BlockBehaviour.Properties.of()
-                .strength(6.5f, 5.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).noOcclusion().lightLevel(state -> 10)));
+            () -> new SpiritualStoneClusterBlock(BlockBehaviour.Properties.of()
+                            .strength(6.5f, 5.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).noOcclusion().lightLevel(state -> 10),
+                    UniformInt.of(2, 4)));
 
     //Other Blocks
     public static final DeferredBlock<Block> JADE_BLOCK = registerBlock("jade_block",

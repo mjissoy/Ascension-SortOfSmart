@@ -25,6 +25,7 @@ import java.util.List;
 
 public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_JADE_ORE_KEY = registerKey("jade_ore");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OVERWORLD_SPIRITUAL_CLUSTER_KEY = registerKey("spiritual_cluster");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> GOLDEN_PALM_KEY = registerKey("golden_palm");
     public static final ResourceKey<ConfiguredFeature<?, ?>> IRONWOOD_SPROUT_KEY = registerKey("ironwood_sprout");
@@ -34,8 +35,11 @@ public class ModConfiguredFeatures {
 
         List<OreConfiguration.TargetBlockState> overworldJadeOres = List.of(
                 OreConfiguration.target(stoneReplaceables, ModBlocks.JADE_ORE.get().defaultBlockState()));
+        List<OreConfiguration.TargetBlockState> overworldSpiritualCluster = List.of(
+                OreConfiguration.target(stoneReplaceables, ModBlocks.SPIRITUAL_STONE_CLUSTER.get().defaultBlockState()));
 
         register(context, OVERWORLD_JADE_ORE_KEY, Feature.ORE, new OreConfiguration(overworldJadeOres, 4));
+        register(context, OVERWORLD_SPIRITUAL_CLUSTER_KEY, Feature.ORE, new OreConfiguration(overworldSpiritualCluster, 3));
 
         //register(context, IRONWOOD_SPROUT_KEY, Feature.NO_BONEMEAL_FLOWER, new RandomPatchConfiguration(1,1,1,));
         

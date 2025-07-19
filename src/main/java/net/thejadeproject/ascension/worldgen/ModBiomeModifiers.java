@@ -19,6 +19,7 @@ import java.util.List;
 
 public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_JADE_ORE = registerKey(("add_jade_ore"));
+    public static final ResourceKey<BiomeModifier> ADD_SPIRITUAL_CLUSTER = registerKey(("add_spiritual_cluster"));
 
     public static final ResourceKey<BiomeModifier> ADD_GOLDEN_PALM = registerKey("add_golden_palm");
 
@@ -33,6 +34,11 @@ public class ModBiomeModifiers {
         context.register(ADD_JADE_ORE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.JADE_ORE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
+        context.register(ADD_SPIRITUAL_CLUSTER, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SPIRITUAL_CLUSTER_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
         context.register(ADD_GOLDEN_PALM, new BiomeModifiers.AddFeaturesBiomeModifier(
