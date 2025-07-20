@@ -23,6 +23,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.SPIRITUAL_STONE);
+                        output.accept(ModItems.JADE_SLIP);
                         output.accept(ModItems.RAW_JADE);
                         output.accept(ModItems.JADE_NUGGET);
                         output.accept(ModItems.JADE);
@@ -53,6 +54,32 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.GOLDEN_PALM_FENCE_GATE);
                         output.accept(ModBlocks.GOLDEN_PALM_DOOR);
                         output.accept(ModBlocks.GOLDEN_PALM_TRAPDOOR);
+
+                        output.accept(ModBlocks.RAW_MARBLE);
+                        output.accept(ModBlocks.POLISHED_MARBLE);
+                        output.accept(ModBlocks.MARBLE_BRICKS);
+                        output.accept(ModBlocks.MARBLE_CHISELED);
+                        output.accept(ModBlocks.MARBLE_TILES);
+                        output.accept(ModBlocks.MARBLE_BRICK_STAIRS);
+                        output.accept(ModBlocks.MARBLE_TILE_STAIRS);
+                        output.accept(ModBlocks.MARBLE_BRICK_SLABS);
+                        output.accept(ModBlocks.MARBLE_TILE_SLABS);
+                        output.accept(ModBlocks.MARBLE_BRICK_WALLS);
+                        output.accept(ModBlocks.MARBLE_TILE_WALLS);
+                        output.accept(ModBlocks.MARBLE_BURNED);
+                        output.accept(ModBlocks.POLISHED_BURNED_MARBLE);
+                        output.accept(ModBlocks.MARBLE_BURNED_BRICKS);
+                        output.accept(ModBlocks.MARBLE_BURNED_CHISELED);
+                        output.accept(ModBlocks.MARBLE_BURNED_TILES);
+                        output.accept(ModBlocks.BURNED_MARBLE_BRICK_STAIRS);
+                        output.accept(ModBlocks.BURNED_MARBLE_TILE_STAIRS);
+                        output.accept(ModBlocks.BURNED_MARBLE_BRICK_SLABS);
+                        output.accept(ModBlocks.BURNED_MARBLE_TILE_SLABS);
+                        output.accept(ModBlocks.BURNED_MARBLE_BRICK_WALLS);
+                        output.accept(ModBlocks.BURNED_MARBLE_TILE_WALLS);
+
+
+
 
                         output.accept(ModBlocks.JADE_ORE);
                         output.accept(ModBlocks.JADE_BLOCK);

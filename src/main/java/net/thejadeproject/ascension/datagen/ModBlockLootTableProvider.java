@@ -31,6 +31,18 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(ModBlocks.JADE_BLOCK.get());
+        dropSelf(ModBlocks.RAW_MARBLE.get());
+        dropSelf(ModBlocks.POLISHED_MARBLE.get());
+        dropSelf(ModBlocks.MARBLE_BURNED.get());
+        dropSelf(ModBlocks.POLISHED_BURNED_MARBLE.get());
+        dropSelf(ModBlocks.MARBLE_BURNED_CHISELED.get());
+        dropSelf(ModBlocks.MARBLE_BURNED_BRICKS.get());
+        dropSelf(ModBlocks.MARBLE_TILES.get());
+        dropSelf(ModBlocks.MARBLE_BRICKS.get());
+        dropSelf(ModBlocks.MARBLE_CHISELED.get());
+        dropSelf(ModBlocks.MARBLE_BURNED_TILES.get());
+
+
         dropSelf(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
 
         add(ModBlocks.SPIRITUAL_STONE_CLUSTER.get(),
@@ -56,8 +68,24 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.GOLDEN_PALM_SAPLING.get());
 
         dropSelf(ModBlocks.GOLDEN_PALM_STAIRS.get());
+        dropSelf(ModBlocks.MARBLE_BRICK_WALLS.get());
+        dropSelf(ModBlocks.MARBLE_TILE_WALLS.get());
+        dropSelf(ModBlocks.MARBLE_BRICK_STAIRS.get());
+        dropSelf(ModBlocks.MARBLE_TILE_STAIRS.get());
+        dropSelf(ModBlocks.BURNED_MARBLE_BRICK_WALLS.get());
+        dropSelf(ModBlocks.BURNED_MARBLE_TILE_WALLS.get());
+        dropSelf(ModBlocks.BURNED_MARBLE_BRICK_STAIRS.get());
+        dropSelf(ModBlocks.BURNED_MARBLE_TILE_STAIRS.get());
         add(ModBlocks.GOLDEN_PALM_SLAB.get(),
                 block -> createSlabItemTable(ModBlocks.GOLDEN_PALM_SLAB.get()));
+        add(ModBlocks.MARBLE_TILE_SLABS.get(),
+                block -> createSlabItemTable(ModBlocks.MARBLE_TILE_SLABS.get()));
+        add(ModBlocks.MARBLE_BRICK_SLABS.get(),
+                block -> createSlabItemTable(ModBlocks.MARBLE_BRICK_SLABS.get()));
+        add(ModBlocks.BURNED_MARBLE_TILE_SLABS.get(),
+                block -> createSlabItemTable(ModBlocks.MARBLE_TILE_SLABS.get()));
+        add(ModBlocks.BURNED_MARBLE_BRICK_SLABS.get(),
+                block -> createSlabItemTable(ModBlocks.MARBLE_BRICK_SLABS.get()));
 
         dropSelf(ModBlocks.GOLDEN_PALM_PRESSURE_PLATE.get());
         dropSelf(ModBlocks.GOLDEN_PALM_BUTTON.get());

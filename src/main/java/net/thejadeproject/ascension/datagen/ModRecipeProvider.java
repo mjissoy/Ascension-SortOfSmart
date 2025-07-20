@@ -46,13 +46,37 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shapeless/jade_nugget_from_jade");
 
 
+        polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.POLISHED_MARBLE.get(), ModBlocks.RAW_MARBLE.get());
+        polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.POLISHED_BURNED_MARBLE.get(), ModBlocks.MARBLE_BURNED.get());
+
+
 
         oreSmelting(recipeOutput, JADE_SMELTABLES, RecipeCategory.MISC, ModItems.JADE.get(), 0.25f, 200, "jade");
         oreBlasting(recipeOutput, JADE_SMELTABLES, RecipeCategory.MISC, ModItems.JADE.get(), 0.30f, 100, "jade");
 
         stairBuilder(ModBlocks.GOLDEN_PALM_STAIRS.get(), Ingredient.of(ModBlocks.GOLDEN_PALM_PLANKS)).group("golden_palm_planks")
                 .unlockedBy("has_golden_palm_planks", has(ModBlocks.GOLDEN_PALM_PLANKS)).save(recipeOutput);
+
+        stairBuilder(ModBlocks.MARBLE_TILE_STAIRS.get(), Ingredient.of(ModBlocks.MARBLE_TILES)).group("marble_tiles")
+                .unlockedBy("has_marble_tiles", has(ModBlocks.MARBLE_TILES)).save(recipeOutput);
+        stairBuilder(ModBlocks.MARBLE_BRICK_STAIRS.get(), Ingredient.of(ModBlocks.MARBLE_BRICKS)).group("marble_bricks")
+                .unlockedBy("has_marble_bricks", has(ModBlocks.MARBLE_BRICKS)).save(recipeOutput);
+        stairBuilder(ModBlocks.BURNED_MARBLE_TILE_STAIRS.get(), Ingredient.of(ModBlocks.MARBLE_BURNED_TILES)).group("burned_marble_tiles")
+                .unlockedBy("has_marble_tiles", has(ModBlocks.MARBLE_BURNED_TILES)).save(recipeOutput);
+        stairBuilder(ModBlocks.BURNED_MARBLE_BRICK_STAIRS.get(), Ingredient.of(ModBlocks.MARBLE_BURNED_BRICKS)).group("burned_marble_bricks")
+                .unlockedBy("has_marble_bricks", has(ModBlocks.MARBLE_BURNED_BRICKS)).save(recipeOutput);
+
+
         slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.GOLDEN_PALM_SLAB.get(), ModBlocks.GOLDEN_PALM_PLANKS.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.MARBLE_TILE_SLABS.get(), ModBlocks.MARBLE_TILES.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.MARBLE_BRICK_SLABS.get(), ModBlocks.MARBLE_BRICKS.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.BURNED_MARBLE_TILE_SLABS.get(), ModBlocks.MARBLE_BURNED_TILES.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.BURNED_MARBLE_BRICK_SLABS.get(), ModBlocks.MARBLE_BURNED_BRICKS.get());
+
+        wall(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.MARBLE_BRICK_WALLS.get(), ModBlocks.MARBLE_BRICKS.get());
+        wall(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.MARBLE_TILE_WALLS.get(), ModBlocks.MARBLE_TILES.get());
+        wall(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.BURNED_MARBLE_BRICK_WALLS.get(), ModBlocks.MARBLE_BURNED_BRICKS.get());
+        wall(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.BURNED_MARBLE_TILE_WALLS.get(), ModBlocks.MARBLE_BURNED_TILES.get());
 
         buttonBuilder(ModBlocks.GOLDEN_PALM_BUTTON.get(), Ingredient.of(ModBlocks.GOLDEN_PALM_PLANKS.get())).group("golden_palm_planks")
                 .unlockedBy("has_golden_palm_planks", has(ModBlocks.GOLDEN_PALM_PLANKS.get())).save(recipeOutput);

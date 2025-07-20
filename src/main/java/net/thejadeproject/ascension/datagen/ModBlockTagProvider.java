@@ -34,6 +34,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.GOLDEN_PALM_FENCE.get());
         tag(BlockTags.FENCE_GATES)
                 .add(ModBlocks.GOLDEN_PALM_FENCE_GATE.get());
+        tag(BlockTags.WALLS)
+                .add(ModBlocks.BURNED_MARBLE_TILE_WALLS.get())
+                .add(ModBlocks.BURNED_MARBLE_BRICK_WALLS.get())
+                .add(ModBlocks.MARBLE_BRICK_WALLS.get())
+                .add(ModBlocks.MARBLE_TILE_WALLS.get());
 
         this.tag(BlockTags.LOGS_THAT_BURN)
                 .add(ModBlocks.GOLDEN_PALM_LOG.get())

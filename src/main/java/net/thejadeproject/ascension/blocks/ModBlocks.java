@@ -27,6 +27,31 @@ public class ModBlocks {
             DeferredRegister.createBlocks(AscensionCraft.MOD_ID);
 
 
+
+    //Stones
+    public static final DeferredBlock<Block> RAW_MARBLE = registerBlock("raw_marble",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE)));
+    public static final DeferredBlock<Block> POLISHED_MARBLE = registerBlock("polished_marble",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+    public static final DeferredBlock<Block> POLISHED_BURNED_MARBLE = registerBlock("polished_burned_marble",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+    public static final DeferredBlock<Block> MARBLE_BRICKS = registerBlock("marble_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+    public static final DeferredBlock<Block> MARBLE_CHISELED = registerBlock("marble_chiseled",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+    public static final DeferredBlock<Block> MARBLE_TILES = registerBlock("marble_tiles",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+    public static final DeferredBlock<Block> MARBLE_BURNED = registerBlock("marble_burned",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE)));
+    public static final DeferredBlock<Block> MARBLE_BURNED_BRICKS = registerBlock("marble_burned_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+    public static final DeferredBlock<Block> MARBLE_BURNED_CHISELED = registerBlock("marble_burned_chiseled",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+    public static final DeferredBlock<Block> MARBLE_BURNED_TILES = registerBlock("marble_burned_tiles",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
+
+
+
     //Ores
 
     public static final DeferredBlock<Block> JADE_ORE = registerBlock("jade_ore",
@@ -79,6 +104,30 @@ public class ModBlocks {
     public static final DeferredBlock<SlabBlock> GOLDEN_PALM_SLAB = registerBlock("golden_palm_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)));
 
+    public static final DeferredBlock<StairBlock> MARBLE_BRICK_STAIRS = registerBlock("marble_brick_stairs",
+            () -> new StairBlock(ModBlocks.MARBLE_BRICKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_STAIRS)));
+    public static final DeferredBlock<SlabBlock> MARBLE_BRICK_SLABS = registerBlock("marble_brick_slabs",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_SLAB)));
+
+    public static final DeferredBlock<StairBlock> MARBLE_TILE_STAIRS = registerBlock("marble_tile_stairs",
+            () -> new StairBlock(ModBlocks.MARBLE_TILES.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_STAIRS)));
+    public static final DeferredBlock<SlabBlock> MARBLE_TILE_SLABS = registerBlock("marble_tile_slabs",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_SLAB)));
+
+    public static final DeferredBlock<StairBlock> BURNED_MARBLE_BRICK_STAIRS = registerBlock("burned_marble_brick_stairs",
+            () -> new StairBlock(ModBlocks.MARBLE_BURNED_BRICKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_STAIRS)));
+    public static final DeferredBlock<SlabBlock> BURNED_MARBLE_BRICK_SLABS = registerBlock("burned_marble_brick_slabs",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_SLAB)));
+
+    public static final DeferredBlock<StairBlock> BURNED_MARBLE_TILE_STAIRS = registerBlock("burned_marble_tile_stairs",
+            () -> new StairBlock(ModBlocks.MARBLE_BURNED_TILES.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_STAIRS)));
+    public static final DeferredBlock<SlabBlock> BURNED_MARBLE_TILE_SLABS = registerBlock("burned_marble_tile_slabs",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_SLAB)));
+
     public static final DeferredBlock<PressurePlateBlock> GOLDEN_PALM_PRESSURE_PLATE = registerBlock("golden_palm_pressure_plate",
             () -> new PressurePlateBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
     public static final DeferredBlock<ButtonBlock> GOLDEN_PALM_BUTTON = registerBlock("golden_palm_button",
@@ -93,6 +142,15 @@ public class ModBlocks {
             () -> new DoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR).noOcclusion()));
     public static final DeferredBlock<TrapDoorBlock> GOLDEN_PALM_TRAPDOOR = registerBlock("golden_palm_trapdoor",
             () -> new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).noOcclusion()));
+
+    public static final DeferredBlock<WallBlock> MARBLE_BRICK_WALLS = registerBlock("marble_brick_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL)));
+    public static final DeferredBlock<WallBlock> MARBLE_TILE_WALLS = registerBlock("marble_tile_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL)));
+    public static final DeferredBlock<WallBlock> BURNED_MARBLE_BRICK_WALLS = registerBlock("burned_marble_brick_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL)));
+    public static final DeferredBlock<WallBlock> BURNED_MARBLE_TILE_WALLS = registerBlock("burned_marble_tile_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL)));
 
 
 

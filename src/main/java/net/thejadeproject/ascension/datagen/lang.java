@@ -19,6 +19,7 @@ public class lang extends LanguageProvider {
 
         //Items
         add("item.ascension.spiritual_stone", "Spiritual Stone");
+        add("item.ascension.jade_slip", "Jade Slip");
         add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.ascension_icon", "Ascension Icon");
@@ -66,6 +67,29 @@ public class lang extends LanguageProvider {
         add("block.ascension.golden_palm_fence_gate", "Golden Palm Fence Gate");
         add("block.ascension.golden_palm_door", "Golden Palm Door");
         add("block.ascension.golden_palm_trapdoor", "Golden Palm Trapdoor");
+
+        add("block.ascension.raw_marble", "Marble");
+        add("block.ascension.polished_marble", "Polished Marble");
+        add("block.ascension.marble_bricks", "Marble Bricks");
+        add("block.ascension.marble_chiseled", "Chiseled Marble");
+        add("block.ascension.marble_tiles", "Marble Tiles");
+        add("block.ascension.marble_burned", "Burned Marble");
+        add("block.ascension.polished_burned_marble", "Polished Burned Marble");
+        add("block.ascension.marble_burned_bricks", "Burned Marble Bricks");
+        add("block.ascension.marble_burned_chiseled", "Burned Chiseled Marble");
+        add("block.ascension.marble_burned_tiles", "Burned Marble Tiles");
+        add("block.ascension.marble_brick_stairs", "Marble Brick Stair");
+        add("block.ascension.marble_brick_slabs", "Marble Brick Slab");
+        add("block.ascension.marble_tile_stairs", "Marble Tile Stair");
+        add("block.ascension.marble_tile_slabs", "Marble Tile Slab");
+        add("block.ascension.marble_brick_wall", "Marble Brick Wall");
+        add("block.ascension.marble_tile_wall", "Marble Tile Wall");
+        add("block.ascension.burned_marble_brick_stairs", "Burned Marble Brick Stair");
+        add("block.ascension.burned_marble_brick_slabs", "Burned Marble Brick Slab");
+        add("block.ascension.burned_marble_tile_stairs", "Burned Marble Tile Stair");
+        add("block.ascension.burned_marble_tile_slabs", "Burned Marble Tile Slab");
+        add("block.ascension.burned_marble_brick_wall", "Burned Marble Brick Wall");
+        add("block.ascension.burned_marble_tile_wall", "Burned Marble Tile Wall");
 
 
 

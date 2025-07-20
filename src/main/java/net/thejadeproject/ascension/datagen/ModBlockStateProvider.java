@@ -33,6 +33,17 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.JADE_ORE);
         simpleBlockWithItem(ModBlocks.JADE_BLOCK);
 
+        simpleBlockWithItem(ModBlocks.MARBLE_BRICKS);
+        simpleBlockWithItem(ModBlocks.MARBLE_TILES);
+        simpleBlockWithItem(ModBlocks.MARBLE_CHISELED);
+        simpleBlockWithItem(ModBlocks.RAW_MARBLE);
+        simpleBlockWithItem(ModBlocks.POLISHED_MARBLE);
+        simpleBlockWithItem(ModBlocks.POLISHED_BURNED_MARBLE);
+        simpleBlockWithItem(ModBlocks.MARBLE_BURNED);
+        simpleBlockWithItem(ModBlocks.MARBLE_BURNED_BRICKS);
+        simpleBlockWithItem(ModBlocks.MARBLE_BURNED_CHISELED);
+        simpleBlockWithItem(ModBlocks.MARBLE_BURNED_TILES);
+
 
         logBlock(((RotatedPillarBlock) ModBlocks.GOLDEN_PALM_LOG.get()));
         axisBlock(((RotatedPillarBlock) ModBlocks.GOLDEN_PALM_WOOD.get()), blockTexture(ModBlocks.GOLDEN_PALM_LOG.get()), blockTexture(ModBlocks.GOLDEN_PALM_LOG.get()));
@@ -46,21 +57,61 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         blockWithItem(ModBlocks.GOLDEN_PALM_PLANKS);
 
+        //Leaves
         leavesBlock(ModBlocks.GOLDEN_PALM_LEAVES);
+
+        //Saplings
         saplingBlock(ModBlocks.GOLDEN_PALM_SAPLING);
 
+        //Stairs
         stairsBlock(ModBlocks.GOLDEN_PALM_STAIRS.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        stairsBlock(ModBlocks.MARBLE_BRICK_STAIRS.get(), blockTexture(ModBlocks.MARBLE_BRICKS.get()));
+        stairsBlock(ModBlocks.MARBLE_TILE_STAIRS.get(), blockTexture(ModBlocks.MARBLE_TILES.get()));
+        stairsBlock(ModBlocks.BURNED_MARBLE_BRICK_STAIRS.get(), blockTexture(ModBlocks.MARBLE_BURNED_BRICKS.get()));
+        stairsBlock(ModBlocks.BURNED_MARBLE_TILE_STAIRS.get(), blockTexture(ModBlocks.MARBLE_BURNED_TILES.get()));
+
+        //Slabs
         slabBlock(ModBlocks.GOLDEN_PALM_SLAB.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        slabBlock(ModBlocks.MARBLE_BRICK_SLABS.get(), blockTexture(ModBlocks.MARBLE_BRICKS.get()), blockTexture(ModBlocks.MARBLE_BRICKS.get()));
+        slabBlock(ModBlocks.MARBLE_TILE_SLABS.get(), blockTexture(ModBlocks.MARBLE_TILES.get()), blockTexture(ModBlocks.MARBLE_TILES.get()));
+        slabBlock(ModBlocks.BURNED_MARBLE_BRICK_SLABS.get(), blockTexture(ModBlocks.MARBLE_BURNED_BRICKS.get()), blockTexture(ModBlocks.MARBLE_BURNED_BRICKS.get()));
+        slabBlock(ModBlocks.BURNED_MARBLE_TILE_SLABS.get(), blockTexture(ModBlocks.MARBLE_BURNED_TILES.get()), blockTexture(ModBlocks.MARBLE_BURNED_TILES.get()));
+
+        //Walls
+        wallBlock(ModBlocks.MARBLE_BRICK_WALLS.get(), blockTexture(ModBlocks.MARBLE_BRICKS.get()));
+        wallBlock(ModBlocks.MARBLE_TILE_WALLS.get(), blockTexture(ModBlocks.MARBLE_TILES.get()));
+        wallBlock(ModBlocks.BURNED_MARBLE_BRICK_WALLS.get(), blockTexture(ModBlocks.MARBLE_BURNED_BRICKS.get()));
+        wallBlock(ModBlocks.BURNED_MARBLE_TILE_WALLS.get(), blockTexture(ModBlocks.MARBLE_BURNED_TILES.get()));
+
+        //Buttons
         buttonBlock(ModBlocks.GOLDEN_PALM_BUTTON.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+
+        //PresurePlates
         pressurePlateBlock(ModBlocks.GOLDEN_PALM_PRESSURE_PLATE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+
+        //Fences
         fenceBlock(ModBlocks.GOLDEN_PALM_FENCE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+
+        //FenceGates
         fenceGateBlock(ModBlocks.GOLDEN_PALM_FENCE_GATE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+
+        //Doors
         doorBlockWithRenderType(ModBlocks.GOLDEN_PALM_DOOR.get(), modLoc("block/golden_palm_door_bottom"), modLoc("block/golden_palm_door_top"), "cutout");
+
+        //TrapDoors
         trapdoorBlockWithRenderType(ModBlocks.GOLDEN_PALM_TRAPDOOR.get(), modLoc("block/golden_palm_trapdoor"), true, "cutout");
 
 
         blockItem(ModBlocks.GOLDEN_PALM_STAIRS);
+        blockItem(ModBlocks.MARBLE_TILE_STAIRS);
+        blockItem(ModBlocks.MARBLE_BRICK_STAIRS);
+        blockItem(ModBlocks.BURNED_MARBLE_TILE_STAIRS);
+        blockItem(ModBlocks.BURNED_MARBLE_BRICK_STAIRS);
         blockItem(ModBlocks.GOLDEN_PALM_SLAB);
+        blockItem(ModBlocks.MARBLE_BRICK_SLABS);
+        blockItem(ModBlocks.MARBLE_TILE_SLABS);
+        blockItem(ModBlocks.BURNED_MARBLE_BRICK_SLABS);
+        blockItem(ModBlocks.BURNED_MARBLE_TILE_SLABS);
         blockItem(ModBlocks.GOLDEN_PALM_PRESSURE_PLATE);
         blockItem(ModBlocks.GOLDEN_PALM_FENCE_GATE);
         blockItem(ModBlocks.GOLDEN_PALM_TRAPDOOR, "_bottom");

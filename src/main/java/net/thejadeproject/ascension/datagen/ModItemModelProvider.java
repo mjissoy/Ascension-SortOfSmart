@@ -33,12 +33,17 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Block Items
         buttonItem(ModBlocks.GOLDEN_PALM_BUTTON, ModBlocks.GOLDEN_PALM_PLANKS);
         fenceItem(ModBlocks.GOLDEN_PALM_FENCE, ModBlocks.GOLDEN_PALM_PLANKS);
+        wallItem(ModBlocks.MARBLE_BRICK_WALLS, ModBlocks.MARBLE_BRICKS);
+        wallItem(ModBlocks.MARBLE_TILE_WALLS, ModBlocks.MARBLE_TILES);
+        wallItem(ModBlocks.BURNED_MARBLE_BRICK_WALLS, ModBlocks.MARBLE_BURNED_BRICKS);
+        wallItem(ModBlocks.BURNED_MARBLE_TILE_WALLS, ModBlocks.MARBLE_BURNED_TILES);
         basicItem(ModBlocks.GOLDEN_PALM_DOOR.asItem());
 
 
 
         //Items
         basicItem(ModItems.JADE.get());
+        basicItem(ModItems.JADE_SLIP.get());
         basicItem(ModItems.JADE_NUGGET.get());
         basicItem(ModItems.RAW_JADE.get());
 

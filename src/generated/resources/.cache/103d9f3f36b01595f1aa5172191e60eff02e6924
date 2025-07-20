@@ -1,11 +1,8 @@
-// 1.21.1	2025-07-19T12:09:24.9029877	Registries
+// 1.21.1	2025-07-20T15:10:44.3170591	Registries
 9aa603ce73a8c3b8abd491012b4c7bdd56e9688a data/ascension/neoforge/biome_modifier/add_golden_palm.json
 51af2d310185bc1723409c6ff71297e3add4e38b data/ascension/neoforge/biome_modifier/add_jade_ore.json
-960af8fcd35acc1ec46b65c6d923659d80d8061d data/ascension/neoforge/biome_modifier/add_spiritual_cluster.json
 f8dff7587617501501d8d39593b2e35472c0ce9e data/ascension/neoforge/biome_modifier/spawn_rat.json
 5f3f62784aa31c915043e874c7288f82a3b21ed7 data/ascension/worldgen/configured_feature/golden_palm.json
 fd67eb580e9f99d169a2dc1f07acbbb7022be43b data/ascension/worldgen/configured_feature/jade_ore.json
-0aecd01fae8e4172c604d9d06b883cc97bb1c007 data/ascension/worldgen/configured_feature/spiritual_cluster.json
 84af3832b455a10ecef51bf7d5ee81956cfcac17 data/ascension/worldgen/placed_feature/golden_palm_placed.json
 4305a2890964c35d23440a1837b5cfadc6f6b3f4 data/ascension/worldgen/placed_feature/jade_ore.json
-a5270b3712c310fbbd15afd249930d2572c89df3 data/ascension/worldgen/placed_feature/spiritual_cluster.json
