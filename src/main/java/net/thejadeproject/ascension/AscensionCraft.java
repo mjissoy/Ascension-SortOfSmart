@@ -27,7 +27,8 @@ import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
-import net.thejadeproject.ascension.physiques.ModPhysiques;
+import net.thejadeproject.ascension.progression.dao.ModDao;
+import net.thejadeproject.ascension.progression.physiques.ModPhysiques;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
@@ -47,8 +48,8 @@ import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.skills.ModSkills;
-import net.thejadeproject.ascension.techniques.ModTechniques;
+import net.thejadeproject.ascension.progression.skills.ModSkills;
+import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -110,9 +111,11 @@ public class AscensionCraft {
 
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
+
         ModPhysiques.register(modEventBus);
         ModSkills.register(modEventBus);
         ModTechniques.register(modEventBus);
+        ModDao.register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 

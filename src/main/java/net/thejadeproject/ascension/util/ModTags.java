@@ -36,10 +36,16 @@ public class ModTags {
         public static final TagKey<Item> FIRE = createAscensionAttributeTag("fire","§4[Fire]");
         public static final TagKey<Item> EARTH = createAscensionAttributeTag("earth","§e[Earth]");
         public static final TagKey<Item> METAL = createAscensionAttributeTag("metal","§f[Metal]");
-
+        public static final TagKey<Item> PHOENIX_FIRE = createAscensionAttributeTag("phoenix_fire",Component.literal("[Phoenix Fire]").withColor(-37120));
         private static TagKey<Item> createAscensionAttributeTag(String name,String displayName){
             TagKey<Item> tag = createTag(name);
             tagDisplayData.put(tag,Component.literal(displayName));
+            ASCENSION_ATTRIBUTES.add(tag);
+            return tag;
+        }
+        private static TagKey<Item> createAscensionAttributeTag(String name,Component displayName){
+            TagKey<Item> tag = createTag(name);
+            tagDisplayData.put(tag,displayName);
             ASCENSION_ATTRIBUTES.add(tag);
             return tag;
         }

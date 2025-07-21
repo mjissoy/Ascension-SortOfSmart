@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.techniques.ITechnique;
+import net.thejadeproject.ascension.progression.techniques.ITechnique;
 
 import java.util.List;
 

@@ -5,10 +5,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.skills.AbstractActiveSkill;
-import net.thejadeproject.ascension.skills.ISkill;
-import net.thejadeproject.ascension.skills.data.CastType;
-import net.thejadeproject.ascension.skills.data.ICastData;
+import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.ISkill;
+import net.thejadeproject.ascension.progression.skills.data.CastType;
+import net.thejadeproject.ascension.progression.skills.data.ICastData;
 
 import java.util.Collection;
 import java.util.HashMap;
