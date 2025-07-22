@@ -7,9 +7,7 @@ import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.worldgen.ModBiomeModifiers;
-import net.thejadeproject.ascension.worldgen.ModConfiguredFeatures;
-import net.thejadeproject.ascension.worldgen.ModPlacedFeatures;
+import net.thejadeproject.ascension.worldgen.*;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
