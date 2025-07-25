@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.ContainerRenderable;
 import net.lucent.easygui.interfaces.events.Clickable;
+import net.lucent.easygui.interfaces.events.Hoverable;
 import net.lucent.easygui.templating.actions.IAction;
 import net.lucent.easygui.templating.registry.EasyGuiRegistries;
 import net.minecraft.client.Minecraft;
@@ -85,6 +86,7 @@ public class ModActions {
                         }
                     }
     );
+
     public static final DeferredHolder<IAction,IAction> DISPLAY_ATTRIBUTE_VALUE = ACTIONS.register("display_attribute",
             ()->new IAction(){
                 @Override

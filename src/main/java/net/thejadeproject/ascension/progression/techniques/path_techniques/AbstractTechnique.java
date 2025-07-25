@@ -1,5 +1,7 @@
 package net.thejadeproject.ascension.progression.techniques.path_techniques;
 
+import net.lucent.easygui.elements.other.Label;
+import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -9,12 +11,15 @@ import net.minecraft.tags.ItemTags;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
 import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModTags;
 
 import java.util.*;
+import java.util.List;
 import java.util.function.Consumer;
 
 public abstract class AbstractTechnique implements ITechnique {
@@ -110,15 +115,48 @@ public abstract class AbstractTechnique implements ITechnique {
         this.description = description;
         return this;
     }
+
     @Override
     public List<MutableComponent> getDescription() {
+        return description;
+    }
+
+    @Override
+    public List<Label> getDisplayDaoEfficiencies(IEasyGuiScreen screen) {
+        List<Label> extraInfo = new ArrayList<>();
+        extraInfo.add(
+                (new Label.Builder())
+                        .screen(screen)
+                        .x(0).y(0)
+                        .text(Component.literal("Dao Efficiencies:").withStyle(ChatFormatting.BOLD))
+                        .customScaling(0.5)
+                        .build()
+        );
+        for (Map.Entry<String ,Double> value : efficiencyBonuses.entrySet()){
+            Component text = AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(value.getKey(),':')).getDisplayTitle().copy().append(": "+value.getValue().toString());
+            HoverableLabel hoverableLabel = (new HoverableLabel.Builder())
+                    .screen(screen)
+                    .x(0).y(0)
+                    .text(text)
+                    .customScaling(0.5)
+                    .dao(AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(value.getKey(),':')))
+                    .build();
+            extraInfo.add(hoverableLabel);
+        }
+        return extraInfo;
+    }
+
+    @Override
+    public List<MutableComponent> getFullDescription() {
         List<MutableComponent> extraInfo = new ArrayList<>();
         if(description != null) extraInfo = new ArrayList<>(description);
         extraInfo.add(
                 Component.literal("Dao Efficiencies:").withStyle(ChatFormatting.BOLD)
         );
         for (Map.Entry<String ,Double> value : efficiencyBonuses.entrySet()){
-            extraInfo.add(ModTags.Items.tagDisplayData.get(ItemTags.create(ResourceLocation.bySeparator(value.getKey(),':'))).copy().append(": "+value.getValue().toString()));
+            Component text = AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(value.getKey(),':')).getDisplayTitle().copy().append(": "+value.getValue().toString());
+
+            extraInfo.add(text.copy().append(": "+value.getValue().toString()));
         }
 
         return extraInfo;

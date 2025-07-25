@@ -1,11 +1,14 @@
 package net.thejadeproject.ascension.progression.techniques;
 
+import net.lucent.easygui.elements.other.Label;
+import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
 import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 
 import java.util.List;
@@ -37,7 +40,10 @@ public interface ITechnique {
 
     String getDisplayTitle();
 
+    List<MutableComponent> getFullDescription();
     List<MutableComponent> getDescription();
+
+    List<Label> getDisplayDaoEfficiencies(IEasyGuiScreen screen);
 
     //the elements cultivated
     List<String> getCultivationAttributes();

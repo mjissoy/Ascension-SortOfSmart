@@ -20,7 +20,7 @@ public class FistAura extends AbstractPassiveSkill {
     public void onLivingDamageEvent(LivingDamageEvent.Pre event){
         if(event.getSource().getEntity() != null) {
             if (!(event.getSource().getEntity() instanceof Player player)) return;
-            if(event.getSource().getWeaponItem() != ItemStack.EMPTY && !event.getSource().getWeaponItem().is(ModTags.Items.FIST_INTENT)) return;
+            if(event.getSource().getWeaponItem() != ItemStack.EMPTY && !event.getSource().getWeaponItem().is(ModTags.Items.daoItemTags.get("ascension:fist_intent"))) return;
             if (!player.getData(ModAttachments.PLAYER_DATA).hasPassiveSkill("ascension:fist_aura_skill"))return;
 
 

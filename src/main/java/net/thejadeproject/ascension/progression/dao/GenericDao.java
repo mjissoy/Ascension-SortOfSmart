@@ -2,20 +2,21 @@ package net.thejadeproject.ascension.progression.dao;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+/*
+a dao inherits the interactions of related Dao at a multiplier rate
+ */
 public class GenericDao implements IDao{
     public Component title;
     public Map<String ,Double> interactions = Map.of();
     public Map<String ,Double> relatedDao = Map.of();
-    public List<MutableComponent> description = new ArrayList<>();
+    public List<Component> description = new ArrayList<>();
     public GenericDao(Component title){
         this.title = title;
     }
@@ -36,7 +37,7 @@ public class GenericDao implements IDao{
         this.relatedDao = relatedDao;
         return this;
     }
-    public GenericDao setDescription(List<MutableComponent> description){
+    public GenericDao setDescription(List<Component> description){
         if(description == null){
             this.description = new ArrayList<>();
             return this;
@@ -46,14 +47,17 @@ public class GenericDao implements IDao{
     }
     @Override
     public Component getDisplayTitle() {
+        System.out.println(title);
         return title;
     }
 
     @Override
-    public List<MutableComponent> getDescription() {
+    public List<Component> getDescription() {
         //TODO add interaction and other stuff
-        List<MutableComponent> extraInfo = new ArrayList<>(description);
-
+        List<Component> extraInfo = new ArrayList<>(){{
+            add(getDisplayTitle());
+        }};
+        extraInfo.addAll(new ArrayList<>(description));
         extraInfo.add(
                 Component.literal("Interactions:").withStyle(ChatFormatting.BOLD)
         );
@@ -72,6 +76,7 @@ public class GenericDao implements IDao{
                     AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(relatedDao.getKey(),':')).getDisplayTitle().copy().append( ": "+relatedDao.getValue())
             );
         }
+        System.out.println("getting description : "+ extraInfo);
 
 
         return extraInfo;

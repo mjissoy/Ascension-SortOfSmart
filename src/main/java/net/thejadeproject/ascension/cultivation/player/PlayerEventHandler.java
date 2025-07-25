@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -32,8 +33,7 @@ public class PlayerEventHandler {
             List<String> attributes = new ArrayList<>();
             if(event.getSource().getWeaponItem() == ItemStack.EMPTY) attributes.add("ascension:fist_intent");
             event.getSource().getWeaponItem().getTags().forEach(itemTagKey -> {
-
-                if(ModTags.Items.ASCENSION_ATTRIBUTES.contains(itemTagKey)) attributes.add(itemTagKey.location().toString());
+                if(ModTags.Items.daoItemTags.containsKey(itemTagKey.location().toString())) attributes.add(itemTagKey.location().toString());
             });
 
             GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,"ascension:intent",attributes);

@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 
@@ -48,6 +49,15 @@ public class TechniqueDataContainer extends DraggableDataContainer {
                             .build()
             );
         }
+
+        List<Label> dao = technique.getDisplayDaoEfficiencies(easyGuiScreen);
+
+        for (int i = 0; i<dao.size(); i++){
+
+            dao.get(i).setY(lines.size()*5+5*i);
+            descriptionContainer.addChild(dao.get(i));
+        }
+
         addChild(
                 (new Label.Builder())
                         .screen(easyGuiScreen)

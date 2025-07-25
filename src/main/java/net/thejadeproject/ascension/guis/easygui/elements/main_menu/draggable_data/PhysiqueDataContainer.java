@@ -37,7 +37,7 @@ public class PhysiqueDataContainer extends DraggableDataContainer{
         EmptyContainer descriptionContainer = new EmptyContainer(easyGuiScreen,11,30,121,50);
         addChild(descriptionContainer);
         descriptionContainer.setCull(true);
-        List<MutableComponent> lines = physique.getDescription();
+        List<Component> lines = physique.getFullDescription();
         for (int i = 0; i<lines.size(); i++){
             descriptionContainer.addChild(
                     (new Label.Builder())
@@ -47,6 +47,11 @@ public class PhysiqueDataContainer extends DraggableDataContainer{
                             .customScaling(0.5)
                             .build()
             );
+        }
+        List<Label> dao = physique.getDisplayEfficiencies(easyGuiScreen);
+        for (int i = 0; i<dao.size(); i++){
+            dao.get(i).setY(lines.size()*5+5*i);
+            descriptionContainer.addChild(dao.get(i));
         }
         addChild(
                 (new Label.Builder())

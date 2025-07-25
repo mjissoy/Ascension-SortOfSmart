@@ -1,13 +1,14 @@
 package net.thejadeproject.ascension.progression.dao;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.util.ModTags;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class ModDao {
                     "ascension:water",0.5D,
                     "ascension:metal",2D
             ));
-    public static final DeferredHolder<IDao,GenericDao> METAL_DAO =createDao("metal",Component.literal("§f[Metal]]"),
+    public static final DeferredHolder<IDao,GenericDao> METAL_DAO =createDao("metal",Component.literal("§f[Metal]"),
             new ArrayList<>(),
             Map.of(
                     "ascension:wood",0.5D,
@@ -100,13 +101,14 @@ public class ModDao {
     public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title){
         return createDao(id,title,new ArrayList<>(),Map.of(),Map.of());
     }
-    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title, List<MutableComponent> description){
+    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title, List<Component> description){
         return createDao(id,title,description,Map.of(),Map.of());
     }
-    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<MutableComponent> description,Map<String ,Double> interactions){
+    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> interactions){
         return createDao(id,title,description,interactions,Map.of());
     }
-    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<MutableComponent> description,Map<String ,Double> interactions,Map<String ,Double> relatedDao){
+    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> interactions,Map<String ,Double> relatedDao){
+        ModTags.Items.createDaoTag(id);
         return DAO.register(id,()->new GenericDao(title).setInteractions(interactions).setRelatedDao(relatedDao).setDescription(description));
     }
 

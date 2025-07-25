@@ -28,11 +28,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
 
-        tag(ModTags.Items.FIRE)
+        tag(ModTags.Items.daoItemTags.get("ascension:fire"))
                 .add(ModItems.GOLDEN_SUN_LEAF.get());
-        tag(ModTags.Items.EARTH)
+        tag(ModTags.Items.daoItemTags.get("ascension:earth"))
                 .add(ModItems.IRONWOOD_SPROUT.get());
-        tag(ModTags.Items.METAL)
+        tag(ModTags.Items.daoItemTags.get("ascension:metal"))
                 .add(ModItems.WHITE_JADE_ORCHID.get());
         tag(ModTags.Items.MEDICINAL)
                 .add(ModItems.GOLDEN_SUN_LEAF.get())
@@ -55,10 +55,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ItemTags.PLANKS)
                 .add(ModBlocks.GOLDEN_PALM_PLANKS.asItem());
 
-        tag(ModTags.Items.SWORD_INTENT)
+        tag(ModTags.Items.daoItemTags.get("ascension:sword_intent"))
                 .addTag(ItemTags.SWORDS);
 
-        tag(ModTags.Items.BOW_INTENT)
+        tag(ModTags.Items.daoItemTags.get("ascension:bow_intent"))
                 .add(Items.BOW)
                 .add(Items.CROSSBOW);
 
