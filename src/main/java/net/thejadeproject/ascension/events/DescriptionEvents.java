@@ -7,6 +7,8 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent;
+import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModTags;
 
 public class DescriptionEvents {
@@ -16,13 +18,14 @@ public class DescriptionEvents {
         @SubscribeEvent
         public static void onHoverText(RenderTooltipEvent.GatherComponents event) {
             event.getItemStack().getTags().forEach(itemTagKey -> {
-                if(ModTags.Items.tagDisplayData.containsKey(itemTagKey)) {
+                if(ModTags.Items.daoItemTags.containsKey(itemTagKey.location().toString())) {
                     var list = event.getTooltipElements();
+                    Component component = AscensionRegistries.Dao.DAO_REGISTRY.get(itemTagKey.location()).getDisplayTitle();
                     if(list.size() > 2){
-                        event.getTooltipElements().add(1,Either.left(ModTags.Items.tagDisplayData.get(itemTagKey)));
+                        event.getTooltipElements().add(1,Either.left(component));
 
                     }else{
-                        event.getTooltipElements().add(Either.left(ModTags.Items.tagDisplayData.get(itemTagKey)));
+                        event.getTooltipElements().add(Either.left(component));
 
                     }
                  }
@@ -34,15 +37,7 @@ public class DescriptionEvents {
             if (event.getItemStack().is(ModTags.Items.HUMAN)) {
                 event.getTooltipElements().add(Either.left(Component.literal("§8[Human]")));
             }
-            if (event.getItemStack().is(ModTags.Items.FIRE)) {
-                event.getTooltipElements().add(Either.left(Component.literal("§4Fire")));
-            }
-            if (event.getItemStack().is(ModTags.Items.EARTH)) {
-                event.getTooltipElements().add(Either.left(Component.literal("§6Earth")));
-            }
-            if (event.getItemStack().is(ModTags.Items.METAL)) {
-                event.getTooltipElements().add(Either.left(Component.literal("§7Metal")));
-            }
+
         }
     }
 }

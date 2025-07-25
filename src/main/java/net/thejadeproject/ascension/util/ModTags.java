@@ -23,34 +23,15 @@ public class ModTags {
 
 
 
-        public static HashMap<TagKey<Item>, Component> tagDisplayData = new HashMap<>();
-        public static HashSet<TagKey<Item>> ASCENSION_ATTRIBUTES = new HashSet<>();
 
+        public static HashMap<String,TagKey<Item>> daoItemTags = new HashMap<>();
 
         //attributes/elements
-        public static final TagKey<Item> SWORD_INTENT = createAscensionAttributeTag("sword_intent","§8[Sword Intent]");
-        public static final TagKey<Item> FIST_INTENT = createAscensionAttributeTag("fist_intent","§8[Fist Intent]");
-        public static final TagKey<Item> SPEAR_INTENT = createAscensionAttributeTag("spear_intent","§8[Spear Intent]");
-        public static final TagKey<Item> BLADE_INTENT = createAscensionAttributeTag("blade_intent","§8[Blade Intent]");
-        public static final TagKey<Item> BOW_INTENT = createAscensionAttributeTag("bow_intent","§8[Bow Intent]");
-        public static final TagKey<Item> FIRE = createAscensionAttributeTag("fire","§4[Fire]");
-        public static final TagKey<Item> EARTH = createAscensionAttributeTag("earth","§e[Earth]");
-        public static final TagKey<Item> METAL = createAscensionAttributeTag("metal","§f[Metal]");
 
-        private static TagKey<Item> createAscensionAttributeTag(String name,String displayName){
-            TagKey<Item> tag = createTag(name);
-            tagDisplayData.put(tag,Component.literal(displayName));
-            ASCENSION_ATTRIBUTES.add(tag);
-            return tag;
+        public static void  createDaoTag(String name){
+            daoItemTags.put("ascension:"+name,createTag(name));
         }
 
-
-        private static TagKey<Item> createAscensionAttributeTag(String name){
-            TagKey<Item> tag = createTag(name);
-            tagDisplayData.put(tag,Component.translatable("tag_name."+name));
-            ASCENSION_ATTRIBUTES.add(tag);
-            return tag;
-        }
 
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, name));

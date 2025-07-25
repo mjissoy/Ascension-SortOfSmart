@@ -9,7 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.techniques.ModTechniques;
+import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 import java.util.function.Supplier;
 

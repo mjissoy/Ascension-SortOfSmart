@@ -2,13 +2,15 @@ package net.thejadeproject.ascension.cultivation.player;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.skills.AbstractActiveSkill;
-import net.thejadeproject.ascension.skills.ISkill;
-import net.thejadeproject.ascension.skills.data.CastType;
-import net.thejadeproject.ascension.skills.data.ICastData;
+import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.ISkill;
+import net.thejadeproject.ascension.progression.skills.data.CastType;
+import net.thejadeproject.ascension.progression.skills.data.ICastData;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -128,6 +130,29 @@ public class PlayerData {
 
     /********* Skill Data *******************************************************/
 
+    public ActiveSkillContainer activeSkillContainer = new ActiveSkillContainer();
+
+    public static class ActiveSkillContainer{
+        private List<String> skillIdList;
+
+        public List<String> getSkillIdList() {
+            return skillIdList;
+        }
+    }
+
+
+    public ListTag writeSkillContainerNBTData(ListTag skillTag){
+        ListTag tag = new ListTag();
+        for(int i = 0;i<activeSkillContainer.getSkillIdList().size(); i++){
+            tag.add(i, StringTag.valueOf(activeSkillContainer.getSkillIdList().get(i)));
+        }
+        return tag;
+    }
+    public void loadSkillContainerNBTData(ListTag skillList){
+        for(int i = 0;i<skillList.size(); i++){
+            activeSkillContainer.getSkillIdList().add(skillList.getString(i));
+        }
+    }
     public static class SkillData{
         public String skillId;
         public boolean fixed;
@@ -293,11 +318,16 @@ public class PlayerData {
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
         loadPathNBTData(tag.getCompound("path_data"));
         loadSkillNBTData(tag.getCompound("skill_data"));
+        loadSkillContainerNBTData((ListTag) tag.get("equip_skill_list"));
     }
     public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
         tag.put("path_data",writePathNBTData());
         CompoundTag skillTag = new CompoundTag();
         writeSkillNBTData(skillTag);
         tag.put("skill_data",skillTag);
+        ListTag activeSkillContainerList = new ListTag();
+        writeSkillContainerNBTData(activeSkillContainerList);
+        tag.put("equip_skill_list",activeSkillContainerList);
+
     }
 }
