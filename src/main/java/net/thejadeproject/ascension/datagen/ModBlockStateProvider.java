@@ -34,6 +34,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.JADE_BLOCK);
 
         simpleBlockWithItem(ModBlocks.MARBLE_BRICKS);
+        simpleBlockWithItem(ModBlocks.MOSSY_MARBLE_BRICKS);
+        simpleBlockWithItem(ModBlocks.CRACKED_MARBLE_BRICKS);
         simpleBlockWithItem(ModBlocks.MARBLE_TILES);
         simpleBlockWithItem(ModBlocks.MARBLE_CHISELED);
         simpleBlockWithItem(ModBlocks.RAW_MARBLE);

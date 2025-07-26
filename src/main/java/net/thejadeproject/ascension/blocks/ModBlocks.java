@@ -31,6 +31,10 @@ public class ModBlocks {
     //Stones
     public static final DeferredBlock<Block> RAW_MARBLE = registerBlock("raw_marble",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE)));
+    public static final DeferredBlock<Block> CRACKED_MARBLE_BRICKS = registerBlock("cracked_marble_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE)));
+    public static final DeferredBlock<Block> MOSSY_MARBLE_BRICKS = registerBlock("mossy_marble_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE)));
     public static final DeferredBlock<Block> POLISHED_MARBLE = registerBlock("polished_marble",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_ANDESITE)));
     public static final DeferredBlock<Block> POLISHED_BURNED_MARBLE = registerBlock("polished_burned_marble",

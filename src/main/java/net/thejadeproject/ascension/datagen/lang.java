@@ -71,6 +71,8 @@ public class lang extends LanguageProvider {
         add("block.ascension.raw_marble", "Marble");
         add("block.ascension.polished_marble", "Polished Marble");
         add("block.ascension.marble_bricks", "Marble Bricks");
+        add("block.ascension.mossy_marble_bricks", "Mossy Marble Bricks");
+        add("block.ascension.cracked_marble_bricks", "Cracked Marble Bricks");
         add("block.ascension.marble_chiseled", "Chiseled Marble");
         add("block.ascension.marble_tiles", "Marble Tiles");
         add("block.ascension.marble_burned", "Burned Marble");

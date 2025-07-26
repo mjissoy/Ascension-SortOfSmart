@@ -58,6 +58,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.RAW_MARBLE);
                         output.accept(ModBlocks.POLISHED_MARBLE);
                         output.accept(ModBlocks.MARBLE_BRICKS);
+                        output.accept(ModBlocks.CRACKED_MARBLE_BRICKS);
+                        output.accept(ModBlocks.MOSSY_MARBLE_BRICKS);
                         output.accept(ModBlocks.MARBLE_CHISELED);
                         output.accept(ModBlocks.MARBLE_TILES);
                         output.accept(ModBlocks.MARBLE_BRICK_STAIRS);

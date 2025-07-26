@@ -1,10 +1,11 @@
-// 1.21.1	2025-07-20T19:40:38.4088724	Loot Tables
+// 1.21.1	2025-07-25T22:43:11.6456415	Loot Tables
 0ae6393e116976ea917fbf3a89b2771bc4584f14 data/ascension/loot_table/blocks/burned_marble_brick_slabs.json
 f84f1cc027863a12187edf673b5893bf1d9c002f data/ascension/loot_table/blocks/burned_marble_brick_stairs.json
 f8e062ca9bf98f510c7c9c18b27c49ebb010c2f0 data/ascension/loot_table/blocks/burned_marble_brick_wall.json
 b8088762d503e202d7b349de1e737eb091c7615c data/ascension/loot_table/blocks/burned_marble_tile_slabs.json
 eb41a121860e4ecfe7ea7d4ca01c646658ad954f data/ascension/loot_table/blocks/burned_marble_tile_stairs.json
 69685c64c7e93d57e5968b30ab18cb14ca8bee0d data/ascension/loot_table/blocks/burned_marble_tile_wall.json
+8f8396c36b698e517142724a9642250fe05f0c47 data/ascension/loot_table/blocks/cracked_marble_bricks.json
 78f4085f8dd3b0de2f9a28e645dc87e811fe9fac data/ascension/loot_table/blocks/golden_palm_button.json
 1a9e6e1604f8711ac0461a88c8e7543f274282c8 data/ascension/loot_table/blocks/golden_palm_door.json
 a50bc7f52dfbed0ac4e3eda8f9dd292d0640fbe2 data/ascension/loot_table/blocks/golden_palm_fence.json
@@ -35,6 +36,7 @@ e1415e6175596ccd1a3068a71c9eedf43597e90e data/ascension/loot_table/blocks/marble
 8b242a91a8e93875c379b541cb4b5d32018f5eaf data/ascension/loot_table/blocks/marble_tile_slabs.json
 2bbfabc3512c138ba24ac302ed869a5172f9a1c6 data/ascension/loot_table/blocks/marble_tile_stairs.json
 a337c6dacd0c88e12909874685134f194e1bc555 data/ascension/loot_table/blocks/marble_tile_wall.json
+6e364db5400e87dc7a51e1fb1afb0cda81489398 data/ascension/loot_table/blocks/mossy_marble_bricks.json
 1e2f13e6d5c115afdedc4b888a42b4576aad8697 data/ascension/loot_table/blocks/pill_cauldron_low_human.json
 d91aa5977de6a6aba6571aceebc7c67549d145f1 data/ascension/loot_table/blocks/polished_burned_marble.json
 7d33864c643f764034580bd3d3a345de4f4290cf data/ascension/loot_table/blocks/polished_marble.json
