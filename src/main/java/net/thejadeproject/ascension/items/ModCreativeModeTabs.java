@@ -68,15 +68,15 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.MARBLE_TILE_SLABS);
                         output.accept(ModBlocks.MARBLE_BRICK_WALLS);
                         output.accept(ModBlocks.MARBLE_TILE_WALLS);
-                        output.accept(ModBlocks.MARBLE_BURNED);
+                        output.accept(ModBlocks.CHARRED_MARBLE);
                         output.accept(ModBlocks.POLISHED_BURNED_MARBLE);
-                        output.accept(ModBlocks.MARBLE_BURNED_BRICKS);
-                        output.accept(ModBlocks.MARBLE_BURNED_CHISELED);
-                        output.accept(ModBlocks.MARBLE_BURNED_TILES);
-                        output.accept(ModBlocks.BURNED_MARBLE_BRICK_STAIRS);
-                        output.accept(ModBlocks.BURNED_MARBLE_TILE_STAIRS);
-                        output.accept(ModBlocks.BURNED_MARBLE_BRICK_SLABS);
-                        output.accept(ModBlocks.BURNED_MARBLE_TILE_SLABS);
+                        output.accept(ModBlocks.CHARRED_MARBLE_BRICKS);
+                        output.accept(ModBlocks.CHARRED_MARBLE_CHISELED);
+                        output.accept(ModBlocks.CHARRED_MARBLE_TILES);
+                        output.accept(ModBlocks.CHARRED_MARBLE_BRICK_STAIRS);
+                        output.accept(ModBlocks.CHARRED_MARBLE_TILE_STAIRS);
+                        output.accept(ModBlocks.CHARRED_MARBLE_BRICK_SLABS);
+                        output.accept(ModBlocks.CHARRED_MARBLE_TILE_SLABS);
                         output.accept(ModBlocks.BURNED_MARBLE_BRICK_WALLS);
                         output.accept(ModBlocks.BURNED_MARBLE_TILE_WALLS);
 
