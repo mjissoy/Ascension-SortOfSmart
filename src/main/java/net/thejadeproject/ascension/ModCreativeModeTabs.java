@@ -18,14 +18,14 @@ public class ModCreativeModeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AscensionCraft.MOD_ID);
 
     public static final Supplier<CreativeModeTab> ASCENSION_ITEMS_TAB = CREATIVE_MODE_TAB.register("ascension_items_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE_INGOT.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_blocks_tab"))
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.SPIRITUAL_STONE);
                         output.accept(ModItems.RAW_JADE);
                         output.accept(ModItems.JADE_NUGGET);
-                        output.accept(ModItems.JADE);
+                        output.accept(ModItems.JADE_INGOT);
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
                         output.accept(ModItems.REGENERATION_PILL);
@@ -37,6 +37,8 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.JADE_SLIP);
+                        output.accept(ModItems.REPAIR_SLIP);
+                        output.accept(ModItems.ENDER_POUCH);
                         output.accept(ModItems.IRON_SPATIAL_RING);
                         output.accept(ModItems.GOLD_SPATIAL_RING);
                         output.accept(ModItems.DIAMOND_SPATIAL_RING);

@@ -20,7 +20,7 @@ public class lang extends LanguageProvider {
         //Items
         add("item.ascension.spiritual_stone", "Spiritual Stone");
         add("item.ascension.jade_slip", "Jade Slip");
-        add("item.ascension.jade", "Jade");
+        add("item.ascension.jade_ingot", "Jade Ingot");
         add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.ascension_icon", "Ascension Icon");
         add("item.ascension.raw_jade", "Raw Jade");
@@ -109,6 +109,18 @@ public class lang extends LanguageProvider {
         add("item.ascension.netherite_spatial_ring", "Netherite Spatial Ring");
         add("item.ascension.jade_spatial_ring", "Jade Spatial Ring");
         add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
+
+        add("item.ascension.repair_slip", "Repair Slip");
+        add("tooltip.ascension.repair_slip.shift_down1", "§3Repairs items in your inventory");
+        add("tooltip.ascension.repair_slip.shift_down2", "§3Every 100 Ticks it repairs items by 2 durability");
+        add("tooltip.ascension.repair_slip", "§8Hold [§7Shift§8] for summary");
+
+        add("item.ascension.ender_pouch_gui", "Ender Pouch");
+        add("item.ascension.ender_pouch", "Ender Pouch");
+        add("tooltip.ascension.ender_pouch.shift_down1", "§2The Ender Pouch");
+        add("tooltip.ascension.ender_pouch.shift_down2", "§aIs linked to your own Ender Chest");
+        add("tooltip.ascension.ender_pouch", "§8Hold [§7Shift§8] for summary");
+
 
         //GUI & Other Stuff
         add("creativetab.ascension.items", "Ascension Items");

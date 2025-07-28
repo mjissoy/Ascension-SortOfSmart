@@ -47,11 +47,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.NETHERITE_SPATIAL_RING.get());
         basicItem(ModItems.JADE_SPATIAL_RING.get());
         basicItem(ModItems.SPIRITUAL_STONE_SPATIAL_RING.get());
+        basicItem(ModItems.REPAIR_SLIP.get());
+        basicItem(ModItems.ENDER_POUCH.get());
 
 
 
         //Items
-        basicItem(ModItems.JADE.get());
+        basicItem(ModItems.JADE_INGOT.get());
         basicItem(ModItems.JADE_SLIP.get());
         basicItem(ModItems.JADE_NUGGET.get());
         basicItem(ModItems.RAW_JADE.get());

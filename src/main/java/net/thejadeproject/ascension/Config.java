@@ -16,6 +16,9 @@ public class Config {
 
         public static ModConfigSpec.DoubleValue MAX_BASE_MAX_HEALTH;
 
+        public static ModConfigSpec.IntValue REPAIR_AMOUNT;
+        public static ModConfigSpec.IntValue REPAIR_INTERVAL;
+
 
 
         public static ModConfigSpec.DoubleValue ESSENCE_PATH_CULTIVATION_MODIFIER;
@@ -65,7 +68,15 @@ public class Config {
 
             BUILDER.pop();
 
-
+            BUILDER.push("Artifacts");
+            BUILDER.comment("Artifact Modifiers");
+            REPAIR_AMOUNT = BUILDER
+                    .comment("Interval in ticks between Repairs [Default: 100]")
+                    .defineInRange("repairInterval", 100, 1, Integer.MAX_VALUE);
+            REPAIR_AMOUNT = BUILDER
+                    .comment("Amount of durability to Repair each interval [Default: 2]")
+                    .defineInRange("repairAmount", 2, 1, Integer.MAX_VALUE);
+            BUILDER.pop();
 
             BUILDER.push("StartingPhysiqueOptions");
                 BUILDER.comment("Intent options");

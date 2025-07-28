@@ -1,10 +1,11 @@
-// 1.21.1	2025-07-28T12:22:54.5469052	Item Models: ascension
+// 1.21.1	2025-07-28T14:30:25.021049	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 c57766879bb22d1cbcccacb3f39c724691ad72cb assets/ascension/models/item/burned_marble_brick_wall.json
 661ebd0ca05dc42a81f4304251c51b2e0caf9667 assets/ascension/models/item/burned_marble_tile_wall.json
 0ecaa4ce7327deb77cc78c43842f8da9ef45a2df assets/ascension/models/item/crimson_lotus_flame.json
 abe2becd602169ae11df376855869494e03a5542 assets/ascension/models/item/diamond_spatial_ring.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/divine_phoenix_technique.json
+14a26ac05e802ef718798bbab95ed44d115a809f assets/ascension/models/item/ender_pouch.json
 922e3b4df3ad678fc0b44e8e93d1a2891111ab36 assets/ascension/models/item/golden_palm_button.json
 52f45159c085e04ea6b39386e0b56a0a544ba074 assets/ascension/models/item/golden_palm_door.json
 a8e9779b889c8fdd9987b0f0a0f227780e247c2f assets/ascension/models/item/golden_palm_fence.json
@@ -14,7 +15,7 @@ abc8d0fe9b80442f058c18614fd4280cbf3df943 assets/ascension/models/item/golden_pal
 432c4320b0aa3e931eb37492aaeffd07b12c3430 assets/ascension/models/item/ironwood_sprout.json
 f4620bd1077fc4a91989544ff2c32d49e2778286 assets/ascension/models/item/ironwood_sprout_block.json
 40a5bdf9b8f3dca46b3f9ea7c10238cf09ad7281 assets/ascension/models/item/iron_spatial_ring.json
-3ad9a12ddaf5421f386991c79685ecfdeb06d79f assets/ascension/models/item/jade.json
+834b38381abd06ecae3769507c16e227b28f6d53 assets/ascension/models/item/jade_ingot.json
 dc985f6e9fbe09d8d740c4f130b29eec1e1db883 assets/ascension/models/item/jade_nugget.json
 e8186c3399ff6de314330d989f165b3010cc922e assets/ascension/models/item/jade_slip.json
 5ef37572f02a7c112edca4445325738517648426 assets/ascension/models/item/jade_spatial_ring.json
@@ -29,6 +30,7 @@ a95e1feba121e840b1300c8df48bf3b0099ccac5 assets/ascension/models/item/marble_bri
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/ascension/models/item/rat_spawn_egg.json
 9551df3d7f36fcc88161462890d272ce303d8f20 assets/ascension/models/item/raw_jade.json
 85b92cd02f38c7969952aa8895fa2365442fb0f8 assets/ascension/models/item/regeneration_pill.json
+74271bd33ef0167a397f600ea3f20c218cde6630 assets/ascension/models/item/repair_slip.json
 c3a38b6a7c28457283db282d2919c10b518fd700 assets/ascension/models/item/spiritual_stone_spatial_ring.json
 57f9654f314244059c37d411dc62a3e9d69d4c15 assets/ascension/models/item/undead_core.json
 5bfc048f5d1dfefcc6c12c7155bbf83e74710c4a assets/ascension/models/item/white_jade_orchid.json
