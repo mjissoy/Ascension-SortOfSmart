@@ -82,8 +82,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         //Walls
         wallBlock(ModBlocks.MARBLE_BRICK_WALLS.get(), blockTexture(ModBlocks.MARBLE_BRICKS.get()));
         wallBlock(ModBlocks.MARBLE_TILE_WALLS.get(), blockTexture(ModBlocks.MARBLE_TILES.get()));
-        wallBlock(ModBlocks.BURNED_MARBLE_BRICK_WALLS.get(), blockTexture(ModBlocks.CHARRED_MARBLE_BRICKS.get()));
-        wallBlock(ModBlocks.BURNED_MARBLE_TILE_WALLS.get(), blockTexture(ModBlocks.CHARRED_MARBLE_TILES.get()));
+        wallBlock(ModBlocks.CHARRED_MARBLE_BRICK_WALLS.get(), blockTexture(ModBlocks.CHARRED_MARBLE_BRICKS.get()));
+        wallBlock(ModBlocks.CHARRED_MARBLE_TILE_WALLS.get(), blockTexture(ModBlocks.CHARRED_MARBLE_TILES.get()));
 
         //Buttons
         buttonBlock(ModBlocks.GOLDEN_PALM_BUTTON.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));

@@ -1,14 +1,14 @@
 {
-  "type": "minecraft:smelting",
+  "type": "minecraft:blasting",
   "category": "misc",
-  "cookingtime": 200,
-  "experience": 0.25,
+  "cookingtime": 100,
+  "experience": 0.3,
   "group": "jade",
   "ingredient": {
     "item": "ascension:jade_ore"
   },
   "result": {
     "count": 1,
-    "id": "ascension:jade_ingot"
+    "id": "ascension:jade"
   }
 }

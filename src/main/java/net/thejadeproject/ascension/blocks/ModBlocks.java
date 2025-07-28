@@ -151,9 +151,9 @@ public class ModBlocks {
             () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL)));
     public static final DeferredBlock<WallBlock> MARBLE_TILE_WALLS = registerBlock("marble_tile_wall",
             () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL)));
-    public static final DeferredBlock<WallBlock> BURNED_MARBLE_BRICK_WALLS = registerBlock("burned_marble_brick_wall",
+    public static final DeferredBlock<WallBlock> CHARRED_MARBLE_BRICK_WALLS = registerBlock("burned_marble_brick_wall",
             () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL)));
-    public static final DeferredBlock<WallBlock> BURNED_MARBLE_TILE_WALLS = registerBlock("burned_marble_tile_wall",
+    public static final DeferredBlock<WallBlock> CHARRED_MARBLE_TILE_WALLS = registerBlock("burned_marble_tile_wall",
             () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL)));
 
 

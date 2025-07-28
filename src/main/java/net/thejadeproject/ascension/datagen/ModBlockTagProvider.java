@@ -22,6 +22,35 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.JADE_BLOCK.get())
                 .add(ModBlocks.JADE_ORE.get())
                 .add(ModBlocks.SPIRITUAL_STONE_CLUSTER.get())
+
+                .add(ModBlocks.RAW_MARBLE.get())
+                .add(ModBlocks.CRACKED_MARBLE_BRICKS.get())
+                .add(ModBlocks.MOSSY_MARBLE_BRICKS.get())
+                .add(ModBlocks.POLISHED_MARBLE.get())
+                .add(ModBlocks.POLISHED_BURNED_MARBLE.get())
+                .add(ModBlocks.MARBLE_BRICKS.get())
+                .add(ModBlocks.MARBLE_CHISELED.get())
+                .add(ModBlocks.MARBLE_TILES.get())
+                .add(ModBlocks.CHARRED_MARBLE.get())
+                .add(ModBlocks.CHARRED_MARBLE_BRICKS.get())
+                .add(ModBlocks.CHARRED_MARBLE_CHISELED.get())
+                .add(ModBlocks.CHARRED_MARBLE_TILES.get())
+                .add(ModBlocks.MARBLE_BRICK_STAIRS.get())
+                .add(ModBlocks.MARBLE_BRICK_SLABS.get())
+                .add(ModBlocks.MARBLE_TILE_STAIRS.get())
+                .add(ModBlocks.MARBLE_TILE_SLABS.get())
+                .add(ModBlocks.CHARRED_MARBLE_BRICK_STAIRS.get())
+                .add(ModBlocks.CHARRED_MARBLE_BRICK_SLABS.get())
+                .add(ModBlocks.CHARRED_MARBLE_TILE_STAIRS.get())
+                .add(ModBlocks.CHARRED_MARBLE_TILE_SLABS.get())
+                .add(ModBlocks.CHARRED_MARBLE_TILE_WALLS.get())
+                .add(ModBlocks.CHARRED_MARBLE_BRICK_WALLS.get())
+                .add(ModBlocks.MARBLE_BRICK_WALLS.get())
+                .add(ModBlocks.MARBLE_TILE_WALLS.get())
+
+
+
+
                 .add(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
 
         tag(BlockTags.NEEDS_DIAMOND_TOOL)
@@ -30,13 +59,16 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.JADE_BLOCK.get())
                 .add(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
 
+        tag(BlockTags.NEEDS_IRON_TOOL)
+                .add(ModBlocks.JADE_ORE.get());
+
         tag(BlockTags.FENCES)
                 .add(ModBlocks.GOLDEN_PALM_FENCE.get());
         tag(BlockTags.FENCE_GATES)
                 .add(ModBlocks.GOLDEN_PALM_FENCE_GATE.get());
         tag(BlockTags.WALLS)
-                .add(ModBlocks.BURNED_MARBLE_TILE_WALLS.get())
-                .add(ModBlocks.BURNED_MARBLE_BRICK_WALLS.get())
+                .add(ModBlocks.CHARRED_MARBLE_TILE_WALLS.get())
+                .add(ModBlocks.CHARRED_MARBLE_BRICK_WALLS.get())
                 .add(ModBlocks.MARBLE_BRICK_WALLS.get())
                 .add(ModBlocks.MARBLE_TILE_WALLS.get());
 

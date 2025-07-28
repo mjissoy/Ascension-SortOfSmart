@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_raw_jade": {
+    "has_jade_ore": {
       "conditions": {
         "items": [
           {
-            "items": "ascension:raw_jade"
+            "items": "ascension:jade_ore"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "ascension:jade_ingot_from_blasting_raw_jade"
+        "recipe": "ascension:jade_from_smelting_jade_ore"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_raw_jade"
+      "has_jade_ore"
     ]
   ],
   "rewards": {
     "recipes": [
-      "ascension:jade_ingot_from_blasting_raw_jade"
+      "ascension:jade_from_smelting_jade_ore"
     ]
   }
 }

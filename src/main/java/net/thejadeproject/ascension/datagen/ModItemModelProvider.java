@@ -35,8 +35,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         fenceItem(ModBlocks.GOLDEN_PALM_FENCE, ModBlocks.GOLDEN_PALM_PLANKS);
         wallItem(ModBlocks.MARBLE_BRICK_WALLS, ModBlocks.MARBLE_BRICKS);
         wallItem(ModBlocks.MARBLE_TILE_WALLS, ModBlocks.MARBLE_TILES);
-        wallItem(ModBlocks.BURNED_MARBLE_BRICK_WALLS, ModBlocks.CHARRED_MARBLE_BRICKS);
-        wallItem(ModBlocks.BURNED_MARBLE_TILE_WALLS, ModBlocks.CHARRED_MARBLE_TILES);
+        wallItem(ModBlocks.CHARRED_MARBLE_BRICK_WALLS, ModBlocks.CHARRED_MARBLE_BRICKS);
+        wallItem(ModBlocks.CHARRED_MARBLE_TILE_WALLS, ModBlocks.CHARRED_MARBLE_TILES);
         basicItem(ModBlocks.GOLDEN_PALM_DOOR.asItem());
 
 
@@ -53,10 +53,11 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         //Items
-        basicItem(ModItems.JADE_INGOT.get());
+        basicItem(ModItems.JADE.get());
+        basicItem(ModItems.SPIRITUAL_STONE.get());
         basicItem(ModItems.JADE_SLIP.get());
         basicItem(ModItems.JADE_NUGGET.get());
-        basicItem(ModItems.RAW_JADE.get());
+        //basicItem(ModItems.RAW_JADE.get());
 
         //Drops
         basicItem(ModItems.LIVING_CORE.get());

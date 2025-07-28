@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-25T22:43:11.6456415	Loot Tables
+// 1.21.1	2025-07-28T14:54:38.5930939	Loot Tables
 0ae6393e116976ea917fbf3a89b2771bc4584f14 data/ascension/loot_table/blocks/burned_marble_brick_slabs.json
 f84f1cc027863a12187edf673b5893bf1d9c002f data/ascension/loot_table/blocks/burned_marble_brick_stairs.json
 f8e062ca9bf98f510c7c9c18b27c49ebb010c2f0 data/ascension/loot_table/blocks/burned_marble_brick_wall.json
@@ -22,7 +22,7 @@ f6a6026a70ebafd9b9269e3627b3a31c7a26a048 data/ascension/loot_table/blocks/golden
 0db168f83de1899dc9eb1739e653c7740c12498c data/ascension/loot_table/blocks/golden_sun_leaf_block.json
 04b2d0adf210d4bf74b2a1db674a5bb278b44388 data/ascension/loot_table/blocks/ironwood_sprout_block.json
 57bb7a7f3ca90dd11fbf957b2e2bc353df616830 data/ascension/loot_table/blocks/jade_block.json
-7d05034d39d345c6b872ed5eaf0af4fc974342c0 data/ascension/loot_table/blocks/jade_ore.json
+d1f205c780a21c7ebfd2ac0b76476c86f9201861 data/ascension/loot_table/blocks/jade_ore.json
 991bdf86deec93110ed1dbd97eb6d9bf44e645ba data/ascension/loot_table/blocks/marble_bricks.json
 21d51911cc2e0b261369ec7687db110992edcc39 data/ascension/loot_table/blocks/marble_brick_slabs.json
 6ebaa73a6a1f76d263a19483c2a45e85fd04aa4e data/ascension/loot_table/blocks/marble_brick_stairs.json

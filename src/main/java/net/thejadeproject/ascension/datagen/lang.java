@@ -20,10 +20,10 @@ public class lang extends LanguageProvider {
         //Items
         add("item.ascension.spiritual_stone", "Spiritual Stone");
         add("item.ascension.jade_slip", "Jade Slip");
-        add("item.ascension.jade_ingot", "Jade Ingot");
+        add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.ascension_icon", "Ascension Icon");
-        add("item.ascension.raw_jade", "Raw Jade");
+        //add("item.ascension.raw_jade", "Raw Jade");
         add("item.ascension.undead_core", "Undead Core");
         add("item.ascension.living_core", "Living Core");
         add("item.ascension.crimson_lotus_flame", "Crimson Lotus Flame");

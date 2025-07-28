@@ -5,10 +5,10 @@
   "experience": 0.25,
   "group": "jade",
   "ingredient": {
-    "item": "ascension:raw_jade"
+    "item": "ascension:jade_ore"
   },
   "result": {
     "count": 1,
-    "id": "ascension:jade_ingot"
+    "id": "ascension:jade"
   }
 }

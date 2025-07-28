@@ -60,7 +60,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
 
         add(ModBlocks.JADE_ORE.get(),
-                block -> createOreDrop(ModBlocks.JADE_ORE.get(), ModItems.RAW_JADE.get()));
+                block -> createOreDrop(ModBlocks.JADE_ORE.get(), ModItems.JADE.get()));
 
         this.dropSelf(ModBlocks.GOLDEN_PALM_LOG.get());
         this.dropSelf(ModBlocks.GOLDEN_PALM_WOOD.get());
@@ -74,8 +74,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.MARBLE_TILE_WALLS.get());
         dropSelf(ModBlocks.MARBLE_BRICK_STAIRS.get());
         dropSelf(ModBlocks.MARBLE_TILE_STAIRS.get());
-        dropSelf(ModBlocks.BURNED_MARBLE_BRICK_WALLS.get());
-        dropSelf(ModBlocks.BURNED_MARBLE_TILE_WALLS.get());
+        dropSelf(ModBlocks.CHARRED_MARBLE_BRICK_WALLS.get());
+        dropSelf(ModBlocks.CHARRED_MARBLE_TILE_WALLS.get());
         dropSelf(ModBlocks.CHARRED_MARBLE_BRICK_STAIRS.get());
         dropSelf(ModBlocks.CHARRED_MARBLE_TILE_STAIRS.get());
         add(ModBlocks.GOLDEN_PALM_SLAB.get(),

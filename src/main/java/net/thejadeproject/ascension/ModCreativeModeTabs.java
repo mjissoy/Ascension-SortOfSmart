@@ -18,14 +18,14 @@ public class ModCreativeModeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AscensionCraft.MOD_ID);
 
     public static final Supplier<CreativeModeTab> ASCENSION_ITEMS_TAB = CREATIVE_MODE_TAB.register("ascension_items_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE_INGOT.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_blocks_tab"))
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.SPIRITUAL_STONE);
-                        output.accept(ModItems.RAW_JADE);
+                        //output.accept(ModItems.RAW_JADE);
                         output.accept(ModItems.JADE_NUGGET);
-                        output.accept(ModItems.JADE_INGOT);
+                        output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
                         output.accept(ModItems.REGENERATION_PILL);
@@ -92,8 +92,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.CHARRED_MARBLE_TILE_STAIRS);
                         output.accept(ModBlocks.CHARRED_MARBLE_BRICK_SLABS);
                         output.accept(ModBlocks.CHARRED_MARBLE_TILE_SLABS);
-                        output.accept(ModBlocks.BURNED_MARBLE_BRICK_WALLS);
-                        output.accept(ModBlocks.BURNED_MARBLE_TILE_WALLS);
+                        output.accept(ModBlocks.CHARRED_MARBLE_BRICK_WALLS);
+                        output.accept(ModBlocks.CHARRED_MARBLE_TILE_WALLS);
 
 
 
