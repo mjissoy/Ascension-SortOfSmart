@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.items;
+package net.thejadeproject.ascension;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -7,8 +7,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 import java.util.function.Supplier;
@@ -23,13 +23,26 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.SPIRITUAL_STONE);
-                        output.accept(ModItems.JADE_SLIP);
                         output.accept(ModItems.RAW_JADE);
                         output.accept(ModItems.JADE_NUGGET);
                         output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
                         output.accept(ModItems.REGENERATION_PILL);
+                    }).build());
+
+    public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SPIRITUAL_STONE_SPATIAL_RING.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_items_tab"))
+                    .title(Component.translatable("creativetab.ascension.artifacts"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.JADE_SLIP);
+                        output.accept(ModItems.IRON_SPATIAL_RING);
+                        output.accept(ModItems.GOLD_SPATIAL_RING);
+                        output.accept(ModItems.DIAMOND_SPATIAL_RING);
+                        output.accept(ModItems.NETHERITE_SPATIAL_RING);
+                        output.accept(ModItems.JADE_SPATIAL_RING);
+                        output.accept(ModItems.SPIRITUAL_STONE_SPATIAL_RING);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",
