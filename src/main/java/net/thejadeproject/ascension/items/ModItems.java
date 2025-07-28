@@ -26,6 +26,22 @@ public class ModItems {
 
 
 
+
+    //Artifacts
+    public static final DeferredItem<Item> IRON_SPATIAL_RING = ITEMS.register("iron_spatial_ring",
+            () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
+    public static final DeferredItem<Item> GOLD_SPATIAL_RING = ITEMS.register("gold_spatial_ring",
+            () -> new Item(new Item.Properties().rarity(Rarity.COMMON)));
+    public static final DeferredItem<Item> DIAMOND_SPATIAL_RING = ITEMS.register("diamond_spatial_ring",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> NETHERITE_SPATIAL_RING = ITEMS.register("netherite_spatial_ring",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final DeferredItem<Item> JADE_SPATIAL_RING = ITEMS.register("jade_spatial_ring",
+            () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final DeferredItem<Item> SPIRITUAL_STONE_SPATIAL_RING = ITEMS.register("spiritual_stone_spatial_ring",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+
+
     //NotUsedStuff
     public static final DeferredItem<Item> ASCENSION_ICON = ITEMS.register("ascension_icon",
             () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));

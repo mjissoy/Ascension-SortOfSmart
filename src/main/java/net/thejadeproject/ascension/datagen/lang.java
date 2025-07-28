@@ -101,8 +101,18 @@ public class lang extends LanguageProvider {
         add("block.ascension.jade_block", "Jade Block");
         add("block.ascension.pill_cauldron_low_human", "Pill Cauldron");
 
+
+        //Artifacts
+        add("item.ascension.iron_spatial_ring", "Iron Spatial Ring");
+        add("item.ascension.gold_spatial_ring", "Gold Spatial Ring");
+        add("item.ascension.diamond_spatial_ring", "Diamond Spatial Ring");
+        add("item.ascension.netherite_spatial_ring", "Netherite Spatial Ring");
+        add("item.ascension.jade_spatial_ring", "Jade Spatial Ring");
+        add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
+
         //GUI & Other Stuff
         add("creativetab.ascension.items", "Ascension Items");
+        add("creativetab.ascension.artifacts", "Ascension Artifacts");
         add("creativetab.ascension.blocks", "Ascension Blocks");
         add("creativetab.ascension.herbs", "Ascension Herbs");
         add("creativetab.ascension.manuals", "Ascension Manuals");
