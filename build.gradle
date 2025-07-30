@@ -19,6 +19,7 @@ group = mod_group_id
 // This is the repositories block in your build.gradle. NOT the one in publishing, or in buildscript. If it does not exist already, create it.
 repositories {
     maven { url 'https://jitpack.io/' }
+    maven { url = 'https://maven.minecraftforge.net/' }
     maven {
         name = 'Favouriteless Maven'
         url 'https://maven.favouriteless.net/releases'
@@ -122,6 +123,7 @@ dependencies {
 
     implementation 'com.github.OliverHesse:EasyGui:80dbbb6c3c'
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
+    implementation 'com.github.glitchfiend:TerraBlender-neoforge:' + minecraft_version + '-' + terrablender_version
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
@@ -160,7 +162,9 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description        : mod_description
+            mod_description        : mod_description,
+            terrablender_version        : terrablender_version,
+            modopedia_version        : modopedia_version
     ]
     inputs.properties replaceProperties
     expand replaceProperties

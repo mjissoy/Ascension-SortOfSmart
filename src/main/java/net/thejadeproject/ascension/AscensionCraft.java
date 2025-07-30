@@ -52,6 +52,8 @@ import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.worldgen.biome.ModTerrablender;
+import net.thejadeproject.ascension.worldgen.biome.surface.ModSurfaceRules;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -68,6 +70,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import terrablender.api.SurfaceRuleManager;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AscensionCraft.MOD_ID)
@@ -95,6 +98,8 @@ public class AscensionCraft {
 
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
+
+        ModTerrablender.registerBiomes();
 
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
@@ -204,6 +209,7 @@ public class AscensionCraft {
     private void commonSetup(final FMLCommonSetupEvent event) {
         DynamicPillsSystem.loadPills();
         DynamicPillsSystem.registerPills();
+        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
 
     }
 
