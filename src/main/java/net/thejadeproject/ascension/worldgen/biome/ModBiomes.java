@@ -46,9 +46,6 @@ public class ModBiomes {
         spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.SKELETON, 4, 4, 100));
         spawnBuilder.addSpawn(MobCategory.MONSTER, new MobSpawnSettings.SpawnerData(EntityType.ENDERMAN, 1, 4, 10));
 
-        // Underground water creature (glow squid)
-        spawnBuilder.addSpawn(MobCategory.UNDERGROUND_WATER_CREATURE, new MobSpawnSettings.SpawnerData(EntityType.GLOW_SQUID, 4, 6, 10));
-
         // Biome Generation Settings
         BiomeGenerationSettings.Builder biomeBuilder = new BiomeGenerationSettings.Builder(
                 context.lookup(Registries.PLACED_FEATURE),
@@ -56,10 +53,11 @@ public class ModBiomes {
         );
 
         // More dramatic carvers for bigger mountains
-        biomeBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CAVE);
-        biomeBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND);
         biomeBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CANYON);
-        biomeBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CANYON); // Extra canyon for more dramatic terrain
+        biomeBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CANYON);
+        biomeBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CANYON);// Extra canyon for more dramatic terrain
+        biomeBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND);
+        biomeBuilder.addCarver(GenerationStep.Carving.AIR, Carvers.CAVE);
 
         // Add features in the correct order
         // Step 0: Underground lakes
@@ -85,19 +83,13 @@ public class ModBiomes {
         // Step 8: Springs and infested blocks
         biomeBuilder.addFeature(GenerationStep.Decoration.FLUID_SPRINGS, MiscOverworldPlacements.SPRING_WATER);
         biomeBuilder.addFeature(GenerationStep.Decoration.FLUID_SPRINGS, MiscOverworldPlacements.SPRING_LAVA);
-        biomeBuilder.addFeature(GenerationStep.Decoration.FLUID_SPRINGS, OrePlacements.ORE_INFESTED);
+        biomeBuilder.addFeature(GenerationStep.Decoration.RAW_GENERATION, MiscOverworldPlacements.SPRING_WATER);
 
         // Step 9: Vegetation - Modified for lush mountains
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, CavePlacements.GLOW_LICHEN);
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.TREES_WINDSWEPT_HILLS); // Base windswept trees
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.TREES_PLAINS); // Added oak trees
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.TREES_TAIGA); // Added spruce trees
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.TREES_WINDSWEPT_HILLS); // Base windswept trees// Added oak trees
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_GRASS_BADLANDS); // Lush grass
         biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_GRASS_TAIGA); // Taiga-style grass
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.BROWN_MUSHROOM_TAIGA);
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.RED_MUSHROOM_TAIGA);
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_SUGAR_CANE);
-        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, VegetationPlacements.PATCH_PUMPKIN);
+        biomeBuilder.addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, MiscOverworldPlacements.FOREST_ROCK);
 
         // Taiga boulders
         //biomeBuilder.addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, VegetationPlacements);
@@ -106,7 +98,7 @@ public class ModBiomes {
         return new Biome.BiomeBuilder()
                 .hasPrecipitation(true)
                 .downfall(0.3f)  // Slightly drier than plains
-                .temperature(0.2f)  // Colder for higher altitudes
+                .temperature(0.5f)  // Colder for higher altitudes
                 .generationSettings(biomeBuilder.build())
                 .mobSpawnSettings(spawnBuilder.build())
                 .specialEffects(new BiomeSpecialEffects.Builder()

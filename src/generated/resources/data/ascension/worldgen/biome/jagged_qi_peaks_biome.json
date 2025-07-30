@@ -1,10 +1,11 @@
 {
   "carvers": {
     "air": [
-      "minecraft:cave",
-      "minecraft:cave_extra_underground",
       "minecraft:canyon",
-      "minecraft:canyon"
+      "minecraft:canyon",
+      "minecraft:canyon",
+      "minecraft:cave_extra_underground",
+      "minecraft:cave"
     ]
   },
   "downfall": 0.3,
@@ -23,7 +24,9 @@
     "water_fog_color": 329011
   },
   "features": [
-    [],
+    [
+      "minecraft:spring_water"
+    ],
     [
       "minecraft:lake_lava_underground",
       "minecraft:lake_lava_surface"
@@ -50,20 +53,13 @@
     [],
     [
       "minecraft:spring_water",
-      "minecraft:spring_lava",
-      "minecraft:ore_infested"
+      "minecraft:spring_lava"
     ],
     [
-      "minecraft:glow_lichen",
       "minecraft:trees_windswept_hills",
-      "minecraft:trees_plains",
-      "minecraft:trees_taiga",
       "minecraft:patch_grass_badlands",
       "minecraft:patch_grass_taiga",
-      "minecraft:brown_mushroom_taiga",
-      "minecraft:red_mushroom_taiga",
-      "minecraft:patch_sugar_cane",
-      "minecraft:patch_pumpkin"
+      "minecraft:forest_rock"
     ]
   ],
   "has_precipitation": true,
@@ -203,16 +199,10 @@
         "maxCount": 6,
         "minCount": 4,
         "weight": 10
-      },
-      {
-        "type": "minecraft:glow_squid",
-        "maxCount": 10,
-        "minCount": 6,
-        "weight": 4
       }
     ],
     "water_ambient": [],
     "water_creature": []
   },
-  "temperature": 0.2
+  "temperature": 0.5
 }
