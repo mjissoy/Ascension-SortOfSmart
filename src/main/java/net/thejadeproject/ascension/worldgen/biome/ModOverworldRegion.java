@@ -22,23 +22,32 @@ public class ModOverworldRegion extends Region {
     }
 
 
+
+
     @Override
+    public void addBiomes(Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
+        this.addModifiedVanillaOverworldBiomes(mapper, modifiedVanillaOverworldBuilder -> {
+            modifiedVanillaOverworldBuilder.replaceBiome(Biomes.STONY_PEAKS, ModBiomes.JAGGED_QI_PEAKS_BIOME);
+        });
+    }
+
+    /*@Override
     public void addBiomes(Registry<Biome> registry, Consumer<Pair<Climate.ParameterPoint, ResourceKey<Biome>>> mapper) {
         {
             VanillaParameterOverlayBuilder builder = new VanillaParameterOverlayBuilder();
             // Overlap Vanilla's parameters with our own for our JAGGED QI PEAKS biome.
             // The parameters for this biome are chosen arbitrarily.
             new ParameterUtils.ParameterPointListBuilder()
-                    .temperature(ParameterUtils.Temperature.span(ParameterUtils.Temperature.COOL, ParameterUtils.Temperature.FROZEN))
-                    .humidity(ParameterUtils.Humidity.span(ParameterUtils.Humidity.DRY, ParameterUtils.Humidity.HUMID))
+                    .temperature(ParameterUtils.Temperature.span(ParameterUtils.Temperature.COOL, ParameterUtils.Temperature.COOL))
+                    .humidity(ParameterUtils.Humidity.span(ParameterUtils.Humidity.DRY, ParameterUtils.Humidity.DRY))
                     .continentalness(ParameterUtils.Continentalness.MID_INLAND, ParameterUtils.Continentalness.FAR_INLAND)
-                    .erosion(ParameterUtils.Erosion.EROSION_0, ParameterUtils.Erosion.EROSION_1)
-                    .depth(ParameterUtils.Depth.SURFACE)
-                    .weirdness(ParameterUtils.Weirdness.HIGH_SLICE_NORMAL_ASCENDING, ParameterUtils.Weirdness.HIGH_SLICE_NORMAL_ASCENDING, ParameterUtils.Weirdness.MID_SLICE_NORMAL_ASCENDING, ParameterUtils.Weirdness.MID_SLICE_NORMAL_ASCENDING)
+                    .erosion(ParameterUtils.Erosion.EROSION_4, ParameterUtils.Erosion.EROSION_6)
+                    .depth(ParameterUtils.Depth.SURFACE, ParameterUtils.Depth.SURFACE)
+                    .weirdness(ParameterUtils.Weirdness.HIGH_SLICE_NORMAL_ASCENDING, ParameterUtils.Weirdness.HIGH_SLICE_VARIANT_ASCENDING)
                     .build().forEach(point -> builder.add(point, ModBiomes.JAGGED_QI_PEAKS_BIOME));
 
             // Add our points to the mapper
             builder.build().forEach(mapper);
         }
-    }
+    }*/
 }
