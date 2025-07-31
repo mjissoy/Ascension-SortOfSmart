@@ -49,14 +49,93 @@ public class ModBlocks {
     public static final DeferredBlock<Block> CRACKED_MARBLE_BRICKS = registerBlock("cracked_marble_bricks", () -> makeBlockFrom(Blocks.ANDESITE));
     public static final DeferredBlock<Block> MOSSY_MARBLE_BRICKS = registerBlock("mossy_marble_bricks", () -> makeBlockFrom(Blocks.ANDESITE));
     public static final DeferredBlock<Block> POLISHED_MARBLE = registerBlock("polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
-    public static final DeferredBlock<Block> POLISHED_BURNED_MARBLE = registerBlock("polished_burned_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
     public static final DeferredBlock<Block> MARBLE_BRICKS = registerBlock("marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
     public static final DeferredBlock<Block> MARBLE_CHISELED = registerBlock("marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
     public static final DeferredBlock<Block> MARBLE_TILES = registerBlock("marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+
+    public static final DeferredBlock<Block> POLISHED_BURNED_MARBLE = registerBlock("polished_burned_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
     public static final DeferredBlock<Block> CHARRED_MARBLE = registerBlock("marble_burned", () -> makeBlockFrom(Blocks.ANDESITE));
     public static final DeferredBlock<Block> CHARRED_MARBLE_BRICKS = registerBlock("marble_burned_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
     public static final DeferredBlock<Block> CHARRED_MARBLE_CHISELED = registerBlock("marble_burned_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
     public static final DeferredBlock<Block> CHARRED_MARBLE_TILES = registerBlock("marble_burned_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+
+    public static final DeferredBlock<Block> BLUE_MARBLE = registerBlock("blue_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> BLUE_MARBLE_BRICKS = registerBlock("blue_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> BLUE_MARBLE_CHISELED = registerBlock("blue_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> BLUE_MARBLE_TILES = registerBlock("blue_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> BLUE_POLISHED_MARBLE = registerBlock("blue_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> BROWN_MARBLE = registerBlock("brown_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> BROWN_MARBLE_BRICKS = registerBlock("brown_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> BROWN_MARBLE_CHISELED = registerBlock("brown_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> BROWN_MARBLE_TILES = registerBlock("brown_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> BROWN_POLISHED_MARBLE = registerBlock("brown_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> CYAN_MARBLE = registerBlock("cyan_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> CYAN_MARBLE_BRICKS = registerBlock("cyan_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> CYAN_MARBLE_CHISELED = registerBlock("cyan_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> CYAN_MARBLE_TILES = registerBlock("cyan_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> CYAN_POLISHED_MARBLE = registerBlock("cyan_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> GRAY_MARBLE = registerBlock("gray_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> GRAY_MARBLE_BRICKS = registerBlock("gray_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> GRAY_MARBLE_CHISELED = registerBlock("gray_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> GRAY_MARBLE_TILES = registerBlock("gray_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> GRAY_POLISHED_MARBLE = registerBlock("gray_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> GREEN_MARBLE = registerBlock("green_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> GREEN_MARBLE_BRICKS = registerBlock("green_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> GREEN_MARBLE_CHISELED = registerBlock("green_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> GREEN_MARBLE_TILES = registerBlock("green_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> GREEN_POLISHED_MARBLE = registerBlock("green_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_BLUE_MARBLE = registerBlock("light_blue_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_BLUE_MARBLE_BRICKS = registerBlock("light_blue_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_BLUE_MARBLE_CHISELED = registerBlock("light_blue_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_BLUE_MARBLE_TILES = registerBlock("light_blue_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_BLUE_POLISHED_MARBLE = registerBlock("light_blue_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_GRAY_MARBLE = registerBlock("light_gray_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_GRAY_MARBLE_BRICKS = registerBlock("light_gray_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_GRAY_MARBLE_CHISELED = registerBlock("light_gray_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIGHT_GRAY_MARBLE_TILES = registerBlock("light_gray_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> POLISHED_LIGHT_GRAY_MARBLE = registerBlock("polished_light_gray_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIME_MARBLE = registerBlock("lime_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> LIME_MARBLE_BRICKS = registerBlock("lime_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIME_MARBLE_CHISELED = registerBlock("lime_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIME_MARBLE_TILES = registerBlock("lime_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> LIME_POLISHED_MARBLE = registerBlock("lime_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> MAGENTA_MARBLE = registerBlock("magenta_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> MAGENTA_MARBLE_BRICKS = registerBlock("magenta_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> MAGENTA_MARBLE_CHISELED = registerBlock("magenta_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> MAGENTA_MARBLE_TILES = registerBlock("magenta_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> MAGENTA_POLISHED_MARBLE = registerBlock("magenta_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> ORANGE_MARBLE = registerBlock("orange_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> ORANGE_MARBLE_BRICKS = registerBlock("orange_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> ORANGE_MARBLE_CHISELED = registerBlock("orange_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> ORANGE_MARBLE_TILES = registerBlock("orange_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> ORANGE_POLISHED_MARBLE = registerBlock("orange_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> PINK_MARBLE = registerBlock("pink_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> PINK_MARBLE_BRICKS = registerBlock("pink_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> PINK_MARBLE_CHISELED = registerBlock("pink_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> PINK_MARBLE_TILES = registerBlock("pink_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> PINK_POLISHED_MARBLE = registerBlock("pink_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> PURPLE_MARBLE = registerBlock("purple_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> PURPLE_MARBLE_BRICKS = registerBlock("purple_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> PURPLE_MARBLE_CHISELED = registerBlock("purple_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> PURPLE_MARBLE_TILES = registerBlock("purple_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> PURPLE_POLISHED_MARBLE = registerBlock("purple_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> RED_MARBLE = registerBlock("red_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> RED_MARBLE_BRICKS = registerBlock("red_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> RED_MARBLE_CHISELED = registerBlock("red_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> RED_MARBLE_TILES = registerBlock("red_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> RED_POLISHED_MARBLE = registerBlock("red_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> YELLOW_MARBLE = registerBlock("yellow_marble", () -> makeBlockFrom(Blocks.ANDESITE));
+    public static final DeferredBlock<Block> YELLOW_MARBLE_BRICKS = registerBlock("yellow_marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> YELLOW_MARBLE_CHISELED = registerBlock("yellow_marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> YELLOW_MARBLE_TILES = registerBlock("yellow_marble_tiles", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+    public static final DeferredBlock<Block> YELLOW_POLISHED_MARBLE = registerBlock("yellow_polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
+
+
+
+
+    /** Valueable Blocks */
+    public static final DeferredBlock<Block> SPIRITUAL_STONE_BLOCK = registerBlock("spiritual_stone_block", () -> makeBlockFrom(Blocks.DIAMOND_BLOCK));
+
 
     /** Marble Stairs */
 
@@ -68,6 +147,62 @@ public class ModBlocks {
             () -> makeStairsFrom(ModBlocks.CHARRED_MARBLE_BRICKS));
     public static final DeferredBlock<StairBlock> CHARRED_MARBLE_TILE_STAIRS = registerBlock("burned_marble_tile_stairs",
             () -> makeStairsFrom(ModBlocks.CHARRED_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> BLUE_MARBLE_BRICK_STAIRS = registerBlock("blue_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.BLUE_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> BLUE_MARBLE_TILE_STAIRS = registerBlock("blue_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.BLUE_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> BROWN_MARBLE_BRICK_STAIRS = registerBlock("brown_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.BROWN_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> BROWN_MARBLE_TILE_STAIRS = registerBlock("brown_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.BROWN_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> CYAN_MARBLE_BRICK_STAIRS = registerBlock("cyan_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.CYAN_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> CYAN_MARBLE_TILE_STAIRS = registerBlock("cyan_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.CYAN_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> GRAY_MARBLE_BRICK_STAIRS = registerBlock("gray_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.GRAY_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> GRAY_MARBLE_TILE_STAIRS = registerBlock("gray_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.GRAY_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> GREEN_MARBLE_BRICK_STAIRS = registerBlock("green_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.GREEN_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> GREEN_MARBLE_TILE_STAIRS = registerBlock("green_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.GREEN_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> LIGHT_BLUE_MARBLE_BRICK_STAIRS = registerBlock("light_blue_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.LIGHT_BLUE_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> LIGHT_BLUE_MARBLE_TILE_STAIRS = registerBlock("light_blue_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.LIGHT_BLUE_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> LIGHT_GRAY_MARBLE_BRICK_STAIRS = registerBlock("light_gray_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.LIGHT_GRAY_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> LIGHT_GRAY_MARBLE_TILE_STAIRS = registerBlock("light_gray_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.LIGHT_GRAY_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> LIME_MARBLE_BRICK_STAIRS = registerBlock("lime_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.LIME_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> LIME_MARBLE_TILE_STAIRS = registerBlock("lime_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.LIME_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> MAGENTA_MARBLE_BRICK_STAIRS = registerBlock("magenta_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.MAGENTA_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> MAGENTA_MARBLE_TILE_STAIRS = registerBlock("magenta_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.MAGENTA_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> ORANGE_MARBLE_BRICK_STAIRS = registerBlock("orange_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.ORANGE_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> ORANGE_MARBLE_TILE_STAIRS = registerBlock("orange_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.ORANGE_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> PINK_MARBLE_BRICK_STAIRS = registerBlock("pink_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.PINK_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> PINK_MARBLE_TILE_STAIRS = registerBlock("pink_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.PINK_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> PURPLE_MARBLE_BRICK_STAIRS = registerBlock("purple_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.PURPLE_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> PURPLE_MARBLE_TILE_STAIRS = registerBlock("purple_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.PURPLE_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> RED_MARBLE_BRICK_STAIRS = registerBlock("red_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.RED_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> RED_MARBLE_TILE_STAIRS = registerBlock("red_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.RED_MARBLE_TILES));
+    public static final DeferredBlock<StairBlock> YELLOW_MARBLE_BRICK_STAIRS = registerBlock("yellow_marble_brick_stairs",
+            () -> makeStairsFrom(ModBlocks.YELLOW_MARBLE_BRICKS));
+    public static final DeferredBlock<StairBlock> YELLOW_MARBLE_TILE_STAIRS = registerBlock("yellow_marble_tile_stairs",
+            () -> makeStairsFrom(ModBlocks.YELLOW_MARBLE_TILES));
 
     /** Marble Slabs */
 
@@ -75,6 +210,36 @@ public class ModBlocks {
     public static final DeferredBlock<SlabBlock> MARBLE_TILE_SLABS = registerBlock("marble_tile_slabs", () -> makeSlabFrom());
     public static final DeferredBlock<SlabBlock> CHARRED_MARBLE_BRICK_SLABS = registerBlock("burned_marble_brick_slabs", () -> makeSlabFrom());
     public static final DeferredBlock<SlabBlock> CHARRED_MARBLE_TILE_SLABS = registerBlock("burned_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> BLUE_MARBLE_BRICK_SLABS = registerBlock("blue_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> BLUE_MARBLE_TILE_SLABS = registerBlock("blue_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> BROWN_MARBLE_BRICK_SLABS = registerBlock("brown_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> BROWN_MARBLE_TILE_SLABS = registerBlock("brown_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> CYAN_MARBLE_BRICK_SLABS = registerBlock("cyan_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> CYAN_MARBLE_TILE_SLABS = registerBlock("cyan_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> GRAY_MARBLE_BRICK_SLABS = registerBlock("gray_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> GRAY_MARBLE_TILE_SLABS = registerBlock("gray_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> GREEN_MARBLE_BRICK_SLABS = registerBlock("green_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> GREEN_MARBLE_TILE_SLABS = registerBlock("green_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> LIGHT_BLUE_MARBLE_BRICK_SLABS = registerBlock("light_blue_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> LIGHT_BLUE_MARBLE_TILE_SLABS = registerBlock("light_blue_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> LIGHT_GRAY_MARBLE_BRICK_SLABS = registerBlock("light_gray_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> LIGHT_GRAY_MARBLE_TILE_SLABS = registerBlock("light_gray_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> LIME_MARBLE_BRICK_SLABS = registerBlock("lime_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> LIME_MARBLE_TILE_SLABS = registerBlock("lime_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> MAGENTA_MARBLE_BRICK_SLABS = registerBlock("magenta_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> MAGENTA_MARBLE_TILE_SLABS = registerBlock("magenta_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> ORANGE_MARBLE_BRICK_SLABS = registerBlock("orange_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> ORANGE_MARBLE_TILE_SLABS = registerBlock("orange_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> PINK_MARBLE_BRICK_SLABS = registerBlock("pink_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> PINK_MARBLE_TILE_SLABS = registerBlock("pink_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> PURPLE_MARBLE_BRICK_SLABS = registerBlock("purple_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> PURPLE_MARBLE_TILE_SLABS = registerBlock("purple_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> RED_MARBLE_BRICK_SLABS = registerBlock("red_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> RED_MARBLE_TILE_SLABS = registerBlock("red_marble_tile_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> YELLOW_MARBLE_BRICK_SLABS = registerBlock("yellow_marble_brick_slabs", () -> makeSlabFrom());
+    public static final DeferredBlock<SlabBlock> YELLOW_MARBLE_TILE_SLABS = registerBlock("yellow_marble_tile_slabs", () -> makeSlabFrom());
+
+
 
     /** Marble Walls */
 
@@ -82,6 +247,34 @@ public class ModBlocks {
     public static final DeferredBlock<WallBlock> MARBLE_TILE_WALLS = registerBlock("marble_tile_wall", () -> makeWallFrom());
     public static final DeferredBlock<WallBlock> CHARRED_MARBLE_BRICK_WALLS = registerBlock("burned_marble_brick_wall", () -> makeWallFrom());
     public static final DeferredBlock<WallBlock> CHARRED_MARBLE_TILE_WALLS = registerBlock("burned_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> BLUE_MARBLE_BRICK_WALLS = registerBlock("blue_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> BLUE_MARBLE_TILE_WALLS = registerBlock("blue_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> BROWN_MARBLE_BRICK_WALLS = registerBlock("brown_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> BROWN_MARBLE_TILE_WALLS = registerBlock("brown_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> CYAN_MARBLE_BRICK_WALLS = registerBlock("cyan_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> CYAN_MARBLE_TILE_WALLS = registerBlock("cyan_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> GRAY_MARBLE_BRICK_WALLS = registerBlock("gray_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> GRAY_MARBLE_TILE_WALLS = registerBlock("gray_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> GREEN_MARBLE_BRICK_WALLS = registerBlock("green_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> GREEN_MARBLE_TILE_WALLS = registerBlock("green_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> LIGHT_BLUE_MARBLE_BRICK_WALLS = registerBlock("light_blue_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> LIGHT_BLUE_MARBLE_TILE_WALLS = registerBlock("light_blue_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> LIGHT_GRAY_MARBLE_BRICK_WALLS = registerBlock("light_gray_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> LIGHT_GRAY_MARBLE_TILE_WALLS = registerBlock("light_gray_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> LIME_MARBLE_BRICK_WALLS = registerBlock("lime_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> LIME_MARBLE_TILE_WALLS = registerBlock("lime_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> MAGENTA_MARBLE_BRICK_WALLS = registerBlock("magenta_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> MAGENTA_MARBLE_TILE_WALLS = registerBlock("magenta_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> ORANGE_MARBLE_BRICK_WALLS = registerBlock("orange_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> ORANGE_MARBLE_TILE_WALLS = registerBlock("orange_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> PINK_MARBLE_BRICK_WALLS = registerBlock("pink_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> PINK_MARBLE_TILE_WALLS = registerBlock("pink_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> PURPLE_MARBLE_BRICK_WALLS = registerBlock("purple_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> PURPLE_MARBLE_TILE_WALLS = registerBlock("purple_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> RED_MARBLE_BRICK_WALLS = registerBlock("red_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> RED_MARBLE_TILE_WALLS = registerBlock("red_marble_tile_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> YELLOW_MARBLE_BRICK_WALLS = registerBlock("yellow_marble_brick_wall", () -> makeWallFrom());
+    public static final DeferredBlock<WallBlock> YELLOW_MARBLE_TILE_WALLS = registerBlock("yellow_marble_tile_wall", () -> makeWallFrom());
 
 
 

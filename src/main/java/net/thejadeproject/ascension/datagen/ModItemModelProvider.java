@@ -33,11 +33,45 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Block Items
         buttonItem(ModBlocks.GOLDEN_PALM_BUTTON, ModBlocks.GOLDEN_PALM_PLANKS);
         fenceItem(ModBlocks.GOLDEN_PALM_FENCE, ModBlocks.GOLDEN_PALM_PLANKS);
+        basicItem(ModBlocks.GOLDEN_PALM_DOOR.asItem());
+
+
+        /** Walls */
         wallItem(ModBlocks.MARBLE_BRICK_WALLS, ModBlocks.MARBLE_BRICKS);
         wallItem(ModBlocks.MARBLE_TILE_WALLS, ModBlocks.MARBLE_TILES);
+        wallItem(ModBlocks.LIGHT_GRAY_MARBLE_BRICK_WALLS, ModBlocks.LIGHT_GRAY_MARBLE_BRICKS);
+        wallItem(ModBlocks.LIGHT_GRAY_MARBLE_TILE_WALLS, ModBlocks.LIGHT_GRAY_MARBLE_TILES);
+        wallItem(ModBlocks.GRAY_MARBLE_BRICK_WALLS, ModBlocks.GRAY_MARBLE_BRICKS);
+        wallItem(ModBlocks.GRAY_MARBLE_TILE_WALLS, ModBlocks.GRAY_MARBLE_TILES);
         wallItem(ModBlocks.CHARRED_MARBLE_BRICK_WALLS, ModBlocks.CHARRED_MARBLE_BRICKS);
         wallItem(ModBlocks.CHARRED_MARBLE_TILE_WALLS, ModBlocks.CHARRED_MARBLE_TILES);
-        basicItem(ModBlocks.GOLDEN_PALM_DOOR.asItem());
+        wallItem(ModBlocks.BROWN_MARBLE_BRICK_WALLS, ModBlocks.BROWN_MARBLE_BRICKS);
+        wallItem(ModBlocks.BROWN_MARBLE_TILE_WALLS, ModBlocks.BROWN_MARBLE_TILES);
+        wallItem(ModBlocks.RED_MARBLE_BRICK_WALLS, ModBlocks.RED_MARBLE_BRICKS);
+        wallItem(ModBlocks.RED_MARBLE_TILE_WALLS, ModBlocks.RED_MARBLE_TILES);
+        wallItem(ModBlocks.ORANGE_MARBLE_BRICK_WALLS, ModBlocks.ORANGE_MARBLE_BRICKS);
+        wallItem(ModBlocks.ORANGE_MARBLE_TILE_WALLS, ModBlocks.ORANGE_MARBLE_TILES);
+        wallItem(ModBlocks.YELLOW_MARBLE_BRICK_WALLS, ModBlocks.YELLOW_MARBLE_BRICKS);
+        wallItem(ModBlocks.YELLOW_MARBLE_TILE_WALLS, ModBlocks.YELLOW_MARBLE_TILES);
+        wallItem(ModBlocks.LIME_MARBLE_BRICK_WALLS, ModBlocks.LIME_MARBLE_BRICKS);
+        wallItem(ModBlocks.LIME_MARBLE_TILE_WALLS, ModBlocks.LIME_MARBLE_TILES);
+        wallItem(ModBlocks.GREEN_MARBLE_BRICK_WALLS, ModBlocks.GREEN_MARBLE_BRICKS);
+        wallItem(ModBlocks.GREEN_MARBLE_TILE_WALLS, ModBlocks.GREEN_MARBLE_TILES);
+        wallItem(ModBlocks.CYAN_MARBLE_BRICK_WALLS, ModBlocks.CYAN_MARBLE_BRICKS);
+        wallItem(ModBlocks.CYAN_MARBLE_TILE_WALLS, ModBlocks.CYAN_MARBLE_TILES);
+        wallItem(ModBlocks.LIGHT_BLUE_MARBLE_BRICK_WALLS, ModBlocks.LIGHT_BLUE_MARBLE_BRICKS);
+        wallItem(ModBlocks.LIGHT_BLUE_MARBLE_TILE_WALLS, ModBlocks.LIGHT_BLUE_MARBLE_TILES);
+        wallItem(ModBlocks.BLUE_MARBLE_BRICK_WALLS, ModBlocks.BLUE_MARBLE_BRICKS);
+        wallItem(ModBlocks.BLUE_MARBLE_TILE_WALLS, ModBlocks.BLUE_MARBLE_TILES);
+        wallItem(ModBlocks.PURPLE_MARBLE_BRICK_WALLS, ModBlocks.PURPLE_MARBLE_BRICKS);
+        wallItem(ModBlocks.PURPLE_MARBLE_TILE_WALLS, ModBlocks.PURPLE_MARBLE_TILES);
+        wallItem(ModBlocks.MAGENTA_MARBLE_BRICK_WALLS, ModBlocks.MAGENTA_MARBLE_BRICKS);
+        wallItem(ModBlocks.MAGENTA_MARBLE_TILE_WALLS, ModBlocks.MAGENTA_MARBLE_TILES);
+        wallItem(ModBlocks.PINK_MARBLE_BRICK_WALLS, ModBlocks.PINK_MARBLE_BRICKS);
+        wallItem(ModBlocks.PINK_MARBLE_TILE_WALLS, ModBlocks.PINK_MARBLE_TILES);
+
+
+
 
 
         //Artifacts
