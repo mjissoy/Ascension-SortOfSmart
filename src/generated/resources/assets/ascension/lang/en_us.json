@@ -273,6 +273,9 @@
   "item.ascension.repair_slip": "Repair Slip",
   "item.ascension.spiritual_stone": "Spiritual Stone",
   "item.ascension.spiritual_stone_spatial_ring": "Spiritual Spatial Ring",
+  "item.ascension.tode": "Tablet Of Destruction",
+  "item.ascension.todh": "Tablet Of Destruction",
+  "item.ascension.todhe": "Tablet Of Destruction",
   "item.ascension.undead_core": "Undead Core",
   "item.ascension.white_jade_orchid": "White Jade Orchid",
   "key.ascension.cultivate": "Cultivate",
@@ -282,5 +285,8 @@
   "tooltip.ascension.ender_pouch.shift_down2": "§aIs linked to your own Ender Chest",
   "tooltip.ascension.repair_slip": "§8Hold [§7Shift§8] for summary",
   "tooltip.ascension.repair_slip.shift_down1": "§3Repairs items in your inventory",
-  "tooltip.ascension.repair_slip.shift_down2": "§3Every 100 Ticks it repairs items by 2 durability"
+  "tooltip.ascension.repair_slip.shift_down2": "§3Every 100 Ticks it repairs items by 2 durability",
+  "tooltip.ascension.tode": "§6[Earth]",
+  "tooltip.ascension.todh": "§8[Human]",
+  "tooltip.ascension.todhe": "§b[Heaven]"
 }

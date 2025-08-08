@@ -114,6 +114,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.PURE_FIST_INTENT.manual.get());
         manual(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get());
 
+        //Tablet Of Destructions
+        tablet(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get());
+        tablet(ModItems.TABLET_OF_DESTRUCTION_EARTH.get());
+        tablet(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get());
+
         //Pills
         basicItem(ModItems.REGENERATION_PILL.get());
 
@@ -170,6 +175,12 @@ public class ModItemModelProvider extends ItemModelProvider {
                 "generic_manual_texture"
         ));
     }
+    public ItemModelBuilder tablet(Item item){
+        return basicItemWithSharedTexture(item,ResourceLocation.fromNamespaceAndPath(
+                AscensionCraft.MOD_ID,
+                "tablet_of_destruction"
+        ));
+    }
     public ItemModelBuilder basicItemWithSharedTexture(Item item,ResourceLocation texture){
         return basicItemWithSharedTexture(
                 Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)),
@@ -180,5 +191,21 @@ public class ModItemModelProvider extends ItemModelProvider {
         return (this.getBuilder(item.toString())).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(texture.getNamespace(), "item/" + texture.getPath()));
     }
+
+    // New method for tinted ingot models
+    /*public ItemModelBuilder tintedIngotItem(Item item, int argbColor) {
+        String itemName = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)).getPath();
+        String hexColor = String.format("%08X", argbColor); // Convert ARGB to hex string
+
+        return getBuilder(itemName)
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .customLoader((builder, helper) -> builder
+                        .custom("neoforge:item_layers")
+                        .end()
+                        .element()
+                        .texture("layer0", ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "item/ingot_template"))
+                        .color(0, hexColor)
+                        .end());
+    }*/
 
 }

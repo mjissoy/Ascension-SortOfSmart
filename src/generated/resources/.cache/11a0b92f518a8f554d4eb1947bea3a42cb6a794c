@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-31T13:40:23.9841672	Item Models: ascension
+// 1.21.1	2025-08-08T22:17:59.2309529	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
@@ -58,6 +58,9 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 74271bd33ef0167a397f600ea3f20c218cde6630 assets/ascension/models/item/repair_slip.json
 aa57a4584dc9630d71fd3ecddebbca1dd50fd843 assets/ascension/models/item/spiritual_stone.json
 c3a38b6a7c28457283db282d2919c10b518fd700 assets/ascension/models/item/spiritual_stone_spatial_ring.json
+2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/tode.json
+2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todh.json
+2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todhe.json
 57f9654f314244059c37d411dc62a3e9d69d4c15 assets/ascension/models/item/undead_core.json
 5bfc048f5d1dfefcc6c12c7155bbf83e74710c4a assets/ascension/models/item/white_jade_orchid.json
 f5a0e6e81d9b41d164e050b33d93b8998723d8da assets/ascension/models/item/white_jade_orchid_block.json

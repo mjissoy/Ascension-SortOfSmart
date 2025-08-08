@@ -273,6 +273,15 @@ public class lang extends LanguageProvider {
         add("item.ascension.jade_spatial_ring", "Jade Spatial Ring");
         add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
 
+        add("item.ascension.todh", "Tablet Of Destruction");
+        add("tooltip.ascension.todh", "§8[Human]");
+
+        add("item.ascension.tode", "Tablet Of Destruction");
+        add("tooltip.ascension.tode", "§6[Earth]");
+
+        add("item.ascension.todhe", "Tablet Of Destruction");
+        add("tooltip.ascension.todhe", "§b[Heaven]");
+
         add("item.ascension.repair_slip", "Repair Slip");
         add("tooltip.ascension.repair_slip.shift_down1", "§3Repairs items in your inventory");
         add("tooltip.ascension.repair_slip.shift_down2", "§3Every 100 Ticks it repairs items by 2 durability");

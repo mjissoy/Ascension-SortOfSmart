@@ -12,8 +12,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.ModEntities;
-import net.thejadeproject.ascension.items.artifacts.EnderPouch;
-import net.thejadeproject.ascension.items.artifacts.RepairSlip;
+import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 
 import java.util.List;
@@ -48,6 +47,32 @@ public class ModItems {
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
     public static final DeferredItem<Item> SPIRITUAL_STONE_SPATIAL_RING = ITEMS.register("spiritual_stone_spatial_ring",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
+
+    public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HUMAN = ITEMS.register("todh",
+            () -> new TabletOfDestructionHuman(new Item.Properties()){
+                @Override
+                public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {{
+                        tooltipComponents.add(Component.translatable("tooltip.ascension.todh"));}
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            });
+    public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_EARTH = ITEMS.register("tode",
+            () -> new TabletOfDestructionEarth(new Item.Properties()){
+                @Override
+                public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {{
+                    tooltipComponents.add(Component.translatable("tooltip.ascension.tode"));}
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            });
+    public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HEAVEN = ITEMS.register("todhe",
+            () -> new TabletOfDestructionHeaven(new Item.Properties()){
+                @Override
+                public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {{
+                    tooltipComponents.add(Component.translatable("tooltip.ascension.todhe"));}
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            });
+
 
     public static final DeferredItem<Item> REPAIR_SLIP = ITEMS.register("repair_slip",
             () -> new RepairSlip(new Item.Properties()){

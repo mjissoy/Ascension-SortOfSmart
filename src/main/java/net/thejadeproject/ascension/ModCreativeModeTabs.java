@@ -39,6 +39,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.JADE_SLIP);
                         output.accept(ModItems.REPAIR_SLIP);
                         output.accept(ModItems.ENDER_POUCH);
+                        output.accept(ModItems.TABLET_OF_DESTRUCTION_HUMAN);
+                        output.accept(ModItems.TABLET_OF_DESTRUCTION_EARTH);
+                        output.accept(ModItems.TABLET_OF_DESTRUCTION_HEAVEN);
                         output.accept(ModItems.IRON_SPATIAL_RING);
                         output.accept(ModItems.GOLD_SPATIAL_RING);
                         output.accept(ModItems.DIAMOND_SPATIAL_RING);
