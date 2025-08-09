@@ -106,9 +106,9 @@ public class TabletOfDestructionHeaven extends Item {
 
     private void clearArea(Level level, BlockPos startPos, Vec3 direction, Vec3 playerPos, boolean dropBlocks) {
         if (level.isClientSide) return; // Prevent client-side execution
-        int width = 2;
-        int height = 3;
-        int depth = 15;
+        int width = 4;
+        int height = 7;
+        int depth = 22;
         int dx = Math.abs(direction.x) > Math.abs(direction.z) ? (int) Math.signum(direction.x) : 0;
         int dz = Math.abs(direction.z) > Math.abs(direction.x) ? (int) Math.signum(direction.z) : 0;
 

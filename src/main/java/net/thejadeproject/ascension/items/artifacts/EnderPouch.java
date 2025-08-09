@@ -34,11 +34,6 @@ public class EnderPouch extends Item {
                     0.5F, level.random.nextFloat() * 0.1F + 0.9F);
 
             player.getCooldowns().addCooldown(this, 50);
-        } else {
-            // Play sound only for the activating player on client
-            level.playSound(player, player.getX(), player.getY(), player.getZ(),
-                    SoundEvents.ENDER_CHEST_OPEN, SoundSource.PLAYERS,
-                    0.5F, level.random.nextFloat() * 0.1F + 0.9F);
         }
 
         return InteractionResultHolder.success(stack);
