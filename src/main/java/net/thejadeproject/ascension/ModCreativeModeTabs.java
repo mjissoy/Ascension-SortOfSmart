@@ -286,6 +286,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModTechniques.PURE_SWORD_INTENT.manual);
                         output.accept(ModTechniques.PURE_FIST_INTENT.manual);
                         output.accept(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual);
+                        output.accept(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual);
                     })
                     .build());
 

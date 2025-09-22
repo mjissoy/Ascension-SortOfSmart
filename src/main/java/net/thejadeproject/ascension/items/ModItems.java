@@ -14,6 +14,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
+import net.thejadeproject.ascension.util.ToolTips;
 
 import java.util.List;
 
@@ -34,7 +35,21 @@ public class ModItems {
 
     //Artifacts
     public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
-            () -> new Item(new Item.Properties()));
+            () -> new Item(new Item.Properties()){
+                private float time = 0;
+                @Override
+                public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+                    if (context.level() != null && context.level().isClientSide()) {
+                        String text = Component.translatable("tooltip.ascension.jade_slip").getString();
+                        time += 0.001f;
+                        if (time > 1.0f) time = 0;
+                        tooltipComponents.add(ToolTips.RGBEachLetter(time, text, 0.01f));
+                    } else {
+                        tooltipComponents.add(Component.translatable("tooltip.ascension.jade_slip"));
+                    }
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            });
     public static final DeferredItem<Item> IRON_SPATIAL_RING = ITEMS.register("iron_spatial_ring",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.COMMON)));
     public static final DeferredItem<Item> GOLD_SPATIAL_RING = ITEMS.register("gold_spatial_ring",

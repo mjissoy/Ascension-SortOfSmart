@@ -18,8 +18,10 @@ public class lang extends LanguageProvider {
 
 
         //Items
-        add("item.ascension.spiritual_stone", "Spiritual Stone");
         add("item.ascension.jade_slip", "Jade Slip");
+        add("tooltip.ascension.jade_slip", "Sect Identification");
+
+        add("item.ascension.spiritual_stone", "Spiritual Stone");
         add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.ascension_icon", "Ascension Icon");

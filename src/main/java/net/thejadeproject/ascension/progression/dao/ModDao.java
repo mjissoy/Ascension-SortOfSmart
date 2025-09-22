@@ -85,7 +85,7 @@ public class ModDao {
             Map.of(
             ),
             Map.of(
-                    "ascension:void",2.3,
+                    "ascension:voidd",2.3,
                     "ascension:yin",1.9
             ));
 
@@ -100,7 +100,7 @@ public class ModDao {
     public static final DeferredHolder<IDao, GenericDao> YIN_DAO = createDao("yin",Component.literal("§b[Yin]"));
     public static final DeferredHolder<IDao, GenericDao> YANG_DAO = createDao("yang",Component.literal("§4[Yang]"));
 
-    public static final DeferredHolder<IDao, GenericDao> VOIDD_DAO = createDao("void",Component.literal("§5[Void]"));
+    public static final DeferredHolder<IDao, GenericDao> VOIDD_DAO = createDao("voidd",Component.literal("§5[Void]"));
 
 
     public static final DeferredHolder<IDao,GenericDao> SWORD_DAO = createDao("sword_intent",Component.literal("§8[Sword Intent]"));

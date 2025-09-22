@@ -75,6 +75,7 @@ import terrablender.api.SurfaceRuleManager;
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AscensionCraft.MOD_ID)
 public class AscensionCraft {
+    public static float hue;
     public static final String MOD_ID = "ascension";
     private static final Logger LOGGER = LogUtils.getLogger();
 

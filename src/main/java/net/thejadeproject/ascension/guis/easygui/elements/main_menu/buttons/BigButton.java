@@ -11,6 +11,9 @@ public class BigButton extends AbstractButton {
 
     public BigButton(IEasyGuiScreen screen, int x, int y, ITextureData texture){
         super(screen,x,y,32,32);
+        this.setCustomScale(0.4);
+        this.setX(131);
+        this.setY(17);
         this.textureData = texture;
     }
 
