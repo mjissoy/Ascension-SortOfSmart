@@ -161,10 +161,10 @@ public class ModTechniques {
                     }));
 
     public static final TechniqueHolder VOID_SWALLOWING_TECHNIQUE = createTechnique("void_swallowing_technique",
-            ()->new SingleAttributeTechnique("Void Swallowing Technique",8.0,"ascension:void_dao")
+            ()->new SingleAttributeTechnique("Void Swallowing Technique",8.0,"ascension:void")
                     .setEfficiencyAttributes(new HashMap<>(){{
 
-                        put("ascension:void_dao",2.0);
+                        put("ascension:void",2.0);
                     }}).setOnMinorRealmChange(event -> {
                         Player player = event.player;
                         PlayerAttributeManager.increaseAttribute(player,5.0,Attributes.MAX_HEALTH);

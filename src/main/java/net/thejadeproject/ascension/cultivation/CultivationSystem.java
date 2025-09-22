@@ -33,16 +33,16 @@ public class CultivationSystem {
         put("ascension:essence",new String[]{   "Mortal", "Qi Condensation", "Foundation Establishment",
                 "Core Formation", "Nascent Soul", "Spirit Severing",
                 "Soul Formation", "Soul Transformation", "Immortal Ascension",
-                "True Immortal", "Golden Immortal"});
-        put("ascension:intent",new String[]{ "Third rate","Second Rate","First Rate",
-                "Peak Master","Three Flower Summit","Converging 5 Energies",
-                "Pinnacle","Ultimate Pinnacle","First Stage Manifestation",
-                "Treading Heaven","Heaven Ultimate Pinnacle"});
+                "True Immortal", "Golden Immortal", "Universe Creation Realm"});
+        put("ascension:intent",new String[]{ "Awakened Will","Focused Mind","Sharpened Desire",
+                "Unwavering Resolve","Trinity Convergence","Pentagonal Balance",
+                "Aura of Intent","Soul Pressure","Spatial Lock",
+                "Domain Seed", "Law Embodiment", "Heavenly Decree"});
         put("ascension:body",new String[]{
-                "mortal tempering","mortal inner tempering","mortal true tempering",
-                "foundation tempering","foundation inner tempering","foundation true tempering",
-                "immortal tempering", "immortal inner tempering","immortal true tempering",
-                "true immortal tempering","true immortal inner tempering","true immortal true tempering"
+                "Skin Tempering","Sinew Weaving","Bone Forging",
+                "Heartkindle Stage","Meridian Flow","Core Consolidation",
+                "Vessel Refinement", "Energy Harmonization","Nether Transformation",
+                "Stellar Genesis","World Resonance","Primordial Awakening"
         });
     }};
 
