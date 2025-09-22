@@ -113,6 +113,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.PURE_SWORD_INTENT.manual.get());
         manual(ModTechniques.PURE_FIST_INTENT.manual.get());
         manual(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get());
+        manual(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get());
 
         //Tablet Of Destructions
         tablet(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get());

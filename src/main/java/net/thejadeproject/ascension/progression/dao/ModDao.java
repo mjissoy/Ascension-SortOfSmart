@@ -80,6 +80,15 @@ public class ModDao {
                     "ascension:water",1.4
             ));
 
+    public static final DeferredHolder<IDao,GenericDao> VOID_DAO =createDao("void",Component.literal("§5[Void]"),
+            new ArrayList<>(),
+            Map.of(
+            ),
+            Map.of(
+                    "ascension:void",2.3,
+                    "ascension:yin",1.9
+            ));
+
     public static final DeferredHolder<IDao, GenericDao> Poison_DAO = createDao("poison",Component.literal("§5[Poison]"));
 
 
@@ -90,6 +99,8 @@ public class ModDao {
 
     public static final DeferredHolder<IDao, GenericDao> YIN_DAO = createDao("yin",Component.literal("§b[Yin]"));
     public static final DeferredHolder<IDao, GenericDao> YANG_DAO = createDao("yang",Component.literal("§4[Yang]"));
+
+    public static final DeferredHolder<IDao, GenericDao> VOIDD_DAO = createDao("void",Component.literal("§5[Void]"));
 
 
     public static final DeferredHolder<IDao,GenericDao> SWORD_DAO = createDao("sword_intent",Component.literal("§8[Sword Intent]"));

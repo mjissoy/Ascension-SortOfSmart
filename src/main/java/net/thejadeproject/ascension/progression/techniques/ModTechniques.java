@@ -50,6 +50,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
 
 
                     })
@@ -59,6 +60,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     })
                     .setDescription(List.of(
                             Component.literal("breathe in pure ").append("§4fire ").append("and purify ones essence")
@@ -74,6 +76,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
 
 
                     })
@@ -83,6 +86,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     }));
     public static final TechniqueHolder PURE_SWORD_INTENT = createTechnique("pure_sword_intent",
             ()->new SingleIntentTechnique("Pure Sword Technique",8.0,"ascension:sword_intent")
@@ -94,6 +98,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
 
 
                     })
@@ -103,6 +108,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     }));
     public static final TechniqueHolder PURE_FIST_INTENT = createTechnique("pure_fist_intent",
             ()->new SingleIntentTechnique("Pure Fist Technique",8.0,"ascension:fist_intent")
@@ -114,6 +120,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
 
 
                     })
@@ -123,6 +130,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     }).setDescription(List.of(
                             Component.literal("what heavens? under my").append(" §8Fist ").append("all is equal"),
                             Component.literal("and all is weak")
@@ -139,6 +147,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
 
 
                     })
@@ -148,6 +157,31 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
+                    }));
+
+    public static final TechniqueHolder VOID_SWALLOWING_TECHNIQUE = createTechnique("void_swallowing_technique",
+            ()->new SingleAttributeTechnique("Void Swallowing Technique",8.0,"ascension:void_dao")
+                    .setEfficiencyAttributes(new HashMap<>(){{
+
+                        put("ascension:void_dao",2.0);
+                    }}).setOnMinorRealmChange(event -> {
+                        Player player = event.player;
+                        PlayerAttributeManager.increaseAttribute(player,5.0,Attributes.MAX_HEALTH);
+                        PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
+                        PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
+                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
+
+
+                    })
+                    .setOnMajorRealmChange(event ->{
+                        Player player = event.player;
+                        PlayerAttributeManager.increaseAttribute(player,10.0,Attributes.MAX_HEALTH);
+                        PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
+                        PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
+                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     }));
     public static TechniqueHolder createTechnique(String id, Supplier<? extends ITechnique> supplier){
         DeferredHolder<ITechnique,? extends ITechnique> techniqueHolder = TECHNIQUES.register(id,supplier);
