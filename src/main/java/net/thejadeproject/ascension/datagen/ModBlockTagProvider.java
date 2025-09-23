@@ -3,10 +3,12 @@ package net.thejadeproject.ascension.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.util.ModTags;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
@@ -206,6 +208,18 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
 
                 .add(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
+
+
+        tag(ModTags.Blocks.DESTRUCTIBLE_BLOCKS)
+                .add(Blocks.STONE)
+                .add(Blocks.GRANITE)
+                .add(Blocks.ANDESITE)
+                .add(Blocks.DIORITE)
+                .add(Blocks.DEEPSLATE)
+                .add(Blocks.GRAVEL)
+                .add(Blocks.SAND)
+                .add(Blocks.TUFF)
+                .add(Blocks.DIRT);
 
         tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.JADE_ORE.get())

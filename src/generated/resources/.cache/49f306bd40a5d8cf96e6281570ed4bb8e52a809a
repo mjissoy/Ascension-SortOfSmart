@@ -1,4 +1,5 @@
-// 1.21.1	2025-07-31T12:24:59.6070419	Tags for minecraft:block mod id ascension
+// 1.21.1	2025-09-23T18:43:16.2780858	Tags for minecraft:block mod id ascension
+60b582bbc350d97227ebb574d2a9926172717d33 data/ascension/tags/block/blocks_destruction.json
 c3e08fedd026c20868c42be54c3f829fdd7bb562 data/minecraft/tags/block/fences.json
 1a16bd78a62350575e23c16b8500b0915cff3bdd data/minecraft/tags/block/fence_gates.json
 83eacd83689146e557ef948eab4bfdd0e856d564 data/minecraft/tags/block/logs_that_burn.json

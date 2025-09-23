@@ -23,9 +23,11 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.thejadeproject.ascension.util.ModTags.Blocks.DESTRUCTIBLE_BLOCKS;
+
 public class TabletOfDestructionHeaven extends Item {
     private static final String DROP_BLOCKS_TAG = "DropBlocks";
-    private static final int COOLDOWN_TICKS = 100; // 10 seconds (20 ticks/second)
+    private static final int COOLDOWN_TICKS = 100; // 5 seconds (20 ticks/second)
 
     public TabletOfDestructionHeaven(Properties properties) {
         super(properties);
@@ -161,16 +163,7 @@ public class TabletOfDestructionHeaven extends Item {
 
     private boolean shouldRemoveBlock(Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
-        return state.is(Blocks.STONE)
-                || state.is(Blocks.DIRT)
-                || state.is(Blocks.GRAVEL)
-                || state.is(Blocks.SAND)
-                || state.is(Blocks.COBBLESTONE)
-                || state.is(Blocks.ANDESITE)
-                || state.is(Blocks.DIORITE)
-                || state.is(Blocks.GRANITE)
-                || state.is(Blocks.DEEPSLATE)
-                || state.is(Blocks.TUFF);
+        return state.is(DESTRUCTIBLE_BLOCKS);
     }
 
     // Helper class to store BlockPos and BlockState together

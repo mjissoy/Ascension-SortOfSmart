@@ -9,7 +9,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+
+import static net.thejadeproject.ascension.util.ModTags.Blocks.DESTRUCTIBLE_BLOCKS;
 
 public class TabletOfDestructionHuman extends Item {
     private static final int COOLDOWN_TICKS = 400; // 20 seconds (20 ticks/second)
@@ -85,15 +88,7 @@ public class TabletOfDestructionHuman extends Item {
     }
 
     private boolean shouldRemoveBlock(Level level, BlockPos pos) {
-        return level.getBlockState(pos).is(Blocks.STONE)
-                || level.getBlockState(pos).is(Blocks.DIRT)
-                || level.getBlockState(pos).is(Blocks.GRAVEL)
-                || level.getBlockState(pos).is(Blocks.SAND)
-                || level.getBlockState(pos).is(Blocks.COBBLESTONE)
-                || level.getBlockState(pos).is(Blocks.ANDESITE)
-                || level.getBlockState(pos).is(Blocks.DIORITE)
-                || level.getBlockState(pos).is(Blocks.GRANITE)
-                || level.getBlockState(pos).is(Blocks.DEEPSLATE)
-                || level.getBlockState(pos).is(Blocks.TUFF);
+        BlockState state = level.getBlockState(pos);
+        return state.is(DESTRUCTIBLE_BLOCKS);
     }
 }

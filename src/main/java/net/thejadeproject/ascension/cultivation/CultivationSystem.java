@@ -50,12 +50,6 @@ public class CultivationSystem {
         return realmNameMap.get(pathId)[majorRealm];
     }
 
-    private static final String[] essenceMajorRealmNames = {
-            "Mortal", "Qi Condensation", "Foundation Establishment",
-            "Core Formation", "Nascent Soul", "Spirit Severing",
-            "Soul Formation", "Soul Transformation", "Immortal Ascension",
-            "True Immortal", "Golden Immortal"
-    };
     public static void cultivate(Player player, String path,Double baseRate,List<String> attributes){
         //TODO change to use technique for base rate
         //TODO fire is temp
@@ -107,7 +101,7 @@ public class CultivationSystem {
             "Mortal", "Qi Condensation", "Foundation Establishment",
             "Core Formation", "Nascent Soul", "Spirit Severing",
             "Soul Formation", "Soul Transformation", "Immortal Ascension",
-            "True Immortal", "Golden Immortal"
+            "True Immortal", "Golden Immortal", "Universe Creation Realm"
     };
     public static List<Integer> getRealmsIdList(){
         List<Integer> list = new ArrayList<>();
