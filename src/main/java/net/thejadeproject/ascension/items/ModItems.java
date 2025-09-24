@@ -1,11 +1,16 @@
 package net.thejadeproject.ascension.items;
 
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -13,6 +18,7 @@ import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
+import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.util.ToolTips;
 
 import java.util.List;
@@ -36,7 +42,17 @@ public class ModItems {
     public static final DeferredItem<BladeItem> JADE_BLADE = ITEMS.register("jade_blade",
             () -> new BladeItem(ModToolTiers.JADE, new Item.Properties()
                     .attributes(BladeItem.createAttributes(ModToolTiers.JADE, 6, -2.8f))));
-
+    public static final DeferredItem<SpearItem> JADE_SPEAR = ITEMS.register("jade_spear",
+            () -> new SpearItem(ModToolTiers.JADE, new Item.Properties()
+                    .attributes(BladeItem.createAttributes(ModToolTiers.JADE, 6, -2.8f))
+                    .attributes(ItemAttributeModifiers.builder().add(Attributes.ENTITY_INTERACTION_RANGE,
+                            new AttributeModifier(
+                                    ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"item_reach_mod"),
+                                    2,
+                                    AttributeModifier.Operation.ADD_VALUE
+                            )
+                            , EquipmentSlotGroup.HAND).build()
+                    )));
 
 
 

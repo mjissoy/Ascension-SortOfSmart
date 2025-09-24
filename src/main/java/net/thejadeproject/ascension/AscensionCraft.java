@@ -102,6 +102,7 @@ public class AscensionCraft {
 
         ModTerrablender.registerBiomes();
 
+
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
 

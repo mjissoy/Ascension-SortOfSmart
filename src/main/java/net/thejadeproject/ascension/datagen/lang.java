@@ -16,6 +16,8 @@ public class lang extends LanguageProvider {
         add("book.title.ascension.art_of_ascension", "Ascension Guide");
         add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance");
 
+        //Attributes & Technical Shit
+
 
         //Items
         add("item.ascension.jade_slip", "Jade Slip");
@@ -23,7 +25,10 @@ public class lang extends LanguageProvider {
 
         //Tools and Swords and Armor
         add("item.ascension.jade_blade", "Jade Serpent's Fang");
+        add("item.ascension.jade_spear", "Sting of the Jade Serpent");
 
+
+        //Misc
         add("item.ascension.spiritual_stone", "Spiritual Stone");
         add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");

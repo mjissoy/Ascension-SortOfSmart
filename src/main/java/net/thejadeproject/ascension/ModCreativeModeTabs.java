@@ -23,6 +23,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.JADE_BLADE);
+                        output.accept(ModItems.JADE_SPEAR);
 
 
 
