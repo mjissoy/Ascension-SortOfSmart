@@ -1,11 +1,9 @@
 package net.thejadeproject.ascension.items;
 
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -14,6 +12,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
+import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.util.ToolTips;
 
 import java.util.List;
@@ -29,6 +28,15 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> SPIRITUAL_STONE = ITEMS.register("spiritual_stone",
             () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+
+
+
+
+    //Weapons & Tools
+    public static final DeferredItem<BladeItem> JADE_BLADE = ITEMS.register("jade_blade",
+            () -> new BladeItem(ModToolTiers.JADE, new Item.Properties()
+                    .attributes(BladeItem.createAttributes(ModToolTiers.JADE, 6, -2.8f))));
+
 
 
 

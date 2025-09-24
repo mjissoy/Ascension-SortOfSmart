@@ -21,6 +21,9 @@ public class lang extends LanguageProvider {
         add("item.ascension.jade_slip", "Jade Slip");
         add("tooltip.ascension.jade_slip", "Sect Identification");
 
+        //Tools and Swords and Armor
+        add("item.ascension.jade_blade", "Jade Serpent's Fang");
+
         add("item.ascension.spiritual_stone", "Spiritual Stone");
         add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");

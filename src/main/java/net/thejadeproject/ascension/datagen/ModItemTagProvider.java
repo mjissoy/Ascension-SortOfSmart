@@ -58,9 +58,19 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.Items.daoItemTags.get("ascension:sword_intent"))
                 .addTag(ItemTags.SWORDS);
 
+        tag(ModTags.Items.daoItemTags.get("ascension:blade_intent"))
+                .addTag(ModTags.Items.BLADE);
+
         tag(ModTags.Items.daoItemTags.get("ascension:bow_intent"))
                 .add(Items.BOW)
                 .add(Items.CROSSBOW);
+
+
+        tag(ModTags.Items.BLADE)
+                .add(ModItems.JADE_BLADE.get());
+
+        tag(ItemTags.SWORD_ENCHANTABLE)
+                .add(ModItems.JADE_BLADE.get());
 
 
     }

@@ -1,4 +1,6 @@
-// 1.21.1	2025-07-20T15:10:44.3186035	Tags for minecraft:item mod id ascension
+// 1.21.1	2025-09-24T09:39:10.8116074	Tags for minecraft:item mod id ascension
+fea1d520ca26840578d1c8fab0afbcc51469f153 data/ascension/tags/item/blade.json
+08248a73df114f60d1ffa79665c61e1a2a320e58 data/ascension/tags/item/blade_intent.json
 d5819c82fddfaf937dbe9ed568e87f1206349f8d data/ascension/tags/item/bow_intent.json
 e4a74e3bac20e15f887a95ee7b0c12d6d885c4cd data/ascension/tags/item/earth.json
 f4384704423a2719b0bec2158d2c41d8d79296e8 data/ascension/tags/item/fire.json
@@ -8,5 +10,6 @@ f4384704423a2719b0bec2158d2c41d8d79296e8 data/ascension/tags/item/fire.json
 3d289cfd2baac4e15e60b57a0ccda868fbb2c655 data/ascension/tags/item/herbs/medicinal.json
 c823cbbea6ccfbbf9a1549014bc917445435287b data/ascension/tags/item/metal.json
 e6756cdd6fb03cf772eba210ae3f93335e83dcd6 data/ascension/tags/item/sword_intent.json
+fea1d520ca26840578d1c8fab0afbcc51469f153 data/minecraft/tags/item/enchantable/sword.json
 83eacd83689146e557ef948eab4bfdd0e856d564 data/minecraft/tags/item/logs_that_burn.json
 f294f4737fdfa8a77f41bda0c509e5a3b2d3e2e8 data/minecraft/tags/item/planks.json
