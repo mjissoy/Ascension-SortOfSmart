@@ -19,6 +19,7 @@ import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
+import net.thejadeproject.ascension.util.ItemUtil;
 import net.thejadeproject.ascension.util.ToolTips;
 
 import java.util.List;
@@ -44,15 +45,8 @@ public class ModItems {
                     .attributes(BladeItem.createAttributes(ModToolTiers.JADE, 6, -2.8f))));
     public static final DeferredItem<SpearItem> JADE_SPEAR = ITEMS.register("jade_spear",
             () -> new SpearItem(ModToolTiers.JADE, new Item.Properties()
-                    .attributes(BladeItem.createAttributes(ModToolTiers.JADE, 6, -2.8f))
-                    .attributes(ItemAttributeModifiers.builder().add(Attributes.ENTITY_INTERACTION_RANGE,
-                            new AttributeModifier(
-                                    ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"item_reach_mod"),
-                                    2,
-                                    AttributeModifier.Operation.ADD_VALUE
-                            )
-                            , EquipmentSlotGroup.HAND).build()
-                    )));
+                    .attributes(ItemUtil.createAscensionItemAttributes(ModToolTiers.JADE, 6, -2.8f,2))
+                  ));
 
 
 
