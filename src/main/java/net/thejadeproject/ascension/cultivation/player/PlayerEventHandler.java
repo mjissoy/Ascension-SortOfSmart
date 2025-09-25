@@ -53,9 +53,9 @@ public class PlayerEventHandler {
             System.out.println("Trying to cultivate intent");
 
 
-            if(player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:intent").technique.equals("ascension:none")) return;
+            if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:intent").technique.equals("ascension:none")) return;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
-                    player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:intent").technique,
+                    player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:intent").technique,
                     ':'
             )).tryCultivate(player);
         }
@@ -63,9 +63,9 @@ public class PlayerEventHandler {
         if(event.getEntity() instanceof Player player){
             //cultivate body
             System.out.println("trying to cultivate body");
-            if(player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:body").technique.equals("ascension:none")) return;
+            if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique.equals("ascension:none")) return;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
-                    player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:body").technique,
+                    player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique,
                     ':'
             )).tryCultivate(player);
         }

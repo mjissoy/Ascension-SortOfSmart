@@ -10,6 +10,7 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
+import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
@@ -54,7 +55,7 @@ public class KeyBindHandler {
             }
         }
 
-        PlayerData.PathData data =  Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence");
+        CultivationData.PathData data =  Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence");
         boolean cultivating = data.isCultivating();
 
         data.setCultivating(CULTIVATE_KEY.isDown());

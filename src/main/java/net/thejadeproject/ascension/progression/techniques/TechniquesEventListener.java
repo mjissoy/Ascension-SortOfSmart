@@ -17,23 +17,23 @@ public class TechniquesEventListener {
         //TODO
         //check if player has technique
         PlayerData data = event.player.getData(ModAttachments.PLAYER_DATA);
-        if(!data.getPathData(event.pathID).technique.equals("ascension:none")){
-            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(data.getPathData(event.pathID).technique,':')).onGatherEfficiencyModifiers(event);
+        if(!data.getCultivationData().getPathData(event.pathID).technique.equals("ascension:none")){
+            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(data.getCultivationData().getPathData(event.pathID).technique,':')).onGatherEfficiencyModifiers(event);
         }
     }
 
     @SubscribeEvent
     public static void onMajorRealmChange(MajorRealmChangeEvent event){
         PlayerData data = event.player.getData(ModAttachments.PLAYER_DATA);
-        if(!data.getPathData(event.pathId).technique.equals("ascension:none")){
-            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(data.getPathData(event.pathId).technique,':')).onMajorRealmIncrease(event);
+        if(!data.getCultivationData().getPathData(event.pathId).technique.equals("ascension:none")){
+            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(data.getCultivationData().getPathData(event.pathId).technique,':')).onMajorRealmIncrease(event);
         }
     }
     @SubscribeEvent
     public static void onMinorRealmChange(MinorRealmChangeEvent event){
         PlayerData data = event.player.getData(ModAttachments.PLAYER_DATA);
-        if(!data.getPathData(event.pathId).technique.equals("ascension:none")){
-            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(data.getPathData(event.pathId).technique,':')).onMinorRealmIncrease(event);
+        if(!data.getCultivationData().getPathData(event.pathId).technique.equals("ascension:none")){
+            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(data.getCultivationData().getPathData(event.pathId).technique,':')).onMinorRealmIncrease(event);
         }
     }
 }

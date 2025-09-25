@@ -51,6 +51,6 @@ public interface ITechnique {
     List<String> getEfficiencyAttributes();
 
     void tryCultivate(Player player);
-
+    void tryStabiliseRealm(Player player);
     Double getEfficiencyValue(String attribute);
 }

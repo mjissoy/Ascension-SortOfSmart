@@ -22,6 +22,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
@@ -156,10 +157,10 @@ public class AscensionCraft {
     private void onPlayerTick(PlayerTickEvent.Pre event) {
         // Only process on server side
         if (!event.getEntity().level().isClientSide) {
-            if (event.getEntity().getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence").isCultivating()
-            && !event.getEntity().getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence").technique.equals("ascension:none")){
-                System.out.println("cultivating essence");
-                String technique = event.getEntity().getData(ModAttachments.PLAYER_DATA).getPathData("ascension:essence").technique;
+            if (event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").isCultivating()
+            && !event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique.equals("ascension:none")){
+
+                String technique = event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique;
                 AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(technique,':')).tryCultivate(event.getEntity());
             }
         }
@@ -171,10 +172,9 @@ public class AscensionCraft {
 
 
 
-        CultivationSystem.initPlayerCultivation(event.getEntity());
-        CultivationSystem.updatePlayerAttributes(event.getEntity());
+
         Player player = (Player) event.getEntity();
-        player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
+        player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED)); //
         PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 
         if(player.getData(ModAttachments.PHYSIQUE).equals("ascension:empty_vessel")){
@@ -188,7 +188,7 @@ public class AscensionCraft {
                PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPlayerPhysique(event.getEntity().getData(ModAttachments.PHYSIQUE)));
             });
         }
-        for(PlayerData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getPaths()){
+        for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
 
             Minecraft.getInstance().tell(()->{
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPathDataPayload(
@@ -196,7 +196,8 @@ public class AscensionCraft {
                         path.majorRealm,
                         path.minorRealm,
                         path.pathProgress,
-                        path.technique
+                        path.technique,
+                        path.stabilityCultivationTicks
                 ));
             });
         }

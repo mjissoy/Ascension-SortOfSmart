@@ -76,7 +76,6 @@ public class GenericDao implements IDao{
                     AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(relatedDao.getKey(),':')).getDisplayTitle().copy().append( ": "+relatedDao.getValue())
             );
         }
-        System.out.println("getting description : "+ extraInfo);
 
 
         return extraInfo;

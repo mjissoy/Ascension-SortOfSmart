@@ -5,11 +5,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.CultivationData;
 import net.thejadeproject.ascension.events.custom.*;
 import net.thejadeproject.ascension.progression.physiques.PhysiqueEventListener;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
 import net.thejadeproject.ascension.progression.techniques.TechniquesEventListener;
+import net.thejadeproject.ascension.util.ModAttachments;
 
 import java.util.List;
 
@@ -22,19 +22,19 @@ public class IronBonesPassiveSkill extends AbstractPassiveSkill {
         this.path = "ascension:body";
     }
     public void onPhysiqueChange(PhysiqueChangeEvent event){
-        if(CultivationData.PlayerCultivationData.hasSkill(event.player, "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
+        if(event.player.getData(ModAttachments.PLAYER_DATA).hasSkill( "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
     }
     public void onTechniqueChange(TechniqueChangeEvent event){
-        if(CultivationData.PlayerCultivationData.hasSkill(event.player, "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
+        if(event.player.getData(ModAttachments.PLAYER_DATA).hasSkill("ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
 
     }
 
     public void onMajorRealmChange(MajorRealmChangeEvent event){
-        if(CultivationData.PlayerCultivationData.hasSkill(event.player, "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
+        if(event.player.getData(ModAttachments.PLAYER_DATA).hasSkill( "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
 
     }
     public void onMinorRealmChange(MinorRealmChangeEvent event){
-        if(CultivationData.PlayerCultivationData.hasSkill(event.player, "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
+        if(event.player.getData(ModAttachments.PLAYER_DATA).hasSkill("ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
 
     }
     public void updateSkillData(Player player){

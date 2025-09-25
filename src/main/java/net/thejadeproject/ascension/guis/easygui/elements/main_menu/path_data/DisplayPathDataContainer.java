@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
+import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -17,11 +18,11 @@ import net.thejadeproject.ascension.util.ModAttachments;
 
 public class DisplayPathDataContainer extends EmptyContainer {
 
-    public PlayerData.PathData pathData;
+    public CultivationData.PathData pathData;
     public DisplayPathDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y, int width, int height,String pathId) {
         super(easyGuiScreen, x, y, width, height);
         setID("path_data_container");
-        pathData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getPathData(pathId);
+        pathData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
         String name = "Essence Path";
         if(pathData.pathId.equals("ascension:body")) name = "Body Path";
         if(pathData.pathId.equals("ascension:intent")) name = "Intent Path";
@@ -67,7 +68,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
     }
 
     public void setPath(String pathId){
-        pathData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getPathData(pathId);
+        pathData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
         String name = "Essence Path";
         if(pathData.pathId.equals("ascension:body")) name = "Body Path";
         if(pathData.pathId.equals("ascension:intent")) name = "Intent Path";

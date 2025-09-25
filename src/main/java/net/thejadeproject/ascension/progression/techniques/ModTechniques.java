@@ -13,6 +13,8 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.technique_manuals.GenericTechniqueManual;
+import net.thejadeproject.ascension.progression.techniques.stability_handlers.GenericCalculatedStabilityHandler;
+import net.thejadeproject.ascension.progression.techniques.stability_handlers.LnStabilityHandler;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.body.SingleAttributeTechnique;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.essence.SingleElementTechnique;
@@ -40,7 +42,7 @@ public class ModTechniques {
     public static final DeferredRegister<ITechnique> TECHNIQUES =DeferredRegister.create(AscensionRegistries.Techniques.TECHNIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
     public static final TechniqueHolder PURE_FIRE_TECHNIQUE = createTechnique("pure_fire_technique",
-            ()->new SingleElementTechnique("Pure Fire Technique","ascension:fire",2.0)
+            ()->new SingleElementTechnique("Pure Fire Technique","ascension:fire",2.0,new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire",2.0);
                     }})
@@ -67,7 +69,7 @@ public class ModTechniques {
                     )));
 
     public static final TechniqueHolder PURE_WATER_TECHNIQUE = createTechnique("pure_water_technique",
-            ()->new SingleElementTechnique("Pure Water Technique","ascension:water",2.0)
+            ()->new SingleElementTechnique("Pure Water Technique","ascension:water",2.0,new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
                     }}).setOnMinorRealmChange(event -> {
@@ -92,7 +94,7 @@ public class ModTechniques {
 
                     }));
     public static final TechniqueHolder PURE_SWORD_INTENT = createTechnique("pure_sword_intent",
-            ()->new SingleIntentTechnique("Pure Sword Technique",8.0,"ascension:sword_intent")
+            ()->new SingleIntentTechnique("Pure Sword Technique",8.0,"ascension:sword_intent",new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:sword_intent",2.0);
                     }}).setOnMinorRealmChange(event -> {
@@ -114,7 +116,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     }));
     public static final TechniqueHolder PURE_FIST_INTENT = createTechnique("pure_fist_intent",
-            ()->new SingleIntentTechnique("Pure Fist Technique",8.0,"ascension:fist_intent")
+            ()->new SingleIntentTechnique("Pure Fist Technique",8.0,"ascension:fist_intent",new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fist_intent",2.0);
                     }}).setOnMinorRealmChange(event -> {
@@ -140,7 +142,7 @@ public class ModTechniques {
                     )));
 
     public static final TechniqueHolder DIVINE_PHOENIX_TECHNIQUE = createTechnique("divine_phoenix_technique",
-            ()->new SingleAttributeTechnique("Divine Phoenix Technique",8.0,"ascension:phoenix_fire")
+            ()->new SingleAttributeTechnique("Divine Phoenix Technique",8.0,"ascension:phoenix_fire",new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{
 
                         put("ascension:phoenix_fire",2.0);
@@ -164,7 +166,7 @@ public class ModTechniques {
                     }));
 
     public static final TechniqueHolder VOID_SWALLOWING_TECHNIQUE = createTechnique("void_swallowing_technique",
-            ()->new SingleAttributeTechnique("Void Swallowing Technique",8.0,"ascension:void")
+            ()->new SingleAttributeTechnique("Void Swallowing Technique",8.0,"ascension:void",new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{
 
                         put("ascension:void",2.0);

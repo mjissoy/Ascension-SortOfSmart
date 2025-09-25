@@ -8,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
 import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
@@ -15,6 +17,7 @@ import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
+import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModTags;
 
@@ -32,12 +35,26 @@ public abstract class AbstractTechnique implements ITechnique {
     public SkillList skillList = null;
     public ITextureData techniqueImage;
     public List<MutableComponent> description = new ArrayList<>();
-    public AbstractTechnique(String title, double baseRate,String path){
+    public StabilityHandler stabilityHandler;
+
+    public AbstractTechnique(String title, double baseRate,String path,StabilityHandler stabilityHandler){
         this.title = title;
         this.baseRate = baseRate;
         this.path = path;
-
+        this.stabilityHandler =stabilityHandler;
     }
+
+    @Override
+    public void tryCultivate(Player player) {
+        if(player.level().isClientSide()) return;
+        if(!CultivationSystem.cultivate(player,getPath(),baseRate,getCultivationAttributes())) tryStabiliseRealm(player);
+    }
+
+    @Override
+    public void tryStabiliseRealm(Player player) {
+        CultivationSystem.stabiliseRealm(stabilityHandler,player,getPath(),getCultivationAttributes(),0);
+    }
+
     @Override
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
         if(!Objects.equals(event.pathID, getPath())) return;

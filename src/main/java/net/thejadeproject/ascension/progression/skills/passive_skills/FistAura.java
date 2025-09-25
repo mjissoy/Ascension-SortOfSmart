@@ -27,8 +27,8 @@ public class FistAura extends AbstractPassiveSkill {
             //player has the skill so apply the bonus damage
 
             //get Cultivation stage;
-            int majorRealm = player.getData(ModAttachments.PLAYER_DATA).getPathData(getSkillPath()).majorRealm;
-            int minorRealm = player.getData(ModAttachments.PLAYER_DATA).getPathData(getSkillPath()).minorRealm;
+            int majorRealm = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getSkillPath()).majorRealm;
+            int minorRealm = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getSkillPath()).minorRealm;
             //possibly some sort of aura stat?
 
             double damage = 2*(1+majorRealm*10)*(1+minorRealm);

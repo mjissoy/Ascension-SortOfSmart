@@ -7,9 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
-import net.thejadeproject.ascension.cultivation.CultivationData;
 import net.thejadeproject.ascension.events.custom.*;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -18,10 +16,8 @@ import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.util.ModAttachments;
-import net.thejadeproject.ascension.util.ModTags;
 import oshi.util.tuples.Pair;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -157,13 +153,17 @@ public class GenericPhysique implements IPhysique{
     @Override
     public void onMajorRealmIncrease(MajorRealmChangeEvent event) {
         if(event.oldRealm > event.newRealm) return;
-        updatePlayerSkills(event.player,event.pathId,event.newRealm,CultivationData.PlayerCultivationData.getMinorRealm(event.pathId, event.player));
+
+        updatePlayerSkills(event.player,event.pathId,event.newRealm,
+                event.player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(event.pathId).minorRealm);
     }
 
     @Override
     public void onMinorRealmIncrease(MinorRealmChangeEvent event) {
         if(event.oldRealm > event.newRealm)return;
-        updatePlayerSkills(event.player,event.pathId,CultivationData.PlayerCultivationData.getMajorRealm(event.pathId, event.player),event.newRealm);
+        updatePlayerSkills(event.player,event.pathId,
+                event.player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(event.pathId).majorRealm
+                ,event.newRealm);
     }
     public void updatePlayerSkills(Player player, String path, int majorRealm, int minorRealm){
         if(skillList == null) return;

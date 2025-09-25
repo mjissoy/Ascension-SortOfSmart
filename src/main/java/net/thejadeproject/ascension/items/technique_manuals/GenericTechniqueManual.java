@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -42,13 +43,13 @@ public class GenericTechniqueManual extends Item {
 
 
     public boolean learnTechnique(Player player){
-        if(!player.getData(ModAttachments.PLAYER_DATA).getPathData(getTechnique().getPath()).technique.equals("ascension:none"))return false;
-        PlayerData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getPathData(getTechnique().getPath());
-        player.getData(ModAttachments.PLAYER_DATA).setPathTechnique(
+        if(!player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getTechnique().getPath()).technique.equals("ascension:none"))return false;
+        CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getTechnique().getPath());
+        player.getData(ModAttachments.PLAYER_DATA).getCultivationData().setPathTechnique(
                 getTechnique().getPath(),
                 technique.toString());
         System.out.println("player has learnt a technique");
-        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(data.pathId,data.majorRealm,data.minorRealm,data.pathProgress,data.technique));
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(data.pathId,data.majorRealm,data.minorRealm,data.pathProgress,data.technique,data.stabilityCultivationTicks));
         return true;
     }
 

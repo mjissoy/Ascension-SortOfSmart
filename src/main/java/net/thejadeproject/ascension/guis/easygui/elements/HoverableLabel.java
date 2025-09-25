@@ -64,7 +64,7 @@ public class HoverableLabel extends Label implements Hoverable {
 
         if(hovered){
             BoundChecker.Vec2 point = screenToLocalPoint(mouseX,mouseY);
-            System.out.println(dao);
+
             guiGraphics.renderTooltip(Minecraft.getInstance().font,dao.getDescription(), Optional.empty(),point.x,point.y);
         }
     }

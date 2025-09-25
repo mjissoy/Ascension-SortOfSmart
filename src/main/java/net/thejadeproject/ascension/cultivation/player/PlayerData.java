@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
 import net.thejadeproject.ascension.progression.skills.data.ICastData;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,119 +22,19 @@ public class PlayerData {
 
     }
     /********* CULTIVATION PROGRESS *******************************************************/
+    private final CultivationData cultivationData = new CultivationData();
 
-    private boolean cultivating;
-    public boolean isCultivating(){return cultivating;}
-    public void setCultivating(boolean state){
-        if(state != cultivating){
-            cultivating = state;
-        }
-    }
-
-
-    public static class PathData{
-        public String pathId;
-        public int majorRealm;
-        public int minorRealm;
-        public double pathProgress;
-        public String technique;
-
-        public boolean cultivating = false;
-
-        public boolean isCultivating(){return cultivating;}
-        public void setCultivating(boolean state){
-            cultivating = state;
-        }
-
-        public PathData(String pathId, int majorRealm, int minorRealm,double pathProgress,String technique){
-            this.pathId = pathId;
-            this.majorRealm = majorRealm;
-            this.minorRealm = minorRealm;
-            this.pathProgress = pathProgress;
-            this.technique = technique;
-
-        }
-        public PathData(){}
-        public CompoundTag writePathNBTData(){
-            CompoundTag tag = new CompoundTag();
-            tag.putString("path_id",pathId);
-            tag.putInt("major_realm",majorRealm);
-            tag.putInt("minor_realm",minorRealm);
-            tag.putDouble("progress",pathProgress);
-            tag.putString("technique",technique);
-            return tag;
-
-        }
-        public static PathData loadPathNBTData(CompoundTag compound){
-            PathData pathData = new PathData();
-            pathData.pathId =  compound.getString("path_id");
-            pathData.majorRealm = compound.getInt("major_realm");
-            pathData.minorRealm = compound.getInt("minor_realm");
-            pathData.pathProgress = compound.getDouble("progress");
-            pathData.technique = compound.getString("technique");
-            return pathData;
-        }
-
-        @Override
-        public String toString() {
-            return "PathData{" +
-                    "pathId='" + pathId + '\'' +
-                    ", majorRealm=" + majorRealm +
-                    ", minorRealm=" + minorRealm +
-                    ", pathProgress=" + pathProgress +
-                    ", technique='" + technique + '\'' +
-                    ", cultivating=" + cultivating +
-                    '}';
-        }
-    }
-
-
-    private final HashMap<String,PathData> pathDataHashMap = new HashMap<>();
-
-    public PathData getPathData(String pathId){
-
-        if(pathDataHashMap.containsKey(pathId)) return pathDataHashMap.get(pathId);
-        PathData data = new PathData(pathId,0,0,0,"ascension:none");
-        pathDataHashMap.put(pathId,data);
-        return data;
-    }
-
-    public Collection<PathData> getPaths(){
-        return pathDataHashMap.values();
-    }
-
-    public void setPathProgress(String pathId,double pathProgress){
-        pathDataHashMap.get(pathId).pathProgress = pathProgress;
-    }
-
-    public void setPathMajorRealm(String pathId,int majorRealm){
-        pathDataHashMap.get(pathId).majorRealm = majorRealm;
-    }
-    public void setPathMinorRealm(String pathId,int minorRealm){
-        pathDataHashMap.get(pathId).minorRealm = minorRealm;
-    }
-
-    public void setPathTechnique(String pathId,String technique){pathDataHashMap.get(pathId).technique = technique;}
-
-    public CompoundTag writePathNBTData(){
-        CompoundTag tag = new CompoundTag();
-        for(PathData dataEntry : pathDataHashMap.values()){
-            tag.put(dataEntry.pathId,dataEntry.writePathNBTData());
-        }
-        return tag;
-    }
-    public void loadPathNBTData(CompoundTag compound){
-        for(String key:compound.getAllKeys()){
-            pathDataHashMap.put(key,PathData.loadPathNBTData(compound.getCompound(key)));
-        }
-    }
-
+    public CultivationData getCultivationData(){ return cultivationData;}
     /********* Skill Data *******************************************************/
 
+    public boolean hasSkill(String skill_id,String skillType){
+        if(skillType.equals("Active")) return activeSkillHashMap.containsKey(skill_id);
+        return passiveSkillHashMap.containsKey(skill_id);
+    }
     public ActiveSkillContainer activeSkillContainer = new ActiveSkillContainer();
 
     public static class ActiveSkillContainer{
-        private List<String> skillIdList;
+        private final List<String> skillIdList = List.of();
 
         public List<String> getSkillIdList() {
             return skillIdList;
@@ -316,12 +217,12 @@ public class PlayerData {
     //TODO
     /********* SYSTEM *******************************************************/
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
-        loadPathNBTData(tag.getCompound("path_data"));
+        getCultivationData().loadNBTData(tag.getCompound("path_data"));
         loadSkillNBTData(tag.getCompound("skill_data"));
         loadSkillContainerNBTData((ListTag) tag.get("equip_skill_list"));
     }
     public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
-        tag.put("path_data",writePathNBTData());
+        tag.put("path_data",getCultivationData().writeNBTData());
         CompoundTag skillTag = new CompoundTag();
         writeSkillNBTData(skillTag);
         tag.put("skill_data",skillTag);
