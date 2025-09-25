@@ -123,6 +123,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Pills
         basicItem(ModItems.REGENERATION_PILL.get());
         basicItem(ModItems.CLEANSING_PILL.get());
+        basicItem(ModItems.FASTING_PILL_T1.get());
+        basicItem(ModItems.FASTING_PILL_T2.get());
+        basicItem(ModItems.FASTING_PILL_T3.get());
 
 
 

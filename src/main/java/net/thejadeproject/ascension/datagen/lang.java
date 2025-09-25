@@ -25,6 +25,7 @@ public class lang extends LanguageProvider {
 
         //Tools and Swords and Armor
         add("item.ascension.jade_blade", "Jade Serpent's Fang");
+        add("item.ascension.searing_blade", "Fang of the Phoenix");
         add("item.ascension.jade_spear", "Sting of the Jade Serpent");
 
 
@@ -45,6 +46,9 @@ public class lang extends LanguageProvider {
         //Pills
         add("item.ascension.regeneration_pill", "Regeneration Pill");
         add("item.ascension.cleansing_pill", "Cleansing Pill");
+        add("item.ascension.fasting_pill_t1", "Fasting Pill");
+        add("item.ascension.fasting_pill_t2", "Fasting Pill");
+        add("item.ascension.fasting_pill_t3", "Fasting Pill");
 
         //manuals
         add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");
