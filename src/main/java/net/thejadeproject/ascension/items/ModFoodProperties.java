@@ -8,6 +8,9 @@ import net.thejadeproject.ascension.effects.ModEffects;
 public class ModFoodProperties {
     public static final FoodProperties REGENERATION_PILL = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.QI_ENHANCED_REGENERATION, 200), 1f).build();
+    public static final FoodProperties CLEANSING_PILL = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200), 1f).build();
+
 
     public static final FoodProperties GOLDEN_SUN_LEAF = new FoodProperties.Builder().fast().alwaysEdible()
             .effect(() -> new MobEffectInstance(MobEffects.REGENERATION, 50), 1f).build();

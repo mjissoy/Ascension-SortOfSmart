@@ -33,7 +33,6 @@ public class lang extends LanguageProvider {
         add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.ascension_icon", "Ascension Icon");
-        //add("item.ascension.raw_jade", "Raw Jade");
         add("item.ascension.undead_core", "Undead Core");
         add("item.ascension.living_core", "Living Core");
         add("item.ascension.crimson_lotus_flame", "Crimson Lotus Flame");
@@ -45,6 +44,7 @@ public class lang extends LanguageProvider {
 
         //Pills
         add("item.ascension.regeneration_pill", "Regeneration Pill");
+        add("item.ascension.cleansing_pill", "Cleansing Pill");
 
         //manuals
         add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");
@@ -310,7 +310,7 @@ public class lang extends LanguageProvider {
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.artifacts", "Ascension Artifacts");
         add("creativetab.ascension.blocks", "Ascension Blocks");
-        add("creativetab.ascension.herbs", "Ascension Herbs");
+        add("creativetab.ascension.herbs", "Ascension Herbs & Pills");
         add("creativetab.ascension.manuals", "Ascension Manuals");
 
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
