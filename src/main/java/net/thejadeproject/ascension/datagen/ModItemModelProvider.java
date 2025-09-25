@@ -122,6 +122,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Pills
         basicItem(ModItems.REGENERATION_PILL.get());
+        basicItem(ModItems.CLEANSING_PILL.get());
 
 
 

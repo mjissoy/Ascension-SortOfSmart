@@ -32,7 +32,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
-                        output.accept(ModItems.REGENERATION_PILL);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
@@ -273,6 +272,10 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GOLDEN_SUN_LEAF.get()))
                     .title(Component.translatable("creativetab.ascension.herbs"))
                     .displayItems((itemDisplayParameters, output) -> {
+
+                        output.accept(ModItems.REGENERATION_PILL);
+                        output.accept(ModItems.CLEANSING_PILL);
+
                         output.accept(ModItems.CRIMSON_LOTUS_FLAME);
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
                         output.accept(ModItems.IRONWOOD_SPROUT);

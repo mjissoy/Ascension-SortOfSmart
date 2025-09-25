@@ -155,6 +155,8 @@ public class ModItems {
     //Pills
     public static final DeferredItem<Item> REGENERATION_PILL = ITEMS.register("regeneration_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL), 400));
+    public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
 
 
 

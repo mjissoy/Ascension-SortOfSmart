@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -75,8 +76,13 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.Items.SPEAR)
                 .add(ModItems.JADE_SPEAR.get());
 
+        tag(ItemTags.SWORDS)
+                .addTag(ModTags.Items.SPEAR)
+                .addTag(ModTags.Items.BLADE);
+
         tag(ItemTags.SWORD_ENCHANTABLE)
-                .add(ModItems.JADE_BLADE.get());
+                .addTag(ModTags.Items.BLADE)
+                .addTag(ModTags.Items.SPEAR);
 
 
     }
