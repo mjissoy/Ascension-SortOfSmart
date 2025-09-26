@@ -28,8 +28,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.RAW_MARBLE.get())
                 .add(ModBlocks.POLISHED_MARBLE.get())
                 .add(ModBlocks.MARBLE_BRICKS.get())
-                .add(ModBlocks.CRACKED_MARBLE_BRICKS.get())
-                .add(ModBlocks.MOSSY_MARBLE_BRICKS.get())
                 .add(ModBlocks.MARBLE_CHISELED.get())
                 .add(ModBlocks.MARBLE_TILES.get())
                 .add(ModBlocks.MARBLE_BRICK_STAIRS.get())

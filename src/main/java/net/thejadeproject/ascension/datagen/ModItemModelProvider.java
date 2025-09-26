@@ -88,10 +88,10 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Items
         basicItem(ModItems.JADE.get());
-        basicItem(ModItems.SPIRITUAL_STONE.get());
+        //basicItem(ModItems.SPIRITUAL_STONE.get());
         basicItem(ModItems.JADE_SLIP.get());
         basicItem(ModItems.JADE_NUGGET.get());
-        //basicItem(ModItems.RAW_JADE.get());
+
 
         //Drops
         basicItem(ModItems.LIVING_CORE.get());

@@ -41,8 +41,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.MARBLE_TILES.get());
         dropSelf(ModBlocks.MARBLE_BRICKS.get());
         dropSelf(ModBlocks.MARBLE_CHISELED.get());
-        dropSelf(ModBlocks.CRACKED_MARBLE_BRICKS.get());
-        dropSelf(ModBlocks.MOSSY_MARBLE_BRICKS.get());
         dropSelf(ModBlocks.CHARRED_MARBLE.get());
         dropSelf(ModBlocks.POLISHED_BURNED_MARBLE.get());
         dropSelf(ModBlocks.CHARRED_MARBLE_CHISELED.get());
