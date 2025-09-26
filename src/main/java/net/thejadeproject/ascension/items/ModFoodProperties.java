@@ -10,6 +10,9 @@ public class ModFoodProperties {
             .effect(() -> new MobEffectInstance(ModEffects.QI_ENHANCED_REGENERATION, 200), 1f).build();
     public static final FoodProperties CLEANSING_PILL = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200), 1f).build();
+    public static final FoodProperties FASTING_PILL_T1 = new FoodProperties.Builder().nutrition(6).saturationModifier(6).fast().build();
+    public static final FoodProperties FASTING_PILL_T2 = new FoodProperties.Builder().nutrition(10).saturationModifier(10).fast().build();
+    public static final FoodProperties FASTING_PILL_T3 = new FoodProperties.Builder().nutrition(15).saturationModifier(15).fast().build();
 
 
     public static final FoodProperties GOLDEN_SUN_LEAF = new FoodProperties.Builder().fast().alwaysEdible()

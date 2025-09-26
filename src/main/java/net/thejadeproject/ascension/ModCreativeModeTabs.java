@@ -23,6 +23,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.JADE_BLADE);
+                        output.accept(ModItems.SEARING_BLADE);
                         output.accept(ModItems.JADE_SPEAR);
 
 
@@ -80,8 +81,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.RAW_MARBLE);
                         output.accept(ModBlocks.POLISHED_MARBLE);
                         output.accept(ModBlocks.MARBLE_BRICKS);
-                        output.accept(ModBlocks.CRACKED_MARBLE_BRICKS);
-                        output.accept(ModBlocks.MOSSY_MARBLE_BRICKS);
                         output.accept(ModBlocks.MARBLE_CHISELED);
                         output.accept(ModBlocks.MARBLE_TILES);
                         output.accept(ModBlocks.MARBLE_BRICK_STAIRS);
@@ -275,6 +274,9 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModItems.REGENERATION_PILL);
                         output.accept(ModItems.CLEANSING_PILL);
+                        output.accept(ModItems.FASTING_PILL_T1);
+                        output.accept(ModItems.FASTING_PILL_T2);
+                        output.accept(ModItems.FASTING_PILL_T3);
 
                         output.accept(ModItems.CRIMSON_LOTUS_FLAME);
                         output.accept(ModItems.GOLDEN_SUN_LEAF);

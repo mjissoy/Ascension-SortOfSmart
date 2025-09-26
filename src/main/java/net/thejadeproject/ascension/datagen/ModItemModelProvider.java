@@ -88,10 +88,10 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Items
         basicItem(ModItems.JADE.get());
-        basicItem(ModItems.SPIRITUAL_STONE.get());
+        //basicItem(ModItems.SPIRITUAL_STONE.get());
         basicItem(ModItems.JADE_SLIP.get());
         basicItem(ModItems.JADE_NUGGET.get());
-        //basicItem(ModItems.RAW_JADE.get());
+
 
         //Drops
         basicItem(ModItems.LIVING_CORE.get());
@@ -123,6 +123,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Pills
         basicItem(ModItems.REGENERATION_PILL.get());
         basicItem(ModItems.CLEANSING_PILL.get());
+        basicItem(ModItems.FASTING_PILL_T1.get());
+        basicItem(ModItems.FASTING_PILL_T2.get());
+        basicItem(ModItems.FASTING_PILL_T3.get());
 
 
 

@@ -42,7 +42,15 @@ public class ModItems {
     //Weapons & Tools
     public static final DeferredItem<BladeItem> JADE_BLADE = ITEMS.register("jade_blade",
             () -> new BladeItem(ModToolTiers.JADE, new Item.Properties()
-                    .attributes(BladeItem.createAttributes(ModToolTiers.JADE, 6, -2.8f))));
+                    .attributes(BladeItem.createAttributes(ModToolTiers.JADE, 6, -2.2f))));
+    public static final DeferredItem<BladeItem> SEARING_BLADE = ITEMS.register("searing_blade",
+            () -> new BladeItem(ModToolTiers.JADE, new Item.Properties()
+                    .attributes(BladeItem.createAttributes(ModToolTiers.JADE, 7, -2f))));
+
+
+
+
+
     public static final DeferredItem<SpearItem> JADE_SPEAR = ITEMS.register("jade_spear",
             () -> new SpearItem(ModToolTiers.JADE, new Item.Properties()
                     .attributes(ItemUtil.createAscensionItemAttributes(ModToolTiers.JADE, 6, -2.8f,2))
@@ -157,6 +165,12 @@ public class ModItems {
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL), 400));
     public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
+    public static final DeferredItem<Item> FASTING_PILL_T1 = ITEMS.register("fasting_pill_t1",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T1)));
+    public static final DeferredItem<Item> FASTING_PILL_T2 = ITEMS.register("fasting_pill_t2",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T2)));
+    public static final DeferredItem<Item> FASTING_PILL_T3 = ITEMS.register("fasting_pill_t3",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T3)));
 
 
 

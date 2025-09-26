@@ -46,8 +46,6 @@ public class ModBlocks {
 
     /** Marble Blocks */
     public static final DeferredBlock<Block> RAW_MARBLE = registerBlock("raw_marble", () -> makeBlockFrom(Blocks.ANDESITE));
-    public static final DeferredBlock<Block> CRACKED_MARBLE_BRICKS = registerBlock("cracked_marble_bricks", () -> makeBlockFrom(Blocks.ANDESITE));
-    public static final DeferredBlock<Block> MOSSY_MARBLE_BRICKS = registerBlock("mossy_marble_bricks", () -> makeBlockFrom(Blocks.ANDESITE));
     public static final DeferredBlock<Block> POLISHED_MARBLE = registerBlock("polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
     public static final DeferredBlock<Block> MARBLE_BRICKS = registerBlock("marble_bricks", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));
     public static final DeferredBlock<Block> MARBLE_CHISELED = registerBlock("marble_chiseled", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));

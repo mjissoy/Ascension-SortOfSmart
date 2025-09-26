@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-25T09:01:50.3673959	Item Models: ascension
+// 1.21.1	2025-09-25T21:21:13.8665882	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
@@ -13,6 +13,9 @@ f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marbl
 abe2becd602169ae11df376855869494e03a5542 assets/ascension/models/item/diamond_spatial_ring.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/divine_phoenix_technique.json
 14a26ac05e802ef718798bbab95ed44d115a809f assets/ascension/models/item/ender_pouch.json
+e18d832abc35ab4b606de3f2dd5c7689db479b95 assets/ascension/models/item/fasting_pill_t1.json
+67cbe002bcdf71a822f90fd9cba28ec7541e20fa assets/ascension/models/item/fasting_pill_t2.json
+5f715b875f103e5744dbadea7960ecf246eb932f assets/ascension/models/item/fasting_pill_t3.json
 922e3b4df3ad678fc0b44e8e93d1a2891111ab36 assets/ascension/models/item/golden_palm_button.json
 52f45159c085e04ea6b39386e0b56a0a544ba074 assets/ascension/models/item/golden_palm_door.json
 a8e9779b889c8fdd9987b0f0a0f227780e247c2f assets/ascension/models/item/golden_palm_fence.json

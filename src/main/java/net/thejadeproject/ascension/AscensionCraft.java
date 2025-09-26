@@ -2,6 +2,7 @@ package net.thejadeproject.ascension;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -255,6 +256,18 @@ public class AscensionCraft {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
+
+            event.enqueueWork(() -> {
+                ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
+                        ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),
+                        (itemStack, clientLevel, livingEntity, seed) -> {
+                            int count = itemStack.getCount();
+                            if (count >= 32) return 3.0F;  // Large stack
+                            if (count >= 16) return 2.0F;  // Medium stack
+                            if (count >= 2) return 1.0F;   // Small stack
+                            return 0.0F;                   // Single item
+                        });
+            });
 
         }
 

@@ -192,10 +192,7 @@ public class ModTechniques {
         DeferredHolder<ITechnique,? extends ITechnique> techniqueHolder = TECHNIQUES.register(id,supplier);
         DeferredItem<GenericTechniqueManual> manualHolder = ModItems.ITEMS.register(id,()-> new GenericTechniqueManual(
                 new Item.Properties(),
-                ResourceLocation.fromNamespaceAndPath(
-                        AscensionCraft.MOD_ID,
-                        id
-                )
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, id)
                 ));
         return new TechniqueHolder(techniqueHolder,manualHolder);
     }
