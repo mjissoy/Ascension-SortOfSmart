@@ -13,12 +13,14 @@ import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
+import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.BreakthroughButton;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 
 public class DisplayPathDataContainer extends EmptyContainer {
 
     public CultivationData.PathData pathData;
+    //TODO create a label that reads a field from a data attachment. or update these one every tick
     public DisplayPathDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y, int width, int height,String pathId) {
         super(easyGuiScreen, x, y, width, height);
         setID("path_data_container");
@@ -68,7 +70,10 @@ public class DisplayPathDataContainer extends EmptyContainer {
     }
 
     public void setPath(String pathId){
+        //TODO if realm is at breakthrough make button visible in OuterPathData Container
         pathData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
+
+
         String name = "Essence Path";
         if(pathData.pathId.equals("ascension:body")) name = "Body Path";
         if(pathData.pathId.equals("ascension:intent")) name = "Intent Path";
@@ -79,7 +84,11 @@ public class DisplayPathDataContainer extends EmptyContainer {
 
         ((Label) getScreen().getElementByID("major_realm_data")).text = Component.literal(CultivationSystem.getPathMajorRealmName(pathId,pathData.majorRealm));
         ((Label)  getScreen().getElementByID("major_realm_data")).width = Minecraft.getInstance().font.width(CultivationSystem.getPathMajorRealmName(pathId,pathData.majorRealm));
-
+        if(pathData.stabilityCultivationTicks > 0){
+            BreakthroughButton breakthroughButton = new BreakthroughButton(getScreen(), (int) (getScreen().getElementByID("major_realm_data").getWidth()*getScreen().getElementByID("major_realm_data").getCustomScale()), getScreen().getElementByID("major_realm_data").getY());
+            breakthroughButton.setID("breakthrough_button");
+            addChild(breakthroughButton);
+        }
 
         ((Label) getScreen().getElementByID("minor_realm_data")).text =Component.literal(String.valueOf(pathData.minorRealm));
         ((Label) getScreen().getElementByID("minor_realm_data")).width = Minecraft.getInstance().font.width(String.valueOf(pathData.minorRealm));

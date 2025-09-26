@@ -44,7 +44,7 @@ public class DraggableDataContainer extends EmptyDraggableContainer {
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
                 if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT){
-                    getParent().remove();
+                    getParent().getParent().removeChild(getParent());
                 }
             }
         };

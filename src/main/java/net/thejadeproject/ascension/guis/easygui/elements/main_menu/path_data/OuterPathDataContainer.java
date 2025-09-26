@@ -6,6 +6,7 @@ import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.BreakthroughButton;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.SmallButton;
 
 //TODO
@@ -15,6 +16,7 @@ public class OuterPathDataContainer extends EmptyContainer {
 
         DisplayPathDataContainer container = new DisplayPathDataContainer(easyGuiScreen,0,30,getWidth(),83,"ascension:essence");
         addChild(container);
+        container.setID("path_data_display_container");
         SmallButton essencePathButton = new SmallButton(easyGuiScreen,3,7,
                 new TextureDataSubSection(
                         ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,

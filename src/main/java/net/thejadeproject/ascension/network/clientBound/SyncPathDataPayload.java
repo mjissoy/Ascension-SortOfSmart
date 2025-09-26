@@ -43,4 +43,7 @@ public record SyncPathDataPayload(String pathId,int majorRealm,int minorRealm,do
         pathData.technique = payload.technique();
         pathData.stabilityCultivationTicks = payload.stabilityTicks();
     }
+    public static SyncPathDataPayload fromPathData(CultivationData.PathData pathData){
+        return new SyncPathDataPayload(pathData.pathId, pathData.majorRealm, pathData.minorRealm, pathData.pathProgress,pathData.technique,pathData.stabilityCultivationTicks);
+    }
 }

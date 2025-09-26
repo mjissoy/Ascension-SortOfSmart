@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.guis.easygui.elements;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.lucent.easygui.elements.controls.buttons.ColorButton;
 import net.lucent.easygui.elements.controls.buttons.TextureButton;
+import net.lucent.easygui.elements.tooltips.EasyTooltip;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.lucent.easygui.util.math.BoundChecker;
@@ -14,6 +15,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
+
+import java.util.List;
 
 public class CardButton extends TextureButton {
 
@@ -104,11 +107,15 @@ public class CardButton extends TextureButton {
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(0,0,500);
             if(cardPhysique != null) {
-                guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal(AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
-                        ResourceLocation.fromNamespaceAndPath(cardPhysique.split(":")[0],cardPhysique.split(":")[1])
-                ).getDisplayTitle()),point.x,point.y);
+                getScreen().setTooltip(new EasyTooltip(mouseX,mouseY, List.of(
+                        Component.literal(AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
+                                ResourceLocation.fromNamespaceAndPath(cardPhysique.split(":")[0],cardPhysique.split(":")[1])
+                        ).getDisplayTitle())
+                )));
+
             }
-            else guiGraphics.renderTooltip(Minecraft.getInstance().font, Component.literal("?????"),point.x,point.y);
+            else  getScreen().setTooltip(new EasyTooltip(mouseX,mouseY, List.of(Component.literal("?????"))));
+
             RenderSystem.disableBlend();
             guiGraphics.pose().popPose();
         }

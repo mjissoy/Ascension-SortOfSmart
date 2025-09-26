@@ -34,7 +34,7 @@ public class GenericPhysique implements IPhysique{
     public Map<String,Double> otherBonuses;
     public final String title;
     public ITextureData textureData;
-    public SkillList skillList;
+    public SkillList skillList = new SkillList(List.of());
     public Supplier<MajorRealmChangeEvent> majorRealmAction;
     public Supplier<MinorRealmChangeEvent> minorRealmAction;
     public List<MutableComponent> description;

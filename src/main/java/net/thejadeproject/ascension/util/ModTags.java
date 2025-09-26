@@ -24,7 +24,7 @@ public class ModTags {
         public static final TagKey<Item> ALCHEMY_SUCCESS = createTag("herbs/alchemy_success");
         public static final TagKey<Item> BLADE = createTag("blade");
         public static final TagKey<Item> SPEAR = createTag("spear");
-
+        public static final TagKey<Item> SPEAR_ENCHANTABLE = createTag("spear_enchantable");
 
 
 

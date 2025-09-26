@@ -77,13 +77,23 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.JADE_SPEAR.get());
 
         tag(ItemTags.SWORDS)
-                .addTag(ModTags.Items.SPEAR)
                 .addTag(ModTags.Items.BLADE);
 
         tag(ItemTags.SWORD_ENCHANTABLE)
-                .addTag(ModTags.Items.BLADE)
-                .addTag(ModTags.Items.SPEAR);
+                .addTag(ModTags.Items.BLADE);
 
+        tag(ModTags.Items.SPEAR_ENCHANTABLE)
+                .addTag(ModTags.Items.SPEAR);
+        tag(Tags.Items.ENCHANTABLES)
+                .addTag(ModTags.Items.SPEAR_ENCHANTABLE);
+        tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
+                .addTag(ModTags.Items.SPEAR_ENCHANTABLE);
+        tag(ItemTags.BREAKS_DECORATED_POTS)
+                .addTag(ModTags.Items.SPEAR);
+        tag(ItemTags.SHARP_WEAPON_ENCHANTABLE)
+                .addTag(ModTags.Items.SPEAR);
+        tag(Tags.Items.TOOLS)
+                .addTag(ModTags.Items.SPEAR);
 
     }
 }

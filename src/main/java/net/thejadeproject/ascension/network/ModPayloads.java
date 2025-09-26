@@ -7,6 +7,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
+import net.thejadeproject.ascension.network.serverBound.TriggerMajorRealmBreakthrough;
 
 public class ModPayloads {
     @SubscribeEvent
@@ -32,6 +33,11 @@ public class ModPayloads {
                 TriggerGeneratePhysique.TYPE,
                 TriggerGeneratePhysique.STREAM_CODEC,
                 TriggerGeneratePhysique::handlePayload
+        );
+        registrar.playToServer(
+                TriggerMajorRealmBreakthrough.TYPE,
+                TriggerMajorRealmBreakthrough.STREAM_CODEC,
+                TriggerMajorRealmBreakthrough::handlePayload
         );
         registrar.playToClient(
                 SyncSkillDataPayload.TYPE,

@@ -47,7 +47,9 @@ public class CultivationSystem {
                 "Stellar Genesis","World Resonance","Primordial Awakening"
         });
     }};
-
+    public static int getRealmNumber(String pathId){
+        return realmNameMap.get(pathId).length;
+    }
     public static String getPathMajorRealmName(String pathId,int majorRealm){
         return realmNameMap.get(pathId)[majorRealm];
     }
@@ -129,6 +131,7 @@ public class CultivationSystem {
             "Soul Formation", "Soul Transformation", "Immortal Ascension",
             "True Immortal", "Golden Immortal", "Universe Creation Realm"
     };
+    //wtf is this
     public static List<Integer> getRealmsIdList(){
         List<Integer> list = new ArrayList<>();
         for(int i = 0;i < majorRealmNames.length;i++){

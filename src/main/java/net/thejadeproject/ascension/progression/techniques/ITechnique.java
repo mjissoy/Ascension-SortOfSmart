@@ -10,6 +10,7 @@ import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
 import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
+import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 
 import java.util.List;
 
@@ -49,6 +50,8 @@ public interface ITechnique {
     List<String> getCultivationAttributes();
     //the elemental affinities
     List<String> getEfficiencyAttributes();
+
+    StabilityHandler getStabilityHandler();
 
     void tryCultivate(Player player);
     void tryStabiliseRealm(Player player);

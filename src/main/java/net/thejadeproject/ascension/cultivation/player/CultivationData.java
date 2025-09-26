@@ -32,6 +32,14 @@ public class CultivationData {
 
         }
         public PathData(){}
+
+        public void increaseMajorRealm(){
+            this.majorRealm += 1;
+            this.minorRealm = 0;
+            this.pathProgress = 0;
+            this.stabilityCultivationTicks = 0;
+        }
+
         public CompoundTag writeNBTData(){
             CompoundTag tag = new CompoundTag();
             tag.putString("path_id",pathId);
@@ -93,7 +101,9 @@ public class CultivationData {
     public void setPathMinorRealm(String pathId,int minorRealm){
         pathDataHashMap.get(pathId).minorRealm = minorRealm;
     }
-
+    public void increaseMajorRealm(String pathId){
+        pathDataHashMap.get(pathId).increaseMajorRealm();
+    }
     public void setPathTechnique(String pathId,String technique){pathDataHashMap.get(pathId).technique = technique;}
 
     public CompoundTag writeNBTData(){

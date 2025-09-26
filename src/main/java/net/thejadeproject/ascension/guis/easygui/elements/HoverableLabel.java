@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.guis.easygui.elements;
 
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.elements.other.SquareRenderable;
+import net.lucent.easygui.elements.tooltips.EasyTooltip;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.events.Hoverable;
 import net.lucent.easygui.templating.actions.Action;
@@ -14,6 +15,7 @@ import net.thejadeproject.ascension.progression.dao.IDao;
 import org.joml.Vector3f;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Optional;
 
 //TODO remove when update jit pack
@@ -63,15 +65,14 @@ public class HoverableLabel extends Label implements Hoverable {
         super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
 
         if(hovered){
-            BoundChecker.Vec2 point = screenToLocalPoint(mouseX,mouseY);
 
-            guiGraphics.renderTooltip(Minecraft.getInstance().font,dao.getDescription(), Optional.empty(),point.x,point.y);
+            getScreen().setTooltip(new EasyTooltip(mouseX,mouseY,dao.getDescription()));
         }
     }
 
     @Override
     public void onMouseOver(boolean state) {
-        Hoverable.super.onMouseOver(state);
+        super.onMouseOver(state);
         hovered = state;
     }
     public static class Builder{

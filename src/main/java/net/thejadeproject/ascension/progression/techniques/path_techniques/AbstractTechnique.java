@@ -45,6 +45,11 @@ public abstract class AbstractTechnique implements ITechnique {
     }
 
     @Override
+    public StabilityHandler getStabilityHandler() {
+        return stabilityHandler;
+    }
+
+    @Override
     public void tryCultivate(Player player) {
         if(player.level().isClientSide()) return;
         if(!CultivationSystem.cultivate(player,getPath(),baseRate,getCultivationAttributes())) tryStabiliseRealm(player);
