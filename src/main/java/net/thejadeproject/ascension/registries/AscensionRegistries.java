@@ -47,11 +47,13 @@ public class AscensionRegistries {
                 .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"empty"))
                 .create();
     }
+
     @SubscribeEvent // on the mod event bus
     public static void registerRegistries(NewRegistryEvent event) {
         event.register(Physiques.PHSIQUES_REGISTRY);
         event.register(Skills.SKILL_REGISTRY);
         event.register(Techniques.TECHNIQUES_REGISTRY);
         event.register(Dao.DAO_REGISTRY);
+
     }
 }

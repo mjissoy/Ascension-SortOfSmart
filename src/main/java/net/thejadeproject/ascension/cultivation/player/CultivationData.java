@@ -1,6 +1,11 @@
 package net.thejadeproject.ascension.cultivation.player;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
+import net.thejadeproject.ascension.progression.techniques.ITechnique;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,6 +20,9 @@ public class CultivationData {
         public String technique;
         public double stabilityCultivationTicks;
 
+        public boolean breakingThrough;
+        public IBreakthroughData breakthroughData;
+
         public boolean cultivating = false;
 
         public boolean isCultivating(){return cultivating;}
@@ -22,13 +30,14 @@ public class CultivationData {
             cultivating = state;
         }
 
-        public PathData(String pathId, int majorRealm, int minorRealm,double pathProgress,String technique,double stabilityCultivationTicks){
+        public PathData(String pathId, int majorRealm, int minorRealm,double pathProgress,String technique,double stabilityCultivationTicks,boolean breakingThrough){
             this.pathId = pathId;
             this.majorRealm = majorRealm;
             this.minorRealm = minorRealm;
             this.pathProgress = pathProgress;
             this.technique = technique;
             this.stabilityCultivationTicks=stabilityCultivationTicks;
+            this.breakingThrough = breakingThrough;
 
         }
         public PathData(){}
@@ -48,6 +57,8 @@ public class CultivationData {
             tag.putDouble("progress",pathProgress);
             tag.putString("technique",technique);
             tag.putDouble("stability_cultivation_ticks",stabilityCultivationTicks);
+            tag.putBoolean("breaking_through",breakingThrough);
+            if(breakthroughData != null) tag.put("breakthrough_data",breakthroughData.writeBreakthroughData());
             return tag;
 
         }
@@ -59,6 +70,9 @@ public class CultivationData {
             pathData.pathProgress = compound.getDouble("progress");
             pathData.technique = compound.getString("technique");
             pathData.stabilityCultivationTicks = compound.getDouble("stability_cultivation_ticks");
+            pathData.breakingThrough = compound.getBoolean("breaking_through");
+            ITechnique techniqueManual = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':'));
+            if(compound.hasUUID("breakthrough_data") && techniqueManual != null) pathData.breakthroughData = techniqueManual.getBreakthroughHandler().getBreakthroughData(compound);
             return pathData;
         }
 
@@ -82,7 +96,7 @@ public class CultivationData {
     public PathData getPathData(String pathId){
 
         if(pathDataHashMap.containsKey(pathId)) return pathDataHashMap.get(pathId);
-        PathData data = new PathData(pathId,0,0,0,"ascension:none",0);
+        PathData data = new PathData(pathId,0,0,0,"ascension:none",0,false);
         pathDataHashMap.put(pathId,data);
         return data;
     }

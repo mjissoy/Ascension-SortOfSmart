@@ -14,6 +14,7 @@ import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent
 import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
 import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
+import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
@@ -36,12 +37,19 @@ public abstract class AbstractTechnique implements ITechnique {
     public ITextureData techniqueImage;
     public List<MutableComponent> description = new ArrayList<>();
     public StabilityHandler stabilityHandler;
-
-    public AbstractTechnique(String title, double baseRate,String path,StabilityHandler stabilityHandler){
+    public IBreakthroughHandler breakthroughHandler;
+    public AbstractTechnique(String title, double baseRate,String path,StabilityHandler stabilityHandler,IBreakthroughHandler handler){
         this.title = title;
         this.baseRate = baseRate;
         this.path = path;
         this.stabilityHandler =stabilityHandler;
+        this.breakthroughHandler =handler;
+    }
+
+
+    @Override
+    public IBreakthroughHandler getBreakthroughHandler() {
+        return breakthroughHandler;
     }
 
     @Override

@@ -31,7 +31,7 @@ public record TriggerMajorRealmBreakthrough(String path_id) implements CustomPac
         return TYPE;
     }
     public static void handlePayload(TriggerMajorRealmBreakthrough payload, IPayloadContext context) {
-
+        //TODO change to use breakthrough handler instead
         PlayerData data = context.player().getData(ModAttachments.PLAYER_DATA);
         CultivationData cultivationData = data.getCultivationData();
         CultivationData.PathData pathData = cultivationData.getPathData(payload.path_id());
@@ -46,7 +46,8 @@ public record TriggerMajorRealmBreakthrough(String path_id) implements CustomPac
                 payload.path_id(),
                 pathData.majorRealm,
                 pathData.majorRealm+1,
-                technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks));
+                technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks),
+                pathData.breakthroughData);
 
         pathData.increaseMajorRealm();
         PacketDistributor.sendToPlayer((ServerPlayer) context.player(),SyncPathDataPayload.fromPathData(pathData));

@@ -9,6 +9,8 @@ import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent
 import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
 import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
+import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
+import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 
@@ -52,6 +54,7 @@ public interface ITechnique {
     List<String> getEfficiencyAttributes();
 
     StabilityHandler getStabilityHandler();
+    IBreakthroughHandler getBreakthroughHandler();
 
     void tryCultivate(Player player);
     void tryStabiliseRealm(Player player);
