@@ -24,7 +24,7 @@ public class ModAttachments {
 
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerData>> PLAYER_DATA = ATTACHMENT_TYPES.register("magic_data",
-            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerData(player):null).serialize(new PlayerDataProvider()).build());
+            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerData(player):null).serialize(new PlayerDataProvider()).copyOnDeath().build());
 
     public static void register(IEventBus modEventBus){
         ATTACHMENT_TYPES.register(modEventBus);
