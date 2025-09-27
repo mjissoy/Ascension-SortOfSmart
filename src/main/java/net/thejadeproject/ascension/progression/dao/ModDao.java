@@ -39,7 +39,7 @@ public class ModDao {
             Map.of(),
             Map.of(
                     "ascension:fire",1.0D,
-                    "ascension:reincarnation",1.01D
+                    "ascension:reincarnation",0.01D
             ));
     public static final DeferredHolder<IDao,GenericDao> WATER_DAO =createDao("water",Component.literal("§9[Water]"),
             new ArrayList<>(),
