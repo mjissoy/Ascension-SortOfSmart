@@ -19,10 +19,9 @@ public interface IBreakthroughHandler {
 
     IBreakthroughData getBreakthroughData(CompoundTag tag);
 
-    default void attemptBreakthrough(Player player,String pathId){
-
-    }
+    void attemptBreakthrough(Player player,String pathId,ITechnique technique);
     //should be called after a breakthrough is completed
+    void failBreakthrough(Player player,String pathId);
     default void completeBreakthrough(Player player,String pathId){
         PlayerData data = player.getData(ModAttachments.PLAYER_DATA);
         CultivationData cultivationData = data.getCultivationData();

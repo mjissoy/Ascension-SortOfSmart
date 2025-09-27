@@ -100,8 +100,8 @@ public class DisplayPathDataContainer extends EmptyContainer {
 
         majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm));
         majorRealmData.width = Minecraft.getInstance().font.width(majorRealmData.text);
-        if(pathData.stabilityCultivationTicks > 0){
-            majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm)+" ("+String.format("%.2f",technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks*100))+"%)");
+        if(pathData.stabilityCultivationTicks > 0 && !pathData.breakingThrough){
+            majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm)+" ("+String.format("%.2f",technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks)*100)+"%)");
             majorRealmData.width = Minecraft.getInstance().font.width(majorRealmData.text);
             breakthroughButton.setActive(true);
             System.out.println(majorRealmData.text);

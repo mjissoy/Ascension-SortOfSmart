@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.progression.techniques.path_techniques.esse
 
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
+import net.thejadeproject.ascension.progression.breakthrough.handlers.StabilityCheckBreakthroughHandler;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.AbstractTechnique;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 
@@ -14,7 +15,7 @@ public class SingleElementTechnique extends AbstractTechnique {
 
 
     public SingleElementTechnique(String title, String element, Double baseRate, StabilityHandler stabilityHandler){
-        super(title,baseRate,"ascension:essence",stabilityHandler);
+        super(title,baseRate,"ascension:essence",stabilityHandler,new StabilityCheckBreakthroughHandler());
         this.element = element;
 
     }

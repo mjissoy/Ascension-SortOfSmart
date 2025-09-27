@@ -32,6 +32,8 @@ public record TriggerMajorRealmBreakthrough(String path_id) implements CustomPac
     }
     public static void handlePayload(TriggerMajorRealmBreakthrough payload, IPayloadContext context) {
         //TODO change to use breakthrough handler instead
+        //TODO add verification. aka make sure they are at the correct minor realm. and roll the chance for now don't bother
+
         PlayerData data = context.player().getData(ModAttachments.PLAYER_DATA);
         CultivationData cultivationData = data.getCultivationData();
         CultivationData.PathData pathData = cultivationData.getPathData(payload.path_id());
@@ -41,17 +43,7 @@ public record TriggerMajorRealmBreakthrough(String path_id) implements CustomPac
                 pathData.technique,
                 ':'
         ));
-        MajorRealmChangeEvent event = new MajorRealmChangeEvent(
-                context.player(),
-                payload.path_id(),
-                pathData.majorRealm,
-                pathData.majorRealm+1,
-                technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks),
-                pathData.breakthroughData);
-
-        pathData.increaseMajorRealm();
-        PacketDistributor.sendToPlayer((ServerPlayer) context.player(),SyncPathDataPayload.fromPathData(pathData));
-        NeoForge.EVENT_BUS.post(event);
+        technique.getBreakthroughHandler().attemptBreakthrough(context.player(), payload.path_id(), technique);
 
     }
 }
