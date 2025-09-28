@@ -47,6 +47,7 @@ public class lang extends LanguageProvider {
         add("item.ascension.regeneration_pill", "Regeneration Pill");
         add("item.ascension.cleansing_pill", "Cleansing Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");
+        add("tooltip.ascension.rebirth_pill", "Be Cautios This Pill Resets Everything!");
         add("item.ascension.fasting_pill_t1", "Fasting Pill");
         add("item.ascension.fasting_pill_t2", "Fasting Pill");
         add("item.ascension.fasting_pill_t3", "Fasting Pill");

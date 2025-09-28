@@ -167,7 +167,25 @@ public class ModItems {
     public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
     public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/){
+                private float time = 0;
+                @Override
+                public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+                    if (context.level() != null && context.level().isClientSide()) {
+                        String text = Component.translatable("tooltip.ascension.rebirth_pill").getString();
+                        time += 0.001f;
+                        if (time > 1.0f) time = 0;
+                        tooltipComponents.add(ToolTips.RGBEachLetter(time, text, 0.01f));
+                    } else {
+                        tooltipComponents.add(Component.translatable("tooltip.ascension.rebirth_pill"));
+                    }
+                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+                }
+            });
+
+
+
+
     public static final DeferredItem<Item> FASTING_PILL_T1 = ITEMS.register("fasting_pill_t1",
             () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T1)));
     public static final DeferredItem<Item> FASTING_PILL_T2 = ITEMS.register("fasting_pill_t2",
