@@ -26,8 +26,8 @@ import java.util.List;
 
 public class CultivationSystem {
     private static final float MAJOR_REALM_MULTIPLIER = 0.3f;
-    private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.5f;
-    private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 2.0f;
+    private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.35f;
+    private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 1.37f;
 
     private static final double BASE_PROGRESS_INCREASE = 0.2;
 

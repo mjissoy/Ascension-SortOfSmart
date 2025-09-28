@@ -37,7 +37,7 @@ public class ModCreativeModeTabs {
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SPIRITUAL_STONE_SPATIAL_RING.get()))
-                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_items_tab"))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_pills_tab"))
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.JADE_SLIP);
@@ -269,19 +269,30 @@ public class ModCreativeModeTabs {
 
     public static final Supplier<CreativeModeTab> ASCENSION_HERBS_TAB = CREATIVE_MODE_TAB.register("ascension_herbs_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GOLDEN_SUN_LEAF.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_items_tab"))
                     .title(Component.translatable("creativetab.ascension.herbs"))
                     .displayItems((itemDisplayParameters, output) -> {
-
-                        output.accept(ModItems.REGENERATION_PILL);
-                        output.accept(ModItems.CLEANSING_PILL);
-                        output.accept(ModItems.FASTING_PILL_T1);
-                        output.accept(ModItems.FASTING_PILL_T2);
-                        output.accept(ModItems.FASTING_PILL_T3);
 
                         output.accept(ModItems.CRIMSON_LOTUS_FLAME);
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
                         output.accept(ModItems.IRONWOOD_SPROUT);
                         output.accept(ModItems.WHITE_JADE_ORCHID);
+
+
+                    }).build());
+
+    public static final Supplier<CreativeModeTab> ASCENSION_PILLS_TAB = CREATIVE_MODE_TAB.register("ascension_pills_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.REGENERATION_PILL.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_herbs_tab"))
+                    .title(Component.translatable("creativetab.ascension.pills"))
+                    .displayItems((itemDisplayParameters, output) -> {
+
+                        output.accept(ModItems.REGENERATION_PILL);
+                        output.accept(ModItems.REBIRTH_PILL);
+                        output.accept(ModItems.CLEANSING_PILL);
+                        output.accept(ModItems.FASTING_PILL_T1);
+                        output.accept(ModItems.FASTING_PILL_T2);
+                        output.accept(ModItems.FASTING_PILL_T3);
 
 
                     }).build());

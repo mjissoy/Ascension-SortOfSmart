@@ -14,6 +14,7 @@ import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
@@ -165,6 +166,8 @@ public class ModItems {
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL), 400));
     public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
+    public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
     public static final DeferredItem<Item> FASTING_PILL_T1 = ITEMS.register("fasting_pill_t1",
             () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T1)));
     public static final DeferredItem<Item> FASTING_PILL_T2 = ITEMS.register("fasting_pill_t2",

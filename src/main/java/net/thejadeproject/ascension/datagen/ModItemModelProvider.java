@@ -121,11 +121,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         tablet(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get());
 
         //Pills
-        basicItem(ModItems.REGENERATION_PILL.get());
-        basicItem(ModItems.CLEANSING_PILL.get());
-        basicItem(ModItems.FASTING_PILL_T1.get());
-        basicItem(ModItems.FASTING_PILL_T2.get());
-        basicItem(ModItems.FASTING_PILL_T3.get());
+        pills(ModItems.REGENERATION_PILL.get());
+        pills(ModItems.CLEANSING_PILL.get());
+        pills(ModItems.REBIRTH_PILL.get());
+        pills(ModItems.FASTING_PILL_T1.get());
+        pills(ModItems.FASTING_PILL_T2.get());
+        pills(ModItems.FASTING_PILL_T3.get());
 
 
 
@@ -185,6 +186,15 @@ public class ModItemModelProvider extends ItemModelProvider {
                 AscensionCraft.MOD_ID,
                 "tablet_of_destruction"
         ));
+    }
+    public ItemModelBuilder pills(Item item) {
+        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
+        String itemName = itemId.getPath();
+        ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "item/pills/" + itemName);
+
+        return getBuilder(itemName)
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", textureLoc);
     }
     public ItemModelBuilder basicItemWithSharedTexture(Item item,ResourceLocation texture){
         return basicItemWithSharedTexture(
