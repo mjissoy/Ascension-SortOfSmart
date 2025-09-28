@@ -33,8 +33,8 @@ public class CultivationSystem {
 
     private static final HashMap<String,String[]> realmNameMap = new HashMap<>(){{
         put("ascension:essence",new String[]{   "Mortal", "Qi Condensation", "Foundation Establishment",
-                "Core Formation", "Nascent Soul", "Spirit Severing",
-                "Soul Formation", "Soul Transformation", "Immortal Ascension",
+                "Core Formation", "Nascent Soul", "Soul Formation",
+                "Soul Transformation", "Spirit Severing", "Immortal Ascension",
                 "True Immortal", "Golden Immortal", "Universe Creation Realm"});
         put("ascension:intent",new String[]{ "Awakened Will","Focused Mind","Sharpened Desire",
                 "Unwavering Resolve","Trinity Convergence","Pentagonal Balance",

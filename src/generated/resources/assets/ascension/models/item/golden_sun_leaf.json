@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ascension:item/golden_sun_leaf"
+    "layer0": "ascension:item/herbs/golden_sun_leaf"
   }
 }

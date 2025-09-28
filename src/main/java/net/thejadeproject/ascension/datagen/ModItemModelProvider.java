@@ -131,12 +131,11 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         //herbs
-        basicItem(ModItems.GOLDEN_SUN_LEAF.get());
-
-        basicItem(ModItems.IRONWOOD_SPROUT.get());
+        herbs(ModItems.GOLDEN_SUN_LEAF.get());
+        herbs(ModItems.WHITE_JADE_ORCHID.get());
+        herbs(ModItems.IRONWOOD_SPROUT.get());
         withExistingParent("ironwood_sprout_block", "item/generated")
                 .texture("layer0", "ascension:block/ironwood_sprout_block");
-        basicItem(ModItems.WHITE_JADE_ORCHID.get());
         withExistingParent("white_jade_orchid_block", "item/generated")
                 .texture("layer0", "ascension:block/white_jade_orchid_block");
 
@@ -191,6 +190,15 @@ public class ModItemModelProvider extends ItemModelProvider {
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
         String itemName = itemId.getPath();
         ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "item/pills/" + itemName);
+
+        return getBuilder(itemName)
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", textureLoc);
+    }
+    public ItemModelBuilder herbs(Item item) {
+        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
+        String itemName = itemId.getPath();
+        ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "item/herbs/" + itemName);
 
         return getBuilder(itemName)
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))

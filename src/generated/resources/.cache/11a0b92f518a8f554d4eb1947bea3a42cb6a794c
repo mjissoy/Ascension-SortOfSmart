@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-28T13:23:44.664755	Item Models: ascension
+// 1.21.1	2025-09-28T18:12:09.5471598	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
@@ -20,13 +20,13 @@ a7a0cfdd0338bc05cdd2bcfd788629bc35994828 assets/ascension/models/item/fasting_pi
 52f45159c085e04ea6b39386e0b56a0a544ba074 assets/ascension/models/item/golden_palm_door.json
 a8e9779b889c8fdd9987b0f0a0f227780e247c2f assets/ascension/models/item/golden_palm_fence.json
 abc8d0fe9b80442f058c18614fd4280cbf3df943 assets/ascension/models/item/golden_palm_sapling.json
-0fe6dc171486817a6c21570feee4a669ad1ca341 assets/ascension/models/item/golden_sun_leaf.json
+357e5379fdd4d08265c0eae108ba44e3290fbf5e assets/ascension/models/item/golden_sun_leaf.json
 2075139153e67b8e73d0cfb117a196a132693e9d assets/ascension/models/item/gold_spatial_ring.json
 e5cefaee56b09c331ff2aa56978c82369a54963d assets/ascension/models/item/gray_marble_brick_wall.json
 42fac3c5c57434c1e885349ff08d5d4d5f9c6b67 assets/ascension/models/item/gray_marble_tile_wall.json
 18086f009e76b42f6ad4e59f879e86c9c155ad16 assets/ascension/models/item/green_marble_brick_wall.json
 31d556d977e27d40257e4ae6a87a9b97b20ff716 assets/ascension/models/item/green_marble_tile_wall.json
-432c4320b0aa3e931eb37492aaeffd07b12c3430 assets/ascension/models/item/ironwood_sprout.json
+05e2a8a9642b32214d854b302965b464d8777b00 assets/ascension/models/item/ironwood_sprout.json
 f4620bd1077fc4a91989544ff2c32d49e2778286 assets/ascension/models/item/ironwood_sprout_block.json
 40a5bdf9b8f3dca46b3f9ea7c10238cf09ad7281 assets/ascension/models/item/iron_spatial_ring.json
 3ad9a12ddaf5421f386991c79685ecfdeb06d79f assets/ascension/models/item/jade.json
@@ -67,7 +67,7 @@ c3a38b6a7c28457283db282d2919c10b518fd700 assets/ascension/models/item/spiritual_
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todhe.json
 57f9654f314244059c37d411dc62a3e9d69d4c15 assets/ascension/models/item/undead_core.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/void_swallowing_technique.json
-5bfc048f5d1dfefcc6c12c7155bbf83e74710c4a assets/ascension/models/item/white_jade_orchid.json
+f5846a37eb2d2b8c40f58a96f77b52ba2d479c08 assets/ascension/models/item/white_jade_orchid.json
 f5a0e6e81d9b41d164e050b33d93b8998723d8da assets/ascension/models/item/white_jade_orchid_block.json
 feec49605f4b667f2242b90949f3695ab4224304 assets/ascension/models/item/yellow_marble_brick_wall.json
 b4cf31f9aee1916d457927456216e73e1b5fb730 assets/ascension/models/item/yellow_marble_tile_wall.json
