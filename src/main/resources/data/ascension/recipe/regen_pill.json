@@ -9,6 +9,7 @@
       "count": 2}
   ],
 
+  "required_heat": 200,
   "chance": 0.25,
   "success": {
     "id": "ascension:regeneration_pill",
@@ -17,5 +18,4 @@
   "fail": {
     "id": "minecraft:gunpowder"
   }
-
 }

@@ -178,20 +178,20 @@ public class ModTechniques {
                     }}).setOnMinorRealmChange(event -> {
                         Player player = event.player;
                         PlayerAttributeManager.increaseAttribute(player,10.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.3,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.03,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
+                        PlayerAttributeManager.increaseAttribute(player,1.8,Attributes.ATTACK_DAMAGE);
+                        PlayerAttributeManager.increaseAttribute(player,0.2,Attributes.MOVEMENT_SPEED);
+                        PlayerAttributeManager.increaseAttribute(player,0.04,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.04,Attributes.STEP_HEIGHT);
 
 
                     })
                     .setOnMajorRealmChange(event ->{
                         Player player = event.player;
                         PlayerAttributeManager.increaseAttribute(player,20.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,4.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.7,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.06,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.04,Attributes.STEP_HEIGHT);
+                        PlayerAttributeManager.increaseAttribute(player,3.2,Attributes.ATTACK_DAMAGE);
+                        PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
+                        PlayerAttributeManager.increaseAttribute(player,0.08,Attributes.JUMP_STRENGTH);
+                        PlayerAttributeManager.increaseAttribute(player,0.06,Attributes.STEP_HEIGHT);
                     }));
     public static TechniqueHolder createTechnique(String id, Supplier<? extends ITechnique> supplier){
         DeferredHolder<ITechnique,? extends ITechnique> techniqueHolder = TECHNIQUES.register(id,supplier);

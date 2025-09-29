@@ -28,14 +28,14 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
     final double chance;
     final ItemStack success;
     final ItemStack fail;
+    final int requiredHeat; // Added heat requirement
 
-    public LowHumanPillCauldronRecipe(NonNullList<SizedIngredient> ingredients, ItemStack success,ItemStack fail,double chance){
-
+    public LowHumanPillCauldronRecipe(NonNullList<SizedIngredient> ingredients, ItemStack success, ItemStack fail, double chance, int requiredHeat) {
         this.ingredients = ingredients;
         this.chance = chance;
         this.success = success;
         this.fail = fail;
-
+        this.requiredHeat = requiredHeat;
     }
 
     public static class Serializer implements RecipeSerializer<LowHumanPillCauldronRecipe> {
@@ -44,8 +44,7 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
                         .listOf()
                         .fieldOf("ingredients")
                         .flatXmap(
-                                inputs ->{
-
+                                inputs -> {
                                     if (inputs.isEmpty()) {
                                         return DataResult.error(() -> "No ingredients");
                                     } else if (inputs.size() > MAX_INPUT_ITEMS) {
@@ -57,10 +56,11 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
                                 },
                                 DataResult::success
                         )
-                        .forGetter(recipe ->recipe.ingredients),
-                ItemStack.CODEC.fieldOf("success").forGetter(recipe ->recipe.success),
-                ItemStack.CODEC.fieldOf("fail").forGetter(recipe ->recipe.fail),
-                Codec.DOUBLE.fieldOf("chance").forGetter(recipe ->recipe.chance)
+                        .forGetter(recipe -> recipe.ingredients),
+                ItemStack.CODEC.fieldOf("success").forGetter(recipe -> recipe.success),
+                ItemStack.CODEC.fieldOf("fail").forGetter(recipe -> recipe.fail),
+                Codec.DOUBLE.fieldOf("chance").forGetter(recipe -> recipe.chance),
+                Codec.INT.fieldOf("required_heat").forGetter(recipe -> recipe.requiredHeat) // Added heat field
         ).apply(inst, LowHumanPillCauldronRecipe::new));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, LowHumanPillCauldronRecipe> STREAM_CODEC = StreamCodec.of(
@@ -77,31 +77,35 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
         public StreamCodec<RegistryFriendlyByteBuf, LowHumanPillCauldronRecipe> streamCodec() {
             return STREAM_CODEC;
         }
-        private static LowHumanPillCauldronRecipe fromNetwork(RegistryFriendlyByteBuf buffer){
-            //TODO
+        private static LowHumanPillCauldronRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
             int i = buffer.readVarInt();
-            NonNullList<SizedIngredient> nonnulllist = NonNullList.withSize(i, new SizedIngredient(Ingredient.EMPTY,1));
+            NonNullList<SizedIngredient> nonnulllist = NonNullList.withSize(i, new SizedIngredient(Ingredient.EMPTY, 1));
             nonnulllist.replaceAll(ingredient -> SizedIngredient.STREAM_CODEC.decode(buffer));
             ItemStack itemStack = ItemStack.STREAM_CODEC.decode(buffer);
             ItemStack itemStack2 = ItemStack.STREAM_CODEC.decode(buffer);
             double chance = buffer.readDouble();
-            return new LowHumanPillCauldronRecipe(nonnulllist,itemStack,itemStack2,chance);
+            int requiredHeat = buffer.readInt(); // Read heat from network
+            return new LowHumanPillCauldronRecipe(nonnulllist, itemStack, itemStack2, chance, requiredHeat);
         }
 
         private static void toNetwork(RegistryFriendlyByteBuf buffer, LowHumanPillCauldronRecipe recipe) {
-
             buffer.writeVarInt(recipe.getSizedIngredients().size());
 
             for (SizedIngredient ingredient : recipe.getSizedIngredients()) {
-                SizedIngredient.STREAM_CODEC.encode(buffer,ingredient);
+                SizedIngredient.STREAM_CODEC.encode(buffer, ingredient);
             }
 
             ItemStack.STREAM_CODEC.encode(buffer, recipe.getSuccess());
-            ItemStack.STREAM_CODEC.encode(buffer,recipe.getFail());
+            ItemStack.STREAM_CODEC.encode(buffer, recipe.getFail());
 
             buffer.writeDouble(recipe.getChance());
-
+            buffer.writeInt(recipe.getRequiredHeat()); // Write heat to network
         }
+    }
+
+    // Add getter for required heat
+    public int getRequiredHeat() {
+        return requiredHeat;
     }
 
 

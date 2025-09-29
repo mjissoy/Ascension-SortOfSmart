@@ -43,7 +43,6 @@ public class ModBlocks {
     }
 
 
-
     /** Marble Blocks */
     public static final DeferredBlock<Block> RAW_MARBLE = registerBlock("raw_marble", () -> makeBlockFrom(Blocks.ANDESITE));
     public static final DeferredBlock<Block> POLISHED_MARBLE = registerBlock("polished_marble", () -> makeBlockFrom(Blocks.POLISHED_ANDESITE));

@@ -46,6 +46,8 @@ public class lang extends LanguageProvider {
         //Pills
         add("item.ascension.regeneration_pill", "Regeneration Pill");
         add("item.ascension.cleansing_pill", "Cleansing Pill");
+        add("item.ascension.rebirth_pill", "Rebirth Pill");
+        add("tooltip.ascension.rebirth_pill", "Be Cautios This Pill Resets Everything!");
         add("item.ascension.fasting_pill_t1", "Fasting Pill");
         add("item.ascension.fasting_pill_t2", "Fasting Pill");
         add("item.ascension.fasting_pill_t3", "Fasting Pill");
@@ -312,7 +314,8 @@ public class lang extends LanguageProvider {
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.artifacts", "Ascension Artifacts");
         add("creativetab.ascension.blocks", "Ascension Blocks");
-        add("creativetab.ascension.herbs", "Ascension Herbs & Pills");
+        add("creativetab.ascension.herbs", "Ascension Herbs");
+        add("creativetab.ascension.pills", "Ascension Pills");
         add("creativetab.ascension.manuals", "Ascension Manuals");
 
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");

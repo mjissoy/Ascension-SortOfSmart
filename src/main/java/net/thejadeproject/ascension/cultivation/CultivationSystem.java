@@ -26,15 +26,15 @@ import java.util.List;
 
 public class CultivationSystem {
     private static final float MAJOR_REALM_MULTIPLIER = 0.3f;
-    private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.5f;
-    private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 2.0f;
+    private static final float MINOR_REALM_PROGRESS_MULTIPLIER = 0.35f;
+    private static final float MAJOR_REALM_PROGRESS_MULTIPLIER = 1.37f;
 
     private static final double BASE_PROGRESS_INCREASE = 0.2;
 
     private static final HashMap<String,String[]> realmNameMap = new HashMap<>(){{
         put("ascension:essence",new String[]{   "Mortal", "Qi Condensation", "Foundation Establishment",
-                "Core Formation", "Nascent Soul", "Spirit Severing",
-                "Soul Formation", "Soul Transformation", "Immortal Ascension",
+                "Core Formation", "Nascent Soul", "Soul Formation",
+                "Soul Transformation", "Spirit Severing", "Immortal Ascension",
                 "True Immortal", "Golden Immortal", "Universe Creation Realm"});
         put("ascension:intent",new String[]{ "Awakened Will","Focused Mind","Sharpened Desire",
                 "Unwavering Resolve","Trinity Convergence","Pentagonal Balance",

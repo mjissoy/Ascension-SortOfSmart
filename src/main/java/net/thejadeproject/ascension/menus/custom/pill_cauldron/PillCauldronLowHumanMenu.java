@@ -39,7 +39,6 @@ public class PillCauldronLowHumanMenu extends AbstractContainerMenu {
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4, 98, 59));
 
         addDataSlots(data);
-
     }
 
     public boolean isCrafting() {
@@ -117,5 +116,24 @@ public class PillCauldronLowHumanMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
+    }
+
+    public int getHeatLevel() {
+        return data.get(2);
+    }
+
+    public int getMaxHeat() {
+        return data.get(3);
+    }
+
+    public String getHeatText() {
+        int heat = getHeatLevel();
+        return heat + "°C";
+    }
+
+    public int getHeatPercentage() {
+        int heat = getHeatLevel();
+        int maxHeat = getMaxHeat();
+        return maxHeat != 0 ? (heat * 100) / maxHeat : 0;
     }
 }

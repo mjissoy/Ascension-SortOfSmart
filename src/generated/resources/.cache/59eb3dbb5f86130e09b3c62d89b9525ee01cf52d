@@ -1,4 +1,4 @@
-// 1.21.1	2025-07-31T12:24:59.6024092	Loot Tables
+// 1.21.1	2025-09-28T12:02:16.5019411	Loot Tables
 8fa1f6d0faab7897bb4c5b07978d69be87825eae data/ascension/loot_table/blocks/blue_marble.json
 9d3644981ba52f406a0f99235e31b3a521237843 data/ascension/loot_table/blocks/blue_marble_bricks.json
 64662a258e79a533a67de128a969b287a9697b21 data/ascension/loot_table/blocks/blue_marble_brick_slabs.json
@@ -27,7 +27,6 @@ f8e062ca9bf98f510c7c9c18b27c49ebb010c2f0 data/ascension/loot_table/blocks/burned
 b8088762d503e202d7b349de1e737eb091c7615c data/ascension/loot_table/blocks/burned_marble_tile_slabs.json
 eb41a121860e4ecfe7ea7d4ca01c646658ad954f data/ascension/loot_table/blocks/burned_marble_tile_stairs.json
 69685c64c7e93d57e5968b30ab18cb14ca8bee0d data/ascension/loot_table/blocks/burned_marble_tile_wall.json
-8f8396c36b698e517142724a9642250fe05f0c47 data/ascension/loot_table/blocks/cracked_marble_bricks.json
 76160f34d4900c0075e9c5aa79741a150cdba1d5 data/ascension/loot_table/blocks/cyan_marble.json
 c42d52bd18e0143331ef245cd914c17567854ee8 data/ascension/loot_table/blocks/cyan_marble_bricks.json
 a154d0e89121537ec4b92e46ecf57b9c0e296f48 data/ascension/loot_table/blocks/cyan_marble_brick_slabs.json
@@ -134,7 +133,6 @@ e1415e6175596ccd1a3068a71c9eedf43597e90e data/ascension/loot_table/blocks/marble
 8b242a91a8e93875c379b541cb4b5d32018f5eaf data/ascension/loot_table/blocks/marble_tile_slabs.json
 2bbfabc3512c138ba24ac302ed869a5172f9a1c6 data/ascension/loot_table/blocks/marble_tile_stairs.json
 a337c6dacd0c88e12909874685134f194e1bc555 data/ascension/loot_table/blocks/marble_tile_wall.json
-6e364db5400e87dc7a51e1fb1afb0cda81489398 data/ascension/loot_table/blocks/mossy_marble_bricks.json
 994c241555b2ed88a84a56a99d72e161a678ce36 data/ascension/loot_table/blocks/orange_marble.json
 72db9a2fb114ab55fa52d66e0f317483c04655de data/ascension/loot_table/blocks/orange_marble_bricks.json
 97142a9fc7daf8b8b5bed9cb5bc882f565037af7 data/ascension/loot_table/blocks/orange_marble_brick_slabs.json

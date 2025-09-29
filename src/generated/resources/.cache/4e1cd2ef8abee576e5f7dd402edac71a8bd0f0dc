@@ -1,5 +1,5 @@
-// 1.21.1	2025-09-25T20:11:56.6280672	Tags for minecraft:item mod id ascension
-fea1d520ca26840578d1c8fab0afbcc51469f153 data/ascension/tags/item/blade.json
+// 1.21.1	2025-09-28T18:31:55.8268988	Tags for minecraft:item mod id ascension
+4b331a574c852b3ed27cd081b5501401149148b4 data/ascension/tags/item/blade.json
 08248a73df114f60d1ffa79665c61e1a2a320e58 data/ascension/tags/item/blade_intent.json
 d5819c82fddfaf937dbe9ed568e87f1206349f8d data/ascension/tags/item/bow_intent.json
 e4a74e3bac20e15f887a95ee7b0c12d6d885c4cd data/ascension/tags/item/earth.json
@@ -13,12 +13,10 @@ c823cbbea6ccfbbf9a1549014bc917445435287b data/ascension/tags/item/metal.json
 f5a2a0c1903b660da1eaea1a6674865feef25b45 data/ascension/tags/item/spear_enchantable.json
 f5a2a0c1903b660da1eaea1a6674865feef25b45 data/ascension/tags/item/spear_intent.json
 e6756cdd6fb03cf772eba210ae3f93335e83dcd6 data/ascension/tags/item/sword_intent.json
-9d74fefaf6eb3eff54a0341d6a7704731ead6a4b data/c/tags/item/enchantables.json
-f5a2a0c1903b660da1eaea1a6674865feef25b45 data/c/tags/item/tools.json
-f5a2a0c1903b660da1eaea1a6674865feef25b45 data/minecraft/tags/item/breaks_decorated_pots.json
-9d74fefaf6eb3eff54a0341d6a7704731ead6a4b data/minecraft/tags/item/enchantable/fire_aspect.json
-f5a2a0c1903b660da1eaea1a6674865feef25b45 data/minecraft/tags/item/enchantable/sharp_weapon.json
-08248a73df114f60d1ffa79665c61e1a2a320e58 data/minecraft/tags/item/enchantable/sword.json
+6216bc7fa4d371cf45c8b7056111fe820ede09c7 data/c/tags/item/enchantables.json
+a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/c/tags/item/tools.json
+a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/minecraft/tags/item/breaks_decorated_pots.json
+6216bc7fa4d371cf45c8b7056111fe820ede09c7 data/minecraft/tags/item/enchantable/fire_aspect.json
+a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/minecraft/tags/item/enchantable/sharp_weapon.json
 83eacd83689146e557ef948eab4bfdd0e856d564 data/minecraft/tags/item/logs_that_burn.json
 f294f4737fdfa8a77f41bda0c509e5a3b2d3e2e8 data/minecraft/tags/item/planks.json
-08248a73df114f60d1ffa79665c61e1a2a320e58 data/minecraft/tags/item/swords.json
