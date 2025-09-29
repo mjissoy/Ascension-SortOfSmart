@@ -33,12 +33,48 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
         guiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
 
         renderProgressArrow(guiGraphics, x, y);
+        renderHeatBar(guiGraphics, x, y);
     }
 
     private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
         if (menu.isCrafting()) {
-            guiGraphics.blit(ARROW_TEXTURE,x + 80, y + 33, 0, 0, 16, menu.getScaledArrowProgress(), 16, 21);
+            guiGraphics.blit(ARROW_TEXTURE, x + 80, y + 33, 0, 0, 16, menu.getScaledArrowProgress(), 16, 21);
         }
+    }
+
+
+    private int getHeatColor(int percentage) {
+        // Color gradient from blue (cold) to red (hot)
+        if (percentage < 25) {
+            return 0xFF0000FF; // Blue
+        } else if (percentage < 50) {
+            return 0xFF00FF00; // Green
+        } else if (percentage < 75) {
+            return 0xFFFFFF00; // Yellow
+        } else {
+            return 0xFFFF0000; // Red
+        }
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        super.renderLabels(guiGraphics, mouseX, mouseY);
+
+        String heatText = "Heat: " + menu.getHeatText();
+        guiGraphics.drawString(this.font, heatText, 5, 41, 0x404040, false);
+    }
+
+    private void renderHeatBar(GuiGraphics guiGraphics, int x, int y) {
+        int heatPercentage = menu.getHeatPercentage();
+        int heatBarWidth = (int) (50 * (heatPercentage / 100.0));
+
+        int barX = x + 5;
+        int barY = y + 49;
+
+        guiGraphics.fill(barX, barY, barX + 50, barY + 5, 0xFF555555);
+
+        int color = getHeatColor(heatPercentage);
+        guiGraphics.fill(barX, barY, barX + heatBarWidth, barY + 5, color);
     }
 
     @Override
@@ -50,5 +86,14 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+
+        if (isHovering(5, 49, 50, 5, pMouseX, pMouseY)) {
+            pGuiGraphics.renderTooltip(this.font,
+                    Component.literal("Heat: " + menu.getHeatLevel() + "°C / " + menu.getMaxHeat() + "°C"),
+                    pMouseX, pMouseY);
+        }
     }
 }

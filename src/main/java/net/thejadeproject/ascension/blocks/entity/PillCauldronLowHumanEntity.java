@@ -50,13 +50,15 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     private static final int INPUT_SLOT2 = 2;
     private static final int OUTPUT_SLOT0 = 3;
     private static final int OUTPUT_SLOT1 = 4;
+
     private int heatLevel = 0;
     private static final int MAX_HEAT = 1000;
+    private int heatLossTimer = 0;
+    private static final int HEAT_LOSS_INTERVAL = 20;
 
     protected final ContainerData data;
     private int progress = 0;
     private int maxProgress = 72;
-
 
     public PillCauldronLowHumanEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.PILL_CAULDRON_LOW_HUMAN.get(), pos, blockState);
@@ -66,6 +68,8 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
                 return switch (i) {
                     case 0 -> PillCauldronLowHumanEntity.this.progress;
                     case 1 -> PillCauldronLowHumanEntity.this.maxProgress;
+                    case 2 -> PillCauldronLowHumanEntity.this.heatLevel; // Added heat level
+                    case 3 -> MAX_HEAT; // Added max heat
                     default -> 0;
                 };
             }
@@ -73,14 +77,15 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
             @Override
             public void set(int i, int value) {
                 switch (i) {
-                    case 0: PillCauldronLowHumanEntity.this.progress = value;
-                    case 1: PillCauldronLowHumanEntity.this.maxProgress = value;
+                    case 0: PillCauldronLowHumanEntity.this.progress = value; break;
+                    case 1: PillCauldronLowHumanEntity.this.maxProgress = value; break;
+                    case 2: PillCauldronLowHumanEntity.this.heatLevel = value; break;
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 4; // Updated from 2 to 4
             }
         };
     }
@@ -110,6 +115,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         setChanged();
     }
 
+
     public int getHeatLevel() {
         return heatLevel;
     }
@@ -120,6 +126,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         pTag.putInt("pill_cauldron.progress", progress);
         pTag.putInt("pill_cauldron.max_progress", maxProgress);
         pTag.putInt("heatLevel", heatLevel);
+        pTag.putInt("heatLossTimer", heatLossTimer);
 
         super.saveAdditional(pTag, pRegistries);
     }
@@ -135,9 +142,17 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
+        // Handle heat loss over time
+        heatLossTimer++;
+        if (heatLossTimer >= HEAT_LOSS_INTERVAL) {
+            if (heatLevel > 0) {
+                heatLevel = Math.max(0, heatLevel - 1); // Lose 1°C per second
+                setChanged();
+            }
+            heatLossTimer = 0;
+        }
 
-        if (hasRecipe()) {
-
+        if (hasRecipe() && hasRequiredHeat()) {
             increaseCraftingProgress();
             setChanged(level, blockPos, blockState);
 
@@ -148,8 +163,16 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         } else {
             resetProgress();
         }
+    }
 
+    private boolean hasRequiredHeat() {
+        Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
+        if (recipe.isEmpty()) {
+            return false;
+        }
 
+        int requiredHeat = recipe.get().value().getRequiredHeat();
+        return heatLevel >= requiredHeat;
     }
 
     private void resetProgress() {
@@ -162,41 +185,27 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         ItemStack output = recipe.get().value().output();
         NonNullList<SizedIngredient> ingredients = recipe.get().value().getSizedIngredients();
 
-        itemHandler.extractItem(INPUT_SLOT0,ingredients.get(INPUT_SLOT0).count(), false);
+        // Consume input items
+        itemHandler.extractItem(INPUT_SLOT0, ingredients.get(INPUT_SLOT0).count(), false);
         itemHandler.extractItem(INPUT_SLOT1, ingredients.get(INPUT_SLOT1).count(), false);
         itemHandler.extractItem(INPUT_SLOT2, ingredients.get(INPUT_SLOT2).count(), false);
 
-        ItemStack slot1 = itemHandler.getStackInSlot(OUTPUT_SLOT0);
-        ItemStack slot2 = itemHandler.getStackInSlot(OUTPUT_SLOT1);
+        // Determine if output is success or fail
+        boolean isSuccess = output.is(ModTags.Items.ALCHEMY_SUCCESS);
+        int targetSlot = isSuccess ? OUTPUT_SLOT0 : OUTPUT_SLOT1;
 
-        TagKey<Item> currentTag = null;
-        if(output.is(ModTags.Items.ALCHEMY_FAILURE)) currentTag = ModTags.Items.ALCHEMY_FAILURE;
-        else currentTag = ModTags.Items.ALCHEMY_SUCCESS;
-        if(output.is(currentTag)){
-            if(slot1.is(currentTag)
-                    && slot1.getCount() < slot1.getMaxStackSize()){
-                itemHandler.setStackInSlot(OUTPUT_SLOT0,new ItemStack(output.getItem(),
-                        slot1.getCount()+output.getCount()));
-                return;
-            }
-            if(slot2.is(currentTag)
-                    && slot2.getCount() < slot2.getMaxStackSize()){
-                itemHandler.setStackInSlot(OUTPUT_SLOT1,new ItemStack(output.getItem(),
-                        slot2.getCount()+output.getCount()));
-                return;
-            }
+        ItemStack currentStack = itemHandler.getStackInSlot(targetSlot);
 
-            if(slot1.isEmpty()){
-                itemHandler.setStackInSlot(OUTPUT_SLOT0,new ItemStack(output.getItem(),
-                        output.getCount()));
-                return;
-            }
-            if(slot2.isEmpty()){
-                itemHandler.setStackInSlot(OUTPUT_SLOT1,new ItemStack(output.getItem(),
-                        output.getCount()));
-                return;
-            }
+        if (currentStack.isEmpty()) {
+            // Slot is empty, place new stack
+            itemHandler.setStackInSlot(targetSlot, output.copy());
+        } else if (currentStack.getItem() == output.getItem() &&
+                currentStack.getCount() + output.getCount() <= currentStack.getMaxStackSize()) {
+            // Same item and has space, add to existing stack
+            currentStack.grow(output.getCount());
+            itemHandler.setStackInSlot(targetSlot, currentStack);
         }
+        // If neither condition is met, the output is lost (or you could add overflow logic)
     }
 
     private boolean hasCraftingFinished() {
@@ -207,7 +216,6 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         progress++;
     }
 
-    //TODO modify
     private boolean hasRecipe() {
         Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
 
@@ -215,23 +223,23 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
             return false;
         }
 
+        ItemStack successOutput = recipe.get().value().getSuccess();
+        ItemStack failOutput = recipe.get().value().getFail();
 
-        ItemStack output = recipe.get().value().getSuccess();
-        ItemStack output2 = recipe.get().value().getFail();
-        ItemStack output_slot1 = itemHandler.getStackInSlot(OUTPUT_SLOT0);
-        ItemStack output_slot2 = itemHandler.getStackInSlot(OUTPUT_SLOT1);
-        if((output_slot1.is(ModTags.Items.ALCHEMY_FAILURE) && output_slot2.is(ModTags.Items.ALCHEMY_FAILURE)) || (output_slot1.is(ModTags.Items.ALCHEMY_SUCCESS) && output_slot2.is(ModTags.Items.ALCHEMY_SUCCESS))) return false;
+        ItemStack successSlot = itemHandler.getStackInSlot(OUTPUT_SLOT0);
+        ItemStack failSlot = itemHandler.getStackInSlot(OUTPUT_SLOT1);
 
+        // Check if success output can go to success slot
+        boolean canInsertSuccess = successSlot.isEmpty() ||
+                (successSlot.getItem() == successOutput.getItem() &&
+                        successSlot.getCount() + successOutput.getCount() <= successSlot.getMaxStackSize());
 
-        int outputSlot= OUTPUT_SLOT0;
-        int output2Slot = OUTPUT_SLOT1;
-        if(output_slot1.is(ModTags.Items.ALCHEMY_FAILURE)){
-            outputSlot = OUTPUT_SLOT1;
-            output2Slot = OUTPUT_SLOT0;
-        }
+        // Check if fail output can go to fail slot
+        boolean canInsertFail = failSlot.isEmpty() ||
+                (failSlot.getItem() == failOutput.getItem() &&
+                        failSlot.getCount() + failOutput.getCount() <= failSlot.getMaxStackSize());
 
-        return canInsertAmountIntoOutputSlot(outputSlot,output.getCount()) && canInsertItemIntoOutputSlot(output,outputSlot) &&
-                canInsertAmountIntoOutputSlot(output2Slot,output2.getCount()) && canInsertItemIntoOutputSlot(output2,output2Slot) ;
+        return canInsertSuccess && canInsertFail;
     }
 
     private Optional<RecipeHolder<LowHumanPillCauldronRecipe>> getCurrentRecipe() {
