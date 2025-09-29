@@ -109,9 +109,6 @@ public class CultivationSystem {
             minorRealm ++;
             if(minorRealm >= 10){
                 return false;
-                //pathData.majorRealm += 1;
-                //pathData.minorRealm = 0;
-                //NeoForge.EVENT_BUS.post(new MajorRealmChangeEvent(player,path, pathData.majorRealm-1, pathData.majorRealm));
             }else{
                 NeoForge.EVENT_BUS.post(new MinorRealmChangeEvent(player,path, pathData.minorRealm,minorRealm ));
                 pathData.minorRealm = minorRealm;

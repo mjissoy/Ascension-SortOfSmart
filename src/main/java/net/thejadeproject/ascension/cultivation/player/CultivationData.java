@@ -71,8 +71,11 @@ public class CultivationData {
             pathData.technique = compound.getString("technique");
             pathData.stabilityCultivationTicks = compound.getDouble("stability_cultivation_ticks");
             pathData.breakingThrough = compound.getBoolean("breaking_through");
-            ITechnique techniqueManual = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':'));
-            if(compound.hasUUID("breakthrough_data") && techniqueManual != null) pathData.breakthroughData = techniqueManual.getBreakthroughHandler().getBreakthroughData(compound);
+            if(!pathData.technique.equals("ascension:none")) {
+                ITechnique techniqueManual = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique, ':'));
+                if (compound.hasUUID("breakthrough_data"))
+                    pathData.breakthroughData = techniqueManual.getBreakthroughHandler().getBreakthroughData(compound);
+            }else pathData.breakthroughData = null;
             return pathData;
         }
 

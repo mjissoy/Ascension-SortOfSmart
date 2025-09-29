@@ -13,6 +13,8 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.technique_manuals.GenericTechniqueManual;
+import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
+import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.GenericCalculatedStabilityHandler;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.LnStabilityHandler;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -114,7 +116,10 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
-                    }));
+                    })
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:intent",0,3,"ascension:sword_intent_skill",true)
+                    )));
     public static final TechniqueHolder PURE_FIST_INTENT = createTechnique("pure_fist_intent",
             ()->new SingleIntentTechnique("Pure Fist Technique",8.0,"ascension:fist_intent",new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{

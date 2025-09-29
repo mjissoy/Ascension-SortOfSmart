@@ -1,6 +1,8 @@
 package net.thejadeproject.ascension.progression.skills;
 
+import net.minecraft.nbt.CompoundTag;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
+import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 
 public abstract class AbstractActiveSkill implements ISkill{
     public String path;
@@ -34,6 +36,10 @@ public abstract class AbstractActiveSkill implements ISkill{
 
     protected abstract CastType castType();
 
+    @Override
+    public ISkillData getSkillData(CompoundTag tag) {
+        return null;
+    }
 
     abstract void cast();
 

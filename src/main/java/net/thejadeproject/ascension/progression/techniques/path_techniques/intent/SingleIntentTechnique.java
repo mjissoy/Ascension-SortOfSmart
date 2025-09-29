@@ -24,9 +24,5 @@ public class SingleIntentTechnique extends AbstractTechnique {
         return List.of(intent);
     }
 
-    @Override
-    public void tryCultivate(Player player) {
-        if(player.level().isClientSide()) return;
-        CultivationSystem.cultivate(player,getPath(),baseRate,getCultivationAttributes());
-    }
+
 }
