@@ -77,7 +77,7 @@ import terrablender.api.SurfaceRuleManager;
 public class AscensionCraft {
     public static float hue;
     public static final String MOD_ID = "ascension";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static ResourceLocation prefix(String name){
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);

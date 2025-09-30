@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-28T18:12:09.5471598	Item Models: ascension
+// 1.21.1	2025-09-30T19:17:56.6693554	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
@@ -7,7 +7,7 @@ ca2dd8d104c9eedf31e5888ed72de43afc614596 assets/ascension/models/item/brown_marb
 c57766879bb22d1cbcccacb3f39c724691ad72cb assets/ascension/models/item/burned_marble_brick_wall.json
 661ebd0ca05dc42a81f4304251c51b2e0caf9667 assets/ascension/models/item/burned_marble_tile_wall.json
 49d994e827dbc073ac52ae21a6044f7473a4ee14 assets/ascension/models/item/cleansing_pill.json
-0ecaa4ce7327deb77cc78c43842f8da9ef45a2df assets/ascension/models/item/crimson_lotus_flame.json
+dfefb51f0ff77daee52a2c66462925ccbe5afed2 assets/ascension/models/item/crimson_lotus_flame.json
 784fd9542ee83749eb65f1203d3a6fa19c260a4e assets/ascension/models/item/cyan_marble_brick_wall.json
 f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marble_tile_wall.json
 abe2becd602169ae11df376855869494e03a5542 assets/ascension/models/item/diamond_spatial_ring.json

@@ -4,15 +4,31 @@ import io.netty.util.Attribute;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 public class Config {
     public static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
     public static ModConfigSpec SPEC;
 
+
+    private static boolean validateHeatItemEntry(Object entry) {
+        if (!(entry instanceof String)) return false;
+        String entryStr = (String) entry;
+        String[] parts = entryStr.split(",");
+        if (parts.length != 2) return false;
+        try {
+            Integer.parseInt(parts[1].trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public static class Common {
+
+
+        public static ModConfigSpec.ConfigValue<List<? extends String>> PILL_CAULDRON_HEAT_ITEMS;
 
         public static ModConfigSpec.DoubleValue MAX_BASE_MAX_HEALTH;
 
@@ -58,6 +74,22 @@ public class Config {
         public static ModConfigSpec.DoubleValue MAJOR_REALM_MOVEMENT_SPEED_INCREASE;
         public static ModConfigSpec.ConfigValue<List<? extends Integer>>MOVEMENT_SPEED_APPLICABLE_REALMS;
         static {
+            BUILDER.push("PillCauldron");
+            BUILDER.comment("Heat items for Pill Cauldron",
+                    "Format: [\"modid:item_id,heat_value\", \"modid:item_id,heat_value\"]",
+                    "Example: [\"minecraft:coal,8\", \"minecraft:coal_block,72\", \"ascension:crimson_lotus_flame,300\"]");
+            PILL_CAULDRON_HEAT_ITEMS = BUILDER.defineList("heat_items",
+                    () -> new ArrayList<>(Arrays.asList(
+                            "minecraft:coal,8",
+                            "minecraft:coal_block,72",
+                            "ascension:crimson_lotus_flame,300"
+                    )),
+                    Config::validateHeatItemEntry
+            );
+            BUILDER.pop();
+
+
+
             BUILDER.push("CultivationModifiers");
 
             BUILDER.comment("Path Modifiers");
@@ -173,11 +205,28 @@ public class Config {
                     MAX_SPEED_MULT = BUILDER.defineInRange("Speed_Multiplier_Max", 0.5, 1f, Double.MAX_VALUE);
         }
 
-
-
         public Common(ModConfigSpec.Builder builder) {
 
         }
+    }
+
+
+
+    public static Map<String, Integer> getHeatItems() {
+        Map<String, Integer> heatItems = new HashMap<>();
+        for (String entry : Common.PILL_CAULDRON_HEAT_ITEMS.get()) {
+            String[] parts = entry.split(",");
+            if (parts.length == 2) {
+                try {
+                    String itemId = parts[0].trim();
+                    int heatValue = Integer.parseInt(parts[1].trim());
+                    heatItems.put(itemId, heatValue);
+                } catch (NumberFormatException e) {
+                    AscensionCraft.LOGGER.warn("Invalid heat item entry: {}", entry);
+                }
+            }
+        }
+        return heatItems;
     }
 
     static {

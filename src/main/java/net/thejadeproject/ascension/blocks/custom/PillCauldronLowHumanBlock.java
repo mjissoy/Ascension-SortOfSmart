@@ -26,13 +26,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import net.thejadeproject.ascension.Config;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.blocks.entity.PillCauldronLowHumanEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 
-    public class PillCauldronLowHumanBlock extends BaseEntityBlock {
+
+public class PillCauldronLowHumanBlock extends BaseEntityBlock {
         public static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 11, 14);
         public static final MapCodec<PillCauldronLowHumanBlock> CODEC = simpleCodec(PillCauldronLowHumanBlock::new);
         public static final DirectionProperty FACING;
@@ -103,15 +106,14 @@ import org.jetbrains.annotations.Nullable;
             if (!pLevel.isClientSide()) {
                 BlockEntity entity = pLevel.getBlockEntity(pPos);
                 if (entity instanceof PillCauldronLowHumanEntity pillCauldronLowHumanEntity) {
-                    // Check if player is holding a heat-adding item
-                    if (pStack.getItem() == Items.COAL) {
-                        pillCauldronLowHumanEntity.addHeat(80);
-                        if (!pPlayer.getAbilities().instabuild) {
-                            pStack.shrink(1);
-                        }
-                        return ItemInteractionResult.sidedSuccess(pLevel.isClientSide());
-                    } else if (pStack.getItem() == Items.COAL_BLOCK) {
-                        pillCauldronLowHumanEntity.addHeat(800);
+                    // Check if player is holding a heat-adding item from config
+                    Map<String, Integer> heatItems = Config.getHeatItems();
+                    String itemId = pStack.getItem().builtInRegistryHolder().key().location().toString();
+
+                    if (heatItems.containsKey(itemId)) {
+                        int heatToAdd = heatItems.get(itemId);
+                        pillCauldronLowHumanEntity.addHeat(heatToAdd);
+
                         if (!pPlayer.getAbilities().instabuild) {
                             pStack.shrink(1);
                         }
