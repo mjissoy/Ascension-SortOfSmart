@@ -24,6 +24,16 @@ repositories {
         name = 'Favouriteless Maven'
         url 'https://maven.favouriteless.net/releases'
     }
+    maven {
+        // location of the maven that hosts JEI files since January 2023
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
 
 
 }
@@ -121,6 +131,11 @@ configurations {
 
 dependencies {
 
+    // compile against the JEI API but do not include it at runtime
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    // at runtime, use the full JEI jar for NeoForge
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+
     implementation 'com.github.OliverHesse:EasyGui:a633e6b1b7'
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
     implementation 'com.github.glitchfiend:TerraBlender-neoforge:' + minecraft_version + '-' + terrablender_version
@@ -164,7 +179,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_authors            : mod_authors,
             mod_description        : mod_description,
             terrablender_version        : terrablender_version,
-            modopedia_version        : modopedia_version
+            modopedia_version        : modopedia_version,
+            jei_version        : jei_version
     ]
     inputs.properties replaceProperties
     expand replaceProperties

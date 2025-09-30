@@ -318,6 +318,12 @@ public class lang extends LanguageProvider {
         add("creativetab.ascension.pills", "Ascension Pills");
         add("creativetab.ascension.manuals", "Ascension Manuals");
 
+
+
+
+        //JEI
+        add("jei.ascension.pill_cauldron_low_human", "Pill Crafting");
+
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
         add("effect.ascension.cleansing", "Cleansing");
 
