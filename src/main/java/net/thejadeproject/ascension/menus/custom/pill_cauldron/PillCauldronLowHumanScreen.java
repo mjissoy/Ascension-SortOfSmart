@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.menus.custom.pill_cauldron;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -8,7 +9,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.compat.PillCauldronRecipeCategory;
 
 public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCauldronLowHumanMenu> {
 
@@ -16,7 +20,6 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/pill_cauldron_low_human/pill_cauldron_low_human_menu.png");
     private static final ResourceLocation ARROW_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/arrow_progress.png");
-
 
     public PillCauldronLowHumanScreen(PillCauldronLowHumanMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
@@ -41,7 +44,6 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
             guiGraphics.blit(ARROW_TEXTURE, x + 80, y + 33, 0, 0, 16, menu.getScaledArrowProgress(), 16, 21);
         }
     }
-
 
     private int getHeatColor(int percentage) {
         // Color gradient from blue (cold) to red (hot)
@@ -94,6 +96,44 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
             pGuiGraphics.renderTooltip(this.font,
                     Component.literal("Heat: " + menu.getHeatLevel() + "°C / " + menu.getMaxHeat() + "°C"),
                     pMouseX, pMouseY);
+        }
+
+        // Add tooltip for progress arrow
+        if (isHovering(80, 33, 16, 21, pMouseX, pMouseY)) {
+            pGuiGraphics.renderTooltip(this.font,
+                    Component.literal("Click to view recipes"),
+                    pMouseX, pMouseY);
+        }
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (button == 0) { // Left click
+            int x = (width - imageWidth) / 2;
+            int y = (height - imageHeight) / 2;
+
+            // Check if clicked on progress arrow
+            if (isHovering(80, 33, 16, 21, mouseX, mouseY)) {
+                showJeiRecipes();
+                return true;
+            }
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private void showJeiRecipes() {
+        // Get JEI runtime and show recipes for the pill cauldron
+        try {
+            IJeiRuntime jeiRuntime = net.thejadeproject.ascension.compat.JEIModPlugin.getJeiRuntime();
+            if (jeiRuntime != null) {
+                // Simple approach - just show all recipes for our category
+                jeiRuntime.getRecipesGui().showTypes(
+                        java.util.List.of(PillCauldronRecipeCategory.CAULDRON_RECIPE_TYPE)
+                );
+            }
+        } catch (Exception e) {
+            AscensionCraft.LOGGER.warn("Could not open JEI recipes: {}", e.getMessage());
         }
     }
 }

@@ -5,6 +5,7 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +20,8 @@ import java.util.List;
 
 @JeiPlugin
 public class JEIModPlugin implements IModPlugin {
+    private static IJeiRuntime jeiRuntime;
+
     @Override
     public ResourceLocation getPluginUid() {
         return ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "jei_plugin");
@@ -44,8 +47,17 @@ public class JEIModPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(
-                new ItemStack(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get()), // Assuming ModBlocks.PILL_CAULDRON is the cauldron block
+                new ItemStack(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get()),
                 PillCauldronRecipeCategory.CAULDRON_RECIPE_TYPE
         );
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime runtime) {
+        jeiRuntime = runtime;
+    }
+
+    public static IJeiRuntime getJeiRuntime() {
+        return jeiRuntime;
     }
 }
