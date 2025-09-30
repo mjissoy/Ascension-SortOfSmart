@@ -6,6 +6,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
@@ -57,16 +58,20 @@ public class PlayerData {
     public static class SkillData{
         public String skillId;
         public boolean fixed;
-
+        public ISkillData data;
         public SkillData(){}
-        public SkillData(String skillId,boolean fixed){
+        public SkillData(String skillId,boolean fixed,ISkillData data){
             this.skillId = skillId;
             this.fixed = fixed;
+            this.data = data;
         }
         public CompoundTag writeSkillNBTData(){
             CompoundTag tag = new CompoundTag();
             tag.putString("skill_id",skillId);;
             tag.putBoolean("fixed",fixed);
+            CompoundTag dataTag = new CompoundTag();
+            if(data != null) data.writeData(dataTag);
+            tag.put("data",dataTag);
             return tag;
 
         }
@@ -74,6 +79,8 @@ public class PlayerData {
             SkillData skillData = new SkillData();
             skillData.skillId = compound.getString("skill_id");
             skillData.fixed = compound.getBoolean("fixed");
+            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.skillId,':'));
+            skillData.data = skill.getSkillData(compound.getCompound("data"));
             return skillData;
         }
     }
@@ -85,13 +92,13 @@ public class PlayerData {
 
     public SkillData getActiveSkill(String skillId){
         if(activeSkillHashMap.containsKey(skillId)) return activeSkillHashMap.get(skillId);
-        SkillData data = new SkillData(skillId,false);
+        SkillData data = new SkillData(skillId,false,null);
         activeSkillHashMap.put(skillId,data);
         return data;
     }
     public SkillData getPassiveSkill(String skillId){
         if(passiveSkillHashMap.containsKey(skillId)) return passiveSkillHashMap.get(skillId);
-        SkillData data = new SkillData(skillId,false);
+        SkillData data = new SkillData(skillId,false,null);
         passiveSkillHashMap.put(skillId,data);
         return data;
     }
@@ -121,15 +128,17 @@ public class PlayerData {
         return passiveSkillHashMap.values().stream().toList();
     }
 
-    public void addSkill(String skillId,String type,boolean fixed){
-        if(type.equals("Active")) addActiveSkill(skillId,fixed);
-        else addPassiveSkill(skillId,fixed);
+    public void addSkill(String skillId,String type,boolean fixed,ISkillData data){
+        if(type.equals("Active")) addActiveSkill(skillId,fixed,data);
+        else addPassiveSkill(skillId,fixed,data);
     }
-    public void addActiveSkill(String skillId,boolean fixed){
-        activeSkillHashMap.put(skillId,new SkillData(skillId,fixed));
+    public void addActiveSkill(String skillId,boolean fixed,ISkillData data){
+        if(activeSkillHashMap.containsKey(skillId) && activeSkillHashMap.get(skillId).fixed) return;
+        activeSkillHashMap.put(skillId,new SkillData(skillId,fixed,data));
     }
-    public void addPassiveSkill(String skillId,boolean fixed){
-        passiveSkillHashMap.put(skillId,new SkillData(skillId,fixed));
+    public void addPassiveSkill(String skillId,boolean fixed,ISkillData data){
+        if(passiveSkillHashMap.containsKey(skillId) && passiveSkillHashMap.get(skillId).fixed) return;
+        passiveSkillHashMap.put(skillId,new SkillData(skillId,fixed,data));
     }
 
 

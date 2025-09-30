@@ -4,6 +4,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.progression.skills.passive_skills.SwordIntent;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.passive_skills.FistAura;
 import net.thejadeproject.ascension.progression.skills.passive_skills.IronBonesPassiveSkill;
@@ -17,6 +18,8 @@ public class ModSkills {
 
     public static final DeferredHolder<ISkill, FistAura> FIST_AURA = SKILLS.register("fist_aura_skill",
             FistAura::new);
+    public static final DeferredHolder<ISkill, SwordIntent> SWORD_INTENT = SKILLS.register("sword_intent_skill",
+            SwordIntent::new);
 
 
     public static void register(IEventBus eventBus){

@@ -34,6 +34,17 @@ public class PhysiqueEventListener{
         }
     }
 
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void onMajorRealmChangeEvent(MajorRealmChangeEvent event){
+        if(event.player.hasData(ModAttachments.PHYSIQUE)){
+            String physique_id = event.player.getData(ModAttachments.PHYSIQUE);
+            IPhysique physique =  AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
+                    ResourceLocation.fromNamespaceAndPath(physique_id.split(":")[0],physique_id.split(":")[1])
+            );
+            physique.onMajorRealmIncrease(event);
+        }
+    }
+
     @SubscribeEvent
     public static void onPhysiqueChange(PhysiqueChangeEvent event){
         if(!event.player.hasData(ModAttachments.PHYSIQUE)) return;

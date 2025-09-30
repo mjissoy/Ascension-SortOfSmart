@@ -15,12 +15,16 @@ import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
 import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
+import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.util.ModAttachments;
 import net.thejadeproject.ascension.util.ModTags;
+import oshi.util.tuples.Pair;
 
 import java.util.*;
 import java.util.List;
@@ -33,7 +37,7 @@ public abstract class AbstractTechnique implements ITechnique {
     public Consumer<MajorRealmChangeEvent> majorRealmChangeEventConsumer;
     public Map<String,Double> efficiencyBonuses = new HashMap<>();
     public String path;
-    public SkillList skillList = null;
+    public SkillList skillList = new SkillList(List.of());
     public ITextureData techniqueImage;
     public List<MutableComponent> description = new ArrayList<>();
     public StabilityHandler stabilityHandler;
@@ -125,12 +129,26 @@ public abstract class AbstractTechnique implements ITechnique {
     public void onMinorRealmIncrease(MinorRealmChangeEvent event) {
         ITechnique.super.onMinorRealmIncrease(event);
         minorRealmChangeEventConsumer.accept(event);
+        if(event.oldRealm > event.newRealm) return;
+        updatePlayerSkills(
+                event.player,
+                event.pathId,
+                event.player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(event.pathId).majorRealm,
+                event.newRealm
+        );
     }
 
     @Override
     public void onMajorRealmIncrease(MajorRealmChangeEvent event) {
         ITechnique.super.onMajorRealmIncrease(event);
         majorRealmChangeEventConsumer.accept(event);
+        if(event.oldRealm > event.newRealm) return;
+        updatePlayerSkills(
+                event.player,
+                event.pathId,
+                event.newRealm,
+                event.player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(event.pathId).minorRealm
+        );
     }
 
     public AbstractTechnique setOnMinorRealmChange(Consumer<MinorRealmChangeEvent> consumer){
@@ -175,7 +193,20 @@ public abstract class AbstractTechnique implements ITechnique {
         }
         return extraInfo;
     }
+    public void updatePlayerSkills(Player player, String path, int majorRealm, int minorRealm){
+        if(skillList == null) return;
+        List<Pair<String,Boolean>> newSkills = skillList.getSkillsOfPathAndRealm(path,majorRealm,minorRealm);
 
+        for(Pair<String,Boolean> skillData :newSkills){
+
+            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
+            String skillType = "Passive";
+            if(skill instanceof AbstractActiveSkill) skillType = "Active";
+            player.getData(ModAttachments.PLAYER_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
+            skill.onSkillAdded(player);
+        }
+
+    }
     @Override
     public List<MutableComponent> getFullDescription() {
         List<MutableComponent> extraInfo = new ArrayList<>();
