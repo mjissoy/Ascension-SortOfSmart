@@ -9,10 +9,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.compat.PillCauldronRecipeCategory;
+import net.thejadeproject.ascension.compat.jei.PillCauldronRecipeCategory;
+import net.thejadeproject.ascension.compat.jei.JEIModPlugin;
 
 public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCauldronLowHumanMenu> {
 
@@ -125,7 +124,7 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
     private void showJeiRecipes() {
         // Get JEI runtime and show recipes for the pill cauldron
         try {
-            IJeiRuntime jeiRuntime = net.thejadeproject.ascension.compat.JEIModPlugin.getJeiRuntime();
+            IJeiRuntime jeiRuntime = JEIModPlugin.getJeiRuntime();
             if (jeiRuntime != null) {
                 // Simple approach - just show all recipes for our category
                 jeiRuntime.getRecipesGui().showTypes(

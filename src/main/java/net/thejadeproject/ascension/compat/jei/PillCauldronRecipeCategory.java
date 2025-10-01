@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.compat;
+package net.thejadeproject.ascension.compat.jei;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
