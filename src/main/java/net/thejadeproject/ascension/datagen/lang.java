@@ -321,6 +321,17 @@ public class lang extends LanguageProvider {
 
 
 
+        //JADE
+        add("tooltip.ascension.heat_level", "Heat: %s°C / %s°C");
+        add("tooltip.ascension.progress", "Progress: %s%%");
+        add("tooltip.ascension.time_remaining", "Time remaining: %ss");
+        add("tooltip.ascension.finishing", "Finishing...");
+        add("tooltip.ascension.output", "Output: %s");
+        add("tooltip.ascension.inputs", "Inputs:");
+
+
+
+
         //JEI
         add("jei.ascension.pill_cauldron_low_human", "Pill Crafting");
 

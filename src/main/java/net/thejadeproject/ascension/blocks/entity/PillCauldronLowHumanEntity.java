@@ -45,6 +45,49 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         }
     };
 
+    public int getHeatLevel() {
+        return this.data.get(2); // Heat level
+    }
+
+    public int getMaxHeat() {
+        return this.data.get(3); // Max heat
+    }
+
+    public int getProgress() {
+        return this.data.get(0); // Current progress
+    }
+
+    public int getMaxProgress() {
+        return this.data.get(1); // Max progress
+    }
+
+    public ItemStack getCurrentRecipeOutput() {
+        // Return what's in the output slot (assuming slot 3 is success output, 4 is fail output)
+        // You can modify this based on your actual slot layout
+        ItemStack successOutput = this.itemHandler.getStackInSlot(3);
+        ItemStack failOutput = this.itemHandler.getStackInSlot(4);
+
+        // Return the non-empty output, or success output if both are empty
+        if (!successOutput.isEmpty()) {
+            return successOutput;
+        } else if (!failOutput.isEmpty()) {
+            return failOutput;
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public ItemStack getInputItem(int slot) {
+        // Return the item in the specified input slot (0-2 based on your menu)
+        if (slot >= 0 && slot < 3) {
+            return this.itemHandler.getStackInSlot(slot);
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public boolean isCrafting() {
+        return getProgress() > 0;
+    }
+
     private static final int INPUT_SLOT0 = 0;
     private static final int INPUT_SLOT1 = 1;
     private static final int INPUT_SLOT2 = 2;
@@ -115,10 +158,6 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         setChanged();
     }
 
-
-    public int getHeatLevel() {
-        return heatLevel;
-    }
 
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
