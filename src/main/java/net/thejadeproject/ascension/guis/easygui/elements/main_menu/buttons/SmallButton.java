@@ -6,8 +6,10 @@ import net.lucent.easygui.interfaces.ITextureData;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
-
+@OnlyIn(Dist.CLIENT)
 public class SmallButton extends AbstractButton {
 
     public ITextureData textureData;

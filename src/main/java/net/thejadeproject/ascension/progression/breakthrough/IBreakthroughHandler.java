@@ -19,15 +19,20 @@ public interface IBreakthroughHandler {
 
     IBreakthroughData getBreakthroughData(CompoundTag tag);
 
-    void attemptBreakthrough(Player player,String pathId,ITechnique technique);
+    default void attemptBreakthrough(Player player,String pathId,ITechnique technique){
+        player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId).breakingThrough = true;
+    };
     //should be called after a breakthrough is completed
-    void failBreakthrough(Player player,String pathId);
+    default void failBreakthrough(Player player,String pathId){
+        player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId).breakingThrough = false;
+    }
     default void completeBreakthrough(Player player,String pathId){
         PlayerData data = player.getData(ModAttachments.PLAYER_DATA);
         CultivationData cultivationData = data.getCultivationData();
         CultivationData.PathData pathData = cultivationData.getPathData(pathId);
         //TODO add verification. aka make sure they are at the correct minor realm. and roll the chance for now don't bother
         if(pathData.majorRealm >= CultivationSystem.getRealmNumber(pathId)) return;
+        pathData.breakingThrough = false;
         ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
                 pathData.technique,
                 ':'

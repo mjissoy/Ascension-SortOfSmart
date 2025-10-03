@@ -52,6 +52,7 @@ import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.util.ModAttributes;
 import net.thejadeproject.ascension.worldgen.biome.ModTerrablender;
 import net.thejadeproject.ascension.worldgen.biome.surface.ModSurfaceRules;
 import org.slf4j.Logger;
@@ -86,16 +87,8 @@ public class AscensionCraft {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
 
+    public void register(IEventBus modEventBus){
 
-    public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-        modEventBus.addListener(this::onLoadComplete);
-        // Register ourselves for server and other game events we are interested in.
-        // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
-        NeoForge.EVENT_BUS.register(this);
-        KeyBindHandler.register();
 
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
@@ -118,19 +111,33 @@ public class AscensionCraft {
         ModItems.register(modEventBus);
         ModEffects.register(modEventBus);
 
+        ModAttributes.register(modEventBus);
+
         ModPhysiques.register(modEventBus);
         ModSkills.register(modEventBus);
         ModTechniques.register(modEventBus);
         ModDao.register(modEventBus);
+        //register easy gui actions
+
+
+    }
+    public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
+        // Register the commonSetup method for modloading
+        modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::onLoadComplete);
+        // Register ourselves for server and other game events we are interested in.
+        // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
+        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
+        NeoForge.EVENT_BUS.register(this);
+
+        register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
-        //register easy gui actions
-        ModActions.register(modEventBus);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+
 
 
         modEventBus.addListener(this::registerKeyBindings);
@@ -140,11 +147,6 @@ public class AscensionCraft {
 
 
 
-        //setup overlays
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-            ModOverlays.register();
-
-        }
 
     }
 
@@ -170,12 +172,10 @@ public class AscensionCraft {
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
 
 
-
-
         Player player = (Player) event.getEntity();
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED)); //
         PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-
+        /* TODO send packet to open screen and add a player state as selecting attribute
         if(player.getData(ModAttachments.PHYSIQUE).equals("ascension:empty_vessel")){
             //open menu
             Minecraft.getInstance().tell(()->{
@@ -187,6 +187,9 @@ public class AscensionCraft {
                PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPlayerPhysique(event.getEntity().getData(ModAttachments.PHYSIQUE)));
             });
         }
+
+
+         */
         for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
 
             Minecraft.getInstance().tell(()->{
@@ -230,7 +233,7 @@ public class AscensionCraft {
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    //@EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     /*public class ClientModInitializer {
         public static void setup(IEventBus modEventBus) {
             modEventBus.addListener(ClientModInitializer::clientSetup);
@@ -274,15 +277,11 @@ public class AscensionCraft {
             event.registerSpriteSet(ModParticles.CULTIVATION_PARTICLES.get(), CultivationParticles.Provider::new);
         }
 
-
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event){
             ModPayloads.registerPayloads(event);
         }
 
-        @SubscribeEvent
-        public static void registerScreens(RegisterMenuScreensEvent event) {
-            event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
-        }
+
     }
 }

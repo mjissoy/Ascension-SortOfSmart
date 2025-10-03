@@ -6,11 +6,13 @@ import net.lucent.easygui.interfaces.ITextureData;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.path_data.DisplayPathDataContainer;
 import net.thejadeproject.ascension.network.serverBound.TriggerMajorRealmBreakthrough;
-
+@OnlyIn(Dist.CLIENT)
 public class BreakthroughButton extends AbstractButton {
 
     public ITextureData textureData = new TextureDataSubSection(

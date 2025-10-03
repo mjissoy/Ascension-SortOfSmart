@@ -7,12 +7,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.progression.physiques.IPhysique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 
 import java.util.List;
-
+@OnlyIn(Dist.CLIENT)
 public class PhysiqueDataContainer extends DraggableDataContainer{
     public IPhysique physique;
     public PhysiqueDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y,String physiqueId) {

@@ -9,5 +9,6 @@ public enum CastType {
     NONE,
     INSTANT,
     LONG,
-    CONTINUOUS
+    CONTINUOUS,
+    CHARGE
 }

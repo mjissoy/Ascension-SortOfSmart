@@ -4,6 +4,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
@@ -15,6 +17,7 @@ import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 
+@OnlyIn(Dist.CLIENT)
 public class KeyBindHandler {
     private static boolean wasCultivating = false;
 

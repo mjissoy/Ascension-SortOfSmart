@@ -4,7 +4,10 @@ import net.lucent.easygui.elements.controls.buttons.AbstractButton;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.client.gui.GuiGraphics;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class BigButton extends AbstractButton {
 
     public ITextureData textureData;

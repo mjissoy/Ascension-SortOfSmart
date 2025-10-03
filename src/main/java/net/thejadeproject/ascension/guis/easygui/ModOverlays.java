@@ -12,9 +12,11 @@ import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.thejadeproject.ascension.AscensionCraft;
-
+@OnlyIn(Dist.CLIENT)
 public class ModOverlays {
 
     public static EasyGuiOverlay QI_TRACKER = new EasyGuiOverlay((eventHolder, overlay)->{

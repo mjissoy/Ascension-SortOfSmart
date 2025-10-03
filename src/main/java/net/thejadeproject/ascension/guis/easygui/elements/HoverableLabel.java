@@ -11,13 +11,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.progression.dao.IDao;
 import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Optional;
-
+@OnlyIn(Dist.CLIENT)
 //TODO remove when update jit pack
 public class HoverableLabel extends Label implements Hoverable {
     public boolean hovered;

@@ -10,6 +10,8 @@ import net.lucent.easygui.templating.actions.Action;
 import net.lucent.easygui.templating.registry.EasyGuiRegistries;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.elements.CardHolderView;
@@ -17,7 +19,7 @@ import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
 
 import java.util.Arrays;
 
-
+@OnlyIn(Dist.CLIENT)
 public class GeneratePhysiqueScreen extends EasyGuiScreen {
     boolean physiqueGenerated = false;
     public GeneratePhysiqueScreen(Component title) {

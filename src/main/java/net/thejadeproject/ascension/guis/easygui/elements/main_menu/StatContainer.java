@@ -14,12 +14,14 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 import org.checkerframework.checker.units.qual.A;
-
+@OnlyIn(Dist.CLIENT)
 //TODO
 public class StatContainer extends EmptyContainer {
     public StatContainer(IEasyGuiScreen easyGuiScreen,int x, int y, int width,int height){

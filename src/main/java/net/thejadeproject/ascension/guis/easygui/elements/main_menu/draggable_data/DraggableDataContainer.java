@@ -6,9 +6,11 @@ import net.lucent.easygui.elements.other.Image;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.BigButton;
-
+@OnlyIn(Dist.CLIENT)
 public class DraggableDataContainer extends EmptyDraggableContainer {
     public DraggableDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y) {
         super(easyGuiScreen, x, y, 0, 0);

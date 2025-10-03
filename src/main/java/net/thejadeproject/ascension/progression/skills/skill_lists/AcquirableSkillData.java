@@ -11,6 +11,6 @@ public record AcquirableSkillData(String path, int minorRealm, int majorRealm, S
     public String asString(){
         ISkill skillData = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skill,':'));
 
-        return skillData.getSkillTitle() + " unlock : "+ CultivationSystem.getPathMajorRealmName(path,majorRealm) + " layer: "+minorRealm;
+        return skillData.getSkillTitle() + " : "+ CultivationSystem.getPathMajorRealmName(path,majorRealm) + "("+minorRealm+")";
     }
 }

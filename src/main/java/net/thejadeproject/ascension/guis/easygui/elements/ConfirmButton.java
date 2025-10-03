@@ -10,9 +10,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-
+@OnlyIn(Dist.CLIENT)
 public class ConfirmButton extends TextureButton {
     public ConfirmButton(IEasyGuiScreen screen, int x, int y){
         super(screen,x,y,
