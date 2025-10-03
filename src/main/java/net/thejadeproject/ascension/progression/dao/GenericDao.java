@@ -47,7 +47,6 @@ public class GenericDao implements IDao{
     }
     @Override
     public Component getDisplayTitle() {
-        System.out.println(title);
         return title;
     }
 

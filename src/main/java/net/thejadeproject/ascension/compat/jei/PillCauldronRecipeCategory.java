@@ -19,6 +19,9 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillCauldronRecipe> {
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pill_cauldron_low_human");
@@ -79,30 +82,21 @@ public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillC
         int size = recipe.getSizedIngredients().size();
         if (size > 0) {
             SizedIngredient sizedIngredient = recipe.getSizedIngredients().get(0);
+            List<ItemStack> inputStacks1 = createItemStacksWithCount(sizedIngredient);
             IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, INPUT1_X, INPUT1_Y)
-                    .addIngredients(sizedIngredient.ingredient());
-            if (sizedIngredient.count() > 1) {
-                slot.addRichTooltipCallback((recipeSlotView, tooltip) ->
-                        tooltip.add(Component.literal("Required: " + sizedIngredient.count())));
-            }
+                    .addItemStacks(inputStacks1);
         }
         if (size > 1) {
             SizedIngredient sizedIngredient = recipe.getSizedIngredients().get(1);
+            List<ItemStack> inputStacks2 = createItemStacksWithCount(sizedIngredient);
             IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, INPUT2_X, INPUT2_Y)
-                    .addIngredients(sizedIngredient.ingredient());
-            if (sizedIngredient.count() > 1) {
-                slot.addRichTooltipCallback((recipeSlotView, tooltip) ->
-                        tooltip.add(Component.literal("Required: " + sizedIngredient.count())));
-            }
+                    .addItemStacks(inputStacks2);
         }
         if (size > 2) {
             SizedIngredient sizedIngredient = recipe.getSizedIngredients().get(2);
+            List<ItemStack> inputStacks3 = createItemStacksWithCount(sizedIngredient);
             IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, INPUT3_X, INPUT3_Y)
-                    .addIngredients(sizedIngredient.ingredient());
-            if (sizedIngredient.count() > 1) {
-                slot.addRichTooltipCallback((recipeSlotView, tooltip) ->
-                        tooltip.add(Component.literal("Required: " + sizedIngredient.count())));
-            }
+                    .addItemStacks(inputStacks3);
         }
 
         // Success output
@@ -116,6 +110,17 @@ public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillC
                 .addItemStack(recipe.getFail());
         failSlot.addRichTooltipCallback((recipeSlotView, tooltip) ->
                 tooltip.add(Component.literal("Failure Chance: " + (int)((1 - recipe.getChance()) * 100) + "%")));
+    }
+
+    // Helper method to create ItemStacks with the required count
+    private List<ItemStack> createItemStacksWithCount(SizedIngredient sizedIngredient) {
+        List<ItemStack> stacks = new ArrayList<>();
+        for (ItemStack stack : sizedIngredient.ingredient().getItems()) {
+            ItemStack copy = stack.copy();
+            copy.setCount(sizedIngredient.count());
+            stacks.add(copy);
+        }
+        return stacks;
     }
 
     @Override
