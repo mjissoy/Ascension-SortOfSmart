@@ -70,6 +70,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.white_jade_orchid_block", "White Jade Orchid");
 
         //Blocks
+        add("block.ascension.pill_cauldron", "Pill Cauldron");
         add("block.ascension.golden_palm_log", "Golden Palm Log");
         add("block.ascension.golden_palm_wood", "Golden Palm Wood");
         add("block.ascension.stripped_golden_palm_log", "Stripped Golden Palm Log");
@@ -322,6 +323,7 @@ public class lang extends LanguageProvider {
 
 
         //JADE
+        add("config.jade.plugin_ascension.pill_cauldron", "Pill Cauldron");
         add("tooltip.ascension.heat_level", "Heat: %s°C / %s°C");
         add("tooltip.ascension.progress", "Progress: %s%%");
         add("tooltip.ascension.time_remaining", "Time remaining: %ss");
@@ -344,7 +346,7 @@ public class lang extends LanguageProvider {
 
 
 
-
+        //CONFIG
         add("ascension.configuration.Multipliers", "Stats Multipliers");
         add("ascension.configuration.CultivationMultipliers", "Cultivation Multipliers");
         add("ascension.configuration.Cultivation_Speed", "Cultivation Speed");
@@ -354,7 +356,6 @@ public class lang extends LanguageProvider {
 
         add("ascension.configuration.AttributeMultipliers", "Attributes Multipliers");
         add("ascension.configuration.Speed_Multiplier_Max", "Max Speed");
-        add("block.ascension.pill_cauldron", "Pill Cauldron");
 
         add("ascension.configuration.AttackDamageMultipliers","Attack Damage Multipliers");
         add("ascension.configuration.minor_realm_attack_damage_increase","Minor Realm Increase");
@@ -390,6 +391,16 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.essence_path_modifier","Essence Options");
         add("ascension.configuration.body_path_modifier","Body Options");
         add("ascension.configuration.intent_path_modifier","Intent Options");
+
+        add("ascension.configuration.PillCauldron","Pill Cauldron");
+        add("ascension.configuration.heat_items","Heat Items");
+        add("ascension.configuration.heat_loss_interval","Heat Loss Interval");
+        add("ascension.configuration.heat_loss_amount","Heat Loss Per Interval");
+        add("ascension.configuration.max_heat","Max Heat");
+
+        add("ascension.configuration.Artifacts","Artifacts");
+        add("ascension.configuration.repairInterval","Repair Interval");
+        add("ascension.configuration.repairAmount","Repair Amount");
 
 
         //tags

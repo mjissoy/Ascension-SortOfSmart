@@ -18,8 +18,8 @@ public class RepairSlip extends Item {
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         if (!level.isClientSide && entity instanceof Player player) {
-            int repairInterval = Config.Common.REPAIR_INTERVAL != null ?
-                    Config.Common.REPAIR_INTERVAL.get() : DEFAULT_REPAIR_INTERVAL;
+            int repairInterval = Config.COMMON.REPAIR_INTERVAL != null ?
+                    Config.COMMON.REPAIR_INTERVAL.get() : DEFAULT_REPAIR_INTERVAL;
 
             if (player.tickCount % repairInterval == 0) {
                 repairItems(player);
@@ -29,8 +29,8 @@ public class RepairSlip extends Item {
 
     private void repairItems(Player player) {
         // Repair all inventory slots
-        int repairAmount = Config.Common.REPAIR_AMOUNT != null ?
-                Config.Common.REPAIR_AMOUNT.get() : DEFAULT_REPAIR_AMOUNT;
+        int repairAmount = Config.COMMON.REPAIR_AMOUNT != null ?
+                Config.COMMON.REPAIR_AMOUNT.get() : DEFAULT_REPAIR_AMOUNT;
 
         player.getInventory().items.forEach(stack -> repairItem(stack, repairAmount));
         player.getInventory().armor.forEach(stack -> repairItem(stack, repairAmount));

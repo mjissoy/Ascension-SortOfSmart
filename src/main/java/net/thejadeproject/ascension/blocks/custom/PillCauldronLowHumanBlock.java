@@ -107,7 +107,7 @@ public class PillCauldronLowHumanBlock extends BaseEntityBlock {
                 BlockEntity entity = pLevel.getBlockEntity(pPos);
                 if (entity instanceof PillCauldronLowHumanEntity pillCauldronLowHumanEntity) {
                     // Check if player is holding a heat-adding item from config
-                    Map<String, Integer> heatItems = Config.getHeatItems();
+                    Map<String, Integer> heatItems = Config.COMMON.getHeatItems();
                     String itemId = pStack.getItem().builtInRegistryHolder().key().location().toString();
 
                     if (heatItems.containsKey(itemId)) {

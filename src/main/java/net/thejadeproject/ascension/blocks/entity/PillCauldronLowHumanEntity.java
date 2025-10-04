@@ -66,7 +66,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
                     case 0 -> PillCauldronLowHumanEntity.this.progress;
                     case 1 -> PillCauldronLowHumanEntity.this.maxProgress;
                     case 2 -> PillCauldronLowHumanEntity.this.heatLevel;
-                    case 3 -> Config.Common.PILL_CAULDRON_MAX_HEAT.get();
+                    case 3 -> Config.COMMON.PILL_CAULDRON_MAX_HEAT.get();
                     default -> 0;
                 };
             }
@@ -114,7 +114,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     }
 
     public void addHeat(int amount) {
-        int maxHeat = Config.Common.PILL_CAULDRON_MAX_HEAT.get();
+        int maxHeat = Config.COMMON.PILL_CAULDRON_MAX_HEAT.get();
         heatLevel = Math.min(maxHeat, heatLevel + amount);
         setChanged();
     }
@@ -183,10 +183,10 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
         // Handle heat loss over time using config values
         heatLossTimer++;
-        int heatLossInterval = Config.Common.PILL_CAULDRON_HEAT_LOSS_INTERVAL.get();
+        int heatLossInterval = Config.COMMON.PILL_CAULDRON_HEAT_LOSS_INTERVAL.get();
         if (heatLossTimer >= heatLossInterval) {
             if (heatLevel > 0) {
-                int heatLossAmount = Config.Common.PILL_CAULDRON_HEAT_LOSS_AMOUNT.get();
+                int heatLossAmount = Config.COMMON.PILL_CAULDRON_HEAT_LOSS_AMOUNT.get();
                 heatLevel = Math.max(0, heatLevel - heatLossAmount);
                 setChanged();
             }

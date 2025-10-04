@@ -37,7 +37,6 @@ import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.ModOverlays;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.items.pills.DynamicPillsSystem;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
@@ -137,7 +136,8 @@ public class AscensionCraft {
 
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC, "ascension/Ascension-Common.toml");
+        modContainer.registerConfig(ModConfig.Type.COMMON, Config.CULTIVATION_SPEC, "ascension/Ascension-Cultivation.toml");
 
 
 
@@ -214,9 +214,8 @@ public class AscensionCraft {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        DynamicPillsSystem.loadPills();
-        DynamicPillsSystem.registerPills();
         SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
+
 
     }
 
@@ -234,26 +233,7 @@ public class AscensionCraft {
 
     }
 
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    //@EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    /*public class ClientModInitializer {
-        public static void setup(IEventBus modEventBus) {
-            modEventBus.addListener(ClientModInitializer::clientSetup);
-        }
 
-
-        private static void clientSetup(FMLClientSetupEvent event) {
-            event.enqueueWork(() -> {
-                DynamicPillsSystem.PILL_CONFIGS.forEach((id, config) -> {
-                    Item item = Registries.ITEM.get(id);
-                    if (item instanceof DynamicPillsSystem.PillItem) {
-                        ItemColors.register(new ItemColorProvider(), item);
-                    }
-                });
-            });
-        }
-    }
-*/
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
     public static class ClientModEvents {
         @SubscribeEvent
