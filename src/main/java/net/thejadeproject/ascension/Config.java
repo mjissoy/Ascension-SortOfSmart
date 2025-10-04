@@ -29,6 +29,9 @@ public class Config {
 
 
         public static ModConfigSpec.ConfigValue<List<? extends String>> PILL_CAULDRON_HEAT_ITEMS;
+        public static ModConfigSpec.IntValue PILL_CAULDRON_HEAT_LOSS_INTERVAL;
+        public static ModConfigSpec.IntValue PILL_CAULDRON_HEAT_LOSS_AMOUNT;
+        public static ModConfigSpec.IntValue PILL_CAULDRON_MAX_HEAT;
 
         public static ModConfigSpec.DoubleValue MAX_BASE_MAX_HEALTH;
 
@@ -73,6 +76,7 @@ public class Config {
         public static ModConfigSpec.DoubleValue MINOR_REALM_MOVEMENT_SPEED_INCREASE;
         public static ModConfigSpec.DoubleValue MAJOR_REALM_MOVEMENT_SPEED_INCREASE;
         public static ModConfigSpec.ConfigValue<List<? extends Integer>>MOVEMENT_SPEED_APPLICABLE_REALMS;
+
         static {
             BUILDER.push("PillCauldron");
             BUILDER.comment("Heat items for Pill Cauldron",
@@ -86,6 +90,20 @@ public class Config {
                     )),
                     Config::validateHeatItemEntry
             );
+
+            BUILDER.comment("Heat loss settings for Pill Cauldron");
+            PILL_CAULDRON_HEAT_LOSS_INTERVAL = BUILDER
+                    .comment("Interval in ticks between heat loss (20 ticks = 1 second) [Default: 20]")
+                    .defineInRange("heat_loss_interval", 20, 1, Integer.MAX_VALUE);
+
+            PILL_CAULDRON_HEAT_LOSS_AMOUNT = BUILDER
+                    .comment("Amount of heat lost each interval [Default: 1]")
+                    .defineInRange("heat_loss_amount", 1, 0, Integer.MAX_VALUE);
+
+            PILL_CAULDRON_MAX_HEAT = BUILDER
+                    .comment("Maximum heat capacity of the Pill Cauldron [Default: 1000]")
+                    .defineInRange("max_heat", 1000, 100, Integer.MAX_VALUE);
+
             BUILDER.pop();
 
 
