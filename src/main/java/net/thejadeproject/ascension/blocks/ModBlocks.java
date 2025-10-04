@@ -283,7 +283,7 @@ public class ModBlocks {
                 .strength(4.5f, 3.5f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
     public static final DeferredBlock<Block> SPIRITUAL_STONE_CLUSTER = registerBlock("spiritual_stone_cluster",
             () -> new SpiritualStoneClusterBlock(BlockBehaviour.Properties.of()
-                            .strength(6.5f, 5.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).noOcclusion().lightLevel(state -> 10),
+                            .strength(6.5f, 5.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).noOcclusion(),
                     UniformInt.of(2, 4)));
 
     //Other Blocks

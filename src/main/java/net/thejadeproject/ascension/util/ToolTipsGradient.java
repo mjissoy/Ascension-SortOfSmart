@@ -9,7 +9,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 
 import java.util.List;
 
-public class ToolTips
+public class ToolTipsGradient
 {
 
     public static void modifyItemTooltip(ItemTooltipEvent event)

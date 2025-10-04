@@ -3,7 +3,6 @@ package net.thejadeproject.ascension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -11,10 +10,7 @@ import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -23,20 +19,15 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
-import net.thejadeproject.ascension.cultivation.player.PlayerData;
-import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.progression.dao.ModDao;
 import net.thejadeproject.ascension.progression.physiques.ModPhysiques;
-import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
-import net.thejadeproject.ascension.guis.easygui.ModActions;
-import net.thejadeproject.ascension.guis.easygui.ModOverlays;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
@@ -45,7 +36,6 @@ import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
-import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.ModSkills;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
@@ -59,7 +49,6 @@ import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
 
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -118,6 +107,7 @@ public class AscensionCraft {
         ModTechniques.register(modEventBus);
         ModDao.register(modEventBus);
         //register easy gui actions
+
 
 
     }
@@ -217,6 +207,7 @@ public class AscensionCraft {
 
 
     }
+
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {

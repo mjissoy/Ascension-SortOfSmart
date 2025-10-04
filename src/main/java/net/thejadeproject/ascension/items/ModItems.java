@@ -2,26 +2,19 @@ package net.thejadeproject.ascension.items;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.util.ItemUtil;
-import net.thejadeproject.ascension.util.ToolTips;
+import net.thejadeproject.ascension.util.ToolTipsGradient;
 
 import java.util.List;
 
@@ -62,7 +55,7 @@ public class ModItems {
 
     //Artifacts
     public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
-            () -> new Item(new Item.Properties()){
+            () -> new JadeSlip(new Item.Properties().stacksTo(1)){
                 private float time = 0;
                 @Override
                 public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
@@ -70,7 +63,7 @@ public class ModItems {
                         String text = Component.translatable("tooltip.ascension.jade_slip").getString();
                         time += 0.001f;
                         if (time > 1.0f) time = 0;
-                        tooltipComponents.add(ToolTips.RGBEachLetter(time, text, 0.01f));
+                        tooltipComponents.add(ToolTipsGradient.RGBEachLetter(time, text, 0.01f));
                     } else {
                         tooltipComponents.add(Component.translatable("tooltip.ascension.jade_slip"));
                     }
@@ -175,7 +168,7 @@ public class ModItems {
                         String text = Component.translatable("tooltip.ascension.rebirth_pill").getString();
                         time += 0.001f;
                         if (time > 1.0f) time = 0;
-                        tooltipComponents.add(ToolTips.RGBEachLetter(time, text, 0.01f));
+                        tooltipComponents.add(ToolTipsGradient.RGBEachLetter(time, text, 0.01f));
                     } else {
                         tooltipComponents.add(Component.translatable("tooltip.ascension.rebirth_pill"));
                     }

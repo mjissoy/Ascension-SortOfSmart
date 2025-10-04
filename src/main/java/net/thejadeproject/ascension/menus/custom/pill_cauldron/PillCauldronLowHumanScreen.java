@@ -63,21 +63,24 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         super.renderLabels(guiGraphics, mouseX, mouseY);
 
-        String heatText = "Heat: " + menu.getHeatText();
-        guiGraphics.drawString(this.font, heatText, 5, 41, 0x404040, false);
+        // Heat text has been removed as requested
     }
 
     private void renderHeatBar(GuiGraphics guiGraphics, int x, int y) {
         int heatPercentage = menu.getHeatPercentage();
-        int heatBarWidth = (int) (50 * (heatPercentage / 100.0));
+        int heatBarHeight = (int) (50 * (heatPercentage / 100.0)); // 50 pixels max height
 
-        int barX = x + 5;
-        int barY = y + 49;
+        // Position the vertical heat bar at (5, 49) relative to the GUI
+        int barX = x + 144;
+        int barY = y + 70;
 
-        guiGraphics.fill(barX, barY, barX + 50, barY + 5, 0xFF555555);
+        // Draw heat bar background (gray) - vertical bar
+        guiGraphics.fill(barX, barY, barX + 5, barY - 50, 0xFF555555);
 
+        // Draw heat bar with color based on temperature - from bottom to top
         int color = getHeatColor(heatPercentage);
-        guiGraphics.fill(barX, barY, barX + heatBarWidth, barY + 5, color);
+        int filledHeight = Math.min(heatBarHeight, 50);
+        guiGraphics.fill(barX, barY, barX + 5, barY - filledHeight, color);
     }
 
     @Override
@@ -93,13 +96,14 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        if (isHovering(5, 49, 50, 5, pMouseX, pMouseY)) {
+        // Updated tooltip area for vertical heat bar
+        if (isHovering(144, 70 - 50, 5, 50, pMouseX, pMouseY)) {
             pGuiGraphics.renderTooltip(this.font,
                     Component.literal("Heat: " + menu.getHeatLevel() + "°C / " + menu.getMaxHeat() + "°C"),
                     pMouseX, pMouseY);
         }
 
-        // Add tooltip for progress arrow
+        // Add tooltip for progress arrow (JEI integration)
         if (isHovering(80, 33, 16, 21, pMouseX, pMouseY)) {
             pGuiGraphics.renderTooltip(this.font,
                     Component.literal("Click to view recipes"),
