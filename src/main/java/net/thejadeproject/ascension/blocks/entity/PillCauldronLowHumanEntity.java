@@ -8,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -16,7 +15,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
@@ -24,10 +22,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.thejadeproject.ascension.Config;
+import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.recipe.PillCauldronInput;
-import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 import net.thejadeproject.ascension.util.ModTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,49 +44,6 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         }
     };
 
-    public int getHeatLevel() {
-        return this.data.get(2); // Heat level
-    }
-
-    public int getMaxHeat() {
-        return this.data.get(3); // Max heat
-    }
-
-    public int getProgress() {
-        return this.data.get(0); // Current progress
-    }
-
-    public int getMaxProgress() {
-        return this.data.get(1); // Max progress
-    }
-
-    public ItemStack getCurrentRecipeOutput() {
-        // Return what's in the output slot (assuming slot 3 is success output, 4 is fail output)
-        // You can modify this based on your actual slot layout
-        ItemStack successOutput = this.itemHandler.getStackInSlot(3);
-        ItemStack failOutput = this.itemHandler.getStackInSlot(4);
-
-        // Return the non-empty output, or success output if both are empty
-        if (!successOutput.isEmpty()) {
-            return successOutput;
-        } else if (!failOutput.isEmpty()) {
-            return failOutput;
-        }
-        return ItemStack.EMPTY;
-    }
-
-    public ItemStack getInputItem(int slot) {
-        // Return the item in the specified input slot (0-2 based on your menu)
-        if (slot >= 0 && slot < 3) {
-            return this.itemHandler.getStackInSlot(slot);
-        }
-        return ItemStack.EMPTY;
-    }
-
-    public boolean isCrafting() {
-        return getProgress() > 0;
-    }
-
     private static final int INPUT_SLOT0 = 0;
     private static final int INPUT_SLOT1 = 1;
     private static final int INPUT_SLOT2 = 2;
@@ -95,9 +51,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     private static final int OUTPUT_SLOT1 = 4;
 
     private int heatLevel = 0;
-    private static final int MAX_HEAT = 1000;
     private int heatLossTimer = 0;
-    private static final int HEAT_LOSS_INTERVAL = 20;
 
     protected final ContainerData data;
     private int progress = 0;
@@ -111,8 +65,8 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
                 return switch (i) {
                     case 0 -> PillCauldronLowHumanEntity.this.progress;
                     case 1 -> PillCauldronLowHumanEntity.this.maxProgress;
-                    case 2 -> PillCauldronLowHumanEntity.this.heatLevel; // Added heat level
-                    case 3 -> MAX_HEAT; // Added max heat
+                    case 2 -> PillCauldronLowHumanEntity.this.heatLevel;
+                    case 3 -> Config.Common.PILL_CAULDRON_MAX_HEAT.get();
                     default -> 0;
                 };
             }
@@ -120,15 +74,21 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
             @Override
             public void set(int i, int value) {
                 switch (i) {
-                    case 0: PillCauldronLowHumanEntity.this.progress = value; break;
-                    case 1: PillCauldronLowHumanEntity.this.maxProgress = value; break;
-                    case 2: PillCauldronLowHumanEntity.this.heatLevel = value; break;
+                    case 0:
+                        PillCauldronLowHumanEntity.this.progress = value;
+                        break;
+                    case 1:
+                        PillCauldronLowHumanEntity.this.maxProgress = value;
+                        break;
+                    case 2:
+                        PillCauldronLowHumanEntity.this.heatLevel = value;
+                        break;
                 }
             }
 
             @Override
             public int getCount() {
-                return 4; // Updated from 2 to 4
+                return 4;
             }
         };
     }
@@ -154,10 +114,49 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     }
 
     public void addHeat(int amount) {
-        heatLevel = Math.min(MAX_HEAT, heatLevel + amount);
+        int maxHeat = Config.Common.PILL_CAULDRON_MAX_HEAT.get();
+        heatLevel = Math.min(maxHeat, heatLevel + amount);
         setChanged();
     }
 
+    public int getHeatLevel() {
+        return this.data.get(2);
+    }
+
+    public int getMaxHeat() {
+        return this.data.get(3);
+    }
+
+    public int getProgress() {
+        return this.data.get(0);
+    }
+
+    public int getMaxProgress() {
+        return this.data.get(1);
+    }
+
+    public ItemStack getCurrentRecipeOutput() {
+        ItemStack successOutput = this.itemHandler.getStackInSlot(3);
+        ItemStack failOutput = this.itemHandler.getStackInSlot(4);
+
+        if (!successOutput.isEmpty()) {
+            return successOutput;
+        } else if (!failOutput.isEmpty()) {
+            return failOutput;
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public ItemStack getInputItem(int slot) {
+        if (slot >= 0 && slot < 3) {
+            return this.itemHandler.getStackInSlot(slot);
+        }
+        return ItemStack.EMPTY;
+    }
+
+    public boolean isCrafting() {
+        return getProgress() > 0;
+    }
 
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
@@ -178,14 +177,17 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         progress = pTag.getInt("pill_cauldron.progress");
         maxProgress = pTag.getInt("pill_cauldron.max_progress");
         heatLevel = pTag.getInt("heatLevel");
+        heatLossTimer = pTag.getInt("heatLossTimer");
     }
 
     public void tick(Level level, BlockPos blockPos, BlockState blockState) {
-        // Handle heat loss over time
+        // Handle heat loss over time using config values
         heatLossTimer++;
-        if (heatLossTimer >= HEAT_LOSS_INTERVAL) {
+        int heatLossInterval = Config.Common.PILL_CAULDRON_HEAT_LOSS_INTERVAL.get();
+        if (heatLossTimer >= heatLossInterval) {
             if (heatLevel > 0) {
-                heatLevel = Math.max(0, heatLevel - 1); // Lose 1°C per second
+                int heatLossAmount = Config.Common.PILL_CAULDRON_HEAT_LOSS_AMOUNT.get();
+                heatLevel = Math.max(0, heatLevel - heatLossAmount);
                 setChanged();
             }
             heatLossTimer = 0;
@@ -244,7 +246,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
             currentStack.grow(output.getCount());
             itemHandler.setStackInSlot(targetSlot, currentStack);
         }
-        // If neither condition is met, the output is lost (or you could add overflow logic)
+        // If neither condition is met, the output is lost
     }
 
     private boolean hasCraftingFinished() {
@@ -290,19 +292,6 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
                 )), level);
     }
 
-    private boolean canInsertItemIntoOutputSlot(ItemStack output,int outputSlot) {
-        return itemHandler.getStackInSlot(outputSlot).isEmpty() ||
-                itemHandler.getStackInSlot(outputSlot).getItem() == output.getItem();
-    }
-
-    private boolean canInsertAmountIntoOutputSlot(int outputSlot,int count) {
-        int maxCount = itemHandler.getStackInSlot(outputSlot).isEmpty() ? 64 : itemHandler.getStackInSlot(outputSlot).getMaxStackSize();
-        int currentCount = itemHandler.getStackInSlot(outputSlot).getCount();
-
-        return maxCount >= currentCount + count;
-    }
-
-
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
         return saveWithoutMetadata(pRegistries);
@@ -313,5 +302,4 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-
 }
