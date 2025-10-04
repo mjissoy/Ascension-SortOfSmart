@@ -37,4 +37,5 @@ public class AscensionCraftClient {
         event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
     }
 
+
 }

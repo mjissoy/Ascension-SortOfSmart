@@ -10,7 +10,6 @@ import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
 import net.thejadeproject.ascension.network.serverBound.TriggerMajorRealmBreakthrough;
 
 public class ModPayloads {
-    @SubscribeEvent
     public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(AscensionCraft.MOD_ID).versioned("1.0");
         registrar.playToServer(

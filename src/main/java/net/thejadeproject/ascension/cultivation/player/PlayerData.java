@@ -15,10 +15,7 @@ import net.thejadeproject.ascension.progression.skills.data.ICastData;
 import net.thejadeproject.ascension.util.ModAttributes;
 import org.checkerframework.checker.units.qual.C;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class PlayerData {
     public Player player;
@@ -168,16 +165,25 @@ public class PlayerData {
 
 
     /********* Casting Data *******************************************************/
-
-    private final List<CastingInstance> castingThreads = new ArrayList<>();
+    //using indexes could cause sync issues cus of index shuffling
+    private final List<UUID> castingThreadQueue = new ArrayList<>();
+    private final HashMap<UUID,CastingInstance> castingThreads = new HashMap<>();
 
     public void tryCast(ISkill skill){
         if(castingThreads.size() == player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()) return; // TODO replace casting of 1st slot skill
-        castingThreads.add(new CastingInstance(skill));
+        UUID uuid = UUID.randomUUID();
+        castingThreadQueue.add(uuid);
+        castingThreads.put(uuid,new CastingInstance(skill,uuid));
     }
 
-    public void removeCastingInstance(CastingInstance instance){
-        castingThreads.remove(instance);
+    public void removeCastingInstance(UUID uuid){
+        castingThreads.remove(uuid);
+        castingThreadQueue.remove(uuid);
+    }
+    public void addCastingInstance(CastingInstance castingInstance){
+        if(castingThreads.size() == player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()) return; // TODO replace casting of 1st slot skill
+        castingThreads.put(castingInstance.uuid,castingInstance);
+        castingThreadQueue.add(castingInstance.uuid);
     }
 
     /********* Cooldown Data *******************************************************/

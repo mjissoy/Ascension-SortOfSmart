@@ -125,6 +125,7 @@ public class AscensionCraft {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::onLoadComplete);
+
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
@@ -174,8 +175,9 @@ public class AscensionCraft {
 
         Player player = (Player) event.getEntity();
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED)); //
-        PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
-        /* TODO send packet to open screen and add a player state as selecting attribute
+        if(!event.getEntity().level().isClientSide()) PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+
+         /* TODO send packet to open screen and add a player state as selecting attribute
         if(player.getData(ModAttachments.PHYSIQUE).equals("ascension:empty_vessel")){
             //open menu
             Minecraft.getInstance().tell(()->{
@@ -252,7 +254,7 @@ public class AscensionCraft {
         }
     }
 */
-
+    @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
@@ -279,6 +281,7 @@ public class AscensionCraft {
 
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event){
+            System.out.println("Registering stuff");
             ModPayloads.registerPayloads(event);
         }
 
