@@ -9,7 +9,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
-import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;

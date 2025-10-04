@@ -6,6 +6,9 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.thejadeproject.ascension.progression.skills.ModSkills;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
@@ -166,25 +169,38 @@ public class PlayerData {
 
     /********* Casting Data *******************************************************/
     //using indexes could cause sync issues cus of index shuffling
+    private CastingInstance primarySkillCastingInstance = null;
     private final List<UUID> castingThreadQueue = new ArrayList<>();
     private final HashMap<UUID,CastingInstance> castingThreads = new HashMap<>();
 
+    //move this over to a server only thing? since it does need to be synced with the client
+    //nah should be fine
     public void tryCast(ISkill skill){
-        if(castingThreads.size() == player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()) return; // TODO replace casting of 1st slot skill
         UUID uuid = UUID.randomUUID();
-        castingThreadQueue.add(uuid);
-        castingThreads.put(uuid,new CastingInstance(skill,uuid));
+        CastingInstance castingInstance = new CastingInstance(skill,uuid);
+        if(!(skill instanceof AbstractActiveSkill activeSkill)) return;
+        //use primary skill thread if skill is primary or user has 0 max casting instances
+        if(activeSkill.isPrimarySkill() || player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue() == 0){
+            if(primarySkillCastingInstance != null) primarySkillCastingInstance.cancelCast();;
+            primarySkillCastingInstance = castingInstance;
+            return;
+        }
+        //attempted to add secondary skill casting instance
+        if(castingThreads.size() >= player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()){
+            //cancel the cast of the first available secondary skill
+            UUID toCancel = castingThreadQueue.removeFirst();
+            castingThreads.remove(toCancel).cancelCast();
+        }
+        castingThreads.put(castingInstance.uuid,castingInstance);
+        castingThreadQueue.add(castingInstance.uuid);
     }
 
     public void removeCastingInstance(UUID uuid){
         castingThreads.remove(uuid);
         castingThreadQueue.remove(uuid);
     }
-    public void addCastingInstance(CastingInstance castingInstance){
-        if(castingThreads.size() == player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()) return; // TODO replace casting of 1st slot skill
-        castingThreads.put(castingInstance.uuid,castingInstance);
-        castingThreadQueue.add(castingInstance.uuid);
-    }
+
+
 
     /********* Cooldown Data *******************************************************/
 

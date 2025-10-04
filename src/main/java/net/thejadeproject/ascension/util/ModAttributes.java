@@ -15,9 +15,9 @@ public class ModAttributes {
             // The translation key to use.
             "attributes.ascension.max_casting_instances",
             // The default value.
-            1,
+            0,
             // Min and max values.
-            1,
+            0,
             10));
 
 

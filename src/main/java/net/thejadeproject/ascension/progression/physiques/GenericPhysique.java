@@ -9,6 +9,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.events.custom.*;
+import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;

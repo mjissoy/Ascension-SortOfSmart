@@ -28,10 +28,14 @@ public class CastingInstance {
         this.uuid = uuid;
         this.skillId = skillId;
     }
+    public void cancelCast(){
+        //TODO
+    }
     public static CastingInstance fromPayload(ServerCastSkillPayload payload){
         CastType type = CastType.valueOf(payload.castType());
         UUID uuid = UUID.fromString(payload.uuid());
         ResourceLocation id = ResourceLocation.bySeparator(payload.skillID(),':');
         return new CastingInstance(uuid,id,type);
     }
+
 }

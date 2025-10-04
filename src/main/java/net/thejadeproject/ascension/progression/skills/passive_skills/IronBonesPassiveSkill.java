@@ -6,6 +6,8 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.events.custom.*;
+import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.progression.physiques.PhysiqueEventListener;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
 import net.thejadeproject.ascension.progression.techniques.TechniquesEventListener;

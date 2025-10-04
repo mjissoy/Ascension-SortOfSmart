@@ -6,8 +6,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)

@@ -29,6 +29,11 @@ public class ModPayloads {
                 OpenPickPhysiqueScreen::handlePayload
         );
         registrar.playToClient(
+                SkillCastSyncPayload.TYPE,
+                SkillCastSyncPayload.STREAM_CODEC,
+                SkillCastSyncPayload::handlePayload
+        );
+        registrar.playToClient(
                 SyncGeneratedPhysique.TYPE,
                 SyncGeneratedPhysique.STREAM_CODEC,
                 SyncGeneratedPhysique::handlePayload
