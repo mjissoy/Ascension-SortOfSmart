@@ -14,7 +14,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.compat.jei.PillCauldronRecipeCategory;
 import net.thejadeproject.ascension.compat.jei.JEIModPlugin;
-@OnlyIn(Dist.CLIENT)
+
 public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCauldronLowHumanMenu> {
 
     private static final ResourceLocation GUI_TEXTURE =

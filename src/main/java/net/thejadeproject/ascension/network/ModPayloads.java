@@ -24,6 +24,11 @@ public class ModPayloads {
                 SyncAttackDamageAttribute::handlePayload
         );
         registrar.playToClient(
+                OpenPickPhysiqueScreen.TYPE,
+                OpenPickPhysiqueScreen.STREAM_CODEC,
+                OpenPickPhysiqueScreen::handlePayload
+        );
+        registrar.playToClient(
                 SyncGeneratedPhysique.TYPE,
                 SyncGeneratedPhysique.STREAM_CODEC,
                 SyncGeneratedPhysique::handlePayload

@@ -25,6 +25,7 @@ import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.progression.dao.ModDao;
@@ -175,23 +176,21 @@ public class AscensionCraft {
 
         Player player = (Player) event.getEntity();
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED)); //
-        if(!event.getEntity().level().isClientSide()) PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+        if(!event.getEntity().level().isClientSide()){
+            PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 
-         /* TODO send packet to open screen and add a player state as selecting attribute
-        if(player.getData(ModAttachments.PHYSIQUE).equals("ascension:empty_vessel")){
-            //open menu
-            Minecraft.getInstance().tell(()->{
-                Minecraft.getInstance().setScreen(new GeneratePhysiqueScreen(Component.literal("generate")));
+            if(player.getData(ModAttachments.PHYSIQUE).equals("ascension:empty_vessel")){
+                //open menu
+                PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new OpenPickPhysiqueScreen(true));
 
-            });
-        }else{
-            Minecraft.getInstance().tell(()->{
-               PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPlayerPhysique(event.getEntity().getData(ModAttachments.PHYSIQUE)));
-            });
+            }else{
+                Minecraft.getInstance().tell(()->{
+                    PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
+                });
+            }
+
         }
 
-
-         */
         for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
 
             Minecraft.getInstance().tell(()->{
