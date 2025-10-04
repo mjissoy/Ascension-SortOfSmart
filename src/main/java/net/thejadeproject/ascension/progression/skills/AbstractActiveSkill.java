@@ -35,10 +35,12 @@ public abstract class AbstractActiveSkill implements ISkill{
     };
 
     protected abstract CastType castType();
-
     @Override
     public ISkillData getSkillData(CompoundTag tag) {
         return null;
+    }
+    public boolean continueCasting(int castingTicksElapsed){
+        return false;
     }
 
     abstract void cast();

@@ -6,10 +6,12 @@ import net.lucent.easygui.elements.other.Image;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.SmallButton;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.path_data.OuterPathDataContainer;
-
+@OnlyIn(Dist.CLIENT)
 public class MainMenuContainer extends EmptyContainer {
 
     public MainMenuContainer(IEasyGuiScreen easyGuiScreen, int x, int y){

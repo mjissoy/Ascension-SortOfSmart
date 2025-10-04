@@ -6,6 +6,8 @@ import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.ContainerRenderable;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
@@ -14,7 +16,7 @@ import net.thejadeproject.ascension.registries.AscensionRegistries;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+@OnlyIn(Dist.CLIENT)
 public class CardHolderView extends View {
     public String path;
     public boolean physiqueGenerated = false;

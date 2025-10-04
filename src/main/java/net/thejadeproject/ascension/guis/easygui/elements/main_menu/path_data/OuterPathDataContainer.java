@@ -5,10 +5,12 @@ import net.lucent.easygui.elements.containers.EmptyContainer;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.BreakthroughButton;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.SmallButton;
-
+@OnlyIn(Dist.CLIENT)
 //TODO
 public class OuterPathDataContainer extends EmptyContainer {
     public OuterPathDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y, int width, int height){

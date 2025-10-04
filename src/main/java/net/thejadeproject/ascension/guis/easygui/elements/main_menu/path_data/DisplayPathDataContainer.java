@@ -10,6 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
@@ -18,7 +20,7 @@ import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.Brea
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
-
+@OnlyIn(Dist.CLIENT)
 public class DisplayPathDataContainer extends EmptyContainer {
 
     public CultivationData.PathData pathData;
@@ -100,6 +102,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
 
         majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm));
         majorRealmData.width = Minecraft.getInstance().font.width(majorRealmData.text);
+
         if(pathData.stabilityCultivationTicks > 0 && !pathData.breakingThrough){
             majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm)+" ("+String.format("%.2f",technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks)*100)+"%)");
             majorRealmData.width = Minecraft.getInstance().font.width(majorRealmData.text);

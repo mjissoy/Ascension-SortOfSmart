@@ -7,12 +7,15 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
+import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 
 import java.util.List;
-
+@OnlyIn(Dist.CLIENT)
 public class TechniqueDataContainer extends DraggableDataContainer {
     public String techniqueId;
     public TechniqueDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y,String techniqueId) {
@@ -66,5 +69,22 @@ public class TechniqueDataContainer extends DraggableDataContainer {
                         .customScaling(0.5)
                         .build()
         );
+
+
+        EmptyContainer skillListContainer = new EmptyContainer(easyGuiScreen,11,85,121,45);
+        addChild(skillListContainer);
+        skillListContainer.setCull(true);
+        List<AcquirableSkillData> skillList = technique.getSkillList().getSkillList();
+        for(int i = 0; i<skillList.size(); i++){
+            //TODO change text color if unlocked or locked
+            skillListContainer.addChild(
+                    (new Label.Builder())
+                            .screen(easyGuiScreen)
+                            .x(0).y(5*i)
+                            .customScaling(0.5)
+                            .text(Component.literal(skillList.get(i).asString()))
+                            .build()
+            );
+        }
     }
 }

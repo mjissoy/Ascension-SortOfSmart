@@ -9,10 +9,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.compat.jei.PillCauldronRecipeCategory;
 import net.thejadeproject.ascension.compat.jei.JEIModPlugin;
-
+@OnlyIn(Dist.CLIENT)
 public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCauldronLowHumanMenu> {
 
     private static final ResourceLocation GUI_TEXTURE =

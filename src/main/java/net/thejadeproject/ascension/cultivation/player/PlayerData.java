@@ -12,15 +12,18 @@ import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
 import net.thejadeproject.ascension.progression.skills.data.ICastData;
+import net.thejadeproject.ascension.util.ModAttributes;
 import org.checkerframework.checker.units.qual.C;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 public class PlayerData {
+    public Player player;
     public PlayerData(Player player){
-
+        this.player =player;
     }
     /********* CULTIVATION PROGRESS *******************************************************/
     private final CultivationData cultivationData = new CultivationData();
@@ -166,59 +169,15 @@ public class PlayerData {
 
     /********* Casting Data *******************************************************/
 
-    private double castDuration = 0;
-    private double castDurationRemaining = 0;
-    private CastType castType;
-    private ICastData additionalCastData;
-    private boolean casting;
-    private ResourceLocation castSkillId;
-    public void resetCastingState() {
+    private final List<CastingInstance> castingThreads = new ArrayList<>();
 
-        this.castDuration = 0;
-        this.castDurationRemaining = 0;
-        this.castType = CastType.NONE;
-        this.casting = false;
-        this.castSkillId = null;
-
+    public void tryCast(ISkill skill){
+        if(castingThreads.size() == player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()) return; // TODO replace casting of 1st slot skill
+        castingThreads.add(new CastingInstance(skill));
     }
 
-    public void castSkill(ISkill skill,int castDuration){
-        this.castDuration = castDuration;
-        this.castDurationRemaining = castDuration;
-        this.castType = skill.getCastType();
-        casting = true;
-        castSkillId = AscensionRegistries.Skills.SKILL_REGISTRY.getKey(skill);
-    }
-    public ICastData getAdditionalCastData() {
-        return additionalCastData;
-    }
-    public void setAdditionalCastData(ICastData newCastData) {
-        additionalCastData = newCastData;
-    }
-    public void resetAdditionalCastData() {
-        if (additionalCastData != null) {
-            additionalCastData.reset();
-            additionalCastData = null;
-        }
-    }
-    public boolean isCasting() {
-        return casting;
-    }
-    public ResourceLocation getCastSkillId(){
-        return castSkillId;
-    }
-    public CastType getCastType() {
-        return castType;
-    }
-    public double getCastDurationRemaining() {
-        return castDurationRemaining;
-    }
-
-    public double getCastDuration() {
-        return castDuration;
-    }
-    public void setCastDurationRemaining(double durationRemaining){
-        this.castDurationRemaining = durationRemaining;
+    public void removeCastingInstance(CastingInstance instance){
+        castingThreads.remove(instance);
     }
 
     /********* Cooldown Data *******************************************************/
