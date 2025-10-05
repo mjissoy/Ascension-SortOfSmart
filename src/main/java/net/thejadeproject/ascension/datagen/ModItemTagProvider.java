@@ -38,9 +38,14 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.Items.MEDICINAL)
                 .add(ModItems.GOLDEN_SUN_LEAF.get())
                 .add(ModItems.WHITE_JADE_ORCHID.get())
+                .add(ModItems.JADE_BAMBOO_OF_SERENITY.get())
+                .add(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get())
+                .add(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get())
+                .add(ModItems.HUNDRED_YEAR_GINSENG.get())
                 .add(ModItems.IRONWOOD_SPROUT.get());
         tag(ModTags.Items.HUMAN)
                 .add(ModItems.GOLDEN_SUN_LEAF.get())
+                .add(ModItems.JADE_BAMBOO_OF_SERENITY.get())
                 .add(ModItems.WHITE_JADE_ORCHID.get())
                 .add(ModItems.IRONWOOD_SPROUT.get());
         tag(ModTags.Items.ALCHEMY_FAILURE)

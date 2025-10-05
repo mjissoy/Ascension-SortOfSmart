@@ -124,6 +124,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.REGENERATION_PILL.get());
         pills(ModItems.CLEANSING_PILL.get());
         pills(ModItems.REBIRTH_PILL.get());
+        pills(ModItems.INNER_REINFORCEMENT_PILL_T1.get());
         pills(ModItems.FASTING_PILL_T1.get());
         pills(ModItems.FASTING_PILL_T2.get());
         pills(ModItems.FASTING_PILL_T3.get());
@@ -132,7 +133,11 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //herbs
         herbs(ModItems.GOLDEN_SUN_LEAF.get());
+        herbs(ModItems.JADE_BAMBOO_OF_SERENITY.get());
         herbs(ModItems.WHITE_JADE_ORCHID.get());
+        herbs(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get());
+        herbs(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get());
+        herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
         herbs(ModItems.IRONWOOD_SPROUT.get());
         withExistingParent("ironwood_sprout_block", "item/generated")
                 .texture("layer0", "ascension:block/ironwood_sprout_block");

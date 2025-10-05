@@ -27,6 +27,11 @@ public class CustomHerbs extends FlowerBlock {
         return blockToSurviveOn.get() == state.getBlock();
     }
 
+    // Add this getter method
+    public Block getBlockToSurviveOn() {
+        return blockToSurviveOn.get();
+    }
+
     @Override
     public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
         return 100;

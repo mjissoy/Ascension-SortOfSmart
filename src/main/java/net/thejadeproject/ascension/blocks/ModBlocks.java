@@ -374,6 +374,9 @@ public class ModBlocks {
             () -> new CustomHerbs(() -> Blocks.STONE));
     public static final DeferredBlock<Block> WHITE_JADE_ORCHID_BLOCK = registerBlock("white_jade_orchid_block",
             () -> new CustomHerbs(() -> ModBlocks.JADE_ORE.get()));
+    public static final DeferredBlock<Block> HUNDRED_YEAR_GINSENG_CROP = registerBlock("hundred_year_ginseng_crop",
+            () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
+
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCK.register(name, block);

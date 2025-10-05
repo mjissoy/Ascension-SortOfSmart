@@ -111,6 +111,7 @@ public class AscensionCraft {
 
 
     }
+
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);

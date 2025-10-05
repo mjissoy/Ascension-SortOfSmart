@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-30T19:17:56.6693554	Item Models: ascension
+// 1.21.1	2025-10-05T18:03:19.1859408	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
@@ -26,10 +26,15 @@ e5cefaee56b09c331ff2aa56978c82369a54963d assets/ascension/models/item/gray_marbl
 42fac3c5c57434c1e885349ff08d5d4d5f9c6b67 assets/ascension/models/item/gray_marble_tile_wall.json
 18086f009e76b42f6ad4e59f879e86c9c155ad16 assets/ascension/models/item/green_marble_brick_wall.json
 31d556d977e27d40257e4ae6a87a9b97b20ff716 assets/ascension/models/item/green_marble_tile_wall.json
+968c475d982ff6308b6a964fc8d32b1ea9c2e356 assets/ascension/models/item/hundred_year_fire_ginseng.json
+dda2987e8dc98a20e3d6da2f826275ab8f109387 assets/ascension/models/item/hundred_year_ginseng.json
+5d237bcd417e0e69d6d2de95d4c0801e3134ba28 assets/ascension/models/item/hundred_year_snow_ginseng.json
+e727748c199f7082a2aa74f2fc0b2d501675b774 assets/ascension/models/item/inner_reinforcement_pill_t1.json
 05e2a8a9642b32214d854b302965b464d8777b00 assets/ascension/models/item/ironwood_sprout.json
 f4620bd1077fc4a91989544ff2c32d49e2778286 assets/ascension/models/item/ironwood_sprout_block.json
 40a5bdf9b8f3dca46b3f9ea7c10238cf09ad7281 assets/ascension/models/item/iron_spatial_ring.json
 3ad9a12ddaf5421f386991c79685ecfdeb06d79f assets/ascension/models/item/jade.json
+5de35017ea8a49b96f8b198b88098c90bd5a2f91 assets/ascension/models/item/jade_bamboo_of_serenity.json
 dc985f6e9fbe09d8d740c4f130b29eec1e1db883 assets/ascension/models/item/jade_nugget.json
 e8186c3399ff6de314330d989f165b3010cc922e assets/ascension/models/item/jade_slip.json
 5ef37572f02a7c112edca4445325738517648426 assets/ascension/models/item/jade_spatial_ring.json

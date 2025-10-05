@@ -21,7 +21,9 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
     protected void start() {
 
 
-
+        this.add("jade_bamboo_of_serenity_from_bamboo", new AddItemModifier(new LootItemCondition[] {
+                new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("blocks/bamboo")).build(),
+                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.JADE_BAMBOO_OF_SERENITY.get()));
 
 
         //Living Core Drop Regular Mobs

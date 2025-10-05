@@ -130,6 +130,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createSingleItemTable(ModItems.IRONWOOD_SPROUT.get()));
         add(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get(),
                 block -> createSingleItemTable(ModItems.WHITE_JADE_ORCHID.get()));
+        add(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
+                block -> createSingleItemTable(ModItems.HUNDRED_YEAR_GINSENG.get()));
 
 
         add(ModBlocks.JADE_ORE.get(),

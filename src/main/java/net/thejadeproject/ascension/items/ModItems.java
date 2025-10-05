@@ -8,8 +8,12 @@ import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
+import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
+import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
+import net.thejadeproject.ascension.items.herbs.PlantableHerb;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
@@ -159,6 +163,11 @@ public class ModItems {
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL), 400));
     public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
+    public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T1 = ITEMS.register("inner_reinforcement_pill_t1",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT_T1), 400 /*Will be 10 min later*/));
+
+
+
     public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/){
                 private float time = 0;
@@ -197,6 +206,17 @@ public class ModItems {
             () -> new Item(new Item.Properties().food(ModFoodProperties.IRONWOOD_SPROUT)));
     public static final DeferredItem<Item> WHITE_JADE_ORCHID = ITEMS.register("white_jade_orchid",
             () -> new Item(new Item.Properties().food(ModFoodProperties.WHITE_JADE_ORCHID)));
+    public static final DeferredItem<Item> JADE_BAMBOO_OF_SERENITY = ITEMS.register("jade_bamboo_of_serenity",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.JADE_BAMBOO_OF_SERENITY)));
+    public static final DeferredItem<Item> HUNDRED_YEAR_SNOW_GINSENG = ITEMS.register("hundred_year_snow_ginseng",
+            () -> new HundredYearSnowGinseng(new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_SNOW_GINSENG)));
+    public static final DeferredItem<Item> HUNDRED_YEAR_FIRE_GINSENG = ITEMS.register("hundred_year_fire_ginseng",
+            () -> new HundredYearFireGinseng(new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_FIRE_GINSENG)));
+
+
+    public static final DeferredItem<Item> HUNDRED_YEAR_GINSENG = ITEMS.register("hundred_year_ginseng",
+            () -> new PlantableHerb(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
+                    new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_GINSENG)));
 
 
     //MobEggs

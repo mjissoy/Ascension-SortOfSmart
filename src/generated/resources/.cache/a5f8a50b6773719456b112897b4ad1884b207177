@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-28T12:02:16.4829788	Block States: ascension
+// 1.21.1	2025-10-05T17:37:27.7976987	Block States: ascension
 c3d44c985fc6d2f52a667da2fb73360ea070b8f7 assets/ascension/blockstates/blue_marble.json
 9e7999a3a3395da725ce376c8cf6dff1c942666b assets/ascension/blockstates/blue_marble_bricks.json
 b0bc93a7f000e954ef666c4d1b0f14ff0ad31314 assets/ascension/blockstates/blue_marble_brick_slabs.json
@@ -73,6 +73,7 @@ ae685892e4b15750badba7e60c94037dcfaccf78 assets/ascension/blockstates/green_marb
 a8d70cee071cf0c8ee91f15827084bb19a5674d1 assets/ascension/blockstates/green_marble_tile_stairs.json
 dc5427538422c27db0a90a6e24009c1388f26c5e assets/ascension/blockstates/green_marble_tile_wall.json
 10c6ccd57b636d17195cae1470b5b3e0456fdfc1 assets/ascension/blockstates/green_polished_marble.json
+d0542ac42f9dc6b01af739b340288d6f045531e5 assets/ascension/blockstates/hundred_year_ginseng_crop.json
 ab65b384a3cb3ac3dee665600d8e490bb6261d00 assets/ascension/blockstates/ironwood_sprout_block.json
 edd98a3b59f53a47a23db11b31f7ce43caaf4358 assets/ascension/blockstates/jade_block.json
 7378a8bf69eeb313133dcdd8ec57a7ffc34e2289 assets/ascension/blockstates/jade_ore.json
@@ -349,6 +350,7 @@ e23d16b2905788755ae80598aeb8ab08ce5e2474 assets/ascension/models/block/green_mar
 78f0eeb34b2fb41082aa40737391faa5fef887ad assets/ascension/models/block/green_marble_tile_wall_side.json
 9e939a88c3d24e9bcc2d22455f4ec3b1015331d4 assets/ascension/models/block/green_marble_tile_wall_side_tall.json
 fc314ce373a8bbf8b38970cda45ee4c314e78ce0 assets/ascension/models/block/green_polished_marble.json
+4fe0e57c2844cdf94e7edb9bf7b032d8c54e0b1b assets/ascension/models/block/hundred_year_ginseng_crop.json
 99d13b0f20897370125858fc649d807b54ece9a4 assets/ascension/models/block/ironwood_sprout_block.json
 51998acf770b2c2865d7b6210bc2a32015eb64b3 assets/ascension/models/block/jade_block.json
 3ecb96db39f274307844c3f99e2d8c14cf8cfa54 assets/ascension/models/block/jade_ore.json
