@@ -51,7 +51,13 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.Items.ALCHEMY_FAILURE)
                 .add(Items.GUNPOWDER);
         tag(ModTags.Items.ALCHEMY_SUCCESS)
-                .add(ModItems.REGENERATION_PILL.get());
+                .add(ModItems.REGENERATION_PILL.get())
+                .add(ModItems.CLEANSING_PILL.get())
+                .add(ModItems.REBIRTH_PILL.get())
+                .add(ModItems.INNER_REINFORCEMENT_PILL_T1.get())
+                .add(ModItems.FASTING_PILL_T1.get())
+                .add(ModItems.FASTING_PILL_T2.get())
+                .add(ModItems.FASTING_PILL_T3.get());
         this.tag(ItemTags.LOGS_THAT_BURN)
                 .add(ModBlocks.GOLDEN_PALM_LOG.get().asItem())
                 .add(ModBlocks.GOLDEN_PALM_WOOD.get().asItem())

@@ -1,11 +1,11 @@
-// 1.21.1	2025-10-05T13:34:27.4255252	Tags for minecraft:item mod id ascension
+// 1.21.1	2025-10-05T20:13:32.8199588	Tags for minecraft:item mod id ascension
 4b331a574c852b3ed27cd081b5501401149148b4 data/ascension/tags/item/blade.json
 08248a73df114f60d1ffa79665c61e1a2a320e58 data/ascension/tags/item/blade_intent.json
 d5819c82fddfaf937dbe9ed568e87f1206349f8d data/ascension/tags/item/bow_intent.json
 e4a74e3bac20e15f887a95ee7b0c12d6d885c4cd data/ascension/tags/item/earth.json
 f4384704423a2719b0bec2158d2c41d8d79296e8 data/ascension/tags/item/fire.json
 92a0e8cf12f15341cd2d07e7a517ec9ea22502fd data/ascension/tags/item/herbs/alchemy_failure.json
-34c4d34e170df4c5c6962409755f8d82f04338cf data/ascension/tags/item/herbs/alchemy_success.json
+e76d6df1714b4d4a59d1010e086eeb3a4207b04a data/ascension/tags/item/herbs/alchemy_success.json
 ca1635f2460d7b43d0ac8f22812316bca72f01ea data/ascension/tags/item/herbs/human.json
 b79fab5829410b6b51f4d720188d05dbb1d4bec7 data/ascension/tags/item/herbs/medicinal.json
 c823cbbea6ccfbbf9a1549014bc917445435287b data/ascension/tags/item/metal.json
