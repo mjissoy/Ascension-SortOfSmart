@@ -1,0 +1,59 @@
+{
+  "title": "Fasting Pills",
+  "icon": { "id": "ascension:fasting_pill_t1" },
+  "assigned_items": ["ascension:fasting_pill_t1"],
+  "pages": [
+    {
+      "components": [
+        {
+          "type": "modopedia:large_frame"
+        },
+        {
+          "type": "modopedia:showcase",
+          "items": [
+            {
+              "id":  "ascension:fasting_pill_t1"
+            }]
+        },
+        {
+          "type": "modopedia:text",
+          "x": 5,
+          "y": 103,
+          "line_height": 10,
+          "text": "Fasting Pills are a sustainable alternative to food. \nVery popular among cultivators who still require sustenance."
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§bFasting Pills",
+          "template": "modopedia:page/headered_text",
+          "text": "The Golden Sun Leaf is a fire element aligned herb that grows by absorbing the sun's light!\n\nThis herb boosts Yang energy, enhances stamina, and increases cultivation speed!\n\nIt's possible to eat this raw but using this in a Pill Cauldron will reveal it's true capabilities!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§2How to craft this pill",
+          "template": "modopedia:page/headered_text",
+          "text": "Golden Sun Leaf has a 0.5% chance of dropping when Golden Palm Leaves are decaying\n\nThe Golden Palm Tree can be found in Beach biomes very rarely! \nThis Herb is also one of the Common Herbs that can be found!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "type": "modopedia:large_frame",
+          "y": 20
+        },
+        {
+          "type": "modopedia:multiblock",
+          "multiblock_id": "ascension:golden_palm_tree",
+          "y": 20
+        }
+      ]
+    }
+  ]
+}

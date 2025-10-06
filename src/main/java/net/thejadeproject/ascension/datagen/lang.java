@@ -48,6 +48,7 @@ public class lang extends LanguageProvider {
         add("item.ascension.cleansing_pill", "Cleansing Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");
         add("tooltip.ascension.rebirth_pill", "Be Cautios This Pill Resets Everything!");
+        add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
         add("item.ascension.fasting_pill_t1", "Fasting Pill");
         add("item.ascension.fasting_pill_t2", "Fasting Pill");
         add("item.ascension.fasting_pill_t3", "Fasting Pill");
@@ -65,6 +66,14 @@ public class lang extends LanguageProvider {
         add("item.ascension.golden_sun_leaf", "Golden Sun Leaf");
         add("item.ascension.ironwood_sprout", "Ironwood Sprout");
         add("item.ascension.white_jade_orchid", "White Jade Orchid");
+
+        add("item.ascension.hundred_year_ginseng", "Hundred Year Ginseng");
+        add("item.ascension.hundred_year_snow_ginseng", "Hundred Year Snow Ginseng");
+        add("item.ascension.hundred_year_fire_ginseng", "Hundred Year Fire Ginseng");
+        add("item.ascension.jade_bamboo_of_serenity", "Jade Bamboo of Serenity");
+
+
+        add("block.ascension.hundred_year_ginseng_crop", "Hundred Year Ginseng");
         add("block.ascension.golden_sun_leaf_block", "Golden Sun Leaf");
         add("block.ascension.ironwood_sprout_block", "Ironwood Sprout");
         add("block.ascension.white_jade_orchid_block", "White Jade Orchid");

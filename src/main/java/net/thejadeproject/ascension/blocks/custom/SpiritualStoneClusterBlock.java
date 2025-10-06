@@ -31,9 +31,4 @@ public class SpiritualStoneClusterBlock extends DropExperienceBlock {
         // Set the block's facing direction to the side the player is looking at
         return this.defaultBlockState().setValue(FACING, context.getClickedFace());
     }
-
-    @Override
-    public int getLightBlock(BlockState state, BlockGetter world, BlockPos pos) {
-        return 0;
-    }
 }

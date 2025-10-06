@@ -283,7 +283,7 @@ public class ModBlocks {
                 .strength(4.5f, 3.5f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
     public static final DeferredBlock<Block> SPIRITUAL_STONE_CLUSTER = registerBlock("spiritual_stone_cluster",
             () -> new SpiritualStoneClusterBlock(BlockBehaviour.Properties.of()
-                            .strength(6.5f, 5.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).noOcclusion().lightLevel(state -> 10),
+                            .strength(6.5f, 5.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).noOcclusion(),
                     UniformInt.of(2, 4)));
 
     //Other Blocks
@@ -374,6 +374,9 @@ public class ModBlocks {
             () -> new CustomHerbs(() -> Blocks.STONE));
     public static final DeferredBlock<Block> WHITE_JADE_ORCHID_BLOCK = registerBlock("white_jade_orchid_block",
             () -> new CustomHerbs(() -> ModBlocks.JADE_ORE.get()));
+    public static final DeferredBlock<Block> HUNDRED_YEAR_GINSENG_CROP = registerBlock("hundred_year_ginseng_crop",
+            () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
+
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCK.register(name, block);

@@ -2,26 +2,25 @@ package net.thejadeproject.ascension.items;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
+import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
+import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
+import net.thejadeproject.ascension.items.herbs.PlantableHerb;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.util.ItemUtil;
-import net.thejadeproject.ascension.util.ToolTips;
+import net.thejadeproject.ascension.util.ToolTipsGradient;
 
 import java.util.List;
 
@@ -62,7 +61,7 @@ public class ModItems {
 
     //Artifacts
     public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
-            () -> new Item(new Item.Properties()){
+            () -> new JadeSlip(new Item.Properties().stacksTo(1)){
                 private float time = 0;
                 @Override
                 public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
@@ -70,7 +69,7 @@ public class ModItems {
                         String text = Component.translatable("tooltip.ascension.jade_slip").getString();
                         time += 0.001f;
                         if (time > 1.0f) time = 0;
-                        tooltipComponents.add(ToolTips.RGBEachLetter(time, text, 0.01f));
+                        tooltipComponents.add(ToolTipsGradient.RGBEachLetter(time, text, 0.01f));
                     } else {
                         tooltipComponents.add(Component.translatable("tooltip.ascension.jade_slip"));
                     }
@@ -166,6 +165,14 @@ public class ModItems {
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL), 400));
     public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
+    public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T1 = ITEMS.register("inner_reinforcement_pill_t1",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT_T1), 400 /*Will be 10 min later*/)
+                    .addOnUse((item,level,entity)->{
+                        CultivationSystem.cultivate((Player) entity,"ascension:body",20.0,List.of());
+                    }));
+
+
+
     public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/){
                 private float time = 0;
@@ -175,7 +182,7 @@ public class ModItems {
                         String text = Component.translatable("tooltip.ascension.rebirth_pill").getString();
                         time += 0.001f;
                         if (time > 1.0f) time = 0;
-                        tooltipComponents.add(ToolTips.RGBEachLetter(time, text, 0.01f));
+                        tooltipComponents.add(ToolTipsGradient.RGBEachLetter(time, text, 0.01f));
                     } else {
                         tooltipComponents.add(Component.translatable("tooltip.ascension.rebirth_pill"));
                     }
@@ -204,6 +211,17 @@ public class ModItems {
             () -> new Item(new Item.Properties().food(ModFoodProperties.IRONWOOD_SPROUT)));
     public static final DeferredItem<Item> WHITE_JADE_ORCHID = ITEMS.register("white_jade_orchid",
             () -> new Item(new Item.Properties().food(ModFoodProperties.WHITE_JADE_ORCHID)));
+    public static final DeferredItem<Item> JADE_BAMBOO_OF_SERENITY = ITEMS.register("jade_bamboo_of_serenity",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.JADE_BAMBOO_OF_SERENITY)));
+    public static final DeferredItem<Item> HUNDRED_YEAR_SNOW_GINSENG = ITEMS.register("hundred_year_snow_ginseng",
+            () -> new HundredYearSnowGinseng(new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_SNOW_GINSENG)));
+    public static final DeferredItem<Item> HUNDRED_YEAR_FIRE_GINSENG = ITEMS.register("hundred_year_fire_ginseng",
+            () -> new HundredYearFireGinseng(new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_FIRE_GINSENG)));
+
+
+    public static final DeferredItem<Item> HUNDRED_YEAR_GINSENG = ITEMS.register("hundred_year_ginseng",
+            () -> new PlantableHerb(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
+                    new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_GINSENG)));
 
 
     //MobEggs

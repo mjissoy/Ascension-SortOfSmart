@@ -1,0 +1,21 @@
+{
+  "type": "ascension:pill_cauldron_low_human",
+  "ingredients": [
+    {"item": "minecraft:sponge",
+    "count": 2},
+    {"item": "ascension:jade_bamboo_of_serenity",
+      "count": 4},
+    {"item": "minecraft:honey_bottle",
+      "count": 2}
+  ],
+
+  "required_heat": 200,
+  "chance": 0.25,
+  "success": {
+    "id": "ascension:cleansing_pill",
+    "count": 1
+  },
+  "fail": {
+    "id": "minecraft:gunpowder"
+  }
+}

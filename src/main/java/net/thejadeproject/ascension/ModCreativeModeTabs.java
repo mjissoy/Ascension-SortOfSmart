@@ -275,6 +275,10 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModItems.CRIMSON_LOTUS_FLAME);
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
+                        output.accept(ModItems.JADE_BAMBOO_OF_SERENITY);
+                        output.accept(ModItems.HUNDRED_YEAR_GINSENG);
+                        output.accept(ModItems.HUNDRED_YEAR_SNOW_GINSENG);
+                        output.accept(ModItems.HUNDRED_YEAR_FIRE_GINSENG);
                         output.accept(ModItems.IRONWOOD_SPROUT);
                         output.accept(ModItems.WHITE_JADE_ORCHID);
 
@@ -287,6 +291,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.pills"))
                     .displayItems((itemDisplayParameters, output) -> {
 
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
                         output.accept(ModItems.REGENERATION_PILL);
                         output.accept(ModItems.REBIRTH_PILL);
                         output.accept(ModItems.CLEANSING_PILL);

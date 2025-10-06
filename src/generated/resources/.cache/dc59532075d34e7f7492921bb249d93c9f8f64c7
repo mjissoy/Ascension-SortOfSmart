@@ -1,4 +1,5 @@
-// 1.21.1	2025-07-19T15:18:06.3108449	Global Loot Modifiers : ascension
+// 1.21.1	2025-10-05T15:11:15.6902926	Global Loot Modifiers : ascension
+007e448f02588eb833d4e20a9aeda59bea6acfc1 data/ascension/loot_modifiers/jade_bamboo_of_serenity_from_bamboo.json
 f96fe37476118333d379036dae973e1d08823fb9 data/ascension/loot_modifiers/living_core_from_allay.json
 dc4e1c8e55998f6dd9c76902a6677e6a12fea937 data/ascension/loot_modifiers/living_core_from_ender_dragon.json
 9ca9d1de524c38320a12a6c95cc563a9eddfb5a5 data/ascension/loot_modifiers/living_core_from_golem.json
@@ -19,4 +20,4 @@ da51ec72b404621b514e11e766eb54e9027486d2 data/ascension/loot_modifiers/undead_co
 5ce2d850ea975aa7d71164bdabbe39cdeb37b7b8 data/ascension/loot_modifiers/undead_core_from_zombie_horse.json
 fdb408dd4be53bab1ac34815ba5a14ce7b123702 data/ascension/loot_modifiers/undead_core_from_zombie_villager.json
 3b6789c1ddf5fcfdbda92a6e116f10d7f789db9d data/ascension/loot_modifiers/undead_core_from_zombified_piglin.json
-70de4f6eff372298dd2fc93ebe1bcf0bdec29493 data/neoforge/loot_modifiers/global_loot_modifiers.json
+64b3f765ad26c1906d2d19833d71b72b62ccab9e data/neoforge/loot_modifiers/global_loot_modifiers.json

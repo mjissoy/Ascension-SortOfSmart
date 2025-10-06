@@ -28,6 +28,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get(),
                 models().cross("white_jade_orchid_block", blockTexture(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get()))
                         .renderType("cutout"));
+        herbsBlock(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
 
 
         simpleBlockWithItem(ModBlocks.JADE_ORE);
@@ -347,6 +348,16 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 models().cross(BuiltInRegistries.BLOCK.getKey(blockRegistryObject.get()).getPath(), blockTexture(blockRegistryObject.get())).renderType("cutout"));
     }
 
+    private void herbsBlock(DeferredBlock<Block> blockRegistryObject) {
+        Block block = blockRegistryObject.get();
+        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
+        String blockName = blockId.getPath();
+        ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/herbs/" + blockName);
+
+        simpleBlock(block,
+                models().crop(blockId.getPath(), textureLoc).renderType("cutout"));
+    }
+
     private void leavesBlock(DeferredBlock<Block> blockRegistryObject) {
         simpleBlockWithItem(blockRegistryObject.get(),
                 models().singleTexture(BuiltInRegistries.BLOCK.getKey(blockRegistryObject.get()).getPath(), ResourceLocation.parse("minecraft:block/leaves"),
@@ -364,5 +375,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void blockItem(DeferredBlock<?> deferredBlock, String appendix) {
         simpleBlockItem(deferredBlock.get(), new ModelFile.UncheckedModelFile("ascension:block/" + deferredBlock.getId().getPath() + appendix));
     }
+
 
 }

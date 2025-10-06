@@ -1,6 +1,6 @@
 {
   "title": "Pills",
-  "landing_text": "This will tell you all about Pill creation! and what they do!",
+  "landing_text": "This page will tell you all about Pills!\n\nTheir recipes, uses, and general information about their make-up.\n\nBe careful and read there might be future features hidden in plain sight.",
   "icon": { "id": "ascension:regeneration_pill", "count": 1},
   "entries": [
 
