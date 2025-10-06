@@ -2,7 +2,7 @@ package net.thejadeproject.ascension.progression.breakthrough.handlers;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
-import net.thejadeproject.ascension.cultivation.player.CultivationData;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;

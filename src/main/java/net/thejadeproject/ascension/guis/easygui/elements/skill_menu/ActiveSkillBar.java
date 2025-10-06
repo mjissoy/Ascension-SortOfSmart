@@ -11,7 +11,7 @@ public class ActiveSkillBar extends Image {
         super(easyGuiScreen,new TextureDataSubSection(ResourceLocation.fromNamespaceAndPath(
                         AscensionCraft.MOD_ID,
                         "textures/gui/screen/skill_select.png"
-                ),320,240,0,0,224,72)
+                ),320,240,0,0,225,72)
                 ,x,y);
         setSticky(true);
     }

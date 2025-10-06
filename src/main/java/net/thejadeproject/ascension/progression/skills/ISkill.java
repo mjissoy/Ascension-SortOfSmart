@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.progression.skills;
 
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
@@ -25,4 +26,6 @@ public interface ISkill {
     default boolean isFixedSkill(){return false;}
     default CastType getCastType(){return CastType.NONE;}
     void setFixedSkill(boolean fixed);
+
+    ISkillData decode(RegistryFriendlyByteBuf buf);
 }

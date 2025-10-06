@@ -8,8 +8,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.player.PlayerData;
-import net.thejadeproject.ascension.cultivation.player.PlayerDataProvider;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
+import net.thejadeproject.ascension.cultivation.player.providers.PlayerDataProvider;
+import net.thejadeproject.ascension.cultivation.player.providers.PlayerSkillDataProvider;
 
 import java.util.function.Supplier;
 
@@ -23,8 +25,11 @@ public class ModAttachments {
     );
 
 
-    public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerData>> PLAYER_DATA = ATTACHMENT_TYPES.register("magic_data",
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerData>> PLAYER_DATA = ATTACHMENT_TYPES.register("player_data",
             () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerData(player):null).serialize(new PlayerDataProvider()).copyOnDeath().build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerSkillData>> PLAYER_SKILL_DATA = ATTACHMENT_TYPES.register("player_skill_data",
+            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerSkillData(player):null).serialize(new PlayerSkillDataProvider()).copyOnDeath().build());
 
     public static void register(IEventBus modEventBus){
         ATTACHMENT_TYPES.register(modEventBus);

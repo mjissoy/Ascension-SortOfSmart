@@ -11,7 +11,7 @@ public class SelectedSkillInfoPanel extends Image {
         super(easyGuiScreen,new TextureDataSubSection(ResourceLocation.fromNamespaceAndPath(
                 AscensionCraft.MOD_ID,
                 "textures/gui/screen/skill_select.png"
-        ),320,240,224,0,300,137),x,y);
+        ),320,240,225,0,301,137),x,y);
         this.setSticky(true);
     }
 }

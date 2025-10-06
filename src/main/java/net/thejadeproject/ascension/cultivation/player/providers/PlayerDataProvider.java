@@ -1,10 +1,11 @@
-package net.thejadeproject.ascension.cultivation.player;
+package net.thejadeproject.ascension.cultivation.player.providers;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import org.jetbrains.annotations.Nullable;
 
 public class PlayerDataProvider implements IAttachmentSerializer<CompoundTag, PlayerData> {

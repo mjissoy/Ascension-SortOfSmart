@@ -1,11 +1,10 @@
-package net.thejadeproject.ascension.cultivation.player;
+package net.thejadeproject.ascension.cultivation.player.data_attachements;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.Collection;
 import java.util.HashMap;
