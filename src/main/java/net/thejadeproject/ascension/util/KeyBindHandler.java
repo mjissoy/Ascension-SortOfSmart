@@ -15,6 +15,7 @@ import net.thejadeproject.ascension.cultivation.NetworkHandler;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
+import net.thejadeproject.ascension.guis.easygui.screens.SkillMenuScreen;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 
 @OnlyIn(Dist.CLIENT)
@@ -41,6 +42,7 @@ public class KeyBindHandler {
 
     public static final KeyMapping INTROSPECTION_KEY = new KeyMapping("key.ascension.introspection", 73, "category.ascension.cultivation");
 
+    public static final KeyMapping SKILL_MENU_KEY = new KeyMapping("key.ascension.skill_menu", 74, "category.ascension.cultivation");
 
     public static void register() {
         IEventBus eventBus = NeoForge.EVENT_BUS;
@@ -55,6 +57,14 @@ public class KeyBindHandler {
             }catch (Exception e){
                 System.out.println(e.getMessage());
                 System.out.println("failed to open introspection menu");
+            }
+        }
+        if(SKILL_MENU_KEY.consumeClick()){
+            try {
+                Minecraft.getInstance().setScreen(new SkillMenuScreen(Component.literal("Skill Menu")));
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+                System.out.println("failed to open skill menu");
             }
         }
 

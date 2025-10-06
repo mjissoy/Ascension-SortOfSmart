@@ -155,6 +155,7 @@ public class AscensionCraft {
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindHandler.INTROSPECTION_KEY);
         event.register(KeyBindHandler.CULTIVATE_KEY);
+        event.register(KeyBindHandler.SKILL_MENU_KEY);
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {
