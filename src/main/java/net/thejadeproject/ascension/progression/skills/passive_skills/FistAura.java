@@ -1,10 +1,12 @@
 package net.thejadeproject.ascension.progression.skills.passive_skills;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
+import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.util.ModAttachments;
 import net.thejadeproject.ascension.util.ModTags;
 
@@ -21,7 +23,7 @@ public class FistAura extends AbstractPassiveSkill {
         if(event.getSource().getEntity() != null) {
             if (!(event.getSource().getEntity() instanceof Player player)) return;
             if(event.getSource().getWeaponItem() != ItemStack.EMPTY && !event.getSource().getWeaponItem().is(ModTags.Items.daoItemTags.get("ascension:fist_intent"))) return;
-            if (!player.getData(ModAttachments.PLAYER_DATA).hasPassiveSkill("ascension:fist_aura_skill"))return;
+            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill("ascension:fist_aura_skill"))return;
 
 
             //player has the skill so apply the bonus damage
@@ -45,6 +47,11 @@ public class FistAura extends AbstractPassiveSkill {
     public void onSkillAdded(Player player) {
         super.onSkillAdded(player);
 
+    }
+
+    @Override
+    public ISkillData decode(RegistryFriendlyByteBuf buf) {
+        return null;
     }
 
 

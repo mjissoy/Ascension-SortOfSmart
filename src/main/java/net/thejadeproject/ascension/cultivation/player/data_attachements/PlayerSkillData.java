@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.cultivation.player.data_attachements;
 
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -9,6 +10,7 @@ import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.util.ModAttachments;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
@@ -135,19 +137,30 @@ public class PlayerSkillData {
         return passiveSkillHashMap.values().stream().toList();
     }
 
+    public List<SkillData> getSkills(){
+        List<SkillData> data = new ArrayList<>(getActiveSkills());
+        data.addAll(getPassiveSkills());
+        return data;
+    }
+
     public void addSkill(String skillId,String type,boolean fixed,ISkillData data){
         if(type.equals("Active")) addActiveSkill(skillId,fixed,data);
         else addPassiveSkill(skillId,fixed,data);
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
     }
     public void addActiveSkill(String skillId,boolean fixed,ISkillData data){
         if(activeSkillHashMap.containsKey(skillId) && activeSkillHashMap.get(skillId).fixed) return;
-        activeSkillHashMap.put(skillId,new SkillData(skillId,fixed,data));
+        else if (activeSkillHashMap.containsKey(skillId))activeSkillHashMap.get(skillId).fixed = fixed;
+        else activeSkillHashMap.put(skillId,new SkillData(skillId,fixed,data));
         activeSkillBuffer.add(new Pair<>(true,activeSkillHashMap.get(skillId)));
     }
     public void addPassiveSkill(String skillId,boolean fixed,ISkillData data){
         if(passiveSkillHashMap.containsKey(skillId) && passiveSkillHashMap.get(skillId).fixed) return;
-        passiveSkillHashMap.put(skillId,new SkillData(skillId,fixed,data));
+        else if (passiveSkillHashMap.containsKey(skillId))passiveSkillHashMap.get(skillId).fixed = fixed;
+        else passiveSkillHashMap.put(skillId,new SkillData(skillId,fixed,data));
         passiveSkillBuffer.add(new Pair<>(true,passiveSkillHashMap.get(skillId)));
+        System.out.println("passive skill added");
+        System.out.println(passiveSkillBuffer.size());
     }
     //removes even if fixed so make sure to check
     public void removePassiveSkill(String skillId){
@@ -192,5 +205,19 @@ public class PlayerSkillData {
         for(String key:compound.getCompound("Passive").getAllKeys()){
             passiveSkillHashMap.put(key, SkillData.loadSkillNBTData(compound.getCompound("Passive").getCompound(key)));
         }
+    }
+    public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
+
+        loadSkillNBTData(tag.getCompound("skill_data"));
+        loadSkillContainerNBTData((ListTag) tag.get("equip_skill_list"));
+    }
+    public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
+        CompoundTag skillTag = new CompoundTag();
+        writeSkillNBTData(skillTag);
+        tag.put("skill_data",skillTag);
+        ListTag activeSkillContainerList = new ListTag();
+        writeSkillContainerNBTData(activeSkillContainerList);
+        tag.put("equip_skill_list",activeSkillContainerList);
+
     }
 }

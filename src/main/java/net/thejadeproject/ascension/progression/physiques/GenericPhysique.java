@@ -175,13 +175,7 @@ public class GenericPhysique implements IPhysique{
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
             String skillType = "Passive";
             if(skill instanceof AbstractActiveSkill) skillType = "Active";
-            boolean fixed = false;
-
-            if(player.getData(ModAttachments.PLAYER_DATA).hasSkill(skillData.getA())){
-                fixed = player.getData(ModAttachments.PLAYER_DATA).getSkill(skillData.getA()).fixed;
-            }
-            player.getData(ModAttachments.PLAYER_DATA).getSkill(skillData.getA()).fixed = fixed || skillData.getB();
-
+            player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
             skill.onSkillAdded(player);
         }
 

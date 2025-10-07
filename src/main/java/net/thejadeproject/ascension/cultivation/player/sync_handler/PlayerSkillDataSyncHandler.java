@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.cultivation.player.sync_handler;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -46,6 +47,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         buf.writeBoolean(initialSync);//if it is an initial sync or not(diff behaviour)
         //for non-initial sync there will also be a string header detailing what was changed(potentially)
         if(initialSync){
+            System.out.println("initial sync");
             List<PlayerSkillData.SkillData> activeSkills = attachment.getActiveSkills();
             List<PlayerSkillData.SkillData> passiveSkills = attachment.getPassiveSkills();
             List<String> slottedSkills = attachment.activeSkillContainer.getSkillIdList();
@@ -54,12 +56,14 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             //encode active skills
             buf.writeInt(activeSkills.size());
             for(PlayerSkillData.SkillData activeSkill : activeSkills){
+                System.out.println("active skills");
                 encodeSkillData(buf,activeSkill);
             }
 
             //encode passive skills
             buf.writeInt(passiveSkills.size());
             for(PlayerSkillData.SkillData passiveSkill : passiveSkills){
+                System.out.println("passive skills");
                 encodeSkillData(buf,passiveSkill);
             }
 
@@ -72,8 +76,10 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             }
         }
         else{
+            System.out.println("normal sync");
             buf.writeBoolean(!attachment.getActiveSkillBuffer().isEmpty());
             if(!attachment.getActiveSkillBuffer().isEmpty()){
+                System.out.println("active skills");
                 buf.writeInt(attachment.getActiveSkillBuffer().size());
                 for(Pair<Boolean, PlayerSkillData.SkillData> data : attachment.getActiveSkillBuffer()){
                     buf.writeBoolean(data.getA());//true adding false removing
@@ -82,7 +88,8 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             }
             buf.writeBoolean(!attachment.getPassiveSkillBuffer().isEmpty());
             if(!attachment.getPassiveSkillBuffer().isEmpty()){
-                buf.writeInt(attachment.getActiveSkillBuffer().size());
+                System.out.println("passive skills");
+                buf.writeInt(attachment.getPassiveSkillBuffer().size());
                 for(Pair<Boolean, PlayerSkillData.SkillData> data : attachment.getPassiveSkillBuffer()){
                     buf.writeBoolean(data.getA());//true adding false removing
                     encodeSkillData(buf,data.getB());
@@ -91,6 +98,8 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             attachment.clearSkillBuffers();
             buf.writeBoolean(attachment.activeSkillContainer.changed);
             if(attachment.activeSkillContainer.changed){
+                System.out.println("skill bar");
+                System.out.println(attachment.activeSkillContainer.changed);
                 buf.writeInt(attachment.activeSkillContainer.getSkillIdList().size());
                 for (String slottedSkill : attachment.activeSkillContainer.getSkillIdList()){
                     buf.writeInt(slottedSkill.length());
@@ -107,9 +116,11 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         // Read the data from the buffer and return the new data attachment
         // `previousValue` is `null` if there was no prior data on the client
         // The result should return `null` if the data attachment should be removed
+        System.out.println("reading data");
+        if(previousValue == null) previousValue = new PlayerSkillData(Minecraft.getInstance().player);
         if(buf.readBoolean()){
             //initial sync
-
+            System.out.println("initial sync");
             int activeSkillNum = buf.readInt();
             List<PlayerSkillData.SkillData> activeSkills = new ArrayList<>();
             for(int i = 0;i<activeSkillNum;i++){
@@ -124,34 +135,44 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 passiveSkills.add(decodeSkillData(buf));
             }
             int skillSlots = buf.readInt();
+            System.out.println("skill slots "+ skillSlots);
             List<String> slottedSkills = new ArrayList<>();
             for(int i = 0;i<skillSlots;i++){
                 slottedSkills.add((String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset()));
             }
             return new PlayerSkillData(previousValue.player,activeSkills,passiveSkills,slottedSkills);
         }else {
+            System.out.println("normal sync");
             if(buf.readBoolean()){
                 //active skills
+                System.out.println("active skills");
                 int skills = buf.readInt();
                 for(int i = 0;i<skills;i++){
                     boolean action = buf.readBoolean();
                     PlayerSkillData.SkillData skillData = decodeSkillData(buf);
                     if(action) previousValue.addActiveSkill(skillData.skillId, skillData.fixed,skillData.data);
+                    else previousValue.removeActiveSkill(skillData.skillId);
                 }
             }
             if(buf.readBoolean()){
                 //passive skills
+                System.out.println("passive skills");
                 int skills = buf.readInt();
+                System.out.println(skills);
                 for(int i = 0;i<skills;i++){
+
                     boolean action = buf.readBoolean();
                     PlayerSkillData.SkillData skillData = decodeSkillData(buf);
+                    System.out.println(skillData.toString());
                     if(action) previousValue.addPassiveSkill(skillData.skillId, skillData.fixed,skillData.data);
+                    else previousValue.removePassiveSkill(skillData.skillId);
                 }
             }
             if(buf.readBoolean()){
                 //skill bar
-
+                System.out.println("skill bar");
                 int skillSlots = buf.readInt();
+                System.out.println(skillSlots);
                 List<String> slottedSkills = new ArrayList<>();
                 for(int i = 0;i<skillSlots;i++){
                     slottedSkills.add((String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset()));
@@ -175,7 +196,8 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         // - Level: All players in the current dimension / level
 
         // Example:
-        // Only send the attachment if they are the attachment holder
+        // Only send the attachment if they are the attachment holder#
+        System.out.println("SYNCING SKILL DATA WITH CLIENT");
         return holder == to;
     }
 }

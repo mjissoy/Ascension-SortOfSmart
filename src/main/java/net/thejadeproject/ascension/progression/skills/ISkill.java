@@ -28,4 +28,5 @@ public interface ISkill {
     void setFixedSkill(boolean fixed);
 
     ISkillData decode(RegistryFriendlyByteBuf buf);
+
 }

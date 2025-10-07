@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.progression.skills;
 
+import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +21,7 @@ public abstract class AbstractActiveSkill implements ISkill{
     public String path;
     public double qiCost;
     public String title;
+    public ITextureData skillIcon;
     public AbstractActiveSkill(String title){
         this.title = title;
     }
@@ -40,6 +42,14 @@ public abstract class AbstractActiveSkill implements ISkill{
     @Override
     public void setFixedSkill(boolean fixedSkill) {
         //todo uses nbt data.
+    }
+    public AbstractActiveSkill setSkillIcon(ITextureData textureData){
+        this.skillIcon = textureData;
+        return this;
+    }
+    @Override
+    public ITextureData skillIcon() {
+        return skillIcon;
     }
 
     /**

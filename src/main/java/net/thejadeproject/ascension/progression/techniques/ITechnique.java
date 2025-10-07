@@ -31,7 +31,7 @@ public interface ITechnique {
     ITextureData getTechniqueImage();
 
     //run when a player acquires a Technique
-    default void onTechniqueAcquisition(Player player){}
+    void onTechniqueAcquisition(Player player);
 
     default void onRemoveTechnique(Player player){}
 

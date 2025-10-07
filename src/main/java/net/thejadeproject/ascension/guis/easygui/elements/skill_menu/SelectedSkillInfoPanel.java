@@ -13,5 +13,7 @@ public class SelectedSkillInfoPanel extends Image {
                 "textures/gui/screen/skill_select.png"
         ),320,240,225,0,301,137),x,y);
         this.setSticky(true);
+
+
     }
 }

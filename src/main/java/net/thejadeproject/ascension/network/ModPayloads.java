@@ -48,11 +48,7 @@ public class ModPayloads {
                 TriggerMajorRealmBreakthrough.STREAM_CODEC,
                 TriggerMajorRealmBreakthrough::handlePayload
         );
-        registrar.playToClient(
-                SyncSkillDataPayload.TYPE,
-                SyncSkillDataPayload.STREAM_CODEC,
-                SyncSkillDataPayload::handlePayload
-        );
+
         registrar.playToClient(
                 SyncPathDataPayload.TYPE,
                 SyncPathDataPayload.STREAM_CODEC,

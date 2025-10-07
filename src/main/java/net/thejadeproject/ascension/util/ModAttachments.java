@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerD
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.cultivation.player.providers.PlayerDataProvider;
 import net.thejadeproject.ascension.cultivation.player.providers.PlayerSkillDataProvider;
+import net.thejadeproject.ascension.cultivation.player.sync_handler.PlayerSkillDataSyncHandler;
 
 import java.util.function.Supplier;
 
@@ -29,7 +30,10 @@ public class ModAttachments {
             () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerData(player):null).serialize(new PlayerDataProvider()).copyOnDeath().build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerSkillData>> PLAYER_SKILL_DATA = ATTACHMENT_TYPES.register("player_skill_data",
-            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerSkillData(player):null).serialize(new PlayerSkillDataProvider()).copyOnDeath().build());
+            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerSkillData(player):null)
+                    .serialize(new PlayerSkillDataProvider())
+                    .sync(new PlayerSkillDataSyncHandler())
+                    .copyOnDeath().build());
 
     public static void register(IEventBus modEventBus){
         ATTACHMENT_TYPES.register(modEventBus);

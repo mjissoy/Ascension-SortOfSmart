@@ -14,7 +14,7 @@ public class PlayerSkillDataProvider  implements IAttachmentSerializer<CompoundT
     public PlayerSkillData read(IAttachmentHolder holder, CompoundTag compoundTag, HolderLookup.Provider provider) {
         if(holder instanceof ServerPlayer player){
             PlayerSkillData playerData = new PlayerSkillData(player);
-            playerData.loadSkillNBTData(compoundTag);
+            playerData.loadNBTData(compoundTag,provider);
             return playerData;
         }
         return null;
@@ -23,7 +23,7 @@ public class PlayerSkillDataProvider  implements IAttachmentSerializer<CompoundT
     @Override
     public @Nullable CompoundTag write(PlayerSkillData playerData, HolderLookup.Provider provider) {
         var tag = new CompoundTag();
-        playerData.writeSkillNBTData(tag);
+        playerData.saveNBTData(tag,provider);
         return tag;
     }
 }

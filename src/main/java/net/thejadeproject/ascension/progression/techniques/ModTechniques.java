@@ -141,11 +141,12 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
-                    }).setDescription(List.of(
+                    }).setSkillList(List.of(
+                    new AcquirableSkillData("ascension:intent",0,0,"ascension:fist_aura_skill",true)
+            )).setDescription(List.of(
                             Component.literal("what heavens? under my").append(" §8Fist ").append("all is equal"),
                             Component.literal("and all is weak")
                     )));
-
     public static final TechniqueHolder DIVINE_PHOENIX_TECHNIQUE = createTechnique("divine_phoenix_technique",
             ()->new SingleAttributeTechnique("Divine Phoenix Technique",8.0,"ascension:phoenix_fire",new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{

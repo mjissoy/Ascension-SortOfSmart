@@ -149,6 +149,14 @@ public abstract class AbstractTechnique implements ITechnique {
         );
     }
 
+    //TODO add some sort of path registry and use that for this
+    @Override
+    public void onTechniqueAcquisition(Player player) {
+        for(String path : List.of("ascension:intent","ascension:essence","ascension:body")){
+            updatePlayerSkills(player,path,0,0);
+        }
+    }
+
     public AbstractTechnique setOnMinorRealmChange(Consumer<MinorRealmChangeEvent> consumer){
         minorRealmChangeEventConsumer = consumer;
         return this;
@@ -200,7 +208,7 @@ public abstract class AbstractTechnique implements ITechnique {
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
             String skillType = "Passive";
             if(skill instanceof AbstractActiveSkill) skillType = "Active";
-            player.getData(ModAttachments.PLAYER_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
+            player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
             skill.onSkillAdded(player);
         }
 

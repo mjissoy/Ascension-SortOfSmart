@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.progression.skills.active_skills.fire_dao;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
@@ -22,6 +23,11 @@ public class BasicFireBall extends AbstractActiveSkill {
 
     @Override
     public ISkillData getSkillData() {
+        return null;
+    }
+
+    @Override
+    public ISkillData decode(RegistryFriendlyByteBuf buf) {
         return null;
     }
 

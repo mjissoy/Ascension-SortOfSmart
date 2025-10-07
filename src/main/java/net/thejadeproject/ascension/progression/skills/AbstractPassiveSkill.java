@@ -1,11 +1,13 @@
 package net.thejadeproject.ascension.progression.skills;
 
+import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.nbt.CompoundTag;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 
 public abstract class AbstractPassiveSkill implements ISkill{
     public String path;
     public String title;
+    public ITextureData skillIcon;
     public AbstractPassiveSkill(String title){
         this.title = title;
     }
@@ -13,7 +15,14 @@ public abstract class AbstractPassiveSkill implements ISkill{
     public String getSkillTitle() {
         return title;
     }
-
+    public AbstractPassiveSkill setSkillIcon(ITextureData textureData){
+        this.skillIcon = textureData;
+        return this;
+    }
+    @Override
+    public ITextureData skillIcon() {
+        return skillIcon;
+    }
     @Override
     public boolean isFixedSkill() {
         //todo uses nbt
