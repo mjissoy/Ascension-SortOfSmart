@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-05T18:03:19.1859408	Item Models: ascension
+// 1.21.1	2025-10-07T19:50:31.2600212	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
@@ -52,6 +52,7 @@ a95e1feba121e840b1300c8df48bf3b0099ccac5 assets/ascension/models/item/marble_bri
 8fc12f5bcdd91880dfbcddc0df86113fc4238d43 assets/ascension/models/item/netherite_spatial_ring.json
 d2f6ff9a5555f8f3fcaf09cf0d3c910e086dde1b assets/ascension/models/item/orange_marble_brick_wall.json
 d444f0d2fa5e69c9b94fc7845713f61b53575a39 assets/ascension/models/item/orange_marble_tile_wall.json
+4853c59c8284bac480ed2ed97b07c87d923d2601 assets/ascension/models/item/pill_residue.json
 26fb96759eae49d274da53e1a3786720e6de4b52 assets/ascension/models/item/pink_marble_brick_wall.json
 fd8380413755ee016f51bb609fd2839c0616cb46 assets/ascension/models/item/pink_marble_tile_wall.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/pure_fire_technique.json

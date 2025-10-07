@@ -291,6 +291,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.pills"))
                     .displayItems((itemDisplayParameters, output) -> {
 
+                        output.accept(ModItems.PILL_RESIDUE);
                         output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
                         output.accept(ModItems.REGENERATION_PILL);
                         output.accept(ModItems.REBIRTH_PILL);

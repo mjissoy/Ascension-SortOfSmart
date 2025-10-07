@@ -12,6 +12,10 @@ public class lang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+
+        //Death msgs
+        add("death.attack.pill_residue", "%1$s finally learned not to eat Pill Residue leftover in the Pill Cauldron");
+
         //GuideBook
         add("book.title.ascension.art_of_ascension", "Ascension Guide");
         add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance");
@@ -44,6 +48,7 @@ public class lang extends LanguageProvider {
 
 
         //Pills
+        add("item.ascension.pill_residue", "Pill Residue");
         add("item.ascension.regeneration_pill", "Regeneration Pill");
         add("item.ascension.cleansing_pill", "Cleansing Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");

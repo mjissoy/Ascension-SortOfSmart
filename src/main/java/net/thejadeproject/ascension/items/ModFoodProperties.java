@@ -15,6 +15,9 @@ public class ModFoodProperties {
     public static final FoodProperties FASTING_PILL_T2 = new FoodProperties.Builder().nutrition(10).saturationModifier(10).fast().build();
     public static final FoodProperties FASTING_PILL_T3 = new FoodProperties.Builder().nutrition(15).saturationModifier(15).fast().build();
 
+
+    public static final FoodProperties PILL_RESIDUE = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().alwaysEdible().build();
+
     public static final FoodProperties INNER_REINFORCEMENT_T1 = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
 
 

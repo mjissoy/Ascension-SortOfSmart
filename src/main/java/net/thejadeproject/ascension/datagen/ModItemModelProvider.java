@@ -121,6 +121,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         tablet(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get());
 
         //Pills
+        pills(ModItems.PILL_RESIDUE.get());
         pills(ModItems.REGENERATION_PILL.get());
         pills(ModItems.CLEANSING_PILL.get());
         pills(ModItems.REBIRTH_PILL.get());

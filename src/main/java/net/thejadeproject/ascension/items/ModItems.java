@@ -17,6 +17,7 @@ import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
 import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
 import net.thejadeproject.ascension.items.herbs.PlantableHerb;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
+import net.thejadeproject.ascension.items.pills.PillResidue;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.util.ItemUtil;
@@ -170,6 +171,9 @@ public class ModItems {
                     .addOnUse((item,level,entity)->{
                         CultivationSystem.cultivate((Player) entity,"ascension:body",20.0,List.of());
                     }));
+
+    public static final DeferredItem<Item> PILL_RESIDUE = ITEMS.register("pill_residue",
+            () -> new PillResidue(new Item.Properties().food(ModFoodProperties.PILL_RESIDUE)));
 
 
 

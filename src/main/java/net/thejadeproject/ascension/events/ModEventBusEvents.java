@@ -32,4 +32,5 @@ public class ModEventBusEvents {
                 Animal::checkAnimalSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
     }
 
+
 }
