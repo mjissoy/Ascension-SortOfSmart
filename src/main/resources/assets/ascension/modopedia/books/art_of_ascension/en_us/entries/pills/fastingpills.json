@@ -1,7 +1,11 @@
 {
   "title": "Fasting Pills",
   "icon": { "id": "ascension:fasting_pill_t1" },
-  "assigned_items": ["ascension:fasting_pill_t1"],
+  "assigned_items": [
+    "ascension:fasting_pill_t1",
+    "ascension:fasting_pill_t2",
+    "ascension:fasting_pill_t3"
+  ],
   "pages": [
     {
       "components": [
@@ -13,14 +17,21 @@
           "items": [
             {
               "id":  "ascension:fasting_pill_t1"
-            }]
+            },
+            {
+              "id":  "ascension:fasting_pill_t2"
+            },
+            {
+              "id":  "ascension:fasting_pill_t3"
+            }
+          ]
         },
         {
           "type": "modopedia:text",
           "x": 5,
           "y": 103,
           "line_height": 10,
-          "text": "Fasting Pills are a sustainable alternative to food. \nVery popular among cultivators who still require sustenance."
+          "text": "Fasting Pills are a sustainable alternative to food. Very popular among cultivators who still require sustenance."
         }
       ]
     },
@@ -29,7 +40,7 @@
         {
           "header": "§bFasting Pills",
           "template": "modopedia:page/headered_text",
-          "text": "The Golden Sun Leaf is a fire element aligned herb that grows by absorbing the sun's light!\n\nThis herb boosts Yang energy, enhances stamina, and increases cultivation speed!\n\nIt's possible to eat this raw but using this in a Pill Cauldron will reveal it's true capabilities!"
+          "text": "Fasting Pills are some of the most popular pills for budding cultivators! \nUntil you obtain a level of power that allows you to sustain your self with Qi alone, Fasting Pills are the best food option. \n\n Fasting Pills come in 3 different Tiers. Each with their own Saturation and Saturation Modifier!"
         }
       ]
     },
@@ -38,20 +49,16 @@
         {
           "header": "§2How to craft this pill",
           "template": "modopedia:page/headered_text",
-          "text": "Golden Sun Leaf has a 0.5% chance of dropping when Golden Palm Leaves are decaying\n\nThe Golden Palm Tree can be found in Beach biomes very rarely! \nThis Herb is also one of the Common Herbs that can be found!"
+          "text": "The crafting Recipe for this pill is Unique! You will first need to make a $(b)$(cl:pillcrafting)Pill Cauldron$(/el)$(/b)! \n\nThe Crafting Recipes is as follows! 4 Apples, 1 Golden Sun Leaf, 4 Dried Kelp and 30 Heat. This has a 50% chance to succeed and give you 4 Fasting Pills Tier 1"
         }
       ]
     },
     {
       "components": [
         {
-          "type": "modopedia:large_frame",
-          "y": 20
-        },
-        {
-          "type": "modopedia:multiblock",
-          "multiblock_id": "ascension:golden_palm_tree",
-          "y": 20
+          "header": "§2How to upgrade this pill",
+          "template": "modopedia:page/headered_text",
+          "text": "To get a higher tier Fasting Pill the recipe is the following for Tier 2. 2 Golden Apples, 2 Fasting Pills of the previous tier, 8 Dried Kelp and 60 Heat for a 40% chance to get 4 Tier 2 Pills! \n\nThe Recipe for Tier 3 is the following. 4 Golden Apples, 2 Fasting Pills of the previous tier, 16 Dried Kelp and 120 Heat for a 30% chance to get 4 Fasting Pills Tier 3!"
         }
       ]
     }

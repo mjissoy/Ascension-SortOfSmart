@@ -7,6 +7,7 @@
   ],
   "display_on_front_page": true,
   "children": [
+    "pillcrafting",
     "pills",
     "herbs"
   ]
