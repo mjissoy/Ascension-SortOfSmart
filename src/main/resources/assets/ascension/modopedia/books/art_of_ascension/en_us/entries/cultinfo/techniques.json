@@ -1,0 +1,24 @@
+{
+  "title": "Techniques/Manuals",
+  "icon": { "id": "ascension:void_swallowing_technique" },
+  "pages": [
+    {
+      "components": [
+        {
+          "header": "§cTechniques",
+          "template": "modopedia:page/headered_text",
+          "text": "So Manuals/Techniques are the top of the ice berg when it comes to Cultivation! \n\nThis is extremely important, This is needed in order to cultivate and it also gives you your $(b)$(el:cultinfo/skills)Skills$(/el)$(/b)!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§cTechniques Info",
+          "template": "modopedia:page/headered_text",
+          "text": "Techniques/Manuals should also be decided in a smart way\nSeeing as they give stat bonus if they match your Physique! Different Techniques give different bonuses, Some might be more for a special attribute or dual attributes. Just keep this in mind when deciding!"
+        }
+      ]
+    }
+  ]
+}

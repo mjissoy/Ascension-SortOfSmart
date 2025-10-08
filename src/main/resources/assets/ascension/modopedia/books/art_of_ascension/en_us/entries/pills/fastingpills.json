@@ -43,24 +43,6 @@
           "text": "Fasting Pills are some of the most popular pills for budding cultivators! \nUntil you obtain a level of power that allows you to sustain your self with Qi alone, Fasting Pills are the best food option. \n\n Fasting Pills come in 3 different Tiers. Each with their own Saturation and Saturation Modifier!"
         }
       ]
-    },
-    {
-      "components": [
-        {
-          "header": "§2How to craft this pill",
-          "template": "modopedia:page/headered_text",
-          "text": "The crafting Recipe for this pill is Unique! You will first need to make a $(b)$(cl:pillcrafting)Pill Cauldron$(/el)$(/b)! \n\nThe Crafting Recipes is as follows! 4 Apples, 1 Golden Sun Leaf, 4 Dried Kelp and 30 Heat. This has a 50% chance to succeed and give you 4 Fasting Pills Tier 1"
-        }
-      ]
-    },
-    {
-      "components": [
-        {
-          "header": "§2How to upgrade this pill",
-          "template": "modopedia:page/headered_text",
-          "text": "To get a higher tier Fasting Pill the recipe is the following for Tier 2. 2 Golden Apples, 2 Fasting Pills of the previous tier, 8 Dried Kelp and 60 Heat for a 40% chance to get 4 Tier 2 Pills! \n\nThe Recipe for Tier 3 is the following. 4 Golden Apples, 2 Fasting Pills of the previous tier, 16 Dried Kelp and 120 Heat for a 30% chance to get 4 Fasting Pills Tier 3!"
-        }
-      ]
     }
   ]
 }

@@ -1,13 +1,13 @@
 {
-  "title": "Cultivation Types",
+  "title": "Cultivation Paths",
   "icon": { "id": "ascension:spiritual_stone" },
   "pages": [
     {
       "components": [
         {
-          "header": "§bCultivation Types",
+          "header": "§bCultivation Paths",
           "template": "modopedia:page/headered_text",
-          "text": "There are 3 types of cultivation.\n\n$(b)Body$(/b)\nThis will strenghten your Body to become invulnerable!\n$(b)Intent$(/b)\nThis will increase your proficiencies with Weapons and your Fists!\n$(b)Essence$(/b)\nThis will make your soul immortal!"
+          "text": "$(b)Body$(/b)\nThis is about cultivating the self, instead of giving up on your mortal shell cultivate it!\n$(b)Intent$(/b)\nThis is all about cultivating your will. Until you can materialise it!\n$(b)Essence$(/b)\nThis is standard cultivation!"
         }
       ]
     },
