@@ -23,8 +23,10 @@ public class SkillMenuScreen extends EasyGuiScreen {
         view.setCustomScale(4);
         SkillListPanel skillList = new SkillListPanel(this,
                 view.getScaledWidth()/2-112, view.getScaledHeight()/2-40);
+        skillList.setID("skill_list_panel");
         ActiveSkillBar activeSkillBar = new ActiveSkillBar(this,
                 view.getScaledWidth()/2-112,view.getScaledHeight()/2-120);
+        activeSkillBar.setID("active_skill_bar_container");
         SelectedSkillInfoPanel selectedSkillInfoPanel = new SelectedSkillInfoPanel(this,
                 view.getScaledWidth()/2+120,view.getScaledHeight()/2-120);
         selectedSkillInfoPanel.setID("selected_skill_info_panel");

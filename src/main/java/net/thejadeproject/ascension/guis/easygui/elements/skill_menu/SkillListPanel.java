@@ -45,9 +45,10 @@ public class SkillListPanel extends Image {
     public void loadSkills(){
         Player player = Minecraft.getInstance().player;
         System.out.println("creating skill list");
-        for(PlayerSkillData.SkillData data : player.getData(ModAttachments.PLAYER_SKILL_DATA).getSkills()){
+        for(PlayerSkillData.SkillMetaData data : player.getData(ModAttachments.PLAYER_SKILL_DATA).getSkills()){
             System.out.println(data.toString());
             skillListBox.addChild(new BasicSkillSlot(getScreen(),0,0,ResourceLocation.bySeparator(data.skillId,':')));
         }
+
     }
 }

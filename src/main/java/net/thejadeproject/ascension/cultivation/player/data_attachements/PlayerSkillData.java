@@ -25,12 +25,12 @@ public class PlayerSkillData {
         this.player = player;
     }
 
-    public PlayerSkillData(Player player,List<SkillData> activeSkills,List<SkillData> passiveSkills,List<String> slottedSkills){
+    public PlayerSkillData(Player player, List<SkillMetaData> activeSkills, List<SkillMetaData> passiveSkills, List<String> slottedSkills){
         this.player = player;
-        for(SkillData activeSkill : activeSkills){
+        for(SkillMetaData activeSkill : activeSkills){
             activeSkillHashMap.put(activeSkill.skillId,activeSkill);
         }
-        for(SkillData passiveSkill : passiveSkills){
+        for(SkillMetaData passiveSkill : passiveSkills){
             passiveSkillHashMap.put(passiveSkill.skillId,passiveSkill);
         }
         activeSkillContainer.skillIdList = slottedSkills;
@@ -67,12 +67,12 @@ public class PlayerSkillData {
             activeSkillContainer.getSkillIdList().add(skillList.getString(i));
         }
     }
-    public static class SkillData{
+    public static class SkillMetaData {
         public String skillId;
         public boolean fixed;
         public ISkillData data;
-        public SkillData(){}
-        public SkillData(String skillId,boolean fixed,ISkillData data){
+        public SkillMetaData(){}
+        public SkillMetaData(String skillId, boolean fixed, ISkillData data){
             this.skillId = skillId;
             this.fixed = fixed;
             this.data = data;
@@ -87,31 +87,31 @@ public class PlayerSkillData {
             return tag;
 
         }
-        public static SkillData loadSkillNBTData(CompoundTag compound){
-            SkillData skillData = new SkillData();
-            skillData.skillId = compound.getString("skill_id");
-            skillData.fixed = compound.getBoolean("fixed");
-            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.skillId,':'));
-            skillData.data = skill.getSkillData(compound.getCompound("data"));
-            return skillData;
+        public static SkillMetaData loadSkillNBTData(CompoundTag compound){
+            SkillMetaData skillMetaData = new SkillMetaData();
+            skillMetaData.skillId = compound.getString("skill_id");
+            skillMetaData.fixed = compound.getBoolean("fixed");
+            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillMetaData.skillId,':'));
+            skillMetaData.data = skill.getSkillData(compound.getCompound("data"));
+            return skillMetaData;
         }
     }
 
-    private final HashMap<String, SkillData> activeSkillHashMap = new HashMap<>();
-    private final HashMap<String, SkillData> passiveSkillHashMap = new HashMap<>();
+    private final HashMap<String, SkillMetaData> activeSkillHashMap = new HashMap<>();
+    private final HashMap<String, SkillMetaData> passiveSkillHashMap = new HashMap<>();
 
-    private final List<Pair<Boolean, SkillData>> activeSkillBuffer = new ArrayList<>();
-    private final List<Pair<Boolean, SkillData>> passiveSkillBuffer = new ArrayList<>();
+    private final List<Pair<Boolean, SkillMetaData>> activeSkillBuffer = new ArrayList<>();
+    private final List<Pair<Boolean, SkillMetaData>> passiveSkillBuffer = new ArrayList<>();
 
-    public SkillData getActiveSkill(String skillId){
+    public SkillMetaData getActiveSkill(String skillId){
         if(activeSkillHashMap.containsKey(skillId)) return activeSkillHashMap.get(skillId);
         return null;
     }
-    public SkillData getPassiveSkill(String skillId){
+    public SkillMetaData getPassiveSkill(String skillId){
         if(passiveSkillHashMap.containsKey(skillId)) return passiveSkillHashMap.get(skillId);
         return null;
     }
-    public SkillData getSkill(String skillId){
+    public SkillMetaData getSkill(String skillId){
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillId,':'));
         if(skill instanceof AbstractActiveSkill) return getActiveSkill(skillId);
         return getPassiveSkill(skillId);
@@ -130,15 +130,15 @@ public class PlayerSkillData {
     }
 
 
-    public List<SkillData> getActiveSkills(){
+    public List<SkillMetaData> getActiveSkills(){
         return activeSkillHashMap.values().stream().toList();
     }
-    public List<SkillData> getPassiveSkills(){
+    public List<SkillMetaData> getPassiveSkills(){
         return passiveSkillHashMap.values().stream().toList();
     }
 
-    public List<SkillData> getSkills(){
-        List<SkillData> data = new ArrayList<>(getActiveSkills());
+    public List<SkillMetaData> getSkills(){
+        List<SkillMetaData> data = new ArrayList<>(getActiveSkills());
         data.addAll(getPassiveSkills());
         return data;
     }
@@ -151,13 +151,13 @@ public class PlayerSkillData {
     public void addActiveSkill(String skillId,boolean fixed,ISkillData data){
         if(activeSkillHashMap.containsKey(skillId) && activeSkillHashMap.get(skillId).fixed) return;
         else if (activeSkillHashMap.containsKey(skillId))activeSkillHashMap.get(skillId).fixed = fixed;
-        else activeSkillHashMap.put(skillId,new SkillData(skillId,fixed,data));
+        else activeSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,data));
         activeSkillBuffer.add(new Pair<>(true,activeSkillHashMap.get(skillId)));
     }
     public void addPassiveSkill(String skillId,boolean fixed,ISkillData data){
         if(passiveSkillHashMap.containsKey(skillId) && passiveSkillHashMap.get(skillId).fixed) return;
         else if (passiveSkillHashMap.containsKey(skillId))passiveSkillHashMap.get(skillId).fixed = fixed;
-        else passiveSkillHashMap.put(skillId,new SkillData(skillId,fixed,data));
+        else passiveSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,data));
         passiveSkillBuffer.add(new Pair<>(true,passiveSkillHashMap.get(skillId)));
         System.out.println("passive skill added");
         System.out.println(passiveSkillBuffer.size());
@@ -174,10 +174,10 @@ public class PlayerSkillData {
         activeSkillBuffer.add(new Pair<>(false,activeSkillHashMap.remove(skillId)));
         if(activeSkillContainer.skillIdList.contains(skillId)) activeSkillContainer.unSlotSkill(skillId);
     }
-    public List<Pair<Boolean,SkillData>> getPassiveSkillBuffer(){
+    public List<Pair<Boolean, SkillMetaData>> getPassiveSkillBuffer(){
         return passiveSkillBuffer;
     }
-    public List<Pair<Boolean,SkillData>> getActiveSkillBuffer(){
+    public List<Pair<Boolean, SkillMetaData>> getActiveSkillBuffer(){
         return activeSkillBuffer;
     }
     public void clearSkillBuffers(){
@@ -188,11 +188,11 @@ public class PlayerSkillData {
 
     public void writeSkillNBTData(CompoundTag skillTag){
         CompoundTag tag = new CompoundTag();
-        for(SkillData dataEntry : activeSkillHashMap.values()){
+        for(SkillMetaData dataEntry : activeSkillHashMap.values()){
             tag.put(dataEntry.skillId,dataEntry.writeSkillNBTData());
         }
         CompoundTag tag2 = new CompoundTag();
-        for(SkillData dataEntry : passiveSkillHashMap.values()){
+        for(SkillMetaData dataEntry : passiveSkillHashMap.values()){
             tag2.put(dataEntry.skillId,dataEntry.writeSkillNBTData());
         }
         skillTag.put("Active",tag);
@@ -200,10 +200,10 @@ public class PlayerSkillData {
     }
     public void loadSkillNBTData(CompoundTag compound){
         for(String key:compound.getCompound("Active").getAllKeys()){
-            activeSkillHashMap.put(key, SkillData.loadSkillNBTData(compound.getCompound("Active").getCompound(key)));
+            activeSkillHashMap.put(key, SkillMetaData.loadSkillNBTData(compound.getCompound("Active").getCompound(key)));
         }
         for(String key:compound.getCompound("Passive").getAllKeys()){
-            passiveSkillHashMap.put(key, SkillData.loadSkillNBTData(compound.getCompound("Passive").getCompound(key)));
+            passiveSkillHashMap.put(key, SkillMetaData.loadSkillNBTData(compound.getCompound("Passive").getCompound(key)));
         }
     }
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){

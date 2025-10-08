@@ -6,7 +6,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.attachment.AttachmentSyncHandler;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
@@ -19,17 +18,17 @@ import java.util.List;
 //add some sort of sync buffer to PlayerSkillData so only new stuff is synced.
 public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerSkillData> {
     //TODO create a function for reading and writing skill data to reduce bloat
-    public static void encodeSkillData(RegistryFriendlyByteBuf buf, PlayerSkillData.SkillData skillData){
-        buf.writeInt(skillData.skillId.length());
-        buf.writeCharSequence(skillData.skillId, Charset.defaultCharset());
-        buf.writeBoolean(skillData.fixed);
-        if(skillData.data == null) buf.writeBoolean(false);
+    public static void encodeSkillMetaData(RegistryFriendlyByteBuf buf, PlayerSkillData.SkillMetaData skillMetaData){
+        buf.writeInt(skillMetaData.skillId.length());
+        buf.writeCharSequence(skillMetaData.skillId, Charset.defaultCharset());
+        buf.writeBoolean(skillMetaData.fixed);
+        if(skillMetaData.data == null) buf.writeBoolean(false);
         else{
             buf.writeBoolean(true);
-            skillData.data.encode(buf);
+            skillMetaData.data.encode(buf);
         }
     }
-    public static PlayerSkillData.SkillData decodeSkillData(RegistryFriendlyByteBuf buf){
+    public static PlayerSkillData.SkillMetaData decodeSkillMetaData(RegistryFriendlyByteBuf buf){
         String skillId = (String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset());
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillId,':'));
         boolean fixed = buf.readBoolean();
@@ -37,7 +36,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         if(buf.readBoolean()){
             skillData = skill.decode(buf);
         }
-        return new PlayerSkillData.SkillData(skillId,fixed,skillData);
+        return new PlayerSkillData.SkillMetaData(skillId,fixed,skillData);
     }
     @Override
     public void write(RegistryFriendlyByteBuf buf, PlayerSkillData attachment, boolean initialSync) {
@@ -48,23 +47,23 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         //for non-initial sync there will also be a string header detailing what was changed(potentially)
         if(initialSync){
             System.out.println("initial sync");
-            List<PlayerSkillData.SkillData> activeSkills = attachment.getActiveSkills();
-            List<PlayerSkillData.SkillData> passiveSkills = attachment.getPassiveSkills();
+            List<PlayerSkillData.SkillMetaData> activeSkills = attachment.getActiveSkills();
+            List<PlayerSkillData.SkillMetaData> passiveSkills = attachment.getPassiveSkills();
             List<String> slottedSkills = attachment.activeSkillContainer.getSkillIdList();
 
 
             //encode active skills
             buf.writeInt(activeSkills.size());
-            for(PlayerSkillData.SkillData activeSkill : activeSkills){
+            for(PlayerSkillData.SkillMetaData activeSkill : activeSkills){
                 System.out.println("active skills");
-                encodeSkillData(buf,activeSkill);
+                encodeSkillMetaData(buf,activeSkill);
             }
 
             //encode passive skills
             buf.writeInt(passiveSkills.size());
-            for(PlayerSkillData.SkillData passiveSkill : passiveSkills){
+            for(PlayerSkillData.SkillMetaData passiveSkill : passiveSkills){
                 System.out.println("passive skills");
-                encodeSkillData(buf,passiveSkill);
+                encodeSkillMetaData(buf,passiveSkill);
             }
 
 
@@ -81,18 +80,18 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             if(!attachment.getActiveSkillBuffer().isEmpty()){
                 System.out.println("active skills");
                 buf.writeInt(attachment.getActiveSkillBuffer().size());
-                for(Pair<Boolean, PlayerSkillData.SkillData> data : attachment.getActiveSkillBuffer()){
+                for(Pair<Boolean, PlayerSkillData.SkillMetaData> data : attachment.getActiveSkillBuffer()){
                     buf.writeBoolean(data.getA());//true adding false removing
-                    encodeSkillData(buf,data.getB());
+                    encodeSkillMetaData(buf,data.getB());
                 }
             }
             buf.writeBoolean(!attachment.getPassiveSkillBuffer().isEmpty());
             if(!attachment.getPassiveSkillBuffer().isEmpty()){
                 System.out.println("passive skills");
                 buf.writeInt(attachment.getPassiveSkillBuffer().size());
-                for(Pair<Boolean, PlayerSkillData.SkillData> data : attachment.getPassiveSkillBuffer()){
+                for(Pair<Boolean, PlayerSkillData.SkillMetaData> data : attachment.getPassiveSkillBuffer()){
                     buf.writeBoolean(data.getA());//true adding false removing
-                    encodeSkillData(buf,data.getB());
+                    encodeSkillMetaData(buf,data.getB());
                 }
             }
             attachment.clearSkillBuffers();
@@ -122,17 +121,17 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             //initial sync
             System.out.println("initial sync");
             int activeSkillNum = buf.readInt();
-            List<PlayerSkillData.SkillData> activeSkills = new ArrayList<>();
+            List<PlayerSkillData.SkillMetaData> activeSkills = new ArrayList<>();
             for(int i = 0;i<activeSkillNum;i++){
 
-                activeSkills.add(decodeSkillData(buf));
+                activeSkills.add(decodeSkillMetaData(buf));
             }
 
             int passiveSkillNum = buf.readInt();
-            List<PlayerSkillData.SkillData> passiveSkills = new ArrayList<>();
+            List<PlayerSkillData.SkillMetaData> passiveSkills = new ArrayList<>();
             for(int i = 0;i<passiveSkillNum;i++){
 
-                passiveSkills.add(decodeSkillData(buf));
+                passiveSkills.add(decodeSkillMetaData(buf));
             }
             int skillSlots = buf.readInt();
             System.out.println("skill slots "+ skillSlots);
@@ -149,9 +148,9 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 int skills = buf.readInt();
                 for(int i = 0;i<skills;i++){
                     boolean action = buf.readBoolean();
-                    PlayerSkillData.SkillData skillData = decodeSkillData(buf);
-                    if(action) previousValue.addActiveSkill(skillData.skillId, skillData.fixed,skillData.data);
-                    else previousValue.removeActiveSkill(skillData.skillId);
+                    PlayerSkillData.SkillMetaData skillMetaData = decodeSkillMetaData(buf);
+                    if(action) previousValue.addActiveSkill(skillMetaData.skillId, skillMetaData.fixed, skillMetaData.data);
+                    else previousValue.removeActiveSkill(skillMetaData.skillId);
                 }
             }
             if(buf.readBoolean()){
@@ -162,10 +161,10 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 for(int i = 0;i<skills;i++){
 
                     boolean action = buf.readBoolean();
-                    PlayerSkillData.SkillData skillData = decodeSkillData(buf);
-                    System.out.println(skillData.toString());
-                    if(action) previousValue.addPassiveSkill(skillData.skillId, skillData.fixed,skillData.data);
-                    else previousValue.removePassiveSkill(skillData.skillId);
+                    PlayerSkillData.SkillMetaData skillMetaData = decodeSkillMetaData(buf);
+                    System.out.println(skillMetaData.toString());
+                    if(action) previousValue.addPassiveSkill(skillMetaData.skillId, skillMetaData.fixed, skillMetaData.data);
+                    else previousValue.removePassiveSkill(skillMetaData.skillId);
                 }
             }
             if(buf.readBoolean()){

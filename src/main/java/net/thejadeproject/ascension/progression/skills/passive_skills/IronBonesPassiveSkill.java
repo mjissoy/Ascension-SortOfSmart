@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.progression.skills.passive_skills;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -22,7 +23,7 @@ public class IronBonesPassiveSkill extends AbstractPassiveSkill {
 
 
     public IronBonesPassiveSkill(){
-        super("Iron Bones");
+        super(Component.literal("Iron Bones"));
         this.path = "ascension:body";
     }
     public void onPhysiqueChange(PhysiqueChangeEvent event){

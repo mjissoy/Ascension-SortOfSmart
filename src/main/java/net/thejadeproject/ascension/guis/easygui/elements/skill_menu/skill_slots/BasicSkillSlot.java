@@ -8,6 +8,7 @@ import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.SelectedSkillInfoPanel;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
@@ -32,5 +33,12 @@ public class BasicSkillSlot extends TextureButton {
         if(isFocused() || isPressed() || isHovered()) hoveredTexture.renderTexture(guiGraphics);
         else defaultTexture.renderTexture(guiGraphics,1,1);
 
+    }
+
+    @Override
+    public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
+        super.onClick(mouseX, mouseY, button, clicked);
+        if(!clicked) return;
+        ((SelectedSkillInfoPanel) getScreen().getElementByID("selected_skill_info_panel")).selectSkill(skillId);
     }
 }

@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.progression.skills.passive_skills;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
@@ -12,7 +13,7 @@ import net.thejadeproject.ascension.util.ModTags;
 
 public class FistAura extends AbstractPassiveSkill {
     public FistAura(){
-        super("Fist Aura");
+        super(Component.literal("Fist Aura"));
 
         this.path = "ascension:intent";
         NeoForge.EVENT_BUS.addListener(this::onLivingDamageEvent);

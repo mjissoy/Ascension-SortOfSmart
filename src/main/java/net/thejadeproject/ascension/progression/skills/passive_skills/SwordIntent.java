@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.progression.skills.passive_skills;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.NeoForge;
@@ -12,7 +13,7 @@ import net.thejadeproject.ascension.util.ModTags;
 //deals a bonus hit of sword_intent damage
 public class SwordIntent extends AbstractPassiveSkill {
     public SwordIntent() {
-        super("Sword Intent");
+        super(Component.literal("Sword Intent"));
 
         this.path = "ascension:intent";
         NeoForge.EVENT_BUS.addListener(this::onLivingDamageEvent);

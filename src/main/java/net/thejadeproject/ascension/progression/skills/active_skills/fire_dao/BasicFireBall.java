@@ -1,14 +1,15 @@
 package net.thejadeproject.ascension.progression.skills.active_skills.fire_dao;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 
 public class BasicFireBall extends AbstractActiveSkill {
-    public BasicFireBall(String title) {
-        super(title);
+    public BasicFireBall() {
+        super(Component.literal("Fire Ball"));
     }
 
     @Override

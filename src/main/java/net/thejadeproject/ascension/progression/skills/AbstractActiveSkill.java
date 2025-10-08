@@ -2,6 +2,8 @@ package net.thejadeproject.ascension.progression.skills;
 
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -17,18 +19,52 @@ import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractActiveSkill implements ISkill{
     public String path;
     public double qiCost;
-    public String title;
+    public Component title;
     public ITextureData skillIcon;
-    public AbstractActiveSkill(String title){
+    public List<MutableComponent> skillDescription = new ArrayList<>(); //for static descriptions
+
+    public AbstractActiveSkill(Component title){
         this.title = title;
     }
+
+    /******SKILL DESCRIPTION STUFF*****/
+
     @Override
-    public String getSkillTitle() {
+    public Component getSkillTitle() {
         return title;
     }
+
+
+    //used for static skills
+    public AbstractActiveSkill setSkillDescription(List<MutableComponent> components){
+        skillDescription = components;
+        return this;
+    }
+
+    @Override
+    public List<MutableComponent> getSkillDescription(Player player) {
+        return skillDescription;
+    }
+
+    /******SKILL ICON STUFF*****/
+
+    public AbstractActiveSkill setSkillIcon(ITextureData textureData){
+        this.skillIcon = textureData;
+        return this;
+    }
+    @Override
+    public ITextureData skillIcon() {
+        return skillIcon;
+    }
+
+    /******SKILL DATA STUFF*****/
+
     @Override
     public String getSkillPath() {
         return path;
@@ -43,14 +79,7 @@ public abstract class AbstractActiveSkill implements ISkill{
     public void setFixedSkill(boolean fixedSkill) {
         //todo uses nbt data.
     }
-    public AbstractActiveSkill setSkillIcon(ITextureData textureData){
-        this.skillIcon = textureData;
-        return this;
-    }
-    @Override
-    public ITextureData skillIcon() {
-        return skillIcon;
-    }
+
 
     /**
      *

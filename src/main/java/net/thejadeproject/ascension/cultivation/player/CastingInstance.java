@@ -16,7 +16,7 @@ public class CastingInstance {
     public ICastData castData;// additional info the spell might need
     public int castTickElapsed = 0;
     public ResourceLocation skillId;
-    public UUID uuid;
+    public UUID uuid; //for casting threads
 
     public CastingInstance(ISkill skill,UUID uuid){
         castType = skill.getCastType();
