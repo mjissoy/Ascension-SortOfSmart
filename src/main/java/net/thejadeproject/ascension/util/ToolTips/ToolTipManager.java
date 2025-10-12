@@ -22,9 +22,9 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T1.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T2.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T3.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.REBIRTH_PILL.get(), Component.literal("★★★★★").withStyle(ChatFormatting.AQUA),
-                GradientComponentWrapper.withRGB("Be Cautios This Pill Resets Everything!"));
 
+        ToolTipHandler.registerTooltip(ModItems.REBIRTH_PILL.get(), Component.literal("★★★★★").withStyle(ChatFormatting.AQUA));
+        ToolTipHandler.registerAnimatedTooltip(ModItems.REBIRTH_PILL.get(), "Be Cautious This Pill Resets Everything!", 0.001f);
         // Advanced example with conditional logic
         registerAdvancedTooltips();
     }

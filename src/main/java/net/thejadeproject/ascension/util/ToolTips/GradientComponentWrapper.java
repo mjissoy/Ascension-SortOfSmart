@@ -1,31 +1,25 @@
 package net.thejadeproject.ascension.util.ToolTips;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 
 public class GradientComponentWrapper {
     private final String text;
     private float hue = 0.0f;
-    private float min = 0.1f;
-    private float max = 0.9f;
     private float speed = 0.01f;
-    private boolean useRGB = false;
+    private boolean useDynamicHue = false;
+    private static float globalTime = 0.0f;
 
     private GradientComponentWrapper(String text) {
         this.text = text;
     }
 
-    /**
-     * Create a new gradient component wrapper
-     */
     public static GradientComponentWrapper of(String text) {
         return new GradientComponentWrapper(text);
     }
 
-    /**
-     * Create a new gradient component wrapper from a translation key
-     */
     public static GradientComponentWrapper translatable(String key) {
-        return new GradientComponentWrapper(net.minecraft.client.resources.language.I18n.get(key));
+        return new GradientComponentWrapper(Component.translatable(key).getString());
     }
 
     /**
@@ -33,22 +27,6 @@ public class GradientComponentWrapper {
      */
     public GradientComponentWrapper hue(float hue) {
         this.hue = hue;
-        return this;
-    }
-
-    /**
-     * Set the minimum hue value for gradient effect
-     */
-    public GradientComponentWrapper min(float min) {
-        this.min = min;
-        return this;
-    }
-
-    /**
-     * Set the maximum hue value for gradient effect
-     */
-    public GradientComponentWrapper max(float max) {
-        this.max = max;
         return this;
     }
 
@@ -61,10 +39,10 @@ public class GradientComponentWrapper {
     }
 
     /**
-     * Use RGB mode instead of gradient mode
+     * Enable dynamic hue that updates over time
      */
-    public GradientComponentWrapper rgb() {
-        this.useRGB = true;
+    public GradientComponentWrapper dynamic() {
+        this.useDynamicHue = true;
         return this;
     }
 
@@ -72,31 +50,50 @@ public class GradientComponentWrapper {
      * Build the final component with gradient applied
      */
     public MutableComponent build() {
-        if (useRGB) {
-            return ToolTipsGradient.RGBEachLetter(hue, text, speed);
-        } else {
-            return ToolTipsGradient.Gradient(hue, text, min, max);
-        }
+        float currentHue = useDynamicHue ? getUpdatedHue() : hue;
+        return ToolTipsGradient.RGBEachLetter(currentHue, text, speed);
     }
 
     /**
-     * Shortcut method to directly get the gradient component
+     * Get updated hue that increments each call (like your original code)
      */
-    public static MutableComponent withGradient(String text) {
-        return of(text).build();
+    private float getUpdatedHue() {
+        globalTime += 0.001f;
+        if (globalTime > 1.0f) globalTime = 0;
+        return globalTime;
     }
 
     /**
-     * Shortcut method with custom hue
+     * Reset the global time (useful if you want to sync animations)
      */
-    public static MutableComponent withGradient(String text, float hue) {
-        return of(text).hue(hue).build();
+    public static void resetTime() {
+        globalTime = 0.0f;
     }
 
     /**
-     * Shortcut method for RGB mode
+     * Set the global time manually
      */
+    public static void setTime(float time) {
+        globalTime = time;
+    }
+
+    /**
+     * Get the current global time
+     */
+    public static float getTime() {
+        return globalTime;
+    }
+
+    // Convenience methods
     public static MutableComponent withRGB(String text) {
-        return of(text).rgb().build();
+        return of(text).dynamic().build();
+    }
+
+    public static MutableComponent withRGB(String text, float speed) {
+        return of(text).dynamic().speed(speed).build();
+    }
+
+    public static MutableComponent withStaticRGB(String text, float hue) {
+        return of(text).hue(hue).build();
     }
 }

@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.util.ToolTips;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -14,6 +15,29 @@ import java.util.Map;
 
 @EventBusSubscriber(modid = "ascension", bus = EventBusSubscriber.Bus.GAME)
 public class ToolTipHandler {
+
+    private static final Map<Item, AnimatedTooltip> ANIMATED_TOOLTIPS = new HashMap<>();
+
+    public static void registerAnimatedTooltip(Item item, String text, float speed) {
+        ANIMATED_TOOLTIPS.put(item, new AnimatedTooltip(text, speed));
+    }
+
+    private static class AnimatedTooltip {
+        private final String text;
+        private final float speed;
+        private float time = 0;
+
+        public AnimatedTooltip(String text, float speed) {
+            this.text = text;
+            this.speed = speed;
+        }
+
+        public MutableComponent getComponent() {
+            time += speed;
+            if (time > 1.0f) time = 0;
+            return ToolTipsGradient.RGBEachLetter(time, text, 0.01f);
+        }
+    }
 
     private static final Map<Item, List<Component>> ITEM_TOOLTIPS = new HashMap<>();
 
@@ -68,9 +92,16 @@ public class ToolTipHandler {
     public static void onItemTooltip(ItemTooltipEvent event) {
         Item item = event.getItemStack().getItem();
 
+        // Handle static tooltips
         if (ITEM_TOOLTIPS.containsKey(item)) {
             List<Component> tooltipLines = ITEM_TOOLTIPS.get(item);
             event.getToolTip().addAll(tooltipLines);
+        }
+
+        // Handle animated tooltips
+        if (ANIMATED_TOOLTIPS.containsKey(item)) {
+            AnimatedTooltip animated = ANIMATED_TOOLTIPS.get(item);
+            event.getToolTip().add(animated.getComponent());
         }
     }
 }
