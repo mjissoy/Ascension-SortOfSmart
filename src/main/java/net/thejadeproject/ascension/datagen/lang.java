@@ -44,7 +44,7 @@ public class lang extends LanguageProvider {
         add("item.ascension.rat_spawn_egg", "Treasure Rat Spawn Egg");
 
         //Mobs
-        add("entity.mcourse.rat", "Treasure Rat");
+        add("entity.ascension.treasure_rat", "Treasure Rat");
 
 
         //Pills
