@@ -18,7 +18,7 @@ public class ModFoodProperties {
 
     public static final FoodProperties PILL_RESIDUE = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().alwaysEdible().build();
 
-    public static final FoodProperties INNER_REINFORCEMENT_T1 = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
+    public static final FoodProperties INNER_REINFORCEMENT = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
 
 
     public static final FoodProperties HUNDRED_YEAR_SNOW_GINSENG = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().alwaysEdible().build();

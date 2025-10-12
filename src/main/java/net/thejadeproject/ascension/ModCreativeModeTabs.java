@@ -292,13 +292,15 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(ModItems.PILL_RESIDUE);
-                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
-                        output.accept(ModItems.REGENERATION_PILL);
-                        output.accept(ModItems.REBIRTH_PILL);
-                        output.accept(ModItems.CLEANSING_PILL);
                         output.accept(ModItems.FASTING_PILL_T1);
                         output.accept(ModItems.FASTING_PILL_T2);
                         output.accept(ModItems.FASTING_PILL_T3);
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T2);
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T3);
+                        output.accept(ModItems.REGENERATION_PILL);
+                        output.accept(ModItems.REBIRTH_PILL);
+                        output.accept(ModItems.CLEANSING_PILL);
 
 
                     }).build());

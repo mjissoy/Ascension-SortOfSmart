@@ -167,9 +167,19 @@ public class ModItems {
     public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
     public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T1 = ITEMS.register("inner_reinforcement_pill_t1",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT_T1), 400 /*Will be 10 min later*/)
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT), 400 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
                         CultivationSystem.cultivate((Player) entity,"ascension:body",20.0,List.of());
+                    }));
+    public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T2 = ITEMS.register("inner_reinforcement_pill_t2",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT), 800 /*Will be 10 min later*/)
+                    .addOnUse((item,level,entity)->{
+                        CultivationSystem.cultivate((Player) entity,"ascension:body",40.0,List.of());
+                    }));
+    public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T3 = ITEMS.register("inner_reinforcement_pill_t3",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT), 1600 /*Will be 10 min later*/)
+                    .addOnUse((item,level,entity)->{
+                        CultivationSystem.cultivate((Player) entity,"ascension:body",80.0,List.of());
                     }));
 
     public static final DeferredItem<Item> PILL_RESIDUE = ITEMS.register("pill_residue",

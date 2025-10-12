@@ -53,10 +53,12 @@ public class lang extends LanguageProvider {
         add("item.ascension.cleansing_pill", "Cleansing Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");
         add("tooltip.ascension.rebirth_pill", "Be Cautios This Pill Resets Everything!");
-        add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
         add("item.ascension.fasting_pill_t1", "Fasting Pill");
         add("item.ascension.fasting_pill_t2", "Fasting Pill");
         add("item.ascension.fasting_pill_t3", "Fasting Pill");
+        add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
+        add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
+        add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
 
         //manuals
         add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");

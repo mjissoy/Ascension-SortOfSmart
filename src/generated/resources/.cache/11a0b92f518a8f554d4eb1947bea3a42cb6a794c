@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-07T19:50:31.2600212	Item Models: ascension
+// 1.21.1	2025-10-12T12:25:15.4208599	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
@@ -30,6 +30,8 @@ e5cefaee56b09c331ff2aa56978c82369a54963d assets/ascension/models/item/gray_marbl
 dda2987e8dc98a20e3d6da2f826275ab8f109387 assets/ascension/models/item/hundred_year_ginseng.json
 5d237bcd417e0e69d6d2de95d4c0801e3134ba28 assets/ascension/models/item/hundred_year_snow_ginseng.json
 e727748c199f7082a2aa74f2fc0b2d501675b774 assets/ascension/models/item/inner_reinforcement_pill_t1.json
+2e3745ac68c0dc236bf1e012a21752b1f115be56 assets/ascension/models/item/inner_reinforcement_pill_t2.json
+6173f9a36c9900783e561984dcb2d3cf3d63590f assets/ascension/models/item/inner_reinforcement_pill_t3.json
 05e2a8a9642b32214d854b302965b464d8777b00 assets/ascension/models/item/ironwood_sprout.json
 f4620bd1077fc4a91989544ff2c32d49e2778286 assets/ascension/models/item/ironwood_sprout_block.json
 40a5bdf9b8f3dca46b3f9ea7c10238cf09ad7281 assets/ascension/models/item/iron_spatial_ring.json

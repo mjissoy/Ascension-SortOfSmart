@@ -126,6 +126,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.CLEANSING_PILL.get());
         pills(ModItems.REBIRTH_PILL.get());
         pills(ModItems.INNER_REINFORCEMENT_PILL_T1.get());
+        pills(ModItems.INNER_REINFORCEMENT_PILL_T2.get());
+        pills(ModItems.INNER_REINFORCEMENT_PILL_T3.get());
         pills(ModItems.FASTING_PILL_T1.get());
         pills(ModItems.FASTING_PILL_T2.get());
         pills(ModItems.FASTING_PILL_T3.get());

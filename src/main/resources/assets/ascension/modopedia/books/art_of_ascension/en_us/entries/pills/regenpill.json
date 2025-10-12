@@ -1,0 +1,40 @@
+{
+  "title": "Regeneration Pill",
+  "icon": { "id": "ascension:regeneration_pill" },
+  "assigned_items": [
+    "ascension:regeneration_pill"
+  ],
+  "pages": [
+    {
+      "components": [
+        {
+          "type": "modopedia:large_frame"
+        },
+        {
+          "type": "modopedia:showcase",
+          "items": [
+            {
+              "id":  "ascension:regeneration_pill"
+            }
+          ]
+        },
+        {
+          "type": "modopedia:text",
+          "x": 5,
+          "y": 103,
+          "line_height": 10,
+          "text": "Regeneration Pill is the one pill you need to stock up on!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§bRegeneration Pill",
+          "template": "modopedia:page/headered_text",
+          "text": "Regeneration Pill is the one pill you should always keep stocked up! \n\nIt should always be available to you. As it will help you out tremendously.\n\nIt will be the main Pill to Regenerate your health in PvPvE!"
+        }
+      ]
+    }
+  ]
+}
