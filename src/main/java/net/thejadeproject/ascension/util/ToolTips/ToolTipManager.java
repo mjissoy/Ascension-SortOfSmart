@@ -19,17 +19,11 @@ public class ToolTipManager {
         );
 
             // Fasting Pills - register each individually
-        ToolTipHandler.registerTooltip(
-                    ModItems.FASTING_PILL_T1.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.YELLOW)
-            );
-
-        ToolTipHandler.registerTooltip(
-                    ModItems.FASTING_PILL_T2.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW)
-            );
-
-        ToolTipHandler.registerTooltip(
-                    ModItems.FASTING_PILL_T3.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW)
-            );
+        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T1.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T2.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T3.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.REBIRTH_PILL.get(), Component.literal("★★★★★").withStyle(ChatFormatting.AQUA),
+                GradientComponentWrapper.withRGB("Be Cautios This Pill Resets Everything!"));
 
         // Advanced example with conditional logic
         registerAdvancedTooltips();

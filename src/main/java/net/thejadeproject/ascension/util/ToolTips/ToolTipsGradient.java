@@ -1,8 +1,9 @@
-package net.thejadeproject.ascension.util;
+package net.thejadeproject.ascension.util.ToolTips;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -71,22 +72,17 @@ public class ToolTipsGradient
     }
 
 
-    public static Component Gradient(float hue, String text, float min, float max)
-    {
-        Component c = Component.empty();
+    public static MutableComponent Gradient(float hue, String text, float min, float max) {
+        MutableComponent c = Component.empty();
 
-        for (int i = 0; i < text.length(); i++)
-        {
+        for (int i = 0; i < text.length(); i++) {
             String s = text.substring(i, i + 1);
 
-
             float pingPongedHue = mapHuePingPong(i * 0.01f + hue, min, max);
-
             int color = HueToRGBInt(pingPongedHue);
 
-            Component l = Component.literal(s).withColor(color);
-
-            c = Component.empty().append(c).append(l);
+            MutableComponent l = Component.literal(s).withColor(color);
+            c = c.append(l);
         }
 
         return c;
@@ -104,22 +100,14 @@ public class ToolTipsGradient
     }
 
 
-    public static Component RGBEachLetter(float hue, String text, float speed)
-    {
+    public static MutableComponent RGBEachLetter(float hue, String text, float speed) {
+        MutableComponent c = Component.empty();
 
-        Component c = Component.empty();
-
-        hue += 0.001f;
-
-        for (int i = 0; i < text.length(); i++)
-        {
+        for (int i = 0; i < text.length(); i++) {
             String s = text.substring(i, i + 1);
-
             int color = HueToRGBInt(i * speed + hue);
-
-            Component l = Component.literal(s).withColor(color);
-
-            c = Component.empty().append(c).append(l);
+            MutableComponent l = Component.literal(s).withColor(color);
+            c = c.append(l);
         }
 
         return c;
@@ -165,6 +153,8 @@ public class ToolTipsGradient
         }
         return 0xff000000 | (r << 16) | (g << 8) | (b);
     }
+
+
 
 
 }
