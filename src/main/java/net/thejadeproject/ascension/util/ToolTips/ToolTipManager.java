@@ -14,11 +14,8 @@ public class ToolTipManager {
         );*/
 
         // Tooltip with custom formatting
-        ToolTipHandler.registerTooltip(
-                ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), Component.translatable("tooltip.ascension.todh")
-        );
+        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), Component.translatable("tooltip.ascension.todh"));
 
-            // Fasting Pills - register each individually
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T1.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T2.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T3.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
