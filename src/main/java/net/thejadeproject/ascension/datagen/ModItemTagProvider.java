@@ -98,5 +98,13 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .addTag(ModTags.Items.SPEAR);
 
 
+
+        tag(ModTags.Items.INGOTS_BLACK_IRON)
+                .add(ModItems.BLACK_IRON_INGOT.get());
+        tag(ModTags.Items.BLACK_IRON_RAW)
+                .add(ModItems.RAW_BLACK_IRON.get());
+        tag(ModTags.Items.NUGGETS_BLACK_IRON)
+                .add(ModItems.BLACK_IRON_NUGGET.get());
+
     }
 }

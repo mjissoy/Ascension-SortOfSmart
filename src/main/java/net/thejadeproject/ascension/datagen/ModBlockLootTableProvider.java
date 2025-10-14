@@ -31,6 +31,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(ModBlocks.JADE_BLOCK.get());
+        dropSelf(ModBlocks.BLACK_IRON_BLOCK.get());
         dropSelf(ModBlocks.SPIRITUAL_STONE_BLOCK.get());
 
 
@@ -136,6 +137,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         add(ModBlocks.JADE_ORE.get(),
                 block -> createOreDrop(ModBlocks.JADE_ORE.get(), ModItems.JADE.get()));
+        add(ModBlocks.BLACK_IRON_ORE.get(),
+                block -> createOreDrop(ModBlocks.BLACK_IRON_ORE.get(), ModItems.RAW_BLACK_IRON.get()));
 
         this.dropSelf(ModBlocks.GOLDEN_PALM_LOG.get());
         this.dropSelf(ModBlocks.GOLDEN_PALM_WOOD.get());

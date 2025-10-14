@@ -1,4 +1,6 @@
-// 1.21.1	2025-10-05T17:12:15.8366715	Loot Tables
+// 1.21.1	2025-10-14T18:53:32.3830799	Loot Tables
+4e350a86b42d1ae1ba4f4fbeb663b3ef86261196 data/ascension/loot_table/blocks/black_iron_block.json
+38f47b8a49c39deb26be96306d89c92e4f616193 data/ascension/loot_table/blocks/black_iron_ore.json
 8fa1f6d0faab7897bb4c5b07978d69be87825eae data/ascension/loot_table/blocks/blue_marble.json
 9d3644981ba52f406a0f99235e31b3a521237843 data/ascension/loot_table/blocks/blue_marble_bricks.json
 64662a258e79a533a67de128a969b287a9697b21 data/ascension/loot_table/blocks/blue_marble_brick_slabs.json

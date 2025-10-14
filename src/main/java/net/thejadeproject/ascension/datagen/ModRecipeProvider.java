@@ -5,6 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -27,7 +28,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
-        List<ItemLike> JADE_SMELTABLES = List.of(ModBlocks.JADE_ORE);
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.SPIRITUAL_STONE_BLOCK.get())
@@ -50,6 +50,19 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('J', ModItems.JADE_NUGGET.get())
                 .unlockedBy("has_jade_ingot", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_ingot_from_nugget");
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BLACK_IRON_BLOCK.get())
+                .pattern("BBB")
+                .pattern("BBB")
+                .pattern("BBB")
+                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/black_iron_block_from_ingot");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BLACK_IRON_INGOT.get())
+                .pattern("BBB")
+                .pattern("BBB")
+                .pattern("BBB")
+                .define('B', ModItems.BLACK_IRON_NUGGET.get())
+                .unlockedBy("has_black_iron_nugget", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/black_iron_ingot_from_nugget");
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE.get(), 9)
                 .requires(ModBlocks.SPIRITUAL_STONE_BLOCK)
                 .unlockedBy("has_ssb", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(recipeOutput, "ascension:shapeless/ss_from_ssb");
@@ -59,6 +72,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.JADE_NUGGET.get(), 9)
                 .requires(ModItems.JADE)
                 .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shapeless/jade_nugget_from_jade");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BLACK_IRON_INGOT.get(), 9)
+                .requires(ModBlocks.BLACK_IRON_BLOCK)
+                .unlockedBy("has_block_of_black_iron", has(ModBlocks.BLACK_IRON_BLOCK)).save(recipeOutput, "ascension:shapeless/black_iron_ingot_from_block");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BLACK_IRON_NUGGET.get(), 9)
+                .requires(ModItems.BLACK_IRON_INGOT)
+                .unlockedBy("has_jade", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shapeless/black_iron_nugget_from_ingot");
 
 
         /** Marble Recipes */
@@ -155,8 +175,10 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
 
-        oreSmelting(recipeOutput, JADE_SMELTABLES, RecipeCategory.MISC, ModItems.JADE.get(), 0.25f, 200, "jade");
-        oreBlasting(recipeOutput, JADE_SMELTABLES, RecipeCategory.MISC, ModItems.JADE.get(), 0.30f, 100, "jade");
+        oreSmelting(recipeOutput, ModBlocks.JADE_ORE.asItem(), RecipeCategory.MISC, ModItems.JADE.get(), 0.25f, 200, "jade");
+        oreBlasting(recipeOutput, ModBlocks.JADE_ORE.asItem(), RecipeCategory.MISC, ModItems.JADE.get(), 0.30f, 100, "jade");
+        oreSmelting(recipeOutput, ModItems.RAW_BLACK_IRON.get(), RecipeCategory.MISC, ModItems.BLACK_IRON_INGOT.get(), 0.25f, 200, "black_iron_ingot");
+        oreBlasting(recipeOutput, ModItems.RAW_BLACK_IRON.get(), RecipeCategory.MISC, ModItems.BLACK_IRON_INGOT.get(), 0.30f, 100, "black_iron_ingot");
 
 
 
@@ -334,17 +356,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     }
 
-
-    protected static void oreSmelting(RecipeOutput recipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult,
-                                      float pExperience, int pCookingTIme, String pGroup) {
-        oreCooking(recipeOutput, RecipeSerializer.SMELTING_RECIPE, SmeltingRecipe::new, pIngredients, pCategory, pResult,
-                pExperience, pCookingTIme, pGroup, "_from_smelting");
+    protected static void oreSmelting(RecipeOutput recipeOutput, Item pIngredient, RecipeCategory pCategory, ItemLike pResult,
+                                      float pExperience, int pCookingTime, String pGroup) {
+        oreCooking(recipeOutput, RecipeSerializer.SMELTING_RECIPE, SmeltingRecipe::new, List.of(pIngredient), pCategory, pResult,
+                pExperience, pCookingTime, pGroup, "_from_smelting");
     }
 
-
-    protected static void oreBlasting(RecipeOutput recipeOutput, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult,
+    protected static void oreBlasting(RecipeOutput recipeOutput, Item pIngredient, RecipeCategory pCategory, ItemLike pResult,
                                       float pExperience, int pCookingTime, String pGroup) {
-        oreCooking(recipeOutput, RecipeSerializer.BLASTING_RECIPE, BlastingRecipe::new, pIngredients, pCategory, pResult,
+        oreCooking(recipeOutput, RecipeSerializer.BLASTING_RECIPE, BlastingRecipe::new, List.of(pIngredient), pCategory, pResult,
                 pExperience, pCookingTime, pGroup, "_from_blasting");
     }
 

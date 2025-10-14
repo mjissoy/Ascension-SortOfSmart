@@ -22,9 +22,9 @@ public class ModCreativeModeTabs {
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_blocks_tab"))
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.JADE_BLADE);
-                        output.accept(ModItems.SEARING_BLADE);
-                        output.accept(ModItems.JADE_SPEAR);
+                        output.accept(ModItems.RAW_BLACK_IRON);
+                        output.accept(ModItems.BLACK_IRON_INGOT);
+                        output.accept(ModItems.BLACK_IRON_NUGGET);
 
 
 
@@ -33,6 +33,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
+                        output.accept(ModItems.JADE_BLADE);
+                        output.accept(ModItems.SEARING_BLADE);
+                        output.accept(ModItems.JADE_SPEAR);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
@@ -58,6 +61,18 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.JADE_ORE.get()))
                     .title(Component.translatable("creativetab.ascension.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
+
+
+
+                        output.accept(ModBlocks.BLACK_IRON_ORE);
+                        output.accept(ModBlocks.BLACK_IRON_BLOCK);
+                        output.accept(ModBlocks.JADE_ORE);
+                        output.accept(ModBlocks.JADE_BLOCK);
+                        output.accept(ModBlocks.SPIRITUAL_STONE_CLUSTER);
+                        output.accept(ModBlocks.SPIRITUAL_STONE_BLOCK);
+                        output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
+
+
                         output.accept(ModBlocks.GOLDEN_PALM_LOG);
                         output.accept(ModBlocks.GOLDEN_PALM_WOOD);
 
@@ -256,13 +271,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.PINK_MARBLE_TILE_WALLS);
 
 
-
-
-                        output.accept(ModBlocks.JADE_ORE);
-                        output.accept(ModBlocks.JADE_BLOCK);
-                        output.accept(ModBlocks.SPIRITUAL_STONE_CLUSTER);
-                        output.accept(ModBlocks.SPIRITUAL_STONE_BLOCK);
-                        output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
 
 
                     }).build());

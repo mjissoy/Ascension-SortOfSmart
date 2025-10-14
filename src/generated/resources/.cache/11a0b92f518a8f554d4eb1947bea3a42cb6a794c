@@ -1,5 +1,7 @@
-// 1.21.1	2025-10-12T12:25:15.4208599	Item Models: ascension
+// 1.21.1	2025-10-14T18:53:32.3941938	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
+34dabeb5a8be2b07546251a0b1b7bf79b4730464 assets/ascension/models/item/black_iron_ingot.json
+4797248d81db0dfdf041f22734e73e775b6dc54e assets/ascension/models/item/black_iron_nugget.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
 ca2dd8d104c9eedf31e5888ed72de43afc614596 assets/ascension/models/item/brown_marble_brick_wall.json
@@ -64,6 +66,7 @@ fd8380413755ee016f51bb609fd2839c0616cb46 assets/ascension/models/item/pink_marbl
 a570ec5a0189fb3ab5e1aebbb03df97ef2b451c3 assets/ascension/models/item/purple_marble_brick_wall.json
 65f50d85d05bc701ae9d88ae691f6ac505ad7182 assets/ascension/models/item/purple_marble_tile_wall.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/ascension/models/item/rat_spawn_egg.json
+7d3ee3a2e8aeb1b97a2dc02fc170abc39347b1a8 assets/ascension/models/item/raw_black_iron.json
 b68d64b6eea5da5b1df3146813fff1d717c3497f assets/ascension/models/item/rebirth_pill.json
 888efa2fd9740b2d0dd43963e4d4706bfac24d2b assets/ascension/models/item/red_marble_brick_wall.json
 ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble_tile_wall.json

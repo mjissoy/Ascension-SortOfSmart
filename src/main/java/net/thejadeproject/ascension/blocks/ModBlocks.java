@@ -286,10 +286,23 @@ public class ModBlocks {
                             .strength(6.5f, 5.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).noOcclusion(),
                     UniformInt.of(2, 4)));
 
+    public static final DeferredBlock<Block> BLACK_IRON_ORE = registerBlock("black_iron_ore",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
+
     //Other Blocks
     public static final DeferredBlock<Block> JADE_BLOCK = registerBlock("jade_block",
             () -> new Block(BlockBehaviour.Properties.of()
                 .strength(5.5f, 4.5f).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
+    public static final DeferredBlock<Block> BLACK_IRON_BLOCK = registerBlock("black_iron_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                .strength(7.5f, 11.5f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
+
+
+
+
+
 
     public static final DeferredBlock<Block> PILL_CAULDRON_HUMAN_LOW = registerBlock("pill_cauldron_low_human",
             () -> new PillCauldronLowHumanBlock(BlockBehaviour.Properties.of().noOcclusion()));

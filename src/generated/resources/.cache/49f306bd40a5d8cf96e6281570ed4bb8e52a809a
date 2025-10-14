@@ -1,11 +1,12 @@
-// 1.21.1	2025-09-28T12:02:16.5097472	Tags for minecraft:block mod id ascension
+// 1.21.1	2025-10-14T18:53:32.3978008	Tags for minecraft:block mod id ascension
 60b582bbc350d97227ebb574d2a9926172717d33 data/ascension/tags/block/blocks_destruction.json
+24a3e204ca7e883389c2e17edde85fce28d088de data/c/tags/block/storage_blocks/black_iron.json
 c3e08fedd026c20868c42be54c3f829fdd7bb562 data/minecraft/tags/block/fences.json
 1a16bd78a62350575e23c16b8500b0915cff3bdd data/minecraft/tags/block/fence_gates.json
 83eacd83689146e557ef948eab4bfdd0e856d564 data/minecraft/tags/block/logs_that_burn.json
-ac52d013a11676351e8d6c3462f70e536e2e26e0 data/minecraft/tags/block/mineable/pickaxe.json
+b03e0f52aacd99e64e022dd6094e09bdfe88d1d1 data/minecraft/tags/block/mineable/pickaxe.json
 09c5cde6d6185ec6772fe60f72782d7f56a54959 data/minecraft/tags/block/needs_diamond_tool.json
-a6d985011531750900bf35a6aab374bf1c0acaa4 data/minecraft/tags/block/needs_iron_tool.json
+629a6563012af4fac5914326355ea7812a6673e3 data/minecraft/tags/block/needs_iron_tool.json
 9a0805e7eb5e670e8d882150562985e089926fb3 data/minecraft/tags/block/slabs.json
 c2a3f9f63b8c5daf27a3dc5adfcfbe54c4f41e62 data/minecraft/tags/block/stairs.json
 2d8714871a77f56188a06f48a4d7c73cc00893c4 data/minecraft/tags/block/walls.json

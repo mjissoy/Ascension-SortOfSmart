@@ -88,9 +88,13 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Items
         basicItem(ModItems.JADE.get());
-        //basicItem(ModItems.SPIRITUAL_STONE.get());
-        basicItem(ModItems.JADE_SLIP.get());
         basicItem(ModItems.JADE_NUGGET.get());
+
+        basicItem(ModItems.RAW_BLACK_IRON.get());
+        basicItem(ModItems.BLACK_IRON_INGOT.get());
+        basicItem(ModItems.BLACK_IRON_NUGGET.get());
+
+        basicItem(ModItems.JADE_SLIP.get());
 
 
         //Drops

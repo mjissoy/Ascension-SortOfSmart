@@ -31,6 +31,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         herbsBlock(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
 
 
+        simpleBlockWithItem(ModBlocks.BLACK_IRON_ORE);
+        simpleBlockWithItem(ModBlocks.BLACK_IRON_BLOCK);
         simpleBlockWithItem(ModBlocks.JADE_ORE);
         simpleBlockWithItem(ModBlocks.JADE_BLOCK);
         simpleBlockWithItem(ModBlocks.SPIRITUAL_STONE_BLOCK);

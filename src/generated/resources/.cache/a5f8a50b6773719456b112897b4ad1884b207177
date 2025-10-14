@@ -1,4 +1,6 @@
-// 1.21.1	2025-10-05T17:37:27.7976987	Block States: ascension
+// 1.21.1	2025-10-14T18:53:32.3648908	Block States: ascension
+6cfba71b0143561a942dcb47bee32d4a758a1e0d assets/ascension/blockstates/black_iron_block.json
+b36d54bccb1a1d76cba5d869c9ab4ed0cad16c2b assets/ascension/blockstates/black_iron_ore.json
 c3d44c985fc6d2f52a667da2fb73360ea070b8f7 assets/ascension/blockstates/blue_marble.json
 9e7999a3a3395da725ce376c8cf6dff1c942666b assets/ascension/blockstates/blue_marble_bricks.json
 b0bc93a7f000e954ef666c4d1b0f14ff0ad31314 assets/ascension/blockstates/blue_marble_brick_slabs.json
@@ -196,6 +198,8 @@ f0f63389efa9d5a48ab0cbbbaee486ae6f8b061c assets/ascension/blockstates/yellow_mar
 d80e54c9deafdfb24ceb8026ab7d17d830566559 assets/ascension/blockstates/yellow_marble_tile_stairs.json
 52b4bb4d7359186ff8851efabffbde3d8f103731 assets/ascension/blockstates/yellow_marble_tile_wall.json
 8c5b9b1cd357dd5041a2e317ee51bcec01875903 assets/ascension/blockstates/yellow_polished_marble.json
+5b6c840ab7a02ce9538333d6a64876de7dadb9b8 assets/ascension/models/block/black_iron_block.json
+31548ba8177da78906e58d6da8d4555ba99c850a assets/ascension/models/block/black_iron_ore.json
 4b6603feade29879aa02b191f0a68f27fbf3e707 assets/ascension/models/block/blue_marble.json
 cdc45f35cc8a900632881cb85bf7c5b88339ae7c assets/ascension/models/block/blue_marble_bricks.json
 3bd5630d6da5fd9309c0273290d86a99acf5c6b2 assets/ascension/models/block/blue_marble_brick_slabs.json
@@ -575,6 +579,8 @@ d4230a10ed24e9b1829c7dc164753a6b97e1bc83 assets/ascension/models/block/yellow_ma
 5096e807ee75ed32960e0413b982f36a9a198a7e assets/ascension/models/block/yellow_marble_tile_wall_side.json
 1f437fbd7f7fe2fbcf1c9197753525cc973451a1 assets/ascension/models/block/yellow_marble_tile_wall_side_tall.json
 7ec2dfdfee4c3be3e89826c43f642be3b6d8934f assets/ascension/models/block/yellow_polished_marble.json
+8b892276b072042b4590efa6278b2f4281f209b1 assets/ascension/models/item/black_iron_block.json
+9abe6d2e68ca47665704eb61c9da022cd32161c9 assets/ascension/models/item/black_iron_ore.json
 7a3cbb0af9bfb2a21dbb47d1be224652d9f927fb assets/ascension/models/item/blue_marble.json
 66df9aa9ae2533c527ff656f5169220c9bcccf5e assets/ascension/models/item/blue_marble_bricks.json
 d620abdcf66653b66a9442315052c181bd2d76e2 assets/ascension/models/item/blue_marble_brick_slabs.json

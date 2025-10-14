@@ -23,6 +23,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.JADE_BLOCK.get())
                 .add(ModBlocks.JADE_ORE.get())
+                .add(ModBlocks.BLACK_IRON_ORE.get())
+                .add(ModBlocks.BLACK_IRON_BLOCK.get())
                 .add(ModBlocks.SPIRITUAL_STONE_CLUSTER.get())
 
                 .add(ModBlocks.RAW_MARBLE.get())
@@ -226,7 +228,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
 
         tag(BlockTags.NEEDS_IRON_TOOL)
-                .add(ModBlocks.JADE_ORE.get());
+                .add(ModBlocks.JADE_ORE.get())
+                .add(ModBlocks.BLACK_IRON_ORE.get());
 
         tag(BlockTags.FENCES)
                 .add(ModBlocks.GOLDEN_PALM_FENCE.get());
@@ -340,5 +343,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.GOLDEN_PALM_WOOD.get())
                 .add(ModBlocks.STRIPPED_GOLDEN_PALM_LOG.get())
                 .add(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD.get());
+
+
+        tag(ModTags.Blocks.STORAGE_BLOCKS_BLACK_IRON)
+                .add(ModBlocks.BLACK_IRON_BLOCK.get());
     }
 }
