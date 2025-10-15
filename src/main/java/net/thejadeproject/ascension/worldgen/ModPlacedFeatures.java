@@ -24,6 +24,8 @@ import static net.thejadeproject.ascension.worldgen.ModOrePlacement.rareOrePlace
 
 public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> JADE_ORE_PLACED_KEY = registerKey("jade_ore");
+    public static final ResourceKey<PlacedFeature> BLACK_IRON_ORE_PLACED_KEY = registerKey("black_iron_ore_placed");
+    public static final ResourceKey<PlacedFeature> FROST_SILVER_ORE_PLACED_KEY = registerKey("frost_silver_ore_placed");
 
     public static final ResourceKey<PlacedFeature> GOLDEN_PALM_PLACED_KEY = registerKey("golden_palm_placed");
 
@@ -43,6 +45,11 @@ public class ModPlacedFeatures {
 
 
         register(context, JADE_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_JADE_ORE_KEY),
+            commonOrePlacement(5, HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(0))));
+
+        register(context, BLACK_IRON_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_JADE_ORE_KEY),
+            commonOrePlacement(5, HeightRangePlacement.triangle(VerticalAnchor.absolute(60), VerticalAnchor.absolute(300))));
+        register(context, FROST_SILVER_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_FROST_SILVER_ORE_KEY),
             commonOrePlacement(5, HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(0))));
 
 

@@ -106,5 +106,12 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.Items.NUGGETS_BLACK_IRON)
                 .add(ModItems.BLACK_IRON_NUGGET.get());
 
+        tag(ModTags.Items.INGOTS_FROST_SILVER)
+                .add(ModItems.FROST_SILVER_INGOT.get());
+        tag(ModTags.Items.FROST_SILVER_RAW)
+                .add(ModItems.RAW_FROST_SILVER.get());
+        tag(ModTags.Items.NUGGETS_FROST_SILVER)
+                .add(ModItems.FROST_SILVER_NUGGET.get());
+
     }
 }

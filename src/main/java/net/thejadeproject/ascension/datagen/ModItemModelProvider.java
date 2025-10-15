@@ -93,6 +93,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.RAW_BLACK_IRON.get());
         basicItem(ModItems.BLACK_IRON_INGOT.get());
         basicItem(ModItems.BLACK_IRON_NUGGET.get());
+        basicItem(ModItems.RAW_FROST_SILVER.get());
+        basicItem(ModItems.FROST_SILVER_INGOT.get());
+        basicItem(ModItems.FROST_SILVER_NUGGET.get());
 
         basicItem(ModItems.JADE_SLIP.get());
 

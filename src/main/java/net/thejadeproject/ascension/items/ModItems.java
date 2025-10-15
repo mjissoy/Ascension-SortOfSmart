@@ -35,6 +35,13 @@ public class ModItems {
     public static final DeferredItem<Item> BLACK_IRON_INGOT = ITEMS.register("black_iron_ingot",
             () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> RAW_FROST_SILVER = ITEMS.register("raw_frost_silver",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FROST_SILVER_NUGGET = ITEMS.register("frost_silver_nugget",
+            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FROST_SILVER_INGOT = ITEMS.register("frost_silver_ingot",
+            () -> new Item(new Item.Properties()));
+
     public static final DeferredItem<Item> JADE = ITEMS.register("jade",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> JADE_NUGGET = ITEMS.register("jade_nugget",

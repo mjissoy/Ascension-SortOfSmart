@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-14T18:53:32.3830799	Loot Tables
+// 1.21.1	2025-10-15T18:12:29.6887772	Loot Tables
 4e350a86b42d1ae1ba4f4fbeb663b3ef86261196 data/ascension/loot_table/blocks/black_iron_block.json
 38f47b8a49c39deb26be96306d89c92e4f616193 data/ascension/loot_table/blocks/black_iron_ore.json
 8fa1f6d0faab7897bb4c5b07978d69be87825eae data/ascension/loot_table/blocks/blue_marble.json
@@ -40,6 +40,8 @@ a154d0e89121537ec4b92e46ecf57b9c0e296f48 data/ascension/loot_table/blocks/cyan_m
 d20efe6f3fff4fc3c50d072ab64f7a4b91a5e5f0 data/ascension/loot_table/blocks/cyan_marble_tile_stairs.json
 84a8af5aa2a72ac6ce386615cf8016c1f30a61a2 data/ascension/loot_table/blocks/cyan_marble_tile_wall.json
 b72cc8620254cd9c4a905a2b53579cc7d1f1c492 data/ascension/loot_table/blocks/cyan_polished_marble.json
+e87ac6dde33f1ab02169338cd91d25c076c1ac16 data/ascension/loot_table/blocks/frost_silver_block.json
+c4998b5319afb79daedf1e757b4612220fcb1ad8 data/ascension/loot_table/blocks/frost_silver_ore.json
 78f4085f8dd3b0de2f9a28e645dc87e811fe9fac data/ascension/loot_table/blocks/golden_palm_button.json
 1a9e6e1604f8711ac0461a88c8e7543f274282c8 data/ascension/loot_table/blocks/golden_palm_door.json
 a50bc7f52dfbed0ac4e3eda8f9dd292d0640fbe2 data/ascension/loot_table/blocks/golden_palm_fence.json

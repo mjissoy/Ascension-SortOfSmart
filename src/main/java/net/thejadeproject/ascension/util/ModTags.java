@@ -29,6 +29,10 @@ public class ModTags {
         public static final TagKey<Item> INGOTS_BLACK_IRON = createCommonTag("ingots/black_iron");
         public static final TagKey<Item> NUGGETS_BLACK_IRON = createCommonTag("nuggets/black_iron");
 
+        public static final TagKey<Item> FROST_SILVER_RAW = createCommonTag("raw_materials/frost_silver");
+        public static final TagKey<Item> INGOTS_FROST_SILVER = createCommonTag("ingots/frost_silver");
+        public static final TagKey<Item> NUGGETS_FROST_SILVER = createCommonTag("nuggets/frost_silver");
+
 
 
         public static HashMap<String,TagKey<Item>> daoItemTags = new HashMap<>();
@@ -54,6 +58,7 @@ public class ModTags {
         public static final TagKey<Block> INCORRECT_FOR_JADE_TOOL = createTag("incorrect_for_jade_tool");
 
         public static final TagKey<Block> STORAGE_BLOCKS_BLACK_IRON = createCommonTag("storage_blocks/black_iron");
+        public static final TagKey<Block> STORAGE_BLOCKS_FROST_SILVER = createCommonTag("storage_blocks/frost_silver");
 
 
 

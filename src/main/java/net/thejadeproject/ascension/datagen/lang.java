@@ -38,6 +38,11 @@ public class lang extends LanguageProvider {
         add("item.ascension.raw_black_iron", "Raw Black Iron");
         add("item.ascension.black_iron_ingot", "Black Iron Ingot");
         add("item.ascension.black_iron_nugget", "Black Iron Nugget");
+
+        add("item.ascension.raw_frost_silver", "Raw Frost Silver");
+        add("item.ascension.frost_silver_ingot", "Frost Silver Ingot");
+        add("item.ascension.frost_silver_nugget", "Frost Silver Nugget");
+
         add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.ascension_icon", "Ascension Icon");
@@ -295,6 +300,8 @@ public class lang extends LanguageProvider {
 
         add("block.ascension.black_iron_ore", "Black Iron Ore");
         add("block.ascension.black_iron_block", "Black Iron Block");
+        add("block.ascension.frost_silver_ore", "Frost Silver Ore");
+        add("block.ascension.frost_silver_block", "Frost Silver Block");
 
         add("block.ascension.jade_ore", "Jade Ore");
         add("block.ascension.spiritual_stone_cluster", "Spiritual Stone Cluster");

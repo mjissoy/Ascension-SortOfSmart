@@ -25,6 +25,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.RAW_BLACK_IRON);
                         output.accept(ModItems.BLACK_IRON_INGOT);
                         output.accept(ModItems.BLACK_IRON_NUGGET);
+                        output.accept(ModItems.RAW_FROST_SILVER);
+                        output.accept(ModItems.FROST_SILVER_INGOT);
+                        output.accept(ModItems.FROST_SILVER_NUGGET);
 
 
 
@@ -66,6 +69,8 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModBlocks.BLACK_IRON_ORE);
                         output.accept(ModBlocks.BLACK_IRON_BLOCK);
+                        output.accept(ModBlocks.FROST_SILVER_ORE);
+                        output.accept(ModBlocks.FROST_SILVER_BLOCK);
                         output.accept(ModBlocks.JADE_ORE);
                         output.accept(ModBlocks.JADE_BLOCK);
                         output.accept(ModBlocks.SPIRITUAL_STONE_CLUSTER);

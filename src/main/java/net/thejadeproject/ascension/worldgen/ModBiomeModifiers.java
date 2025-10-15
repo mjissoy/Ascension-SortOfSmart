@@ -14,11 +14,14 @@ import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.ModEntities;
+import net.thejadeproject.ascension.worldgen.biome.ModBiomes;
 
 import java.util.List;
 
 public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_JADE_ORE = registerKey(("add_jade_ore"));
+    public static final ResourceKey<BiomeModifier> ADD_BLACK_IRON_ORE = registerKey(("add_black_iron_ore"));
+    public static final ResourceKey<BiomeModifier> ADD_FROST_SILVER_ORE = registerKey(("add_frost_silver_ore"));
 
     public static final ResourceKey<BiomeModifier> ADD_GOLDEN_PALM = registerKey("add_golden_palm");
     public static final ResourceKey<BiomeModifier> ADD_RAW_MARBLE = registerKey("add_raw_marble");
@@ -34,6 +37,15 @@ public class ModBiomeModifiers {
         context.register(ADD_JADE_ORE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.JADE_ORE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+
+        context.register(ADD_BLACK_IRON_ORE, new BiomeModifiers.AddFeaturesBiomeModifier(
+                HolderSet.direct(biomes.getOrThrow(Biomes.WINDSWEPT_HILLS), biomes.getOrThrow(Biomes.WINDSWEPT_GRAVELLY_HILLS), biomes.getOrThrow(Biomes.JAGGED_PEAKS), biomes.getOrThrow(ModBiomes.JAGGED_QI_PEAKS_BIOME)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BLACK_IRON_ORE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_FROST_SILVER_ORE, new BiomeModifiers.AddFeaturesBiomeModifier(
+                HolderSet.direct(biomes.getOrThrow(Biomes.ICE_SPIKES), biomes.getOrThrow(Biomes.FROZEN_PEAKS)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FROST_SILVER_ORE_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
         context.register(ADD_RAW_MARBLE, new BiomeModifiers.AddFeaturesBiomeModifier(

@@ -229,7 +229,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.JADE_ORE.get())
-                .add(ModBlocks.BLACK_IRON_ORE.get());
+                .add(ModBlocks.BLACK_IRON_ORE.get())
+                .add(ModBlocks.BLACK_IRON_BLOCK.get())
+                .add(ModBlocks.FROST_SILVER_BLOCK.get())
+                .add(ModBlocks.FROST_SILVER_ORE.get());
 
         tag(BlockTags.FENCES)
                 .add(ModBlocks.GOLDEN_PALM_FENCE.get());
@@ -347,5 +350,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(ModTags.Blocks.STORAGE_BLOCKS_BLACK_IRON)
                 .add(ModBlocks.BLACK_IRON_BLOCK.get());
+
+        tag(ModTags.Blocks.STORAGE_BLOCKS_FROST_SILVER)
+                .add(ModBlocks.FROST_SILVER_BLOCK.get());
     }
 }

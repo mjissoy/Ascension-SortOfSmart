@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
+import net.thejadeproject.ascension.blocks.entity.ores.FrostSilverOreBlock;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -289,12 +290,18 @@ public class ModBlocks {
     public static final DeferredBlock<Block> BLACK_IRON_ORE = registerBlock("black_iron_ore",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<FrostSilverOreBlock> FROST_SILVER_ORE = registerBlock("frost_silver_ore",
+            () -> new FrostSilverOreBlock(BlockBehaviour.Properties.of()
+                    .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
 
     //Other Blocks
     public static final DeferredBlock<Block> JADE_BLOCK = registerBlock("jade_block",
             () -> new Block(BlockBehaviour.Properties.of()
                 .strength(5.5f, 4.5f).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
     public static final DeferredBlock<Block> BLACK_IRON_BLOCK = registerBlock("black_iron_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                .strength(7.5f, 11.5f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> FROST_SILVER_BLOCK = registerBlock("frost_silver_block",
             () -> new Block(BlockBehaviour.Properties.of()
                 .strength(7.5f, 11.5f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
 

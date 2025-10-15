@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-14T18:53:32.3941938	Item Models: ascension
+// 1.21.1	2025-10-15T18:12:29.6998593	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 34dabeb5a8be2b07546251a0b1b7bf79b4730464 assets/ascension/models/item/black_iron_ingot.json
 4797248d81db0dfdf041f22734e73e775b6dc54e assets/ascension/models/item/black_iron_nugget.json
@@ -18,6 +18,8 @@ abe2becd602169ae11df376855869494e03a5542 assets/ascension/models/item/diamond_sp
 24d636705893eb64e2c11c327ff2067de21fe1da assets/ascension/models/item/fasting_pill_t1.json
 a7a0cfdd0338bc05cdd2bcfd788629bc35994828 assets/ascension/models/item/fasting_pill_t2.json
 5c9d7b313153f0eb76da3df42e0894407138cce3 assets/ascension/models/item/fasting_pill_t3.json
+ac639595d71c1a885634b3e591c0f522a6be1bc2 assets/ascension/models/item/frost_silver_ingot.json
+a45ea3a13a12d6b29ea2c6dc67e288843e9d07f6 assets/ascension/models/item/frost_silver_nugget.json
 922e3b4df3ad678fc0b44e8e93d1a2891111ab36 assets/ascension/models/item/golden_palm_button.json
 52f45159c085e04ea6b39386e0b56a0a544ba074 assets/ascension/models/item/golden_palm_door.json
 a8e9779b889c8fdd9987b0f0a0f227780e247c2f assets/ascension/models/item/golden_palm_fence.json
@@ -67,6 +69,7 @@ a570ec5a0189fb3ab5e1aebbb03df97ef2b451c3 assets/ascension/models/item/purple_mar
 65f50d85d05bc701ae9d88ae691f6ac505ad7182 assets/ascension/models/item/purple_marble_tile_wall.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/ascension/models/item/rat_spawn_egg.json
 7d3ee3a2e8aeb1b97a2dc02fc170abc39347b1a8 assets/ascension/models/item/raw_black_iron.json
+1855bd7b416d745f7f0bc48085da4d4d9ccb8748 assets/ascension/models/item/raw_frost_silver.json
 b68d64b6eea5da5b1df3146813fff1d717c3497f assets/ascension/models/item/rebirth_pill.json
 888efa2fd9740b2d0dd43963e4d4706bfac24d2b assets/ascension/models/item/red_marble_brick_wall.json
 ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble_tile_wall.json

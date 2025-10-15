@@ -61,7 +61,27 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("BBB")
                 .pattern("BBB")
                 .define('B', ModItems.BLACK_IRON_NUGGET.get())
-                .unlockedBy("has_black_iron_nugget", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/black_iron_ingot_from_nugget");
+                .unlockedBy("has_black_iron_nugget", has(ModItems.BLACK_IRON_NUGGET)).save(recipeOutput, "ascension:shaped/black_iron_ingot_from_nugget");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.FROST_SILVER_BLOCK.get())
+                .pattern("BBB")
+                .pattern("BBB")
+                .pattern("BBB")
+                .define('B', ModItems.FROST_SILVER_INGOT.get())
+                .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shaped/frost_silver_block_from_ingot");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FROST_SILVER_INGOT.get())
+                .pattern("BBB")
+                .pattern("BBB")
+                .pattern("BBB")
+                .define('B', ModItems.FROST_SILVER_NUGGET.get())
+                .unlockedBy("has_frost_silver_nugget", has(ModItems.FROST_SILVER_NUGGET)).save(recipeOutput, "ascension:shaped/frost_silver_ingot_from_nugget");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.PILL_CAULDRON_HUMAN_LOW.get())
+                .pattern("B B")
+                .pattern("B B")
+                .pattern("BBB")
+                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/pill_cauldron_from_black_iron");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE.get(), 9)
                 .requires(ModBlocks.SPIRITUAL_STONE_BLOCK)
@@ -78,7 +98,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_block_of_black_iron", has(ModBlocks.BLACK_IRON_BLOCK)).save(recipeOutput, "ascension:shapeless/black_iron_ingot_from_block");
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.BLACK_IRON_NUGGET.get(), 9)
                 .requires(ModItems.BLACK_IRON_INGOT)
-                .unlockedBy("has_jade", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shapeless/black_iron_nugget_from_ingot");
+                .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shapeless/black_iron_nugget_from_ingot");
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.FROST_SILVER_INGOT.get(), 9)
+                .requires(ModBlocks.FROST_SILVER_BLOCK)
+                .unlockedBy("has_block_of_frost_silver", has(ModBlocks.FROST_SILVER_BLOCK)).save(recipeOutput, "ascension:shapeless/frost_silver_ingot_from_block");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.FROST_SILVER_NUGGET.get(), 9)
+                .requires(ModItems.FROST_SILVER_INGOT)
+                .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shapeless/frost_silver_nugget_from_ingot");
 
 
         /** Marble Recipes */
@@ -179,6 +206,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         oreBlasting(recipeOutput, ModBlocks.JADE_ORE.asItem(), RecipeCategory.MISC, ModItems.JADE.get(), 0.30f, 100, "jade");
         oreSmelting(recipeOutput, ModItems.RAW_BLACK_IRON.get(), RecipeCategory.MISC, ModItems.BLACK_IRON_INGOT.get(), 0.25f, 200, "black_iron_ingot");
         oreBlasting(recipeOutput, ModItems.RAW_BLACK_IRON.get(), RecipeCategory.MISC, ModItems.BLACK_IRON_INGOT.get(), 0.30f, 100, "black_iron_ingot");
+
+        oreSmelting(recipeOutput, ModItems.RAW_FROST_SILVER.get(), RecipeCategory.MISC, ModItems.FROST_SILVER_INGOT.get(), 0.25f, 200, "frost_silver_ingot");
+        oreBlasting(recipeOutput, ModItems.RAW_FROST_SILVER.get(), RecipeCategory.MISC, ModItems.FROST_SILVER_INGOT.get(), 0.30f, 100, "frost_silver_ingot");
 
 
 

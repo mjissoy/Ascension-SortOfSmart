@@ -33,6 +33,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         simpleBlockWithItem(ModBlocks.BLACK_IRON_ORE);
         simpleBlockWithItem(ModBlocks.BLACK_IRON_BLOCK);
+        simpleBlockWithItem(ModBlocks.FROST_SILVER_ORE);
+        simpleBlockWithItem(ModBlocks.FROST_SILVER_BLOCK);
         simpleBlockWithItem(ModBlocks.JADE_ORE);
         simpleBlockWithItem(ModBlocks.JADE_BLOCK);
         simpleBlockWithItem(ModBlocks.SPIRITUAL_STONE_BLOCK);
