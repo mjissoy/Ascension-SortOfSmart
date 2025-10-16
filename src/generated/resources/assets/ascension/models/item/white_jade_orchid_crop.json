@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ascension:block/ironwood_sprout_block"
+    "layer0": "ascension:block/herbs/white_jade_orchid_crop"
   }
 }

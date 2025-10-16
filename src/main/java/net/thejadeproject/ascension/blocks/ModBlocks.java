@@ -388,14 +388,18 @@ public class ModBlocks {
             () -> new GoldenPalmSapling(ModTreeGrowers.GOLDEN_PALM, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING), () -> Blocks.SAND));
 
     //Herbs
-    public static final DeferredBlock<Block> GOLDEN_SUN_LEAF_BLOCK = registerBlock("golden_sun_leaf_block",
-            () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
-    public static final DeferredBlock<Block> IRONWOOD_SPROUT_BLOCK = registerBlock("ironwood_sprout_block",
+
+    public static final DeferredBlock<Block> IRONWOOD_SPROUT_CROP = registerBlock("ironwood_sprout_crop",
             () -> new CustomHerbs(() -> Blocks.STONE));
-    public static final DeferredBlock<Block> WHITE_JADE_ORCHID_BLOCK = registerBlock("white_jade_orchid_block",
+    public static final DeferredBlock<Block> WHITE_JADE_ORCHID_CROP = registerBlock("white_jade_orchid_crop",
             () -> new CustomHerbs(() -> ModBlocks.JADE_ORE.get()));
+
     public static final DeferredBlock<Block> HUNDRED_YEAR_GINSENG_CROP = registerBlock("hundred_year_ginseng_crop",
             () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
+    public static final DeferredBlock<Block> HUNDRED_YEAR_SNOW_GINSENG_CROP = registerBlock("hundred_year_snow_ginseng_crop",
+            () -> new CustomHerbs(() -> Blocks.SNOW_BLOCK));
+    public static final DeferredBlock<Block> HUNDRED_YEAR_FIRE_GINSENG_CROP = registerBlock("hundred_year_fire_ginseng_crop",
+            () -> new CustomHerbs(() -> Blocks.NETHERRACK));
 
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {

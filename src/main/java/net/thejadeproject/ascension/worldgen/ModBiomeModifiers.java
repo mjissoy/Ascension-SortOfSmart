@@ -27,6 +27,13 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_RAW_MARBLE = registerKey("add_raw_marble");
 
 
+    public static final ResourceKey<BiomeModifier> ADD_WHITE_JADE_ORCHID = registerKey("add_white_jade_orchid");
+    public static final ResourceKey<BiomeModifier> ADD_IRON_SPROUT = registerKey("add_iron_sprout");
+    public static final ResourceKey<BiomeModifier> ADD_HUNDRED_YEAR_SNOW_GINSENG = registerKey("hundred_year_snow_ginseng");
+    public static final ResourceKey<BiomeModifier> ADD_HUNDRED_YEAR_FIRE_GINSENG = registerKey("hundred_year_fire_ginseng");
+    public static final ResourceKey<BiomeModifier> ADD_HUNDRED_YEAR_GINSENG = registerKey("hundred_year_ginseng");
+
+
 
     public static final ResourceKey<BiomeModifier> SPAWN_RAT = registerKey("spawn_rat");
 
@@ -61,6 +68,31 @@ public class ModBiomeModifiers {
         context.register(SPAWN_RAT, new BiomeModifiers.AddSpawnsBiomeModifier(
                 HolderSet.direct(biomes.getOrThrow(Biomes.FOREST), biomes.getOrThrow(Biomes.BIRCH_FOREST)),
                         List.of(new MobSpawnSettings.SpawnerData(ModEntities.RAT.get(), 5, 2, 4))));
+
+
+        //Herbs
+        context.register(ADD_WHITE_JADE_ORCHID, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), // Or specify specific biomes like your ore
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WHITE_JADE_ORCHID_PLACED)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(ADD_IRON_SPROUT, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), // Or specify specific biomes like your ore
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.IRONWOOD_SPROUT_PLACED)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(ADD_HUNDRED_YEAR_FIRE_GINSENG, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_NETHER), // Or specify specific biomes like your ore
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.HUNDRED_YEAR_FIRE_GINSENG_PLACED)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(ADD_HUNDRED_YEAR_SNOW_GINSENG, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), // Or specify specific biomes like your ore
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.HUNDRED_YEAR_SNOW_GINSENG_PLACED)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+        context.register(ADD_HUNDRED_YEAR_GINSENG, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), // Or specify specific biomes like your ore
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.HUNDRED_YEAR_GINSENG_PLACED)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {

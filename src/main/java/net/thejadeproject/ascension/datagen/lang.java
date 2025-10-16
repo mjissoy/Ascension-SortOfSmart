@@ -88,9 +88,10 @@ public class lang extends LanguageProvider {
 
 
         add("block.ascension.hundred_year_ginseng_crop", "Hundred Year Ginseng");
-        add("block.ascension.golden_sun_leaf_block", "Golden Sun Leaf");
-        add("block.ascension.ironwood_sprout_block", "Ironwood Sprout");
-        add("block.ascension.white_jade_orchid_block", "White Jade Orchid");
+        add("block.ascension.hundred_year_fire_ginseng_crop", "Hundred Year Fire Ginseng");
+        add("block.ascension.hundred_year_snow_ginseng_crop", "Hundred Year Snow Ginseng");
+        add("block.ascension.ironwood_sprout_crop", "Ironwood Sprout");
+        add("block.ascension.white_jade_orchid_crop", "White Jade Orchid");
 
         //Blocks
         add("block.ascension.pill_cauldron", "Pill Cauldron");

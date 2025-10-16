@@ -126,16 +126,22 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createOreDrop(ModBlocks.SPIRITUAL_STONE_CLUSTER.get(), ModItems.SPIRITUAL_STONE.get()));
 
 
-        add(ModBlocks.GOLDEN_SUN_LEAF_BLOCK.get(),
-                block -> createSingleItemTable(ModItems.GOLDEN_SUN_LEAF.get()));
-        add(ModBlocks.IRONWOOD_SPROUT_BLOCK.get(),
+
+        //Herbs
+        add(ModBlocks.IRONWOOD_SPROUT_CROP.get(),
                 block -> createSingleItemTable(ModItems.IRONWOOD_SPROUT.get()));
-        add(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get(),
+        add(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
                 block -> createSingleItemTable(ModItems.WHITE_JADE_ORCHID.get()));
         add(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
                 block -> createSingleItemTable(ModItems.HUNDRED_YEAR_GINSENG.get()));
+        add(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
+                block -> createSingleItemTable(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()));
+        add(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
+                block -> createSingleItemTable(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get()));
 
 
+
+        //Ores
         add(ModBlocks.JADE_ORE.get(),
                 block -> createOreDrop(ModBlocks.JADE_ORE.get(), ModItems.JADE.get()));
         add(ModBlocks.BLACK_IRON_ORE.get(),

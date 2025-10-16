@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ascension:white_jade_orchid"
+          "name": "ascension:hundred_year_fire_ginseng"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ascension:blocks/white_jade_orchid_block"
+  "random_sequence": "ascension:blocks/hundred_year_fire_ginseng_crop"
 }

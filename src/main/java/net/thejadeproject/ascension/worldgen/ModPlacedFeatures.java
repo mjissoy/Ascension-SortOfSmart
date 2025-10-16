@@ -11,9 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.*;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 
@@ -31,6 +29,17 @@ public class ModPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> ORE_MARBLE_UPPER = registerKey("ore_marble_upper");
     public static final ResourceKey<PlacedFeature> ORE_MARBLE_LOWER = registerKey("ore_marble_lower");
+
+
+
+    public static final ResourceKey<PlacedFeature> IRONWOOD_SPROUT_PLACED = registerKey("ironwood_sprout_crop_placed");
+    public static final ResourceKey<PlacedFeature> WHITE_JADE_ORCHID_PLACED = registerKey("white_jade_orchid_crop_placed");
+    public static final ResourceKey<PlacedFeature> HUNDRED_YEAR_SNOW_GINSENG_PLACED = registerKey("hundred_year_snow_ginseng_crop_placed");
+    public static final ResourceKey<PlacedFeature> HUNDRED_YEAR_FIRE_GINSENG_PLACED = registerKey("hundred_year_fire_ginseng_crop_placed");
+    public static final ResourceKey<PlacedFeature> HUNDRED_YEAR_GINSENG_PLACED = registerKey("hundred_year_ginseng_crop_placed");
+
+
+
 
 
 
@@ -56,6 +65,44 @@ public class ModPlacedFeatures {
         register(context, GOLDEN_PALM_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.GOLDEN_PALM_KEY),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.1f, 1),
                         ModBlocks.GOLDEN_PALM_SAPLING.get()));
+
+
+        //Herbs
+        register(context, WHITE_JADE_ORCHID_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.WHITE_JADE_ORCHID_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(4), // Adjust rarity as needed
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                ));
+        register(context, IRONWOOD_SPROUT_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.IRONWOOD_SPROUT_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(10), // Adjust rarity as needed
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                ));
+        register(context, HUNDRED_YEAR_FIRE_GINSENG_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.HUNDRED_YEAR_FIRE_GINSENG_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(12), // Adjust rarity as needed
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                ));
+        register(context, HUNDRED_YEAR_SNOW_GINSENG_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.HUNDRED_YEAR_SNOW_GINSENG_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(6), // Adjust rarity as needed
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                ));
+        register(context, HUNDRED_YEAR_GINSENG_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.HUNDRED_YEAR_GINSENG_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(8), // Adjust rarity as needed
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome()
+                ));
 
     }
 

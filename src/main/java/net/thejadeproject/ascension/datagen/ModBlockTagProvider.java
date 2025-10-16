@@ -25,6 +25,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.JADE_ORE.get())
                 .add(ModBlocks.BLACK_IRON_ORE.get())
                 .add(ModBlocks.BLACK_IRON_BLOCK.get())
+                .add(ModBlocks.FROST_SILVER_ORE.get())
+                .add(ModBlocks.FROST_SILVER_BLOCK.get())
                 .add(ModBlocks.SPIRITUAL_STONE_CLUSTER.get())
 
                 .add(ModBlocks.RAW_MARBLE.get())

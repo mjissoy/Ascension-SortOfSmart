@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "ascension:hundred_year_ginseng_crop_placed",
+  "step": "vegetal_decoration"
+}

@@ -22,13 +22,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
 
         //Herbs Blocks
-        simpleBlock(ModBlocks.IRONWOOD_SPROUT_BLOCK.get(),
-                models().cross("ironwood_sprout_block", blockTexture(ModBlocks.IRONWOOD_SPROUT_BLOCK.get()))
-                        .renderType("cutout"));
-        simpleBlock(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get(),
-                models().cross("white_jade_orchid_block", blockTexture(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get()))
-                        .renderType("cutout"));
-        herbsBlock(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
+        herbsBlockCross(ModBlocks.IRONWOOD_SPROUT_CROP);
+        herbsBlockCross(ModBlocks.WHITE_JADE_ORCHID_CROP);
+
+        herbsBlockCutout(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
+        herbsBlockCutout(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP);
+        herbsBlockCutout(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP);
 
 
         simpleBlockWithItem(ModBlocks.BLACK_IRON_ORE);
@@ -352,7 +351,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 models().cross(BuiltInRegistries.BLOCK.getKey(blockRegistryObject.get()).getPath(), blockTexture(blockRegistryObject.get())).renderType("cutout"));
     }
 
-    private void herbsBlock(DeferredBlock<Block> blockRegistryObject) {
+    private void herbsBlockCutout(DeferredBlock<Block> blockRegistryObject) {
         Block block = blockRegistryObject.get();
         ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
         String blockName = blockId.getPath();
@@ -360,6 +359,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         simpleBlock(block,
                 models().crop(blockId.getPath(), textureLoc).renderType("cutout"));
+    }
+    private void herbsBlockCross(DeferredBlock<Block> blockRegistryObject) {
+        Block block = blockRegistryObject.get();
+        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
+        String blockName = blockId.getPath();
+        ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/herbs/" + blockName);
+
+        simpleBlock(block,
+                models().singleTexture(blockId.getPath(),
+                                ResourceLocation.parse("block/cross"),
+                                "cross", textureLoc)
+                        .renderType("cutout"));
     }
 
     private void leavesBlock(DeferredBlock<Block> blockRegistryObject) {

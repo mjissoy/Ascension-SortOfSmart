@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ascension:golden_sun_leaf"
+          "name": "ascension:ironwood_sprout"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ascension:blocks/golden_sun_leaf_block"
+  "random_sequence": "ascension:blocks/ironwood_sprout_crop"
 }

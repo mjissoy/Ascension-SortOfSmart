@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "ascension:ironwood_sprout"
+          "name": "ascension:white_jade_orchid"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "ascension:blocks/ironwood_sprout_block"
+  "random_sequence": "ascension:blocks/white_jade_orchid_crop"
 }

@@ -149,10 +149,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         herbs(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
         herbs(ModItems.IRONWOOD_SPROUT.get());
-        withExistingParent("ironwood_sprout_block", "item/generated")
-                .texture("layer0", "ascension:block/ironwood_sprout_block");
-        withExistingParent("white_jade_orchid_block", "item/generated")
-                .texture("layer0", "ascension:block/white_jade_orchid_block");
+
+        herbsBlockItem(ModBlocks.IRONWOOD_SPROUT_CROP);
+        herbsBlockItem(ModBlocks.WHITE_JADE_ORCHID_CROP);
+        herbsBlockItem(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP);
+        herbsBlockItem(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP);
+        herbsBlockItem(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
+
 
         //Saplings
         saplingItem(ModBlocks.GOLDEN_PALM_SAPLING);
@@ -169,6 +172,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(),
                 ResourceLocation.parse("item/generated")).texture("layer0",
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"block/" + item.getId().getPath()));
+    }
+    private ItemModelBuilder herbsBlockItem(DeferredBlock<Block> item) {
+        return withExistingParent(item.getId().getPath(),
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"block/herbs/" + item.getId().getPath()));
     }
 
 
