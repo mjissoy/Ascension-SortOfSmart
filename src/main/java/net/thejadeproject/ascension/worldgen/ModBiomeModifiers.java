@@ -72,13 +72,17 @@ public class ModBiomeModifiers {
 
         //Herbs
         context.register(ADD_WHITE_JADE_ORCHID, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), // Or specify specific biomes like your ore
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WHITE_JADE_ORCHID_PLACED)),
-                GenerationStep.Decoration.VEGETAL_DECORATION));
+                GenerationStep.Decoration.UNDERGROUND_ORES
+        ));
+        System.out.println("Registering White Jade Orchid feature at ");
+
         context.register(ADD_IRON_SPROUT, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), // Or specify specific biomes like your ore
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.IRONWOOD_SPROUT_PLACED)),
-                GenerationStep.Decoration.VEGETAL_DECORATION));
+                GenerationStep.Decoration.UNDERGROUND_DECORATION));
+
         context.register(ADD_HUNDRED_YEAR_FIRE_GINSENG, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_NETHER), // Or specify specific biomes like your ore
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.HUNDRED_YEAR_FIRE_GINSENG_PLACED)),

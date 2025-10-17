@@ -17,14 +17,27 @@
         {
           "type": "minecraft:block_predicate_filter",
           "predicate": {
-            "type": "minecraft:matching_blocks",
-            "blocks": "ascension:jade_ore"
+            "type": "minecraft:all_of",
+            "predicates": [
+              {
+                "type": "minecraft:replaceable"
+              },
+              {
+                "type": "minecraft:matching_blocks",
+                "blocks": "ascension:jade_ore",
+                "offset": [
+                  0,
+                  -1,
+                  0
+                ]
+              }
+            ]
           }
         }
       ]
     },
-    "tries": 32,
-    "xz_spread": 7,
-    "y_spread": 3
+    "tries": 1,
+    "xz_spread": 0,
+    "y_spread": 0
   }
 }

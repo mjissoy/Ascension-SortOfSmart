@@ -1,5 +1,7 @@
 package net.thejadeproject.ascension.worldgen;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -68,25 +70,34 @@ public class ModConfiguredFeatures {
 
         //Herbs
         register(context, WHITE_JADE_ORCHID_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                32, // tries
-                7,  // xzSpread
-                3,  // ySpread
+                1, // 1 try per patch (targeting specific ore positions)
+                0, // No spread, exact placement
+                0, // No vertical spread, precise
                 PlacementUtils.filtered(
                         Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.WHITE_JADE_ORCHID_CROP.get().defaultBlockState())),
-                        BlockPredicate.matchesBlocks(ModBlocks.JADE_ORE.get()) // Only spawn on Jade Ore
+                        BlockPredicate.allOf(
+                                BlockPredicate.replaceable(), // Position must be air/replaceable (above ore)
+                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), ModBlocks.JADE_ORE.get()) // Must be Jade ore below
+                        )
                 )
         ));
+
         register(context, IRONWOOD_SPROUT_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                32, // tries
-                7,  // xzSpread
-                3,  // ySpread
+                8, // Tries per patch (sparse clusters)
+                3, // xzSpread
+                2, // ySpread
                 PlacementUtils.filtered(
                         Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.IRONWOOD_SPROUT_CROP.get().defaultBlockState())),
-                        BlockPredicate.matchesBlocks(Blocks.STONE) // Only spawn on Stone
+                        BlockPredicate.allOf(
+                                BlockPredicate.replaceable(), // Position must be air/replaceable
+                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE) // Below must be cave floor
+                        )
                 )
         ));
+
+
         register(context, HUNDRED_YEAR_SNOW_GINSENG_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
                 32, // tries
                 7,  // xzSpread

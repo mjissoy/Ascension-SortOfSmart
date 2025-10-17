@@ -21,6 +21,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.worldgen.tree.ModTreeGrowers;
 
 
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -390,16 +391,17 @@ public class ModBlocks {
     //Herbs
 
     public static final DeferredBlock<Block> IRONWOOD_SPROUT_CROP = registerBlock("ironwood_sprout_crop",
-            () -> new CustomHerbs(() -> Blocks.STONE));
+            () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
+
     public static final DeferredBlock<Block> WHITE_JADE_ORCHID_CROP = registerBlock("white_jade_orchid_crop",
-            () -> new CustomHerbs(() -> ModBlocks.JADE_ORE.get()));
+            () -> new CustomHerbs(() -> Set.of(ModBlocks.JADE_ORE.get())));
 
     public static final DeferredBlock<Block> HUNDRED_YEAR_GINSENG_CROP = registerBlock("hundred_year_ginseng_crop",
-            () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
+            () -> new CustomHerbs(() -> Set.of(Blocks.GRASS_BLOCK)));
     public static final DeferredBlock<Block> HUNDRED_YEAR_SNOW_GINSENG_CROP = registerBlock("hundred_year_snow_ginseng_crop",
-            () -> new CustomHerbs(() -> Blocks.SNOW_BLOCK));
+            () -> new CustomHerbs(() -> Set.of(Blocks.SNOW_BLOCK)));
     public static final DeferredBlock<Block> HUNDRED_YEAR_FIRE_GINSENG_CROP = registerBlock("hundred_year_fire_ginseng_crop",
-            () -> new CustomHerbs(() -> Blocks.NETHERRACK));
+            () -> new CustomHerbs(() -> Set.of(Blocks.SAND)));
 
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {

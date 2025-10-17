@@ -1,5 +1,7 @@
 package net.thejadeproject.ascension.worldgen;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -9,7 +11,12 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.data.worldgen.placement.VegetationPlacements;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -70,18 +77,27 @@ public class ModPlacedFeatures {
         //Herbs
         register(context, WHITE_JADE_ORCHID_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.WHITE_JADE_ORCHID_KEY),
                 List.of(
-                        RarityFilter.onAverageOnceEvery(4), // Adjust rarity as needed
+                        CountPlacement.of(5), // Match Jade ore vein attempts
                         InSquarePlacement.spread(),
-                        PlacementUtils.HEIGHTMAP,
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(0)), // Jade ore range
+                        RandomOffsetPlacement.of(ConstantInt.of(0), ConstantInt.of(0)), // Place at ore top
                         BiomeFilter.biome()
                 ));
+
+
         register(context, IRONWOOD_SPROUT_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.IRONWOOD_SPROUT_KEY),
                 List.of(
-                        RarityFilter.onAverageOnceEvery(10), // Adjust rarity as needed
+                        CountPlacement.of(3), // 3 attempts per chunk for testing (reduce to 1 for sparser)
+                        RarityFilter.onAverageOnceEvery(1), // Set to 1 for testing (every chunk); increase to 100+ later
                         InSquarePlacement.spread(),
-                        PlacementUtils.HEIGHTMAP,
+                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-58), VerticalAnchor.absolute(40)), // Focus on cave levels
+                        EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.hasSturdyFace(Direction.UP), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), // Scan to floor
+                        RandomOffsetPlacement.of(ConstantInt.of(0), ConstantInt.of(1)), // Place in air above floor
                         BiomeFilter.biome()
                 ));
+
+
+
         register(context, HUNDRED_YEAR_FIRE_GINSENG_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.HUNDRED_YEAR_FIRE_GINSENG_KEY),
                 List.of(
                         RarityFilter.onAverageOnceEvery(12), // Adjust rarity as needed

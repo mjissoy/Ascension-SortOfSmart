@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.thejadeproject.ascension.blocks.custom.CustomHerbs;
 
 import javax.annotation.Nullable;
+import java.util.Set;
 
 public class PlantableHerb extends BlockItem {
     public PlantableHerb(Block block, Properties properties) {
@@ -29,11 +30,11 @@ public class PlantableHerb extends BlockItem {
         Player player = context.getPlayer();
         ItemStack stack = context.getItemInHand();
 
-        // Get the block this herb can be planted on from the CustomHerbs block
-        Block blockToPlantOn = getRequiredGroundBlock();
+        // Get the set of blocks this herb can be planted on from the CustomHerbs block
+        Set<Block> blocksToPlantOn = getRequiredGroundBlocks();
 
-        // Only allow placement on the specific block this herb requires
-        if (blockToPlantOn != null && state.is(blockToPlantOn)) {
+        // Only allow placement if the clicked block is one of the allowed blocks
+        if (blocksToPlantOn != null && blocksToPlantOn.stream().anyMatch(block -> state.is(block))) {
             BlockPos abovePos = pos.above();
 
             // Check if the block above is air and can support the crop
@@ -74,13 +75,11 @@ public class PlantableHerb extends BlockItem {
     }
 
     /**
-     * Gets the required ground block from the associated CustomHerbs block
+     * Gets the set of required ground blocks from the associated CustomHerbs block
      */
-    private Block getRequiredGroundBlock() {
+    private Set<Block> getRequiredGroundBlocks() {
         if (this.getBlock() instanceof CustomHerbs customHerbs) {
-            // Use reflection or a method to access the blockToSurviveOn
-            // Since blockToSurviveOn is private, we need to add a getter to CustomHerbs
-            return customHerbs.getBlockToSurviveOn();
+            return customHerbs.getBlocksToSurviveOn();
         }
         return null;
     }

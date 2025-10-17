@@ -17,14 +17,35 @@
         {
           "type": "minecraft:block_predicate_filter",
           "predicate": {
-            "type": "minecraft:matching_blocks",
-            "blocks": "minecraft:stone"
+            "type": "minecraft:all_of",
+            "predicates": [
+              {
+                "type": "minecraft:replaceable"
+              },
+              {
+                "type": "minecraft:matching_blocks",
+                "blocks": [
+                  "minecraft:stone",
+                  "minecraft:deepslate",
+                  "minecraft:granite",
+                  "minecraft:diorite",
+                  "minecraft:andesite",
+                  "minecraft:tuff",
+                  "minecraft:calcite"
+                ],
+                "offset": [
+                  0,
+                  -1,
+                  0
+                ]
+              }
+            ]
           }
         }
       ]
     },
-    "tries": 32,
-    "xz_spread": 7,
-    "y_spread": 3
+    "tries": 8,
+    "xz_spread": 3,
+    "y_spread": 2
   }
 }
