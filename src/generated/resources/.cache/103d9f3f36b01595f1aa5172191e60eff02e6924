@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-18T15:07:40.2255142	Registries
+// 1.21.1	2025-10-18T20:12:22.7224036	Registries
 dec2f8795e0afa61226b0efe972507442e0127df data/ascension/neoforge/biome_modifier/add_black_iron_ore.json
 854df35a4d9f1e2ce73ba76d772a918867b07141 data/ascension/neoforge/biome_modifier/add_frost_silver_ore.json
 9aa603ce73a8c3b8abd491012b4c7bdd56e9688a data/ascension/neoforge/biome_modifier/add_golden_palm.json
@@ -11,7 +11,7 @@ a43aa6a9cc7664f3c4ec51d5d1bb869de5d57f1f data/ascension/neoforge/biome_modifier/
 71a2b589d648704d1fb88fb1592432bf009cfbdc data/ascension/neoforge/biome_modifier/hundred_year_snow_ginseng.json
 f8dff7587617501501d8d39593b2e35472c0ce9e data/ascension/neoforge/biome_modifier/spawn_rat.json
 caa1d3b28c07f79308c319f2188ff3cf1a47b3dd data/ascension/worldgen/biome/jagged_qi_peaks_biome.json
-68efc5b4d361c1d6c5d91457dafcf750ac32c31c data/ascension/worldgen/configured_feature/black_iron_ore.json
+7c5f0f11cc6488094f442c5c443b33aa2612ba53 data/ascension/worldgen/configured_feature/black_iron_ore.json
 0d27a14a2a5bd431a65013332e10bb83f1de31e2 data/ascension/worldgen/configured_feature/frost_silver_ore.json
 5f3f62784aa31c915043e874c7288f82a3b21ed7 data/ascension/worldgen/configured_feature/golden_palm.json
 8e428f1c445cae4f7732859575a49c6d448aa51c data/ascension/worldgen/configured_feature/hundred_year_fire_ginseng_crop.json

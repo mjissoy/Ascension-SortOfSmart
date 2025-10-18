@@ -59,6 +59,7 @@ public class lang extends LanguageProvider {
         add("item.ascension.pill_residue", "Pill Residue");
         add("item.ascension.regeneration_pill", "Regeneration Pill");
         add("item.ascension.cleansing_pill", "Cleansing Pill");
+        add("item.ascension.neutrality_pill", "Neutrality Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");
         add("item.ascension.fasting_pill_t1", "Fasting Pill");
         add("item.ascension.fasting_pill_t2", "Fasting Pill");
@@ -368,6 +369,7 @@ public class lang extends LanguageProvider {
 
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
         add("effect.ascension.cleansing", "Cleansing");
+        add("effect.ascension.neutrality", "Neutrality");
 
         add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");

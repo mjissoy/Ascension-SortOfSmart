@@ -312,8 +312,10 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.INNER_REINFORCEMENT_PILL_T2);
                         output.accept(ModItems.INNER_REINFORCEMENT_PILL_T3);
                         output.accept(ModItems.REGENERATION_PILL);
-                        output.accept(ModItems.REBIRTH_PILL);
                         output.accept(ModItems.CLEANSING_PILL);
+                        output.accept(ModItems.NEUTRALITY_PILL);
+                        output.accept(ModItems.REBIRTH_PILL);
+
 
 
                     }).build());

@@ -18,6 +18,9 @@ public class ModEffects {
     public static final Holder<MobEffect> QI_ENHANCED_REGENERATION = MOB_EFFECT.register("qi_enhanced_regeneration",
             () -> new QiEnhancedRegeneration(MobEffectCategory.BENEFICIAL, 0x34e5eb));
 
+    public static final Holder<MobEffect> NEUTRALITY = MOB_EFFECT.register("neutrality",
+            () -> new NeutralityEffect(MobEffectCategory.BENEFICIAL, 0xE8E8E8));
+
 
 
 
