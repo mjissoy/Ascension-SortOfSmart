@@ -43,11 +43,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get())
                 .add(ModItems.HUNDRED_YEAR_GINSENG.get())
                 .add(ModItems.IRONWOOD_SPROUT.get());
-        tag(ModTags.Items.HUMAN)
-                .add(ModItems.GOLDEN_SUN_LEAF.get())
-                .add(ModItems.JADE_BAMBOO_OF_SERENITY.get())
-                .add(ModItems.WHITE_JADE_ORCHID.get())
-                .add(ModItems.IRONWOOD_SPROUT.get());
         this.tag(ItemTags.LOGS_THAT_BURN)
                 .add(ModBlocks.GOLDEN_PALM_LOG.get().asItem())
                 .add(ModBlocks.GOLDEN_PALM_WOOD.get().asItem())

@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
-import net.thejadeproject.ascension.blocks.entity.ores.FrostSilverOreBlock;
+import net.thejadeproject.ascension.blocks.custom.ores.FrostSilverOre;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -291,8 +291,9 @@ public class ModBlocks {
     public static final DeferredBlock<Block> BLACK_IRON_ORE = registerBlock("black_iron_ore",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
-    public static final DeferredBlock<FrostSilverOreBlock> FROST_SILVER_ORE = registerBlock("frost_silver_ore",
-            () -> new FrostSilverOreBlock(BlockBehaviour.Properties.of()
+
+    public static final DeferredBlock<Block> FROST_SILVER_ORE = registerBlock("frost_silver_ore",
+            () -> new FrostSilverOre(BlockBehaviour.Properties.of()
                     .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
 
     //Other Blocks
@@ -394,14 +395,14 @@ public class ModBlocks {
             () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
 
     public static final DeferredBlock<Block> WHITE_JADE_ORCHID_CROP = registerBlock("white_jade_orchid_crop",
-            () -> new CustomHerbs(() -> Set.of(ModBlocks.JADE_ORE.get())));
+            () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
 
     public static final DeferredBlock<Block> HUNDRED_YEAR_GINSENG_CROP = registerBlock("hundred_year_ginseng_crop",
             () -> new CustomHerbs(() -> Set.of(Blocks.GRASS_BLOCK)));
     public static final DeferredBlock<Block> HUNDRED_YEAR_SNOW_GINSENG_CROP = registerBlock("hundred_year_snow_ginseng_crop",
-            () -> new CustomHerbs(() -> Set.of(Blocks.SNOW_BLOCK)));
+            () -> new CustomHerbs(() -> Set.of(Blocks.SNOW_BLOCK, Blocks.GRASS_BLOCK)));
     public static final DeferredBlock<Block> HUNDRED_YEAR_FIRE_GINSENG_CROP = registerBlock("hundred_year_fire_ginseng_crop",
-            () -> new CustomHerbs(() -> Set.of(Blocks.SAND)));
+            () -> new CustomHerbs(() -> Set.of(Blocks.SAND, Blocks.RED_SAND)));
 
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {

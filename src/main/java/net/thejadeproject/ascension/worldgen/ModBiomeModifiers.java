@@ -47,11 +47,12 @@ public class ModBiomeModifiers {
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
         context.register(ADD_BLACK_IRON_ORE, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(biomes.getOrThrow(Biomes.WINDSWEPT_HILLS), biomes.getOrThrow(Biomes.WINDSWEPT_GRAVELLY_HILLS), biomes.getOrThrow(Biomes.JAGGED_PEAKS), biomes.getOrThrow(ModBiomes.JAGGED_QI_PEAKS_BIOME)),
+                HolderSet.direct(biomes.getOrThrow(Biomes.WINDSWEPT_HILLS), biomes.getOrThrow(Biomes.WINDSWEPT_GRAVELLY_HILLS), biomes.getOrThrow(Biomes.JAGGED_PEAKS), biomes.getOrThrow(ModBiomes.JAGGED_QI_PEAKS_BIOME), biomes.getOrThrow(Biomes.WINDSWEPT_FOREST), biomes.getOrThrow(Biomes.WINDSWEPT_HILLS), biomes.getOrThrow(Biomes.WINDSWEPT_SAVANNA)),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BLACK_IRON_ORE_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
+
         context.register(ADD_FROST_SILVER_ORE, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(biomes.getOrThrow(Biomes.ICE_SPIKES), biomes.getOrThrow(Biomes.FROZEN_PEAKS)),
+                HolderSet.direct(biomes.getOrThrow(Biomes.ICE_SPIKES), biomes.getOrThrow(Biomes.FROZEN_PEAKS), biomes.getOrThrow(Biomes.SNOWY_PLAINS), biomes.getOrThrow(Biomes.SNOWY_TAIGA), biomes.getOrThrow(Biomes.SNOWY_SLOPES), biomes.getOrThrow(Biomes.SNOWY_BEACH), biomes.getOrThrow(Biomes.FROZEN_OCEAN), biomes.getOrThrow(Biomes.FROZEN_RIVER), biomes.getOrThrow(Biomes.DEEP_FROZEN_OCEAN)),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FROST_SILVER_ORE_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
 
@@ -74,25 +75,22 @@ public class ModBiomeModifiers {
         context.register(ADD_WHITE_JADE_ORCHID, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WHITE_JADE_ORCHID_PLACED)),
-                GenerationStep.Decoration.UNDERGROUND_ORES
-        ));
-        System.out.println("Registering White Jade Orchid feature at ");
-
+                GenerationStep.Decoration.UNDERGROUND_DECORATION));
         context.register(ADD_IRON_SPROUT, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.IRONWOOD_SPROUT_PLACED)),
                 GenerationStep.Decoration.UNDERGROUND_DECORATION));
-
         context.register(ADD_HUNDRED_YEAR_FIRE_GINSENG, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_NETHER), // Or specify specific biomes like your ore
+                HolderSet.direct(biomes.getOrThrow(Biomes.DESERT), biomes.getOrThrow(Biomes.BADLANDS)), // Or specify specific biomes like your ore
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.HUNDRED_YEAR_FIRE_GINSENG_PLACED)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
         context.register(ADD_HUNDRED_YEAR_SNOW_GINSENG, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), // Or specify specific biomes like your ore
+                HolderSet.direct(biomes.getOrThrow(Biomes.SNOWY_PLAINS), biomes.getOrThrow(Biomes.SNOWY_TAIGA), biomes.getOrThrow(Biomes.SNOWY_SLOPES), biomes.getOrThrow(Biomes.GROVE)), // Or specify specific biomes like your ore
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.HUNDRED_YEAR_SNOW_GINSENG_PLACED)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
+
         context.register(ADD_HUNDRED_YEAR_GINSENG, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_OVERWORLD), // Or specify specific biomes like your ore
+                HolderSet.direct(biomes.getOrThrow(Biomes.PLAINS), biomes.getOrThrow(Biomes.FOREST), biomes.getOrThrow(Biomes.FLOWER_FOREST), biomes.getOrThrow(Biomes.BIRCH_FOREST), biomes.getOrThrow(Biomes.DARK_FOREST), biomes.getOrThrow(Biomes.WINDSWEPT_FOREST), biomes.getOrThrow(Biomes.CHERRY_GROVE), biomes.getOrThrow(Biomes.BAMBOO_JUNGLE), biomes.getOrThrow(Biomes.JUNGLE), biomes.getOrThrow(Biomes.SPARSE_JUNGLE)), // Or specify specific biomes like your ore
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.HUNDRED_YEAR_GINSENG_PLACED)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 

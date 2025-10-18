@@ -1,6 +1,9 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#minecraft:is_nether",
+  "biomes": [
+    "minecraft:desert",
+    "minecraft:badlands"
+  ],
   "features": "ascension:hundred_year_fire_ginseng_crop_placed",
   "step": "vegetal_decoration"
 }

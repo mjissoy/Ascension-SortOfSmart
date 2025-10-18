@@ -24,7 +24,15 @@
               },
               {
                 "type": "minecraft:matching_blocks",
-                "blocks": "ascension:jade_ore",
+                "blocks": [
+                  "minecraft:stone",
+                  "minecraft:deepslate",
+                  "minecraft:granite",
+                  "minecraft:diorite",
+                  "minecraft:andesite",
+                  "minecraft:tuff",
+                  "minecraft:calcite"
+                ],
                 "offset": [
                   0,
                   -1,
@@ -36,8 +44,8 @@
         }
       ]
     },
-    "tries": 1,
-    "xz_spread": 0,
-    "y_spread": 0
+    "tries": 8,
+    "xz_spread": 3,
+    "y_spread": 2
   }
 }

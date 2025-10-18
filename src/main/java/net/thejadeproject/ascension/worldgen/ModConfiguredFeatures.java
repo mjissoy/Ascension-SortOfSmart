@@ -41,18 +41,19 @@ public class ModConfiguredFeatures {
 
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        RuleTest stoneReplaceables = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
+        RuleTest deepstoneReplaceables = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
+        RuleTest stoneReplaceables = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
         RuleTest ruletest = new TagMatchTest(BlockTags.BASE_STONE_OVERWORLD);
 
 
         register(context, ORE_MARBLE, Feature.ORE, new OreConfiguration(ruletest, ModBlocks.RAW_MARBLE.get().defaultBlockState(), 64));
 
         List<OreConfiguration.TargetBlockState> overworldJadeOres = List.of(
-                OreConfiguration.target(stoneReplaceables, ModBlocks.JADE_ORE.get().defaultBlockState()));
+                OreConfiguration.target(deepstoneReplaceables, ModBlocks.JADE_ORE.get().defaultBlockState()));
         List<OreConfiguration.TargetBlockState> overworldBlackIronOres = List.of(
                 OreConfiguration.target(stoneReplaceables, ModBlocks.BLACK_IRON_ORE.get().defaultBlockState()));
         List<OreConfiguration.TargetBlockState> overworldFrostSilverOres = List.of(
-                OreConfiguration.target(stoneReplaceables, ModBlocks.BLACK_IRON_ORE.get().defaultBlockState()));
+                OreConfiguration.target(deepstoneReplaceables, ModBlocks.FROST_SILVER_ORE.get().defaultBlockState()));
 
         register(context, OVERWORLD_JADE_ORE_KEY, Feature.ORE, new OreConfiguration(overworldJadeOres, 4));
         register(context, OVERWORLD_BLACK_IRON_ORE_KEY, Feature.ORE, new OreConfiguration(overworldBlackIronOres, 4));
@@ -70,18 +71,20 @@ public class ModConfiguredFeatures {
 
         //Herbs
         register(context, WHITE_JADE_ORCHID_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                1, // 1 try per patch (targeting specific ore positions)
-                0, // No spread, exact placement
-                0, // No vertical spread, precise
+                8, // Tries per patch (sparse clusters)
+                3, // xzSpread
+                2, // ySpread
                 PlacementUtils.filtered(
                         Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.WHITE_JADE_ORCHID_CROP.get().defaultBlockState())),
                         BlockPredicate.allOf(
-                                BlockPredicate.replaceable(), // Position must be air/replaceable (above ore)
-                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), ModBlocks.JADE_ORE.get()) // Must be Jade ore below
+                                BlockPredicate.replaceable(), // Position must be air/replaceable
+                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE) // Below must be cave floor
                         )
                 )
         ));
+
+
 
         register(context, IRONWOOD_SPROUT_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
                 8, // Tries per patch (sparse clusters)
@@ -99,33 +102,46 @@ public class ModConfiguredFeatures {
 
 
         register(context, HUNDRED_YEAR_SNOW_GINSENG_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                32, // tries
-                7,  // xzSpread
-                3,  // ySpread
+                3   , // 4 tries per patch for moderate density (adjust as needed)
+                2, // xzSpread for natural spread
+                1, // ySpread for precise placement
                 PlacementUtils.filtered(
                         Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get().defaultBlockState())),
-                        BlockPredicate.matchesBlocks(Blocks.SNOW_BLOCK) // Only spawn on Snow Block
+                        BlockPredicate.allOf(
+                                BlockPredicate.replaceable(), // Must be air/replaceable above
+                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.GRASS_BLOCK, Blocks.SNOW_BLOCK) // Must be sand or red sand below
+                        )
                 )
         ));
+
+
         register(context, HUNDRED_YEAR_FIRE_GINSENG_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                32, // tries
-                7,  // xzSpread
-                3,  // ySpread
+                3   , // 4 tries per patch for moderate density (adjust as needed)
+                2, // xzSpread for natural spread
+                1, // ySpread for precise placement
                 PlacementUtils.filtered(
                         Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get().defaultBlockState())),
-                        BlockPredicate.matchesBlocks(Blocks.NETHERRACK) // Only spawn on NetherRack
+                        BlockPredicate.allOf(
+                                BlockPredicate.replaceable(), // Must be air/replaceable above
+                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.SAND, Blocks.RED_SAND) // Must be sand or red sand below
+                        )
                 )
         ));
+
+
         register(context, HUNDRED_YEAR_GINSENG_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                32, // tries
-                7,  // xzSpread
-                3,  // ySpread
+                3   , // 4 tries per patch for moderate density (adjust as needed)
+                2, // xzSpread for natural spread
+                1, // ySpread for precise placement
                 PlacementUtils.filtered(
                         Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get().defaultBlockState())),
-                        BlockPredicate.matchesBlocks(Blocks.GRASS_BLOCK) // Only spawn on GrassBlocks
+                        BlockPredicate.allOf(
+                                BlockPredicate.replaceable(), // Must be air/replaceable above
+                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.GRASS_BLOCK)
+                        )
                 )
         ));
 

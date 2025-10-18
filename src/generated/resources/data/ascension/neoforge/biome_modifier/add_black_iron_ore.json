@@ -4,7 +4,10 @@
     "minecraft:windswept_hills",
     "minecraft:windswept_gravelly_hills",
     "minecraft:jagged_peaks",
-    "ascension:jagged_qi_peaks_biome"
+    "ascension:jagged_qi_peaks_biome",
+    "minecraft:windswept_forest",
+    "minecraft:windswept_hills",
+    "minecraft:windswept_savanna"
   ],
   "features": "ascension:black_iron_ore_placed",
   "step": "underground_ores"

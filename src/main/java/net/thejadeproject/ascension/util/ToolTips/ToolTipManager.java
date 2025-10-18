@@ -14,10 +14,14 @@ public class ToolTipManager {
         );*/
 
         // Tooltip with custom formatting
+
+        //Items
         ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), Component.translatable("tooltip.ascension.todh"));
         ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_EARTH.get(), Component.translatable("tooltip.ascension.tode"));
         ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get(), Component.translatable("tooltip.ascension.todhe"));
 
+
+        //Pills
         ToolTipHandler.registerTooltip(ModItems.PILL_RESIDUE.get(), Component.literal("☆☆☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.REGENERATION_PILL.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
@@ -29,6 +33,17 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T3.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.REBIRTH_PILL.get(), Component.literal("★★★★★").withStyle(ChatFormatting.AQUA));
         ToolTipHandler.registerAnimatedTooltip(ModItems.REBIRTH_PILL.get(), "Be Cautious This Pill Resets Everything!", 0.001f);
+
+        //Herbs
+        ToolTipHandler.registerTooltip(ModItems.GOLDEN_SUN_LEAF.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.JADE_BAMBOO_OF_SERENITY.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.WHITE_JADE_ORCHID.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.IRONWOOD_SPROUT.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.HUNDRED_YEAR_GINSENG.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+
+
         // Advanced example with conditional logic
         registerAdvancedTooltips();
     }
