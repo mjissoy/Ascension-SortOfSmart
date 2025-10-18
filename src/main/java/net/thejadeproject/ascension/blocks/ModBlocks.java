@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
-import net.thejadeproject.ascension.blocks.custom.ores.FrostSilverOre;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -293,7 +292,7 @@ public class ModBlocks {
                     .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
 
     public static final DeferredBlock<Block> FROST_SILVER_ORE = registerBlock("frost_silver_ore",
-            () -> new FrostSilverOre(BlockBehaviour.Properties.of()
+            () -> new Block(BlockBehaviour.Properties.of()
                     .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
 
     //Other Blocks

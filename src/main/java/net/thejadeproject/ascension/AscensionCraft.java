@@ -16,6 +16,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
@@ -207,6 +208,7 @@ public class AscensionCraft {
     private void commonSetup(final FMLCommonSetupEvent event) {
         SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
         ToolTipManager.registerAllTooltips();
+        FreezingEffectItems.onCommonSetup(event);
 
 
     }
