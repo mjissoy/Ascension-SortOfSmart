@@ -21,6 +21,7 @@ import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.ModOverlays;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
+import net.thejadeproject.ascension.menus.spatialrings.SRScreen;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
@@ -39,6 +40,7 @@ public class AscensionCraftClient {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
+            event.register(ModMenuTypes.SR_CONTAINER.get(), SRScreen::new);
         }
     }
 

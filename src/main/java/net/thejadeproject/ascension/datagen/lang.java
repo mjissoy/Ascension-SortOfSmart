@@ -61,6 +61,9 @@ public class lang extends LanguageProvider {
         add("item.ascension.cleansing_pill", "Cleansing Pill");
         add("item.ascension.neutrality_pill", "Neutrality Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");
+        add("item.ascension.antidote_pill_qdppill", "Antidote Pill");
+        add("item.ascension.antidote_pill_t2", "Antidote Pill");
+        add("item.ascension.antidote_pill_t3", "Antidote Pill");
         add("item.ascension.fasting_pill_t1", "Fasting Pill");
         add("item.ascension.fasting_pill_t2", "Fasting Pill");
         add("item.ascension.fasting_pill_t3", "Fasting Pill");
@@ -378,6 +381,7 @@ public class lang extends LanguageProvider {
         add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");
         add("key.ascension.introspection", "Introspection");
+        add("key.ascension.open_spatial_ring", "Open Spatial Ring");
 
 
 
@@ -436,6 +440,10 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.Artifacts","Artifacts");
         add("ascension.configuration.repairInterval","Repair Interval");
         add("ascension.configuration.repairAmount","Repair Amount");
+
+
+        //messages
+        add("message.ascension.milk_denied","§cMilk buckets are not drinkable in this mod. Use antidote pills instead!");
 
 
         //tags

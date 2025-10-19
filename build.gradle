@@ -21,6 +21,7 @@ repositories {
     maven { url 'https://jitpack.io/' }
     maven { url = "https://api.modrinth.com/maven" }
     maven { url = 'https://maven.minecraftforge.net/' }
+    maven { url = "https://maven.theillusivec4.top/" }
     maven {
         name = 'Favouriteless Maven'
         url 'https://maven.favouriteless.net/releases'
@@ -142,6 +143,7 @@ dependencies {
     implementation 'com.github.OliverHesse:EasyGui:a633e6b1b7'
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
     implementation 'com.github.glitchfiend:TerraBlender-neoforge:' + minecraft_version + '-' + terrablender_version
+    implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
@@ -184,7 +186,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             terrablender_version        : terrablender_version,
             modopedia_version        : modopedia_version,
             jei_version        : jei_version,
-            jade_version        : jade_version
+            jade_version        : jade_version,
+            curios_version        : curios_version
     ]
     inputs.properties replaceProperties
     expand replaceProperties

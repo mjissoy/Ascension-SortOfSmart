@@ -108,5 +108,13 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ModTags.Items.NUGGETS_FROST_SILVER)
                 .add(ModItems.FROST_SILVER_NUGGET.get());
 
+
+        this.tag(ModTags.Items.CURIOS_RING)
+                .add(ModItems.IRON_SPATIAL_RING.get())
+                .add(ModItems.GOLD_SPATIAL_RING.get())
+                .add(ModItems.DIAMOND_SPATIAL_RING.get())
+                .add(ModItems.NETHERITE_SPATIAL_RING.get())
+                .add(ModItems.JADE_SPATIAL_RING.get());
+
     }
 }

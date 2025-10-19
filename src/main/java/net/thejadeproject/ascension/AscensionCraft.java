@@ -1,25 +1,38 @@
 package net.thejadeproject.ascension;
 
+import com.mojang.serialization.Codec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.UUIDUtil;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
+import net.thejadeproject.ascension.menus.spatialrings.SRContainer;
+import net.thejadeproject.ascension.menus.spatialrings.SRScreen;
+import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
@@ -37,6 +50,7 @@ import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
+import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipe;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.ModSkills;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
@@ -64,6 +78,8 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import terrablender.api.SurfaceRuleManager;
 
+import java.util.UUID;
+
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AscensionCraft.MOD_ID)
 public class AscensionCraft {
@@ -78,8 +94,17 @@ public class AscensionCraft {
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
 
+    private static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MOD_ID);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> COPYRECIPE = RECIPES.register("spatialring_upgrade", CopySpatialringDataRecipe.Serializer::new);
+    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MOD_ID);
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> SPATIALRING_UUID = COMPONENTS.register("spatialring_uuid", () -> DataComponentType.<UUID>builder().persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SPATIALRING_PICKUP = COMPONENTS.register("spatialring_pickup", () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
+
     public void register(IEventBus modEventBus){
 
+
+        COMPONENTS.register(modEventBus);
+        RECIPES.register(modEventBus);
 
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
@@ -147,6 +172,7 @@ public class AscensionCraft {
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindHandler.INTROSPECTION_KEY);
         event.register(KeyBindHandler.CULTIVATE_KEY);
+        event.register(KeyBindHandler.OPEN_SPATIAL_RING_KEY);
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {
@@ -208,6 +234,7 @@ public class AscensionCraft {
         SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
         ToolTipManager.registerAllTooltips();
         FreezingEffectItems.onCommonSetup(event);
+        SpatialRingUtils.checkCuriosLoaded();
 
 
     }
@@ -258,6 +285,7 @@ public class AscensionCraft {
             System.out.println("Registering stuff");
             ModPayloads.registerPayloads(event);
         }
+
 
 
     }

@@ -80,7 +80,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.DIAMOND_SPATIAL_RING.get());
         basicItem(ModItems.NETHERITE_SPATIAL_RING.get());
         basicItem(ModItems.JADE_SPATIAL_RING.get());
-        basicItem(ModItems.SPIRITUAL_STONE_SPATIAL_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
 
@@ -139,6 +138,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.FASTING_PILL_T1.get());
         pills(ModItems.FASTING_PILL_T2.get());
         pills(ModItems.FASTING_PILL_T3.get());
+
+        pills(ModItems.ANTIDOTE_PILL_T1.get());
+        pills(ModItems.ANTIDOTE_PILL_T2.get());
+        pills(ModItems.ANTIDOTE_PILL_T3.get());
 
 
         pills(ModItems.QI_DEVOURING_PARASITE_PILL.get());

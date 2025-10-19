@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.util;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -23,6 +24,9 @@ public class ModTags {
         public static final TagKey<Item> BLADE = createTag("blade");
         public static final TagKey<Item> SPEAR = createTag("spear");
         public static final TagKey<Item> SPEAR_ENCHANTABLE = createTag("spear_enchantable");
+
+
+        public static final TagKey<Item> CURIOS_RING = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("curios", "ring"));
 
 
         public static final TagKey<Item> BLACK_IRON_RAW = createCommonTag("raw_materials/black_iron");

@@ -21,19 +21,28 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get(), Component.translatable("tooltip.ascension.todhe"));
 
 
-        //Pills
-        ToolTipHandler.registerTooltip(ModItems.PILL_RESIDUE.get(), Component.literal("☆☆☆☆☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.REGENERATION_PILL.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.NEUTRALITY_PILL.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T1.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T2.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T3.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T1.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T2.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T3.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.REBIRTH_PILL.get(), Component.literal("★★★★★").withStyle(ChatFormatting.AQUA));
+        //Medicinal Pills
+        ToolTipHandler.registerTooltip(ModItems.PILL_RESIDUE.get(), Component.literal("Waste").withStyle(ChatFormatting.DARK_RED), Component.literal("☆☆☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.REGENERATION_PILL.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.NEUTRALITY_PILL.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T1.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T2.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T3.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.REBIRTH_PILL.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.AQUA));
         ToolTipHandler.registerAnimatedTooltip(ModItems.REBIRTH_PILL.get(), "Be Cautious This Pill Resets Everything!", 0.001f);
+
+        ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T1.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("Qi Devouring Parasite Antidote").withStyle(ChatFormatting.GREEN), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T2.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T3.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+
+        //Cultivation Pills
+        ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T1.get(), Component.literal("Cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T2.get(), Component.literal("Cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T3.get(), Component.literal("Cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+
+        //Poison Pills
+        ToolTipHandler.registerTooltip(ModItems.QI_DEVOURING_PARASITE_PILL.get(), Component.literal("Poisonous").withStyle(ChatFormatting.GREEN), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
 
         //Herbs
         ToolTipHandler.registerTooltip(ModItems.GOLDEN_SUN_LEAF.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));

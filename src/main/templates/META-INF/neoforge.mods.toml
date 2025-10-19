@@ -93,6 +93,14 @@ description='''${mod_description}'''
     versionRange="${modopedia_version}"
     ordering="NONE"
     side="BOTH"
+# Curios
+[[dependencies.${mod_id}]]
+    modId="curios"
+    type="optional"
+    # This version range declares a minimum of the current minecraft version up to but not including the next major version
+    versionRange="${curios_version}"
+    ordering="NONE"
+    side="BOTH"
 # Terrablender
 [[dependencies.${mod_id}]]
     modId="terrablender"

@@ -11,11 +11,13 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
+import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
 import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
 import net.thejadeproject.ascension.items.herbs.PlantableHerb;
+import net.thejadeproject.ascension.items.pills.PillAntidote;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 import net.thejadeproject.ascension.items.pills.PillResidue;
 import net.thejadeproject.ascension.items.tools.BladeItem;
@@ -89,18 +91,27 @@ public class ModItems {
                     super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
                 }
             });
+
+
+
+
     public static final DeferredItem<Item> IRON_SPATIAL_RING = ITEMS.register("iron_spatial_ring",
-            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.COMMON)));
+            () -> new SpatialRingItem("iron_spatial_ring", SpatialRing.IRON));
     public static final DeferredItem<Item> GOLD_SPATIAL_RING = ITEMS.register("gold_spatial_ring",
-            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.COMMON)));
+            () -> new SpatialRingItem("gold_spatial_ring", SpatialRing.GOLD));
     public static final DeferredItem<Item> DIAMOND_SPATIAL_RING = ITEMS.register("diamond_spatial_ring",
-            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+            () -> new SpatialRingItem("diamond_spatial_ring", SpatialRing.DIAMOND));
     public static final DeferredItem<Item> NETHERITE_SPATIAL_RING = ITEMS.register("netherite_spatial_ring",
-            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+            () -> new SpatialRingItem("netherite_spatial_ring", SpatialRing.NETHERITE));
     public static final DeferredItem<Item> JADE_SPATIAL_RING = ITEMS.register("jade_spatial_ring",
-            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
-    public static final DeferredItem<Item> SPIRITUAL_STONE_SPATIAL_RING = ITEMS.register("spiritual_stone_spatial_ring",
-            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
+            () -> new SpatialRingItem("JADE_spatial_ring", SpatialRing.JADE));
+
+
+
+
+
+
+
 
     public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HUMAN = ITEMS.register("todh",
             () -> new TabletOfDestructionHuman(new Item.Properties()));
@@ -162,6 +173,16 @@ public class ModItems {
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.NEUTRALITY_PILL), 400));
     public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
+
+    public static final DeferredItem<Item> ANTIDOTE_PILL_T1 = ITEMS.register("antidote_pill_qdppill",
+            () -> new PillAntidote(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL), 400, ModEffects.PARASITE));
+    public static final DeferredItem<Item> ANTIDOTE_PILL_T2 = ITEMS.register("antidote_pill_t2",
+            () -> new PillAntidote(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL), 400));
+    public static final DeferredItem<Item> ANTIDOTE_PILL_T3 = ITEMS.register("antidote_pill_t3",
+            () -> new PillAntidote(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL), 400));
+
+
+
     public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T1 = ITEMS.register("inner_reinforcement_pill_t1",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT), 400 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{

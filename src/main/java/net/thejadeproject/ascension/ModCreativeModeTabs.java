@@ -42,7 +42,7 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SPIRITUAL_STONE_SPATIAL_RING.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE_SPATIAL_RING.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_pills_tab"))
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -57,7 +57,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.DIAMOND_SPATIAL_RING);
                         output.accept(ModItems.NETHERITE_SPATIAL_RING);
                         output.accept(ModItems.JADE_SPATIAL_RING);
-                        output.accept(ModItems.SPIRITUAL_STONE_SPATIAL_RING);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",
@@ -304,18 +303,27 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.pills"))
                     .displayItems((itemDisplayParameters, output) -> {
 
+                        //Waste
                         output.accept(ModItems.PILL_RESIDUE);
+
+                        //Medicinal
                         output.accept(ModItems.FASTING_PILL_T1);
                         output.accept(ModItems.FASTING_PILL_T2);
                         output.accept(ModItems.FASTING_PILL_T3);
-                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
-                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T2);
-                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T3);
-                        output.accept(ModItems.REGENERATION_PILL);
                         output.accept(ModItems.CLEANSING_PILL);
+                        output.accept(ModItems.ANTIDOTE_PILL_T1);
+                        output.accept(ModItems.ANTIDOTE_PILL_T2);
+                        output.accept(ModItems.ANTIDOTE_PILL_T3);
+                        output.accept(ModItems.REGENERATION_PILL);
                         output.accept(ModItems.NEUTRALITY_PILL);
                         output.accept(ModItems.REBIRTH_PILL);
 
+                        //Cultivation
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T2);
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T3);
+
+                        //Poison
                         output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
 
 

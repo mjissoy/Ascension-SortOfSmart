@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ascension:item/spiritual_stone_spatial_ring"
+    "layer0": "ascension:item/pills/antidote_pill_t2"
   }
 }
