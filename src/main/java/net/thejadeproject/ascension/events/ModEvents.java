@@ -1,26 +1,35 @@
 package net.thejadeproject.ascension.events;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.TridentItem;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.player.ArrowLooseEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.items.handlers.QiDevouringHandler;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 import java.util.List;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
 public class ModEvents {
-
-
-
 
 
     @SubscribeEvent
@@ -45,7 +54,6 @@ public class ModEvents {
                     new ItemCost(ModItems.SPIRITUAL_STONE, 2),
                     new ItemStack(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get(), 1), 1, 10, 10.0f
             ));
-
 
 
         }

@@ -4,6 +4,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.custom.TreasureRatEntity;
@@ -18,6 +19,7 @@ public class ModEntities {
     public static final Supplier<EntityType<TreasureRatEntity>> RAT =
             ENTITY_TYPES.register("treasure_rat", () -> EntityType.Builder.of(TreasureRatEntity::new, MobCategory.CREATURE)
                     .sized(0.5f, 0.35f).build("treasure_rat"));
+
 
 
     public static void register(IEventBus eventBus) {

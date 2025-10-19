@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-18T20:12:22.7234823	Item Models: ascension
+// 1.21.1	2025-10-19T10:24:58.224475	Item Models: ascension
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 34dabeb5a8be2b07546251a0b1b7bf79b4730464 assets/ascension/models/item/black_iron_ingot.json
 4797248d81db0dfdf041f22734e73e775b6dc54e assets/ascension/models/item/black_iron_nugget.json
@@ -71,6 +71,7 @@ fd8380413755ee016f51bb609fd2839c0616cb46 assets/ascension/models/item/pink_marbl
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/pure_water_technique.json
 a570ec5a0189fb3ab5e1aebbb03df97ef2b451c3 assets/ascension/models/item/purple_marble_brick_wall.json
 65f50d85d05bc701ae9d88ae691f6ac505ad7182 assets/ascension/models/item/purple_marble_tile_wall.json
+8656a4663cafc3c700d7852c8bf7922e617875e2 assets/ascension/models/item/qi_devouring_parasite_pill.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/ascension/models/item/rat_spawn_egg.json
 7d3ee3a2e8aeb1b97a2dc02fc170abc39347b1a8 assets/ascension/models/item/raw_black_iron.json
 1855bd7b416d745f7f0bc48085da4d4d9ccb8748 assets/ascension/models/item/raw_frost_silver.json

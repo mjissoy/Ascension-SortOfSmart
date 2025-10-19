@@ -316,6 +316,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.NEUTRALITY_PILL);
                         output.accept(ModItems.REBIRTH_PILL);
 
+                        output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
+
 
 
                     }).build());

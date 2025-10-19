@@ -177,12 +177,8 @@ public class ModItems {
                     .addOnUse((item,level,entity)->{
                         CultivationSystem.cultivate((Player) entity,"ascension:body",80.0,List.of());
                     }));
-
     public static final DeferredItem<Item> PILL_RESIDUE = ITEMS.register("pill_residue",
             () -> new PillResidue(new Item.Properties().food(ModFoodProperties.PILL_RESIDUE)));
-
-
-
     public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
 
@@ -195,6 +191,12 @@ public class ModItems {
             () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T2)));
     public static final DeferredItem<Item> FASTING_PILL_T3 = ITEMS.register("fasting_pill_t3",
             () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T3)));
+
+
+
+    //Poison Pills
+    public static final DeferredItem<Item> QI_DEVOURING_PARASITE_PILL = ITEMS.register("qi_devouring_parasite_pill",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL)));
 
 
 

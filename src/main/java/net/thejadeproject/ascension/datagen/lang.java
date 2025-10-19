@@ -68,6 +68,9 @@ public class lang extends LanguageProvider {
         add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
         add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
 
+        //Poison Pills
+        add("item.ascension.qi_devouring_parasite_pill", "Qi Devouring Parasite Pill");
+
         //manuals
         add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");
         add("item.ascension.pure_water_technique","Pure Water Technique Manual");
@@ -370,6 +373,7 @@ public class lang extends LanguageProvider {
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
         add("effect.ascension.cleansing", "Cleansing");
         add("effect.ascension.neutrality", "Neutrality");
+        add("effect.ascension.qi_devouring_parasite", "Devouring Parasite");
 
         add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");

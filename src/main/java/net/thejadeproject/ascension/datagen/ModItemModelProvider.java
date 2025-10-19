@@ -141,6 +141,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.FASTING_PILL_T3.get());
 
 
+        pills(ModItems.QI_DEVOURING_PARASITE_PILL.get());
+
+
 
         //herbs
         herbs(ModItems.GOLDEN_SUN_LEAF.get());
