@@ -20,7 +20,6 @@ import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
-import net.thejadeproject.ascension.items.handlers.QiDevouringHandler;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
@@ -110,9 +109,6 @@ public class AscensionCraft {
         ModTechniques.register(modEventBus);
         ModDao.register(modEventBus);
         //register easy gui actions
-
-        QiDevouringHandler.DATA_COMPONENTS.register(modEventBus);
-
 
 
     }
