@@ -7,11 +7,10 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.CompoundContainer;
 import net.minecraft.world.Container;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
@@ -49,8 +47,9 @@ public class TabletOfDestructionHeaven extends Item {
         if (level == null || player == null) return InteractionResult.PASS;
         ItemStack stack = context.getItemInHand();
         BlockPos pos = context.getClickedPos();
-        BlockState clickedState = level.getBlockState(pos); // Should resolve if Level is imported
+        BlockState clickedState = level.getBlockState(pos);
 
+        // Keep shift-click for chest/barrel linking
         if (player.isShiftKeyDown()) {
             if (!level.isClientSide && (clickedState.getBlock() instanceof ChestBlock || clickedState.getBlock() instanceof BarrelBlock) && level.getBlockEntity(pos) instanceof Container) {
                 CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
@@ -65,14 +64,14 @@ public class TabletOfDestructionHeaven extends Item {
                     tag.remove("LinkedChestY");
                     tag.remove("LinkedChestZ");
                     tag.remove("LinkedDimension");
-                    player.sendSystemMessage(Component.literal("Unlinked from chest or barrel."));
+                    player.displayClientMessage(Component.literal("Unlinked from chest or barrel."), true);
                 } else {
                     // Link
                     tag.putInt("LinkedChestX", pos.getX());
                     tag.putInt("LinkedChestY", pos.getY());
                     tag.putInt("LinkedChestZ", pos.getZ());
                     tag.putString("LinkedDimension", level.dimension().location().toString());
-                    player.sendSystemMessage(Component.literal("Linked to " + (clickedState.getBlock() instanceof ChestBlock ? "chest" : "barrel") + " at " + pos.toShortString()));
+                    player.displayClientMessage(Component.literal("Linked to " + (clickedState.getBlock() instanceof ChestBlock ? "chest" : "barrel") + " at " + pos.toShortString()), true);
                 }
                 stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
                 return InteractionResult.SUCCESS;
@@ -83,7 +82,7 @@ public class TabletOfDestructionHeaven extends Item {
         // Check cooldown using Minecraft's system
         if (player.getCooldowns().isOnCooldown(this)) {
             if (!level.isClientSide) {
-                player.sendSystemMessage(Component.literal("Item is on cooldown!"));
+                player.displayClientMessage(Component.literal("Item is on cooldown!"), true);
             }
             return InteractionResult.FAIL;
         }
@@ -115,28 +114,6 @@ public class TabletOfDestructionHeaven extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        if (level == null || player == null) return InteractionResultHolder.pass(ItemStack.EMPTY);
-        ItemStack stack = player.getItemInHand(hand);
-        if (player.isShiftKeyDown()) {
-            if (!level.isClientSide) {
-                CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-                CompoundTag tag = customData.copyTag();
-                boolean currentValue = tag.getBoolean(DROP_BLOCKS_TAG);
-                tag.putBoolean(DROP_BLOCKS_TAG, !currentValue);
-                stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-
-                // Create colored message
-                Component status = Component.literal(String.valueOf(!currentValue))
-                        .withStyle(!currentValue ? ChatFormatting.GREEN : ChatFormatting.RED);
-                player.sendSystemMessage(Component.literal("Drop Blocks = ").append(status));
-            }
-            return InteractionResultHolder.success(stack);
-        }
-        return InteractionResultHolder.pass(stack);
-    }
-
-    @Override
     public boolean isFoil(ItemStack stack) {
         CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
         return customData != null && customData.getUnsafe().getBoolean(DROP_BLOCKS_TAG);
@@ -152,6 +129,8 @@ public class TabletOfDestructionHeaven extends Item {
         Component status = Component.literal(String.valueOf(dropBlocks))
                 .withStyle(dropBlocks ? ChatFormatting.GREEN : ChatFormatting.RED);
         tooltipComponents.add(Component.literal("Drop Blocks = ").append(status));
+        tooltipComponents.add(Component.literal("Press 'M' to toggle mode").withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.literal("Shift+Right-Click chest/barrel to link").withStyle(ChatFormatting.GRAY));
 
         // Add linked chest or barrel info if present
         if (customData != null && customData.getUnsafe().contains("LinkedChestX")) {
@@ -160,10 +139,28 @@ public class TabletOfDestructionHeaven extends Item {
             int y = tag.getInt("LinkedChestY");
             int z = tag.getInt("LinkedChestZ");
             BlockPos pos = new BlockPos(x, y, z);
-            BlockState state = context.level().getBlockState(pos); // Use context level if available
-            String type = state.getBlock() instanceof ChestBlock ? "chest" : state.getBlock() instanceof BarrelBlock ? "barrel" : "unknown";
+            // Use a safer approach to get block state info
+            String type = "container";
+            if (context.level() != null) {
+                BlockState state = context.level().getBlockState(pos);
+                type = state.getBlock() instanceof ChestBlock ? "chest" : state.getBlock() instanceof BarrelBlock ? "barrel" : "container";
+            }
             tooltipComponents.add(Component.literal("Linked to " + type + " at (" + x + ", " + y + ", " + z + ")"));
         }
+    }
+
+    // Server-side method to toggle drop mode
+    public static void toggleDropModeServer(ItemStack stack, ServerPlayer player) {
+        CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        CompoundTag tag = customData.copyTag();
+        boolean currentValue = tag.getBoolean(DROP_BLOCKS_TAG);
+        tag.putBoolean(DROP_BLOCKS_TAG, !currentValue);
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+
+        // Create colored message
+        Component status = Component.literal(String.valueOf(!currentValue))
+                .withStyle(!currentValue ? ChatFormatting.GREEN : ChatFormatting.RED);
+        player.displayClientMessage(Component.literal("Drop Blocks = ").append(status), true);
     }
 
     private void clearArea(Level level, BlockPos startPos, Vec3 direction, Vec3 playerPos, boolean dropBlocks, BlockPos linkedChestPos, String linkedDimensionString) {
@@ -184,7 +181,7 @@ public class TabletOfDestructionHeaven extends Item {
                 for (int y = -1; y <= height; ++y) {
                     BlockPos posToClear = currentPos.offset(0, y, 0);
                     if (this.shouldRemoveBlock(level, posToClear)) {
-                        BlockState state = level.getBlockState(posToClear); // Should resolve here
+                        BlockState state = level.getBlockState(posToClear);
                         level.setBlock(posToClear, Blocks.AIR.defaultBlockState(), 3);
                         if (dropBlocks) {
                             droppedBlocks.add(new BlockStatePos(posToClear, state)); // Store position and original state
@@ -286,7 +283,7 @@ public class TabletOfDestructionHeaven extends Item {
 
     private boolean shouldRemoveBlock(Level level, BlockPos pos) {
         if (level == null) return false;
-        BlockState state = level.getBlockState(pos); // Should resolve here
+        BlockState state = level.getBlockState(pos);
         return state != null && state.is(DESTRUCTIBLE_BLOCKS);
     }
 

@@ -173,6 +173,7 @@ public class AscensionCraft {
         event.register(KeyBindHandler.INTROSPECTION_KEY);
         event.register(KeyBindHandler.CULTIVATE_KEY);
         event.register(KeyBindHandler.OPEN_SPATIAL_RING_KEY);
+        event.register(KeyBindHandler.TOGGLE_ARTIFACT_MODE_KEY);
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {

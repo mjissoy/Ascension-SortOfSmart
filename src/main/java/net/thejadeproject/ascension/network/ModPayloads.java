@@ -7,6 +7,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
+import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
 import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
 import net.thejadeproject.ascension.network.serverBound.TriggerMajorRealmBreakthrough;
 
@@ -64,6 +65,11 @@ public class ModPayloads {
                 OpenSpatialRingPacket.TYPE,  // ADD THIS LINE
                 OpenSpatialRingPacket.CODEC, // ADD THIS LINE
                 OpenSpatialRingPacket::handle // ADD THIS LINE
+        );
+        registrar.playToServer(
+                ToggleTabletDropModePayload.TYPE,
+                ToggleTabletDropModePayload.STREAM_CODEC,
+                ToggleTabletDropModePayload::handlePayload
         );
 
 

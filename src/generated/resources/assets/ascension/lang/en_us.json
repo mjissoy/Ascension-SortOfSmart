@@ -327,6 +327,7 @@
   "key.ascension.cultivate": "Cultivate",
   "key.ascension.introspection": "Introspection",
   "key.ascension.open_spatial_ring": "Open Spatial Ring",
+  "key.ascension.toggle_artifact_mode": "Toggle Mode",
   "message.ascension.milk_denied": "§cMilk buckets are not drinkable in this mod. Use antidote pills instead!",
   "tooltip.ascension.ender_pouch": "§8Hold [§7Shift§8] for summary",
   "tooltip.ascension.ender_pouch.shift_down1": "§2The Ender Pouch",

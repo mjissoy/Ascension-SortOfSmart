@@ -382,6 +382,7 @@ public class lang extends LanguageProvider {
         add("key.ascension.cultivate", "Cultivate");
         add("key.ascension.introspection", "Introspection");
         add("key.ascension.open_spatial_ring", "Open Spatial Ring");
+        add("key.ascension.toggle_artifact_mode", "Toggle Mode");
 
 
 
