@@ -19,7 +19,9 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -54,6 +56,9 @@ import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipe;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.ModSkills;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
+import net.thejadeproject.ascension.sects.SectCommand;
+import net.thejadeproject.ascension.sects.SectEventHandler;
+import net.thejadeproject.ascension.sects.SectManager;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -78,6 +83,8 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import terrablender.api.SurfaceRuleManager;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
@@ -86,6 +93,8 @@ public class AscensionCraft {
     public static float hue;
     public static final String MOD_ID = "ascension";
     public static final Logger LOGGER = LogUtils.getLogger();
+    private static SectManager sectManager;
+    public static final Map<String, String> SECT_DATA = new HashMap<>();
 
     public static ResourceLocation prefix(String name){
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
@@ -136,7 +145,15 @@ public class AscensionCraft {
         //register easy gui actions
 
 
+
+
+        NeoForge.EVENT_BUS.addListener(this::registerCommands);
+
+
     }
+
+
+
 
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
@@ -147,6 +164,8 @@ public class AscensionCraft {
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
+
+        NeoForge.EVENT_BUS.register(new SectEventHandler());
 
         register(modEventBus);
         // Register the item to a creative tab
@@ -252,7 +271,20 @@ public class AscensionCraft {
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
+        sectManager = SectManager.get(event.getServer());
 
+    }
+    private void onServerStopping(ServerStoppingEvent event) {
+        if (sectManager != null) {
+            sectManager.save();
+        }
+    }
+    private void registerCommands(RegisterCommandsEvent event) {
+        SectCommand.register(event.getDispatcher());
+    }
+
+    public static SectManager getSectManager() {
+        return sectManager;
     }
 
 
