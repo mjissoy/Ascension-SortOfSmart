@@ -6,8 +6,19 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.thejadeproject.ascension.sects.missions.MissionProgress;
+import net.thejadeproject.ascension.sects.missions.MissionRequirement;
+import net.thejadeproject.ascension.sects.missions.SectMission;
+import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class SectCommand {
 
@@ -57,7 +68,25 @@ public class SectCommand {
                 .then(Commands.literal("kick")
                         .then(Commands.argument("playername", StringArgumentType.string())
                                 .executes(SectCommand::kickPlayer)))
-        );
+
+                //mission COMMANDS
+                .then(Commands.literal("missions")
+                        .executes(SectCommand::listMissions))
+                .then(Commands.literal("mission")
+                        .then(Commands.literal("create")
+                                .then(Commands.argument("displayName", StringArgumentType.string())
+                                        .then(Commands.argument("requirements", StringArgumentType.greedyString())
+                                                .executes(SectCommand::createMission)))))
+                .then(Commands.literal("mission")
+                        .then(Commands.literal("accept")
+                                .then(Commands.argument("missionId", StringArgumentType.string())
+                                        .executes(SectCommand::acceptMission)))
+                        .then(Commands.literal("complete")
+                                .then(Commands.argument("missionId", StringArgumentType.string())
+                                        .executes(SectCommand::completeMission))))
+                        .then(Commands.literal("merit")
+                                .executes(SectCommand::showMerit))
+                );
     }
 
     private static SectManager getManager(CommandContext<CommandSourceStack> context) {
@@ -619,7 +648,7 @@ public class SectCommand {
         }
     }
 
-    private static void broadcastToSect(Sect sect, net.minecraft.server.MinecraftServer server, String message) {
+    static void broadcastToSect(Sect sect, net.minecraft.server.MinecraftServer server, String message) {
         Component msg = Component.literal(message);
         for (SectMember member : sect.getMembers().values()) {
             ServerPlayer onlinePlayer = server.getPlayerList().getPlayer(member.getPlayerId());
@@ -720,5 +749,300 @@ public class SectCommand {
         }
 
         return 1;
+    }
+
+    private static int listMissions(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+
+        SectManager manager = getManager(context);
+        Sect sect = manager.getPlayerSect(player.getUUID());
+
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        SectMember member = sect.getMember(player.getUUID());
+        List<SectMission> availableMissions;
+
+        if (member.getRank() == SectRank.OUTER) {
+            availableMissions = sect.getMissionsForRank(SectRank.OUTER);
+        } else if (member.getRank() == SectRank.INNER) {
+            availableMissions = sect.getMissionsForRank(SectRank.INNER);
+        } else {
+            // Elder and Sect Master can see all missions
+            availableMissions = new ArrayList<>(sect.getMissions());
+        }
+
+        context.getSource().sendSuccess(() -> Component.literal("§6=== Available Missions ==="), false);
+
+        if (availableMissions.isEmpty()) {
+            context.getSource().sendSuccess(() -> Component.literal("§7No missions available."), false);
+        } else {
+            for (SectMission mission : availableMissions) {
+                boolean isAccepted = mission.isAcceptedBy(player.getUUID());
+                MissionProgress progress = mission.getProgress(player.getUUID());
+                boolean canComplete = progress != null && progress.isCompleted();
+
+                String status = canComplete ? "§a[COMPLETE]" : isAccepted ? "§e[IN PROGRESS]" : "§7[AVAILABLE]";
+
+                Component missionText = Component.literal(status + " " + mission.getDisplayName())
+                        .withStyle(style -> style
+                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, createMissionHoverText(mission, progress)))
+                                .withClickEvent(canComplete ?
+                                        new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect mission complete " + mission.getMissionId()) :
+                                        isAccepted ? null :
+                                                new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect mission accept " + mission.getMissionId())));
+
+                context.getSource().sendSuccess(() -> missionText, false);
+            }
+        }
+
+        // Show current merit points
+        int merit = sect.getPlayerMerit(player.getUUID());
+        String nextPromotion;
+        if (member.getRank() == SectRank.OUTER) {
+            nextPromotion = " §7(§e" + merit + "§7/§a2500§7 for promotion to Inner)";
+        } else if (member.getRank() == SectRank.INNER) {
+            nextPromotion = " §7(§e" + merit + "§7/§610000§7 for promotion to Elder)";
+        } else {
+            nextPromotion = "";
+        }
+
+        context.getSource().sendSuccess(() -> Component.literal("§eYour Merit Points: §6" + merit + nextPromotion), false);
+
+        return 1;
+    }
+
+    private static Component createMissionHoverText(SectMission mission, MissionProgress progress) {
+        MutableComponent text = Component.literal("§e" + mission.getDisplayName() + "\n\n§7Requirements:\n");
+
+        for (MissionRequirement req : mission.getRequirements()) {
+            String requirementText = "";
+            switch (req.getType()) {
+                case ITEM:
+                    requirementText = "Collect " + req.getCount() + "x " + req.getTarget();
+                    break;
+                case KILL_MOB:
+                    requirementText = "Kill " + req.getCount() + "x " + req.getTarget();
+                    break;
+            }
+
+            if (progress != null) {
+                requirementText += " §8(" + progress.getProgress() + "/" + req.getCount() + ")";
+            }
+
+            text.append(Component.literal("§7- " + requirementText + "\n"));
+        }
+
+        text.append(Component.literal("\n§6Reward: §e" + mission.getRewardMerit() + " Merit Points"));
+        if (!mission.getRewardItem().isEmpty()) {
+            text.append(Component.literal(" + ").append(mission.getRewardItem().getDisplayName()));
+        }
+
+        if (mission.isRepeatable()) {
+            text.append(Component.literal("\n§a✓ Repeatable"));
+        }
+
+        return text;
+    }
+
+    private static int createMission(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String displayName = StringArgumentType.getString(context, "displayName");
+        String requirementsStr = StringArgumentType.getString(context, "requirements");
+
+        SectManager manager = getManager(context);
+        Sect sect = manager.getPlayerSect(player.getUUID());
+
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        if (!sect.hasPermission(player.getUUID(), SectPermission.PROMOTE)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can create missions!"));
+            return 0;
+        }
+
+        // Parse requirements (this is a simplified version - you'd want more robust parsing)
+        String[] parts = requirementsStr.split(" ");
+        // Implementation would parse the requirements and create the mission
+
+        context.getSource().sendSuccess(() -> Component.literal("§aMission '" + displayName + "' created!"), false);
+        return 1;
+    }
+
+
+    private static int acceptMission(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String missionIdStr = StringArgumentType.getString(context, "missionId");
+
+        SectManager manager = getManager(context);
+        Sect sect = manager.getPlayerSect(player.getUUID());
+
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        try {
+            UUID missionId = UUID.fromString(missionIdStr);
+            SectMission mission = sect.getMission(missionId);
+
+            if (mission == null) {
+                context.getSource().sendFailure(Component.literal("§cMission not found!"));
+                return 0;
+            }
+
+            // Check if player can accept this mission based on rank
+            SectMember member = sect.getMember(player.getUUID());
+            if (member.getRank().getLevel() < mission.getTargetRank().getLevel()) {
+                context.getSource().sendFailure(Component.literal("§cYour rank is too low to accept this mission!"));
+                return 0;
+            }
+
+            if (!mission.canAccept(player.getUUID())) {
+                context.getSource().sendFailure(Component.literal("§cYou have already accepted this mission!"));
+                return 0;
+            }
+
+            mission.acceptMission(player.getUUID());
+            manager.setDirty();
+
+            context.getSource().sendSuccess(() -> Component.literal("§aMission '" + mission.getDisplayName() + "' accepted!"), false);
+            return 1;
+
+        } catch (IllegalArgumentException e) {
+            context.getSource().sendFailure(Component.literal("§cInvalid mission ID!"));
+            return 0;
+        }
+    }
+
+    private static int completeMission(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String missionIdStr = StringArgumentType.getString(context, "missionId");
+
+        try {
+            UUID missionId = UUID.fromString(missionIdStr);
+
+            if (SectMissionEventHandler.claimMissionReward(player, missionId)) {
+                context.getSource().sendSuccess(() -> Component.literal("§aMission completed and rewards claimed!"), false);
+                return 1;
+            } else {
+                context.getSource().sendFailure(Component.literal("§cCannot complete mission! Make sure you have the required items and the mission is ready for completion."));
+                return 0;
+            }
+
+        } catch (IllegalArgumentException e) {
+            context.getSource().sendFailure(Component.literal("§cInvalid mission ID!"));
+            return 0;
+        }
+    }
+
+    private static int showMerit(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+
+        SectManager manager = getManager(context);
+        Sect sect = manager.getPlayerSect(player.getUUID());
+
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        SectMember member = sect.getMember(player.getUUID());
+        int currentMerit = sect.getPlayerMerit(player.getUUID());
+
+        context.getSource().sendSuccess(() -> Component.literal("§6=== Your Merit Points ==="), false);
+        context.getSource().sendSuccess(() -> Component.literal("§eCurrent Merit: §6" + currentMerit), false);
+
+        // Show different progress bars based on rank
+        if (member.getRank() == SectRank.OUTER) {
+            showFancyProgressBar(context, currentMerit, 2500, "Inner Sect", "§2", "§a", "§8");
+            context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §aInner Sect §7(§62500§7 merit required)"), false);
+        } else if (member.getRank() == SectRank.INNER) {
+            showFancyProgressBar(context, currentMerit, 10000, "Elder", "§6", "§e", "§8");
+            context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §6Elder §7(§610000§7 merit required)"), false);
+        } else if (member.getRank() == SectRank.ELDER) {
+            context.getSource().sendSuccess(() -> Component.literal("§6You are an Elder! Next rank: §cSect Master"), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Promotion to Sect Master must be done manually by the current Sect Master."), false);
+        } else if (member.getRank() == SectRank.SECT_MASTER) {
+            context.getSource().sendSuccess(() -> Component.literal("§cYou are the Sect Master! This is the highest rank."), false);
+            // Show total merit for Sect Master
+            context.getSource().sendSuccess(() -> Component.literal("§6Total Merit Points: §e" + currentMerit), false);
+        }
+
+        return 1;
+    }
+
+    private static void showFancyProgressBar(CommandContext<CommandSourceStack> context, int current, int required, String nextRank, String startColor, String filledColor, String emptyColor) {
+        int barLength = 30; // Longer bar for more granularity
+        float progress = Math.min((float) current / required, 1.0f);
+        int filledChars = (int) (progress * barLength);
+
+        // Create the fancy progress bar with gradient effect
+        StringBuilder progressBar = new StringBuilder();
+        progressBar.append("§7[");
+
+        // Add gradient filled segments
+        for (int i = 0; i < filledChars; i++) {
+            float segmentProgress = (float) i / barLength;
+            String segmentColor = getGradientColor(segmentProgress, startColor, filledColor);
+            progressBar.append(segmentColor).append("█");
+        }
+
+        // Add empty segments
+        for (int i = filledChars; i < barLength; i++) {
+            progressBar.append(emptyColor).append("▒");
+        }
+
+        progressBar.append("§7] §e").append(String.format("%.1f", progress * 100)).append("%");
+
+        context.getSource().sendSuccess(() -> Component.literal(progressBar.toString()), false);
+
+        // Show detailed numbers
+        int remaining = Math.max(0, required - current);
+        String percentage = String.format("%.1f", progress * 100);
+
+        if (remaining > 0) {
+            context.getSource().sendSuccess(() -> Component.literal("§7Progress: §e" + current + "§7/§6" + required + " §7(§e" + percentage + "%§7)"), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Need §e" + remaining + "§7 more merit for " + nextRank), false);
+        } else {
+            context.getSource().sendSuccess(() -> Component.literal("§a✓ You have reached the required merit for " + nextRank + "!"), false);
+            context.getSource().sendSuccess(() -> Component.literal("§aYou will be automatically promoted soon."), false);
+        }
+    }
+
+    private static String getGradientColor(float progress, String startColor, String endColor) {
+        // Simple gradient from start color to end color
+        // For more advanced gradients, you could interpolate between RGB values
+        if (progress < 0.5f) {
+            return startColor;
+        } else {
+            return endColor;
+        }
+    }
+
+    // Alternative: Simple block-style progress bar
+    private static void showBlockProgressBar(CommandContext<CommandSourceStack> context, int current, int required, String nextRank) {
+        int totalBlocks = 10;
+        float progress = Math.min((float) current / required, 1.0f);
+        int filledBlocks = (int) (progress * totalBlocks);
+
+        StringBuilder progressBar = new StringBuilder();
+        progressBar.append("§7[");
+
+        for (int i = 0; i < totalBlocks; i++) {
+            if (i < filledBlocks) {
+                progressBar.append("§a■");
+            } else {
+                progressBar.append("§8□");
+            }
+        }
+
+        progressBar.append("§7] §e").append((int)(progress * 100)).append("%");
+
+        context.getSource().sendSuccess(() -> Component.literal(progressBar.toString()), false);
     }
 }

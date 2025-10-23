@@ -59,6 +59,7 @@ import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.sects.SectCommand;
 import net.thejadeproject.ascension.sects.SectEventHandler;
 import net.thejadeproject.ascension.sects.SectManager;
+import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -166,6 +167,7 @@ public class AscensionCraft {
         NeoForge.EVENT_BUS.register(this);
 
         NeoForge.EVENT_BUS.register(new SectEventHandler());
+        NeoForge.EVENT_BUS.register(new SectMissionEventHandler());
 
         register(modEventBus);
         // Register the item to a creative tab

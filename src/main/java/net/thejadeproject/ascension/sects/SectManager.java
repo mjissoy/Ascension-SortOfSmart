@@ -38,7 +38,8 @@ public class SectManager extends SavedData {
             CompoundTag sectsTag = tag.getCompound("sects");
             for (String sectName : sectsTag.getAllKeys()) {
                 CompoundTag sectTag = sectsTag.getCompound(sectName);
-                Sect sect = Sect.fromNBT(sectTag);
+                // Pass the registries parameter here
+                Sect sect = Sect.fromNBT(sectTag, registries);
                 manager.sects.put(sectName, sect);
 
                 // Rebuild playerSects map
@@ -65,7 +66,8 @@ public class SectManager extends SavedData {
         // Save sects
         CompoundTag sectsTag = new CompoundTag();
         for (Map.Entry<String, Sect> entry : sects.entrySet()) {
-            sectsTag.put(entry.getKey(), entry.getValue().toNBT());
+            // Pass the registries parameter here
+            sectsTag.put(entry.getKey(), entry.getValue().toNBT(registries));
         }
         tag.put("sects", sectsTag);
 
