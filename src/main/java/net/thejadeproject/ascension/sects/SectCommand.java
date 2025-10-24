@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.sects;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -11,6 +12,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.sects.missions.MissionProgress;
 import net.thejadeproject.ascension.sects.missions.MissionRequirement;
 import net.thejadeproject.ascension.sects.missions.SectMission;
@@ -18,7 +21,9 @@ import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class SectCommand {
 
@@ -64,12 +69,14 @@ public class SectCommand {
                 .then(Commands.literal("master")
                         .then(Commands.argument("playername", StringArgumentType.string())
                                 .executes(SectCommand::transferMaster)))
-                // NEW KICK COMMAND:
                 .then(Commands.literal("kick")
                         .then(Commands.argument("playername", StringArgumentType.string())
                                 .executes(SectCommand::kickPlayer)))
-
-                //mission COMMANDS
+                .then(Commands.literal("desc")
+                        .then(Commands.argument("description", StringArgumentType.greedyString())
+                                .executes(SectCommand::setDescription)))
+                .then(Commands.literal("list")
+                        .executes(SectCommand::listSects))
                 .then(Commands.literal("missions")
                         .executes(SectCommand::listMissions))
                 .then(Commands.literal("mission")
@@ -84,13 +91,64 @@ public class SectCommand {
                         .then(Commands.literal("complete")
                                 .then(Commands.argument("missionId", StringArgumentType.string())
                                         .executes(SectCommand::completeMission))))
-                        .then(Commands.literal("merit")
-                                .executes(SectCommand::showMerit))
-                );
+                .then(Commands.literal("merit")
+                        .executes(SectCommand::showMerit))
+                .then(Commands.literal("claim")
+                        .then(Commands.literal("mission")
+                                .then(Commands.literal("submissions")
+                                        .executes(SectCommand::claimMissionSubmissions))))
+                //sect settings
+                .then(Commands.literal("settings")
+                        .then(Commands.literal("friendlyfire")
+                                .then(Commands.argument("value", BoolArgumentType.bool())
+                                        .executes(SectCommand::setFriendlyFire))))
+        );
     }
 
     private static SectManager getManager(CommandContext<CommandSourceStack> context) {
-        return SectManager.get(context.getSource().getServer());
+        return AscensionCraft.getSectManager(context.getSource().getServer());
+    }
+
+    // NEW: Set description command
+    private static int setDescription(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String description = StringArgumentType.getString(context, "description");
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        // Check permissions - Elders and Sect Master can set description
+        SectMember member = sect.getMember(player.getUUID());
+        if (member == null || (member.getRank() != SectRank.SECT_MASTER && member.getRank() != SectRank.ELDER)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can set the sect description!"));
+            return 0;
+        }
+
+        // Limit description length
+        if (description.length() > 200) {
+            context.getSource().sendFailure(Component.literal("§cDescription too long! Maximum 200 characters."));
+            return 0;
+        }
+
+        sect.setDescription(description);
+        manager.setDirty();
+
+        context.getSource().sendSuccess(() -> Component.literal("§aSect description updated!"), true);
+
+        // Notify sect members
+        broadcastToSect(sect, context.getSource().getServer(),
+                "§e" + player.getScoreboardName() + " updated the sect description!");
+
+        return 1;
     }
 
     private static int createSect(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -108,6 +166,11 @@ public class SectCommand {
         }
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         if (manager.createSect(name, player.getUUID(), player.getScoreboardName())) {
             context.getSource().sendSuccess(() -> Component.literal("§aSect '" + name + "' created successfully!"), false);
             return 1;
@@ -122,6 +185,11 @@ public class SectCommand {
         String targetName = StringArgumentType.getString(context, "playername");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -145,6 +213,11 @@ public class SectCommand {
         String targetName = StringArgumentType.getString(context, "playername");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -187,11 +260,17 @@ public class SectCommand {
 
         return 1;
     }
+
     private static int demotePlayer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
         String targetName = StringArgumentType.getString(context, "playername");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -260,6 +339,11 @@ public class SectCommand {
         String title = StringArgumentType.getString(context, "title");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -301,6 +385,11 @@ public class SectCommand {
         String sectName = StringArgumentType.getString(context, "sectname");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getSect(sectName);
 
         if (sect == null) {
@@ -330,6 +419,11 @@ public class SectCommand {
         ServerPlayer player = context.getSource().getPlayerOrException();
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -360,6 +454,11 @@ public class SectCommand {
         String message = StringArgumentType.getString(context, "msg");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -377,6 +476,11 @@ public class SectCommand {
         ServerPlayer player = context.getSource().getPlayerOrException();
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         boolean newState = !manager.isChatToggled(player.getUUID());
         manager.setChatToggle(player.getUUID(), newState);
 
@@ -390,6 +494,11 @@ public class SectCommand {
         String targetSectName = StringArgumentType.getString(context, "sectname");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect playerSect = manager.getPlayerSect(player.getUUID());
 
         if (playerSect == null) {
@@ -449,6 +558,11 @@ public class SectCommand {
         ServerPlayer player = context.getSource().getPlayerOrException();
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -478,6 +592,11 @@ public class SectCommand {
         ServerPlayer player = context.getSource().getPlayerOrException();
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -515,6 +634,11 @@ public class SectCommand {
         String targetName = StringArgumentType.getString(context, "playername");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -575,6 +699,11 @@ public class SectCommand {
         String targetName = StringArgumentType.getString(context, "playername");
 
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect == null) {
@@ -678,6 +807,11 @@ public class SectCommand {
 
     private static int displaySectInfo(CommandContext<CommandSourceStack> context, ServerPlayer player, String target) throws CommandSyntaxException {
         SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
         Sect sect = null;
         String displayName;
 
@@ -718,6 +852,9 @@ public class SectCommand {
         context.getSource().sendSuccess(() -> Component.literal("§6=== " + displayName + " Info ==="), false);
         Sect finalSect = sect;
         context.getSource().sendSuccess(() -> Component.literal("§eSect: §f" + finalSect.getName()), false);
+
+        // NEW: Display description
+        context.getSource().sendSuccess(() -> Component.literal("§eDescription: §7" + finalSect.getDescription()), false);
 
         // Owner info
         SectMember owner = sect.getMember(sect.getOwnerId());
@@ -1024,25 +1161,179 @@ public class SectCommand {
         }
     }
 
-    // Alternative: Simple block-style progress bar
-    private static void showBlockProgressBar(CommandContext<CommandSourceStack> context, int current, int required, String nextRank) {
-        int totalBlocks = 10;
-        float progress = Math.min((float) current / required, 1.0f);
-        int filledBlocks = (int) (progress * totalBlocks);
+    private static int claimMissionSubmissions(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
 
-        StringBuilder progressBar = new StringBuilder();
-        progressBar.append("§7[");
+        SectManager manager = getManager(context);
+        Sect sect = manager.getPlayerSect(player.getUUID());
 
-        for (int i = 0; i < totalBlocks; i++) {
-            if (i < filledBlocks) {
-                progressBar.append("§a■");
-            } else {
-                progressBar.append("§8□");
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        if (!sect.hasPermission(player.getUUID(), SectPermission.PROMOTE)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can claim mission submissions!"));
+            return 0;
+        }
+
+        Map<UUID, List<ItemStack>> submissions = sect.getMissionSubmissions();
+        if (submissions.isEmpty()) {
+            context.getSource().sendFailure(Component.literal("§cThere are no mission submissions to claim!"));
+            return 0;
+        }
+
+        int totalItems = 0;
+        int totalStacks = 0;
+
+        // Give all submitted items to the player
+        for (Map.Entry<UUID, List<ItemStack>> entry : submissions.entrySet()) {
+            UUID missionId = entry.getKey();
+            List<ItemStack> items = entry.getValue();
+
+            // Find mission name for display
+            SectMission mission = sect.getMission(missionId);
+            String missionName = mission != null ? mission.getDisplayName() : "Unknown Mission";
+
+            for (ItemStack stack : items) {
+                if (!stack.isEmpty()) {
+                    totalStacks++;
+                    totalItems += stack.getCount();
+
+                    // Try to add to player inventory
+                    if (!player.getInventory().add(stack.copy())) {
+                        // Drop if inventory is full
+                        player.drop(stack.copy(), false);
+                    }
+                }
+            }
+
+            // Remove this mission's submissions after claiming
+            sect.removeMissionSubmission(missionId);
+        }
+        manager.setDirty();
+
+        int finalTotalItems = totalItems;
+        int finalTotalStacks = totalStacks;
+        context.getSource().sendSuccess(() -> Component.literal("§aClaimed §e" + finalTotalItems + "§a items (§e" + finalTotalStacks + "§a stacks) from mission submissions!"), false);
+
+        // Show breakdown of what was claimed
+        if (!submissions.isEmpty()) {
+            context.getSource().sendSuccess(() -> Component.literal("§7All submitted items have been added to your inventory."), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7If your inventory was full, items were dropped on the ground."), false);
+        }
+
+        return 1;
+    }
+
+    // NEW: List all sects command
+    private static int listSects(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        // Get all sects using the new public method
+        Map<String, Sect> allSects = manager.getAllSects();
+
+        if (allSects.isEmpty()) {
+            context.getSource().sendSuccess(() -> Component.literal("§7No sects have been created on this world yet."), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Use §e/sect create <name>§7 to create one!"), false);
+            return 1;
+        }
+
+        // Sort sects by member count (descending) then by name
+        List<Map.Entry<String, Sect>> sortedSects = allSects.entrySet().stream()
+                .sorted((a, b) -> {
+                    int memberCompare = Integer.compare(b.getValue().getMembers().size(), a.getValue().getMembers().size());
+                    if (memberCompare != 0) return memberCompare;
+                    return a.getKey().compareToIgnoreCase(b.getKey());
+                })
+                .toList();
+
+        context.getSource().sendSuccess(() -> Component.literal("§6=== All Sects on this World (" + sortedSects.size() + ") ==="), false);
+
+        for (Map.Entry<String, Sect> entry : sortedSects) {
+            Sect sect = entry.getValue();
+            String sectName = entry.getKey();
+
+            // Get owner name
+            SectMember owner = sect.getMember(sect.getOwnerId());
+            String ownerName = owner != null ? owner.getPlayerName() : "Unknown";
+
+            int memberCount = sect.getMembers().size();
+            String openStatus = sect.isOpen() ? "§aOpen" : "§cClosed";
+            String statusColor = sect.isOpen() ? "§a" : "§c";
+
+            // Create the main sect line
+            MutableComponent sectLine = Component.literal("§e- " + sectName)
+                    .append(Component.literal(" §7(Members: §e" + memberCount + "§7, Status: " + statusColor + (sect.isOpen() ? "Open" : "Closed") + "§7)"));
+
+            // Create hover text with detailed info
+            MutableComponent hoverText = Component.literal("§6" + sectName + "\n")
+                    .append(Component.literal("§cSect Master: §f" + ownerName + "\n"))
+                    .append(Component.literal("§bMembers: §e" + memberCount + "\n"))
+                    .append(Component.literal("§eStatus: " + statusColor + (sect.isOpen() ? "Open to Join" : "Invite Only") + "\n"))
+                    .append(Component.literal("§aDescription: §f" + sect.getDescription() + "\n\n"))
+                    .append(Component.literal("§aClick to view detailed info"));
+
+            // Add click event to run /sect info command
+            sectLine.withStyle(style -> style
+                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText))
+                    .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect info " + sectName)));
+
+            context.getSource().sendSuccess(() -> sectLine, false);
+        }
+
+        // Add helpful footer
+        context.getSource().sendSuccess(() -> Component.literal("§7Click on a sect name to view more information."), false);
+        if (context.getSource().getEntity() instanceof ServerPlayer) {
+            ServerPlayer player = (ServerPlayer) context.getSource().getEntity();
+            Sect playerSect = manager.getPlayerSect(player.getUUID());
+            if (playerSect == null) {
+                context.getSource().sendSuccess(() -> Component.literal("§7Use §e/sect join <name>§7 to join an open sect!"), false);
             }
         }
 
-        progressBar.append("§7] §e").append((int)(progress * 100)).append("%");
+        return 1;
+    }
 
-        context.getSource().sendSuccess(() -> Component.literal(progressBar.toString()), false);
+    // NEW: Set friendly fire command
+    private static int setFriendlyFire(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        boolean value = BoolArgumentType.getBool(context, "value");
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        // Check if player is the Sect Master
+        if (!sect.getOwnerId().equals(player.getUUID())) {
+            context.getSource().sendFailure(Component.literal("§cOnly the Sect Master can change sect settings!"));
+            return 0;
+        }
+
+        sect.setFriendlyFire(value);
+        manager.setDirty();
+
+        String status = value ? "§aenabled" : "§cdisabled";
+        context.getSource().sendSuccess(() -> Component.literal("§eFriendly fire is now " + status + " for your sect!"), true);
+
+        // Notify sect members
+        String message = value ?
+                "§eFriendly fire has been §aenabled§e. Members can now damage each other." :
+                "§eFriendly fire has been §cdisabled§e. Members can no longer damage each other.";
+        broadcastToSect(sect, context.getSource().getServer(), message);
+
+        return 1;
     }
 }

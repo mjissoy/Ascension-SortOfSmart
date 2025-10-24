@@ -94,7 +94,7 @@ public class AscensionCraft {
     public static float hue;
     public static final String MOD_ID = "ascension";
     public static final Logger LOGGER = LogUtils.getLogger();
-    private static SectManager sectManager;
+    private static final Map<String, SectManager> WORLD_SECT_MANAGERS = new HashMap<>(); // World ID -> SectManager
     public static final Map<String, String> SECT_DATA = new HashMap<>();
 
     public static ResourceLocation prefix(String name){
@@ -111,8 +111,6 @@ public class AscensionCraft {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SPATIALRING_PICKUP = COMPONENTS.register("spatialring_pickup", () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public void register(IEventBus modEventBus){
-
-
         COMPONENTS.register(modEventBus);
         RECIPES.register(modEventBus);
 
@@ -120,7 +118,6 @@ public class AscensionCraft {
         RealmRegistry.register(modEventBus);
 
         ModTerrablender.registerBiomes();
-
 
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
@@ -143,18 +140,9 @@ public class AscensionCraft {
         ModSkills.register(modEventBus);
         ModTechniques.register(modEventBus);
         ModDao.register(modEventBus);
-        //register easy gui actions
-
-
-
 
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
-
-
     }
-
-
-
 
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
@@ -162,8 +150,6 @@ public class AscensionCraft {
         modEventBus.addListener(this::onLoadComplete);
 
         // Register ourselves for server and other game events we are interested in.
-        // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
         NeoForge.EVENT_BUS.register(new SectEventHandler());
@@ -173,21 +159,14 @@ public class AscensionCraft {
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
-
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC, "ascension/Ascension-Common.toml");
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.CULTIVATION_SPEC, "ascension/Ascension-Cultivation.toml");
-
-
 
         modEventBus.addListener(this::registerKeyBindings);
         NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogin);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogOut);
-
-
-
-
     }
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
@@ -201,38 +180,36 @@ public class AscensionCraft {
         // Only process on server side
         if (!event.getEntity().level().isClientSide) {
             if (event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").isCultivating()
-            && !event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique.equals("ascension:none")){
+                    && !event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique.equals("ascension:none")){
 
                 String technique = event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique;
                 AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(technique,':')).tryCultivate(event.getEntity());
             }
         }
     }
-    private  void onPlayerLogOut(PlayerEvent.PlayerLoggedOutEvent event){
+
+    private void onPlayerLogOut(PlayerEvent.PlayerLoggedOutEvent event){
         System.out.println(event.getEntity().getData(ModAttachments.PHYSIQUE));
     }
+
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-
-
         Player player = (Player) event.getEntity();
-        player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED)); //
+        player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
+
         if(!event.getEntity().level().isClientSide()){
             PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 
             if(player.getData(ModAttachments.PHYSIQUE).equals("ascension:empty_vessel")){
                 //open menu
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new OpenPickPhysiqueScreen(true));
-
             }else{
                 Minecraft.getInstance().tell(()->{
                     PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
                 });
             }
-
         }
 
         for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
-
             Minecraft.getInstance().tell(()->{
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPathDataPayload(
                         path.pathId,
@@ -246,10 +223,8 @@ public class AscensionCraft {
         }
     }
 
-
     public void onLoadComplete(FMLLoadCompleteEvent event) {
         PlayerAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.MAX_HEALTH.value());
-
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -257,38 +232,45 @@ public class AscensionCraft {
         ToolTipManager.registerAllTooltips();
         FreezingEffectItems.onCommonSetup(event);
         SpatialRingUtils.checkCuriosLoaded();
-
-
     }
-
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
             event.accept(ModItems.RAT_SPAWN_EGG);
         }
-
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        sectManager = SectManager.get(event.getServer());
+        // Each world gets its own sect manager
+        String worldId = event.getServer().getWorldData().getLevelName();
+        SectManager manager = SectManager.get(event.getServer(), worldId);
+        WORLD_SECT_MANAGERS.put(worldId, manager);
+    }
 
-    }
-    private void onServerStopping(ServerStoppingEvent event) {
-        if (sectManager != null) {
-            sectManager.save();
+    @SubscribeEvent
+    public void onServerStopping(ServerStoppingEvent event) {
+        // Save all world sect managers
+        for (SectManager manager : WORLD_SECT_MANAGERS.values()) {
+            if (manager != null) {
+                manager.save();
+            }
         }
+        WORLD_SECT_MANAGERS.clear();
     }
+
     private void registerCommands(RegisterCommandsEvent event) {
         SectCommand.register(event.getDispatcher());
     }
 
-    public static SectManager getSectManager() {
-        return sectManager;
+    // Get sect manager for current world
+    public static SectManager getSectManager(net.minecraft.server.MinecraftServer server) {
+        if (server == null) return null;
+        String worldId = server.getWorldData().getLevelName();
+        return WORLD_SECT_MANAGERS.get(worldId);
     }
-
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
     public static class ClientModEvents {
@@ -307,7 +289,6 @@ public class AscensionCraft {
                             return 0.0F;                   // Single item
                         });
             });
-
         }
 
         @SubscribeEvent
@@ -320,8 +301,5 @@ public class AscensionCraft {
             System.out.println("Registering stuff");
             ModPayloads.registerPayloads(event);
         }
-
-
-
     }
 }

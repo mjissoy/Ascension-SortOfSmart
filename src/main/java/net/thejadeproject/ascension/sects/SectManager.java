@@ -15,30 +15,37 @@ public class SectManager extends SavedData {
     private final Map<UUID, Boolean> chatToggles = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> pendingInvites = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> allyRequests = new ConcurrentHashMap<>();
+    private final String worldId;
 
-    private static SectManager instance;
-
-    public SectManager() {}
-
-    public static SectManager get(MinecraftServer server) {
-        if (instance == null) {
-            instance = server.overworld().getDataStorage().computeIfAbsent(
-                    new SavedData.Factory<>(SectManager::new, SectManager::load),
-                    "sects"
-            );
-        }
-        return instance;
+    public Map<String, Sect> getAllSects() {
+        return new HashMap<>(sects); // Return a copy to prevent modification
     }
 
-    public static SectManager load(CompoundTag tag, HolderLookup.Provider registries) {
-        SectManager manager = new SectManager();
+    public SectManager(String worldId) {
+        this.worldId = worldId;
+    }
+
+    public static SectManager get(MinecraftServer server, String worldId) {
+        if (server == null || worldId == null) return null;
+
+        // Use world-specific file name
+        String fileName = "sects_" + worldId.replaceAll("[^a-zA-Z0-9-_]", "_");
+
+        return server.overworld().getDataStorage().computeIfAbsent(
+                new SavedData.Factory<>(() -> new SectManager(worldId),
+                        (tag, registries) -> load(tag, registries, worldId)),
+                fileName
+        );
+    }
+
+    public static SectManager load(CompoundTag tag, HolderLookup.Provider registries, String worldId) {
+        SectManager manager = new SectManager(worldId);
 
         // Load sects
         if (tag.contains("sects")) {
             CompoundTag sectsTag = tag.getCompound("sects");
             for (String sectName : sectsTag.getAllKeys()) {
                 CompoundTag sectTag = sectsTag.getCompound(sectName);
-                // Pass the registries parameter here
                 Sect sect = Sect.fromNBT(sectTag, registries);
                 manager.sects.put(sectName, sect);
 
@@ -57,7 +64,6 @@ public class SectManager extends SavedData {
             }
         }
 
-        instance = manager;
         return manager;
     }
 
@@ -66,7 +72,6 @@ public class SectManager extends SavedData {
         // Save sects
         CompoundTag sectsTag = new CompoundTag();
         for (Map.Entry<String, Sect> entry : sects.entrySet()) {
-            // Pass the registries parameter here
             sectsTag.put(entry.getKey(), entry.getValue().toNBT(registries));
         }
         tag.put("sects", sectsTag);
@@ -172,7 +177,7 @@ public class SectManager extends SavedData {
         }
     }
 
-    public static SectManager getInstance() {
-        return instance;
+    public String getWorldId() {
+        return worldId;
     }
 }

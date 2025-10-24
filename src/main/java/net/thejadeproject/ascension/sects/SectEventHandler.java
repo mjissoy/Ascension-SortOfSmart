@@ -3,16 +3,20 @@ package net.thejadeproject.ascension.sects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.ServerChatEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.thejadeproject.ascension.AscensionCraft;
 
 public class SectEventHandler {
 
     @SubscribeEvent
     public void onServerChat(ServerChatEvent event) {
         ServerPlayer player = event.getPlayer();
-        SectManager manager = SectManager.getInstance();
+        SectManager manager = AscensionCraft.getSectManager(player.getServer());
 
         if (manager == null) return;
 
@@ -47,15 +51,16 @@ public class SectEventHandler {
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
+            // Get manager from the player's server
+            SectManager manager = AscensionCraft.getSectManager(player.getServer());
+            if (manager == null) return;
+
             // Refresh tab list display
-            updatePlayerDisplayName(player);
+            updatePlayerDisplayName(player, manager);
         }
     }
 
-    private void updatePlayerDisplayName(ServerPlayer player) {
-        SectManager manager = SectManager.getInstance();
-        if (manager == null) return;
-
+    private void updatePlayerDisplayName(ServerPlayer player, SectManager manager) {
         Sect sect = manager.getPlayerSect(player.getUUID());
 
         if (sect != null) {
@@ -82,6 +87,40 @@ public class SectEventHandler {
             ServerPlayer onlinePlayer = server.getPlayerList().getPlayer(member.getPlayerId());
             if (onlinePlayer != null) {
                 onlinePlayer.sendSystemMessage(chatMessage);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onLivingDamage(LivingDamageEvent.Pre event) {
+        // Get the target (entity being damaged)
+        if (!(event.getEntity() instanceof Player targetPlayer)) return;
+
+        // Get the attacker from the damage source
+        Entity attacker = event.getSource().getEntity();
+        if (!(attacker instanceof Player attackerPlayer)) return;
+
+        // Don't check if players are the same
+        if (targetPlayer == attackerPlayer) return;
+
+        SectManager manager = AscensionCraft.getSectManager(targetPlayer.getServer());
+        if (manager == null) return;
+
+        // Check if both players are in the same sect
+        Sect targetSect = manager.getPlayerSect(targetPlayer.getUUID());
+        Sect attackerSect = manager.getPlayerSect(attackerPlayer.getUUID());
+
+        if (targetSect != null && targetSect == attackerSect) {
+            // Players are in the same sect, check friendly fire setting
+            if (!targetSect.isFriendlyFire()) {
+                // Friendly fire is disabled, cancel the damage
+                event.getEntity();
+
+                // Optional: Send message to attacker
+                attackerPlayer.displayClientMessage(
+                        Component.literal("§cFriendly fire is disabled in your sect!"),
+                        true
+                );
             }
         }
     }

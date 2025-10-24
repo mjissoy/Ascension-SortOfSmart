@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.ItemStack;
 import net.thejadeproject.ascension.sects.missions.SectMission;
 
 import java.util.*;
@@ -14,13 +15,16 @@ import static net.thejadeproject.ascension.sects.SectCommand.broadcastToSect;
 
 public class Sect {
     private final String name;
-    private UUID ownerId; // Remove final to make it mutable
+    private UUID ownerId;
     private final Map<UUID, SectMember> members;
     private final Set<String> allies;
     private boolean open;
     private final long createdTime;
+    private String description;
+    private boolean friendlyFire = true;
 
     private final Map<UUID, SectMission> missions = new HashMap<>();
+    private final Map<UUID, List<ItemStack>> missionSubmissions = new HashMap<>();
     private final Map<UUID, Integer> playerMerit = new HashMap<>();
 
     public Sect(String name, UUID ownerId, String ownerName) {
@@ -30,8 +34,8 @@ public class Sect {
         this.allies = new HashSet<>();
         this.open = false;
         this.createdTime = System.currentTimeMillis();
+        this.description = "A newly formed sect.";
 
-        // Add owner as first member with SECT_MASTER rank
         members.put(ownerId, new SectMember(ownerId, ownerName, SectRank.SECT_MASTER, ""));
     }
 
@@ -41,6 +45,17 @@ public class Sect {
     public Set<String> getAllies() { return allies; }
     public boolean isOpen() { return open; }
     public void setOpen(boolean open) { this.open = open; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public boolean isFriendlyFire() {
+        return friendlyFire;
+    }
+
+    public void setFriendlyFire(boolean friendlyFire) {
+        this.friendlyFire = friendlyFire;
+    }
+
 
     public void addMember(UUID playerId, String playerName, SectRank rank) {
         members.put(playerId, new SectMember(playerId, playerName, rank, ""));
@@ -83,7 +98,6 @@ public class Sect {
         return member.getRank().hasPermission(permission);
     }
 
-    // NEW: Proper setOwner method without reflection
     public void setOwner(UUID newOwnerId) {
         this.ownerId = newOwnerId;
     }
@@ -132,12 +146,30 @@ public class Sect {
         }
     }
 
+    public void addMissionSubmission(UUID missionId, List<ItemStack> items) {
+        missionSubmissions.put(missionId, items);
+    }
+
+    public Map<UUID, List<ItemStack>> getMissionSubmissions() {
+        return missionSubmissions;
+    }
+
+    public List<ItemStack> removeMissionSubmission(UUID missionId) {
+        return missionSubmissions.remove(missionId);
+    }
+
+    public void clearAllSubmissions() {
+        missionSubmissions.clear();
+    }
+
     public CompoundTag toNBT(HolderLookup.Provider registries) {
         CompoundTag tag = new CompoundTag();
         tag.putString("name", name);
         tag.putUUID("ownerId", ownerId);
         tag.putBoolean("open", open);
         tag.putLong("createdTime", createdTime);
+        tag.putString("description", description);
+        tag.putBoolean("friendlyFire", friendlyFire);
 
         // Save members
         ListTag membersList = new ListTag();
@@ -167,16 +199,40 @@ public class Sect {
         }
         tag.put("playerMerit", meritTag);
 
+        // Save mission submissions
+        ListTag submissionsList = new ListTag();
+        for (Map.Entry<UUID, List<ItemStack>> entry : missionSubmissions.entrySet()) {
+            CompoundTag submissionTag = new CompoundTag();
+            submissionTag.putUUID("missionId", entry.getKey());
+
+            ListTag itemsList = new ListTag();
+            for (ItemStack stack : entry.getValue()) {
+                itemsList.add(stack.save(registries, new CompoundTag()));
+            }
+            submissionTag.put("items", itemsList);
+            submissionsList.add(submissionTag);
+        }
+        tag.put("missionSubmissions", submissionsList);
+
         return tag;
     }
 
     public static Sect fromNBT(CompoundTag tag, HolderLookup.Provider registries) {
         String name = tag.getString("name");
         UUID ownerId = tag.getUUID("ownerId");
-        String ownerName = ""; // We'll set this from members
 
-        Sect sect = new Sect(name, ownerId, ownerName);
+        Sect sect = new Sect(name, ownerId, "Loading...");
         sect.open = tag.getBoolean("open");
+
+        // Load description
+        if (tag.contains("description")) {
+            sect.description = tag.getString("description");
+        }
+
+        // Load friendly fire setting
+        if (tag.contains("friendlyFire")) {
+            sect.friendlyFire = tag.getBoolean("friendlyFire");
+        }
 
         // Load members
         ListTag membersList = tag.getList("members", Tag.TAG_COMPOUND);
@@ -208,11 +264,29 @@ public class Sect {
             }
         }
 
+        // Load mission submissions
+        if (tag.contains("missionSubmissions")) {
+            ListTag submissionsList = tag.getList("missionSubmissions", 10);
+            for (int i = 0; i < submissionsList.size(); i++) {
+                CompoundTag submissionTag = submissionsList.getCompound(i);
+                UUID missionId = submissionTag.getUUID("missionId");
+
+                List<ItemStack> items = new ArrayList<>();
+                ListTag itemsList = submissionTag.getList("items", 10);
+                for (int j = 0; j < itemsList.size(); j++) {
+                    ItemStack stack = ItemStack.parse(registries, itemsList.getCompound(j)).orElse(ItemStack.EMPTY);
+                    if (!stack.isEmpty()) {
+                        items.add(stack);
+                    }
+                }
+                sect.missionSubmissions.put(missionId, items);
+            }
+        }
+
         return sect;
     }
 
     public void disband() {
-        // Clear all members
         members.clear();
         allies.clear();
     }

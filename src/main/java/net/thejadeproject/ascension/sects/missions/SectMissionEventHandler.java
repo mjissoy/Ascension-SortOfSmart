@@ -13,6 +13,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.sects.Sect;
 import net.thejadeproject.ascension.sects.SectManager;
 
@@ -65,7 +66,7 @@ public class SectMissionEventHandler {
     }
 
     private void updateKillMissions(ServerPlayer player, String mobName) {
-        SectManager manager = SectManager.getInstance();
+        SectManager manager = AscensionCraft.getSectManager(player.getServer());
         if (manager == null) return;
 
         Sect sect = manager.getPlayerSect(player.getUUID());
@@ -82,7 +83,7 @@ public class SectMissionEventHandler {
     }
 
     private void checkMissionCompletions(ServerPlayer player) {
-        SectManager manager = SectManager.getInstance();
+        SectManager manager = AscensionCraft.getSectManager(player.getServer());
         if (manager == null) return;
 
         Sect sect = manager.getPlayerSect(player.getUUID());
@@ -111,7 +112,10 @@ public class SectMissionEventHandler {
             switch (requirement.getType()) {
                 case ITEM:
                     int itemCount = countPlayerItems(player, requirement.getTarget());
-                    currentProgress.put(i, Math.min(itemCount, requiredAmount));
+                    // Only update if we found more items
+                    if (itemCount > currentAmount) {
+                        currentProgress.put(i, Math.min(itemCount, requiredAmount));
+                    }
                     if (itemCount < requiredAmount) {
                         allRequirementsMet = false;
                     }
@@ -120,7 +124,10 @@ public class SectMissionEventHandler {
                 case KILL_MOB:
                     int killCount = playerKillCounts.getOrDefault(player.getUUID(), new HashMap<>())
                             .getOrDefault(requirement.getTarget(), 0);
-                    currentProgress.put(i, Math.min(killCount, requiredAmount));
+                    // Only update if we have more kills
+                    if (killCount > currentAmount) {
+                        currentProgress.put(i, Math.min(killCount, requiredAmount));
+                    }
                     if (killCount < requiredAmount) {
                         allRequirementsMet = false;
                     }
@@ -128,14 +135,19 @@ public class SectMissionEventHandler {
             }
         }
 
-        progress.setProgress(currentProgress);
-        progress.setCompleted(allRequirementsMet);
+        // Only update if progress actually changed
+        if (!currentProgress.equals(progress.getProgress())) {
+            progress.setProgress(currentProgress);
 
-        // Save changes
-        mission.acceptedBy.put(player.getUUID(), progress);
-        SectManager manager = SectManager.get(player.getServer());
-        if (manager != null) {
-            manager.setDirty();
+            boolean wasCompleted = progress.isCompleted();
+            progress.setCompleted(allRequirementsMet);
+
+            // Save changes
+            mission.acceptedBy.put(player.getUUID(), progress);
+            SectManager manager = AscensionCraft.getSectManager(player.getServer());
+            if (manager != null) {
+                manager.setDirty();
+            }
         }
     }
 
@@ -163,7 +175,7 @@ public class SectMissionEventHandler {
 
     // Method to claim mission rewards
     public static boolean claimMissionReward(ServerPlayer player, SectMission mission) {
-        SectManager manager = SectManager.getInstance();
+        SectManager manager = AscensionCraft.getSectManager(player.getServer());
         if (manager == null) return false;
 
         Sect sect = manager.getPlayerSect(player.getUUID());
@@ -174,21 +186,20 @@ public class SectMissionEventHandler {
             return false;
         }
 
-        // Check if player has required items (for submission)
-        if (!hasRequiredItems(player, mission)) {
-            return false;
-        }
+        // Remove required items from player and collect them
+        List<ItemStack> submittedItems = removeAndCollectRequiredItems(player, mission);
 
-        // Remove required items from player
-        removeRequiredItems(player, mission);
+        // Store the submitted items in the sect
+        sect.addMissionSubmission(mission.getMissionId(), submittedItems);
 
-        // Give rewards
+        // Give rewards (merit points and item rewards)
         giveMissionRewards(player, sect, mission);
 
         // Update mission state
         if (mission.isRepeatable()) {
             // Reset progress for repeatable missions
-            mission.acceptedBy.put(player.getUUID(), new MissionProgress());
+            MissionProgress newProgress = new MissionProgress();
+            mission.acceptedBy.put(player.getUUID(), newProgress);
         } else {
             // Remove from accepted missions for non-repeatable
             mission.completeMission(player.getUUID());
@@ -199,7 +210,7 @@ public class SectMissionEventHandler {
     }
 
     public static boolean claimMissionReward(ServerPlayer player, UUID missionId) {
-        SectManager manager = SectManager.getInstance();
+        SectManager manager = AscensionCraft.getSectManager(player.getServer());
         if (manager == null) return false;
 
         Sect sect = manager.getPlayerSect(player.getUUID());
@@ -245,40 +256,6 @@ public class SectMissionEventHandler {
         }
     }
 
-    private static void removeRequiredItems(ServerPlayer player, SectMission mission) {
-        for (MissionRequirement requirement : mission.getRequirements()) {
-            if (requirement.getType() == MissionRequirement.RequirementType.ITEM) {
-                removeItemsFromPlayer(player, requirement.getTarget(), requirement.getCount());
-            }
-        }
-    }
-
-    private static void removeItemsFromPlayer(ServerPlayer player, String itemId, int count) {
-        try {
-            ResourceLocation itemLocation = ResourceLocation.parse(itemId);
-            Item requiredItem = BuiltInRegistries.ITEM.get(itemLocation);
-            if (requiredItem == null) return;
-
-            Inventory inventory = player.getInventory();
-            int remaining = count;
-
-            for (int i = 0; i < inventory.getContainerSize() && remaining > 0; i++) {
-                ItemStack stack = inventory.getItem(i);
-                if (!stack.isEmpty() && stack.getItem() == requiredItem) {
-                    int removeAmount = Math.min(stack.getCount(), remaining);
-                    stack.shrink(removeAmount);
-                    remaining -= removeAmount;
-
-                    if (stack.isEmpty()) {
-                        inventory.setItem(i, ItemStack.EMPTY);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            // Item ID was invalid
-        }
-    }
-
     private static void giveMissionRewards(ServerPlayer player, Sect sect, SectMission mission) {
         // Give merit points
         sect.addPlayerMerit(player.getUUID(), mission.getRewardMerit());
@@ -291,13 +268,6 @@ public class SectMissionEventHandler {
                 player.drop(rewardCopy, false);
             }
         }
-
-        // Notify player
-        player.sendSystemMessage(net.minecraft.network.chat.Component.literal(
-                "§aMission completed! Received §6" + mission.getRewardMerit() + " Merit Points" +
-                        (!mission.getRewardItem().isEmpty() ? " and " + mission.getRewardItem().getDisplayName().getString() : "") +
-                        "!"
-        ));
     }
 
     // Reset kill counts when player logs out
@@ -306,5 +276,50 @@ public class SectMissionEventHandler {
         if (event.getEntity() instanceof ServerPlayer player) {
             playerKillCounts.remove(player.getUUID());
         }
+    }
+
+    private static List<ItemStack> removeAndCollectRequiredItems(ServerPlayer player, SectMission mission) {
+        List<ItemStack> collectedItems = new ArrayList<>();
+
+        for (MissionRequirement requirement : mission.getRequirements()) {
+            if (requirement.getType() == MissionRequirement.RequirementType.ITEM) {
+                collectedItems.addAll(removeItemsFromPlayerAndCollect(player, requirement.getTarget(), requirement.getCount()));
+            }
+        }
+
+        return collectedItems;
+    }
+
+    private static List<ItemStack> removeItemsFromPlayerAndCollect(ServerPlayer player, String itemId, int count) {
+        List<ItemStack> collected = new ArrayList<>();
+
+        try {
+            ResourceLocation itemLocation = ResourceLocation.parse(itemId);
+            Item requiredItem = BuiltInRegistries.ITEM.get(itemLocation);
+            if (requiredItem == null) return collected;
+
+            Inventory inventory = player.getInventory();
+            int remaining = count;
+
+            for (int i = 0; i < inventory.getContainerSize() && remaining > 0; i++) {
+                ItemStack stack = inventory.getItem(i);
+                if (!stack.isEmpty() && stack.getItem() == requiredItem) {
+                    int removeAmount = Math.min(stack.getCount(), remaining);
+                    ItemStack collectedStack = new ItemStack(requiredItem, removeAmount);
+                    collected.add(collectedStack);
+
+                    stack.shrink(removeAmount);
+                    remaining -= removeAmount;
+
+                    if (stack.isEmpty()) {
+                        inventory.setItem(i, ItemStack.EMPTY);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // Item ID was invalid
+        }
+
+        return collected;
     }
 }
