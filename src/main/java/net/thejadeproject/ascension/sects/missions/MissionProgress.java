@@ -6,13 +6,14 @@ import net.minecraft.nbt.ListTag;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class MissionProgress {
     private Map<Integer, Integer> progress = new HashMap<>(); // requirement index -> current progress
     private boolean completed;
+    private boolean canComplete; // New: Tracks if mission requirements are met
 
     public MissionProgress() {
         this.completed = false;
+        this.canComplete = false;
     }
 
     public int getProgress(int requirementIndex) {
@@ -35,6 +36,14 @@ public class MissionProgress {
         this.completed = completed;
     }
 
+    public boolean canComplete() {
+        return canComplete;
+    }
+
+    public void setCanComplete(boolean canComplete) {
+        this.canComplete = canComplete;
+    }
+
     public CompoundTag toNBT() {
         CompoundTag tag = new CompoundTag();
 
@@ -49,6 +58,7 @@ public class MissionProgress {
         tag.put("progress", progressList);
 
         tag.putBoolean("completed", completed);
+        tag.putBoolean("canComplete", canComplete); // Save canComplete status
         return tag;
     }
 
@@ -67,6 +77,12 @@ public class MissionProgress {
         }
 
         missionProgress.completed = tag.getBoolean("completed");
+
+        // Load canComplete status (for backward compatibility, default to false)
+        if (tag.contains("canComplete")) {
+            missionProgress.canComplete = tag.getBoolean("canComplete");
+        }
+
         return missionProgress;
     }
 }

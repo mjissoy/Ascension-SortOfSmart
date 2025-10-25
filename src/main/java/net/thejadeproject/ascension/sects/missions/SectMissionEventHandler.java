@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.network.chat.Component;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -23,6 +24,9 @@ public class SectMissionEventHandler {
 
     // Track mob kills per player
     private final Map<UUID, Map<String, Integer>> playerKillCounts = new HashMap<>();
+
+    // Track players who have been notified about completable missions
+    private final Set<UUID> notifiedPlayers = new HashSet<>();
 
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent.Post event) {
@@ -95,12 +99,34 @@ public class SectMissionEventHandler {
                 MissionProgress progress = mission.getProgress(player.getUUID());
                 if (progress != null && !progress.isCompleted()) {
                     updateMissionProgress(player, sect, mission, progress);
+
+                    // Send toast notification if mission can be completed
+                    if (progress.canComplete() && !notifiedPlayers.contains(player.getUUID())) {
+                        sendCompletionToast(player, mission);
+                        notifiedPlayers.add(player.getUUID());
+                    }
                 }
             }
         }
     }
 
+    private void sendCompletionToast(ServerPlayer player, SectMission mission) {
+        // Send a toast-like message (using action bar for now)
+        player.displayClientMessage(
+                Component.literal("§6§lMission Complete! §e" + mission.getDisplayName() + " §7- Use /sect missions to claim"),
+                true // Action bar position (acts like a toast)
+        );
+
+        // Also send a chat message for clarity
+        player.sendSystemMessage(Component.literal("§a✓ Mission '" + mission.getDisplayName() + "' can be completed! Use §e/sect missions§a to claim your reward."));
+    }
+
     private void updateMissionProgress(ServerPlayer player, Sect sect, SectMission mission, MissionProgress progress) {
+        // If mission is already completed, don't update
+        if (progress.isCompleted()) {
+            return;
+        }
+
         boolean allRequirementsMet = true;
         Map<Integer, Integer> currentProgress = new HashMap<>(progress.getProgress());
 
@@ -112,10 +138,7 @@ public class SectMissionEventHandler {
             switch (requirement.getType()) {
                 case ITEM:
                     int itemCount = countPlayerItems(player, requirement.getTarget());
-                    // Only update if we found more items
-                    if (itemCount > currentAmount) {
-                        currentProgress.put(i, Math.min(itemCount, requiredAmount));
-                    }
+                    currentProgress.put(i, Math.min(itemCount, requiredAmount));
                     if (itemCount < requiredAmount) {
                         allRequirementsMet = false;
                     }
@@ -124,10 +147,7 @@ public class SectMissionEventHandler {
                 case KILL_MOB:
                     int killCount = playerKillCounts.getOrDefault(player.getUUID(), new HashMap<>())
                             .getOrDefault(requirement.getTarget(), 0);
-                    // Only update if we have more kills
-                    if (killCount > currentAmount) {
-                        currentProgress.put(i, Math.min(killCount, requiredAmount));
-                    }
+                    currentProgress.put(i, Math.min(killCount, requiredAmount));
                     if (killCount < requiredAmount) {
                         allRequirementsMet = false;
                     }
@@ -135,19 +155,20 @@ public class SectMissionEventHandler {
             }
         }
 
-        // Only update if progress actually changed
-        if (!currentProgress.equals(progress.getProgress())) {
-            progress.setProgress(currentProgress);
+        // Update progress
+        progress.setProgress(currentProgress);
+        progress.setCanComplete(allRequirementsMet);
 
-            boolean wasCompleted = progress.isCompleted();
-            progress.setCompleted(allRequirementsMet);
+        // Mark as completed if all requirements are met
+        if (allRequirementsMet) {
+            progress.setCompleted(true);
+        }
 
-            // Save changes
-            mission.acceptedBy.put(player.getUUID(), progress);
-            SectManager manager = AscensionCraft.getSectManager(player.getServer());
-            if (manager != null) {
-                manager.setDirty();
-            }
+        // Save changes
+        mission.acceptedBy.put(player.getUUID(), progress);
+        SectManager manager = AscensionCraft.getSectManager(player.getServer());
+        if (manager != null) {
+            manager.setDirty();
         }
     }
 
@@ -173,7 +194,6 @@ public class SectMissionEventHandler {
         }
     }
 
-    // Method to claim mission rewards
     public static boolean claimMissionReward(ServerPlayer player, SectMission mission) {
         SectManager manager = AscensionCraft.getSectManager(player.getServer());
         if (manager == null) return false;
@@ -182,7 +202,7 @@ public class SectMissionEventHandler {
         if (sect == null) return false;
 
         MissionProgress progress = mission.getProgress(player.getUUID());
-        if (progress == null || !progress.isCompleted()) {
+        if (progress == null || !progress.canComplete()) {
             return false;
         }
 
@@ -192,20 +212,19 @@ public class SectMissionEventHandler {
         // Store the submitted items in the sect
         sect.addMissionSubmission(mission.getMissionId(), submittedItems);
 
-        // Give rewards (merit points and item rewards)
+        // Give rewards (merit points)
         giveMissionRewards(player, sect, mission);
 
-        // Update mission state
-        if (mission.isRepeatable()) {
-            // Reset progress for repeatable missions
-            MissionProgress newProgress = new MissionProgress();
-            mission.acceptedBy.put(player.getUUID(), newProgress);
-        } else {
-            // Remove from accepted missions for non-repeatable
-            mission.completeMission(player.getUUID());
-        }
+        // CRITICAL FIX: Remove the mission from the sect entirely after completion
+        sect.removeMission(mission.getMissionId());
+
+        // Remove player from notified list
+        SectMissionEventHandler eventHandler = new SectMissionEventHandler();
+        eventHandler.notifiedPlayers.remove(player.getUUID());
 
         manager.setDirty();
+
+        player.sendSystemMessage(Component.literal("§aMission '" + mission.getDisplayName() + "' completed and removed from available missions!"));
         return true;
     }
 
@@ -222,59 +241,20 @@ public class SectMissionEventHandler {
         return claimMissionReward(player, mission);
     }
 
-    private static boolean hasRequiredItems(ServerPlayer player, SectMission mission) {
-        for (MissionRequirement requirement : mission.getRequirements()) {
-            if (requirement.getType() == MissionRequirement.RequirementType.ITEM) {
-                int itemCount = countPlayerItemsStatic(player, requirement.getTarget());
-                if (itemCount < requirement.getCount()) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private static int countPlayerItemsStatic(ServerPlayer player, String itemId) {
-        try {
-            ResourceLocation itemLocation = ResourceLocation.parse(itemId);
-            Item requiredItem = BuiltInRegistries.ITEM.get(itemLocation);
-            if (requiredItem == null) return 0;
-
-            Inventory inventory = player.getInventory();
-            int totalCount = 0;
-
-            for (int i = 0; i < inventory.getContainerSize(); i++) {
-                ItemStack stack = inventory.getItem(i);
-                if (!stack.isEmpty() && stack.getItem() == requiredItem) {
-                    totalCount += stack.getCount();
-                }
-            }
-
-            return totalCount;
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
     private static void giveMissionRewards(ServerPlayer player, Sect sect, SectMission mission) {
         // Give merit points
         sect.addPlayerMerit(player.getUUID(), mission.getRewardMerit());
 
-        // Give item reward if specified
-        if (!mission.getRewardItem().isEmpty()) {
-            ItemStack rewardCopy = mission.getRewardItem().copy();
-            if (!player.getInventory().add(rewardCopy)) {
-                // Drop if inventory is full
-                player.drop(rewardCopy, false);
-            }
-        }
+        // Send reward message
+        player.sendSystemMessage(Component.literal("§aYou received §e" + mission.getRewardMerit() + " Merit Points§a for completing '" + mission.getDisplayName() + "'!"));
     }
 
-    // Reset kill counts when player logs out
+    // Reset kill counts and notifications when player logs out
     @SubscribeEvent
     public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             playerKillCounts.remove(player.getUUID());
+            notifiedPlayers.remove(player.getUUID());
         }
     }
 

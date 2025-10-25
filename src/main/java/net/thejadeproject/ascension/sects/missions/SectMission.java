@@ -11,26 +11,21 @@ import java.util.*;
 public class SectMission {
     private final UUID missionId;
     private String displayName;
-    private SectRank targetRank; // Which rank can see/accept this mission
+    private SectRank targetRank;
     private final List<MissionRequirement> requirements;
-    private ItemStack rewardItem;
     private int rewardMerit;
-    private boolean repeatable;
     private final UUID createdBy;
     private final long createdTime;
-
-    // Track accepted missions
-    final Map<UUID, MissionProgress> acceptedBy = new HashMap<>(); // PlayerId -> Progress
+    private long expirationTime = 0;
+    final Map<UUID, MissionProgress> acceptedBy = new HashMap<>();
 
     public SectMission(String displayName, SectRank targetRank, List<MissionRequirement> requirements,
-                       ItemStack rewardItem, int rewardMerit, boolean repeatable, UUID createdBy) {
+                       int rewardMerit, UUID createdBy) {
         this.missionId = UUID.randomUUID();
         this.displayName = displayName;
         this.targetRank = targetRank;
         this.requirements = requirements;
-        this.rewardItem = rewardItem;
         this.rewardMerit = rewardMerit;
-        this.repeatable = repeatable;
         this.createdBy = createdBy;
         this.createdTime = System.currentTimeMillis();
     }
@@ -52,16 +47,8 @@ public class SectMission {
         return requirements;
     }
 
-    public ItemStack getRewardItem() {
-        return rewardItem;
-    }
-
     public int getRewardMerit() {
         return rewardMerit;
-    }
-
-    public boolean isRepeatable() {
-        return repeatable;
     }
 
     public UUID getCreatedBy() {
@@ -70,6 +57,37 @@ public class SectMission {
 
     public long getCreatedTime() {
         return createdTime;
+    }
+
+    public long getExpirationTime() {
+        return expirationTime;
+    }
+
+    public void setExpirationTime(long expirationTime) {
+        this.expirationTime = expirationTime;
+    }
+
+    public boolean isExpired() {
+        return expirationTime > 0 && System.currentTimeMillis() > expirationTime;
+    }
+
+    public String getTimeRemaining() {
+        if (expirationTime <= 0) return "§aNo time limit";
+
+        long remaining = expirationTime - System.currentTimeMillis();
+        if (remaining <= 0) return "§cExpired";
+
+        long days = remaining / (1000 * 60 * 60 * 24);
+        long hours = (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);
+        long minutes = (remaining % (1000 * 60 * 60)) / (1000 * 60);
+
+        if (days > 0) {
+            return String.format("§e%d day%s, %d hour%s", days, days == 1 ? "" : "s", hours, hours == 1 ? "" : "s");
+        } else if (hours > 0) {
+            return String.format("§e%d hour%s, %d minute%s", hours, hours == 1 ? "" : "s", minutes, minutes == 1 ? "" : "s");
+        } else {
+            return String.format("§e%d minute%s", minutes, minutes == 1 ? "" : "s");
+        }
     }
 
     // Mission progress methods
@@ -92,29 +110,29 @@ public class SectMission {
     }
 
     public boolean canAccept(UUID playerId) {
-        return !acceptedBy.containsKey(playerId) || repeatable;
+        if (isExpired()) return false;
+        return !acceptedBy.containsKey(playerId);
     }
 
-    // NBT serialization - Updated for NeoForge 1.21.1
     public CompoundTag toNBT(HolderLookup.Provider registries) {
         CompoundTag tag = new CompoundTag();
         tag.putUUID("missionId", missionId);
         tag.putString("displayName", displayName);
         tag.putString("targetRank", targetRank.name());
-        tag.put("rewardItem", rewardItem.save(registries, new CompoundTag()));
         tag.putInt("rewardMerit", rewardMerit);
-        tag.putBoolean("repeatable", repeatable);
         tag.putUUID("createdBy", createdBy);
         tag.putLong("createdTime", createdTime);
 
-        // Save requirements
+        if (expirationTime > 0) {
+            tag.putLong("expirationTime", expirationTime);
+        }
+
         ListTag requirementsList = new ListTag();
         for (MissionRequirement req : requirements) {
             requirementsList.add(req.toNBT());
         }
         tag.put("requirements", requirementsList);
 
-        // Save accepted missions
         ListTag acceptedList = new ListTag();
         for (Map.Entry<UUID, MissionProgress> entry : acceptedBy.entrySet()) {
             CompoundTag progressTag = new CompoundTag();
@@ -132,19 +150,20 @@ public class SectMission {
         SectRank targetRank = SectRank.valueOf(tag.getString("targetRank"));
 
         List<MissionRequirement> requirements = new ArrayList<>();
-        ListTag requirementsList = tag.getList("requirements", 10); // 10 = TAG_Compound
+        ListTag requirementsList = tag.getList("requirements", 10);
         for (int i = 0; i < requirementsList.size(); i++) {
             requirements.add(MissionRequirement.fromNBT(requirementsList.getCompound(i)));
         }
 
-        ItemStack rewardItem = ItemStack.parse(registries, tag.getCompound("rewardItem")).orElse(ItemStack.EMPTY);
         int rewardMerit = tag.getInt("rewardMerit");
-        boolean repeatable = tag.getBoolean("repeatable");
         UUID createdBy = tag.getUUID("createdBy");
 
-        SectMission mission = new SectMission(displayName, targetRank, requirements, rewardItem, rewardMerit, repeatable, createdBy);
+        SectMission mission = new SectMission(displayName, targetRank, requirements, rewardMerit, createdBy);
 
-        // Load accepted missions
+        if (tag.contains("expirationTime")) {
+            mission.expirationTime = tag.getLong("expirationTime");
+        }
+
         ListTag acceptedList = tag.getList("acceptedBy", 10);
         for (int i = 0; i < acceptedList.size(); i++) {
             CompoundTag progressTag = acceptedList.getCompound(i);

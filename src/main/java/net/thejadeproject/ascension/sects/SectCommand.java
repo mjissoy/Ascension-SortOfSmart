@@ -2,16 +2,16 @@ package net.thejadeproject.ascension.sects;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.sects.missions.MissionProgress;
@@ -19,10 +19,7 @@ import net.thejadeproject.ascension.sects.missions.MissionRequirement;
 import net.thejadeproject.ascension.sects.missions.SectMission;
 import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SectCommand {
@@ -79,11 +76,18 @@ public class SectCommand {
                         .executes(SectCommand::listSects))
                 .then(Commands.literal("missions")
                         .executes(SectCommand::listMissions))
+
                 .then(Commands.literal("mission")
                         .then(Commands.literal("create")
                                 .then(Commands.argument("displayName", StringArgumentType.string())
-                                        .then(Commands.argument("requirements", StringArgumentType.greedyString())
-                                                .executes(SectCommand::createMission)))))
+                                        .then(Commands.argument("targetRank", StringArgumentType.word())
+                                                .then(Commands.argument("meritReward", IntegerArgumentType.integer(1))
+                                                        .then(Commands.argument("duration", StringArgumentType.string())
+                                                                .then(Commands.argument("requirements", StringArgumentType.greedyString())
+                                                                        .executes(SectCommand::createMissionAdvanced))))))))
+                .then(Commands.literal("recommend")
+                        .then(Commands.argument("playername", StringArgumentType.string())
+                                .executes(SectCommand::recommendPlayer)))
                 .then(Commands.literal("mission")
                         .then(Commands.literal("accept")
                                 .then(Commands.argument("missionId", StringArgumentType.string())
@@ -102,6 +106,9 @@ public class SectCommand {
                         .then(Commands.literal("friendlyfire")
                                 .then(Commands.argument("value", BoolArgumentType.bool())
                                         .executes(SectCommand::setFriendlyFire))))
+                .then(Commands.literal("help")
+                        .executes(SectCommand::help))
+
         );
     }
 
@@ -907,35 +914,92 @@ public class SectCommand {
         } else if (member.getRank() == SectRank.INNER) {
             availableMissions = sect.getMissionsForRank(SectRank.INNER);
         } else {
-            // Elder and Sect Master can see all missions
             availableMissions = new ArrayList<>(sect.getMissions());
+        }
+
+        // Remove expired missions (for Elders+)
+        if (member.getRank().getLevel() >= SectRank.ELDER.getLevel()) {
+            List<UUID> expiredMissions = new ArrayList<>();
+            for (SectMission mission : availableMissions) {
+                if (mission.isExpired()) {
+                    expiredMissions.add(mission.getMissionId());
+                }
+            }
+            for (UUID missionId : expiredMissions) {
+                sect.removeMission(missionId);
+            }
+            if (!expiredMissions.isEmpty()) {
+                manager.setDirty();
+                context.getSource().sendSuccess(() -> Component.literal("§eRemoved " + expiredMissions.size() + " expired missions."), false);
+            }
+            // Refresh the list
+            if (member.getRank() == SectRank.OUTER) {
+                availableMissions = sect.getMissionsForRank(SectRank.OUTER);
+            } else if (member.getRank() == SectRank.INNER) {
+                availableMissions = sect.getMissionsForRank(SectRank.INNER);
+            } else {
+                availableMissions = new ArrayList<>(sect.getMissions());
+            }
         }
 
         context.getSource().sendSuccess(() -> Component.literal("§6=== Available Missions ==="), false);
 
-        if (availableMissions.isEmpty()) {
+        // FIXED: Show missions that the player can interact with
+        List<SectMission> validMissions = new ArrayList<>();
+
+        for (SectMission mission : availableMissions) {
+            if (mission.isExpired()) continue;
+
+            boolean isAccepted = mission.isAcceptedBy(player.getUUID());
+
+            // If player hasn't accepted the mission, show it as available
+            if (!isAccepted) {
+                validMissions.add(mission);
+                continue;
+            }
+
+            // If player has accepted it, check the progress
+            MissionProgress progress = mission.getProgress(player.getUUID());
+            if (progress != null) {
+                // Show the mission if it's not completed OR if it can be completed (ready to claim)
+                if (!progress.isCompleted() || progress.canComplete()) {
+                    validMissions.add(mission);
+                }
+            }
+        }
+
+        if (validMissions.isEmpty()) {
             context.getSource().sendSuccess(() -> Component.literal("§7No missions available."), false);
         } else {
-            for (SectMission mission : availableMissions) {
+            for (SectMission mission : validMissions) {
                 boolean isAccepted = mission.isAcceptedBy(player.getUUID());
                 MissionProgress progress = mission.getProgress(player.getUUID());
-                boolean canComplete = progress != null && progress.isCompleted();
+                boolean canComplete = progress != null && progress.canComplete();
+                boolean isCompleted = progress != null && progress.isCompleted();
 
-                String status = canComplete ? "§a[COMPLETE]" : isAccepted ? "§e[IN PROGRESS]" : "§7[AVAILABLE]";
+                String status;
+                if (canComplete && isAccepted) {
+                    status = "§a[CLAIM REWARD]";
+                } else if (isAccepted) {
+                    status = "§e[IN PROGRESS]";
+                } else {
+                    status = "§7[AVAILABLE]";
+                }
 
                 Component missionText = Component.literal(status + " " + mission.getDisplayName())
                         .withStyle(style -> style
                                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, createMissionHoverText(mission, progress)))
-                                .withClickEvent(canComplete ?
+                                .withClickEvent(canComplete && isAccepted ?
                                         new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect mission complete " + mission.getMissionId()) :
-                                        isAccepted ? null :
-                                                new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect mission accept " + mission.getMissionId())));
+                                        !isAccepted ?
+                                                new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect mission accept " + mission.getMissionId()) :
+                                                null));
 
                 context.getSource().sendSuccess(() -> missionText, false);
             }
         }
 
-        // Show current merit points
+        // Show merit points
         int merit = sect.getPlayerMerit(player.getUUID());
         String nextPromotion;
         if (member.getRank() == SectRank.OUTER) {
@@ -952,7 +1016,12 @@ public class SectCommand {
     }
 
     private static Component createMissionHoverText(SectMission mission, MissionProgress progress) {
-        MutableComponent text = Component.literal("§e" + mission.getDisplayName() + "\n\n§7Requirements:\n");
+        MutableComponent text = Component.literal("§e" + mission.getDisplayName() + "\n\n");
+
+        // Show time remaining
+        text.append(Component.literal("§7Duration: " + mission.getTimeRemaining() + "\n\n"));
+
+        text.append(Component.literal("§7Requirements:\n"));
 
         for (MissionRequirement req : mission.getRequirements()) {
             String requirementText = "";
@@ -973,20 +1042,41 @@ public class SectCommand {
         }
 
         text.append(Component.literal("\n§6Reward: §e" + mission.getRewardMerit() + " Merit Points"));
-        if (!mission.getRewardItem().isEmpty()) {
-            text.append(Component.literal(" + ").append(mission.getRewardItem().getDisplayName()));
-        }
-
-        if (mission.isRepeatable()) {
-            text.append(Component.literal("\n§a✓ Repeatable"));
-        }
 
         return text;
     }
 
-    private static int createMission(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+    private static long parseDuration(String durationStr) {
+        if (durationStr == null || durationStr.equalsIgnoreCase("none")) {
+            return 0; // No expiration
+        }
+
+        try {
+            char unit = durationStr.charAt(durationStr.length() - 1);
+            String numberStr = durationStr.substring(0, durationStr.length() - 1);
+            int value = Integer.parseInt(numberStr);
+
+            switch (Character.toLowerCase(unit)) {
+                case 'm': // minutes
+                    return System.currentTimeMillis() + (value * 60 * 1000L);
+                case 'h': // hours
+                    return System.currentTimeMillis() + (value * 60 * 60 * 1000L);
+                case 'd': // days
+                    return System.currentTimeMillis() + (value * 24 * 60 * 60 * 1000L);
+                default:
+                    return 0; // Invalid unit, no expiration
+            }
+        } catch (Exception e) {
+            return 0; // Invalid format, no expiration
+        }
+    }
+
+    private static int createMissionAdvanced(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
         String displayName = StringArgumentType.getString(context, "displayName");
+        String rankStr = StringArgumentType.getString(context, "targetRank");
+        int meritReward = IntegerArgumentType.getInteger(context, "meritReward");
+        String durationStr = StringArgumentType.getString(context, "duration");
         String requirementsStr = StringArgumentType.getString(context, "requirements");
 
         SectManager manager = getManager(context);
@@ -1002,12 +1092,148 @@ public class SectCommand {
             return 0;
         }
 
-        // Parse requirements (this is a simplified version - you'd want more robust parsing)
-        String[] parts = requirementsStr.split(" ");
-        // Implementation would parse the requirements and create the mission
+        // Parse target rank
+        SectRank targetRank;
+        try {
+            targetRank = SectRank.valueOf(rankStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            context.getSource().sendFailure(Component.literal("§cInvalid rank! Use: OUTER, INNER, ELDER, or SECT_MASTER"));
+            return 0;
+        }
 
-        context.getSource().sendSuccess(() -> Component.literal("§aMission '" + displayName + "' created!"), false);
-        return 1;
+        // Check if executor has permission to create missions for this rank
+        SectMember executor = sect.getMember(player.getUUID());
+        if (executor.getRank().getLevel() < targetRank.getLevel()) {
+            context.getSource().sendFailure(Component.literal("§cYou cannot create missions for a rank higher than your own!"));
+            return 0;
+        }
+
+        // Parse duration
+        long expirationTime = parseDuration(durationStr);
+        if (expirationTime == 0 && !durationStr.equalsIgnoreCase("none")) {
+            context.getSource().sendFailure(Component.literal("§cInvalid duration format! Use: 60m, 6h, 6d, or none"));
+            context.getSource().sendFailure(Component.literal("§cExamples: 30m (30 minutes), 2h (2 hours), 7d (7 days), none (no expiration)"));
+            return 0;
+        }
+
+        try {
+            // Parse requirements from the string
+            List<MissionRequirement> requirements = parseRequirements(requirementsStr);
+
+            if (requirements.isEmpty()) {
+                context.getSource().sendFailure(Component.literal("§cNo valid requirements found!"));
+                context.getSource().sendFailure(Component.literal("§cFormat: TYPE:namespace:id:count"));
+                context.getSource().sendFailure(Component.literal("§cExample: ITEM:minecraft:diamond:10"));
+                context.getSource().sendFailure(Component.literal("§cExample: KILL_MOB:minecraft:zombie:5"));
+                context.getSource().sendFailure(Component.literal("§cYour input: " + requirementsStr));
+                return 0;
+            }
+
+            // Create the mission (no repeatable parameter)
+            SectMission mission = new SectMission(
+                    displayName,
+                    targetRank,
+                    requirements,
+                    meritReward,
+                    player.getUUID()
+            );
+
+            // Set expiration time
+            mission.setExpirationTime(expirationTime);
+
+            // Add the mission to the sect
+            sect.addMission(mission);
+            manager.setDirty();
+
+            context.getSource().sendSuccess(() -> Component.literal("§aMission '" + displayName + "' created!"), false);
+
+            // Show mission details
+            context.getSource().sendSuccess(() -> Component.literal("§7Target Rank: §e" + mission.getTargetRank().getDisplayName()), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Duration: " + mission.getTimeRemaining()), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Requirements:"), false);
+            for (MissionRequirement req : requirements) {
+                String reqText = switch (req.getType()) {
+                    case ITEM -> "Collect " + req.getCount() + "x " + req.getTarget();
+                    case KILL_MOB -> "Kill " + req.getCount() + "x " + req.getTarget();
+                };
+                context.getSource().sendSuccess(() -> Component.literal("§7- " + reqText), false);
+            }
+            context.getSource().sendSuccess(() -> Component.literal("§6Reward: §e" + mission.getRewardMerit() + " Merit Points"), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Submitted items will be stored for sect leaders to collect"), false);
+
+            return 1;
+
+        } catch (Exception e) {
+            context.getSource().sendFailure(Component.literal("§cError creating mission: " + e.getMessage()));
+            return 0;
+        }
+    }
+
+    private static List<MissionRequirement> parseRequirements(String requirementsStr) {
+        List<MissionRequirement> requirements = new ArrayList<>();
+
+        if (requirementsStr == null || requirementsStr.trim().isEmpty()) {
+            return requirements;
+        }
+
+        // Remove the word "repeatable" from the end if it exists
+        String cleanedStr = requirementsStr.replaceAll("\\s+repeatable\\s*$", "").trim();
+
+        if (cleanedStr.isEmpty()) {
+            return requirements;
+        }
+
+        try {
+            // Split multiple requirements by spaces
+            String[] requirementParts = cleanedStr.split("\\s+");
+
+            for (String requirementPart : requirementParts) {
+                // Format: TYPE:namespace:id:count
+                String[] segments = requirementPart.split(":");
+                if (segments.length < 4) {
+                    continue; // Skip invalid format
+                }
+
+                String typeStr = segments[0].toUpperCase();
+
+                // Handle the case where entity IDs might contain colons (like minecraft:ender_dragon)
+                // The last segment should be the count, the first is type, the rest form the target
+                String countStr = segments[segments.length - 1];
+
+                // Reconstruct the target from segments[1] to segments[length-2]
+                StringBuilder targetBuilder = new StringBuilder(segments[1]);
+                for (int i = 2; i < segments.length - 1; i++) {
+                    targetBuilder.append(":").append(segments[i]);
+                }
+                String target = targetBuilder.toString();
+
+                int count;
+                try {
+                    count = Integer.parseInt(countStr);
+                    if (count <= 0) {
+                        continue; // Skip invalid count
+                    }
+                } catch (NumberFormatException e) {
+                    continue; // Skip if count is not a number
+                }
+
+                MissionRequirement.RequirementType type;
+                try {
+                    type = MissionRequirement.RequirementType.valueOf(typeStr);
+                } catch (IllegalArgumentException e) {
+                    // Invalid type
+                    continue;
+                }
+
+                requirements.add(new MissionRequirement(type, target, count));
+            }
+
+        } catch (Exception e) {
+            // If any error occurs, return empty requirements
+            return new ArrayList<>();
+        }
+
+        return requirements;
     }
 
 
@@ -1060,10 +1286,24 @@ public class SectCommand {
         ServerPlayer player = context.getSource().getPlayerOrException();
         String missionIdStr = StringArgumentType.getString(context, "missionId");
 
+        SectManager manager = getManager(context);
+        Sect sect = manager.getPlayerSect(player.getUUID());
+
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
         try {
             UUID missionId = UUID.fromString(missionIdStr);
+            SectMission mission = sect.getMission(missionId);
 
-            if (SectMissionEventHandler.claimMissionReward(player, missionId)) {
+            if (mission == null) {
+                context.getSource().sendFailure(Component.literal("§cMission not found!"));
+                return 0;
+            }
+
+            if (SectMissionEventHandler.claimMissionReward(player, mission)) {
                 context.getSource().sendSuccess(() -> Component.literal("§aMission completed and rewards claimed!"), false);
                 return 1;
             } else {
@@ -1075,6 +1315,78 @@ public class SectCommand {
             context.getSource().sendFailure(Component.literal("§cInvalid mission ID!"));
             return 0;
         }
+    }
+
+    private static int recommendPlayer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String targetName = StringArgumentType.getString(context, "playername");
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        // Check if recommender is Elder or Sect Master
+        SectMember recommender = sect.getMember(player.getUUID());
+        if (recommender == null || (recommender.getRank() != SectRank.ELDER && recommender.getRank() != SectRank.SECT_MASTER)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can recommend players for Elder promotion!"));
+            return 0;
+        }
+
+        // Find target player by name
+        ServerPlayer targetPlayer = context.getSource().getServer().getPlayerList().getPlayerByName(targetName);
+        if (targetPlayer == null) {
+            context.getSource().sendFailure(Component.literal("§cPlayer '" + targetName + "' not found or not online!"));
+            return 0;
+        }
+
+        SectMember targetMember = sect.getMember(targetPlayer.getUUID());
+        if (targetMember == null) {
+            context.getSource().sendFailure(Component.literal("§cPlayer '" + targetName + "' is not in your sect!"));
+            return 0;
+        }
+
+        // Check if target is Inner member
+        if (targetMember.getRank() != SectRank.INNER) {
+            context.getSource().sendFailure(Component.literal("§cYou can only recommend Inner members for Elder promotion!"));
+            return 0;
+        }
+
+        // Check if already recommended this player
+        Set<UUID> existingRecommendations = sect.getRecommendations(targetPlayer.getUUID());
+        if (existingRecommendations.contains(player.getUUID())) {
+            context.getSource().sendFailure(Component.literal("§cYou have already recommended " + targetName + " for Elder promotion!"));
+            return 0;
+        }
+
+        // Add recommendation
+        sect.addRecommendation(targetPlayer.getUUID(), player.getUUID());
+        manager.setDirty();
+
+        int totalRecommendations = sect.getRecommendationCount(targetPlayer.getUUID());
+        int neededRecommendations = 3;
+
+        context.getSource().sendSuccess(() -> Component.literal("§aYou have recommended " + targetName + " for Elder promotion! (§e" + totalRecommendations + "§a/§6" + neededRecommendations + "§a recommendations)"), true);
+
+        // Notify the recommended player
+        targetPlayer.sendSystemMessage(Component.literal("§6" + player.getScoreboardName() + " has recommended you for Elder promotion! (§e" + totalRecommendations + "§6/§e" + neededRecommendations + "§6 recommendations)"));
+
+        // Check if player now qualifies for Elder promotion
+        if (totalRecommendations >= neededRecommendations && sect.getPlayerMerit(targetPlayer.getUUID()) >= 10000) {
+            sect.setMemberRank(targetPlayer.getUUID(), SectRank.ELDER);
+            sect.clearRecommendations(targetPlayer.getUUID());
+            broadcastToSect(sect, context.getSource().getServer(),
+                    "§6" + targetName + " has been promoted to Elder for reaching 10000 merit points and receiving " + totalRecommendations + " recommendations!");
+        }
+
+        return 1;
     }
 
     private static int showMerit(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -1100,13 +1412,37 @@ public class SectCommand {
             context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §aInner Sect §7(§62500§7 merit required)"), false);
         } else if (member.getRank() == SectRank.INNER) {
             showFancyProgressBar(context, currentMerit, 10000, "Elder", "§6", "§e", "§8");
-            context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §6Elder §7(§610000§7 merit required)"), false);
+
+            // NEW: Show recommendation status for Inner members
+            int recommendationCount = sect.getRecommendationCount(player.getUUID());
+            int neededRecommendations = 3;
+
+            context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §6Elder §7(§610000§7 merit + §6" + neededRecommendations + "§7 recommendations)"), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Elder Recommendations: §e" + recommendationCount + "§7/§6" + neededRecommendations), false);
+
+            // Show who recommended you
+            Set<UUID> recommenderIds = sect.getRecommendations(player.getUUID());
+            if (!recommenderIds.isEmpty()) {
+                List<String> recommenderNames = new ArrayList<>();
+                for (UUID recommenderId : recommenderIds) {
+                    SectMember recommender = sect.getMember(recommenderId);
+                    if (recommender != null) {
+                        recommenderNames.add(recommender.getPlayerName());
+                    }
+                }
+                context.getSource().sendSuccess(() -> Component.literal("§7Recommended by: §e" + String.join("§7, §e", recommenderNames)), false);
+            } else {
+                context.getSource().sendSuccess(() -> Component.literal("§7Recommended by: §cNone yet"), false);
+            }
+
+            if (recommendationCount < neededRecommendations) {
+                context.getSource().sendSuccess(() -> Component.literal("§7Ask Elders or Sect Master to use §e/sect recommend " + player.getScoreboardName()), false);
+            }
         } else if (member.getRank() == SectRank.ELDER) {
             context.getSource().sendSuccess(() -> Component.literal("§6You are an Elder! Next rank: §cSect Master"), false);
             context.getSource().sendSuccess(() -> Component.literal("§7Promotion to Sect Master must be done manually by the current Sect Master."), false);
         } else if (member.getRank() == SectRank.SECT_MASTER) {
             context.getSource().sendSuccess(() -> Component.literal("§cYou are the Sect Master! This is the highest rank."), false);
-            // Show total merit for Sect Master
             context.getSource().sendSuccess(() -> Component.literal("§6Total Merit Points: §e" + currentMerit), false);
         }
 
@@ -1186,6 +1522,13 @@ public class SectCommand {
         int totalItems = 0;
         int totalStacks = 0;
 
+        // NEW: Track specific items for detailed reporting
+        Map<String, Integer> itemCounts = new HashMap<>();
+        Map<String, String> itemDisplayNames = new HashMap<>();
+
+        // FIX: Create a copy of the mission IDs to avoid ConcurrentModificationException
+        List<UUID> missionIdsToRemove = new ArrayList<>();
+
         // Give all submitted items to the player
         for (Map.Entry<UUID, List<ItemStack>> entry : submissions.entrySet()) {
             UUID missionId = entry.getKey();
@@ -1200,6 +1543,13 @@ public class SectCommand {
                     totalStacks++;
                     totalItems += stack.getCount();
 
+                    // NEW: Track specific item types and counts
+                    String itemId = stack.getItem().toString();
+                    String displayName = stack.getHoverName().getString(); // Get the item's display name
+
+                    itemCounts.put(itemId, itemCounts.getOrDefault(itemId, 0) + stack.getCount());
+                    itemDisplayNames.put(itemId, displayName);
+
                     // Try to add to player inventory
                     if (!player.getInventory().add(stack.copy())) {
                         // Drop if inventory is full
@@ -1208,14 +1558,35 @@ public class SectCommand {
                 }
             }
 
-            // Remove this mission's submissions after claiming
+            // Mark this mission for removal instead of removing it during iteration
+            missionIdsToRemove.add(missionId);
+        }
+
+        // Now remove all the marked mission submissions after iteration is complete
+        for (UUID missionId : missionIdsToRemove) {
             sect.removeMissionSubmission(missionId);
         }
+
         manager.setDirty();
 
         int finalTotalItems = totalItems;
         int finalTotalStacks = totalStacks;
         context.getSource().sendSuccess(() -> Component.literal("§aClaimed §e" + finalTotalItems + "§a items (§e" + finalTotalStacks + "§a stacks) from mission submissions!"), false);
+
+        // NEW: Show detailed breakdown of items received
+        if (!itemCounts.isEmpty()) {
+            context.getSource().sendSuccess(() -> Component.literal("§6=== Items Received ==="), false);
+
+            for (Map.Entry<String, Integer> itemEntry : itemCounts.entrySet()) {
+                String itemId = itemEntry.getKey();
+                int count = itemEntry.getValue();
+                String displayName = itemDisplayNames.getOrDefault(itemId, itemId);
+
+                context.getSource().sendSuccess(() -> Component.literal("§7- §e" + count + "x §f" + displayName), false);
+            }
+
+            context.getSource().sendSuccess(() -> Component.literal("§6====================="), false);
+        }
 
         // Show breakdown of what was claimed
         if (!submissions.isEmpty()) {
@@ -1335,5 +1706,202 @@ public class SectCommand {
         broadcastToSect(sect, context.getSource().getServer(), message);
 
         return 1;
+    }
+    public static int help(CommandContext<CommandSourceStack> context) {
+        CommandSourceStack source = context.getSource();
+        Player player = source.getPlayer();
+
+        if (player == null) {
+            source.sendSystemMessage(Component.literal("This command can only be used by players."));
+            return 0;
+        }
+
+        // Header
+        player.sendSystemMessage(Component.literal("§6§l=== Sect Commands Help ===§r").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD));
+        player.sendSystemMessage(Component.literal("§7Hover over commands for details§r\n"));
+
+        // Rank Hierarchy Info
+        player.sendSystemMessage(Component.literal("§eRank Hierarchy: §aOuter §7< §bInner §7< §cElder §7< §6Sect Master§r\n"));
+
+        // Basic Commands (Available to all players)
+        player.sendSystemMessage(Component.literal("§e§lBasic Commands:§r").withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD));
+
+        sendHelpEntry(player, "/sect create <name>",
+                "Create a new sect",
+                "Usage: /sect create <sectName>\nName can contain letters, numbers, and spaces",
+                "Rank: §aAnyone (not in a sect)");
+
+        sendHelpEntry(player, "/sect info [sect|player]",
+                "View information about your sect or another sect/player",
+                "Usage: /sect info [target]\nLeave target blank for your own sect",
+                "Rank: §aAnyone");
+
+        sendHelpEntry(player, "/sect list",
+                "List all available sects on the server",
+                "Usage: /sect list\nShows member count and status of all sects",
+                "Rank: §aAnyone");
+
+        sendHelpEntry(player, "/sect join <sect>",
+                "Join a sect you've been invited to or that is open",
+                "Usage: /sect join <sectName>",
+                "Rank: §aAnyone (when invited or sect is open)");
+
+        // Member Commands (Outer+)
+        player.sendSystemMessage(Component.literal("\n§a§lOuter+ Commands:§r").withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD));
+
+        sendHelpEntry(player, "/sect leave",
+                "Leave your current sect",
+                "Usage: /sect leave\n§cWarning: You'll lose sect progress and need a new invite to rejoin!",
+                "Rank: §aOuter§7+ (except Sect Master)");
+
+        sendHelpEntry(player, "/sect chat <message>",
+                "Send a message to your sect members",
+                "Usage: /sect chat <message>\nAlternative: Use /sect togglechat then type normally",
+                "Rank: §aOuter§7+");
+
+        sendHelpEntry(player, "/sect togglechat",
+                "Toggle between sect chat and global chat mode",
+                "Usage: /sect togglechat\nWhen enabled, all chat goes to sect members only",
+                "Rank: §aOuter§7+");
+
+        sendHelpEntry(player, "/sect missions",
+                "View available missions for your rank",
+                "Usage: /sect missions\nShows missions you can accept and their progress",
+                "Rank: §aOuter§7+");
+
+        sendHelpEntry(player, "/sect mission accept <missionId>",
+                "Accept a mission to start working on it",
+                "Usage: /sect mission accept <missionId>\nGet missionId from /sect missions",
+                "Rank: §aOuter§7+ (must meet mission rank requirement)");
+
+        sendHelpEntry(player, "/sect mission complete <missionId>",
+                "Complete a mission and claim rewards",
+                "Usage: /sect mission complete <missionId>\nRequires mission to be finished",
+                "Rank: §aOuter§7+");
+
+        sendHelpEntry(player, "/sect merit",
+                "Check your merit points and promotion progress",
+                "Usage: /sect merit\nShows current merit and progress to next rank",
+                "Rank: §aOuter§7+");
+
+        // Elder Commands (Elder+)
+        player.sendSystemMessage(Component.literal("\n§c§lElder Commands:§r").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
+
+        sendHelpEntry(player, "/sect invite <player>",
+                "Invite a player to join your sect",
+                "Usage: /sect invite <playerName>\nPlayer must be online and not in a sect",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect kick <player>",
+                "Remove a player from your sect",
+                "Usage: /sect kick <playerName>\n§cCannot kick Sect Master or other Elders",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect description <text>",
+                "Set your sect's public description",
+                "Usage: /sect description <text>\nMax 200 characters, shown in /sect info",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect open",
+                "Toggle whether anyone can join without an invite",
+                "Usage: /sect open\nToggles between open and invite-only",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect ally <sect>",
+                "Send or accept an alliance request with another sect",
+                "Usage: /sect ally <sectName>\nBoth sects must send requests to form alliance",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect recommend <player>",
+                "Recommend an Inner member for Elder promotion",
+                "Usage: /sect recommend <playerName>\nRequires: Player must be Inner rank\nEach Inner member needs 3 recommendations to become Elder",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect claim mission submissions",
+                "Claim all items submitted from completed missions",
+                "Usage: /sect claim mission submissions\nCollects items members submitted for missions",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect mission create <name> <rank> <merit> <duration> <requirements>",
+                "Create a new mission for specific rank with merit reward and time limit",
+                "Usage: /sect mission create <name> <rank> <merit> <duration> <requirements>\n" +
+                        "Rank: OUTER, INNER, ELDER, SECT_MASTER\n" +
+                        "Merit: Number of merit points as reward\n" +
+                        "Duration: 30m (30min), 2h (2hours), 7d (7days), none (no limit)\n" +
+                        "Requirements: TYPE:namespace:id:count\n" +
+                        "Example: /sect mission create \"Diamond Hunt\" OUTER 100 60m ITEM:minecraft:diamond:10\n" +
+                        "Example: /sect mission create \"Zombie Slayer\" INNER 250 1d KILL_MOB:minecraft:zombie:10\n" +
+                        "Note: All missions are one-time only and disappear after completion",
+                "Rank: §cElder§7+");
+
+        // Sect Master Commands
+        player.sendSystemMessage(Component.literal("\n§6§lSect Master Commands:§r").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD));
+
+        sendHelpEntry(player, "/sect promote <player>",
+                "Promote a member to higher rank",
+                "Usage: /sect promote <playerName>\nRanks: Outer → Inner → Elder",
+                "Rank: §6Sect Master");
+
+        sendHelpEntry(player, "/sect demote <player>",
+                "Demote a member to lower rank",
+                "Usage: /sect demote <playerName>\nRanks: Elder → Inner → Outer\n§cCannot demote yourself",
+                "Rank: §6Sect Master");
+
+        sendHelpEntry(player, "/sect transfer <player>",
+                "Transfer sect leadership to another member",
+                "Usage: /sect transfer <playerName>\n§cWarning: You will become an Elder!",
+                "Rank: §6Sect Master");
+
+        sendHelpEntry(player, "/sect disband",
+                "Permanently delete the sect",
+                "Usage: /sect disband\n§cWarning: This cannot be undone! All data will be lost.",
+                "Rank: §6Sect Master");
+
+        sendHelpEntry(player, "/sect settings friendlyfire <true/false>",
+                "Toggle whether sect members can damage each other",
+                "Usage: /sect settings friendlyfire <true|false>\nfalse = members can't damage each other",
+                "Rank: §6Sect Master");
+
+        sendHelpEntry(player, "/sect title <player> <title>",
+                "Set a custom title for a sect member",
+                "Usage: /sect title <playerName> <customTitle>\nAppears next to player's name",
+                "Rank: §6Sect Master");
+
+        // Mission Requirements Format Help
+        player.sendSystemMessage(Component.literal("\n§b§lMission Requirements Format:§r").withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD));
+        player.sendSystemMessage(Component.literal("§7ITEM:§emod:item:count§7 - Collect items (e.g. ITEM:minecraft:diamond:10)"));
+        player.sendSystemMessage(Component.literal("§7KILL_MOB:§emod:entity:count§7 - Kill mobs (e.g. KILL_MOB:minecraft:zombie:5)"));
+        player.sendSystemMessage(Component.literal("§7Separate multiple requirements with spaces"));
+
+        // Merit & Auto-Promotion Info
+        player.sendSystemMessage(Component.literal("\n§b§lMerit & Auto-Promotion:§r").withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD));
+        player.sendSystemMessage(Component.literal("§7- §aOuter §7→ §bInner: §62500 merit points"));
+        player.sendSystemMessage(Component.literal("§7- §bInner §7→ §cElder: §610000 merit points"));
+        player.sendSystemMessage(Component.literal("§7- Earn merit by completing missions"));
+        player.sendSystemMessage(Component.literal("§7- Promotions to §6Sect Master §7must be done manually"));
+
+        // Footer
+        player.sendSystemMessage(Component.literal("\n§7Hover over commands for detailed information"));
+        player.sendSystemMessage(Component.literal("§7Click commands to quickly insert them in chat"));
+
+        return 1;
+    }
+
+    private static void sendHelpEntry(Player player, String command, String description, String usage, String rank) {
+        Component hoverText = Component.literal("")
+                .append(Component.literal("Description: ").withStyle(ChatFormatting.GOLD))
+                .append(Component.literal(description + "\n").withStyle(ChatFormatting.WHITE))
+                .append(Component.literal("\nUsage: ").withStyle(ChatFormatting.YELLOW))
+                .append(Component.literal(usage + "\n").withStyle(ChatFormatting.GRAY))
+                .append(Component.literal("\nRequired Rank: ").withStyle(ChatFormatting.GREEN))
+                .append(Component.literal(rank).withStyle(ChatFormatting.WHITE));
+
+        Component message = Component.literal("§e" + command)
+                .withStyle(Style.EMPTY
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command.split(" ")[0]))
+                );
+
+        player.sendSystemMessage(message);
     }
 }

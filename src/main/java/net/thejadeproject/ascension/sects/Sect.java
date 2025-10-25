@@ -26,6 +26,7 @@ public class Sect {
     private final Map<UUID, SectMission> missions = new HashMap<>();
     private final Map<UUID, List<ItemStack>> missionSubmissions = new HashMap<>();
     private final Map<UUID, Integer> playerMerit = new HashMap<>();
+    private final Map<UUID, Set<UUID>> elderRecommendations = new HashMap<>();
 
     public Sect(String name, UUID ownerId, String ownerName) {
         this.name = name;
@@ -129,6 +130,22 @@ public class Sect {
         return playerMerit.getOrDefault(playerId, 0);
     }
 
+    public void addRecommendation(UUID targetPlayerId, UUID recommenderId) {
+        elderRecommendations.computeIfAbsent(targetPlayerId, k -> new HashSet<>()).add(recommenderId);
+    }
+
+    public Set<UUID> getRecommendations(UUID playerId) {
+        return elderRecommendations.getOrDefault(playerId, new HashSet<>());
+    }
+
+    public int getRecommendationCount(UUID playerId) {
+        return getRecommendations(playerId).size();
+    }
+
+    public void clearRecommendations(UUID playerId) {
+        elderRecommendations.remove(playerId);
+    }
+
     public void addPlayerMerit(UUID playerId, int merit) {
         int current = playerMerit.getOrDefault(playerId, 0);
         playerMerit.put(playerId, current + merit);
@@ -140,14 +157,41 @@ public class Sect {
                 setMemberRank(playerId, SectRank.INNER);
                 broadcastToSect(this, null, "§a" + member.getPlayerName() + " has been automatically promoted to Inner Sect for reaching 2500 merit points!");
             } else if (member.getRank() == SectRank.INNER && getPlayerMerit(playerId) >= 10000) {
-                setMemberRank(playerId, SectRank.ELDER);
-                broadcastToSect(this, null, "§6" + member.getPlayerName() + " has been automatically promoted to Elder for reaching 10000 merit points!");
+                // Check if they have enough recommendations (3) from Elders or Sect Master
+                int recommendationCount = getRecommendationCount(playerId);
+                if (recommendationCount >= 3) {
+                    setMemberRank(playerId, SectRank.ELDER);
+                    clearRecommendations(playerId); // Clear recommendations after promotion
+                    broadcastToSect(this, null, "§6" + member.getPlayerName() + " has been promoted to Elder for reaching 10000 merit points and receiving " + recommendationCount + " recommendations!");
+                }
+                // If not enough recommendations, they stay as Inner even with enough merit
             }
         }
     }
 
     public void addMissionSubmission(UUID missionId, List<ItemStack> items) {
-        missionSubmissions.put(missionId, items);
+        List<ItemStack> nonEmptyItems = items.stream()
+                .filter(stack -> !stack.isEmpty())
+                .collect(Collectors.toList());
+
+        if (!nonEmptyItems.isEmpty()) {
+            missionSubmissions.put(missionId, nonEmptyItems);
+        }
+    }
+
+    public void cleanupExpiredMissions() {
+        List<UUID> missionsToRemove = new ArrayList<>();
+
+        for (SectMission mission : missions.values()) {
+            if (mission.isExpired()) {
+                missionsToRemove.add(mission.getMissionId());
+            }
+        }
+
+        for (UUID missionId : missionsToRemove) {
+            missions.remove(missionId);
+            missionSubmissions.remove(missionId);
+        }
     }
 
     public Map<UUID, List<ItemStack>> getMissionSubmissions() {
@@ -213,6 +257,17 @@ public class Sect {
             submissionsList.add(submissionTag);
         }
         tag.put("missionSubmissions", submissionsList);
+
+        // Save recommendations
+        CompoundTag recommendationsTag = new CompoundTag();
+        for (Map.Entry<UUID, Set<UUID>> entry : elderRecommendations.entrySet()) {
+            ListTag recommenderList = new ListTag();
+            for (UUID recommenderId : entry.getValue()) {
+                recommenderList.add(StringTag.valueOf(recommenderId.toString()));
+            }
+            recommendationsTag.put(entry.getKey().toString(), recommenderList);
+        }
+        tag.put("elderRecommendations", recommendationsTag);
 
         return tag;
     }
@@ -280,6 +335,20 @@ public class Sect {
                     }
                 }
                 sect.missionSubmissions.put(missionId, items);
+            }
+        }
+
+        // Load recommendations
+        if (tag.contains("elderRecommendations")) {
+            CompoundTag recommendationsTag = tag.getCompound("elderRecommendations");
+            for (String playerIdStr : recommendationsTag.getAllKeys()) {
+                UUID playerId = UUID.fromString(playerIdStr);
+                ListTag recommenderList = recommendationsTag.getList(playerIdStr, Tag.TAG_STRING);
+                Set<UUID> recommenders = new HashSet<>();
+                for (int i = 0; i < recommenderList.size(); i++) {
+                    recommenders.add(UUID.fromString(recommenderList.getString(i)));
+                }
+                sect.elderRecommendations.put(playerId, recommenders);
             }
         }
 
