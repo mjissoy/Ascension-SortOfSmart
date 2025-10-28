@@ -2,8 +2,6 @@ package net.thejadeproject.ascension;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,12 +11,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
@@ -32,8 +28,6 @@ import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
-import net.thejadeproject.ascension.menus.spatialrings.SRContainer;
-import net.thejadeproject.ascension.menus.spatialrings.SRScreen;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
@@ -43,13 +37,11 @@ import net.thejadeproject.ascension.progression.physiques.ModPhysiques;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
-import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.particle.ModParticles;
-import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipe;
@@ -77,7 +69,6 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -274,27 +265,8 @@ public class AscensionCraft {
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
     public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
 
-            event.enqueueWork(() -> {
-                ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
-                        ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),
-                        (itemStack, clientLevel, livingEntity, seed) -> {
-                            int count = itemStack.getCount();
-                            if (count >= 32) return 3.0F;  // Large stack
-                            if (count >= 16) return 2.0F;  // Medium stack
-                            if (count >= 2) return 1.0F;   // Small stack
-                            return 0.0F;                   // Single item
-                        });
-            });
-        }
 
-        @SubscribeEvent
-        public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-            event.registerSpriteSet(ModParticles.CULTIVATION_PARTICLES.get(), CultivationParticles.Provider::new);
-        }
 
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event){

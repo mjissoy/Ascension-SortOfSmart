@@ -392,10 +392,8 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> IRONWOOD_SPROUT_CROP = registerBlock("ironwood_sprout_crop",
             () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
-
     public static final DeferredBlock<Block> WHITE_JADE_ORCHID_CROP = registerBlock("white_jade_orchid_crop",
             () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
-
     public static final DeferredBlock<Block> HUNDRED_YEAR_GINSENG_CROP = registerBlock("hundred_year_ginseng_crop",
             () -> new CustomHerbs(() -> Set.of(Blocks.GRASS_BLOCK)));
     public static final DeferredBlock<Block> HUNDRED_YEAR_SNOW_GINSENG_CROP = registerBlock("hundred_year_snow_ginseng_crop",
