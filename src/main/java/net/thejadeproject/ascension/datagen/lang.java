@@ -58,7 +58,6 @@ public class lang extends LanguageProvider {
         //Pills
         add("item.ascension.pill_residue", "Pill Residue");
         add("item.ascension.regeneration_pill", "Regeneration Pill");
-        add("item.ascension.cleansing_pill", "Cleansing Pill");
         add("item.ascension.neutrality_pill", "Neutrality Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");
         add("item.ascension.antidote_pill_qdppill", "Antidote Pill");
@@ -70,6 +69,10 @@ public class lang extends LanguageProvider {
         add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
         add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
         add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
+        add("item.ascension.cleansing_pill_t1", "Cleansing Pill");
+        add("item.ascension.cleansing_pill_t2", "Cleansing Pill");
+        add("item.ascension.cleansing_pill_t3", "Cleansing Pill");
+        add("item.ascension.cleansing_pill_t4", "Cleansing Pill");
 
         //Poison Pills
         add("item.ascension.qi_devouring_parasite_pill", "Qi Devouring Parasite Pill");

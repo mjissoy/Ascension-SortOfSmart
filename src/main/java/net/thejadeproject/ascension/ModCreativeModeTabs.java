@@ -310,7 +310,10 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.FASTING_PILL_T1);
                         output.accept(ModItems.FASTING_PILL_T2);
                         output.accept(ModItems.FASTING_PILL_T3);
-                        output.accept(ModItems.CLEANSING_PILL);
+                        output.accept(ModItems.CLEANSING_PILL_T1);
+                        output.accept(ModItems.CLEANSING_PILL_T2);
+                        output.accept(ModItems.CLEANSING_PILL_T3);
+                        output.accept(ModItems.CLEANSING_PILL_T4);
                         output.accept(ModItems.ANTIDOTE_PILL_T1);
                         output.accept(ModItems.ANTIDOTE_PILL_T2);
                         output.accept(ModItems.ANTIDOTE_PILL_T3);

@@ -129,7 +129,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Pills
         pills(ModItems.PILL_RESIDUE.get());
         pills(ModItems.REGENERATION_PILL.get());
-        pills(ModItems.CLEANSING_PILL.get());
         pills(ModItems.NEUTRALITY_PILL.get());
         pills(ModItems.REBIRTH_PILL.get());
         pills(ModItems.INNER_REINFORCEMENT_PILL_T1.get());
@@ -138,6 +137,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.FASTING_PILL_T1.get());
         pills(ModItems.FASTING_PILL_T2.get());
         pills(ModItems.FASTING_PILL_T3.get());
+        pills(ModItems.CLEANSING_PILL_T1.get());
+        pills(ModItems.CLEANSING_PILL_T2.get());
+        pills(ModItems.CLEANSING_PILL_T3.get());
+        pills(ModItems.CLEANSING_PILL_T4.get());
 
         pills(ModItems.ANTIDOTE_PILL_T1.get());
         pills(ModItems.ANTIDOTE_PILL_T2.get());

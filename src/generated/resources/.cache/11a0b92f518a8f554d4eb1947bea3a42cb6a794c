@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-19T17:02:52.0502123	Item Models: ascension
+// 1.21.1	2025-11-05T10:32:20.2794327	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -11,7 +11,10 @@ ca2dd8d104c9eedf31e5888ed72de43afc614596 assets/ascension/models/item/brown_marb
 0dc5999cb3f1af512e47a24c36218b94285c824e assets/ascension/models/item/brown_marble_tile_wall.json
 c57766879bb22d1cbcccacb3f39c724691ad72cb assets/ascension/models/item/burned_marble_brick_wall.json
 661ebd0ca05dc42a81f4304251c51b2e0caf9667 assets/ascension/models/item/burned_marble_tile_wall.json
-49d994e827dbc073ac52ae21a6044f7473a4ee14 assets/ascension/models/item/cleansing_pill.json
+4460b31078e783c4a91116fba9a781538e15803d assets/ascension/models/item/cleansing_pill_t1.json
+35199385aabf72a12c5722114ea651006781929d assets/ascension/models/item/cleansing_pill_t2.json
+626499773629da4ace0c9d1f37c94a4027dc1398 assets/ascension/models/item/cleansing_pill_t3.json
+2ea8ef2382f500ef2b61043ea0636fa535d6d12e assets/ascension/models/item/cleansing_pill_t4.json
 dfefb51f0ff77daee52a2c66462925ccbe5afed2 assets/ascension/models/item/crimson_lotus_flame.json
 784fd9542ee83749eb65f1203d3a6fa19c260a4e assets/ascension/models/item/cyan_marble_brick_wall.json
 f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marble_tile_wall.json

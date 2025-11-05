@@ -171,8 +171,15 @@ public class ModItems {
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL), 400));
     public static final DeferredItem<Item> NEUTRALITY_PILL = ITEMS.register("neutrality_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.NEUTRALITY_PILL), 400));
-    public static final DeferredItem<Item> CLEANSING_PILL = ITEMS.register("cleansing_pill",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL), 400));
+
+    public static final DeferredItem<Item> CLEANSING_PILL_T1 = ITEMS.register("cleansing_pill_t1",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL_T1), 400));
+    public static final DeferredItem<Item> CLEANSING_PILL_T2 = ITEMS.register("cleansing_pill_t2",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL_T2), 400));
+    public static final DeferredItem<Item> CLEANSING_PILL_T3 = ITEMS.register("cleansing_pill_t3",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL_T3), 400));
+    public static final DeferredItem<Item> CLEANSING_PILL_T4 = ITEMS.register("cleansing_pill_t4",
+            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL_T4), 400));
 
     public static final DeferredItem<Item> ANTIDOTE_PILL_T1 = ITEMS.register("antidote_pill_qdppill",
             () -> new PillAntidote(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL), 400, ModEffects.PARASITE));

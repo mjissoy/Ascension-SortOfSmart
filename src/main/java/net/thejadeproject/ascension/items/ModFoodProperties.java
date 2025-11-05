@@ -8,8 +8,15 @@ import net.thejadeproject.ascension.effects.ModEffects;
 public class ModFoodProperties {
     public static final FoodProperties REGENERATION_PILL = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.QI_ENHANCED_REGENERATION, 200), 1f).build();
-    public static final FoodProperties CLEANSING_PILL = new FoodProperties.Builder().alwaysEdible().fast()
+
+    public static final FoodProperties CLEANSING_PILL_T1 = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200), 1f).build();
+    public static final FoodProperties CLEANSING_PILL_T2 = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 1), 1f).build();
+    public static final FoodProperties CLEANSING_PILL_T3 = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 2), 1f).build();
+    public static final FoodProperties CLEANSING_PILL_T4 = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 3), 1f).build();
 
     public static final FoodProperties QI_DEVOURING_PARASITE_PILL = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.PARASITE, 400), 1f).build();

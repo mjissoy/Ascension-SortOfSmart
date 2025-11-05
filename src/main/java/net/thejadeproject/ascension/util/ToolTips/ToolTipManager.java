@@ -24,7 +24,6 @@ public class ToolTipManager {
         //Medicinal Pills
         ToolTipHandler.registerTooltip(ModItems.PILL_RESIDUE.get(), Component.literal("Waste").withStyle(ChatFormatting.DARK_RED), Component.literal("☆☆☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.REGENERATION_PILL.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.NEUTRALITY_PILL.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T1.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T2.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
@@ -35,6 +34,11 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T1.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("Qi Devouring Parasite Antidote").withStyle(ChatFormatting.GREEN), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T2.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T3.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+
+        ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL_T1.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL_T2.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL_T3.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL_T4.get(), Component.literal("Medicinal").withStyle(ChatFormatting.RED), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.DARK_RED));
 
         //Cultivation Pills
         ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T1.get(), Component.literal("Cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
