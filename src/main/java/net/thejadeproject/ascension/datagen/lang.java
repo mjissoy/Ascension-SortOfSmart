@@ -329,6 +329,10 @@ public class lang extends LanguageProvider {
         add("item.ascension.jade_spatial_ring", "Jade Spatial Ring");
         add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
 
+        add("item.ascension.spatial_rupture_talisman_t1", "Lesser Spatial Rupture Talisman");
+
+
+
         add("item.ascension.todh", "Tablet Of Destruction");
         add("tooltip.ascension.todh", "§8[Human]");
 

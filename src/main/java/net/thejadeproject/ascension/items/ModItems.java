@@ -75,6 +75,7 @@ public class ModItems {
 
 
     //Artifacts
+
     public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
             () -> new JadeSlip(new Item.Properties().stacksTo(1)){
                 private float time = 0;
@@ -107,10 +108,8 @@ public class ModItems {
             () -> new SpatialRingItem("JADE_spatial_ring", SpatialRing.JADE));
 
 
-
-
-
-
+    public static final DeferredItem<Item> SPATIAL_RUPTURE_TALISMAN_T1 = ITEMS.register("spatial_rupture_talisman_t1",
+            () -> new SpatialRuptureTalismanT1(new Item.Properties()));
 
 
     public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HUMAN = ITEMS.register("todh",

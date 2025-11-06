@@ -83,6 +83,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
 
+        talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get());
+
 
 
         //Items
@@ -217,6 +219,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         return basicItemWithSharedTexture(item,ResourceLocation.fromNamespaceAndPath(
                 AscensionCraft.MOD_ID,
                 "tablet_of_destruction"
+        ));
+    }
+    public ItemModelBuilder talisman(Item item){
+        return basicItemWithSharedTexture(item,ResourceLocation.fromNamespaceAndPath(
+                AscensionCraft.MOD_ID,
+                "talismans"
         ));
     }
     public ItemModelBuilder pills(Item item) {

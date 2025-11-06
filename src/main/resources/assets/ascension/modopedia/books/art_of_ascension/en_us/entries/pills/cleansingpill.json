@@ -1,8 +1,8 @@
 {
   "title": "Cleansing Pill",
-  "icon": { "id": "ascension:cleansing_pill" },
+  "icon": { "id": "ascension:cleansing_pill_t1" },
   "assigned_items": [
-    "ascension:cleansing_pill"
+    "ascension:cleansing_pill_t1"
   ],
   "pages": [
     {
@@ -14,7 +14,7 @@
           "type": "modopedia:showcase",
           "items": [
             {
-              "id":  "ascension:cleansing_pill"
+              "id":  "ascension:cleansing_pill_t1"
             }
           ]
         },
