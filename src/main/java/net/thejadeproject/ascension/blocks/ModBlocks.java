@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.MapColor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
 import net.thejadeproject.ascension.items.ModItems;
@@ -400,6 +401,20 @@ public class ModBlocks {
             () -> new CustomHerbs(() -> Set.of(Blocks.SNOW_BLOCK, Blocks.GRASS_BLOCK)));
     public static final DeferredBlock<Block> HUNDRED_YEAR_FIRE_GINSENG_CROP = registerBlock("hundred_year_fire_ginseng_crop",
             () -> new CustomHerbs(() -> Set.of(Blocks.SAND, Blocks.RED_SAND)));
+
+    //Fires / Flames
+
+    /*public static final DeferredBlock<Block> CRIMSON_LOTUS_FIRE = registerBlock("crimson_lotus_fire",
+            () -> new CrimsonLotusFire(
+                    BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_RED)
+                            .replaceable()
+                            .noCollission()
+                            .instabreak()
+                            .lightLevel((state) -> 20)
+                            .sound(SoundType.VAULT),
+                    8.5f
+            ));*/
 
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
