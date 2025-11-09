@@ -321,6 +321,10 @@ public class lang extends LanguageProvider {
         add("block.ascension.pill_cauldron_low_human", "Pill Cauldron");
 
 
+        //Fires
+        add("block.ascension.crimson_lotus_fire", "Crimson Lotus Fire");
+
+
         //Artifacts
         add("item.ascension.iron_spatial_ring", "Iron Spatial Ring");
         add("item.ascension.gold_spatial_ring", "Gold Spatial Ring");

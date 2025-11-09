@@ -39,6 +39,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.SPIRITUAL_STONE_BLOCK);
 
 
+
         /** Marble */
         simpleBlockWithItem(ModBlocks.MARBLE_BRICKS);
         simpleBlockWithItem(ModBlocks.MARBLE_TILES);

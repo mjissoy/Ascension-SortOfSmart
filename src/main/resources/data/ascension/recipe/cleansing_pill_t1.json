@@ -12,7 +12,7 @@
   "required_heat": 200,
   "chance": 0.25,
   "success": {
-    "id": "ascension:cleansing_pill",
+    "id": "ascension:cleansing_pill_t1",
     "count": 1
   },
   "fail": {

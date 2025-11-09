@@ -59,7 +59,7 @@ public class ToolTipManager {
 
 
         //Artifacts
-        ToolTipHandler.registerTooltip(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get(), Component.literal("2.5k x 2.5k Range │ 70 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get(), Component.literal("2.5k x 2.5k Range │ 60 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
 
 
         // Advanced example with conditional logic

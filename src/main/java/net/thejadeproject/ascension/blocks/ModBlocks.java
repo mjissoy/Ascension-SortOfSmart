@@ -9,8 +9,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
+import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -404,17 +406,19 @@ public class ModBlocks {
 
     //Fires / Flames
 
-    /*public static final DeferredBlock<Block> CRIMSON_LOTUS_FIRE = registerBlock("crimson_lotus_fire",
+    public static final DeferredBlock<Block> CRIMSON_LOTUS_FIRE = registerBlock("crimson_lotus_fire",
             () -> new CrimsonLotusFire(
                     BlockBehaviour.Properties.of()
-                            .mapColor(MapColor.COLOR_RED)
                             .replaceable()
                             .noCollission()
                             .instabreak()
-                            .lightLevel((state) -> 20)
-                            .sound(SoundType.VAULT),
-                    8.5f
-            ));*/
+                            .lightLevel(state -> 15)
+                            .sound(SoundType.WOOL)
+                            .pushReaction(PushReaction.DESTROY),
+                    8.0f,  // Custom damage
+                    20,    // Custom spread delay (lower = faster spread)
+                    10     // Custom extinguish chance (higher = less likely to extinguish)
+            ));
 
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
