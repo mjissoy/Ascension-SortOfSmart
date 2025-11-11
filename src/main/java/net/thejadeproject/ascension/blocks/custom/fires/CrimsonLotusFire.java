@@ -8,6 +8,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
@@ -16,6 +17,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -53,14 +56,32 @@ public class CrimsonLotusFire extends BaseFireBlock {
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (!entity.fireImmune()) {
-            entity.setRemainingFireTicks(entity.getRemainingFireTicks() + 1);
-            if (entity.getRemainingFireTicks() == 0) {
-                entity.isOnFire();
+        // Skip if the entity is invulnerable (creative/spectator players, or entities with invulnerability)
+        if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
+            return;
+        }
+
+        if (entity instanceof Player player) {
+            // Remove the creative mode empty hand extinguishing for survival players
+            if (player.isCreative()) {
+                if (player.getMainHandItem().isEmpty()) {
+                    level.removeBlock(pos, false);
+                    return;
+                }
+            } else if (player.isSpectator()) {
+                return;
             }
         }
 
-        entity.hurt(level.damageSources().inFire(), this.damage);
+        // Skip if the entity is invulnerable for any other reason
+        if (entity.isInvulnerable()) {
+            return;
+        }
+
+        // Apply void damage to vulnerable entities
+        if (!level.isClientSide) {
+            entity.hurt(level.damageSources().generic(), 40.0f);
+        }
         super.entityInside(state, level, pos, entity);
     }
 
@@ -69,12 +90,6 @@ public class CrimsonLotusFire extends BaseFireBlock {
         level.scheduleTick(pos, this, getFireTickDelay(level.random));
 
         if (!level.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
-            return;
-        }
-
-        // Chance to extinguish
-        if (random.nextInt(extinguishChance) == 0) {
-            level.removeBlock(pos, false);
             return;
         }
 
@@ -125,12 +140,14 @@ public class CrimsonLotusFire extends BaseFireBlock {
     }
 
     public static boolean canSurviveOnBlock(BlockState state) {
-        return state.isFlammable((BlockGetter) Blocks.FIRE, null, null) ||
-                state.is(Blocks.NETHERRACK) ||
-                state.is(Blocks.MAGMA_BLOCK) ||
+        Block block = state.getBlock();
+        return block == Blocks.NETHERRACK ||
+                block == Blocks.MAGMA_BLOCK ||
+                block == Blocks.SOUL_SAND ||
+                block == Blocks.SOUL_SOIL ||
                 CampfireBlock.isLitCampfire(state) ||
-                state.is(Blocks.SOUL_SAND) ||
-                state.is(Blocks.SOUL_SOIL);
+                // Add other specific blocks you want the fire to survive on
+                block instanceof net.minecraft.world.level.block.BaseFireBlock;
     }
 
     @Override
@@ -147,6 +164,55 @@ public class CrimsonLotusFire extends BaseFireBlock {
     @Override
     protected boolean canBurn(BlockState state) {
         return true;
+    }
+
+    // Add this method to prevent breaking in survival mode
+    @Override
+    public void attack(BlockState state, Level level, BlockPos pos, Player player) {
+        // Only allow breaking in creative mode
+        if (!player.isCreative()) {
+            // Cancel the block breaking in survival mode
+            return;
+        }
+        super.attack(state, level, pos, player);
+    }
+
+    // Add this method to prevent replacement in survival mode
+    @Override
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        // Only allow replacement in creative mode
+        Player player = context.getPlayer();
+        return player != null && player.isCreative();
+    }
+
+    // Add this method to prevent destruction by pistons
+    @Override
+    public PushReaction getPistonPushReaction(BlockState state) {
+        return PushReaction.BLOCK;
+    }
+
+    // Add this method to prevent destruction by explosions
+    @Override
+    public boolean canDropFromExplosion(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
+        return false;
+    }
+
+    // Add this method to make the block resistant to explosions
+    @Override
+    public float getExplosionResistance() {
+        return 3600000.0F; // Very high resistance
+    }
+
+    // Add this method to prevent the block from being destroyed by player interaction
+    @Override
+    public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
+        // Return 0 progress for survival players, normal for creative
+        return player.isCreative() ? super.getDestroyProgress(state, player, level, pos) : 0.0F;
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        return ItemStack.EMPTY;
     }
 
     public static void onBlockCaughtFire(BlockState state, Level level, BlockPos pos, @Nullable Direction face, @Nullable LivingEntity igniter) {

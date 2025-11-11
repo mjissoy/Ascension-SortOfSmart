@@ -414,7 +414,7 @@ public class ModBlocks {
                             .instabreak()
                             .lightLevel(state -> 15)
                             .sound(SoundType.WOOL)
-                            .pushReaction(PushReaction.DESTROY),
+                            .pushReaction(PushReaction.BLOCK),
                     8.0f,  // Custom damage
                     20,    // Custom spread delay (lower = faster spread)
                     10     // Custom extinguish chance (higher = less likely to extinguish)

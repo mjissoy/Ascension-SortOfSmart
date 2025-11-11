@@ -1,16 +1,19 @@
 package net.thejadeproject.ascension.datagen;
 
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
 
 
 public class ModBlockStateProvider extends BlockStateProvider {
@@ -19,6 +22,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
     @Override
     protected void registerStatesAndModels() {
+
+        //Fires
+
+        fireBlock(ModBlocks.CRIMSON_LOTUS_FIRE, "crimson_lotus_fire");
+
 
 
         //Herbs Blocks
@@ -390,6 +398,95 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void blockItem(DeferredBlock<?> deferredBlock, String appendix) {
         simpleBlockItem(deferredBlock.get(), new ModelFile.UncheckedModelFile("ascension:block/" + deferredBlock.getId().getPath() + appendix));
+    }
+
+
+
+    private void fireBlock(DeferredBlock<Block> deferredBlock, String fireTextureName) {
+        Block block = deferredBlock.get();
+        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
+        String path = blockId.getPath();
+
+        // Generate all the fire model variants
+        for (int i = 0; i <= 1; i++) {
+            // Floor fire models
+            models().singleTexture(path + "_floor" + i,
+                            ResourceLocation.parse("minecraft:block/template_fire_floor"),
+                            "fire", ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + fireTextureName + "_" + i))
+                    .renderType("cutout");
+
+            // Up fire models
+            models().singleTexture(path + "_up" + i,
+                            ResourceLocation.parse("minecraft:block/template_fire_up"),
+                            "fire", ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + fireTextureName + "_" + i))
+                    .renderType("cutout");
+
+            // Up alt fire models
+            models().singleTexture(path + "_up_alt" + i,
+                            ResourceLocation.parse("minecraft:block/template_fire_up_alt"),
+                            "fire", ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + fireTextureName + "_" + i))
+                    .renderType("cutout");
+
+            // Side fire models
+            models().singleTexture(path + "_side" + i,
+                            ResourceLocation.parse("minecraft:block/template_fire_side"),
+                            "fire", ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + fireTextureName + "_" + i))
+                    .renderType("cutout");
+
+            // Side alt fire models
+            models().singleTexture(path + "_side_alt" + i,
+                            ResourceLocation.parse("minecraft:block/template_fire_side_alt"),
+                            "fire", ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + fireTextureName + "_" + i))
+                    .renderType("cutout");
+        }
+
+        // Create multipart blockstate (similar to vanilla fire)
+        MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
+
+        // Add all the fire parts with age conditions
+        for (int ageGroup = 0; ageGroup <= 1; ageGroup++) {
+            String textureSuffix = String.valueOf(ageGroup);
+            int minAge = ageGroup * 8;
+            int maxAge = minAge + 7;
+
+            // Floor
+            builder.part()
+                    .modelFile(models().getExistingFile(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + path + "_floor" + textureSuffix)))
+                    .addModel()
+                    .condition(CrimsonLotusFire.AGE, minAge, maxAge)
+                    .end();
+
+            // Up
+            builder.part()
+                    .modelFile(models().getExistingFile(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + path + "_up" + textureSuffix)))
+                    .addModel()
+                    .condition(CrimsonLotusFire.AGE, minAge, maxAge)
+                    .end();
+
+            // Up Alt
+            builder.part()
+                    .modelFile(models().getExistingFile(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + path + "_up_alt" + textureSuffix)))
+                    .addModel()
+                    .condition(CrimsonLotusFire.AGE, minAge, maxAge)
+                    .end();
+
+            // Side (all directions)
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                builder.part()
+                        .modelFile(models().getExistingFile(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + path + "_side" + textureSuffix)))
+                        .rotationY((int) direction.toYRot())
+                        .addModel()
+                        .condition(CrimsonLotusFire.AGE, minAge, maxAge)
+                        .end();
+
+                builder.part()
+                        .modelFile(models().getExistingFile(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + path + "_side_alt" + textureSuffix)))
+                        .rotationY((int) direction.toYRot())
+                        .addModel()
+                        .condition(CrimsonLotusFire.AGE, minAge, maxAge)
+                        .end();
+            }
+        }
     }
 
 

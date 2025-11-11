@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-16T18:58:14.7623501	Loot Tables
+// 1.21.1	2025-11-11T12:58:06.9982748	Loot Tables
 4e350a86b42d1ae1ba4f4fbeb663b3ef86261196 data/ascension/loot_table/blocks/black_iron_block.json
 38f47b8a49c39deb26be96306d89c92e4f616193 data/ascension/loot_table/blocks/black_iron_ore.json
 8fa1f6d0faab7897bb4c5b07978d69be87825eae data/ascension/loot_table/blocks/blue_marble.json
@@ -29,6 +29,7 @@ f8e062ca9bf98f510c7c9c18b27c49ebb010c2f0 data/ascension/loot_table/blocks/burned
 b8088762d503e202d7b349de1e737eb091c7615c data/ascension/loot_table/blocks/burned_marble_tile_slabs.json
 eb41a121860e4ecfe7ea7d4ca01c646658ad954f data/ascension/loot_table/blocks/burned_marble_tile_stairs.json
 69685c64c7e93d57e5968b30ab18cb14ca8bee0d data/ascension/loot_table/blocks/burned_marble_tile_wall.json
+a9c10ff1d1bf88df1a0e129a0b70e07a14340027 data/ascension/loot_table/blocks/crimson_lotus_fire.json
 76160f34d4900c0075e9c5aa79741a150cdba1d5 data/ascension/loot_table/blocks/cyan_marble.json
 c42d52bd18e0143331ef245cd914c17567854ee8 data/ascension/loot_table/blocks/cyan_marble_bricks.json
 a154d0e89121537ec4b92e46ecf57b9c0e296f48 data/ascension/loot_table/blocks/cyan_marble_brick_slabs.json

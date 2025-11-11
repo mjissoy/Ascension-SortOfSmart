@@ -7,6 +7,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -138,6 +139,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createSingleItemTable(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()));
         add(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
                 block -> createSingleItemTable(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get()));
+
+
+        //Fires
+        this.add(ModBlocks.CRIMSON_LOTUS_FIRE.get(), noDrop());
 
 
 
