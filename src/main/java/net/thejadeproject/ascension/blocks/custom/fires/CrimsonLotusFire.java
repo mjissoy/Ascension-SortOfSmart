@@ -41,7 +41,7 @@ public class CrimsonLotusFire extends BaseFireBlock {
     }
 
     public CrimsonLotusFire(Properties properties) {
-        this(properties, 1.0f, 30, 5); // Default values
+        this(properties, 1.0f, 30, 5);
     }
 
     @Override
@@ -56,13 +56,11 @@ public class CrimsonLotusFire extends BaseFireBlock {
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        // Skip if the entity is invulnerable (creative/spectator players, or entities with invulnerability)
         if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
             return;
         }
 
         if (entity instanceof Player player) {
-            // Remove the creative mode empty hand extinguishing for survival players
             if (player.isCreative()) {
                 if (player.getMainHandItem().isEmpty()) {
                     level.removeBlock(pos, false);
@@ -73,12 +71,10 @@ public class CrimsonLotusFire extends BaseFireBlock {
             }
         }
 
-        // Skip if the entity is invulnerable for any other reason
         if (entity.isInvulnerable()) {
             return;
         }
 
-        // Apply void damage to vulnerable entities
         if (!level.isClientSide) {
             entity.hurt(level.damageSources().generic(), 40.0f);
         }
@@ -99,7 +95,7 @@ public class CrimsonLotusFire extends BaseFireBlock {
             level.setBlock(pos, state, 3);
         }
 
-        this.trySpread(level, pos, random, age); // Pass age as parameter
+        this.trySpread(level, pos, random, age);
     }
 
     private void trySpread(ServerLevel level, BlockPos pos, RandomSource random, int age) {
@@ -107,7 +103,6 @@ public class CrimsonLotusFire extends BaseFireBlock {
             return;
         }
 
-        // Spread to nearby blocks
         for (Direction direction : Direction.values()) {
             BlockPos adjacentPos = pos.relative(direction);
             if (random.nextInt(spreadDelay) == 0) {
@@ -146,7 +141,6 @@ public class CrimsonLotusFire extends BaseFireBlock {
                 block == Blocks.SOUL_SAND ||
                 block == Blocks.SOUL_SOIL ||
                 CampfireBlock.isLitCampfire(state) ||
-                // Add other specific blocks you want the fire to survive on
                 block instanceof net.minecraft.world.level.block.BaseFireBlock;
     }
 
@@ -166,47 +160,37 @@ public class CrimsonLotusFire extends BaseFireBlock {
         return true;
     }
 
-    // Add this method to prevent breaking in survival mode
     @Override
     public void attack(BlockState state, Level level, BlockPos pos, Player player) {
-        // Only allow breaking in creative mode
         if (!player.isCreative()) {
-            // Cancel the block breaking in survival mode
             return;
         }
         super.attack(state, level, pos, player);
     }
 
-    // Add this method to prevent replacement in survival mode
     @Override
     public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
-        // Only allow replacement in creative mode
         Player player = context.getPlayer();
         return player != null && player.isCreative();
     }
 
-    // Add this method to prevent destruction by pistons
     @Override
     public PushReaction getPistonPushReaction(BlockState state) {
         return PushReaction.BLOCK;
     }
 
-    // Add this method to prevent destruction by explosions
     @Override
     public boolean canDropFromExplosion(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
         return false;
     }
 
-    // Add this method to make the block resistant to explosions
     @Override
     public float getExplosionResistance() {
-        return 3600000.0F; // Very high resistance
+        return 3600000.0F;
     }
 
-    // Add this method to prevent the block from being destroyed by player interaction
     @Override
     public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
-        // Return 0 progress for survival players, normal for creative
         return player.isCreative() ? super.getDestroyProgress(state, player, level, pos) : 0.0F;
     }
 
@@ -216,9 +200,7 @@ public class CrimsonLotusFire extends BaseFireBlock {
     }
 
     public static void onBlockCaughtFire(BlockState state, Level level, BlockPos pos, @Nullable Direction face, @Nullable LivingEntity igniter) {
-        // Custom behavior when a block catches fire
         if (igniter instanceof Player) {
-            // You can add custom logic here when a player ignites something
         }
     }
 

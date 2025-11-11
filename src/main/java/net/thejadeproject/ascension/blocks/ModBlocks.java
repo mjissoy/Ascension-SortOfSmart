@@ -431,6 +431,8 @@ public class ModBlocks {
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
+    //private static <T extends Block> DeferredBlock<T> registerBlockNoItem(String name, Supplier<T> block) {return BLOCKS.register(name, block);}
+
     public static void register(IEventBus eventBus) {
         BLOCK.register(eventBus);
     }
