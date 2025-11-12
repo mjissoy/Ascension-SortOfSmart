@@ -14,15 +14,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.border.WorldBorder;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.thejadeproject.ascension.events.api.SpatialRuptureAPI;
 
-import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 
 public class SpatialRuptureTalismanT3 extends Item {
     private static final int TELEPORT_RADIUS = 7500; // 7.5k blocks radius
     private static final int COOLDOWN_TICKS = 20 * 60 * 20; // 20 minutes in ticks
-    private static final int MAX_ATTEMPTS = 100; // Increased attempts for better location finding
 
     private static final String GLOBAL_COOLDOWN_TAG = "SpatialRuptureCooldownT3";
     private static final String GLOBAL_COOLDOWN_TIME_TAG = "SpatialRuptureCooldownT3";
@@ -48,36 +46,49 @@ public class SpatialRuptureTalismanT3 extends Item {
         }
 
         if (level.isClientSide) {
+            level.playSound(player, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
+                    SoundSource.PLAYERS, 1.0F, 1.0F);
             return InteractionResultHolder.consume(itemstack);
         }
 
         ServerPlayer serverPlayer = (ServerPlayer) player;
         ServerLevel serverLevel = (ServerLevel) level;
 
-        BlockPos safePos = findSafeTeleportLocation(serverLevel, serverPlayer.blockPosition());
+        // Use the API for teleportation with T3 radius
+        CompletableFuture<Boolean> teleportFuture = SpatialRuptureAPI.randomTeleport(serverPlayer, serverLevel, TELEPORT_RADIUS);
 
-        if (safePos != null) {
-            setGlobalCooldown(serverPlayer, COOLDOWN_TICKS);
+        teleportFuture.thenAccept(success -> {
+            serverLevel.getServer().execute(() -> {
+                if (success) {
+                    setGlobalCooldown(serverPlayer, COOLDOWN_TICKS);
+                    player.getCooldowns().addCooldown(this, 10);
 
-            player.getCooldowns().addCooldown(this, 10);
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
 
-            if (!player.getAbilities().instabuild) {
-                itemstack.shrink(1);
-            }
+                    BlockPos playerPos = serverPlayer.blockPosition();
+                    serverLevel.playSound(null, playerPos, SoundEvents.ENDERMAN_TELEPORT,
+                            SoundSource.PLAYERS, 1.0F, 1.0F);
+                    serverLevel.sendParticles(ParticleTypes.PORTAL,
+                            playerPos.getX() + 0.5, playerPos.getY() + 1, playerPos.getZ() + 0.5,
+                            50, 0.5, 1, 0.5, 0.1);
 
-            serverLevel.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
-                    SoundSource.PLAYERS, 1.0F, 1.0F);
-            serverLevel.sendParticles(ParticleTypes.PORTAL,
-                    player.getX(), player.getY() + 1, player.getZ(),
-                    50, 0.5, 1, 0.5, 0.1);
+                    player.displayClientMessage(net.minecraft.network.chat.Component.literal("§aTeleported to a random location!"), true);
+                } else {
+                    player.displayClientMessage(net.minecraft.network.chat.Component.literal("§cNo safe teleport location found!"), true);
+                }
+            });
+        });
 
-            teleportPlayer(serverPlayer, serverLevel, safePos);
+        // Play departure effects
+        serverLevel.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
+                SoundSource.PLAYERS, 1.0F, 1.0F);
+        serverLevel.sendParticles(ParticleTypes.PORTAL,
+                player.getX(), player.getY() + 1, player.getZ(),
+                50, 0.5, 1, 0.5, 0.1);
 
-            return InteractionResultHolder.success(itemstack);
-        } else {
-            player.displayClientMessage(net.minecraft.network.chat.Component.literal("§cNo safe teleport location found!"), true);
-            return InteractionResultHolder.fail(itemstack);
-        }
+        return InteractionResultHolder.success(itemstack);
     }
 
     @Override
@@ -138,132 +149,5 @@ public class SpatialRuptureTalismanT3 extends Item {
                 }
             }
         }
-    }
-
-    private BlockPos findSafeTeleportLocation(ServerLevel level, BlockPos center) {
-        Random random = new Random();
-        WorldBorder border = level.getWorldBorder();
-
-        // Try furthest distances first, then work our way closer
-        for (int distanceMultiplier = 10; distanceMultiplier >= 1; distanceMultiplier--) {
-            int currentRadius = (TELEPORT_RADIUS * distanceMultiplier) / 10;
-
-            for (int i = 0; i < MAX_ATTEMPTS / 10; i++) {
-                // Generate points on the circumference of circles with decreasing radius
-                double angle = random.nextDouble() * 2 * Math.PI;
-                int x = center.getX() + (int)(currentRadius * Math.cos(angle));
-                int z = center.getZ() + (int)(currentRadius * Math.sin(angle));
-
-                // Add some random variation to avoid always being exactly on the edge
-                int variation = currentRadius / 20; // 5% variation
-                x += random.nextInt(variation * 2) - variation;
-                z += random.nextInt(variation * 2) - variation;
-
-                if (!border.isWithinBounds(x, z)) {
-                    continue;
-                }
-
-                BlockPos surfacePos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(x, 0, z));
-                BlockPos safePos = findSafeGroundPosition(level, surfacePos);
-
-                if (safePos != null) {
-                    return safePos;
-                }
-            }
-        }
-
-        // Fallback: original random search if edge search fails
-        for (int i = 0; i < MAX_ATTEMPTS / 2; i++) {
-            int x = center.getX() + random.nextInt(TELEPORT_RADIUS * 2) - TELEPORT_RADIUS;
-            int z = center.getZ() + random.nextInt(TELEPORT_RADIUS * 2) - TELEPORT_RADIUS;
-
-            if (!border.isWithinBounds(x, z)) {
-                continue;
-            }
-
-            BlockPos surfacePos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, new BlockPos(x, 0, z));
-            BlockPos safePos = findSafeGroundPosition(level, surfacePos);
-
-            if (safePos != null) {
-                return safePos;
-            }
-        }
-
-        return null;
-    }
-
-    private BlockPos findSafeGroundPosition(ServerLevel level, BlockPos surfacePos) {
-        for (int y = surfacePos.getY(); y > level.getMinBuildHeight() + 5; y--) {
-            BlockPos checkPos = new BlockPos(surfacePos.getX(), y, surfacePos.getZ());
-            BlockPos standingPos = checkPos.above();
-            BlockPos headPos = standingPos.above();
-
-            if (isSolidGround(level, checkPos) &&
-                    isSafeStandingPosition(level, standingPos) &&
-                    !isDangerous(level, checkPos) &&
-                    !isDangerous(level, standingPos) &&
-                    !isDangerous(level, headPos) &&
-                    !isCaveLike(level, standingPos)) {
-                return standingPos;
-            }
-        }
-        return null;
-    }
-
-    private boolean isSolidGround(ServerLevel level, BlockPos pos) {
-        return level.getBlockState(pos).isSolid() &&
-                level.getBlockState(pos).isCollisionShapeFullBlock(level, pos);
-    }
-
-    private boolean isSafeStandingPosition(ServerLevel level, BlockPos pos) {
-        BlockPos aboveHead = pos.above();
-        return !level.getBlockState(pos).isSolid() &&
-                !level.getBlockState(aboveHead).isSolid() &&
-                level.getBlockState(pos).getFluidState().isEmpty() &&
-                level.getBlockState(aboveHead).getFluidState().isEmpty();
-    }
-
-    private boolean isDangerous(ServerLevel level, BlockPos pos) {
-        return level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.LAVA) ||
-                level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.FIRE) ||
-                level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.SOUL_FIRE) ||
-                level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.CAMPFIRE) ||
-                level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.MAGMA_BLOCK) ||
-                level.getBlockState(pos).is(net.minecraft.world.level.block.Blocks.CACTUS);
-    }
-
-    private boolean isCaveLike(ServerLevel level, BlockPos pos) {
-        int solidBlocksAbove = 0;
-        for (int i = 1; i <= 5; i++) {
-            if (level.getBlockState(pos.above(i)).isSolid()) {
-                solidBlocksAbove++;
-            }
-        }
-        return solidBlocksAbove > 2;
-    }
-
-    private void teleportPlayer(ServerPlayer player, ServerLevel level, BlockPos targetPos) {
-        float yRot = player.getYRot();
-        float xRot = player.getXRot();
-
-        player.teleportTo(level,
-                targetPos.getX() + 0.5,
-                targetPos.getY(),
-                targetPos.getZ() + 0.5,
-                yRot, xRot);
-
-        player.connection.resetPosition();
-        player.setOnGround(true);
-        player.hurtMarked = true;
-
-        level.playSound(null, targetPos, SoundEvents.ENDERMAN_TELEPORT,
-                SoundSource.PLAYERS, 1.0F, 1.0F);
-        level.sendParticles(ParticleTypes.PORTAL,
-                targetPos.getX() + 0.5, targetPos.getY() + 1, targetPos.getZ() + 0.5,
-                50, 0.5, 1, 0.5, 0.1);
-
-        player.fallDistance = 0;
-
-        player.displayClientMessage(net.minecraft.network.chat.Component.literal("§aTeleported to a random location!"), true);
     }
 }
