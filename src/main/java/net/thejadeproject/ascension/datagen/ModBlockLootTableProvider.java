@@ -142,7 +142,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
 
         //Fires
-        this.add(ModBlocks.CRIMSON_LOTUS_FIRE.get(), noDrop());
+        //this.add(ModBlocks.CRIMSON_LOTUS_FIRE.get(), noDrop());
 
 
 

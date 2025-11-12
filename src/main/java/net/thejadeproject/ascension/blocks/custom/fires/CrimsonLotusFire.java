@@ -67,17 +67,14 @@ public class CrimsonLotusFire extends BaseFireBlock {
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {
-            return;
-        }
-
+        // Simplified and more efficient entity damage logic
         if (entity instanceof Player player) {
-            if (player.isCreative()) {
-                if (player.getMainHandItem().isEmpty()) {
-                    level.removeBlock(pos, false);
-                    return;
-                }
-            } else if (player.isSpectator()) {
+            if (player.isCreative() || player.isSpectator()) {
+                return;
+            }
+            // Creative players can remove fire with empty hand
+            if (player.isCreative() && player.getMainHandItem().isEmpty()) {
+                level.removeBlock(pos, false);
                 return;
             }
         }
@@ -87,7 +84,7 @@ public class CrimsonLotusFire extends BaseFireBlock {
         }
 
         if (!level.isClientSide) {
-            entity.hurt(level.damageSources().generic(), 40.0f);
+            entity.hurt(level.damageSources().inFire(), this.damage);
         }
         super.entityInside(state, level, pos, entity);
     }
@@ -167,7 +164,7 @@ public class CrimsonLotusFire extends BaseFireBlock {
 
     @Override
     protected MapCodec<? extends BaseFireBlock> codec() {
-        return null;
+        return simpleCodec(properties -> new CrimsonLotusFire(properties, damage, spreadDelay, extinguishChance));
     }
 
     @Override

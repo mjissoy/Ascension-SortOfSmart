@@ -226,7 +226,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     public ItemModelBuilder talisman(Item item){
         return basicItemWithSharedTexture(item,ResourceLocation.fromNamespaceAndPath(
                 AscensionCraft.MOD_ID,
-                "talismans"
+                "talismans" //Talismans Texture made by Dewgon
         ));
     }
     public ItemModelBuilder pills(Item item) {

@@ -193,6 +193,7 @@ public class SpatialRuptureTalismanT2 extends Item {
     }
 
     private BlockPos findSafeGroundPosition(ServerLevel level, BlockPos surfacePos) {
+        // First pass: strict safety checks
         for (int y = surfacePos.getY(); y > level.getMinBuildHeight() + 5; y--) {
             BlockPos checkPos = new BlockPos(surfacePos.getX(), y, surfacePos.getZ());
             BlockPos standingPos = checkPos.above();
@@ -207,6 +208,23 @@ public class SpatialRuptureTalismanT2 extends Item {
                 return standingPos;
             }
         }
+
+        // Second pass: relaxed checks for edge locations (allow some cave-like areas)
+        for (int y = surfacePos.getY(); y > level.getMinBuildHeight() + 5; y--) {
+            BlockPos checkPos = new BlockPos(surfacePos.getX(), y, surfacePos.getZ());
+            BlockPos standingPos = checkPos.above();
+            BlockPos headPos = standingPos.above();
+
+            if (isSolidGround(level, checkPos) &&
+                    isSafeStandingPosition(level, standingPos) &&
+                    !isDangerous(level, checkPos) &&
+                    !isDangerous(level, standingPos) &&
+                    !isDangerous(level, headPos)) {
+                // For edge locations, we'll allow cave-like areas as fallback
+                return standingPos;
+            }
+        }
+
         return null;
     }
 
