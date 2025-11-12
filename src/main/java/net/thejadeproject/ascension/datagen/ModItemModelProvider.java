@@ -84,6 +84,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.ENDER_POUCH.get());
 
         talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get());
+        talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T2.get());
+        talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T3.get());
 
 
 

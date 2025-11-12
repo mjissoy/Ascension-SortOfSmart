@@ -25,7 +25,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         //Fires
 
-        fireBlock(ModBlocks.CRIMSON_LOTUS_FIRE, "crimson_lotus_fire");
+        //fireBlock(ModBlocks.CRIMSON_LOTUS_FIRE, "crimson_lotus_fire");
 
 
 

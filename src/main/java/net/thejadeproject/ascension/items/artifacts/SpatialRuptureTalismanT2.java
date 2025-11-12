@@ -1,7 +1,6 @@
 package net.thejadeproject.ascension.items.artifacts;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -20,16 +19,16 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.Random;
 
-public class SpatialRuptureTalismanT1 extends Item {
-    private static final int TELEPORT_RADIUS = 2500; // 2.5k blocks radius
-    private static final int COOLDOWN_TICKS = 60 * 60 * 20; // 60 minutes in ticks
+public class SpatialRuptureTalismanT2 extends Item {
+    private static final int TELEPORT_RADIUS = 5000; // 5k blocks radius
+    private static final int COOLDOWN_TICKS = 40 * 60 * 20; // 40 minutes in ticks
     private static final int MAX_ATTEMPTS = 100; // Increased attempts for better location finding
 
-    private static final String GLOBAL_COOLDOWN_TAG = "SpatialRuptureCooldownT1";
-    private static final String GLOBAL_COOLDOWN_TIME_TAG = "SpatialRuptureCooldownT1";
+    private static final String GLOBAL_COOLDOWN_TAG = "SpatialRuptureCooldownT2";
+    private static final String GLOBAL_COOLDOWN_TIME_TAG = "SpatialRuptureCooldownT2";
 
-    public SpatialRuptureTalismanT1(Properties properties) {
-        super(properties.stacksTo(16).rarity(Rarity.UNCOMMON));
+    public SpatialRuptureTalismanT2(Properties properties) {
+        super(properties.stacksTo(16).rarity(Rarity.RARE));
     }
 
     @Override

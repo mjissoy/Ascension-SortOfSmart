@@ -406,7 +406,7 @@ public class ModBlocks {
 
     //Fires / Flames
 
-    public static final DeferredBlock<Block> CRIMSON_LOTUS_FIRE = registerBlock("crimson_lotus_fire",
+    public static final DeferredBlock<Block> CRIMSON_LOTUS_FIRE = registerBlockNoItem("crimson_lotus_fire",
             () -> new CrimsonLotusFire(
                     BlockBehaviour.Properties.of()
                             .replaceable()
@@ -431,7 +431,9 @@ public class ModBlocks {
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
-    //private static <T extends Block> DeferredBlock<T> registerBlockNoItem(String name, Supplier<T> block) {return BLOCKS.register(name, block);}
+    private static <T extends Block> DeferredBlock<T> registerBlockNoItem(String name, Supplier<T> block) {
+        return BLOCK.register(name, block);
+    }
 
     public static void register(IEventBus eventBus) {
         BLOCK.register(eventBus);

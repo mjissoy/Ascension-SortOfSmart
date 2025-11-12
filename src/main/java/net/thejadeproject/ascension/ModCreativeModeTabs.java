@@ -59,6 +59,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.JADE_SPATIAL_RING);
 
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);
+                        output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T2);
+                        output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T3);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",

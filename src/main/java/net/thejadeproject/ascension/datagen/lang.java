@@ -334,6 +334,8 @@ public class lang extends LanguageProvider {
         add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
 
         add("item.ascension.spatial_rupture_talisman_t1", "Lesser Spatial Rupture Talisman");
+        add("item.ascension.spatial_rupture_talisman_t2", "Standard Spatial Rupture Talisman");
+        add("item.ascension.spatial_rupture_talisman_t3", "Greater Spatial Rupture Talisman");
 
 
 

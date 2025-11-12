@@ -15,19 +15,24 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class CrimsonLotusFire extends BaseFireBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_15;
-    private static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 1.0, 16.0);
+    public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
+    public static final BooleanProperty EAST = BlockStateProperties.EAST;
+    public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
+    public static final BooleanProperty WEST = BlockStateProperties.WEST;
+    public static final BooleanProperty UP = BlockStateProperties.UP;
 
-    // Custom properties you can modify
+    private static final VoxelShape DOWN_AABB = Block.box(0.0, 0.0, 0.0, 16.0, 1.0, 16.0);
+
     private final float damage;
     private final int spreadDelay;
     private final int extinguishChance;
@@ -37,7 +42,13 @@ public class CrimsonLotusFire extends BaseFireBlock {
         this.damage = damage;
         this.spreadDelay = spreadDelay;
         this.extinguishChance = extinguishChance;
-        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(AGE, 0)
+                .setValue(NORTH, false)
+                .setValue(EAST, false)
+                .setValue(SOUTH, false)
+                .setValue(WEST, false)
+                .setValue(UP, false));
     }
 
     public CrimsonLotusFire(Properties properties) {
@@ -46,12 +57,12 @@ public class CrimsonLotusFire extends BaseFireBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AGE);
+        builder.add(AGE, NORTH, EAST, SOUTH, WEST, UP);
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
+        return DOWN_AABB;
     }
 
     @Override
@@ -126,7 +137,17 @@ public class CrimsonLotusFire extends BaseFireBlock {
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        return this.canSurvive(state, level, pos) ? state : Blocks.AIR.defaultBlockState();
+        boolean north = canBurn(level.getBlockState(pos.north()));
+        boolean east = canBurn(level.getBlockState(pos.east()));
+        boolean south = canBurn(level.getBlockState(pos.south()));
+        boolean west = canBurn(level.getBlockState(pos.west()));
+        boolean up = canBurn(level.getBlockState(pos.above()));
+
+        return state.setValue(NORTH, north)
+                .setValue(EAST, east)
+                .setValue(SOUTH, south)
+                .setValue(WEST, west)
+                .setValue(UP, up);
     }
 
     @Override
@@ -152,12 +173,26 @@ public class CrimsonLotusFire extends BaseFireBlock {
     @Override
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState();
+        BlockPos pos = context.getClickedPos();
+        Level level = context.getLevel();
+
+        boolean north = canBurn(level.getBlockState(pos.north()));
+        boolean east = canBurn(level.getBlockState(pos.east()));
+        boolean south = canBurn(level.getBlockState(pos.south()));
+        boolean west = canBurn(level.getBlockState(pos.west()));
+        boolean up = canBurn(level.getBlockState(pos.above()));
+
+        return this.defaultBlockState()
+                .setValue(NORTH, north)
+                .setValue(EAST, east)
+                .setValue(SOUTH, south)
+                .setValue(WEST, west)
+                .setValue(UP, up);
     }
 
     @Override
     protected boolean canBurn(BlockState state) {
-        return true;
+        return state.isFlammable(null, null, null);
     }
 
     @Override
@@ -192,11 +227,6 @@ public class CrimsonLotusFire extends BaseFireBlock {
     @Override
     public float getDestroyProgress(BlockState state, Player player, BlockGetter level, BlockPos pos) {
         return player.isCreative() ? super.getDestroyProgress(state, player, level, pos) : 0.0F;
-    }
-
-    @Override
-    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
-        return ItemStack.EMPTY;
     }
 
     public static void onBlockCaughtFire(BlockState state, Level level, BlockPos pos, @Nullable Direction face, @Nullable LivingEntity igniter) {
