@@ -73,6 +73,7 @@
   "block.ascension.burned_marble_tile_slabs": "Black Marble Tile Slab",
   "block.ascension.burned_marble_tile_stairs": "Black Marble Tile Stair",
   "block.ascension.burned_marble_tile_wall": "Black Marble Tile Wall",
+  "block.ascension.crimson_lotus_fire": "Crimson Lotus Fire",
   "block.ascension.cyan_marble": "Cyan Marble",
   "block.ascension.cyan_marble_brick_slabs": "Cyan Marble Brick Slab",
   "block.ascension.cyan_marble_brick_stairs": "Cyan Marble Brick Stairs",
@@ -323,6 +324,7 @@
   "item.ascension.spatial_rupture_talisman_t3": "Greater Spatial Rupture Talisman",
   "item.ascension.spiritual_stone": "Spiritual Stone",
   "item.ascension.spiritual_stone_spatial_ring": "Spiritual Spatial Ring",
+  "item.ascension.talisman_paper": "Blank Talisman",
   "item.ascension.tode": "Tablet Of Destruction",
   "item.ascension.todh": "Tablet Of Destruction",
   "item.ascension.todhe": "Tablet Of Destruction",
@@ -347,8 +349,5 @@
   "tooltip.ascension.repair_slip": "§8Hold [§7Shift§8] for summary",
   "tooltip.ascension.repair_slip.shift_down1": "§3Repairs items in your inventory",
   "tooltip.ascension.repair_slip.shift_down2": "§3Every 100 Ticks it repairs items by 2 durability",
-  "tooltip.ascension.time_remaining": "Time remaining: %ss",
-  "tooltip.ascension.tode": "§6[Earth]",
-  "tooltip.ascension.todh": "§8[Human]",
-  "tooltip.ascension.todhe": "§b[Heaven]"
+  "tooltip.ascension.time_remaining": "Time remaining: %ss"
 }

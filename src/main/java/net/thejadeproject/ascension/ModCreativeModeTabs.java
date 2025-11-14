@@ -28,14 +28,13 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.RAW_FROST_SILVER);
                         output.accept(ModItems.FROST_SILVER_INGOT);
                         output.accept(ModItems.FROST_SILVER_NUGGET);
-
-
-
                         output.accept(ModItems.SPIRITUAL_STONE);
                         output.accept(ModItems.JADE_NUGGET);
                         output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
+                        output.accept(ModItems.TALISMAN_PAPER);
+
                         output.accept(ModItems.JADE_BLADE);
                         output.accept(ModItems.SEARING_BLADE);
                         output.accept(ModItems.JADE_SPEAR);

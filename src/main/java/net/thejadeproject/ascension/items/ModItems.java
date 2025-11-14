@@ -168,6 +168,10 @@ public class ModItems {
     public static final DeferredItem<Item> CRIMSON_LOTUS_FLAME = ITEMS.register("crimson_lotus_flame",
             () -> new Item(new Item.Properties()));
 
+    //Crafting Ingredients
+    public static final DeferredItem<Item> TALISMAN_PAPER = ITEMS.register("talisman_paper",
+            () -> new Item(new Item.Properties()));
+
 
     //Pills
     public static final DeferredItem<Item> REGENERATION_PILL = ITEMS.register("regeneration_pill",

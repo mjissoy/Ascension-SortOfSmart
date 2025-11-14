@@ -409,6 +409,7 @@ public class ModBlocks {
     public static final DeferredBlock<Block> CRIMSON_LOTUS_FIRE = registerBlockNoItem("crimson_lotus_fire",
             () -> new CrimsonLotusFire(
                     BlockBehaviour.Properties.of()
+                            .noLootTable()
                             .replaceable()
                             .noCollission()
                             .instabreak()

@@ -88,6 +88,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T3.get());
 
 
+        //Crafting Ingredients
+        basicItem(ModItems.TALISMAN_PAPER.get());
+
+
 
         //Items
         basicItem(ModItems.JADE.get());

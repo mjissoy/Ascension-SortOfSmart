@@ -340,13 +340,8 @@ public class lang extends LanguageProvider {
 
 
         add("item.ascension.todh", "Tablet Of Destruction");
-        add("tooltip.ascension.todh", "§8[Human]");
-
         add("item.ascension.tode", "Tablet Of Destruction");
-        add("tooltip.ascension.tode", "§6[Earth]");
-
         add("item.ascension.todhe", "Tablet Of Destruction");
-        add("tooltip.ascension.todhe", "§b[Heaven]");
 
         add("item.ascension.repair_slip", "Repair Slip");
         add("tooltip.ascension.repair_slip.shift_down1", "§3Repairs items in your inventory");
@@ -358,6 +353,10 @@ public class lang extends LanguageProvider {
         add("tooltip.ascension.ender_pouch.shift_down1", "§2The Ender Pouch");
         add("tooltip.ascension.ender_pouch.shift_down2", "§aIs linked to your own Ender Chest");
         add("tooltip.ascension.ender_pouch", "§8Hold [§7Shift§8] for summary");
+
+
+        //Crafting Ingredient
+        add("item.ascension.talisman_paper", "Blank Talisman");
 
 
         //GUI & Other Stuff

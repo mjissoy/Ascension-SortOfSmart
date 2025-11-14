@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-12T10:17:10.6658668	Item Models: ascension
+// 1.21.1	2025-11-14T10:05:25.4944882	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -89,6 +89,7 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t1.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t2.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t3.json
+1d3fe5992fff342daa85c2c5a007f4093300df29 assets/ascension/models/item/talisman_paper.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/tode.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todh.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todhe.json

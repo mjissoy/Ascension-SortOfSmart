@@ -16,9 +16,9 @@ public class ToolTipManager {
         // Tooltip with custom formatting
 
         //Items
-        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), Component.translatable("tooltip.ascension.todh"));
-        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_EARTH.get(), Component.translatable("tooltip.ascension.tode"));
-        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get(), Component.translatable("tooltip.ascension.todhe"));
+        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_EARTH.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
 
 
         //Medicinal Pills
@@ -63,6 +63,9 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.SPATIAL_RUPTURE_TALISMAN_T2.get(), Component.literal("5k x 5k Range │ 40 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.DARK_RED));
         ToolTipHandler.registerTooltip(ModItems.SPATIAL_RUPTURE_TALISMAN_T3.get(), Component.literal("7.5k x 7.5k Range │ 20 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★★☆☆☆").withStyle(ChatFormatting.DARK_RED));
 
+
+        //Crafting Ingredients
+        ToolTipHandler.registerTooltip(ModItems.TALISMAN_PAPER.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
 
         // Advanced example with conditional logic
         registerAdvancedTooltips();

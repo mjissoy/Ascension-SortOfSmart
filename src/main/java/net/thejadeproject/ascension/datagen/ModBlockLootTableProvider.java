@@ -141,10 +141,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createSingleItemTable(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get()));
 
 
-        //Fires
-        //this.add(ModBlocks.CRIMSON_LOTUS_FIRE.get(), noDrop());
-
-
 
         //Ores
         add(ModBlocks.JADE_ORE.get(),
