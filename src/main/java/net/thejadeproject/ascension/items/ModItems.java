@@ -119,6 +119,8 @@ public class ModItems {
             () -> new SoulsteadReturnTalisman(new Item.Properties()));
     public static final DeferredItem<Item> WORLD_AXIS_TALISMAN = ITEMS.register("world_axis_talisman",
             () -> new WorldAxisTalisman(new Item.Properties()));
+    public static final DeferredItem<Item> VOID_MARKING_TALISMAN = ITEMS.register("void_marking_talisman",
+            () -> new VoidMarkingTalisman(new Item.Properties()));
 
 
     public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HUMAN = ITEMS.register("todh",

@@ -339,6 +339,7 @@ public class lang extends LanguageProvider {
 
         add("item.ascension.soulstead_return_talisman", "Soulstead Return Talisman");
         add("item.ascension.world_axis_talisman", "World Axis Talisman");
+        add("item.ascension.void_marking_talisman", "Void-Marking Talisman");
 
 
 
