@@ -17,6 +17,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
@@ -38,7 +39,7 @@ public class VoidMarkingTalisman extends Item {
     private static final String COOLDOWN_TIME_TAG = "VoidMarkingCooldownTime";
 
     public VoidMarkingTalisman(Properties properties) {
-        super(properties.stacksTo(1));
+        super(properties.stacksTo(16).rarity(Rarity.UNCOMMON));
     }
 
     @Override
