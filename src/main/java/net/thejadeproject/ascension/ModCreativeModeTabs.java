@@ -60,6 +60,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T2);
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T3);
+
+                        output.accept(ModItems.SOULSTEAD_RETURN_TALISMAN);
+                        output.accept(ModItems.WORLD_AXIS_TALISMAN);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",

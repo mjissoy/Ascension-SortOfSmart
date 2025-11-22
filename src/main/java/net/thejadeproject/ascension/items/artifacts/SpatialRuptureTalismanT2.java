@@ -23,7 +23,7 @@ public class SpatialRuptureTalismanT2 extends Item {
     private static final int COOLDOWN_TICKS = 40 * 60 * 20; // 40 minutes in ticks
 
     private static final String GLOBAL_COOLDOWN_TAG = "SpatialRuptureCooldownT2";
-    private static final String GLOBAL_COOLDOWN_TIME_TAG = "SpatialRuptureCooldownT2";
+    private static final String GLOBAL_COOLDOWN_TIME_TAG = "SpatialRuptureCooldownTimeT2";
 
     public SpatialRuptureTalismanT2(Properties properties) {
         super(properties.stacksTo(16).rarity(Rarity.RARE));

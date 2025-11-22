@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-14T10:05:25.4944882	Item Models: ascension
+// 1.21.1	2025-11-22T14:25:25.3449522	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -86,6 +86,7 @@ b68d64b6eea5da5b1df3146813fff1d717c3497f assets/ascension/models/item/rebirth_pi
 ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble_tile_wall.json
 600bc9f410025ad13d01fe745214d118dc401cbd assets/ascension/models/item/regeneration_pill.json
 74271bd33ef0167a397f600ea3f20c218cde6630 assets/ascension/models/item/repair_slip.json
+5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/soulstead_return_talisman.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t1.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t2.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t3.json
@@ -97,5 +98,6 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/void_swallowing_technique.json
 f5846a37eb2d2b8c40f58a96f77b52ba2d479c08 assets/ascension/models/item/white_jade_orchid.json
 44da68e4588d03eab14e615994b783970ff317b1 assets/ascension/models/item/white_jade_orchid_crop.json
+5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/world_axis_talisman.json
 feec49605f4b667f2242b90949f3695ab4224304 assets/ascension/models/item/yellow_marble_brick_wall.json
 b4cf31f9aee1916d457927456216e73e1b5fb730 assets/ascension/models/item/yellow_marble_tile_wall.json

@@ -14,19 +14,15 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import net.thejadeproject.ascension.events.api.SpatialRuptureAPI;
 
-import java.util.concurrent.CompletableFuture;
+public class WorldAxisTalisman extends Item {
+    private static final int COOLDOWN_TICKS = 5 * 60 * 20; // 5 minutes in ticks
 
-public class SpatialRuptureTalismanT3 extends Item {
-    private static final int TELEPORT_RADIUS = 7500; // 7.5k blocks radius
-    private static final int COOLDOWN_TICKS = 20 * 60 * 20; // 20 minutes in ticks
+    private static final String GLOBAL_COOLDOWN_TAG = "WorldAxisCooldownWorldSpawn";
+    private static final String GLOBAL_COOLDOWN_TIME_TAG = "WorldAxisCooldownTimeWorldSpawn";
 
-    private static final String GLOBAL_COOLDOWN_TAG = "SpatialRuptureCooldownT3";
-    private static final String GLOBAL_COOLDOWN_TIME_TAG = "SpatialRuptureCooldownTimeT3";
-
-    public SpatialRuptureTalismanT3(Properties properties) {
-        super(properties.stacksTo(16).rarity(Rarity.EPIC));
+    public WorldAxisTalisman(Properties properties) {
+        super(properties.stacksTo(16).rarity(Rarity.UNCOMMON));
     }
 
     @Override
@@ -54,39 +50,41 @@ public class SpatialRuptureTalismanT3 extends Item {
         ServerPlayer serverPlayer = (ServerPlayer) player;
         ServerLevel serverLevel = (ServerLevel) level;
 
-        // Use the API for teleportation with T3 radius
-        CompletableFuture<Boolean> teleportFuture = SpatialRuptureAPI.randomTeleport(serverPlayer, serverLevel, TELEPORT_RADIUS);
+        // Get the world spawn in the overworld
+        ServerLevel targetLevel = serverLevel.getServer().overworld();
+        BlockPos spawnPos = targetLevel.getSharedSpawnPos();
 
-        teleportFuture.thenAccept(success -> {
-            serverLevel.getServer().execute(() -> {
-                if (success) {
-                    setGlobalCooldown(serverPlayer, COOLDOWN_TICKS);
-                    player.getCooldowns().addCooldown(this, 10);
-
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-
-                    BlockPos playerPos = serverPlayer.blockPosition();
-                    serverLevel.playSound(null, playerPos, SoundEvents.ENDERMAN_TELEPORT,
-                            SoundSource.PLAYERS, 1.0F, 1.0F);
-                    serverLevel.sendParticles(ParticleTypes.PORTAL,
-                            playerPos.getX() + 0.5, playerPos.getY() + 1, playerPos.getZ() + 0.5,
-                            50, 0.5, 1, 0.5, 0.1);
-
-                    player.displayClientMessage(net.minecraft.network.chat.Component.literal("§aTeleported to a random location!"), true);
-                } else {
-                    player.displayClientMessage(net.minecraft.network.chat.Component.literal("§cNo safe teleport location found!"), true);
-                }
-            });
-        });
+        double x = spawnPos.getX() + 0.5D;
+        double y = spawnPos.getY();
+        double z = spawnPos.getZ() + 0.5D;
 
         // Play departure effects
-        serverLevel.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
+        serverLevel.playSound(null, serverPlayer.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
                 SoundSource.PLAYERS, 1.0F, 1.0F);
         serverLevel.sendParticles(ParticleTypes.PORTAL,
-                player.getX(), player.getY() + 1, player.getZ(),
+                serverPlayer.getX(), serverPlayer.getY() + 1, serverPlayer.getZ(),
                 50, 0.5, 1, 0.5, 0.1);
+
+        // Perform the teleport
+        serverPlayer.teleportTo(targetLevel, x, y, z, serverPlayer.getYRot(), serverPlayer.getXRot());
+
+        // Teleportation successful
+        setGlobalCooldown(serverPlayer, COOLDOWN_TICKS);
+        player.getCooldowns().addCooldown(this, 10);
+
+        if (!player.getAbilities().instabuild) {
+            itemstack.shrink(1);
+        }
+
+        // Play arrival effects
+        BlockPos newPos = serverPlayer.blockPosition();
+        targetLevel.playSound(null, newPos, SoundEvents.ENDERMAN_TELEPORT,
+                SoundSource.PLAYERS, 1.0F, 1.0F);
+        targetLevel.sendParticles(ParticleTypes.PORTAL,
+                newPos.getX() + 0.5, newPos.getY() + 1, newPos.getZ() + 0.5,
+                50, 0.5, 1, 0.5, 0.1);
+
+        player.displayClientMessage(net.minecraft.network.chat.Component.literal("§aTeleported to world spawn!"), true);
 
         return InteractionResultHolder.success(itemstack);
     }

@@ -15,6 +15,10 @@ public class AscensionCommonConfig {
     public final ModConfigSpec.IntValue REPAIR_INTERVAL;
     public final ModConfigSpec.IntValue REPAIR_AMOUNT;
 
+    // Starter Kit Config
+    public final ModConfigSpec.BooleanValue STARTER_KIT_ENABLED;
+    public final ModConfigSpec.ConfigValue<List<? extends String>> STARTER_KIT_ITEMS;
+
 
     public AscensionCommonConfig(ModConfigSpec.Builder builder) {
         builder.push("PillCauldron");
@@ -54,6 +58,29 @@ public class AscensionCommonConfig {
                 .comment("Amount of durability to Repair each interval [Default: 2]")
                 .defineInRange("repairAmount", 2, 1, Integer.MAX_VALUE);
         builder.pop();
+
+        // Starter Kit Section
+        builder.push("StarterKit");
+        builder.comment("Starter Kit settings for new players");
+
+        STARTER_KIT_ENABLED = builder
+                .comment("Enable starter kit for new players [Default: true]")
+                .define("enabled", true);
+
+        builder.comment(
+                "Starter kit items configuration",
+                "Format: [\"modid:item_id,amount,enabled\", \"modid:item_id,amount,enabled\"]",
+                "Example: [\"minecraft:stone_sword,1,true\", \"minecraft:bread,5,true\"]",
+                "Set enabled to false to disable specific items from the starter kit"
+        );
+        STARTER_KIT_ITEMS = builder.defineList("items",
+                () -> new ArrayList<>(Arrays.asList(
+                        "ascension:spatial_rupture_talisman_t1,1,true",
+                        "ascension:fasting_pill_t1,8,true"
+                )),
+                this::validateStarterKitEntry
+        );
+        builder.pop();
     }
 
     private boolean validateHeatItemEntry(Object entry) {
@@ -63,6 +90,21 @@ public class AscensionCommonConfig {
         if (parts.length != 2) return false;
         try {
             Integer.parseInt(parts[1].trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    // New validation method for starter kit entries
+    private boolean validateStarterKitEntry(Object entry) {
+        if (!(entry instanceof String)) return false;
+        String entryStr = (String) entry;
+        String[] parts = entryStr.split(",");
+        if (parts.length != 3) return false;
+        try {
+            Integer.parseInt(parts[1].trim());
+            Boolean.parseBoolean(parts[2].trim());
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -85,4 +127,26 @@ public class AscensionCommonConfig {
         }
         return heatItems;
     }
+
+    public List<StarterKitItem> getStarterKitItems() {
+        List<StarterKitItem> items = new ArrayList<>();
+        for (String entry : STARTER_KIT_ITEMS.get()) {
+            String[] parts = entry.split(",");
+            if (parts.length == 3) {
+                try {
+                    String itemId = parts[0].trim();
+                    int amount = Integer.parseInt(parts[1].trim());
+                    boolean enabled = Boolean.parseBoolean(parts[2].trim());
+                    if (enabled) {
+                        items.add(new StarterKitItem(itemId, amount));
+                    }
+                } catch (NumberFormatException e) {
+                    AscensionCraft.LOGGER.warn("Invalid starter kit entry: {}", entry);
+                }
+            }
+        }
+        return items;
+    }
+
+    public record StarterKitItem(String itemId, int amount) {}
 }

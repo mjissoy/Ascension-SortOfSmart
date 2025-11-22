@@ -43,6 +43,7 @@ public class AscensionCraftClient {
         ModActions.register(modEventBus);
         ModOverlays.register();
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+
     }
     
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
@@ -52,29 +53,31 @@ public class AscensionCraftClient {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
             event.register(ModMenuTypes.SR_CONTAINER.get(), SRScreen::new);
         }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ModParticles.CULTIVATION_PARTICLES.get(), CultivationParticles.Provider::new);
+        }
+
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
+
+            event.enqueueWork(() -> {
+                ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
+                        ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),
+                        (itemStack, clientLevel, livingEntity, seed) -> {
+                            int count = itemStack.getCount();
+                            if (count >= 32) return 3.0F;  // Large stack
+                            if (count >= 16) return 2.0F;  // Medium stack
+                            if (count >= 2) return 1.0F;   // Small stack
+                            return 0.0F;                   // Single item
+                        });
+            });
+        }
+
     }
 
-    @SubscribeEvent
-    public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.CULTIVATION_PARTICLES.get(), CultivationParticles.Provider::new);
-    }
-
-    @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
-
-        event.enqueueWork(() -> {
-            ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
-                    ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),
-                    (itemStack, clientLevel, livingEntity, seed) -> {
-                        int count = itemStack.getCount();
-                        if (count >= 32) return 3.0F;  // Large stack
-                        if (count >= 16) return 2.0F;  // Medium stack
-                        if (count >= 2) return 1.0F;   // Small stack
-                        return 0.0F;                   // Single item
-                    });
-        });
-    }
 
 
 }

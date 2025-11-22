@@ -337,6 +337,9 @@ public class lang extends LanguageProvider {
         add("item.ascension.spatial_rupture_talisman_t2", "Standard Spatial Rupture Talisman");
         add("item.ascension.spatial_rupture_talisman_t3", "Greater Spatial Rupture Talisman");
 
+        add("item.ascension.soulstead_return_talisman", "Soulstead Return Talisman");
+        add("item.ascension.world_axis_talisman", "World Axis Talisman");
+
 
 
         add("item.ascension.todh", "Tablet Of Destruction");

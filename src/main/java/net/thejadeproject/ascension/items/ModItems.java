@@ -115,6 +115,11 @@ public class ModItems {
     public static final DeferredItem<Item> SPATIAL_RUPTURE_TALISMAN_T3 = ITEMS.register("spatial_rupture_talisman_t3",
             () -> new SpatialRuptureTalismanT3(new Item.Properties()));
 
+    public static final DeferredItem<Item> SOULSTEAD_RETURN_TALISMAN = ITEMS.register("soulstead_return_talisman",
+            () -> new SoulsteadReturnTalisman(new Item.Properties()));
+    public static final DeferredItem<Item> WORLD_AXIS_TALISMAN = ITEMS.register("world_axis_talisman",
+            () -> new WorldAxisTalisman(new Item.Properties()));
+
 
     public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HUMAN = ITEMS.register("todh",
             () -> new TabletOfDestructionHuman(new Item.Properties()));
