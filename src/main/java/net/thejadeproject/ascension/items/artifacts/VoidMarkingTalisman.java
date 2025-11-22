@@ -119,6 +119,11 @@ public class VoidMarkingTalisman extends Item {
             setCooldown(player, COOLDOWN_TICKS);
             player.getCooldowns().addCooldown(this, 10);
 
+            // Consume 1 talisman on successful teleport (unless in creative mode)
+            if (!player.getAbilities().instabuild) {
+                itemstack.shrink(1);
+            }
+
             // Play arrival effects
             BlockPos newPos = serverPlayer.blockPosition();
             targetLevel.playSound(null, newPos, SoundEvents.ENDERMAN_TELEPORT,
