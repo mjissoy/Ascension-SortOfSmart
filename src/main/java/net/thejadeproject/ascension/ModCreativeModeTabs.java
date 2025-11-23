@@ -56,6 +56,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.DIAMOND_SPATIAL_RING);
                         output.accept(ModItems.NETHERITE_SPATIAL_RING);
                         output.accept(ModItems.JADE_SPATIAL_RING);
+                        output.accept(ModItems.FIRE_GOURD);
 
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T2);

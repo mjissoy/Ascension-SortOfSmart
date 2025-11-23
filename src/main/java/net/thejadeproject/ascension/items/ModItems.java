@@ -130,6 +130,9 @@ public class ModItems {
     public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HEAVEN = ITEMS.register("todhe",
             () -> new TabletOfDestructionHeaven(new Item.Properties()));
 
+    public static final DeferredItem<Item> FIRE_GOURD = ITEMS.register("fire_gourd",
+            () -> new FlameGourd(new Item.Properties()));
+
 
     public static final DeferredItem<Item> REPAIR_SLIP = ITEMS.register("repair_slip",
             () -> new RepairSlip(new Item.Properties()){
