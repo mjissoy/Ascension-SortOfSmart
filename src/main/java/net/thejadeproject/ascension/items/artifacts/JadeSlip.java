@@ -84,14 +84,10 @@ public class JadeSlip extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
 
+        // Only show tooltip if the item is linked
         if (isLinked(stack)) {
             String playerName = getPlayerName(stack);
             tooltip.add(Component.literal("Linked to: " + playerName).withStyle(ChatFormatting.YELLOW));
-            tooltip.add(Component.literal("Soul-Bound Artifact").withStyle(ChatFormatting.DARK_PURPLE));
-            tooltip.add(Component.literal("Permanently bound - Cannot be re-linked").withStyle(ChatFormatting.RED));
-        } else {
-            tooltip.add(Component.literal("Shift + Right-click to link").withStyle(ChatFormatting.YELLOW));
-            tooltip.add(Component.literal("Unbound Jade Slip").withStyle(ChatFormatting.AQUA));
         }
     }
 
