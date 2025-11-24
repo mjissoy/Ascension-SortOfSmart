@@ -14,7 +14,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -48,6 +47,20 @@ public class VoidMarkingTalisman extends Item {
     }
 
     @Override
+    public Component getName(ItemStack stack) {
+        CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+        if (customData != null) {
+            CompoundTag tag = customData.copyTag();
+            if (tag.contains("CooldownMinutes") && tag.contains("CooldownSeconds")) {
+                int minutes = tag.getInt("CooldownMinutes");
+                int seconds = tag.getInt("CooldownSeconds");
+                return Component.translatable("item.ascension.void_marking_talisman.cooldown", minutes, seconds);
+            }
+        }
+        return Component.translatable("item.ascension.void_marking_talisman");
+    }
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
@@ -61,7 +74,7 @@ public class VoidMarkingTalisman extends Item {
 
             saveLocation(itemstack, player.blockPosition(), level.dimension());
 
-            player.displayClientMessage(Component.literal("§aLocation saved!"), true);
+            player.displayClientMessage(Component.translatable("ascension.tooltip.location_saved"), true);
             level.playSound(null, player.blockPosition(), SoundEvents.ENDER_EYE_DEATH,
                     SoundSource.PLAYERS, 1.0F, 1.0F);
 
@@ -69,18 +82,12 @@ public class VoidMarkingTalisman extends Item {
         } else {
             // Teleport to saved location
             if (isOnCooldown(player)) {
-                if (!level.isClientSide) {
-                    int remainingTicks = getRemainingCooldownTicks(player);
-                    int remainingSeconds = (remainingTicks + 19) / 20; // Round up
-                    player.displayClientMessage(Component.literal(
-                            String.format("§cTalisman on cooldown! %d seconds remaining", remainingSeconds)), true);
-                }
                 return InteractionResultHolder.fail(itemstack);
             }
 
             if (!hasSavedLocation(itemstack)) {
                 if (!level.isClientSide) {
-                    player.displayClientMessage(Component.literal("§cNo location saved! Shift-right-click to save current position."), true);
+                    player.displayClientMessage(Component.translatable("ascension.tooltip.no_location_saved"), true);
                 }
                 return InteractionResultHolder.fail(itemstack);
             }
@@ -128,7 +135,7 @@ public class VoidMarkingTalisman extends Item {
         }
 
         // Initial countdown message
-        player.displayClientMessage(Component.literal("§eTeleporting in 5 seconds"), true);
+        player.displayClientMessage(Component.translatable("ascension.tooltip.teleporting_in_seconds", 5), true);
     }
 
     private void attemptTeleport(ServerPlayer player) {
@@ -137,7 +144,7 @@ public class VoidMarkingTalisman extends Item {
         // Get saved location data from component
         SavedLocationData locationData = getSavedLocation(player.getMainHandItem());
         if (locationData == null) {
-            player.displayClientMessage(Component.literal("§cFailed to read saved location!"), true);
+            player.displayClientMessage(Component.translatable("ascension.tooltip.failed_read_location"), true);
             clearCountdownData(player);
             return;
         }
@@ -147,7 +154,7 @@ public class VoidMarkingTalisman extends Item {
         ServerLevel targetLevel = currentLevel.getServer().getLevel(dimensionKey);
 
         if (targetLevel == null) {
-            player.displayClientMessage(Component.literal("§cCannot teleport to saved dimension!"), true);
+            player.displayClientMessage(Component.translatable("ascension.tooltip.cannot_teleport_dimension"), true);
             clearCountdownData(player);
             return;
         }
@@ -168,14 +175,14 @@ public class VoidMarkingTalisman extends Item {
                 newPos.getX() + 0.5, newPos.getY() + 1, newPos.getZ() + 0.5,
                 50, 0.5, 1, 0.5, 0.1);
 
-        player.displayClientMessage(Component.literal("§aTeleported to saved location!"), true);
+        player.displayClientMessage(Component.translatable("ascension.tooltip.teleported_to_saved"), true);
 
         // Clear countdown data
         clearCountdownData(player);
     }
 
     private void cancelTeleport(ServerPlayer player, String reason) {
-        player.displayClientMessage(Component.literal("§cTeleport cancelled: " + reason), true);
+        player.displayClientMessage(Component.translatable("ascension.tooltip.teleport_cancelled", reason), true);
         clearCountdownData(player);
     }
 
@@ -192,10 +199,12 @@ public class VoidMarkingTalisman extends Item {
 
         SavedLocationData locationData = getSavedLocation(stack);
         if (locationData != null) {
-            tooltip.add(Component.literal("§7Saved Location:"));
-            tooltip.add(Component.literal(String.format("§7X: %.1f, Y: %.1f, Z: %.1f",
-                    locationData.x, locationData.y, locationData.z)));
-            tooltip.add(Component.literal("§7Dimension: " + locationData.dimension));
+            tooltip.add(Component.translatable("ascension.tooltip.saved_location"));
+            tooltip.add(Component.translatable("ascension.tooltip.coordinates",
+                    String.format("%.1f", locationData.x),
+                    String.format("%.1f", locationData.y),
+                    String.format("%.1f", locationData.z)));
+            tooltip.add(Component.translatable("ascension.tooltip.dimension", locationData.dimension));
         }
     }
 
@@ -204,6 +213,38 @@ public class VoidMarkingTalisman extends Item {
         if (!level.isClientSide && entity instanceof ServerPlayer player) {
             updateCooldown(player);
 
+            // Update cooldown display on the item stack using new data component system
+            int remainingTicks = getRemainingCooldownTicks(player);
+            if (remainingTicks > 0) {
+                int remainingSeconds = remainingTicks / 20;
+                int minutes = remainingSeconds / 60;
+                int seconds = remainingSeconds % 60;
+
+                // Get existing custom data or create new
+                CompoundTag cooldownTag = new CompoundTag();
+                CustomData existingData = stack.get(DataComponents.CUSTOM_DATA);
+                if (existingData != null) {
+                    cooldownTag = existingData.copyTag();
+                }
+
+                cooldownTag.putInt("CooldownMinutes", minutes);
+                cooldownTag.putInt("CooldownSeconds", seconds);
+                stack.set(DataComponents.CUSTOM_DATA, CustomData.of(cooldownTag));
+            } else {
+                // Remove only cooldown data, keep saved location data
+                CustomData existingData = stack.get(DataComponents.CUSTOM_DATA);
+                if (existingData != null) {
+                    CompoundTag tag = existingData.copyTag();
+                    tag.remove("CooldownMinutes");
+                    tag.remove("CooldownSeconds");
+                    if (!tag.isEmpty()) {
+                        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+                    } else {
+                        stack.remove(DataComponents.CUSTOM_DATA);
+                    }
+                }
+            }
+
             // Handle countdown
             CompoundTag persistentData = player.getPersistentData();
             if (persistentData.contains(COUNTDOWN_TAG)) {
@@ -211,7 +252,9 @@ public class VoidMarkingTalisman extends Item {
 
                 // Check for cancellation conditions
                 if (hasPlayerMoved(player) || hasPlayerTakenDamage(player)) {
-                    String reason = hasPlayerTakenDamage(player) ? "damage taken" : "movement detected";
+                    String reason = hasPlayerTakenDamage(player) ?
+                            Component.translatable("ascension.tooltip.damage_taken").getString() :
+                            Component.translatable("ascension.tooltip.movement_detected").getString();
                     cancelTeleport(player, reason);
                     return;
                 }
@@ -223,8 +266,7 @@ public class VoidMarkingTalisman extends Item {
                     // Update countdown message every second
                     if (countdown % 20 == 0) {
                         int seconds = countdown / 20;
-                        player.displayClientMessage(Component.literal(
-                                String.format("§eTeleporting in %d seconds", seconds)), true);
+                        player.displayClientMessage(Component.translatable("ascension.tooltip.teleporting_in_seconds", seconds), true);
                     }
 
                     if (countdown == 0) {
@@ -233,7 +275,6 @@ public class VoidMarkingTalisman extends Item {
                 }
             }
 
-            int remainingTicks = getRemainingCooldownTicks(player);
             if (remainingTicks > 0) {
                 player.getCooldowns().addCooldown(this, Math.min(remainingTicks, 200));
             } else if (player.getCooldowns().isOnCooldown(this)) {

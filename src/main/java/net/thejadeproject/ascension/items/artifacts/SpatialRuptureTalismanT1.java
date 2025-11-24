@@ -1,8 +1,10 @@
 package net.thejadeproject.ascension.items.artifacts;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -14,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.thejadeproject.ascension.events.api.SpatialRuptureAPI;
 
@@ -34,18 +37,24 @@ public class SpatialRuptureTalismanT1 extends Item {
     }
 
     @Override
+    public Component getName(ItemStack stack) {
+        CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+        if (customData != null) {
+            CompoundTag tag = customData.copyTag();
+            if (tag.contains("CooldownMinutes") && tag.contains("CooldownSeconds")) {
+                int minutes = tag.getInt("CooldownMinutes");
+                int seconds = tag.getInt("CooldownSeconds");
+                return Component.translatable("item.ascension.spatial_rupture_talisman_t1.cooldown", minutes, seconds);
+            }
+        }
+        return Component.translatable("item.ascension.spatial_rupture_talisman_t1");
+    }
+
+    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (isOnGlobalCooldown(player)) {
-            if (!level.isClientSide) {
-                int remainingTicks = getRemainingGlobalCooldownTicks(player);
-                int remainingSeconds = remainingTicks / 20;
-                int minutes = remainingSeconds / 60;
-                int seconds = remainingSeconds % 60;
-                player.displayClientMessage(net.minecraft.network.chat.Component.literal(
-                        String.format("§cTalisman on cooldown! %d:%02d remaining", minutes, seconds)), true);
-            }
             return InteractionResultHolder.fail(itemstack);
         }
 
@@ -86,6 +95,9 @@ public class SpatialRuptureTalismanT1 extends Item {
         if (!player.getAbilities().instabuild) {
             itemstack.shrink(1);
         }
+
+        // Initial countdown message
+        player.displayClientMessage(Component.translatable("ascension.tooltip.teleporting_in_seconds", 5), true);
     }
 
     private void attemptTeleport(ServerPlayer player) {
@@ -109,10 +121,10 @@ public class SpatialRuptureTalismanT1 extends Item {
                             playerPos.getX() + 0.5, playerPos.getY() + 1, playerPos.getZ() + 0.5,
                             50, 0.5, 1, 0.5, 0.1);
 
-                    player.displayClientMessage(net.minecraft.network.chat.Component.literal("§aTeleported to a random location!"), true);
+                    player.displayClientMessage(Component.translatable("ascension.tooltip.teleported_to_location"), true);
                 } else {
                     // Teleportation failed
-                    player.displayClientMessage(net.minecraft.network.chat.Component.literal("§cNo safe teleport location found!"), true);
+                    player.displayClientMessage(Component.translatable("ascension.tooltip.no_safe_location"), true);
                 }
 
                 // Clear countdown data
@@ -122,7 +134,7 @@ public class SpatialRuptureTalismanT1 extends Item {
     }
 
     private void cancelTeleport(ServerPlayer player, String reason) {
-        player.displayClientMessage(net.minecraft.network.chat.Component.literal("§cTeleport cancelled: " + reason), true);
+        player.displayClientMessage(Component.translatable("ascension.tooltip.teleport_cancelled", reason), true);
         clearCountdownData(player);
 
         // Item was already consumed in startCountdown
@@ -139,6 +151,22 @@ public class SpatialRuptureTalismanT1 extends Item {
         if (!level.isClientSide && entity instanceof ServerPlayer player) {
             updateGlobalCooldown(player);
 
+            // Update cooldown display on the item stack using new data component system
+            int remainingTicks = getRemainingGlobalCooldownTicks(player);
+            if (remainingTicks > 0) {
+                int remainingSeconds = remainingTicks / 20;
+                int minutes = remainingSeconds / 60;
+                int seconds = remainingSeconds % 60;
+
+                CompoundTag cooldownTag = new CompoundTag();
+                cooldownTag.putInt("CooldownMinutes", minutes);
+                cooldownTag.putInt("CooldownSeconds", seconds);
+                stack.set(DataComponents.CUSTOM_DATA, CustomData.of(cooldownTag));
+            } else {
+                // Remove cooldown data when cooldown is over
+                stack.remove(DataComponents.CUSTOM_DATA);
+            }
+
             // Handle countdown
             CompoundTag persistentData = player.getPersistentData();
             if (persistentData.contains(COUNTDOWN_TAG)) {
@@ -146,7 +174,9 @@ public class SpatialRuptureTalismanT1 extends Item {
 
                 // Check for cancellation conditions
                 if (hasPlayerMoved(player) || hasPlayerTakenDamage(player)) {
-                    String reason = hasPlayerTakenDamage(player) ? "damage taken" : "movement detected";
+                    String reason = hasPlayerTakenDamage(player) ?
+                            Component.translatable("ascension.tooltip.damage_taken").getString() :
+                            Component.translatable("ascension.tooltip.movement_detected").getString();
                     cancelTeleport(player, reason);
                     return;
                 }
@@ -158,8 +188,7 @@ public class SpatialRuptureTalismanT1 extends Item {
                     // Update countdown message every second
                     if (countdown % 20 == 0) {
                         int seconds = countdown / 20;
-                        player.displayClientMessage(net.minecraft.network.chat.Component.literal(
-                                String.format("§eTeleporting in %d seconds", seconds)), true);
+                        player.displayClientMessage(Component.translatable("ascension.tooltip.teleporting_in_seconds", seconds), true);
                     }
 
                     if (countdown == 0) {
@@ -168,7 +197,6 @@ public class SpatialRuptureTalismanT1 extends Item {
                 }
             }
 
-            int remainingTicks = getRemainingGlobalCooldownTicks(player);
             if (remainingTicks > 0) {
                 player.getCooldowns().addCooldown(this, Math.min(remainingTicks, 200));
             } else if (player.getCooldowns().isOnCooldown(this)) {
@@ -219,11 +247,8 @@ public class SpatialRuptureTalismanT1 extends Item {
 
     @Override
     public boolean isFoil(ItemStack stack) {
-        return !isItemOnCooldown(stack) && super.isFoil(stack);
-    }
-
-    private boolean isItemOnCooldown(ItemStack stack) {
-        return false;
+        // Remove the cooldown check from foil effect
+        return super.isFoil(stack);
     }
 
     private boolean isOnGlobalCooldown(Player player) {

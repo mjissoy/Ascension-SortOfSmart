@@ -73,16 +73,72 @@ public class lang extends LanguageProvider {
         add("item.ascension.cleansing_pill_t3", "Cleansing Pill");
         add("item.ascension.cleansing_pill_t4", "Cleansing Pill");
 
+
+
+        //Tooltips
+        add("ascension.tooltip.waste", "Waste");
+        add("ascension.tooltip.medicinal", "Medicinal");
+        add("ascension.tooltip.cultivation", "Cultivation");
+        add("ascension.tooltip.poisonous", "Poisonous");
+        add("ascension.tooltip.srtt1", "2.5k x 2.5k Range │ 60 min cooldown");
+        add("ascension.tooltip.srtt2", "5k x 5k Range │ 40 min cooldown");
+        add("ascension.tooltip.srtt3", "7.5k x 7.5k Range │ 20 min cooldown");
+        add("ascension.tooltip.srt", "5 min cooldown");
+        add("ascension.tooltip.wat", "5 min cooldown");
+        add("ascension.tooltip.vmt", "30 sec cooldown");
+        add("ascension.tooltip.qdppill", "Qi Devouring Parasite Antidote");
+        add("item.ascension.soulstead_return_talisman.cooldown", "Soulstead Return Talisman §7(%dm %ds)");
+        add("item.ascension.void_marking_talisman.cooldown", "Void Marking Talisman §7(%dm %ds)");
+        add("item.ascension.world_axis_talisman.cooldown", "World Axis Talisman §7(%dm %ds)");
+        add("ascension.tooltip.teleporting_in_seconds", "§eTeleporting in %d seconds");
+        add("ascension.tooltip.teleported_to_spawn", "§aTeleported to your spawn point!");
+        add("ascension.tooltip.teleported_to_world_spawn", "§aTeleported to world spawn!");
+        add("ascension.tooltip.teleported_to_saved", "§aTeleported to saved location!");
+        add("ascension.tooltip.teleported_to_location", "§aTeleported to a random location!");
+        add("ascension.tooltip.teleport_cancelled", "§cTeleport cancelled: %s");
+        add("ascension.tooltip.damage_taken", "damage taken");
+        add("ascension.tooltip.movement_detected", "movement detected");
+        add("ascension.tooltip.location_saved", "§aLocation saved!");
+        add("ascension.tooltip.no_location_saved", "§cNo location saved! Shift-right-click to save current position.");
+        add("ascension.tooltip.failed_read_location", "§cFailed to read saved location!");
+        add("ascension.tooltip.cannot_teleport_dimension", "§cCannot teleport to saved dimension!");
+        add("ascension.tooltip.no_safe_location", "§cNo safe teleport location found!");
+        add("ascension.tooltip.saved_location", "§7Saved Location:");
+        add("ascension.tooltip.coordinates", "§7X: %s, Y: %s, Z: %s");
+        add("ascension.tooltip.dimension", "§7Dimension: %s");
+        add("item.ascension.spatial_rupture_talisman_t1.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
+        add("item.ascension.spatial_rupture_talisman_t2.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
+        add("item.ascension.spatial_rupture_talisman_t3.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
+        add("item.ascension.tablet_of_destruction_human.cooldown", "Ability is on cooldown!");
+        add("item.ascension.tablet_of_destruction_heaven.cooldown", "Item is on cooldown!");
+        add("item.ascension.tablet_of_destruction_heaven.drop_blocks", "Drop Blocks = ");
+        add("item.ascension.tablet_of_destruction_heaven.toggle_mode", "Press 'M' to toggle mode");
+        add("item.ascension.tablet_of_destruction_heaven.link_instruction", "Shift+Right-Click chest/barrel to link");
+        add("item.ascension.tablet_of_destruction_heaven.unlinked", "Unlinked from chest or barrel.");
+        add("item.ascension.tablet_of_destruction_heaven.linked", "Linked to %s at (%d, %d, %d)");
+        add("item.ascension.tablet_of_destruction_heaven.linked_tooltip", "Linked to %s at %s");
+        add("item.ascension.tablet_of_destruction_heaven.chest", "chest");
+        add("item.ascension.tablet_of_destruction_heaven.barrel", "barrel");
+        add("item.ascension.tablet_of_destruction_heaven.container", "container");
+        add("ascension.tooltip.tablet.coordinates", "§7X: %s, Y: %s, Z: %s");
+        add("item.ascension.jade_slip.already_linked", "This Jade Slip is already linked to %s and cannot be re-linked!");
+        add("item.ascension.jade_slip.linked", "Jade Slip linked to %s");
+        add("item.ascension.jade_slip.tooltip.linked", "Linked to: %s");
+
+
         //Poison Pills
         add("item.ascension.qi_devouring_parasite_pill", "Qi Devouring Parasite Pill");
 
         //manuals
-        add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");
-        add("item.ascension.pure_water_technique","Pure Water Technique Manual");
-        add("item.ascension.pure_sword_intent","Pure Sword Intent Manual");
-        add("item.ascension.pure_fist_intent","Pure Fist Intent Manual");
-        add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique Manual");
-        add("item.ascension.void_swallowing_technique","Void Swallowing Technique Manual");
+        add("item.ascension.pure_fire_technique","Pure Fire Technique");
+        add("item.ascension.pure_water_technique","Pure Water Technique");
+        add("item.ascension.pure_sword_intent","Pure Sword Intent Technique");
+        add("item.ascension.pure_fist_intent","Pure Fist Intent Technique");
+        add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique");
+        add("item.ascension.void_swallowing_technique","Void Swallowing Technique");
+
+
+        add("ascension.learnt_technique","You have learned the %s");
 
 
         //Herbs
