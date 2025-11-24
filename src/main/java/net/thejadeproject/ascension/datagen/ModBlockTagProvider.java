@@ -355,5 +355,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(ModTags.Blocks.STORAGE_BLOCKS_FROST_SILVER)
                 .add(ModBlocks.FROST_SILVER_BLOCK.get());
+
     }
 }

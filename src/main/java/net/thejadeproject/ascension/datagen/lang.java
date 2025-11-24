@@ -25,12 +25,11 @@ public class lang extends LanguageProvider {
 
         //Items
         add("item.ascension.jade_slip", "Jade Slip");
-        add("tooltip.ascension.jade_slip", "Sect Identification");
 
         //Tools and Swords and Armor
-        add("item.ascension.jade_blade", "Jade Serpent's Fang");
+        add("item.ascension.jade_blade", "Jade Blade");
         add("item.ascension.searing_blade", "Fang of the Phoenix");
-        add("item.ascension.jade_spear", "Sting of the Jade Serpent");
+        add("item.ascension.jade_spear", "Jade Spear");
 
 
         //Misc
@@ -332,33 +331,19 @@ public class lang extends LanguageProvider {
         add("item.ascension.netherite_spatial_ring", "Netherite Spatial Ring");
         add("item.ascension.jade_spatial_ring", "Jade Spatial Ring");
         add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
-
         add("item.ascension.fire_gourd", "Gourd O Fire");
-
         add("item.ascension.spatial_rupture_talisman_t1", "Lesser Spatial Rupture Talisman");
         add("item.ascension.spatial_rupture_talisman_t2", "Standard Spatial Rupture Talisman");
         add("item.ascension.spatial_rupture_talisman_t3", "Greater Spatial Rupture Talisman");
-
         add("item.ascension.soulstead_return_talisman", "Soulstead Return Talisman");
         add("item.ascension.world_axis_talisman", "World Axis Talisman");
         add("item.ascension.void_marking_talisman", "Void-Marking Talisman");
-
-
-
         add("item.ascension.todh", "Tablet Of Destruction");
         add("item.ascension.tode", "Tablet Of Destruction");
         add("item.ascension.todhe", "Tablet Of Destruction");
-
         add("item.ascension.repair_slip", "Repair Slip");
-        add("tooltip.ascension.repair_slip.shift_down1", "§3Repairs items in your inventory");
-        add("tooltip.ascension.repair_slip.shift_down2", "§3Every 100 Ticks it repairs items by 2 durability");
-        add("tooltip.ascension.repair_slip", "§8Hold [§7Shift§8] for summary");
-
         add("item.ascension.ender_pouch_gui", "Ender Pouch");
         add("item.ascension.ender_pouch", "Ender Pouch");
-        add("tooltip.ascension.ender_pouch.shift_down1", "§2The Ender Pouch");
-        add("tooltip.ascension.ender_pouch.shift_down2", "§aIs linked to your own Ender Chest");
-        add("tooltip.ascension.ender_pouch", "§8Hold [§7Shift§8] for summary");
 
 
         //Crafting Ingredient

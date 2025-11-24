@@ -79,24 +79,7 @@ public class ModItems {
     //Artifacts
 
     public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
-            () -> new JadeSlip(new Item.Properties().stacksTo(1)){
-                private float time = 0;
-                @Override
-                public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-                    if (context.level() != null && context.level().isClientSide()) {
-                        String text = Component.translatable("tooltip.ascension.jade_slip").getString();
-                        time += 0.001f;
-                        if (time > 1.0f) time = 0;
-                        tooltipComponents.add(ToolTipsGradient.RGBEachLetter(time, text, 0.01f));
-                    } else {
-                        tooltipComponents.add(Component.translatable("tooltip.ascension.jade_slip"));
-                    }
-                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-                }
-            });
-
-
-
+            () -> new JadeSlip(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> IRON_SPATIAL_RING = ITEMS.register("iron_spatial_ring",
             () -> new SpatialRingItem("iron_spatial_ring", SpatialRing.IRON));
@@ -135,34 +118,10 @@ public class ModItems {
     public static final DeferredItem<Item> FIRE_GOURD = ITEMS.register("fire_gourd",
             () -> new FlameGourd(new Item.Properties()));
 
-
     public static final DeferredItem<Item> REPAIR_SLIP = ITEMS.register("repair_slip",
-            () -> new RepairSlip(new Item.Properties()){
-                @Override
-                public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-                    if(Screen.hasShiftDown()) {
-                        tooltipComponents.add(Component.translatable("tooltip.ascension.repair_slip.shift_down1"));
-                        tooltipComponents.add(Component.translatable("tooltip.ascension.repair_slip.shift_down2"));
-                    } else {
-                        tooltipComponents.add(Component.translatable("tooltip.ascension.repair_slip"));
-                    }
-                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-                }
-            });
-
+            () -> new RepairSlip(new Item.Properties()));
     public static final DeferredItem<Item> ENDER_POUCH = ITEMS.register("ender_pouch",
-            () -> new EnderPouch(new Item.Properties()){
-                @Override
-                public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-                    if(Screen.hasShiftDown()) {
-                        tooltipComponents.add(Component.translatable("tooltip.ascension.ender_pouch.shift_down1"));
-                        tooltipComponents.add(Component.translatable("tooltip.ascension.ender_pouch.shift_down2"));
-                    } else {
-                        tooltipComponents.add(Component.translatable("tooltip.ascension.ender_pouch"));
-                    }
-                    super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-                }
-            });
+            () -> new EnderPouch(new Item.Properties()));
 
 
     //NotUsedStuff

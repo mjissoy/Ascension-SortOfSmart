@@ -10,10 +10,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.util.ModTags;
 
 import java.util.List;
 import java.util.Map;
@@ -30,13 +32,194 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     protected void buildRecipes(RecipeOutput recipeOutput) {
 
 
+
+
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SOULSTEAD_RETURN_TALISMAN.get())
+                .pattern("DED")
+                .pattern("ETE")
+                .pattern("DED")
+                .define('T', ModItems.TALISMAN_PAPER.get())
+                .define('E', Items.ENDER_PEARL)
+                .define('D', Items.WHITE_BED)
+                .unlockedBy("has_talisman_paper", has(ModItems.TALISMAN_PAPER)).save(recipeOutput, "ascension:shaped/soulstead_return_talisman");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.WORLD_AXIS_TALISMAN.get())
+                .pattern("DED")
+                .pattern("ETE")
+                .pattern("DED")
+                .define('T', ModItems.TALISMAN_PAPER.get())
+                .define('E', Items.ENDER_PEARL)
+                .define('D', Items.FEATHER)
+                .unlockedBy("has_talisman_paper", has(ModItems.TALISMAN_PAPER)).save(recipeOutput, "ascension:shaped/world_axis_talisman");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.VOID_MARKING_TALISMAN.get())
+                .pattern("DED")
+                .pattern("ETE")
+                .pattern("DED")
+                .define('T', ModItems.SPATIAL_RUPTURE_TALISMAN_T3.get())
+                .define('E', Items.REDSTONE_TORCH)
+                .define('D', Items.FEATHER)
+                .unlockedBy("has_talisman_paper", has(ModItems.TALISMAN_PAPER)).save(recipeOutput, "ascension:shaped/void_marking_talisman");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get())
+                .pattern("DED")
+                .pattern("ETE")
+                .pattern("DED")
+                .define('T', ModItems.TALISMAN_PAPER.get())
+                .define('D', Items.ENDER_PEARL)
+                .define('E', Items.ENDER_EYE)
+                .unlockedBy("has_talisman_paper", has(ModItems.TALISMAN_PAPER)).save(recipeOutput, "ascension:shaped/spatial_rupture_talisman_t1");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPATIAL_RUPTURE_TALISMAN_T2.get())
+                .pattern("DED")
+                .pattern("ETE")
+                .pattern("DED")
+                .define('T', ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get())
+                .define('D', Items.ENDER_PEARL)
+                .define('E', Items.ENDER_EYE)
+                .unlockedBy("has_spatial_rupture_talisman_t1", has(ModItems.SPATIAL_RUPTURE_TALISMAN_T1)).save(recipeOutput, "ascension:shaped/spatial_rupture_talisman_t2");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPATIAL_RUPTURE_TALISMAN_T3.get())
+                .pattern("DED")
+                .pattern("ETE")
+                .pattern("DED")
+                .define('T', ModItems.SPATIAL_RUPTURE_TALISMAN_T2.get())
+                .define('D', Items.ENDER_PEARL)
+                .define('E', Items.ENDER_EYE)
+                .unlockedBy("has_spatial_rupture_talisman_t2", has(ModItems.SPATIAL_RUPTURE_TALISMAN_T2)).save(recipeOutput, "ascension:shaped/spatial_rupture_talisman_t3");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FIRE_GOURD.get())
+                .pattern("   ")
+                .pattern("MFM")
+                .pattern(" M ")
+                .define('F', ModItems.HUNDRED_YEAR_FIRE_GINSENG.get())
+                .define('M', ModBlocks.RAW_MARBLE.get())
+                .unlockedBy("has_marble", has(ModBlocks.RAW_MARBLE)).save(recipeOutput, "ascension:shaped/fire_gourd");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.IRON_SPATIAL_RING.get())
+                .pattern("FIF")
+                .pattern("BCB")
+                .pattern("FBF")
+                .define('I', Items.IRON_INGOT)
+                .define('C', Blocks.CHEST)
+                .define('F', ModItems.FROST_SILVER_INGOT.get())
+                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shaped/iron_spatial_ring");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.GOLD_SPATIAL_RING.get())
+                .pattern("GGG")
+                .pattern("GSG")
+                .pattern("GGG")
+                .define('G', Items.GOLD_INGOT)
+                .define('S', ModItems.IRON_SPATIAL_RING.get())
+                .unlockedBy("has_iron_spatial_ring", has(ModItems.IRON_SPATIAL_RING)).save(recipeOutput, "ascension:shaped/gold_spatial_ring");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIAMOND_SPATIAL_RING.get())
+                .pattern("DDD")
+                .pattern("DSD")
+                .pattern("DDD")
+                .define('D', Items.DIAMOND)
+                .define('S', ModItems.GOLD_SPATIAL_RING.get())
+                .unlockedBy("has_gold_spatial_ring", has(ModItems.GOLD_SPATIAL_RING)).save(recipeOutput, "ascension:shaped/diamond_spatial_ring");
+
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPATIAL_RING.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPATIAL_RING.get()).unlocks("has_netherite_ingot", has(Items.NETHERITE_INGOT)).save(recipeOutput, "netherite_spatial_ring_smithing");
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SPATIAL_RING.get())
+                .pattern("DDD")
+                .pattern("DSD")
+                .pattern("DDD")
+                .define('D', ModItems.JADE.get())
+                .define('S', ModItems.NETHERITE_SPATIAL_RING.get())
+                .unlockedBy("has_netherite_spatial_ring", has(ModItems.NETHERITE_SPATIAL_RING)).save(recipeOutput, "ascension:shaped/jade_spatial_ring");
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), 2)
+                .pattern("GBG")
+                .pattern("BGB")
+                .pattern("GBG")
+                .define('G', Items.GUNPOWDER)
+                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .unlockedBy("has_gunpowder", has(Items.GUNPOWDER)).save(recipeOutput, "ascension:shaped/tablet_of_destruction_human");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_EARTH.get(), 2)
+                .pattern("TTT")
+                .pattern("THT")
+                .pattern("TTT")
+                .define('T', Blocks.TNT)
+                .define('H', ModItems.TABLET_OF_DESTRUCTION_HUMAN.get())
+                .unlockedBy("has_tablet_of_destruction_human", has(ModItems.TABLET_OF_DESTRUCTION_HUMAN)).save(recipeOutput, "ascension:shaped/tablet_of_destruction_earth");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get(), 2)
+                .pattern("TTT")
+                .pattern("THT")
+                .pattern("TTT")
+                .define('T', Blocks.TNT)
+                .define('H', ModItems.TABLET_OF_DESTRUCTION_EARTH.get())
+                .unlockedBy("has_tablet_of_destruction_eart", has(ModItems.TABLET_OF_DESTRUCTION_EARTH)).save(recipeOutput, "ascension:shaped/tablet_of_destruction_heaven");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ENDER_POUCH.get())
+                .pattern("LJL")
+                .pattern("LEL")
+                .pattern("LLL")
+                .define('E', Items.ENDER_CHEST)
+                .define('L', Items.LEATHER)
+                .define('J', ModItems.JADE.get())
+                .unlockedBy("has_ender_chest", has(Items.ENDER_CHEST)).save(recipeOutput, "ascension:shaped/ender_pouch");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SLIP.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', ModItems.JADE.get())
+                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.REPAIR_SLIP.get())
+                .pattern(" SS")
+                .pattern("BB ")
+                .pattern("BB ")
+                .define('S', Items.STRING)
+                .define('B', ModItems.BLACK_IRON_NUGGET.get())
+                .unlockedBy("has_black_iron_nugget", has(ModItems.REPAIR_SLIP)).save(recipeOutput, "ascension:shaped/repair_slip");
+
+
+
+
+
+
+
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TALISMAN_PAPER.get(), 6)
+                .pattern("   ")
+                .pattern("SPS")
+                .pattern("   ")
+                .define('S', Items.SUGAR_CANE)
+                .define('P', ModItems.JADE_BAMBOO_OF_SERENITY.get())
+                .unlockedBy("has_jade_bamboo_of_serenity", has(ModItems.JADE_BAMBOO_OF_SERENITY)).save(recipeOutput, "ascension:shaped/talisman_paper");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_BLADE.get())
+                .pattern("JJ ")
+                .pattern(" J ")
+                .pattern(" S ")
+                .define('J', ModItems.JADE.get())
+                .define('S', Items.STICK)
+                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_blade");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SEARING_BLADE.get())
+                .pattern("CN ")
+                .pattern(" N ")
+                .pattern(" S ")
+                .define('C', ModItems.CRIMSON_LOTUS_FLAME.get())
+                .define('N', Items.NETHERITE_INGOT)
+                .define('S', Items.STICK)
+                .unlockedBy("has_crimson_lotus_flame", has(ModItems.CRIMSON_LOTUS_FLAME)).save(recipeOutput, "ascension:shaped/searing_blade");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SPEAR.get())
+                .pattern("  J")
+                .pattern(" J ")
+                .pattern("S  ")
+                .define('J', ModItems.JADE.get())
+                .define('S', Items.STICK)
+                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_spear");
+
+
+
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.SPIRITUAL_STONE_BLOCK.get())
                 .pattern("JJJ")
                 .pattern("JJJ")
                 .pattern("JJJ")
                 .define('J', ModItems.SPIRITUAL_STONE.get())
                 .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/ssb_from_spiritual_stone");
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.JADE_BLOCK.get())
                 .pattern("JJJ")
                 .pattern("JJJ")
@@ -386,6 +569,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     }
 
+
+
     protected static void oreSmelting(RecipeOutput recipeOutput, Item pIngredient, RecipeCategory pCategory, ItemLike pResult,
                                       float pExperience, int pCookingTime, String pGroup) {
         oreCooking(recipeOutput, RecipeSerializer.SMELTING_RECIPE, SmeltingRecipe::new, List.of(pIngredient), pCategory, pResult,
@@ -397,6 +582,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         oreCooking(recipeOutput, RecipeSerializer.BLASTING_RECIPE, BlastingRecipe::new, List.of(pIngredient), pCategory, pResult,
                 pExperience, pCookingTime, pGroup, "_from_blasting");
     }
+
 
     protected static <T extends AbstractCookingRecipe> void oreCooking(RecipeOutput recipeOutput, RecipeSerializer<T> pCookingSerializer, AbstractCookingRecipe.Factory<T> factory,
                                                                        List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup, String pRecipeName) {

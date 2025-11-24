@@ -106,11 +106,7 @@ public class SpatialRingItem extends Item {
                 data.upgrade(itemTier);
                 playerIn.sendSystemMessage(Component.literal("Backpack upgraded to " + itemTier.name));
             }
-
-            if (playerIn.isShiftKeyDown()) {
-                // Shift+Right Click: Toggle auto-pickup
-                togglePickup(playerIn, spatialring);
-            } else {
+             else {
                 // Regular Right Click: Open inventory
                 playerIn.openMenu(new SimpleMenuProvider(
                                 (windowId, playerInventory, playerEntity) -> new SRContainer(windowId, playerInventory, uuid, data.getTier(), data.getHandler()),
@@ -120,76 +116,5 @@ public class SpatialRingItem extends Item {
             }
         }
         return InteractionResultHolder.success(playerIn.getItemInHand(handIn));
-    }
-
-    public static void togglePickup(Player playerEntity, ItemStack stack) {
-        boolean Pickup = !stack.getOrDefault(AscensionCraft.SPATIALRING_PICKUP, false);
-
-        stack.set(AscensionCraft.SPATIALRING_PICKUP, Pickup);
-        if (playerEntity instanceof ServerPlayer serverPlayer)
-            serverPlayer.displayClientMessage(Component.translatable(Pickup?"ascension.autopickupenabled":"ascension.autopickupdisabled"), true);
-        else
-            playerEntity.displayClientMessage(Component.translatable(Pickup?"ascension.autopickupenabled":"ascension.autopickupdisabled"), true);
-
-    }
-
-    @SubscribeEvent
-    public static void onItemPickup(ItemEntityPickupEvent.Pre event) {
-        Player player = event.getPlayer();
-
-        // Check all spatial rings in inventory for auto-pickup
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack stack = player.getInventory().getItem(i);
-            if (stack.getItem() instanceof SpatialRingItem && stack.getOrDefault(AscensionCraft.SPATIALRING_PICKUP, false)) {
-                if (pickupEvent(event, stack)) {
-                    // If item was fully picked up, we're done
-                    return;
-                }
-            }
-        }
-
-        // Also check curios if available
-        if (SpatialRingUtils.curiosLoaded) {
-            var curiosInv = CuriosApi.getCuriosInventory(player);
-            if (curiosInv.isPresent()) {
-                curiosInv.get().findCurios(SpatialRingItem::isSpatialring).forEach(slot -> {
-                    ItemStack stack = slot.stack();
-                    if (stack.getOrDefault(AscensionCraft.SPATIALRING_PICKUP, false)) {
-                        pickupEvent(event, stack);
-                    }
-                });
-            }
-        }
-    }
-
-
-    public static boolean pickupEvent(ItemEntityPickupEvent.Pre event, ItemStack stack) {
-        if (!stack.getOrDefault(AscensionCraft.SPATIALRING_PICKUP, false))
-            return false;
-
-        Optional<IItemHandler> optional = Optional.ofNullable(stack.getCapability(Capabilities.ItemHandler.ITEM));
-        if (optional.isPresent()) {
-            IItemHandler handler = optional.get();
-
-            if (!(handler instanceof ASCItemHandler))
-                return false;
-
-            ItemStack pickedUp = event.getItemEntity().getItem();
-            for (int i = 0; i < handler.getSlots(); i++) {
-                ItemStack slot = handler.getStackInSlot(i);
-                if (slot.isEmpty() || (ItemStack.isSameItemSameComponents(slot, pickedUp) && slot.getCount() < slot.getMaxStackSize() && slot.getCount() < handler.getSlotLimit(i))) {
-                    int remainder = handler.insertItem(i, pickedUp.copy(), false).getCount();
-                    pickedUp.setCount(remainder);
-                    if (remainder == 0)
-                        break;
-                }
-            }
-            if (pickedUp.isEmpty())
-                event.getPlayer().level().playSound(null, event.getPlayer().blockPosition(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, ((random.nextFloat() - random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-
-            return pickedUp.isEmpty();
-        }
-        else
-            return false;
     }
 }

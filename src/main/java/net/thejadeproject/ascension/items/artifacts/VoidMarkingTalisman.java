@@ -44,7 +44,7 @@ public class VoidMarkingTalisman extends Item {
     private static final String INITIAL_HEALTH_TAG = "VoidMarkingInitialHealth";
 
     public VoidMarkingTalisman(Properties properties) {
-        super(properties.stacksTo(16).rarity(Rarity.UNCOMMON));
+        super(properties.stacksTo(16).rarity(Rarity.RARE));
     }
 
     @Override

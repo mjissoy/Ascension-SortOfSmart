@@ -66,6 +66,7 @@ public class ModTags {
 
 
 
+
         private static TagKey<Block> createCommonTag(String path) {
             return BlockTags.create(ResourceLocation.fromNamespaceAndPath("c", path));
         }

@@ -99,7 +99,6 @@ public class AscensionCraft {
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> COPYRECIPE = RECIPES.register("spatialring_upgrade", CopySpatialringDataRecipe.Serializer::new);
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MOD_ID);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> SPATIALRING_UUID = COMPONENTS.register("spatialring_uuid", () -> DataComponentType.<UUID>builder().persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).build());
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> SPATIALRING_PICKUP = COMPONENTS.register("spatialring_pickup", () -> DataComponentType.<Boolean>builder().persistent(Codec.BOOL).networkSynchronized(ByteBufCodecs.BOOL).build());
 
     public void register(IEventBus modEventBus){
         COMPONENTS.register(modEventBus);

@@ -15,11 +15,6 @@ public class ToolTipManager {
 
         // Tooltip with custom formatting
 
-        //Items
-        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_EARTH.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
-
 
         //Medicinal Pills
         ToolTipHandler.registerTooltip(ModItems.PILL_RESIDUE.get(), Component.literal("Waste").withStyle(ChatFormatting.DARK_RED), Component.literal("☆☆☆☆☆").withStyle(ChatFormatting.YELLOW));
@@ -57,11 +52,33 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.HUNDRED_YEAR_GINSENG.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
 
+        //Fires
+        ToolTipHandler.registerTooltip(ModItems.CRIMSON_LOTUS_FLAME.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.RED));
+
 
         //Artifacts
         ToolTipHandler.registerTooltip(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get(), Component.literal("2.5k x 2.5k Range │ 60 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.SPATIAL_RUPTURE_TALISMAN_T2.get(), Component.literal("5k x 5k Range │ 40 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.DARK_RED));
         ToolTipHandler.registerTooltip(ModItems.SPATIAL_RUPTURE_TALISMAN_T3.get(), Component.literal("7.5k x 7.5k Range │ 20 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★★☆☆☆").withStyle(ChatFormatting.DARK_RED));
+        ToolTipHandler.registerTooltip(ModItems.SOULSTEAD_RETURN_TALISMAN.get(), Component.literal("5 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.WORLD_AXIS_TALISMAN.get(), Component.literal("5 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.VOID_MARKING_TALISMAN.get(), Component.literal("5 min cooldown").withStyle(ChatFormatting.GOLD), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.RED));
+
+        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_EARTH.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.REPAIR_SLIP.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.ENDER_POUCH.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.FIRE_GOURD.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.RED));
+
+        ToolTipHandler.registerTooltip(ModItems.JADE_SLIP.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerAnimatedTooltip(ModItems.JADE_SLIP.get(), "Sect Identification", 0.001f);
+
+        ToolTipHandler.registerTooltip(ModItems.IRON_SPATIAL_RING.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.RED));
+        ToolTipHandler.registerTooltip(ModItems.GOLD_SPATIAL_RING.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.RED));
+        ToolTipHandler.registerTooltip(ModItems.DIAMOND_SPATIAL_RING.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.RED));
+        ToolTipHandler.registerTooltip(ModItems.NETHERITE_SPATIAL_RING.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.RED));
+        ToolTipHandler.registerTooltip(ModItems.JADE_SPATIAL_RING.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED));
 
 
         //Crafting Ingredients
