@@ -7,6 +7,7 @@ import net.lucent.easygui.overlays.EasyGuiOverlayManager;
 import net.lucent.easygui.templating.registry.EasyGuiRegistries;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
@@ -17,16 +18,19 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.ModOverlays;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.menus.spatialrings.SRScreen;
@@ -45,7 +49,7 @@ public class AscensionCraftClient {
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
     }
-    
+
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
     static class ClientEvents{
         @SubscribeEvent
@@ -60,8 +64,17 @@ public class AscensionCraftClient {
         }
 
         @SubscribeEvent
+        public static void onRegisterTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event) {
+            event.register(FlameGourd.FlameGourdTooltip.class, FlameGourdClientTooltip::new);
+        }
+
+        @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
+
+            EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
+
+
 
             event.enqueueWork(() -> {
                 ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),

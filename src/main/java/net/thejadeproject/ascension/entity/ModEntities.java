@@ -22,6 +22,19 @@ public class ModEntities {
 
 
 
+    public static final Supplier<EntityType<PoisonPillProjectile>> POISON_PILL =
+            ENTITY_TYPES.register("poison_pill",
+                    () -> EntityType.Builder.<PoisonPillProjectile>of(
+                                    (entityType, level) -> new PoisonPillProjectile(entityType, level),
+                                    MobCategory.MISC
+                            )
+                            .sized(0.25F, 0.25F)
+                            .clientTrackingRange(4)
+                            .updateInterval(10)
+                            .build("poison_pill"));
+
+
+
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.items;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
@@ -20,6 +21,7 @@ import net.thejadeproject.ascension.items.herbs.PlantableHerb;
 import net.thejadeproject.ascension.items.pills.PillAntidote;
 import net.thejadeproject.ascension.items.pills.PillCooldownItem;
 import net.thejadeproject.ascension.items.pills.PillResidue;
+import net.thejadeproject.ascension.items.pills.ThrowablePoisonPill;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.util.ItemUtil;
@@ -241,7 +243,7 @@ public class ModItems {
 
     //Poison Pills
     public static final DeferredItem<Item> QI_DEVOURING_PARASITE_PILL = ITEMS.register("qi_devouring_parasite_pill",
-            () -> new Item(new Item.Properties().food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL)));
+            () -> new ThrowablePoisonPill(new Item.Properties().food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL), new MobEffectInstance(ModEffects.PARASITE, 400, 1)));
 
 
 
