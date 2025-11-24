@@ -1,11 +1,9 @@
 package net.thejadeproject.ascension;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -44,7 +42,7 @@ import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribut
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
-import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipe;
+import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipeShaped;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.ModSkills;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
@@ -96,7 +94,7 @@ public class AscensionCraft {
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
 
     private static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MOD_ID);
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> COPYRECIPE = RECIPES.register("spatialring_upgrade", CopySpatialringDataRecipe.Serializer::new);
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> COPYRECIPE = RECIPES.register("spatialring_upgrade", CopySpatialringDataRecipeShaped.Serializer::new);
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MOD_ID);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> SPATIALRING_UUID = COMPONENTS.register("spatialring_uuid", () -> DataComponentType.<UUID>builder().persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).build());
 

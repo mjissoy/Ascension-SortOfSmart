@@ -7,10 +7,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.items.artifacts.SpatialRing;
+import net.thejadeproject.ascension.items.artifacts.SpatialRingItem;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 import javax.annotation.Nonnull;
@@ -122,14 +124,32 @@ public class SRContainer extends AbstractContainerMenu {
             int bagslotcount = this.slots.size();
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
+
             if (index < playerIn.getInventory().items.size()) {
-                if (!this.moveItemStackTo(itemstack1, playerIn.getInventory().items.size(), bagslotcount, false))
+                // Player is trying to move item FROM their inventory INTO the spatial ring
+                // ADD THE CHECK HERE:
+                if (SpatialRingItem.isSpatialring(itemstack1)) {
+                    return ItemStack.EMPTY; // Block spatial rings from being moved into the ring
+                }
+
+                if (!this.moveItemStackTo(itemstack1, playerIn.getInventory().items.size(), bagslotcount, false)) {
                     return ItemStack.EMPTY;
-            } else if (!this.moveItemStackTo(itemstack1, 0, playerIn.getInventory().items.size(), false)) {
-                return ItemStack.EMPTY;
+                }
+            } else {
+                // Item is coming FROM the spatial ring INTO player inventory - this is always allowed
+                if (!this.moveItemStackTo(itemstack1, 0, playerIn.getInventory().items.size(), false)) {
+                    return ItemStack.EMPTY;
+                }
             }
-            if (itemstack1.isEmpty()) slot.set(ItemStack.EMPTY); else slot.setChanged();
+
+            if (itemstack1.isEmpty()) {
+                slot.set(ItemStack.EMPTY);
+            } else {
+                slot.setChanged();
+            }
         }
         return itemstack;
     }
+
+
 }

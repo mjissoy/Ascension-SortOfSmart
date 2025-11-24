@@ -4,6 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.SlotItemHandler;
+import net.thejadeproject.ascension.items.artifacts.SpatialRingItem;
 
 import javax.annotation.Nonnull;
 import java.util.function.Predicate;
@@ -15,6 +16,11 @@ public class SRContainerSlot extends SlotItemHandler {
         this.index = index;
     }
 
+    @Override
+    public boolean mayPlace(@Nonnull ItemStack stack) {
+        // Prevent spatial rings from being placed in spatial ring slots
+        return !SpatialRingItem.isSpatialring(stack);
+    }
 
     @Override
     public int getMaxStackSize(@Nonnull ItemStack stack) {
@@ -27,4 +33,3 @@ public class SRContainerSlot extends SlotItemHandler {
         ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(index, itemStack);
     }
 }
-

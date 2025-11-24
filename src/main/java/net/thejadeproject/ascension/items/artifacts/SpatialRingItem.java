@@ -70,12 +70,28 @@ public class SpatialRingItem extends Item {
             stack.set(AscensionCraft.SPATIALRING_UUID, uuid);
         }
 
-
         return SpatialRingManager.get().getOrCreateSpatialring(uuid, ((SpatialRingItem) stack.getItem()).tier);
     }
 
     public static boolean isSpatialring(ItemStack stack) {
         return stack.getItem() instanceof SpatialRingItem;
+    }
+
+    // Simple method to check if an item can be inserted into a spatial ring
+    public static boolean canInsertIntoRing(ItemStack itemToInsert) {
+        // Prevent ANY spatial rings from being stored in ANY spatial ring
+        return !isSpatialring(itemToInsert);
+    }
+
+    private void onNestingAttempted(Player player) {
+        if (!player.level().isClientSide) {
+            player.displayClientMessage(
+                    Component.literal("Spatial rings cannot store other spatial rings!").withStyle(ChatFormatting.RED),
+                    true
+            );
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
+                    SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 0.5F, 1.0F);
+        }
     }
 
     @Override
@@ -89,14 +105,13 @@ public class SpatialRingItem extends Item {
         return false;
     }
 
-
     @Override
     @Nonnull
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, @Nonnull InteractionHand handIn) {
         ItemStack spatialring = playerIn.getItemInHand(handIn);
+
         if (!worldIn.isClientSide && playerIn instanceof ServerPlayer && spatialring.getItem() instanceof SpatialRingItem) {
             SpatialRingData data = SpatialRingItem.getData(spatialring);
-
             SpatialRing itemTier = ((SpatialRingItem) spatialring.getItem()).tier;
             UUID uuid = data.getUuid();
 
@@ -104,16 +119,14 @@ public class SpatialRingItem extends Item {
 
             if (data.getTier().ordinal() < itemTier.ordinal()) {
                 data.upgrade(itemTier);
-                playerIn.sendSystemMessage(Component.literal("Backpack upgraded to " + itemTier.name));
             }
-             else {
-                // Regular Right Click: Open inventory
-                playerIn.openMenu(new SimpleMenuProvider(
-                                (windowId, playerInventory, playerEntity) -> new SRContainer(windowId, playerInventory, uuid, data.getTier(), data.getHandler()),
-                                spatialring.getHoverName()),
-                        (buffer -> buffer.writeUUID(uuid).writeInt(data.getTier().ordinal()))
-                );
-            }
+
+            // Regular Right Click: Open inventory
+            playerIn.openMenu(new SimpleMenuProvider(
+                            (windowId, playerInventory, playerEntity) -> new SRContainer(windowId, playerInventory, uuid, data.getTier(), data.getHandler()),
+                            spatialring.getHoverName()),
+                    (buffer -> buffer.writeUUID(uuid).writeInt(data.getTier().ordinal()))
+            );
         }
         return InteractionResultHolder.success(playerIn.getItemInHand(handIn));
     }

@@ -15,7 +15,10 @@ import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.util.ModTags;
+import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipeShaped;
+import net.thejadeproject.ascension.util.NoAdvRecipeOutput;
+import net.thejadeproject.ascension.util.RecipeInjector;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
-
+        var consumer = new NoAdvRecipeOutput(recipeOutput);
 
 
 
@@ -107,16 +110,23 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("GGG")
                 .define('G', Items.GOLD_INGOT)
                 .define('S', ModItems.IRON_SPATIAL_RING.get())
-                .unlockedBy("has_iron_spatial_ring", has(ModItems.IRON_SPATIAL_RING)).save(recipeOutput, "ascension:shaped/gold_spatial_ring");
+                .unlockedBy("has_iron_spatial_ring", has(ModItems.IRON_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIAMOND_SPATIAL_RING.get())
                 .pattern("DDD")
                 .pattern("DSD")
                 .pattern("DDD")
                 .define('D', Items.DIAMOND)
                 .define('S', ModItems.GOLD_SPATIAL_RING.get())
-                .unlockedBy("has_gold_spatial_ring", has(ModItems.GOLD_SPATIAL_RING)).save(recipeOutput, "ascension:shaped/diamond_spatial_ring");
-
-        SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPATIAL_RING.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPATIAL_RING.get()).unlocks("has_netherite_ingot", has(Items.NETHERITE_INGOT)).save(recipeOutput, "netherite_spatial_ring_smithing");
+                .unlockedBy("has_gold_spatial_ring", has(ModItems.GOLD_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NETHERITE_SPATIAL_RING.get())
+                .pattern("NNN")
+                .pattern("NSN")
+                .pattern("NTN")
+                .define('N', Items.NETHERITE_INGOT)
+                .define('T', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
+                .define('S', ModItems.DIAMOND_SPATIAL_RING.get())
+                .unlockedBy("has_diamond_spatial_ring", has(ModItems.DIAMOND_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
+        //SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPATIAL_RING.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPATIAL_RING.get()).unlocks("has_netherite_ingot", has(Items.NETHERITE_INGOT)).save(recipeOutput, "netherite_spatial_ring_smithing");
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SPATIAL_RING.get())
@@ -125,7 +135,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("DDD")
                 .define('D', ModItems.JADE.get())
                 .define('S', ModItems.NETHERITE_SPATIAL_RING.get())
-                .unlockedBy("has_netherite_spatial_ring", has(ModItems.NETHERITE_SPATIAL_RING)).save(recipeOutput, "ascension:shaped/jade_spatial_ring");
+                .unlockedBy("has_netherite_spatial_ring", has(ModItems.NETHERITE_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), 2)
@@ -590,5 +600,10 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
             SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, pResult, pExperience, pCookingTime, pCookingSerializer, factory).group(pGroup).unlockedBy(getHasName(itemlike), has(itemlike))
                     .save(recipeOutput, AscensionCraft.MOD_ID + ":" + getItemName(pResult) + pRecipeName + "_" + getItemName(itemlike));
         }
+    }
+
+    @NotNull
+    private static RecipeInjector<ShapedRecipe> SpatialRingUpgrade(NoAdvRecipeOutput consumer) {
+        return new RecipeInjector<>(consumer, CopySpatialringDataRecipeShaped::new);
     }
 }
