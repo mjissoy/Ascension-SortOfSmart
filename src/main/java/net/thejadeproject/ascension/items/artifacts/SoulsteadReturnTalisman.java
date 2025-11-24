@@ -18,7 +18,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
 public class SoulsteadReturnTalisman extends Item {
-    private static final int COOLDOWN_TICKS = 60 * 60 * 20; // 60 minutes in ticks
+    private static final int COOLDOWN_TICKS = 5 * 60 * 20; // 5 minutes in ticks
     private static final int COUNTDOWN_TICKS = 5 * 20; // 5 seconds in ticks
 
     private static final String GLOBAL_COOLDOWN_TAG = "SoulsteadReturnCooldownHome";
