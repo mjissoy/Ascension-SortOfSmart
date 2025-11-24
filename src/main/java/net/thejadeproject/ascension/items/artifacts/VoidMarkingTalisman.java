@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -27,6 +28,7 @@ import java.util.List;
 
 public class VoidMarkingTalisman extends Item {
     private static final int COOLDOWN_TICKS = 30 * 20; // 30 seconds in ticks
+    private static final int COUNTDOWN_TICKS = 5 * 20; // 5 seconds in ticks
 
     // Component data keys
     private static final String SAVED_X = "saved_x";
@@ -37,6 +39,9 @@ public class VoidMarkingTalisman extends Item {
     // Player cooldown data keys
     private static final String COOLDOWN_TAG = "VoidMarkingCooldown";
     private static final String COOLDOWN_TIME_TAG = "VoidMarkingCooldownTime";
+    private static final String COUNTDOWN_TAG = "VoidMarkingCountdown";
+    private static final String INITIAL_POS_TAG = "VoidMarkingInitialPos";
+    private static final String INITIAL_HEALTH_TAG = "VoidMarkingInitialHealth";
 
     public VoidMarkingTalisman(Properties properties) {
         super(properties.stacksTo(16).rarity(Rarity.UNCOMMON));
@@ -87,56 +92,98 @@ public class VoidMarkingTalisman extends Item {
             }
 
             ServerPlayer serverPlayer = (ServerPlayer) player;
-            ServerLevel currentLevel = (ServerLevel) level;
 
-            // Get saved location data from component
-            SavedLocationData locationData = getSavedLocation(itemstack);
-            if (locationData == null) {
-                player.displayClientMessage(Component.literal("§cFailed to read saved location!"), true);
-                return InteractionResultHolder.fail(itemstack);
-            }
-
-            // Get target dimension using ResourceKey
-            ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, locationData.dimension);
-            ServerLevel targetLevel = currentLevel.getServer().getLevel(dimensionKey);
-
-            if (targetLevel == null) {
-                player.displayClientMessage(Component.literal("§cCannot teleport to saved dimension!"), true);
-                return InteractionResultHolder.fail(itemstack);
-            }
+            // Start countdown for teleportation
+            startCountdown(serverPlayer, itemstack);
 
             // Play departure effects
-            currentLevel.playSound(null, serverPlayer.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
+            ServerLevel serverLevel = (ServerLevel) level;
+            serverLevel.playSound(null, serverPlayer.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
                     SoundSource.PLAYERS, 1.0F, 1.0F);
-            currentLevel.sendParticles(ParticleTypes.PORTAL,
+            serverLevel.sendParticles(ParticleTypes.PORTAL,
                     serverPlayer.getX(), serverPlayer.getY() + 1, serverPlayer.getZ(),
                     50, 0.5, 1, 0.5, 0.1);
 
-            // Perform the teleport
-            serverPlayer.teleportTo(targetLevel, locationData.x, locationData.y, locationData.z,
-                    serverPlayer.getYRot(), serverPlayer.getXRot());
-
-            // Set cooldown
-            setCooldown(player, COOLDOWN_TICKS);
-            player.getCooldowns().addCooldown(this, 10);
-
-            // Consume 1 talisman on successful teleport (unless in creative mode)
-            if (!player.getAbilities().instabuild) {
-                itemstack.shrink(1);
-            }
-
-            // Play arrival effects
-            BlockPos newPos = serverPlayer.blockPosition();
-            targetLevel.playSound(null, newPos, SoundEvents.ENDERMAN_TELEPORT,
-                    SoundSource.PLAYERS, 1.0F, 1.0F);
-            targetLevel.sendParticles(ParticleTypes.PORTAL,
-                    newPos.getX() + 0.5, newPos.getY() + 1, newPos.getZ() + 0.5,
-                    50, 0.5, 1, 0.5, 0.1);
-
-            player.displayClientMessage(Component.literal("§aTeleported to saved location!"), true);
-
             return InteractionResultHolder.success(itemstack);
         }
+    }
+
+    private void startCountdown(ServerPlayer player, ItemStack itemstack) {
+        CompoundTag persistentData = player.getPersistentData();
+        persistentData.putInt(COUNTDOWN_TAG, COUNTDOWN_TICKS);
+
+        // Store initial position for movement check
+        CompoundTag posTag = new CompoundTag();
+        posTag.putDouble("x", player.getX());
+        posTag.putDouble("y", player.getY());
+        posTag.putDouble("z", player.getZ());
+        persistentData.put(INITIAL_POS_TAG, posTag);
+
+        // Store initial health for damage check
+        persistentData.putFloat(INITIAL_HEALTH_TAG, player.getHealth());
+
+        // Consume item immediately
+        if (!player.getAbilities().instabuild) {
+            itemstack.shrink(1);
+        }
+
+        // Initial countdown message
+        player.displayClientMessage(Component.literal("§eTeleporting in 5 seconds"), true);
+    }
+
+    private void attemptTeleport(ServerPlayer player) {
+        ServerLevel currentLevel = (ServerLevel) player.level();
+
+        // Get saved location data from component
+        SavedLocationData locationData = getSavedLocation(player.getMainHandItem());
+        if (locationData == null) {
+            player.displayClientMessage(Component.literal("§cFailed to read saved location!"), true);
+            clearCountdownData(player);
+            return;
+        }
+
+        // Get target dimension using ResourceKey
+        ResourceKey<Level> dimensionKey = ResourceKey.create(Registries.DIMENSION, locationData.dimension);
+        ServerLevel targetLevel = currentLevel.getServer().getLevel(dimensionKey);
+
+        if (targetLevel == null) {
+            player.displayClientMessage(Component.literal("§cCannot teleport to saved dimension!"), true);
+            clearCountdownData(player);
+            return;
+        }
+
+        // Perform the teleport
+        player.teleportTo(targetLevel, locationData.x, locationData.y, locationData.z,
+                player.getYRot(), player.getXRot());
+
+        // Set cooldown
+        setCooldown(player, COOLDOWN_TICKS);
+        player.getCooldowns().addCooldown(this, 10);
+
+        // Play arrival effects
+        BlockPos newPos = player.blockPosition();
+        targetLevel.playSound(null, newPos, SoundEvents.ENDERMAN_TELEPORT,
+                SoundSource.PLAYERS, 1.0F, 1.0F);
+        targetLevel.sendParticles(ParticleTypes.PORTAL,
+                newPos.getX() + 0.5, newPos.getY() + 1, newPos.getZ() + 0.5,
+                50, 0.5, 1, 0.5, 0.1);
+
+        player.displayClientMessage(Component.literal("§aTeleported to saved location!"), true);
+
+        // Clear countdown data
+        clearCountdownData(player);
+    }
+
+    private void cancelTeleport(ServerPlayer player, String reason) {
+        player.displayClientMessage(Component.literal("§cTeleport cancelled: " + reason), true);
+        clearCountdownData(player);
+    }
+
+    private void clearCountdownData(Player player) {
+        CompoundTag persistentData = player.getPersistentData();
+        persistentData.remove(COUNTDOWN_TAG);
+        persistentData.remove(INITIAL_POS_TAG);
+        persistentData.remove(INITIAL_HEALTH_TAG);
     }
 
     @Override
@@ -154,8 +201,37 @@ public class VoidMarkingTalisman extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, net.minecraft.world.entity.Entity entity, int slotId, boolean isSelected) {
-        if (!level.isClientSide && entity instanceof Player player) {
+        if (!level.isClientSide && entity instanceof ServerPlayer player) {
             updateCooldown(player);
+
+            // Handle countdown
+            CompoundTag persistentData = player.getPersistentData();
+            if (persistentData.contains(COUNTDOWN_TAG)) {
+                int countdown = persistentData.getInt(COUNTDOWN_TAG);
+
+                // Check for cancellation conditions
+                if (hasPlayerMoved(player) || hasPlayerTakenDamage(player)) {
+                    String reason = hasPlayerTakenDamage(player) ? "damage taken" : "movement detected";
+                    cancelTeleport(player, reason);
+                    return;
+                }
+
+                if (countdown > 0) {
+                    countdown--;
+                    persistentData.putInt(COUNTDOWN_TAG, countdown);
+
+                    // Update countdown message every second
+                    if (countdown % 20 == 0) {
+                        int seconds = countdown / 20;
+                        player.displayClientMessage(Component.literal(
+                                String.format("§eTeleporting in %d seconds", seconds)), true);
+                    }
+
+                    if (countdown == 0) {
+                        attemptTeleport(player);
+                    }
+                }
+            }
 
             int remainingTicks = getRemainingCooldownTicks(player);
             if (remainingTicks > 0) {
@@ -165,6 +241,35 @@ public class VoidMarkingTalisman extends Item {
             }
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
+    }
+
+    private boolean hasPlayerMoved(ServerPlayer player) {
+        CompoundTag persistentData = player.getPersistentData();
+        if (persistentData.contains(INITIAL_POS_TAG)) {
+            CompoundTag posTag = persistentData.getCompound(INITIAL_POS_TAG);
+            double initialX = posTag.getDouble("x");
+            double initialY = posTag.getDouble("y");
+            double initialZ = posTag.getDouble("z");
+
+            // Allow small movements (like looking around) but not significant position changes
+            double distanceMoved = Math.sqrt(
+                    Math.pow(player.getX() - initialX, 2) +
+                            Math.pow(player.getY() - initialY, 2) +
+                            Math.pow(player.getZ() - initialZ, 2)
+            );
+
+            return distanceMoved > 0.5; // Allow small position adjustments
+        }
+        return false;
+    }
+
+    private boolean hasPlayerTakenDamage(ServerPlayer player) {
+        CompoundTag persistentData = player.getPersistentData();
+        if (persistentData.contains(INITIAL_HEALTH_TAG) && persistentData.contains(INITIAL_POS_TAG)) {
+            float initialHealth = persistentData.getFloat(INITIAL_HEALTH_TAG);
+            return player.getHealth() < initialHealth;
+        }
+        return false;
     }
 
     @Override

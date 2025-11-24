@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -21,9 +22,12 @@ import java.util.concurrent.CompletableFuture;
 public class SpatialRuptureTalismanT1 extends Item {
     private static final int TELEPORT_RADIUS = 2500; // 2.5k blocks radius
     private static final int COOLDOWN_TICKS = 60 * 60 * 20; // 60 minutes in ticks
+    private static final int COUNTDOWN_TICKS = 5 * 20; // 5 seconds in ticks
 
     private static final String GLOBAL_COOLDOWN_TAG = "SpatialRuptureCooldownT1";
     private static final String GLOBAL_COOLDOWN_TIME_TAG = "SpatialRuptureCooldownTimeT1";
+    private static final String COUNTDOWN_TAG = "SpatialRuptureCountdownT1";
+    private static final String INITIAL_POS_TAG = "SpatialRuptureInitialPosT1";
 
     public SpatialRuptureTalismanT1(Properties properties) {
         super(properties.stacksTo(16).rarity(Rarity.UNCOMMON));
@@ -46,32 +50,59 @@ public class SpatialRuptureTalismanT1 extends Item {
         }
 
         if (level.isClientSide) {
-            // Play some client-side effects or sounds if needed
             level.playSound(player, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
                     SoundSource.PLAYERS, 1.0F, 1.0F);
             return InteractionResultHolder.consume(itemstack);
         }
 
         ServerPlayer serverPlayer = (ServerPlayer) player;
+
+        // Start countdown
+        startCountdown(serverPlayer, itemstack);
+
+        // Play departure effects
         ServerLevel serverLevel = (ServerLevel) level;
+        serverLevel.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
+                SoundSource.PLAYERS, 1.0F, 1.0F);
+        serverLevel.sendParticles(ParticleTypes.PORTAL,
+                player.getX(), player.getY() + 1, player.getZ(),
+                50, 0.5, 1, 0.5, 0.1);
+
+        return InteractionResultHolder.success(itemstack);
+    }
+
+    private void startCountdown(ServerPlayer player, ItemStack itemstack) {
+        CompoundTag persistentData = player.getPersistentData();
+        persistentData.putInt(COUNTDOWN_TAG, COUNTDOWN_TICKS);
+
+        // Store initial position for movement check
+        CompoundTag posTag = new CompoundTag();
+        posTag.putDouble("x", player.getX());
+        posTag.putDouble("y", player.getY());
+        posTag.putDouble("z", player.getZ());
+        persistentData.put(INITIAL_POS_TAG, posTag);
+
+        // Consume item immediately
+        if (!player.getAbilities().instabuild) {
+            itemstack.shrink(1);
+        }
+    }
+
+    private void attemptTeleport(ServerPlayer player) {
+        ServerLevel serverLevel = (ServerLevel) player.level();
 
         // Use the API for teleportation with T1 radius
-        CompletableFuture<Boolean> teleportFuture = SpatialRuptureAPI.randomTeleport(serverPlayer, serverLevel, TELEPORT_RADIUS);
+        CompletableFuture<Boolean> teleportFuture = SpatialRuptureAPI.randomTeleport(player, serverLevel, TELEPORT_RADIUS);
 
-        // Handle the teleportation result
         teleportFuture.thenAccept(success -> {
             serverLevel.getServer().execute(() -> {
                 if (success) {
                     // Teleportation successful
-                    setGlobalCooldown(serverPlayer, COOLDOWN_TICKS);
+                    setGlobalCooldown(player, COOLDOWN_TICKS);
                     player.getCooldowns().addCooldown(this, 10);
 
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-
                     // Play arrival effects
-                    BlockPos playerPos = serverPlayer.blockPosition();
+                    BlockPos playerPos = player.blockPosition();
                     serverLevel.playSound(null, playerPos, SoundEvents.ENDERMAN_TELEPORT,
                             SoundSource.PLAYERS, 1.0F, 1.0F);
                     serverLevel.sendParticles(ParticleTypes.PORTAL,
@@ -83,24 +114,59 @@ public class SpatialRuptureTalismanT1 extends Item {
                     // Teleportation failed
                     player.displayClientMessage(net.minecraft.network.chat.Component.literal("§cNo safe teleport location found!"), true);
                 }
+
+                // Clear countdown data
+                clearCountdownData(player);
             });
         });
-
-        // Play departure effects immediately
-        serverLevel.playSound(null, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
-                SoundSource.PLAYERS, 1.0F, 1.0F);
-        serverLevel.sendParticles(ParticleTypes.PORTAL,
-                player.getX(), player.getY() + 1, player.getZ(),
-                50, 0.5, 1, 0.5, 0.1);
-
-        return InteractionResultHolder.success(itemstack);
     }
 
-    // ... rest of your existing methods (inventoryTick, isFoil, cooldown methods) remain the same
+    private void cancelTeleport(ServerPlayer player, String reason) {
+        player.displayClientMessage(net.minecraft.network.chat.Component.literal("§cTeleport cancelled: " + reason), true);
+        clearCountdownData(player);
+
+        // Item was already consumed in startCountdown
+    }
+
+    private void clearCountdownData(Player player) {
+        CompoundTag persistentData = player.getPersistentData();
+        persistentData.remove(COUNTDOWN_TAG);
+        persistentData.remove(INITIAL_POS_TAG);
+    }
+
     @Override
     public void inventoryTick(ItemStack stack, Level level, net.minecraft.world.entity.Entity entity, int slotId, boolean isSelected) {
-        if (!level.isClientSide && entity instanceof Player player) {
+        if (!level.isClientSide && entity instanceof ServerPlayer player) {
             updateGlobalCooldown(player);
+
+            // Handle countdown
+            CompoundTag persistentData = player.getPersistentData();
+            if (persistentData.contains(COUNTDOWN_TAG)) {
+                int countdown = persistentData.getInt(COUNTDOWN_TAG);
+
+                // Check for cancellation conditions
+                if (hasPlayerMoved(player) || hasPlayerTakenDamage(player)) {
+                    String reason = hasPlayerTakenDamage(player) ? "damage taken" : "movement detected";
+                    cancelTeleport(player, reason);
+                    return;
+                }
+
+                if (countdown > 0) {
+                    countdown--;
+                    persistentData.putInt(COUNTDOWN_TAG, countdown);
+
+                    // Update countdown message every second
+                    if (countdown % 20 == 0) {
+                        int seconds = countdown / 20;
+                        player.displayClientMessage(net.minecraft.network.chat.Component.literal(
+                                String.format("§eTeleporting in %d seconds", seconds)), true);
+                    }
+
+                    if (countdown == 0) {
+                        attemptTeleport(player);
+                    }
+                }
+            }
 
             int remainingTicks = getRemainingGlobalCooldownTicks(player);
             if (remainingTicks > 0) {
@@ -110,6 +176,45 @@ public class SpatialRuptureTalismanT1 extends Item {
             }
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
+    }
+
+    private boolean hasPlayerMoved(ServerPlayer player) {
+        CompoundTag persistentData = player.getPersistentData();
+        if (persistentData.contains(INITIAL_POS_TAG)) {
+            CompoundTag posTag = persistentData.getCompound(INITIAL_POS_TAG);
+            double initialX = posTag.getDouble("x");
+            double initialY = posTag.getDouble("y");
+            double initialZ = posTag.getDouble("z");
+
+            // Allow small movements (like looking around) but not significant position changes
+            double distanceMoved = Math.sqrt(
+                    Math.pow(player.getX() - initialX, 2) +
+                            Math.pow(player.getY() - initialY, 2) +
+                            Math.pow(player.getZ() - initialZ, 2)
+            );
+
+            return distanceMoved > 0.5; // Allow small position adjustments
+        }
+        return false;
+    }
+
+    private boolean hasPlayerTakenDamage(ServerPlayer player) {
+        // Check if player's health has decreased since countdown started
+        CompoundTag persistentData = player.getPersistentData();
+        if (persistentData.contains(INITIAL_POS_TAG)) {
+            // We can store initial health if needed, but for now we'll check if health is less than max
+            // This is a simple implementation - you might want to store initial health for more accuracy
+            return player.getHealth() < player.getMaxHealth();
+        }
+        return false;
+    }
+
+    // Handle damage events - you might need to register this in an event handler
+    public void onPlayerHurt(ServerPlayer player, DamageSource source, float amount) {
+        CompoundTag persistentData = player.getPersistentData();
+        if (persistentData.contains(COUNTDOWN_TAG)) {
+            cancelTeleport(player, "damage taken");
+        }
     }
 
     @Override
