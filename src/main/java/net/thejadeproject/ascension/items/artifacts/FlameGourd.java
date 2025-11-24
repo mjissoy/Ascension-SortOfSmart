@@ -1,18 +1,22 @@
 package net.thejadeproject.ascension.items.artifacts;
 
 import com.google.common.collect.Maps;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -23,14 +27,20 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.nbt.CompoundTag;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class FlameGourd extends Item {
     private static Map<Block, Item> FIRE_ITEMS;
     private static Set<Block> ABSORBABLE_FIRES;
+
+    // Custom data component keys
+    private static final String FILLED_KEY = "Filled";
+    private static final String ABSORBED_FIRE_KEY = "AbsorbedFire";
 
     private static void initFireItems() {
         if (FIRE_ITEMS != null) return;
@@ -55,7 +65,61 @@ public class FlameGourd extends Item {
     }
 
     public FlameGourd(Properties properties) {
-        super(properties.stacksTo(1).rarity(Rarity.RARE).durability(1));
+        super(properties.stacksTo(1).rarity(Rarity.RARE));
+    }
+
+    private boolean isFilled(ItemStack stack) {
+        CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+        if (customData != null) {
+            CompoundTag nbt = customData.copyTag();
+            return nbt.getBoolean(FILLED_KEY);
+        }
+        return false;
+    }
+
+    @Nullable
+    private String getAbsorbedFireType(ItemStack stack) {
+        CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+        if (customData != null) {
+            CompoundTag nbt = customData.copyTag();
+            if (nbt.contains(ABSORBED_FIRE_KEY)) {
+                return nbt.getString(ABSORBED_FIRE_KEY);
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private Block getAbsorbedFireBlock(ItemStack stack) {
+        String fireType = getAbsorbedFireType(stack);
+        if (fireType != null) {
+            ResourceLocation fireRl = ResourceLocation.tryParse(fireType);
+            if (fireRl != null) {
+                return BuiltInRegistries.BLOCK.get(fireRl);
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private Item getConvertedItem(ItemStack stack) {
+        Block fireBlock = getAbsorbedFireBlock(stack);
+        if (fireBlock != null) {
+            return getFireItems().get(fireBlock);
+        }
+        return null;
+    }
+
+    private void setFilled(ItemStack stack, boolean filled, @Nullable String fireType) {
+        CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
+        CompoundTag nbt = customData != null ? customData.copyTag() : new CompoundTag();
+        nbt.putBoolean(FILLED_KEY, filled);
+        if (fireType != null) {
+            nbt.putString(ABSORBED_FIRE_KEY, fireType);
+        } else {
+            nbt.remove(ABSORBED_FIRE_KEY);
+        }
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
     }
 
     @Override
@@ -70,16 +134,11 @@ public class FlameGourd extends Item {
             return InteractionResult.PASS;
         }
 
-        if (getAbsorbableFires().contains(state.getBlock()) && stack.getDamageValue() == 1) { // empty
+        if (getAbsorbableFires().contains(state.getBlock()) && !isFilled(stack)) {
             if (!level.isClientSide) {
                 level.removeBlock(pos, false);
                 level.gameEvent(player, GameEvent.BLOCK_DESTROY, pos);
-
-                CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-                CompoundTag nbt = customData != null ? customData.copyTag() : new CompoundTag();
-                nbt.putString("AbsorbedFire", BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString());
-                stack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
-                stack.setDamageValue(0); // filled
+                setFilled(stack, true, BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString());
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
@@ -90,32 +149,20 @@ public class FlameGourd extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (player.isCrouching() && stack.getDamageValue() == 0) { // filled
+        if (player.isCrouching() && isFilled(stack)) {
             if (!level.isClientSide) {
-                CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-                if (customData != null) {
-                    CompoundTag nbt = customData.copyTag();
-                    if (nbt.contains("AbsorbedFire")) {
-                        String fireStr = nbt.getString("AbsorbedFire");
-                        ResourceLocation fireRl = ResourceLocation.tryParse(fireStr);
-                        if (fireRl != null) {
-                            // Convert back to Block to look up in our map
-                            Block fireBlock = BuiltInRegistries.BLOCK.get(fireRl);
-                            Item item = getFireItems().get(fireBlock);
-                            if (item != null) {
-                                ItemStack toGive = new ItemStack(item);
-                                if (!player.addItem(toGive)) {
-                                    player.drop(toGive, false);
-                                }
-                                nbt.remove("AbsorbedFire");
-
-                                if (nbt.isEmpty()) {
-                                    stack.remove(DataComponents.CUSTOM_DATA);
-                                } else {
-                                    stack.set(DataComponents.CUSTOM_DATA, CustomData.of(nbt));
-                                }
-                                stack.setDamageValue(1); // empty
+                String fireType = getAbsorbedFireType(stack);
+                if (fireType != null) {
+                    ResourceLocation fireRl = ResourceLocation.tryParse(fireType);
+                    if (fireRl != null) {
+                        Block fireBlock = BuiltInRegistries.BLOCK.get(fireRl);
+                        Item item = getFireItems().get(fireBlock);
+                        if (item != null) {
+                            ItemStack toGive = new ItemStack(item);
+                            if (!player.addItem(toGive)) {
+                                player.drop(toGive, false);
                             }
+                            setFilled(stack, false, null);
                         }
                     }
                 }
@@ -127,6 +174,33 @@ public class FlameGourd extends Item {
 
     @Override
     public boolean isBarVisible(ItemStack stack) {
-        return stack.getMaxDamage() > 0;
+        return isFilled(stack);
     }
+
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        return isFilled(stack) ? 13 : 0;
+    }
+
+    @Override
+    public int getBarColor(ItemStack stack) {
+        return 0xFF6B00; // Orange color for filled state
+    }
+
+    // Custom tooltip component to show the item sprite inline
+    @Override
+    public Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
+        if (isFilled(stack)) {
+            Block fireBlock = getAbsorbedFireBlock(stack);
+            Item convertedItem = getConvertedItem(stack);
+
+            if (fireBlock != null && convertedItem != null) {
+                return Optional.of(new FlameGourdTooltip(fireBlock, convertedItem));
+            }
+        }
+        return Optional.empty();
+    }
+
+    // Custom tooltip component class
+    public record FlameGourdTooltip(Block fireBlock, Item convertedItem) implements TooltipComponent {}
 }
