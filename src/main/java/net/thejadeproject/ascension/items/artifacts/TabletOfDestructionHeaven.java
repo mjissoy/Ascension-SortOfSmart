@@ -64,14 +64,15 @@ public class TabletOfDestructionHeaven extends Item {
                     tag.remove("LinkedChestY");
                     tag.remove("LinkedChestZ");
                     tag.remove("LinkedDimension");
-                    player.displayClientMessage(Component.literal("Unlinked from chest or barrel."), true);
+                    player.displayClientMessage(Component.translatable("item.ascension.tablet_of_destruction_heaven.unlinked"), true);
                 } else {
                     // Link
                     tag.putInt("LinkedChestX", pos.getX());
                     tag.putInt("LinkedChestY", pos.getY());
                     tag.putInt("LinkedChestZ", pos.getZ());
                     tag.putString("LinkedDimension", level.dimension().location().toString());
-                    player.displayClientMessage(Component.literal("Linked to " + (clickedState.getBlock() instanceof ChestBlock ? "chest" : "barrel") + " at " + pos.toShortString()), true);
+                    String blockType = clickedState.getBlock() instanceof ChestBlock ? "chest" : "barrel";
+                    player.displayClientMessage(Component.translatable("item.ascension.tablet_of_destruction_heaven.linked", blockType, pos.getX(), pos.getY(), pos.getZ()), true);
                 }
                 stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
                 return InteractionResult.SUCCESS;
@@ -82,7 +83,7 @@ public class TabletOfDestructionHeaven extends Item {
         // Check cooldown using Minecraft's system
         if (player.getCooldowns().isOnCooldown(this)) {
             if (!level.isClientSide) {
-                player.displayClientMessage(Component.literal("Item is on cooldown!"), true);
+                player.displayClientMessage(Component.translatable("item.ascension.tablet_of_destruction_heaven.cooldown"), true);
             }
             return InteractionResult.FAIL;
         }
@@ -128,9 +129,9 @@ public class TabletOfDestructionHeaven extends Item {
         // Create colored tooltip for drop blocks
         Component status = Component.literal(String.valueOf(dropBlocks))
                 .withStyle(dropBlocks ? ChatFormatting.GREEN : ChatFormatting.RED);
-        tooltipComponents.add(Component.literal("Drop Blocks = ").append(status));
-        tooltipComponents.add(Component.literal("Press 'M' to toggle mode").withStyle(ChatFormatting.GRAY));
-        tooltipComponents.add(Component.literal("Shift+Right-Click chest/barrel to link").withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("item.ascension.tablet_of_destruction_heaven.drop_blocks").append(status));
+        tooltipComponents.add(Component.translatable("item.ascension.tablet_of_destruction_heaven.toggle_mode").withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("item.ascension.tablet_of_destruction_heaven.link_instruction").withStyle(ChatFormatting.GRAY));
 
         // Add linked chest or barrel info if present
         if (customData != null && customData.getUnsafe().contains("LinkedChestX")) {
@@ -138,14 +139,22 @@ public class TabletOfDestructionHeaven extends Item {
             int x = tag.getInt("LinkedChestX");
             int y = tag.getInt("LinkedChestY");
             int z = tag.getInt("LinkedChestZ");
-            BlockPos pos = new BlockPos(x, y, z);
-            // Use a safer approach to get block state info
-            String type = "container";
+
+            // Get block type
+            String blockType = "container";
             if (context.level() != null) {
-                BlockState state = context.level().getBlockState(pos);
-                type = state.getBlock() instanceof ChestBlock ? "chest" : state.getBlock() instanceof BarrelBlock ? "barrel" : "container";
+                BlockState state = context.level().getBlockState(new BlockPos(x, y, z));
+                if (state.getBlock() instanceof ChestBlock) {
+                    blockType = "chest";
+                } else if (state.getBlock() instanceof BarrelBlock) {
+                    blockType = "barrel";
+                }
             }
-            tooltipComponents.add(Component.literal("Linked to " + type + " at (" + x + ", " + y + ", " + z + ")"));
+
+            // Only show block type and coordinates, not dimension
+            tooltipComponents.add(Component.translatable("item.ascension.tablet_of_destruction_heaven.linked_tooltip",
+                    Component.translatable("item.ascension.tablet_of_destruction_heaven." + blockType),
+                    Component.translatable("ascension.tooltip.tablet.coordinates", x, y, z)));
         }
     }
 
@@ -160,7 +169,7 @@ public class TabletOfDestructionHeaven extends Item {
         // Create colored message
         Component status = Component.literal(String.valueOf(!currentValue))
                 .withStyle(!currentValue ? ChatFormatting.GREEN : ChatFormatting.RED);
-        player.displayClientMessage(Component.literal("Drop Blocks = ").append(status), true);
+        player.displayClientMessage(Component.translatable("item.ascension.tablet_of_destruction_heaven.drop_blocks").append(status), true);
     }
 
     private void clearArea(Level level, BlockPos startPos, Vec3 direction, Vec3 playerPos, boolean dropBlocks, BlockPos linkedChestPos, String linkedDimensionString) {

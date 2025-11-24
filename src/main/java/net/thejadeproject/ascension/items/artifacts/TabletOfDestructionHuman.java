@@ -34,7 +34,7 @@ public class TabletOfDestructionHuman extends Item {
         // Check cooldown
         if (player.getCooldowns().isOnCooldown(this)) {
             if (!level.isClientSide) {
-                player.sendSystemMessage(Component.literal("Ability is on cooldown!"));
+                player.sendSystemMessage(Component.translatable("ascension.tablet.human.cooldown"));
             }
             return InteractionResult.FAIL;
         }

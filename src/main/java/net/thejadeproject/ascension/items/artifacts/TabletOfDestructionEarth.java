@@ -41,7 +41,7 @@ public class TabletOfDestructionEarth extends Item {
         // Check cooldown using Minecraft's system
         if (player != null && player.getCooldowns().isOnCooldown(this)) {
             if (!level.isClientSide) {
-                player.displayClientMessage(Component.literal("Item is on cooldown!"), true);
+                player.displayClientMessage(Component.translatable("ascension.tablet.cooldown"), true);
             }
             return InteractionResult.FAIL;
         }
@@ -77,8 +77,8 @@ public class TabletOfDestructionEarth extends Item {
         // Create colored tooltip
         Component status = Component.literal(String.valueOf(dropBlocks))
                 .withStyle(dropBlocks ? ChatFormatting.GREEN : ChatFormatting.RED);
-        tooltipComponents.add(Component.literal("Drop Blocks = ").append(status));
-        tooltipComponents.add(Component.literal("Press 'M' to toggle mode").withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("ascension.tablet.drop_blocks").append(status));
+        tooltipComponents.add(Component.translatable("ascension.tablet.toggle_mode").withStyle(ChatFormatting.GRAY));
     }
 
     // Server-side method to toggle drop mode
@@ -92,7 +92,7 @@ public class TabletOfDestructionEarth extends Item {
         // Create colored message
         Component status = Component.literal(String.valueOf(!currentValue))
                 .withStyle(!currentValue ? ChatFormatting.GREEN : ChatFormatting.RED);
-        player.displayClientMessage(Component.literal("Drop Blocks = ").append(status), true);
+        player.displayClientMessage(Component.translatable("ascension.tablet.drop_blocks").append(status), true);
     }
 
     private void clearArea(Level level, BlockPos startPos, Vec3 direction, Vec3 playerPos, boolean dropBlocks) {

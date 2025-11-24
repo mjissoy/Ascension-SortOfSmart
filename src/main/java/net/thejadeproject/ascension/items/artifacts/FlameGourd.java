@@ -1,11 +1,9 @@
 package net.thejadeproject.ascension.items.artifacts;
 
 import com.google.common.collect.Maps;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -187,7 +185,7 @@ public class FlameGourd extends Item {
         return 0xFF6B00; // Orange color for filled state
     }
 
-    // Custom tooltip component to show the item sprite inline
+    // Custom tooltip component to show the fire sprite and item sprite
     @Override
     public Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
         if (isFilled(stack)) {

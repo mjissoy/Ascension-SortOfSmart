@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.items.technique_manuals;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -21,18 +22,16 @@ public class GenericTechniqueManual extends Item {
 
     public GenericTechniqueManual(Item.Properties properties,ResourceLocation techniqueLocation){
         super(properties);
-
         technique = techniqueLocation;
-
-
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         System.out.println("Trying to use manual: "+ getTechnique().getDisplayTitle());
         ItemStack itemstack = player.getItemInHand(usedHand);
+        itemstack.shrink(1);
         if(level.isClientSide()) return InteractionResultHolder.fail(itemstack);
-        if(learnTechnique(player)) return InteractionResultHolder.consume(itemstack);
+        if(learnTechnique(player)) return InteractionResultHolder.success(itemstack);
         return InteractionResultHolder.fail(itemstack);
     }
 
@@ -40,17 +39,22 @@ public class GenericTechniqueManual extends Item {
         return AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique);
     }
 
-
-
     public boolean learnTechnique(Player player){
         if(!player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getTechnique().getPath()).technique.equals("ascension:none"))return false;
         CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getTechnique().getPath());
         player.getData(ModAttachments.PLAYER_DATA).getCultivationData().setPathTechnique(
                 getTechnique().getPath(),
                 technique.toString());
-        System.out.println("player has learnt a technique");
+
+        player.displayClientMessage(
+                Component.translatable(
+                        "ascension.learnt_technique",
+                        getTechnique().getDisplayTitle()
+                ),
+                true
+        );
+
         PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(data.pathId,data.majorRealm,data.minorRealm,data.pathProgress,data.technique,data.stabilityCultivationTicks));
         return true;
     }
-
 }
