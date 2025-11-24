@@ -19,25 +19,6 @@ import net.thejadeproject.ascension.AscensionCraft;
 @OnlyIn(Dist.CLIENT)
 public class ModOverlays {
 
-    public static EasyGuiOverlay QI_TRACKER = new EasyGuiOverlay((eventHolder, overlay)->{
-        View view = new View(overlay,0,0);
-        overlay.addView(view);
-        view.setUseMinecraftScale(true);
-        view.setCustomScale(2);
-        Image image = new Image(overlay,
-                new TextureDataSubSection(
-                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/gui_all.png"),
-                        256,256,
-                        0,147,
-                        53,163
-                ),
-                0,0);
-        Label progressLabel = (new Label.Builder()).screen(overlay).centered(true).x(26).y((163-147)/2).build();
-        progressLabel.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Progress"}));
-        image.addChild(progressLabel);
-
-        view.addChild(image);
-    });
 
     public static EasyGuiOverlay HEALTH_BAR = new EasyGuiOverlay((eventHolder, overlay) ->{
         View view = new View(overlay,0,0){};

@@ -25,7 +25,7 @@ public class PlayerSkillData {
         this.player = player;
     }
 
-    public PlayerSkillData(Player player, List<SkillMetaData> activeSkills, List<SkillMetaData> passiveSkills, List<String> slottedSkills){
+    public PlayerSkillData(Player player, List<SkillMetaData> activeSkills, List<SkillMetaData> passiveSkills){
         this.player = player;
         for(SkillMetaData activeSkill : activeSkills){
             activeSkillHashMap.put(activeSkill.skillId,activeSkill);
@@ -33,7 +33,6 @@ public class PlayerSkillData {
         for(SkillMetaData passiveSkill : passiveSkills){
             passiveSkillHashMap.put(passiveSkill.skillId,passiveSkill);
         }
-        activeSkillContainer.skillIdList = slottedSkills;
     }
 
     public boolean hasSkill(String skill_id,String skillType){
@@ -44,27 +43,56 @@ public class PlayerSkillData {
 
     public static class ActiveSkillContainer{
         public List<String> skillIdList = new ArrayList<>();
-        public boolean changed = false;
+
+        public final int MAX_SKILL_SLOTS = 4;
+        public ActiveSkillContainer(){
+            for(int i = 0;i<MAX_SKILL_SLOTS; i++){
+                skillIdList.add("");
+            }
+        }
         public List<String> getSkillIdList() {
             return skillIdList;
         }
-        public void unSlotSkill(String id){
-            changed = true;
-            skillIdList.remove(id);
+        public void unSlotSkill(int slot){
+
+            skillIdList.set(slot,"");
+        }
+        public void unSlotSkill(String skillId){
+
+            skillIdList.set(skillIdList.indexOf(skillId),"");
+        }
+        public void slotSkill(String skillId,int slot){
+            if(skillIdList.contains(skillId)){
+                unSlotSkill(skillId);
+            }
+            skillIdList.set(slot,skillId);
+
         }
     }
 
 
-    public ListTag writeSkillContainerNBTData(ListTag skillTag){
-        ListTag tag = new ListTag();
-        for(int i = 0;i<activeSkillContainer.getSkillIdList().size(); i++){
+    public void modifySkillSlot(int slot,String skillId,boolean slotSkill){
+        if(!slotSkill){
+            activeSkillContainer.unSlotSkill(slot);
+        }else{
+            activeSkillContainer.slotSkill(skillId,slot);
+        }
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+    }
+
+    public void writeSkillContainerNBTData(ListTag tag){
+
+        for(int i = 0;i<activeSkillContainer.MAX_SKILL_SLOTS; i++){
+            System.out.println("writing skill slot "+i );
+
             tag.add(i, StringTag.valueOf(activeSkillContainer.getSkillIdList().get(i)));
         }
-        return tag;
+
     }
     public void loadSkillContainerNBTData(ListTag skillList){
         for(int i = 0;i<skillList.size(); i++){
-            activeSkillContainer.getSkillIdList().add(skillList.getString(i));
+            System.out.println("skill slot : " +i);
+            activeSkillContainer.slotSkill(skillList.getString(i),i);
         }
     }
     public static class SkillMetaData {
@@ -212,6 +240,7 @@ public class PlayerSkillData {
         loadSkillContainerNBTData((ListTag) tag.get("equip_skill_list"));
     }
     public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
+        System.out.println("writing skill data");
         CompoundTag skillTag = new CompoundTag();
         writeSkillNBTData(skillTag);
         tag.put("skill_data",skillTag);

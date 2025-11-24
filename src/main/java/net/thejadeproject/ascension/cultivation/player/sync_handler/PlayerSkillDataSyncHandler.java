@@ -68,7 +68,9 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
 
 
             //encode slottedSkills
-            buf.writeInt(slottedSkills.size());
+            System.out.println("skill slots");
+            System.out.println(slottedSkills.size());
+
             for (String slottedSkill : slottedSkills){
                 buf.writeInt(slottedSkill.length());
                 buf.writeCharSequence(slottedSkill,Charset.defaultCharset());
@@ -95,17 +97,16 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 }
             }
             attachment.clearSkillBuffers();
-            buf.writeBoolean(attachment.activeSkillContainer.changed);
-            if(attachment.activeSkillContainer.changed){
-                System.out.println("skill bar");
-                System.out.println(attachment.activeSkillContainer.changed);
-                buf.writeInt(attachment.activeSkillContainer.getSkillIdList().size());
-                for (String slottedSkill : attachment.activeSkillContainer.getSkillIdList()){
-                    buf.writeInt(slottedSkill.length());
-                    buf.writeCharSequence(slottedSkill,Charset.defaultCharset());
-                }
+
+
+            System.out.println("skill bar");
+
+            for (String slottedSkill : attachment.activeSkillContainer.getSkillIdList()){
+                buf.writeInt(slottedSkill.length());
+                buf.writeCharSequence(slottedSkill,Charset.defaultCharset());
             }
-            attachment.activeSkillContainer.changed = false;
+
+
         }
        // buf.writeBoolean(true); //add or remove skill true add false remove
     }
@@ -133,13 +134,12 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
 
                 passiveSkills.add(decodeSkillMetaData(buf));
             }
-            int skillSlots = buf.readInt();
-            System.out.println("skill slots "+ skillSlots);
-            List<String> slottedSkills = new ArrayList<>();
-            for(int i = 0;i<skillSlots;i++){
-                slottedSkills.add((String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset()));
+
+            PlayerSkillData playerSkillData = new PlayerSkillData(previousValue.player,activeSkills,passiveSkills);
+            for(int i = 0;i<playerSkillData.activeSkillContainer.MAX_SKILL_SLOTS;i++){
+                playerSkillData.activeSkillContainer.slotSkill((String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset()),i);
             }
-            return new PlayerSkillData(previousValue.player,activeSkills,passiveSkills,slottedSkills);
+            return playerSkillData;
         }else {
             System.out.println("normal sync");
             if(buf.readBoolean()){
@@ -167,18 +167,16 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                     else previousValue.removePassiveSkill(skillMetaData.skillId);
                 }
             }
-            if(buf.readBoolean()){
-                //skill bar
-                System.out.println("skill bar");
-                int skillSlots = buf.readInt();
-                System.out.println(skillSlots);
-                List<String> slottedSkills = new ArrayList<>();
-                for(int i = 0;i<skillSlots;i++){
-                    slottedSkills.add((String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset()));
-                }
-                previousValue.activeSkillContainer.skillIdList = slottedSkills;
-                previousValue.activeSkillContainer.changed = true;//so the ui knows to refresh for hot-bar
+
+            //skill bar
+            System.out.println("skill bar");
+
+            for(int i = 0;i<previousValue.activeSkillContainer.MAX_SKILL_SLOTS;i++){
+                previousValue.activeSkillContainer.slotSkill((String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset()),i);
+
             }
+
+
             return previousValue;
         }
 

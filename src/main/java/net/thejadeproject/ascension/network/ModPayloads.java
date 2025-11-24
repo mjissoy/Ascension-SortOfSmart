@@ -5,6 +5,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.network.clientBound.*;
+import net.thejadeproject.ascension.network.serverBound.ChangeSkillSlotSpellPayload;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
 import net.thejadeproject.ascension.network.serverBound.TriggerMajorRealmBreakthrough;
@@ -12,12 +13,8 @@ import net.thejadeproject.ascension.network.serverBound.TriggerMajorRealmBreakth
 public class ModPayloads {
     public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(AscensionCraft.MOD_ID).versioned("1.0");
-        registrar.playToServer(
-                SyncCultivationPayload.TYPE,
-                SyncCultivationPayload.STREAM_CODEC,
-                SyncCultivationPayload::handlePayload
 
-        );
+        //=================================== CLIENT======================================
         registrar.playToClient(
                 SyncAttackDamageAttribute.TYPE,
                 SyncAttackDamageAttribute.STREAM_CODEC,
@@ -38,17 +35,6 @@ public class ModPayloads {
                 SyncGeneratedPhysique.STREAM_CODEC,
                 SyncGeneratedPhysique::handlePayload
         );
-        registrar.playToServer(
-                TriggerGeneratePhysique.TYPE,
-                TriggerGeneratePhysique.STREAM_CODEC,
-                TriggerGeneratePhysique::handlePayload
-        );
-        registrar.playToServer(
-                TriggerMajorRealmBreakthrough.TYPE,
-                TriggerMajorRealmBreakthrough.STREAM_CODEC,
-                TriggerMajorRealmBreakthrough::handlePayload
-        );
-
         registrar.playToClient(
                 SyncPathDataPayload.TYPE,
                 SyncPathDataPayload.STREAM_CODEC,
@@ -59,5 +45,32 @@ public class ModPayloads {
                 SyncPlayerPhysique.STREAM_CODEC,
                 SyncPlayerPhysique::handlePayload
         );
+
+
+        //===================================== SERVER ==================================
+        registrar.playToServer(
+                TriggerGeneratePhysique.TYPE,
+                TriggerGeneratePhysique.STREAM_CODEC,
+                TriggerGeneratePhysique::handlePayload
+        );
+        registrar.playToServer(
+                TriggerMajorRealmBreakthrough.TYPE,
+                TriggerMajorRealmBreakthrough.STREAM_CODEC,
+                TriggerMajorRealmBreakthrough::handlePayload
+        );
+        registrar.playToServer(
+                ChangeSkillSlotSpellPayload.TYPE,
+                ChangeSkillSlotSpellPayload.STREAM_CODEC,
+                ChangeSkillSlotSpellPayload::handlePayload
+        );
+
+        registrar.playToServer(
+                SyncCultivationPayload.TYPE,
+                SyncCultivationPayload.STREAM_CODEC,
+                SyncCultivationPayload::handlePayload
+
+        );
+
+
     }
 }

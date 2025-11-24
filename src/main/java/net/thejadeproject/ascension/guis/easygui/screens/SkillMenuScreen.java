@@ -19,8 +19,8 @@ public class SkillMenuScreen extends EasyGuiScreen {
         super(title);
         View view = new View(this);
         addView(view);
-        view.setUseMinecraftScale(false);
-        view.setCustomScale(4);
+        view.setUseMinecraftScale(true);
+        //view.setCustomScale(4);
         SkillListPanel skillList = new SkillListPanel(this,
                 view.getScaledWidth()/2-112, view.getScaledHeight()/2-40);
         skillList.setID("skill_list_panel");

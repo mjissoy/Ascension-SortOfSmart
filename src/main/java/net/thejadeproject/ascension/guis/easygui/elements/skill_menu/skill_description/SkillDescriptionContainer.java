@@ -13,7 +13,7 @@ import java.util.List;
 public class SkillDescriptionContainer extends DynamicScrollBox {
 
     public SkillDescriptionContainer(IEasyGuiScreen easyGuiScreen,int x, int y){
-        super(easyGuiScreen,x,y,54,70);
+        super(easyGuiScreen,x,y,54,54);
     }
 
     public void setTextContent(List<MutableComponent> textContent){

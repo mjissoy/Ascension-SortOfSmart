@@ -8,6 +8,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
 import net.thejadeproject.ascension.progression.skills.passive_skills.SwordIntent;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -33,10 +34,11 @@ public class ModSkills {
                             Component.literal("Increasing damage of any").append(" §8Fist ").append("intent attacks")
                     )));
     public static final DeferredHolder<ISkill,  ? extends AbstractPassiveSkill > SWORD_INTENT = SKILLS.register("sword_intent_skill",
-            ()->new SwordIntent()
-                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fist_aura.png"),32,32)
+            SwordIntent::new);
+    public static final DeferredHolder<ISkill,  ? extends AbstractActiveSkill > BASIC_FIRE_BALL = SKILLS.register("basic_fire_ball",
+            ()->new BasicFireBall()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fire_ball.png"),32,32)
                     ));
-
 
     public static void register(IEventBus eventBus){
         SKILLS.register(eventBus);

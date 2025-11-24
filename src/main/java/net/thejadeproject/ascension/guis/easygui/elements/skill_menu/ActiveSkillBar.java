@@ -21,6 +21,11 @@ public class ActiveSkillBar extends Image {
     private int selectedSkill = 0;
     private boolean skillSelected = false;
     private final PlayerSkillData.ActiveSkillContainer activeSkillContainer;
+
+    public String getSelectedSkillId(){
+        return activeSkillContainer.getSkillIdList().get(selectedSkill);
+    }
+
     public ActiveSkillBar(IEasyGuiScreen easyGuiScreen,int x, int y){
         super(easyGuiScreen,new TextureDataSubSection(ResourceLocation.fromNamespaceAndPath(
                         AscensionCraft.MOD_ID,
@@ -46,6 +51,7 @@ public class ActiveSkillBar extends Image {
             }
         };
         skillSlotListContainer.setGap(2);
+        skillSlotListContainer.setID("skill_slot_container_box");
         scrollBox.addChild(skillSlotListContainer);
 
         activeSkillContainer  = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_SKILL_DATA).activeSkillContainer;
@@ -56,52 +62,50 @@ public class ActiveSkillBar extends Image {
         populateSkillSlots(skillSlotListContainer);
     }
 
+    public boolean isSkillSlotSelected(){
+        return skillSelected;
+    }
+
+    public ContainerRenderable getSelectedSkillSlot(){
+        return getSkillSlots().get(selectedSkill);
+    }
+    public int getSelectedSkillSlotId(){
+        return selectedSkill;
+    }
+
+    public List<ContainerRenderable> getSkillSlots(){
+        return getScreen().getElementByID("skill_slot_container_box").getChildren();
+    }
     public void selectSkillBarSkill(ContainerRenderable renderable){
         if(!(renderable instanceof SkillBarSkillSlot skillSlot)) return;
-        List<ContainerRenderable> skillSlots =  getChildren().getFirst().getChildren().getFirst().getChildren();
+        List<ContainerRenderable> skillSlots = getSkillSlots();
         if(!skillSlots.contains(renderable)) return;
         if(skillSelected){
-            skillSlots.get(selectedSkill).setFocused(false);
+            getSelectedSkillSlot().setFocused(false);
         }
 
         selectedSkill = skillSlots.indexOf(skillSlot);
         skillSelected = true;
         skillSlot.setFocused(true);
-        ((SelectedSkillInfoPanel) getScreen().getElementByID("selected_skill_info_panel")).selectSkill(skillSlot.skillId);
+        if(!getSelectedSkillId().isEmpty()) ((SelectedSkillInfoPanel) getScreen().getElementByID("selected_skill_info_panel")).selectSkill(ResourceLocation.bySeparator(getSelectedSkillId(),':'));
 
     }
 
-    public void setSelectedSkillSlotSkillId(ResourceLocation skillId){
-        List<ContainerRenderable> skillSlots =  getChildren().getFirst().getChildren().getFirst().getChildren();
-        ((SkillBarSkillSlot) skillSlots.get(selectedSkill)).setSkillId(skillId);
-    }
+
     //TODO add some way to config how many slots are available
     public void populateSkillSlots(ContainerRenderable container){
-        final int maxSlots = 4; //temp will add configuration in the future
-        for(int i = 0;i<maxSlots;i++){
-            ResourceLocation skillId = null;
-            if(activeSkillContainer.skillIdList.size() > i) skillId = ResourceLocation.bySeparator(activeSkillContainer.getSkillIdList().get(i),':');
-            SkillBarSkillSlot skillBarSkillSlot = new SkillBarSkillSlot(getScreen(),0,0,skillId);
+        System.out.println("populating skill bar with active skill slots");
+        for(int i = 0;i<activeSkillContainer.MAX_SKILL_SLOTS;i++){
+            SkillBarSkillSlot skillBarSkillSlot = new SkillBarSkillSlot(getScreen(),0,0,i,activeSkillContainer);
             container.addChild(skillBarSkillSlot);
         }
+
     }
 
-    public void updateExistingSkillSlots(){
-        final int maxSlots = 4; //temp will add configuration in the future
-        List<ContainerRenderable> skillSlots =  getChildren().getFirst().getChildren().getFirst().getChildren();
-        for(int i = 0;i<maxSlots;i++){
-            ResourceLocation skillId = null;
-            if(activeSkillContainer.skillIdList.size() > i) skillId = ResourceLocation.bySeparator(activeSkillContainer.getSkillIdList().get(i),':');
-            ((SkillBarSkillSlot)skillSlots.get(i)).setSkillId(skillId);
-        }
-    }
 
     @Override
     public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
-        if(activeSkillContainer.changed){
-            updateExistingSkillSlots();
-            activeSkillContainer.changed = false;
-        }
+
     }
 }

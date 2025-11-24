@@ -66,6 +66,9 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     })
+                    .setSkillList(List.of(
+                        new AcquirableSkillData("ascension:essence",0,0,"ascension:basic_fire_ball",false)
+                    ))
                     .setDescription(List.of(
                             Component.literal("breathe in pure ").append("§4fire ").append("and purify ones essence")
                     )));

@@ -9,12 +9,15 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.SelectedSkillInfoPanel;
+import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
+import net.thejadeproject.ascension.progression.skills.data.SkillType;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 //10 px gap. 1 px from green on left
 public class BasicSkillSlot extends TextureButton {
     public final ResourceLocation skillId;
+    public final SkillType skillType;
     public ITextureData textureData;
     public BasicSkillSlot(IEasyGuiScreen easyGuiScreen,int x,int y,ResourceLocation skillId){
         super(easyGuiScreen,x,y,
@@ -25,6 +28,11 @@ public class BasicSkillSlot extends TextureButton {
         this.skillId = skillId;
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
         textureData = skill.skillIcon();
+        if(skill instanceof AbstractActiveSkill){
+            skillType = SkillType.Active;
+        }else {
+            skillType = SkillType.Passive;
+        }
     }
 
     @Override
