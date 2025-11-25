@@ -26,7 +26,7 @@ public class ModDao {
     public static final DeferredHolder<IDao,GenericDao> FIRE_DAO =createDao("fire",Component.literal("§4[Fire]"),
             new ArrayList<>(),
             Map.of(
-                    "ascension:metal",0.5D,
+                    "ascension:metal", 0.5D,
                     "ascension:earth",2D
             ),
             Map.of(
@@ -85,7 +85,6 @@ public class ModDao {
             Map.of(
             ),
             Map.of(
-                    "ascension:voidd",2.3,
                     "ascension:yin",1.9
             ));
 
@@ -99,8 +98,6 @@ public class ModDao {
 
     public static final DeferredHolder<IDao, GenericDao> YIN_DAO = createDao("yin",Component.literal("§b[Yin]"));
     public static final DeferredHolder<IDao, GenericDao> YANG_DAO = createDao("yang",Component.literal("§4[Yang]"));
-
-    public static final DeferredHolder<IDao, GenericDao> VOIDD_DAO = createDao("voidd",Component.literal("§5[Void]"));
 
 
     public static final DeferredHolder<IDao,GenericDao> SWORD_DAO = createDao("sword_intent",Component.literal("§8[Sword Intent]"));
@@ -120,6 +117,7 @@ public class ModDao {
     }
     public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> interactions,Map<String ,Double> relatedDao){
         ModTags.Items.createDaoTag(id);
+
         return DAO.register(id,()->new GenericDao(title).setInteractions(interactions).setRelatedDao(relatedDao).setDescription(description));
     }
 

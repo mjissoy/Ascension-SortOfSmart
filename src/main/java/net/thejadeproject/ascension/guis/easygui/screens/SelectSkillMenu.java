@@ -5,7 +5,12 @@ import net.lucent.easygui.elements.containers.View;
 import net.lucent.easygui.screens.EasyGuiScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.guis.easygui.elements.select_skill_active_menu.SkillWheelContainer;
+import net.thejadeproject.ascension.network.serverBound.SyncSelectedSkill;
+import net.thejadeproject.ascension.util.ModAttachments;
 
 public class SelectSkillMenu extends EasyGuiScreen {
     private static SelectSkillMenu instance = null;
@@ -17,6 +22,19 @@ public class SelectSkillMenu extends EasyGuiScreen {
     }
     public static void close(){
         //TODO send packet for spell selection
+        SkillWheelContainer container = (SkillWheelContainer) instance.getElementByID("skill_wheel_container");
+        if(container.hoveredSlot != null) {
+            Player player = Minecraft.getInstance().player;
+            String id = player.getData(ModAttachments.PLAYER_SKILL_DATA).activeSkillContainer.getSkillIdList().get(container.hoveredSlot);
+            ResourceLocation skillId = null;
+            if (!id.isEmpty()) {
+                skillId = ResourceLocation.bySeparator(id, ':');
+            }
+
+            player.getData(ModAttachments.PLAYER_DATA).setSelectedSkillId(skillId);
+            PacketDistributor.sendToServer(new SyncSelectedSkill(container.hoveredSlot));
+        }
+
         instance.onClose();
         instance = null;
     }
@@ -33,6 +51,7 @@ public class SelectSkillMenu extends EasyGuiScreen {
         view.setUseMinecraftScale(false);
         SkillWheelContainer container = new SkillWheelContainer(this,view.getScaledWidth()/2-32*7,view.getScaledHeight()/2-32*7);
         view.addChild(container);
+        container.setID("skill_wheel_container");
         container.setCustomScale(7);
         System.out.println("Select skill menu created");
 

@@ -16,6 +16,7 @@ import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.progression.techniques.TechniquesEventListener;
 import net.thejadeproject.ascension.util.ModAttachments;
 
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -43,12 +44,14 @@ public class IronBonesPassiveSkill extends AbstractPassiveSkill {
 
     }
     public void updateSkillData(Player player){
-        GatherEfficiencyModifiersEvent event = new GatherEfficiencyModifiersEvent(player,this.path, List.of("ascension:metal"));
+        GatherEfficiencyModifiersEvent event = new GatherEfficiencyModifiersEvent(player,this.path,new HashSet<>(){{
+            add("ascension:metal");
+        }});
         PhysiqueEventListener.gatherEfficiencyMultipliers(event);
         TechniquesEventListener.gatherEfficiencyMultipliers(event);
         player.getAttribute(Attributes.MAX_HEALTH).addOrReplacePermanentModifier(new AttributeModifier(
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"iron_bone_passive_boost"),
-                2*event.getTotalEfficiencyMultiplier(),
+                2*event.getTotalDaoEfficiencyMultiplier(),
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE
         ));
     }

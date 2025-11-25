@@ -15,6 +15,7 @@ import net.thejadeproject.ascension.util.ModAttachments;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class CultivationSystem {
     private static final float MAJOR_REALM_MULTIPLIER = 0.3f;
@@ -46,7 +47,7 @@ public class CultivationSystem {
         return realmNameMap.get(pathId)[majorRealm];
     }
 
-    public static void stabiliseRealm(StabilityHandler handler, Player player, String path, List<String> attributes, double minCultivationTickRate){
+    public static void stabiliseRealm(StabilityHandler handler, Player player, String path, Set<String> attributes, double minCultivationTickRate){
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);
         double currentStabilityTicks = pathData.stabilityCultivationTicks;
 
@@ -56,9 +57,9 @@ public class CultivationSystem {
         GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,attributes);
         NeoForge.EVENT_BUS.post(effEvent);
 
-        System.out.println("stabilising realm with effectiveness: "+effEvent.getTotalEfficiencyMultiplier());
+        System.out.println("stabilising realm with effectiveness: "+effEvent.getTotalDaoEfficiencyMultiplier()+" and "+effEvent.getTotalPathEfficiencyMultiplier());
 
-        double cultivationTicks = currentStabilityTicks+ 1*effEvent.getTotalEfficiencyMultiplier();
+        double cultivationTicks = currentStabilityTicks+ 1*effEvent.getTotalDaoEfficiencyMultiplier()+effEvent.getTotalPathEfficiencyMultiplier();
         System.out.println("stabilising realm with "+cultivationTicks +" cultivation ticks");
         System.out.println("current Stability = "+handler.getStability(cultivationTicks));
         pathData.stabilityCultivationTicks = Math.min(cultivationTicks, handler.getMaxCultivationTicks());
@@ -67,7 +68,7 @@ public class CultivationSystem {
     }
 
     //returns false if realm is not increased
-    public static boolean cultivate(Player player, String path,Double baseRate,List<String> attributes){
+    public static boolean cultivate(Player player, String path,Double baseRate,Set<String> attributes){
         //TODO change to use technique for base rate
         //TODO fire is temp
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);
@@ -77,13 +78,13 @@ public class CultivationSystem {
         GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,attributes);
         NeoForge.EVENT_BUS.post(effEvent);
 
-        System.out.println("cultivating with effectiveness: "+effEvent.getTotalEfficiencyMultiplier());
+        System.out.println("cultivating with effectiveness: "+effEvent.getTotalDaoEfficiencyMultiplier()+" and "+effEvent.getTotalPathEfficiencyMultiplier());
         CultivateEvent cultivateEvent = new CultivateEvent(player,baseRate,path,attributes);
         NeoForge.EVENT_BUS.post(cultivateEvent);
 
         double progressIncrement = (cultivateEvent.baseRate+cultivateEvent.flatBaseRateIncrease)
                 *(1+cultivateEvent.multiplier)
-                *(effEvent.getTotalEfficiencyMultiplier())
+                *(effEvent.getTotalPathEfficiencyMultiplier()+effEvent.getTotalDaoEfficiencyMultiplier())
                 +cultivateEvent.flatFinalRateIncrease;
         System.out.println("base: "+cultivateEvent.baseRate);
         System.out.println(progressIncrement);

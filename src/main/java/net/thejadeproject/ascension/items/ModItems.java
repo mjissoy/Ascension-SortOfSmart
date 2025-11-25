@@ -22,6 +22,7 @@ import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.util.ItemUtil;
 import net.thejadeproject.ascension.util.ToolTipsGradient;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class ModItems {
@@ -168,7 +169,7 @@ public class ModItems {
     public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T1 = ITEMS.register("inner_reinforcement_pill_t1",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT_T1), 400 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:body",20.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:body",20.0,new HashSet<>());
                     }));
 
 

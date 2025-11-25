@@ -4,14 +4,10 @@ import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.events.custom.skills.SkillPreCastEvent;
-import net.thejadeproject.ascension.network.clientBound.SkillCastSyncPayload;
 import net.thejadeproject.ascension.progression.skills.data.CastResult;
 import net.thejadeproject.ascension.progression.skills.data.CastSource;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
@@ -93,30 +89,30 @@ public abstract class AbstractActiveSkill implements ISkill{
     };
 
     public abstract boolean isPrimarySkill();
-    public abstract CastType castType();
+    public abstract CastType getCastType();
     @Override
     public ISkillData getSkillData(CompoundTag tag) {
         return null;
     }
 
+    public int maxCastingTicks(){return 0;};
+
     /**
      * could also include things like if they are not holding a sword etc
-     * also can include things like required key presses. although i only recommend that for primary skills
-     * as secondary skills are able to be multi cast
-     * so this will be called on both client and server so key presses can be handled
-     * if it returns false on the client sends a packet to the server to cancel
+     * also for stuff like channels
      * @param castingTicksElapsed how many ticks have elapsed since initial cast
      * @return
      */
-    public boolean continueCasting(int castingTicksElapsed,Level level){
-        return false;
+    public boolean continueCasting(int castingTicksElapsed, Level level,Player player){
+        if(castingTicksElapsed >= maxCastingTicks()) cast(castingTicksElapsed,level,player);
+        return castingTicksElapsed <maxCastingTicks();
     }
 
     /**
      *
-     * @param ticksElapsed how many ticks since initial cast. mainly used for charge skills
+     * @param castingTicksElapsed how many ticks since initial cast. mainly used for charge skills
      */
-    public abstract void cast(int ticksElapsed);
+    public abstract void cast(int castingTicksElapsed, Level level,Player player);
     //for any server stuff like sound events etc
     public abstract void onPreCast();
     //TODO add some invalid cast conditions
@@ -125,10 +121,10 @@ public abstract class AbstractActiveSkill implements ISkill{
     }
     //For stuff like ensuring valid targets etc
     public boolean checkPreCast(Player player,CastSource castSource){
-        return true;
+        return false;
     }
     public boolean attemptInitialCast(Player player, Level level, CastSource castSource){
-
+        System.out.println("initial Cast");
         //this is a server side cast
         //client stuff is done later
         if(level.isClientSide()) return false;
@@ -143,8 +139,7 @@ public abstract class AbstractActiveSkill implements ISkill{
         }
         player.getData(ModAttachments.PLAYER_DATA).tryCast(this);
         onPreCast();
-        PacketDistributor.sendToPlayer((ServerPlayer) player,new SkillCastSyncPayload(AscensionRegistries.Skills.SKILL_REGISTRY.getKey(this).toString()));
-
+        player.getData(ModAttachments.PLAYER_DATA).syncCastingData(); //syncs with player
         return true;
 
     }

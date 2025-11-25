@@ -26,7 +26,7 @@ public interface ISkill {
     Component getSkillTitle();
     //this skill will no be removed by physiques and techniques changing
     default boolean isFixedSkill(){return false;}
-    default CastType getCastType(){return CastType.NONE;}
+
     void setFixedSkill(boolean fixed);
 
     ISkillData decode(RegistryFriendlyByteBuf buf);

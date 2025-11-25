@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 
 import java.util.List;
+import java.util.Set;
 
 //TODO include realm foundation in stat upgrade for major realms
 public interface ITechnique {
@@ -47,7 +48,7 @@ public interface ITechnique {
     List<Label> getDisplayDaoEfficiencies(IEasyGuiScreen screen);
 
     //the elements cultivated
-    List<String> getCultivationAttributes();
+    Set<String> getCultivationAttributes();
     //the elemental affinities
     List<String> getEfficiencyAttributes();
 

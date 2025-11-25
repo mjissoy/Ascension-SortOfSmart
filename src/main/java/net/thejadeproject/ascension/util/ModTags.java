@@ -1,12 +1,20 @@
 package net.thejadeproject.ascension.util;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.*;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 
 import java.awt.*;
@@ -14,7 +22,18 @@ import java.util.*;
 import java.util.List;
 
 public class ModTags {
+    public static class DamageTypes{
 
+        public static ResourceKey<DamageType> DAO_DAMAGE_KEY =  ResourceKey.create(Registries.DAMAGE_TYPE,ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"dao"));
+
+
+
+        public static DamageSource dao(DamageSources damageSources, Entity causing, Entity direct){
+            return new DamageSource(damageSources.damageTypes.getHolderOrThrow(DAO_DAMAGE_KEY),direct,causing);
+
+        }
+
+    }
 
     public static class Items {
 
@@ -33,6 +52,7 @@ public class ModTags {
         //attributes/elements
 
         public static void  createDaoTag(String name){
+            createTag(name);
             daoItemTags.put("ascension:"+name,createTag(name));
         }
 

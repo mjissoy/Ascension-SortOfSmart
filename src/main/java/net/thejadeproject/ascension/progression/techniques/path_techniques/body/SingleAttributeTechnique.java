@@ -1,12 +1,12 @@
 package net.thejadeproject.ascension.progression.techniques.path_techniques.body;
 
-import net.minecraft.world.entity.player.Player;
-import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.progression.breakthrough.handlers.StabilityCheckBreakthroughHandler;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.AbstractTechnique;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SingleAttributeTechnique extends AbstractTechnique {
 
@@ -20,8 +20,10 @@ public class SingleAttributeTechnique extends AbstractTechnique {
 
 
     @Override
-    public List<String> getCultivationAttributes() {
-        return List.of(attribute);
+    public Set<String> getCultivationAttributes() {
+        return new HashSet<>(){{
+            add(attribute);
+        }};
     }
 
 

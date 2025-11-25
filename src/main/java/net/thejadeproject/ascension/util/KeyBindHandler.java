@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -19,6 +20,7 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.Cultiva
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 import net.thejadeproject.ascension.guis.easygui.screens.SelectSkillMenu;
 import net.thejadeproject.ascension.guis.easygui.screens.SkillMenuScreen;
+import net.thejadeproject.ascension.network.serverBound.ServerCastSkillPayload;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 
 @OnlyIn(Dist.CLIENT)
@@ -51,8 +53,11 @@ public class KeyBindHandler {
 
     public static final KeyMapping SKILL_MENU_KEY = new KeyMapping("key.ascension.skill_menu", 74, MENU_CATEGORY);
 
+    public static final KeyMapping CAST_SKILL_KEY = new KeyMapping("key.ascension.cast_skill",KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_V, SKILL_CATEGORY);
+
+
     public static final KeyMapping SKILL_WHEEL_KEY = new KeyMapping("key.ascension.skill_wheel",KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_R, SKILL_CATEGORY);
-    private static boolean WAS_SKILL_WHEEL_KEY_DOWN = false;
+
     public static void register() {
         IEventBus eventBus = NeoForge.EVENT_BUS;
         eventBus.addListener(EventPriority.HIGH, KeyBindHandler::handleKeyInputEvent);
@@ -62,6 +67,10 @@ public class KeyBindHandler {
     public static void keyInputEvents(InputEvent.Key event){
         Minecraft minecraft = Minecraft.getInstance();
         if(minecraft.level == null && minecraft.getConnection() == null) return;
+
+        if(CAST_SKILL_KEY.consumeClick()){
+            PacketDistributor.sendToServer(new ServerCastSkillPayload());
+        }
         //a bit hacky
         if(event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 1){
             //Open menu

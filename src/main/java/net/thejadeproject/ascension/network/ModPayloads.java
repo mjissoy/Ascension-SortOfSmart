@@ -5,10 +5,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.network.clientBound.*;
-import net.thejadeproject.ascension.network.serverBound.ChangeSkillSlotSpellPayload;
-import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
-import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
-import net.thejadeproject.ascension.network.serverBound.TriggerMajorRealmBreakthrough;
+import net.thejadeproject.ascension.network.serverBound.*;
 
 public class ModPayloads {
     public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
@@ -25,11 +22,7 @@ public class ModPayloads {
                 OpenPickPhysiqueScreen.STREAM_CODEC,
                 OpenPickPhysiqueScreen::handlePayload
         );
-        registrar.playToClient(
-                SkillCastSyncPayload.TYPE,
-                SkillCastSyncPayload.STREAM_CODEC,
-                SkillCastSyncPayload::handlePayload
-        );
+
         registrar.playToClient(
                 SyncGeneratedPhysique.TYPE,
                 SyncGeneratedPhysique.STREAM_CODEC,
@@ -44,6 +37,11 @@ public class ModPayloads {
                 SyncPlayerPhysique.TYPE,
                 SyncPlayerPhysique.STREAM_CODEC,
                 SyncPlayerPhysique::handlePayload
+        );
+        registrar.playToClient(
+                SyncCastingInstance.TYPE,
+                SyncCastingInstance.STREAM_CODEC,
+                SyncCastingInstance::handlePayload
         );
 
 
@@ -70,7 +68,18 @@ public class ModPayloads {
                 SyncCultivationPayload::handlePayload
 
         );
+        registrar.playToServer(
+                SyncSelectedSkill.TYPE,
+                SyncSelectedSkill.STREAM_CODEC,
+                SyncSelectedSkill::handlePayload
 
+        );
+        registrar.playToServer(
+                ServerCastSkillPayload.TYPE,
+                ServerCastSkillPayload.STREAM_CODEC,
+                ServerCastSkillPayload::handlePayload
+
+        );
 
     }
 }

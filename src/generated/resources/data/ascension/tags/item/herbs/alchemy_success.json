@@ -1,6 +1,9 @@
 {
   "values": [
     "ascension:regeneration_pill",
+    "ascension:cleansing_pill",
+    "ascension:rebirth_pill",
+    "ascension:inner_reinforcement_pill_t1",
     "ascension:fasting_pill_t1",
     "ascension:fasting_pill_t2",
     "ascension:fasting_pill_t3"

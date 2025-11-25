@@ -43,6 +43,7 @@ import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
 import net.thejadeproject.ascension.util.ModAttributes;
+import net.thejadeproject.ascension.util.ModTags;
 import net.thejadeproject.ascension.worldgen.biome.ModTerrablender;
 import net.thejadeproject.ascension.worldgen.biome.surface.ModSurfaceRules;
 import org.slf4j.Logger;
