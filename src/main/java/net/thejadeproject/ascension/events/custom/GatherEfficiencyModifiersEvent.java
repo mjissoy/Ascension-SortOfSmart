@@ -35,6 +35,26 @@ public class GatherEfficiencyModifiersEvent extends Event {
         }
         return total;
     }
+    public double getTotalGenerativeMultiplier(){
+        double total = 0.0;
+        for(String attribute : generativeValues.keySet()){
+            HashMap<String, Pair<Double,Double>> attributeGenerativeValues = generativeValues.get(attribute);
+            for(String generativeDao : attributeGenerativeValues.keySet()){
+                total += (attributeGenerativeValues.get(generativeDao).getFirst()/daoMultipliers.get(attribute))*attributeGenerativeValues.get(generativeDao).getSecond();
+            }
+        }
+        return total;
+    }
+    public double getTotalDestructiveMultiplier(){
+        double total = 0.0;
+        for(String attribute : destructiveValues.keySet()){
+            HashMap<String, Pair<Double,Double>> attributeGenerativeValues = destructiveValues.get(attribute);
+            for(String destructiveDao : attributeGenerativeValues.keySet()){
+                total += (attributeGenerativeValues.get(destructiveDao).getFirst()/daoMultipliers.get(attribute))*attributeGenerativeValues.get(destructiveDao).getSecond();
+            }
+        }
+        return total;
+    }
     public void addPathMultiplier(String pathID,Double mul){
         pathMultipliers.put(pathID,mul);
     }
@@ -56,7 +76,7 @@ public class GatherEfficiencyModifiersEvent extends Event {
         interactionDaoMap.put(interactionDao,new Pair<>(finalInteractionDaoBonus,generativeBonus));
     }
     public void addDestructiveMultiplier(String attribute,String interactionDao,double interactionDaoBonus,double destructiveBonus){
-        if(!generativeValues.containsKey(attribute)) generativeValues.put(attribute,new HashMap<>());
+        if(!destructiveValues.containsKey(attribute)) destructiveValues.put(attribute,new HashMap<>());
         HashMap<String,Pair<Double,Double>> interactionDaoMap = destructiveValues.get(attribute);
         double finalInteractionDaoBonus = interactionDaoBonus;
         if(interactionDaoMap.containsKey(interactionDao)) finalInteractionDaoBonus+= interactionDaoMap.get(interactionDao).getFirst();

@@ -3,8 +3,10 @@ package net.thejadeproject.ascension.progression.dao;
 import net.minecraft.network.chat.Component;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface IDao {
 
@@ -12,7 +14,11 @@ public interface IDao {
     List<Component> getDescription();
 
 
+    default Set<DaoInteractionType> getInteractionTypesOfDao(String daoId){
+        HashSet<DaoInteractionType> interactionTypes = new HashSet<>();
+        return null;
 
+    }
     //============= GETTING VALUES ===============
     //note this is the raw INTERACTION value. each one is used slightly differently
     // eg when using destructive value also * dao multiplier/event dao multiplier

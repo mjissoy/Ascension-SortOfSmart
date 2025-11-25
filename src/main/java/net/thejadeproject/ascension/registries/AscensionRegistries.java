@@ -51,6 +51,8 @@ public class AscensionRegistries {
             ResourceLocation keyLocation = ResourceLocation.bySeparator(key,':');
             return DAO_REGISTRY.get(keyLocation);
         }
+
+
     }
 
     @SubscribeEvent // on the mod event bus

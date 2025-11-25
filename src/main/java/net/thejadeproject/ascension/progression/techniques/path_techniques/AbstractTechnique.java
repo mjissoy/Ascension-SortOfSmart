@@ -80,7 +80,7 @@ public abstract class AbstractTechnique implements ITechnique {
             for(String techniqueAttributeId : getDaoBonuses()){
                 Double destructiveValue = dao.getDestructiveValue(techniqueAttributeId);
                 Double generativeValue = dao.getDestructiveValue(techniqueAttributeId);
-                Double destructiveValue = dao.getDestructiveValue(techniqueAttributeId);
+                Double relatedValue = dao.getDestructiveValue(techniqueAttributeId);
             }
             System.out.println("getting eff from technique");
             System.out.println(attribute);
