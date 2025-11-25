@@ -55,8 +55,6 @@ import net.thejadeproject.ascension.util.KeyBindHandler;
 import net.thejadeproject.ascension.util.ModAttachments;
 import net.thejadeproject.ascension.util.ModAttributes;
 import net.thejadeproject.ascension.util.ToolTips.ToolTipManager;
-import net.thejadeproject.ascension.worldgen.biome.ModTerrablender;
-import net.thejadeproject.ascension.worldgen.biome.surface.ModSurfaceRules;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -104,8 +102,6 @@ public class AscensionCraft {
 
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
-
-        ModTerrablender.registerBiomes();
 
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
@@ -216,7 +212,6 @@ public class AscensionCraft {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        SurfaceRuleManager.addSurfaceRules(SurfaceRuleManager.RuleCategory.OVERWORLD, MOD_ID, ModSurfaceRules.makeRules());
         ToolTipManager.registerAllTooltips();
         FreezingEffectItems.onCommonSetup(event);
         SpatialRingUtils.checkCuriosLoaded();
