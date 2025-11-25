@@ -1,0 +1,26 @@
+// 1.21.1	2025-11-25T09:39:43.0744003	Tags for minecraft:item mod id ascension
+4b331a574c852b3ed27cd081b5501401149148b4 data/ascension/tags/item/blade.json
+08248a73df114f60d1ffa79665c61e1a2a320e58 data/ascension/tags/item/blade_intent.json
+d5819c82fddfaf937dbe9ed568e87f1206349f8d data/ascension/tags/item/bow_intent.json
+e4a74e3bac20e15f887a95ee7b0c12d6d885c4cd data/ascension/tags/item/earth.json
+f4384704423a2719b0bec2158d2c41d8d79296e8 data/ascension/tags/item/fire.json
+b79fab5829410b6b51f4d720188d05dbb1d4bec7 data/ascension/tags/item/herbs/medicinal.json
+c823cbbea6ccfbbf9a1549014bc917445435287b data/ascension/tags/item/metal.json
+079e87c19eb43de0e0553f12189cbd68ce6ad5d0 data/ascension/tags/item/spear.json
+f5a2a0c1903b660da1eaea1a6674865feef25b45 data/ascension/tags/item/spear_enchantable.json
+f5a2a0c1903b660da1eaea1a6674865feef25b45 data/ascension/tags/item/spear_intent.json
+e6756cdd6fb03cf772eba210ae3f93335e83dcd6 data/ascension/tags/item/sword_intent.json
+071f308de9351e92ddaea4e51c8e6a559623c35f data/curios/tags/item/ring.json
+6216bc7fa4d371cf45c8b7056111fe820ede09c7 data/c/tags/item/enchantables.json
+9cc39268d42cf405595b859cc30020a3a910a10a data/c/tags/item/ingots/black_iron.json
+354f9c0697183b34f6eb16a23fb596ea2a14b86a data/c/tags/item/ingots/frost_silver.json
+c0d4c2183f79d35c93b5c9971b7e2f9f7e31bed9 data/c/tags/item/nuggets/black_iron.json
+4e75ddf9fbcbe033fa1308c6d1b005e2d4aa91cc data/c/tags/item/nuggets/frost_silver.json
+673538aeb8708c90cf7943f1d5a8e1e979474a7d data/c/tags/item/raw_materials/black_iron.json
+941490a5df0d2875b0087f8e9f003b524e8c0f0a data/c/tags/item/raw_materials/frost_silver.json
+a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/c/tags/item/tools.json
+a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/minecraft/tags/item/breaks_decorated_pots.json
+6216bc7fa4d371cf45c8b7056111fe820ede09c7 data/minecraft/tags/item/enchantable/fire_aspect.json
+a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/minecraft/tags/item/enchantable/sharp_weapon.json
+83eacd83689146e557ef948eab4bfdd0e856d564 data/minecraft/tags/item/logs_that_burn.json
+f294f4737fdfa8a77f41bda0c509e5a3b2d3e2e8 data/minecraft/tags/item/planks.json

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "J": {
+      "item": "ascension:jade"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "  J",
+    " J ",
+    "S  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "ascension:jade_spear"
+  }
+}

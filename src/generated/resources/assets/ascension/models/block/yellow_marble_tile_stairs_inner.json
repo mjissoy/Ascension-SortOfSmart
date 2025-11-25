@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "ascension:block/yellow_marble_tiles",
+    "side": "ascension:block/yellow_marble_tiles",
+    "top": "ascension:block/yellow_marble_tiles"
+  }
+}
