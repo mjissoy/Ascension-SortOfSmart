@@ -140,7 +140,7 @@ dependencies {
 
     implementation "maven.modrinth:jade:${project.jade_version}"
 
-    implementation 'com.github.OliverHesse:EasyGui:a633e6b1b7'
+    implementation 'com.github.OliverHesse:EasyGui:eb089515c9'
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
     implementation 'com.github.glitchfiend:TerraBlender-neoforge:' + minecraft_version + '-' + terrablender_version
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
