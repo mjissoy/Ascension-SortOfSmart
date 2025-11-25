@@ -50,7 +50,7 @@ public interface ITechnique {
     //the elements cultivated
     Set<String> getCultivationAttributes();
     //the elemental affinities
-    List<String> getEfficiencyAttributes();
+    Set<String> getDaoBonuses();
 
     StabilityHandler getStabilityHandler();
     IBreakthroughHandler getBreakthroughHandler();

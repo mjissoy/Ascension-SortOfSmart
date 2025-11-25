@@ -130,10 +130,7 @@ public class ModDao {
         return DAO.register(id,()->new GenericDao(title).setDestructiveDao(generativeDao).setGenerativeDao(generativeDao).setRelatedDao(relatedDao).setDescription(description));
     }
 
-    public static IDao getDaoFromKey(String key){
-        ResourceLocation keyLocation = ResourceLocation.bySeparator(key,':');
-        return AscensionRegistries.Dao.DAO_REGISTRY.get(keyLocation);
-    }
+
 
     public static void register(IEventBus modEventBus){
         DAO.register(modEventBus);

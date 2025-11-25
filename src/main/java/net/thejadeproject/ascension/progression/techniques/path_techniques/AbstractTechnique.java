@@ -14,6 +14,7 @@ import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEv
 import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
+import net.thejadeproject.ascension.progression.dao.IDao;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
@@ -33,7 +34,7 @@ public abstract class AbstractTechnique implements ITechnique {
     public Double baseRate;
     public Consumer<MinorRealmChangeEvent> minorRealmChangeEventConsumer;
     public Consumer<MajorRealmChangeEvent> majorRealmChangeEventConsumer;
-    public Map<String,Double> efficiencyBonuses = new HashMap<>();
+    public Map<String,Double> daoBonuses = new HashMap<>();
     public String path;
     public SkillList skillList = new SkillList(List.of());
     public ITextureData techniqueImage;
@@ -72,26 +73,33 @@ public abstract class AbstractTechnique implements ITechnique {
 
     @Override
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
-        for(String attribute:event.ascensionAttributeID()){
 
+
+        for(String attribute:event.ascensionAttributeID()){
+            IDao dao = AscensionRegistries.Dao.getDaoFromKey(attribute);
+            for(String techniqueAttributeId : getDaoBonuses()){
+                Double destructiveValue = dao.getDestructiveValue(techniqueAttributeId);
+                Double generativeValue = dao.getDestructiveValue(techniqueAttributeId);
+                Double destructiveValue = dao.getDestructiveValue(techniqueAttributeId);
+            }
             System.out.println("getting eff from technique");
             System.out.println(attribute);
-            System.out.println(efficiencyBonuses.get(attribute));
-            if(efficiencyBonuses.containsKey(attribute)) event.addDaoMultiplier(efficiencyBonuses.get(attribute));
+            System.out.println(daoBonuses.get(attribute));
+            if(daoBonuses.containsKey(attribute)) event.addDaoMultiplier(daoBonuses.get(attribute));
         }
     }
 
     public AbstractTechnique setEfficiencyAttributes(Map<String,Double> efficiencyBonuses){
-        this.efficiencyBonuses = efficiencyBonuses;
+        this.daoBonuses = efficiencyBonuses;
         return this;
     }
     @Override
-    public List<String> getEfficiencyAttributes() {
-        return efficiencyBonuses.keySet().stream().toList();
+    public Set<String> getDaoBonuses() {
+        return daoBonuses.keySet();
     }
     @Override
     public Double getEfficiencyValue(String attribute) {
-        return efficiencyBonuses.get(attribute);
+        return daoBonuses.get(attribute);
     }
     @Override
     public String getPath() {
@@ -189,7 +197,7 @@ public abstract class AbstractTechnique implements ITechnique {
                         .customScaling(0.5)
                         .build()
         );
-        for (Map.Entry<String ,Double> value : efficiencyBonuses.entrySet()){
+        for (Map.Entry<String ,Double> value : daoBonuses.entrySet()){
             Component text = AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(value.getKey(),':')).getDisplayTitle().copy().append(": "+value.getValue().toString());
             HoverableLabel hoverableLabel = (new HoverableLabel.Builder())
                     .screen(screen)
@@ -223,7 +231,7 @@ public abstract class AbstractTechnique implements ITechnique {
         extraInfo.add(
                 Component.literal("Dao Efficiencies:").withStyle(ChatFormatting.BOLD)
         );
-        for (Map.Entry<String ,Double> value : efficiencyBonuses.entrySet()){
+        for (Map.Entry<String ,Double> value : daoBonuses.entrySet()){
             Component text = AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(value.getKey(),':')).getDisplayTitle().copy().append(": "+value.getValue().toString());
 
             extraInfo.add(text.copy().append(": "+value.getValue().toString()));

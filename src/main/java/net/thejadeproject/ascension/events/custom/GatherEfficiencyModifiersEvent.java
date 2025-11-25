@@ -1,46 +1,65 @@
 package net.thejadeproject.ascension.events.custom;
 
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GatherEfficiencyModifiersEvent extends Event {
     public  final  Player player;
     private final Set<String> ascensionAttributeID;
     public final String pathID;
-    private final List<Double> daoMultipliers = new ArrayList<>();
-    private final List<Double> pathMultipliers = new ArrayList<>();
+    private final HashMap<String,Double> daoMultipliers = new HashMap<>();
+
+
+    private final HashMap<String,Double> pathMultipliers = new HashMap<>();
+
+    private final HashMap<String,HashMap<String, Pair<Double,Double>>> generativeValues = new HashMap<>();
+    private final HashMap<String,HashMap<String, Pair<Double,Double>>> destructiveValues = new HashMap<>();
+
 
     public GatherEfficiencyModifiersEvent(Player player,String pathID,Set<String> ascensionAttributeID){
         this.ascensionAttributeID =  ascensionAttributeID;
         this.player = player;
         this.pathID = pathID;
     }
-    public void addDaoMultiplier(Double mul){
-        daoMultipliers.add(mul);
+    public void addDaoMultiplier(String attribute,Double mul){
+        daoMultipliers.put(attribute,mul);
     }
     public Double getTotalDaoEfficiencyMultiplier(){
-        Double total = 1.0;
-        for(Double v : daoMultipliers){
-            total *= v;
+        Double total = 0.0;
+        for(Double multiplier : daoMultipliers.values()){
+            total += multiplier;
         }
         return total;
     }
-    public void addPathMultiplier(Double mul){
-        pathMultipliers.add(mul);
+    public void addPathMultiplier(String pathID,Double mul){
+        pathMultipliers.put(pathID,mul);
     }
     public Double getTotalPathEfficiencyMultiplier(){
-        Double total = 1.0;
-        for(Double v : pathMultipliers){
-            total *= v;
+        Double total = 0.0;
+        for(Double multiplier : pathMultipliers.values()){
+            total += multiplier;
         }
         return total;
     }
     public List<String> ascensionAttributeID(){
         return List.copyOf(ascensionAttributeID);
+    }
+    public void addGenerativeMultiplier(String attribute,String interactionDao,double interactionDaoBonus,double generativeBonus){
+        if(!generativeValues.containsKey(attribute)) generativeValues.put(attribute,new HashMap<>());
+        HashMap<String,Pair<Double,Double>> interactionDaoMap = generativeValues.get(attribute);
+        double finalInteractionDaoBonus = interactionDaoBonus;
+        if(interactionDaoMap.containsKey(interactionDao)) finalInteractionDaoBonus+= interactionDaoMap.get(interactionDao).getFirst();
+        interactionDaoMap.put(interactionDao,new Pair<>(finalInteractionDaoBonus,generativeBonus));
+    }
+    public void addDestructiveMultiplier(String attribute,String interactionDao,double interactionDaoBonus,double destructiveBonus){
+        if(!generativeValues.containsKey(attribute)) generativeValues.put(attribute,new HashMap<>());
+        HashMap<String,Pair<Double,Double>> interactionDaoMap = destructiveValues.get(attribute);
+        double finalInteractionDaoBonus = interactionDaoBonus;
+        if(interactionDaoMap.containsKey(interactionDao)) finalInteractionDaoBonus+= interactionDaoMap.get(interactionDao).getFirst();
+        interactionDaoMap.put(interactionDao,new Pair<>(finalInteractionDaoBonus,destructiveBonus));
     }
 }

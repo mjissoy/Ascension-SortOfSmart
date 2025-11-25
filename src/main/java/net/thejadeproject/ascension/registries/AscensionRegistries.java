@@ -46,6 +46,11 @@ public class AscensionRegistries {
         public static final Registry<IDao> DAO_REGISTRY = new RegistryBuilder<>(DAO_REGISTRY_KEY)
                 .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"empty"))
                 .create();
+
+        public static IDao getDaoFromKey(String key){
+            ResourceLocation keyLocation = ResourceLocation.bySeparator(key,':');
+            return DAO_REGISTRY.get(keyLocation);
+        }
     }
 
     @SubscribeEvent // on the mod event bus
