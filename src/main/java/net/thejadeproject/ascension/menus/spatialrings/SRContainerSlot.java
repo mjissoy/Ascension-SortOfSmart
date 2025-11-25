@@ -7,7 +7,6 @@ import net.neoforged.neoforge.items.SlotItemHandler;
 import net.thejadeproject.ascension.items.artifacts.SpatialRingItem;
 
 import javax.annotation.Nonnull;
-import java.util.function.Predicate;
 
 public class SRContainerSlot extends SlotItemHandler {
     private int index;
@@ -18,8 +17,8 @@ public class SRContainerSlot extends SlotItemHandler {
 
     @Override
     public boolean mayPlace(@Nonnull ItemStack stack) {
-        // Prevent spatial rings from being placed in spatial ring slots
-        return !SpatialRingItem.isSpatialring(stack);
+        // Prevent spatial rings or Shulker box from being placed in spatial ring slots
+        return  !(SpatialRingItem.isSpatialring(stack) || isShulkerBox(stack));
     }
 
     @Override
@@ -31,5 +30,11 @@ public class SRContainerSlot extends SlotItemHandler {
     @Override
     public void initialize(@Nonnull ItemStack itemStack) {
         ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(index, itemStack);
+    }
+
+    private boolean isShulkerBox(ItemStack stack) {
+        // Check if the item is a ShulkerBoxItem
+        return stack.getItem() instanceof net.minecraft.world.item.BlockItem blockItem &&
+                blockItem.getBlock() instanceof net.minecraft.world.level.block.ShulkerBoxBlock;
     }
 }
