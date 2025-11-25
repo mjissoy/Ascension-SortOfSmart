@@ -73,6 +73,7 @@ public abstract class AbstractTechnique implements ITechnique {
     @Override
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
         for(String attribute:event.ascensionAttributeID()){
+
             System.out.println("getting eff from technique");
             System.out.println(attribute);
             System.out.println(efficiencyBonuses.get(attribute));

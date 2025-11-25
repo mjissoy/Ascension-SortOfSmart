@@ -177,12 +177,12 @@ public class ModItems {
     public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T2 = ITEMS.register("inner_reinforcement_pill_t2",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT), 800 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:body",40.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:body",40.0,new HashSet<>());
                     }));
     public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T3 = ITEMS.register("inner_reinforcement_pill_t3",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.INNER_REINFORCEMENT), 1600 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:body",80.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:body",80.0,new HashSet<>());
                     }));
     public static final DeferredItem<Item> PILL_RESIDUE = ITEMS.register("pill_residue",
             () -> new PillResidue(new Item.Properties().food(ModFoodProperties.PILL_RESIDUE)));

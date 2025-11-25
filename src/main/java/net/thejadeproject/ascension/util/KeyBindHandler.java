@@ -17,7 +17,6 @@ import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
-import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionEarth;
