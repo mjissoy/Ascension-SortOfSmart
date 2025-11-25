@@ -191,14 +191,10 @@ public class AscensionCraft {
                 //open menu
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new OpenPickPhysiqueScreen(true));
             }else{
-                Minecraft.getInstance().tell(()->{
-                    PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
-                });
-            }
-        }
+                PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
 
-        for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
-            Minecraft.getInstance().tell(()->{
+            }
+            for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPathDataPayload(
                         path.pathId,
                         path.majorRealm,
@@ -207,8 +203,10 @@ public class AscensionCraft {
                         path.technique,
                         path.stabilityCultivationTicks
                 ));
-            });
+            }
         }
+
+
     }
 
     public void onLoadComplete(FMLLoadCompleteEvent event) {
