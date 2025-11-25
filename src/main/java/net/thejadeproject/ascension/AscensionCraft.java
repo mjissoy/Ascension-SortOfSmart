@@ -87,6 +87,7 @@ public class AscensionCraft {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
     }
 
+
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
 
