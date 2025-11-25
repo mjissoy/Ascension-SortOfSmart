@@ -50,7 +50,7 @@ public class AscensionCraftClient {
 
     }
 
-    @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
+    @EventBusSubscriber(modid = AscensionCraft.MOD_ID,value = Dist.CLIENT)
     static class ClientEvents{
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {

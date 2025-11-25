@@ -8,9 +8,11 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+//import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+import net.thejadeproject.ascension.events.custom.PhysiqueGeneratedEvent;
 import net.thejadeproject.ascension.util.ModAttachments;
 
 import java.nio.charset.StandardCharsets;
@@ -31,10 +33,8 @@ public record SyncGeneratedPhysique(String generated_physique, byte[] other_phys
     }
     public static void handlePayload(SyncGeneratedPhysique payload, IPayloadContext context) {
         //deserialize physiques
-        context.player().setData(ModAttachments.PHYSIQUE,payload.generated_physique());
-        if(Minecraft.getInstance().screen instanceof GeneratePhysiqueScreen physiqueScreen){
-            String joined = new String(payload.other_physiques(), StandardCharsets.UTF_8);
-            physiqueScreen.updateGeneratedPhysiques(payload.generated_physique(), joined.split(";"));
-        }
+        String joined = new String(payload.other_physiques(), StandardCharsets.UTF_8);
+        NeoForge.EVENT_BUS.post(new PhysiqueGeneratedEvent(payload.generated_physique(),joined.split(";")));
+
     }
 }
