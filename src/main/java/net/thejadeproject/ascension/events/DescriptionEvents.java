@@ -34,9 +34,6 @@ public class DescriptionEvents {
             if (event.getItemStack().is(ModTags.Items.MEDICINAL)) {
                 event.getTooltipElements().add(Either.left(Component.literal("§a[Medicinal]")));
             }
-            if (event.getItemStack().is(ModTags.Items.HUMAN)) {
-                event.getTooltipElements().add(Either.left(Component.literal("§8[Human]")));
-            }
 
         }
     }

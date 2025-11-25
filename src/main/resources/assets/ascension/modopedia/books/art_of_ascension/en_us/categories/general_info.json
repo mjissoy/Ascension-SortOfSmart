@@ -1,0 +1,9 @@
+{
+  "title": "General Information",
+  "landing_text": "This is here to answer most questions about the mod about everything except Cultivation as that already exists.\n\nAnything you find in here is verified and true so it can't be false unless we forgot to add and(or) edit something!",
+  "icon": { "id": "ascension:crimson_lotus_flame", "count": 1},
+  "entries": [
+    "generalinfo/tiers"
+  ],
+  "display_on_front_page": true
+}

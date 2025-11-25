@@ -1,0 +1,42 @@
+{
+  "title": "Cultivation Paths",
+  "icon": { "id": "ascension:spiritual_stone" },
+  "pages": [
+    {
+      "components": [
+        {
+          "header": "§bCultivation Paths",
+          "template": "modopedia:page/headered_text",
+          "text": "$(b)Body$(/b)\nThis is about cultivating the self, instead of giving up on your mortal shell cultivate it!\n$(b)Intent$(/b)\nThis is all about cultivating your will. Until you can materialise it!\n$(b)Essence$(/b)\nThis is standard cultivation!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§cBody",
+          "template": "modopedia:page/headered_text",
+          "text": "What is body cultivation? \nBody Cultivations main way to cultivate is to take massive Damage of any type! \n\nIt can also be increased by learning $(b)$(cl:pillcrafting)Pill Crafting$(/el)$(/b) and consuming pills!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§5Intent",
+          "template": "modopedia:page/headered_text",
+          "text": "What is intent cultivation? \nIntent Cultivations main way to cultivate is to deal massive Damage with Bow, Fist, Sword, Blade or Spear! \n\nIt can also be increased by learning $(b)$(cl:pillcrafting)Pill Crafting$(/el)$(/b) and consuming pills!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§6Essence",
+          "template": "modopedia:page/headered_text",
+          "text": "What is essence cultivation? \nEssence Cultivations main way to cultivate is to hold down a keybind (C) by default.\n\nIt can also be increased by learning $(b)$(cl:pillcrafting)Pill Crafting$(/el)$(/b) and consuming pills!"
+        }
+      ]
+    }
+  ]
+}

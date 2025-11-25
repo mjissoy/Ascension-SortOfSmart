@@ -6,9 +6,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,10 +34,6 @@ public class TabletOfDestructionEarth extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        if (context.getPlayer() != null && context.getPlayer().isShiftKeyDown()) {
-            return InteractionResult.PASS;
-        }
-
         Player player = context.getPlayer();
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
@@ -46,7 +41,7 @@ public class TabletOfDestructionEarth extends Item {
         // Check cooldown using Minecraft's system
         if (player != null && player.getCooldowns().isOnCooldown(this)) {
             if (!level.isClientSide) {
-                player.sendSystemMessage(Component.literal("Item is on cooldown!"));
+                player.displayClientMessage(Component.translatable("ascension.tablet.cooldown"), true);
             }
             return InteractionResult.FAIL;
         }
@@ -58,34 +53,13 @@ public class TabletOfDestructionEarth extends Item {
 
             Vec3 lookVec = player.getViewVector(1.0F);
             Vec3 playerPos = player.position();
-            CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-            boolean dropBlocks = customData != null && customData.getUnsafe().getBoolean(DROP_BLOCKS_TAG);
+            CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+            boolean dropBlocks = customData.getUnsafe().getBoolean(DROP_BLOCKS_TAG);
             this.clearArea(level, pos, lookVec, playerPos, dropBlocks);
             stack.shrink(1);
             level.playSound(null, pos, net.minecraft.sounds.SoundEvents.ITEM_BREAK, net.minecraft.sounds.SoundSource.BLOCKS, 1.0F, 1.0F);
         }
         return InteractionResult.SUCCESS;
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
-        if (player.isShiftKeyDown()) {
-            if (!level.isClientSide) {
-                CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-                CompoundTag tag = customData.copyTag();
-                boolean currentValue = tag.getBoolean(DROP_BLOCKS_TAG);
-                tag.putBoolean(DROP_BLOCKS_TAG, !currentValue);
-                stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
-
-                // Create colored message
-                Component status = Component.literal(String.valueOf(!currentValue))
-                        .withStyle(!currentValue ? ChatFormatting.GREEN : ChatFormatting.RED);
-                player.sendSystemMessage(Component.literal("Drop Blocks = ").append(status));
-            }
-            return InteractionResultHolder.success(stack);
-        }
-        return InteractionResultHolder.pass(stack);
     }
 
     @Override
@@ -103,7 +77,22 @@ public class TabletOfDestructionEarth extends Item {
         // Create colored tooltip
         Component status = Component.literal(String.valueOf(dropBlocks))
                 .withStyle(dropBlocks ? ChatFormatting.GREEN : ChatFormatting.RED);
-        tooltipComponents.add(Component.literal("Drop Blocks = ").append(status));
+        tooltipComponents.add(Component.translatable("ascension.tablet.drop_blocks").append(status));
+        tooltipComponents.add(Component.translatable("ascension.tablet.toggle_mode").withStyle(ChatFormatting.GRAY));
+    }
+
+    // Server-side method to toggle drop mode
+    public static void toggleDropModeServer(ItemStack stack, ServerPlayer player) {
+        CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        CompoundTag tag = customData.copyTag();
+        boolean currentValue = tag.getBoolean(DROP_BLOCKS_TAG);
+        tag.putBoolean(DROP_BLOCKS_TAG, !currentValue);
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
+
+        // Create colored message
+        Component status = Component.literal(String.valueOf(!currentValue))
+                .withStyle(!currentValue ? ChatFormatting.GREEN : ChatFormatting.RED);
+        player.displayClientMessage(Component.translatable("ascension.tablet.drop_blocks").append(status), true);
     }
 
     private void clearArea(Level level, BlockPos startPos, Vec3 direction, Vec3 playerPos, boolean dropBlocks) {

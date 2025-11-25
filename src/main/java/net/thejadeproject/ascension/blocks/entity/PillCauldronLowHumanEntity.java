@@ -27,11 +27,11 @@ import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHu
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.recipe.PillCauldronInput;
-import net.thejadeproject.ascension.util.ModTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvider {
     public final ItemStackHandler itemHandler = new ItemStackHandler(5) {
@@ -47,8 +47,8 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     private static final int INPUT_SLOT0 = 0;
     private static final int INPUT_SLOT1 = 1;
     private static final int INPUT_SLOT2 = 2;
-    private static final int OUTPUT_SLOT0 = 3;
-    private static final int OUTPUT_SLOT1 = 4;
+    private static final int OUTPUT_SLOT_SUCCESS = 3; // Left slot - always for success items
+    private static final int OUTPUT_SLOT_FAIL = 4;   // Right slot - always for fail items
 
     private int heatLevel = 0;
     private int heatLossTimer = 0;
@@ -136,8 +136,8 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     }
 
     public ItemStack getCurrentRecipeOutput() {
-        ItemStack successOutput = this.itemHandler.getStackInSlot(3);
-        ItemStack failOutput = this.itemHandler.getStackInSlot(4);
+        ItemStack successOutput = this.itemHandler.getStackInSlot(OUTPUT_SLOT_SUCCESS);
+        ItemStack failOutput = this.itemHandler.getStackInSlot(OUTPUT_SLOT_FAIL);
 
         if (!successOutput.isEmpty()) {
             return successOutput;
@@ -223,17 +223,18 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
 
     private void craftItem() {
         Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
-        ItemStack output = recipe.get().value().output();
-        NonNullList<SizedIngredient> ingredients = recipe.get().value().getSizedIngredients();
+        LowHumanPillCauldronRecipe recipeValue = recipe.get().value();
+        NonNullList<SizedIngredient> ingredients = recipeValue.getSizedIngredients();
 
         // Consume input items
         itemHandler.extractItem(INPUT_SLOT0, ingredients.get(INPUT_SLOT0).count(), false);
         itemHandler.extractItem(INPUT_SLOT1, ingredients.get(INPUT_SLOT1).count(), false);
         itemHandler.extractItem(INPUT_SLOT2, ingredients.get(INPUT_SLOT2).count(), false);
 
-        // Determine if output is success or fail
-        boolean isSuccess = output.is(ModTags.Items.ALCHEMY_SUCCESS);
-        int targetSlot = isSuccess ? OUTPUT_SLOT0 : OUTPUT_SLOT1;
+        // Determine success or fail based on chance
+        boolean isSuccess = ThreadLocalRandom.current().nextDouble() < recipeValue.getChance();
+        ItemStack output = isSuccess ? recipeValue.getSuccess() : recipeValue.getFail();
+        int targetSlot = isSuccess ? OUTPUT_SLOT_SUCCESS : OUTPUT_SLOT_FAIL;
 
         ItemStack currentStack = itemHandler.getStackInSlot(targetSlot);
 
@@ -264,11 +265,12 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
             return false;
         }
 
-        ItemStack successOutput = recipe.get().value().getSuccess();
-        ItemStack failOutput = recipe.get().value().getFail();
+        LowHumanPillCauldronRecipe recipeValue = recipe.get().value();
+        ItemStack successOutput = recipeValue.getSuccess();
+        ItemStack failOutput = recipeValue.getFail();
 
-        ItemStack successSlot = itemHandler.getStackInSlot(OUTPUT_SLOT0);
-        ItemStack failSlot = itemHandler.getStackInSlot(OUTPUT_SLOT1);
+        ItemStack successSlot = itemHandler.getStackInSlot(OUTPUT_SLOT_SUCCESS);
+        ItemStack failSlot = itemHandler.getStackInSlot(OUTPUT_SLOT_FAIL);
 
         // Check if success output can go to success slot
         boolean canInsertSuccess = successSlot.isEmpty() ||

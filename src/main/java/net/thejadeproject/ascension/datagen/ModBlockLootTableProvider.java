@@ -7,6 +7,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -31,6 +32,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         dropSelf(ModBlocks.JADE_BLOCK.get());
+        dropSelf(ModBlocks.BLACK_IRON_BLOCK.get());
+        dropSelf(ModBlocks.FROST_SILVER_BLOCK.get());
         dropSelf(ModBlocks.SPIRITUAL_STONE_BLOCK.get());
 
 
@@ -124,18 +127,28 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createOreDrop(ModBlocks.SPIRITUAL_STONE_CLUSTER.get(), ModItems.SPIRITUAL_STONE.get()));
 
 
-        add(ModBlocks.GOLDEN_SUN_LEAF_BLOCK.get(),
-                block -> createSingleItemTable(ModItems.GOLDEN_SUN_LEAF.get()));
-        add(ModBlocks.IRONWOOD_SPROUT_BLOCK.get(),
+
+        //Herbs
+        add(ModBlocks.IRONWOOD_SPROUT_CROP.get(),
                 block -> createSingleItemTable(ModItems.IRONWOOD_SPROUT.get()));
-        add(ModBlocks.WHITE_JADE_ORCHID_BLOCK.get(),
+        add(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
                 block -> createSingleItemTable(ModItems.WHITE_JADE_ORCHID.get()));
         add(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
                 block -> createSingleItemTable(ModItems.HUNDRED_YEAR_GINSENG.get()));
+        add(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
+                block -> createSingleItemTable(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()));
+        add(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
+                block -> createSingleItemTable(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get()));
 
 
+
+        //Ores
         add(ModBlocks.JADE_ORE.get(),
                 block -> createOreDrop(ModBlocks.JADE_ORE.get(), ModItems.JADE.get()));
+        add(ModBlocks.BLACK_IRON_ORE.get(),
+                block -> createOreDrop(ModBlocks.BLACK_IRON_ORE.get(), ModItems.RAW_BLACK_IRON.get()));
+        add(ModBlocks.FROST_SILVER_ORE.get(),
+                block -> createOreDrop(ModBlocks.FROST_SILVER_ORE.get(), ModItems.RAW_FROST_SILVER.get()));
 
         this.dropSelf(ModBlocks.GOLDEN_PALM_LOG.get());
         this.dropSelf(ModBlocks.GOLDEN_PALM_WOOD.get());

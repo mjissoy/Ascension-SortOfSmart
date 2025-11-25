@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.EventPriority;
@@ -16,12 +17,18 @@ import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
+import net.thejadeproject.ascension.cultivation.player.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
+import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionEarth;
+import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionHeaven;
+import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionHuman;
+import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.guis.easygui.screens.SelectSkillMenu;
 import net.thejadeproject.ascension.guis.easygui.screens.SkillMenuScreen;
 import net.thejadeproject.ascension.network.serverBound.ServerCastSkillPayload;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
+import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
 
 @OnlyIn(Dist.CLIENT)
 public class KeyBindHandler {
@@ -55,6 +62,8 @@ public class KeyBindHandler {
 
     public static final KeyMapping CAST_SKILL_KEY = new KeyMapping("key.ascension.cast_skill",KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_V, SKILL_CATEGORY);
 
+    public static final KeyMapping OPEN_SPATIAL_RING_KEY = new KeyMapping("key.ascension.open_spatial_ring",  InputConstants.KEY_H, "category.ascension.cultivation"); // 'R' key
+    public static final KeyMapping TOGGLE_ARTIFACT_MODE_KEY = new KeyMapping("key.ascension.toggle_artifact_mode", 77, "category.ascension.cultivation"); // 'M' key
 
     public static final KeyMapping SKILL_WHEEL_KEY = new KeyMapping("key.ascension.skill_wheel",KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_R, SKILL_CATEGORY);
 
@@ -97,6 +106,8 @@ public class KeyBindHandler {
         if(minecraft.level == null && minecraft.getConnection() == null) return;
 
 
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return;
 
         if(INTROSPECTION_KEY.consumeClick()){
             try {
@@ -116,14 +127,36 @@ public class KeyBindHandler {
             }
         }
 
-        CultivationData.PathData data =  Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence");
+        // Handle Spatial Ring key - SEND PACKET TO SERVER
+        if(OPEN_SPATIAL_RING_KEY.consumeClick()) {
+            PacketDistributor.sendToServer(new OpenSpatialRingPacket());
+        }
+
+        // Handle Toggle Tablet Mode key
+        if(TOGGLE_ARTIFACT_MODE_KEY.consumeClick()) {
+            ItemStack mainHandItem = player.getMainHandItem();
+            ItemStack offHandItem = player.getOffhandItem();
+
+            // Check if player is holding either tablet in main hand or offhand
+            if (mainHandItem.getItem() instanceof TabletOfDestructionHeaven ||
+                    mainHandItem.getItem() instanceof TabletOfDestructionEarth ||
+                    offHandItem.getItem() instanceof TabletOfDestructionHeaven ||
+                    offHandItem.getItem() instanceof TabletOfDestructionEarth) {
+
+                // Send packet to server to toggle drop mode
+                PacketDistributor.sendToServer(new ToggleTabletDropModePayload());
+            }
+        }
+
+        // Handle Cultivation key
+        CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence");
         boolean cultivating = data.isCultivating();
 
         data.setCultivating(CULTIVATE_KEY.isDown());
 
         if(cultivating != data.isCultivating()){
             System.out.println("sending sync packer");
-            PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence",data.isCultivating()));
+            PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence", data.isCultivating()));
         }
     }
 }

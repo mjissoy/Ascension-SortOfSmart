@@ -1,0 +1,9 @@
+{
+  "title": "Pill Cauldrons",
+  "landing_text": "This page will tell you how to interract and use the Pill Cauldron!\n\nIt will also house future Pill Cauldron Upgrades!\n\nDo read carefully in the guide as it explains everything needed to know for Pill Crafting",
+  "icon": { "id": "ascension:pill_cauldron_low_human", "count": 1},
+  "entries": [
+    "pillcrafting/pillcauldronlowhuman"
+  ],
+  "display_on_front_page": false
+}

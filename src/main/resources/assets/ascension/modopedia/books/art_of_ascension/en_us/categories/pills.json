@@ -3,7 +3,11 @@
   "landing_text": "This page will tell you all about Pills!\n\nTheir recipes, uses, and general information about their make-up.\n\nBe careful and read there might be future features hidden in plain sight.",
   "icon": { "id": "ascension:regeneration_pill", "count": 1},
   "entries": [
-
+    "pills/fastingpills",
+    "pills/regenpill",
+    "pills/cleansingpill",
+    "pills/rebirthpill",
+    "pills/inner_rein_pill"
   ],
   "display_on_front_page": false
 }

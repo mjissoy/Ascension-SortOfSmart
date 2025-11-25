@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 
+
 import java.util.function.Supplier;
 
 public class ModBlockEntities {
@@ -18,6 +19,7 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<PillCauldronLowHumanEntity>> PILL_CAULDRON_LOW_HUMAN =
             BLOCK_ENTITIES.register("pill_cauldron_low_human", () -> BlockEntityType.Builder.of(
                     PillCauldronLowHumanEntity::new, ModBlocks.PILL_CAULDRON_HUMAN_LOW.get()).build(null));
+
 
 
     public static void register(IEventBus eventBus) {

@@ -9,10 +9,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 
-public class HundredYearFireGinseng extends Item {
-    public HundredYearFireGinseng(Properties properties) {
-        super(properties);
+public class HundredYearFireGinseng extends PlantableHerb {
+    public HundredYearFireGinseng(Block block, Properties properties) {
+        super(block, properties);
     }
 
     @Override
@@ -20,7 +21,6 @@ public class HundredYearFireGinseng extends Item {
         if (!level.isClientSide && entity instanceof Player player) {
             // Set player on fire for 3 seconds (60 ticks) - shorter since no fire resistance
             player.setRemainingFireTicks(300);
-
 
             // Visual and sound effects
             level.playSound(null, player.getX(), player.getY(), player.getZ(),

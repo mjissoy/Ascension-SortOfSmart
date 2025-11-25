@@ -8,14 +8,32 @@ import net.thejadeproject.ascension.effects.ModEffects;
 public class ModFoodProperties {
     public static final FoodProperties REGENERATION_PILL = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.QI_ENHANCED_REGENERATION, 200), 1f).build();
-    public static final FoodProperties CLEANSING_PILL = new FoodProperties.Builder().alwaysEdible().fast()
+
+    public static final FoodProperties CLEANSING_PILL_T1 = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200), 1f).build();
+    public static final FoodProperties CLEANSING_PILL_T2 = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 1), 1f).build();
+    public static final FoodProperties CLEANSING_PILL_T3 = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 2), 1f).build();
+    public static final FoodProperties CLEANSING_PILL_T4 = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 3), 1f).build();
+
+    public static final FoodProperties QI_DEVOURING_PARASITE_PILL = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.PARASITE, 400), 1f).build();
+
+    public static final FoodProperties NEUTRALITY_PILL = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.NEUTRALITY, 1000), 1f).build();
+
     public static final FoodProperties REBIRTH_PILL = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
     public static final FoodProperties FASTING_PILL_T1 = new FoodProperties.Builder().nutrition(6).saturationModifier(6).fast().build();
     public static final FoodProperties FASTING_PILL_T2 = new FoodProperties.Builder().nutrition(10).saturationModifier(10).fast().build();
     public static final FoodProperties FASTING_PILL_T3 = new FoodProperties.Builder().nutrition(15).saturationModifier(15).fast().build();
 
-    public static final FoodProperties INNER_REINFORCEMENT_T1 = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
+
+    public static final FoodProperties PILL_RESIDUE = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().alwaysEdible().build();
+
+    public static final FoodProperties INNER_REINFORCEMENT = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
+    public static final FoodProperties ANTIDOTE_PILL = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
 
 
     public static final FoodProperties HUNDRED_YEAR_SNOW_GINSENG = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().alwaysEdible().build();

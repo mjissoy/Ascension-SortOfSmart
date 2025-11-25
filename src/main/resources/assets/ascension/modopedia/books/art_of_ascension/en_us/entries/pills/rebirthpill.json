@@ -1,0 +1,40 @@
+{
+  "title": "Rebirth Pill",
+  "icon": { "id": "ascension:rebirth_pill" },
+  "assigned_items": [
+    "ascension:rebirth_pill"
+  ],
+  "pages": [
+    {
+      "components": [
+        {
+          "type": "modopedia:large_frame"
+        },
+        {
+          "type": "modopedia:showcase",
+          "items": [
+            {
+              "id":  "ascension:rebirth_pill"
+            }
+          ]
+        },
+        {
+          "type": "modopedia:text",
+          "x": 5,
+          "y": 103,
+          "line_height": 10,
+          "text": "Rebirth Pill is the one pill you should be cautios when consuming!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§bRebirth Pill",
+          "template": "modopedia:page/headered_text",
+          "text": "Rebirth Pill will allow you to reset everything about cultivation so Techniques, Physiques, Realm and Skills!. \n\nConsuming this means setting yourself down to mortal again and you get to repick your Physique like you did on World Join."
+        }
+      ]
+    }
+  ]
+}

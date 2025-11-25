@@ -31,14 +31,14 @@ public class JadeSlip extends Item {
                 // Check if already linked
                 if (isLinked(stack)) {
                     String currentOwner = getPlayerName(stack);
-                    player.sendSystemMessage(Component.literal("This Jade Slip is already linked to " + currentOwner + " and cannot be re-linked!").withStyle(ChatFormatting.RED));
+                    player.sendSystemMessage(Component.translatable("item.ascension.jade_slip.already_linked", currentOwner).withStyle(ChatFormatting.RED));
                     return InteractionResultHolder.fail(stack);
                 }
 
                 // Store player information using custom data component
                 setPlayerData(stack, player);
 
-                player.sendSystemMessage(Component.literal("Jade Slip linked to " + player.getGameProfile().getName()).withStyle(ChatFormatting.YELLOW));
+                player.sendSystemMessage(Component.translatable("item.ascension.jade_slip.linked", player.getGameProfile().getName()).withStyle(ChatFormatting.YELLOW));
             }
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
         }
@@ -84,14 +84,10 @@ public class JadeSlip extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
 
+        // Only show tooltip if the item is linked
         if (isLinked(stack)) {
             String playerName = getPlayerName(stack);
-            tooltip.add(Component.literal("Linked to: " + playerName).withStyle(ChatFormatting.YELLOW));
-            tooltip.add(Component.literal("Soul-Bound Artifact").withStyle(ChatFormatting.DARK_PURPLE));
-            tooltip.add(Component.literal("Permanently bound - Cannot be re-linked").withStyle(ChatFormatting.RED));
-        } else {
-            tooltip.add(Component.literal("Shift + Right-click to link").withStyle(ChatFormatting.YELLOW));
-            tooltip.add(Component.literal("Unbound Jade Slip").withStyle(ChatFormatting.AQUA));
+            tooltip.add(Component.translatable("item.ascension.jade_slip.tooltip.linked", playerName).withStyle(ChatFormatting.YELLOW));
         }
     }
 

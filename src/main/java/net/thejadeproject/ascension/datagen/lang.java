@@ -12,6 +12,10 @@ public class lang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+
+        //Death msgs
+        add("death.attack.pill_residue", "%1$s finally learned not to eat Pill Residue leftover in the Pill Cauldron");
+
         //GuideBook
         add("book.title.ascension.art_of_ascension", "Ascension Guide");
         add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance");
@@ -21,16 +25,23 @@ public class lang extends LanguageProvider {
 
         //Items
         add("item.ascension.jade_slip", "Jade Slip");
-        add("tooltip.ascension.jade_slip", "Sect Identification");
 
         //Tools and Swords and Armor
-        add("item.ascension.jade_blade", "Jade Serpent's Fang");
+        add("item.ascension.jade_blade", "Jade Blade");
         add("item.ascension.searing_blade", "Fang of the Phoenix");
-        add("item.ascension.jade_spear", "Sting of the Jade Serpent");
+        add("item.ascension.jade_spear", "Jade Spear");
 
 
         //Misc
         add("item.ascension.spiritual_stone", "Spiritual Stone");
+        add("item.ascension.raw_black_iron", "Raw Black Iron");
+        add("item.ascension.black_iron_ingot", "Black Iron Ingot");
+        add("item.ascension.black_iron_nugget", "Black Iron Nugget");
+
+        add("item.ascension.raw_frost_silver", "Raw Frost Silver");
+        add("item.ascension.frost_silver_ingot", "Frost Silver Ingot");
+        add("item.ascension.frost_silver_nugget", "Frost Silver Nugget");
+
         add("item.ascension.jade", "Jade");
         add("item.ascension.jade_nugget", "Jade Nugget");
         add("item.ascension.ascension_icon", "Ascension Icon");
@@ -40,26 +51,94 @@ public class lang extends LanguageProvider {
         add("item.ascension.rat_spawn_egg", "Treasure Rat Spawn Egg");
 
         //Mobs
-        add("entity.mcourse.rat", "Treasure Rat");
+        add("entity.ascension.treasure_rat", "Treasure Rat");
 
 
         //Pills
+        add("item.ascension.pill_residue", "Pill Residue");
         add("item.ascension.regeneration_pill", "Regeneration Pill");
-        add("item.ascension.cleansing_pill", "Cleansing Pill");
+        add("item.ascension.neutrality_pill", "Neutrality Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");
-        add("tooltip.ascension.rebirth_pill", "Be Cautios This Pill Resets Everything!");
-        add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
+        add("item.ascension.antidote_pill_qdppill", "Antidote Pill");
+        add("item.ascension.antidote_pill_t2", "Antidote Pill");
+        add("item.ascension.antidote_pill_t3", "Antidote Pill");
         add("item.ascension.fasting_pill_t1", "Fasting Pill");
         add("item.ascension.fasting_pill_t2", "Fasting Pill");
         add("item.ascension.fasting_pill_t3", "Fasting Pill");
+        add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
+        add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
+        add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
+        add("item.ascension.cleansing_pill_t1", "Cleansing Pill");
+        add("item.ascension.cleansing_pill_t2", "Cleansing Pill");
+        add("item.ascension.cleansing_pill_t3", "Cleansing Pill");
+        add("item.ascension.cleansing_pill_t4", "Cleansing Pill");
+
+
+
+        //Tooltips
+        add("ascension.tooltip.waste", "Waste");
+        add("ascension.tooltip.medicinal", "Medicinal");
+        add("ascension.tooltip.cultivation", "Cultivation");
+        add("ascension.tooltip.poisonous", "Poisonous");
+        add("ascension.tooltip.srtt1", "2.5k x 2.5k Range │ 60 min cooldown");
+        add("ascension.tooltip.srtt2", "5k x 5k Range │ 40 min cooldown");
+        add("ascension.tooltip.srtt3", "7.5k x 7.5k Range │ 20 min cooldown");
+        add("ascension.tooltip.srt", "5 min cooldown");
+        add("ascension.tooltip.wat", "5 min cooldown");
+        add("ascension.tooltip.vmt", "30 sec cooldown");
+        add("ascension.tooltip.qdppill", "Qi Devouring Parasite Antidote");
+        add("item.ascension.soulstead_return_talisman.cooldown", "Soulstead Return Talisman §7(%dm %ds)");
+        add("item.ascension.void_marking_talisman.cooldown", "Void Marking Talisman §7(%dm %ds)");
+        add("item.ascension.world_axis_talisman.cooldown", "World Axis Talisman §7(%dm %ds)");
+        add("ascension.tooltip.teleporting_in_seconds", "§eTeleporting in %d seconds");
+        add("ascension.tooltip.teleported_to_spawn", "§aTeleported to your spawn point!");
+        add("ascension.tooltip.teleported_to_world_spawn", "§aTeleported to world spawn!");
+        add("ascension.tooltip.teleported_to_saved", "§aTeleported to saved location!");
+        add("ascension.tooltip.teleported_to_location", "§aTeleported to a random location!");
+        add("ascension.tooltip.teleport_cancelled", "§cTeleport cancelled: %s");
+        add("ascension.tooltip.damage_taken", "damage taken");
+        add("ascension.tooltip.movement_detected", "movement detected");
+        add("ascension.tooltip.location_saved", "§aLocation saved!");
+        add("ascension.tooltip.no_location_saved", "§cNo location saved! Shift-right-click to save current position.");
+        add("ascension.tooltip.failed_read_location", "§cFailed to read saved location!");
+        add("ascension.tooltip.cannot_teleport_dimension", "§cCannot teleport to saved dimension!");
+        add("ascension.tooltip.no_safe_location", "§cNo safe teleport location found!");
+        add("ascension.tooltip.saved_location", "§7Saved Location:");
+        add("ascension.tooltip.coordinates", "§7X: %s, Y: %s, Z: %s");
+        add("ascension.tooltip.dimension", "§7Dimension: %s");
+        add("item.ascension.spatial_rupture_talisman_t1.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
+        add("item.ascension.spatial_rupture_talisman_t2.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
+        add("item.ascension.spatial_rupture_talisman_t3.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
+        add("item.ascension.tablet_of_destruction_human.cooldown", "Ability is on cooldown!");
+        add("item.ascension.tablet_of_destruction_heaven.cooldown", "Item is on cooldown!");
+        add("item.ascension.tablet_of_destruction_heaven.drop_blocks", "Drop Blocks = ");
+        add("item.ascension.tablet_of_destruction_heaven.toggle_mode", "Press 'M' to toggle mode");
+        add("item.ascension.tablet_of_destruction_heaven.link_instruction", "Shift+Right-Click chest/barrel to link");
+        add("item.ascension.tablet_of_destruction_heaven.unlinked", "Unlinked from chest or barrel.");
+        add("item.ascension.tablet_of_destruction_heaven.linked", "Linked to %s at (%d, %d, %d)");
+        add("item.ascension.tablet_of_destruction_heaven.linked_tooltip", "Linked to %s at %s");
+        add("item.ascension.tablet_of_destruction_heaven.chest", "chest");
+        add("item.ascension.tablet_of_destruction_heaven.barrel", "barrel");
+        add("item.ascension.tablet_of_destruction_heaven.container", "container");
+        add("ascension.tooltip.tablet.coordinates", "§7X: %s, Y: %s, Z: %s");
+        add("item.ascension.jade_slip.already_linked", "This Jade Slip is already linked to %s and cannot be re-linked!");
+        add("item.ascension.jade_slip.linked", "Jade Slip linked to %s");
+        add("item.ascension.jade_slip.tooltip.linked", "Linked to: %s");
+
+
+        //Poison Pills
+        add("item.ascension.qi_devouring_parasite_pill", "Qi Devouring Parasite Pill");
 
         //manuals
-        add("item.ascension.pure_fire_technique","Pure Fire Technique Manual");
-        add("item.ascension.pure_water_technique","Pure Water Technique Manual");
-        add("item.ascension.pure_sword_intent","Pure Sword Intent Manual");
-        add("item.ascension.pure_fist_intent","Pure Fist Intent Manual");
-        add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique Manual");
-        add("item.ascension.void_swallowing_technique","Void Swallowing Technique Manual");
+        add("item.ascension.pure_fire_technique","Pure Fire Technique");
+        add("item.ascension.pure_water_technique","Pure Water Technique");
+        add("item.ascension.pure_sword_intent","Pure Sword Intent Technique");
+        add("item.ascension.pure_fist_intent","Pure Fist Intent Technique");
+        add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique");
+        add("item.ascension.void_swallowing_technique","Void Swallowing Technique");
+
+
+        add("ascension.learnt_technique","You have learned the %s");
 
 
         //Herbs
@@ -74,9 +153,10 @@ public class lang extends LanguageProvider {
 
 
         add("block.ascension.hundred_year_ginseng_crop", "Hundred Year Ginseng");
-        add("block.ascension.golden_sun_leaf_block", "Golden Sun Leaf");
-        add("block.ascension.ironwood_sprout_block", "Ironwood Sprout");
-        add("block.ascension.white_jade_orchid_block", "White Jade Orchid");
+        add("block.ascension.hundred_year_fire_ginseng_crop", "Hundred Year Fire Ginseng");
+        add("block.ascension.hundred_year_snow_ginseng_crop", "Hundred Year Snow Ginseng");
+        add("block.ascension.ironwood_sprout_crop", "Ironwood Sprout");
+        add("block.ascension.white_jade_orchid_crop", "White Jade Orchid");
 
         //Blocks
         add("block.ascension.pill_cauldron", "Pill Cauldron");
@@ -284,11 +364,20 @@ public class lang extends LanguageProvider {
 
 
 
+        add("block.ascension.black_iron_ore", "Black Iron Ore");
+        add("block.ascension.black_iron_block", "Black Iron Block");
+        add("block.ascension.frost_silver_ore", "Frost Silver Ore");
+        add("block.ascension.frost_silver_block", "Frost Silver Block");
+
         add("block.ascension.jade_ore", "Jade Ore");
         add("block.ascension.spiritual_stone_cluster", "Spiritual Stone Cluster");
         add("block.ascension.jade_block", "Jade Block");
         add("block.ascension.spiritual_stone_block", "Spiritual Stone Block");
         add("block.ascension.pill_cauldron_low_human", "Pill Cauldron");
+
+
+        //Fires
+        add("block.ascension.crimson_lotus_fire", "Crimson Lotus Fire");
 
 
         //Artifacts
@@ -298,26 +387,23 @@ public class lang extends LanguageProvider {
         add("item.ascension.netherite_spatial_ring", "Netherite Spatial Ring");
         add("item.ascension.jade_spatial_ring", "Jade Spatial Ring");
         add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
-
+        add("item.ascension.fire_gourd", "Gourd O Fire");
+        add("item.ascension.spatial_rupture_talisman_t1", "Lesser Spatial Rupture Talisman");
+        add("item.ascension.spatial_rupture_talisman_t2", "Standard Spatial Rupture Talisman");
+        add("item.ascension.spatial_rupture_talisman_t3", "Greater Spatial Rupture Talisman");
+        add("item.ascension.soulstead_return_talisman", "Soulstead Return Talisman");
+        add("item.ascension.world_axis_talisman", "World Axis Talisman");
+        add("item.ascension.void_marking_talisman", "Void-Marking Talisman");
         add("item.ascension.todh", "Tablet Of Destruction");
-        add("tooltip.ascension.todh", "§8[Human]");
-
         add("item.ascension.tode", "Tablet Of Destruction");
-        add("tooltip.ascension.tode", "§6[Earth]");
-
         add("item.ascension.todhe", "Tablet Of Destruction");
-        add("tooltip.ascension.todhe", "§b[Heaven]");
-
         add("item.ascension.repair_slip", "Repair Slip");
-        add("tooltip.ascension.repair_slip.shift_down1", "§3Repairs items in your inventory");
-        add("tooltip.ascension.repair_slip.shift_down2", "§3Every 100 Ticks it repairs items by 2 durability");
-        add("tooltip.ascension.repair_slip", "§8Hold [§7Shift§8] for summary");
-
         add("item.ascension.ender_pouch_gui", "Ender Pouch");
         add("item.ascension.ender_pouch", "Ender Pouch");
-        add("tooltip.ascension.ender_pouch.shift_down1", "§2The Ender Pouch");
-        add("tooltip.ascension.ender_pouch.shift_down2", "§aIs linked to your own Ender Chest");
-        add("tooltip.ascension.ender_pouch", "§8Hold [§7Shift§8] for summary");
+
+
+        //Crafting Ingredient
+        add("item.ascension.talisman_paper", "Blank Talisman");
 
 
         //GUI & Other Stuff
@@ -348,10 +434,14 @@ public class lang extends LanguageProvider {
 
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
         add("effect.ascension.cleansing", "Cleansing");
+        add("effect.ascension.neutrality", "Neutrality");
+        add("effect.ascension.qi_devouring_parasite", "Devouring Parasite");
 
         add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");
         add("key.ascension.introspection", "Introspection");
+        add("key.ascension.open_spatial_ring", "Open Spatial Ring");
+        add("key.ascension.toggle_artifact_mode", "Toggle Mode");
 
 
 
@@ -410,6 +500,10 @@ public class lang extends LanguageProvider {
         add("ascension.configuration.Artifacts","Artifacts");
         add("ascension.configuration.repairInterval","Repair Interval");
         add("ascension.configuration.repairAmount","Repair Amount");
+
+
+        //messages
+        add("message.ascension.milk_denied","§cMilk buckets are not drinkable in this mod. Use antidote pills instead!");
 
 
         //tags

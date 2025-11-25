@@ -22,21 +22,26 @@ public class ModCreativeModeTabs {
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_blocks_tab"))
                     .title(Component.translatable("creativetab.ascension.items"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.JADE_BLADE);
-                        output.accept(ModItems.SEARING_BLADE);
-                        output.accept(ModItems.JADE_SPEAR);
-
-
-
+                        output.accept(ModItems.RAW_BLACK_IRON);
+                        output.accept(ModItems.BLACK_IRON_INGOT);
+                        output.accept(ModItems.BLACK_IRON_NUGGET);
+                        output.accept(ModItems.RAW_FROST_SILVER);
+                        output.accept(ModItems.FROST_SILVER_INGOT);
+                        output.accept(ModItems.FROST_SILVER_NUGGET);
                         output.accept(ModItems.SPIRITUAL_STONE);
                         output.accept(ModItems.JADE_NUGGET);
                         output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
+                        output.accept(ModItems.TALISMAN_PAPER);
+
+                        output.accept(ModItems.JADE_BLADE);
+                        output.accept(ModItems.SEARING_BLADE);
+                        output.accept(ModItems.JADE_SPEAR);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SPIRITUAL_STONE_SPATIAL_RING.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE_SPATIAL_RING.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_pills_tab"))
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -51,13 +56,35 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.DIAMOND_SPATIAL_RING);
                         output.accept(ModItems.NETHERITE_SPATIAL_RING);
                         output.accept(ModItems.JADE_SPATIAL_RING);
-                        output.accept(ModItems.SPIRITUAL_STONE_SPATIAL_RING);
+                        output.accept(ModItems.FIRE_GOURD);
+
+                        output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);
+                        output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T2);
+                        output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T3);
+
+                        output.accept(ModItems.SOULSTEAD_RETURN_TALISMAN);
+                        output.accept(ModItems.WORLD_AXIS_TALISMAN);
+                        output.accept(ModItems.VOID_MARKING_TALISMAN);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.JADE_ORE.get()))
                     .title(Component.translatable("creativetab.ascension.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
+
+
+
+                        output.accept(ModBlocks.BLACK_IRON_ORE);
+                        output.accept(ModBlocks.BLACK_IRON_BLOCK);
+                        output.accept(ModBlocks.FROST_SILVER_ORE);
+                        output.accept(ModBlocks.FROST_SILVER_BLOCK);
+                        output.accept(ModBlocks.JADE_ORE);
+                        output.accept(ModBlocks.JADE_BLOCK);
+                        output.accept(ModBlocks.SPIRITUAL_STONE_CLUSTER);
+                        output.accept(ModBlocks.SPIRITUAL_STONE_BLOCK);
+                        output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
+
+
                         output.accept(ModBlocks.GOLDEN_PALM_LOG);
                         output.accept(ModBlocks.GOLDEN_PALM_WOOD);
 
@@ -258,13 +285,6 @@ public class ModCreativeModeTabs {
 
 
 
-                        output.accept(ModBlocks.JADE_ORE);
-                        output.accept(ModBlocks.JADE_BLOCK);
-                        output.accept(ModBlocks.SPIRITUAL_STONE_CLUSTER);
-                        output.accept(ModBlocks.SPIRITUAL_STONE_BLOCK);
-                        output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
-
-
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_HERBS_TAB = CREATIVE_MODE_TAB.register("ascension_herbs_tab",
@@ -291,13 +311,32 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.pills"))
                     .displayItems((itemDisplayParameters, output) -> {
 
-                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
-                        output.accept(ModItems.REGENERATION_PILL);
-                        output.accept(ModItems.REBIRTH_PILL);
-                        output.accept(ModItems.CLEANSING_PILL);
+                        //Waste
+                        output.accept(ModItems.PILL_RESIDUE);
+
+                        //Medicinal
                         output.accept(ModItems.FASTING_PILL_T1);
                         output.accept(ModItems.FASTING_PILL_T2);
                         output.accept(ModItems.FASTING_PILL_T3);
+                        output.accept(ModItems.CLEANSING_PILL_T1);
+                        output.accept(ModItems.CLEANSING_PILL_T2);
+                        output.accept(ModItems.CLEANSING_PILL_T3);
+                        output.accept(ModItems.CLEANSING_PILL_T4);
+                        output.accept(ModItems.ANTIDOTE_PILL_T1);
+                        output.accept(ModItems.ANTIDOTE_PILL_T2);
+                        output.accept(ModItems.ANTIDOTE_PILL_T3);
+                        output.accept(ModItems.REGENERATION_PILL);
+                        output.accept(ModItems.NEUTRALITY_PILL);
+                        output.accept(ModItems.REBIRTH_PILL);
+
+                        //Cultivation
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T2);
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T3);
+
+                        //Poison
+                        output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
+
 
 
                     }).build());

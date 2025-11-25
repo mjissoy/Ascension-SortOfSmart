@@ -80,17 +80,35 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.DIAMOND_SPATIAL_RING.get());
         basicItem(ModItems.NETHERITE_SPATIAL_RING.get());
         basicItem(ModItems.JADE_SPATIAL_RING.get());
-        basicItem(ModItems.SPIRITUAL_STONE_SPATIAL_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
+
+        talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get());
+        talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T2.get());
+        talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T3.get());
+
+        talisman(ModItems.SOULSTEAD_RETURN_TALISMAN.get());
+        talisman(ModItems.WORLD_AXIS_TALISMAN.get());
+        talisman(ModItems.VOID_MARKING_TALISMAN.get());
+
+
+        //Crafting Ingredients
+        basicItem(ModItems.TALISMAN_PAPER.get());
 
 
 
         //Items
         basicItem(ModItems.JADE.get());
-        //basicItem(ModItems.SPIRITUAL_STONE.get());
-        basicItem(ModItems.JADE_SLIP.get());
         basicItem(ModItems.JADE_NUGGET.get());
+
+        basicItem(ModItems.RAW_BLACK_IRON.get());
+        basicItem(ModItems.BLACK_IRON_INGOT.get());
+        basicItem(ModItems.BLACK_IRON_NUGGET.get());
+        basicItem(ModItems.RAW_FROST_SILVER.get());
+        basicItem(ModItems.FROST_SILVER_INGOT.get());
+        basicItem(ModItems.FROST_SILVER_NUGGET.get());
+
+        basicItem(ModItems.JADE_SLIP.get());
 
 
         //Drops
@@ -121,13 +139,27 @@ public class ModItemModelProvider extends ItemModelProvider {
         tablet(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get());
 
         //Pills
+        pills(ModItems.PILL_RESIDUE.get());
         pills(ModItems.REGENERATION_PILL.get());
-        pills(ModItems.CLEANSING_PILL.get());
+        pills(ModItems.NEUTRALITY_PILL.get());
         pills(ModItems.REBIRTH_PILL.get());
         pills(ModItems.INNER_REINFORCEMENT_PILL_T1.get());
+        pills(ModItems.INNER_REINFORCEMENT_PILL_T2.get());
+        pills(ModItems.INNER_REINFORCEMENT_PILL_T3.get());
         pills(ModItems.FASTING_PILL_T1.get());
         pills(ModItems.FASTING_PILL_T2.get());
         pills(ModItems.FASTING_PILL_T3.get());
+        pills(ModItems.CLEANSING_PILL_T1.get());
+        pills(ModItems.CLEANSING_PILL_T2.get());
+        pills(ModItems.CLEANSING_PILL_T3.get());
+        pills(ModItems.CLEANSING_PILL_T4.get());
+
+        pills(ModItems.ANTIDOTE_PILL_T1.get());
+        pills(ModItems.ANTIDOTE_PILL_T2.get());
+        pills(ModItems.ANTIDOTE_PILL_T3.get());
+
+
+        pills(ModItems.QI_DEVOURING_PARASITE_PILL.get());
 
 
 
@@ -139,10 +171,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         herbs(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
         herbs(ModItems.IRONWOOD_SPROUT.get());
-        withExistingParent("ironwood_sprout_block", "item/generated")
-                .texture("layer0", "ascension:block/ironwood_sprout_block");
-        withExistingParent("white_jade_orchid_block", "item/generated")
-                .texture("layer0", "ascension:block/white_jade_orchid_block");
+
+        herbsBlockItem(ModBlocks.IRONWOOD_SPROUT_CROP);
+        herbsBlockItem(ModBlocks.WHITE_JADE_ORCHID_CROP);
+        herbsBlockItem(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP);
+        herbsBlockItem(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP);
+        herbsBlockItem(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
+
 
         //Saplings
         saplingItem(ModBlocks.GOLDEN_PALM_SAPLING);
@@ -159,6 +194,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(),
                 ResourceLocation.parse("item/generated")).texture("layer0",
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"block/" + item.getId().getPath()));
+    }
+    private ItemModelBuilder herbsBlockItem(DeferredBlock<Block> item) {
+        return withExistingParent(item.getId().getPath(),
+                ResourceLocation.parse("item/generated")).texture("layer0",
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"block/herbs/" + item.getId().getPath()));
     }
 
 
@@ -189,6 +229,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         return basicItemWithSharedTexture(item,ResourceLocation.fromNamespaceAndPath(
                 AscensionCraft.MOD_ID,
                 "tablet_of_destruction"
+        ));
+    }
+    public ItemModelBuilder talisman(Item item){
+        return basicItemWithSharedTexture(item,ResourceLocation.fromNamespaceAndPath(
+                AscensionCraft.MOD_ID,
+                "talismans" //Talismans Texture made by Dewgon
         ));
     }
     public ItemModelBuilder pills(Item item) {

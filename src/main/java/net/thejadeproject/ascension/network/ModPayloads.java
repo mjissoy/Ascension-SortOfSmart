@@ -4,6 +4,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.serverBound.*;
 
@@ -74,6 +75,19 @@ public class ModPayloads {
                 SyncSelectedSkill::handlePayload
 
         );
+
+        registrar.playToServer(
+                OpenSpatialRingPacket.TYPE,  // ADD THIS LINE
+                OpenSpatialRingPacket.CODEC, // ADD THIS LINE
+                OpenSpatialRingPacket::handle // ADD THIS LINE
+        );
+        registrar.playToServer(
+                ToggleTabletDropModePayload.TYPE,
+                ToggleTabletDropModePayload.STREAM_CODEC,
+                ToggleTabletDropModePayload::handlePayload
+        );
+
+
         registrar.playToServer(
                 ServerCastSkillPayload.TYPE,
                 ServerCastSkillPayload.STREAM_CODEC,

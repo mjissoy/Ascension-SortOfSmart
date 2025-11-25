@@ -8,8 +8,11 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
+import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -20,6 +23,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.worldgen.tree.ModTreeGrowers;
 
 
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class ModBlocks {
@@ -286,10 +290,30 @@ public class ModBlocks {
                             .strength(6.5f, 5.5f).requiresCorrectToolForDrops().sound(SoundType.AMETHYST).noOcclusion(),
                     UniformInt.of(2, 4)));
 
+    public static final DeferredBlock<Block> BLACK_IRON_ORE = registerBlock("black_iron_ore",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
+
+    public static final DeferredBlock<Block> FROST_SILVER_ORE = registerBlock("frost_silver_ore",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4.5f, 6.0f).requiresCorrectToolForDrops().sound(SoundType.DEEPSLATE)));
+
     //Other Blocks
     public static final DeferredBlock<Block> JADE_BLOCK = registerBlock("jade_block",
             () -> new Block(BlockBehaviour.Properties.of()
                 .strength(5.5f, 4.5f).requiresCorrectToolForDrops().sound(SoundType.NETHERITE_BLOCK)));
+    public static final DeferredBlock<Block> BLACK_IRON_BLOCK = registerBlock("black_iron_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                .strength(7.5f, 11.5f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> FROST_SILVER_BLOCK = registerBlock("frost_silver_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                .strength(7.5f, 11.5f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
+
+
+
+
+
+
 
     public static final DeferredBlock<Block> PILL_CAULDRON_HUMAN_LOW = registerBlock("pill_cauldron_low_human",
             () -> new PillCauldronLowHumanBlock(BlockBehaviour.Properties.of().noOcclusion()));
@@ -368,14 +392,34 @@ public class ModBlocks {
             () -> new GoldenPalmSapling(ModTreeGrowers.GOLDEN_PALM, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING), () -> Blocks.SAND));
 
     //Herbs
-    public static final DeferredBlock<Block> GOLDEN_SUN_LEAF_BLOCK = registerBlock("golden_sun_leaf_block",
-            () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
-    public static final DeferredBlock<Block> IRONWOOD_SPROUT_BLOCK = registerBlock("ironwood_sprout_block",
-            () -> new CustomHerbs(() -> Blocks.STONE));
-    public static final DeferredBlock<Block> WHITE_JADE_ORCHID_BLOCK = registerBlock("white_jade_orchid_block",
-            () -> new CustomHerbs(() -> ModBlocks.JADE_ORE.get()));
+
+    public static final DeferredBlock<Block> IRONWOOD_SPROUT_CROP = registerBlock("ironwood_sprout_crop",
+            () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
+    public static final DeferredBlock<Block> WHITE_JADE_ORCHID_CROP = registerBlock("white_jade_orchid_crop",
+            () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
     public static final DeferredBlock<Block> HUNDRED_YEAR_GINSENG_CROP = registerBlock("hundred_year_ginseng_crop",
-            () -> new CustomHerbs(() -> Blocks.GRASS_BLOCK));
+            () -> new CustomHerbs(() -> Set.of(Blocks.GRASS_BLOCK)));
+    public static final DeferredBlock<Block> HUNDRED_YEAR_SNOW_GINSENG_CROP = registerBlock("hundred_year_snow_ginseng_crop",
+            () -> new CustomHerbs(() -> Set.of(Blocks.SNOW_BLOCK, Blocks.GRASS_BLOCK)));
+    public static final DeferredBlock<Block> HUNDRED_YEAR_FIRE_GINSENG_CROP = registerBlock("hundred_year_fire_ginseng_crop",
+            () -> new CustomHerbs(() -> Set.of(Blocks.SAND, Blocks.RED_SAND)));
+
+    //Fires / Flames
+
+    public static final DeferredBlock<Block> CRIMSON_LOTUS_FIRE = registerBlockNoItem("crimson_lotus_fire",
+            () -> new CrimsonLotusFire(
+                    BlockBehaviour.Properties.of()
+                            .noLootTable()
+                            .replaceable()
+                            .noCollission()
+                            .instabreak()
+                            .lightLevel(state -> 15)
+                            .sound(SoundType.WOOL)
+                            .pushReaction(PushReaction.BLOCK),
+                    8.0f,  // Custom damage
+                    20,    // Custom spread delay (lower = faster spread)
+                    10     // Custom extinguish chance (higher = less likely to extinguish)
+            ));
 
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
@@ -386,6 +430,10 @@ public class ModBlocks {
 
     private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    }
+
+    private static <T extends Block> DeferredBlock<T> registerBlockNoItem(String name, Supplier<T> block) {
+        return BLOCK.register(name, block);
     }
 
     public static void register(IEventBus eventBus) {

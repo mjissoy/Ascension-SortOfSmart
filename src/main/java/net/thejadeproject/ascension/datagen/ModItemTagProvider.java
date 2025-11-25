@@ -44,21 +44,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get())
                 .add(ModItems.HUNDRED_YEAR_GINSENG.get())
                 .add(ModItems.IRONWOOD_SPROUT.get());
-        tag(ModTags.Items.HUMAN)
-                .add(ModItems.GOLDEN_SUN_LEAF.get())
-                .add(ModItems.JADE_BAMBOO_OF_SERENITY.get())
-                .add(ModItems.WHITE_JADE_ORCHID.get())
-                .add(ModItems.IRONWOOD_SPROUT.get());
-        tag(ModTags.Items.ALCHEMY_FAILURE)
-                .add(Items.GUNPOWDER);
-        tag(ModTags.Items.ALCHEMY_SUCCESS)
-                .add(ModItems.REGENERATION_PILL.get())
-                .add(ModItems.CLEANSING_PILL.get())
-                .add(ModItems.REBIRTH_PILL.get())
-                .add(ModItems.INNER_REINFORCEMENT_PILL_T1.get())
-                .add(ModItems.FASTING_PILL_T1.get())
-                .add(ModItems.FASTING_PILL_T2.get())
-                .add(ModItems.FASTING_PILL_T3.get());
         this.tag(ItemTags.LOGS_THAT_BURN)
                 .add(ModBlocks.GOLDEN_PALM_LOG.get().asItem())
                 .add(ModBlocks.GOLDEN_PALM_WOOD.get().asItem())
@@ -108,6 +93,29 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .addTag(ModTags.Items.BLADE)
                 .addTag(ModTags.Items.SPEAR);
 
+
+
+        tag(ModTags.Items.INGOTS_BLACK_IRON)
+                .add(ModItems.BLACK_IRON_INGOT.get());
+        tag(ModTags.Items.BLACK_IRON_RAW)
+                .add(ModItems.RAW_BLACK_IRON.get());
+        tag(ModTags.Items.NUGGETS_BLACK_IRON)
+                .add(ModItems.BLACK_IRON_NUGGET.get());
+
+        tag(ModTags.Items.INGOTS_FROST_SILVER)
+                .add(ModItems.FROST_SILVER_INGOT.get());
+        tag(ModTags.Items.FROST_SILVER_RAW)
+                .add(ModItems.RAW_FROST_SILVER.get());
+        tag(ModTags.Items.NUGGETS_FROST_SILVER)
+                .add(ModItems.FROST_SILVER_NUGGET.get());
+
+
+        this.tag(ModTags.Items.CURIOS_RING)
+                .add(ModItems.IRON_SPATIAL_RING.get())
+                .add(ModItems.GOLD_SPATIAL_RING.get())
+                .add(ModItems.DIAMOND_SPATIAL_RING.get())
+                .add(ModItems.NETHERITE_SPATIAL_RING.get())
+                .add(ModItems.JADE_SPATIAL_RING.get());
 
     }
 }
