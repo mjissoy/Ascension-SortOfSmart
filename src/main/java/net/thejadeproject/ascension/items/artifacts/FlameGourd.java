@@ -44,8 +44,8 @@ public class FlameGourd extends Item {
         if (FIRE_ITEMS != null) return;
 
         Map<Block, Item> map = Maps.newHashMap();
-        map.put(Blocks.FIRE, Items.FIRE_CHARGE);
-        map.put(Blocks.SOUL_FIRE, Items.BLAZE_POWDER);
+        map.put(Blocks.FIRE, ModItems.FLAME.get());
+        map.put(Blocks.SOUL_FIRE, ModItems.SOUL_FLAME.get());
         map.put(ModBlocks.CRIMSON_LOTUS_FIRE.get(), ModItems.CRIMSON_LOTUS_FLAME.get());
 
         FIRE_ITEMS = Map.copyOf(map);

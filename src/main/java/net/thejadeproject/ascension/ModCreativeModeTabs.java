@@ -292,8 +292,10 @@ public class ModCreativeModeTabs {
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_items_tab"))
                     .title(Component.translatable("creativetab.ascension.herbs"))
                     .displayItems((itemDisplayParameters, output) -> {
-
+                        output.accept(ModItems.FLAME);
+                        output.accept(ModItems.SOUL_FLAME);
                         output.accept(ModItems.CRIMSON_LOTUS_FLAME);
+
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
                         output.accept(ModItems.JADE_BAMBOO_OF_SERENITY);
                         output.accept(ModItems.HUNDRED_YEAR_GINSENG);

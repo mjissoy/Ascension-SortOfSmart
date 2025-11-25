@@ -119,6 +119,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Spiritual Fires
         basicItem(ModItems.CRIMSON_LOTUS_FLAME.get());
+        basicItem(ModItems.FLAME.get());
+        basicItem(ModItems.SOUL_FLAME.get());
 
 
 

@@ -24,7 +24,7 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T2.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T3.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.REBIRTH_PILL.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.AQUA));
-        ToolTipHandler.registerAnimatedTooltip(ModItems.REBIRTH_PILL.get(), "Be Cautious This Pill Resets Everything!", 0.001f);
+        ToolTipHandler.registerAnimatedTooltip(ModItems.REBIRTH_PILL.get(), Component.translatable("ascension.tooltip.rgb.rebirth_warning"), 0.001f);
 
         ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T1.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.translatable("ascension.tooltip.qdppill").withStyle(ChatFormatting.GREEN), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T2.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
@@ -53,6 +53,8 @@ public class ToolTipManager {
 
         //Fires
         ToolTipHandler.registerTooltip(ModItems.CRIMSON_LOTUS_FLAME.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.RED));
+        ToolTipHandler.registerTooltip(ModItems.SOUL_FLAME.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.FLAME.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
 
 
         //Artifacts
@@ -71,7 +73,7 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.FIRE_GOURD.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.RED));
 
         ToolTipHandler.registerTooltip(ModItems.JADE_SLIP.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerAnimatedTooltip(ModItems.JADE_SLIP.get(), "Sect Identification", 0.001f);
+        ToolTipHandler.registerAnimatedTooltip(ModItems.JADE_SLIP.get(), Component.translatable("ascension.tooltip.rgb.jade_slip"), 0.001f);
 
         ToolTipHandler.registerTooltip(ModItems.IRON_SPATIAL_RING.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.RED));
         ToolTipHandler.registerTooltip(ModItems.GOLD_SPATIAL_RING.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.RED));

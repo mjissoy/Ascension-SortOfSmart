@@ -8,6 +8,7 @@
     "minecraft:gravel",
     "minecraft:sand",
     "minecraft:tuff",
-    "minecraft:dirt"
+    "minecraft:dirt",
+    "ascension:raw_marble"
   ]
 }

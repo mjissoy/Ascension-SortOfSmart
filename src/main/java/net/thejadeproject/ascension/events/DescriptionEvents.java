@@ -30,11 +30,6 @@ public class DescriptionEvents {
                     }
                  }
             });
-
-            if (event.getItemStack().is(ModTags.Items.MEDICINAL)) {
-                event.getTooltipElements().add(Either.left(Component.literal("§a[Medicinal]")));
-            }
-
         }
     }
 }

@@ -23,7 +23,9 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VoidMarkingTalisman extends Item {
     private static final int COOLDOWN_TICKS = 30 * 20; // 30 seconds in ticks
@@ -204,7 +206,11 @@ public class VoidMarkingTalisman extends Item {
                     String.format("%.1f", locationData.x),
                     String.format("%.1f", locationData.y),
                     String.format("%.1f", locationData.z)));
-            tooltip.add(Component.translatable("ascension.tooltip.dimension", locationData.dimension));
+            String dimensionName = locationData.dimension.getPath();
+            String formattedDimension = Arrays.stream(dimensionName.split("_"))
+                    .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
+                    .collect(Collectors.joining(" "));
+            tooltip.add(Component.translatable("ascension.tooltip.dimension", formattedDimension));
         }
     }
 

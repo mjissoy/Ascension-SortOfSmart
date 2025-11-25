@@ -24,12 +24,12 @@ public class AscensionCommonConfig {
         builder.push("PillCauldron");
         builder.comment("Heat items for Pill Cauldron",
                 "Format: [\"modid:item_id,heat_value\", \"modid:item_id,heat_value\"]",
-                "Example: [\"minecraft:coal,8\", \"minecraft:coal_block,72\", \"ascension:crimson_lotus_flame,300\"]");
+                "Example: [\"ascension:flame,8\", \"ascension:soul_flame,16\", \"ascension:crimson_lotus_flame,200\"]");
         PILL_CAULDRON_HEAT_ITEMS = builder.defineList("heat_items",
                 () -> new ArrayList<>(Arrays.asList(
-                        "minecraft:coal,8",
-                        "minecraft:coal_block,72",
-                        "ascension:crimson_lotus_flame,300"
+                        "ascension:flame,8",
+                        "ascension:soul_flame,16",
+                        "ascension:crimson_lotus_flame,200"
                 )),
                 this::validateHeatItemEntry
         );

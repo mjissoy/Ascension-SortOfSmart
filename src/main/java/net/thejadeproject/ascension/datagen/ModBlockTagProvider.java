@@ -221,7 +221,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.GRAVEL)
                 .add(Blocks.SAND)
                 .add(Blocks.TUFF)
-                .add(Blocks.DIRT);
+                .add(Blocks.DIRT)
+                .add(ModBlocks.RAW_MARBLE.get());
 
         tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.JADE_ORE.get())

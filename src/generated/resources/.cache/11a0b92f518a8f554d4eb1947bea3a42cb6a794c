@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-25T09:39:43.0718697	Item Models: ascension
+// 1.21.1	2025-11-25T10:08:43.827083	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -24,6 +24,7 @@ abe2becd602169ae11df376855869494e03a5542 assets/ascension/models/item/diamond_sp
 24d636705893eb64e2c11c327ff2067de21fe1da assets/ascension/models/item/fasting_pill_t1.json
 a7a0cfdd0338bc05cdd2bcfd788629bc35994828 assets/ascension/models/item/fasting_pill_t2.json
 5c9d7b313153f0eb76da3df42e0894407138cce3 assets/ascension/models/item/fasting_pill_t3.json
+ae6a5f2d5c0ca7e23de639f65104a8a1eb2607ff assets/ascension/models/item/flame.json
 ac639595d71c1a885634b3e591c0f522a6be1bc2 assets/ascension/models/item/frost_silver_ingot.json
 a45ea3a13a12d6b29ea2c6dc67e288843e9d07f6 assets/ascension/models/item/frost_silver_nugget.json
 922e3b4df3ad678fc0b44e8e93d1a2891111ab36 assets/ascension/models/item/golden_palm_button.json
@@ -87,6 +88,7 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 600bc9f410025ad13d01fe745214d118dc401cbd assets/ascension/models/item/regeneration_pill.json
 74271bd33ef0167a397f600ea3f20c218cde6630 assets/ascension/models/item/repair_slip.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/soulstead_return_talisman.json
+858237a12c745a4a95c58dee5fd5ffff719a4aba assets/ascension/models/item/soul_flame.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t1.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t2.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t3.json

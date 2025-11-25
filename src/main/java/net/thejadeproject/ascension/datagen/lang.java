@@ -47,7 +47,17 @@ public class lang extends LanguageProvider {
         add("item.ascension.ascension_icon", "Ascension Icon");
         add("item.ascension.undead_core", "Undead Core");
         add("item.ascension.living_core", "Living Core");
+
+
+        //Spiritual Fires
         add("item.ascension.crimson_lotus_flame", "Crimson Lotus Flame");
+        add("item.ascension.flame", "Flame");
+        add("item.ascension.soul_flame", "Soul Flame");
+
+
+
+
+
         add("item.ascension.rat_spawn_egg", "Treasure Rat Spawn Egg");
 
         //Mobs
@@ -87,9 +97,9 @@ public class lang extends LanguageProvider {
         add("ascension.tooltip.wat", "5 min cooldown");
         add("ascension.tooltip.vmt", "30 sec cooldown");
         add("ascension.tooltip.qdppill", "Qi Devouring Parasite Antidote");
-        add("item.ascension.soulstead_return_talisman.cooldown", "Soulstead Return Talisman §7(%dm %ds)");
-        add("item.ascension.void_marking_talisman.cooldown", "Void Marking Talisman §7(%dm %ds)");
-        add("item.ascension.world_axis_talisman.cooldown", "World Axis Talisman §7(%dm %ds)");
+        add("item.ascension.soulstead_return_talisman.cooldown", "Soulstead Return Talisman §7(%dm %ds§7)");
+        add("item.ascension.void_marking_talisman.cooldown", "Void Marking Talisman §7(%dm %ds§7)");
+        add("item.ascension.world_axis_talisman.cooldown", "World Axis Talisman §7(%dm %ds§7)");
         add("ascension.tooltip.teleporting_in_seconds", "§eTeleporting in %d seconds");
         add("ascension.tooltip.teleported_to_spawn", "§aTeleported to your spawn point!");
         add("ascension.tooltip.teleported_to_world_spawn", "§aTeleported to world spawn!");
@@ -104,11 +114,11 @@ public class lang extends LanguageProvider {
         add("ascension.tooltip.cannot_teleport_dimension", "§cCannot teleport to saved dimension!");
         add("ascension.tooltip.no_safe_location", "§cNo safe teleport location found!");
         add("ascension.tooltip.saved_location", "§7Saved Location:");
-        add("ascension.tooltip.coordinates", "§7X: %s, Y: %s, Z: %s");
+        add("ascension.tooltip.coordinates", "§7X: %s §7Y: %s §7Z: %s");
         add("ascension.tooltip.dimension", "§7Dimension: %s");
-        add("item.ascension.spatial_rupture_talisman_t1.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
-        add("item.ascension.spatial_rupture_talisman_t2.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
-        add("item.ascension.spatial_rupture_talisman_t3.cooldown", "Spatial Rupture Talisman §7(%dm %ds)");
+        add("item.ascension.spatial_rupture_talisman_t1.cooldown", "Spatial Rupture Talisman §7(%dm %ds§7)");
+        add("item.ascension.spatial_rupture_talisman_t2.cooldown", "Spatial Rupture Talisman §7(%dm %ds§7)");
+        add("item.ascension.spatial_rupture_talisman_t3.cooldown", "Spatial Rupture Talisman §7(%dm %ds§7)");
         add("item.ascension.tablet_of_destruction_human.cooldown", "Ability is on cooldown!");
         add("item.ascension.tablet_of_destruction_heaven.cooldown", "Item is on cooldown!");
         add("item.ascension.tablet_of_destruction_heaven.drop_blocks", "Drop Blocks = ");
@@ -124,6 +134,10 @@ public class lang extends LanguageProvider {
         add("item.ascension.jade_slip.already_linked", "This Jade Slip is already linked to %s and cannot be re-linked!");
         add("item.ascension.jade_slip.linked", "Jade Slip linked to %s");
         add("item.ascension.jade_slip.tooltip.linked", "Linked to: %s");
+        add("ascension.tooltip.rgb.jade_slip", "Sect Identification");
+        add("ascension.tooltip.rgb.rebirth_warning", "Be Cautious This Pill Resets Everything!");
+
+
 
 
         //Poison Pills

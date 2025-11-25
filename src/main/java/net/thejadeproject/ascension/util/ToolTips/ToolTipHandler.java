@@ -18,16 +18,22 @@ public class ToolTipHandler {
 
     private static final Map<Item, AnimatedTooltip> ANIMATED_TOOLTIPS = new HashMap<>();
 
+    // Existing method for string literals
     public static void registerAnimatedTooltip(Item item, String text, float speed) {
+        ANIMATED_TOOLTIPS.put(item, new AnimatedTooltip(Component.literal(text), speed));
+    }
+
+    // New method for translatable components
+    public static void registerAnimatedTooltip(Item item, Component text, float speed) {
         ANIMATED_TOOLTIPS.put(item, new AnimatedTooltip(text, speed));
     }
 
     private static class AnimatedTooltip {
-        private final String text;
+        private final Component text;
         private final float speed;
         private float time = 0;
 
-        public AnimatedTooltip(String text, float speed) {
+        public AnimatedTooltip(Component text, float speed) {
             this.text = text;
             this.speed = speed;
         }
@@ -35,7 +41,8 @@ public class ToolTipHandler {
         public MutableComponent getComponent() {
             time += speed;
             if (time > 1.0f) time = 0;
-            return ToolTipsGradient.RGBEachLetter(time, text, 0.01f);
+            // Use the string representation of the component (whether literal or translated)
+            return ToolTipsGradient.RGBEachLetter(time, text.getString(), 0.01f);
         }
     }
 
