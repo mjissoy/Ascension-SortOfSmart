@@ -47,10 +47,10 @@ public class DisplayPathDataContainer extends EmptyContainer {
         Component progressTitleComponent =Component.literal("Progress:").withStyle(ChatFormatting.BOLD);
         Component techniqueTitleComponent = Component.literal("Technique:").withStyle(ChatFormatting.BOLD);
         Font font = Minecraft.getInstance().font;
-        pathTitle = (new Label.Builder()).screen(easyGuiScreen).x(getWidth()/2).y(10).centered(true).text(majorRealmTitleComponent).width(font.width(nameComponent)).customScaling(0.5).build();
+        pathTitle = (new Label.Builder()).screen(easyGuiScreen).x(getWidth()/2).y(10).centered(true).text(majorRealmTitleComponent).customScaling(0.5).build();
         pathTitle.setID("path_title");
 
-        Label majorRealmTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(15).text(majorRealmTitleComponent).customScaling(0.5).width(font.width(majorRealmTitleComponent)).build();
+        Label majorRealmTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(15).text(majorRealmTitleComponent).customScaling(0.5).build();
         majorRealmData = (new Label.Builder()).screen(easyGuiScreen).x(0).y(20).text(Component.literal(CultivationSystem.getPathMajorRealmName(pathId,pathData.majorRealm))).customScaling(0.5).build();
         majorRealmData.setID("major_realm_data");
 
@@ -59,17 +59,17 @@ public class DisplayPathDataContainer extends EmptyContainer {
         addChild(breakthroughButton);
         breakthroughButton.setActive(false);
 
-        Label minorRealmTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(25).text(minorRealmTitleComponent).width(font.width(minorRealmTitleComponent)).customScaling(0.5).build();
+        Label minorRealmTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(25).text(minorRealmTitleComponent).customScaling(0.5).build();
         minorRealmData = (new Label.Builder()).screen(easyGuiScreen).x(0).y(30).text(Component.literal(String.valueOf(pathData.minorRealm))).customScaling(0.5).build();
         minorRealmData.setID("minor_realm_data");
 
-        Label progressTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(35).text(progressTitleComponent).width(font.width(progressTitleComponent)).customScaling(0.5).build();
+        Label progressTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(35).text(progressTitleComponent).customScaling(0.5).build();
         progressData = (new Label.Builder()).screen(easyGuiScreen).x(0).y(40).text(Component.literal(String.valueOf(pathData.pathProgress))).customScaling(0.5).build();
         progressData.setID("progress_data");
 
         String techniqueName = "none";
         if(!pathData.technique.equals("ascension:none")) techniqueName = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':')).getDisplayTitle();
-        Label techniqueTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(45).text(techniqueTitleComponent).customScaling(0.5).width(font.width(techniqueTitleComponent)).build();
+        Label techniqueTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(45).text(techniqueTitleComponent).customScaling(0.5).build();
         techniqueData = (new ClickableLabel.Builder()).screen(easyGuiScreen).x(0).y(50).text(techniqueName).customScaling(0.5).hoverColor(1686472069).build();
         techniqueData.clickAction = new Action(ModActions.CREATE_CONTAINER.get(),new Object[]{"technique_data"});
         techniqueData.setID("technique_data");
