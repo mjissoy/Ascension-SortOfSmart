@@ -158,12 +158,31 @@ public class lang extends LanguageProvider {
         add("item.ascension.qi_devouring_parasite_pill", "Qi Devouring Parasite Pill");
 
         //manuals
+
+        //Essence
         add("item.ascension.pure_fire_technique","Pure Fire Technique");
         add("item.ascension.pure_water_technique","Pure Water Technique");
+        add("item.ascension.pure_wood_technique","Pure Wood Technique");
+        add("item.ascension.pure_earth_technique","Pure Earth Technique");
+        add("item.ascension.pure_metal_technique","Pure Metal Technique");
+        add("item.ascension.void_swallowing_technique","Void Swallowing Technique");
+
+        //Intent
         add("item.ascension.pure_sword_intent","Pure Sword Intent Technique");
         add("item.ascension.pure_fist_intent","Pure Fist Intent Technique");
+        add("item.ascension.pure_axe_intent","Pure Axe Intent Technique");
+        add("item.ascension.pure_spear_intent","Pure Spear Intent Technique");
+        add("item.ascension.pure_blade_intent","Pure Blade Intent Technique");
+        add("item.ascension.fist_king_intent","Fist Kings Technique");
+
+        //Body
+
+        add("item.ascension.wood_elemental_technique","Wood Elemental Technique");
+        add("item.ascension.water_elemental_technique","Water Elemental Technique");
+        add("item.ascension.earth_elemental_technique","Earth Elemental Technique");
+        add("item.ascension.metal_elemental_technique","Metal Elemental Technique");
+        add("item.ascension.fire_elemental_technique","Fire Elemental Technique");
         add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique");
-        add("item.ascension.void_swallowing_technique","Void Swallowing Technique");
 
 
         add("ascension.learnt_technique","You have learned the %s");

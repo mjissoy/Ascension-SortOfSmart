@@ -257,7 +257,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     })
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:intent",0,3,"ascension:axe_intent_skill",true)
+                            new AcquirableSkillData("ascension:intent",0,3,"ascension:blade_intent_skill",true)
                     )));
     public static final TechniqueHolder PURE_SPEAR_INTENT = createTechnique("pure_spear_intent",
             ()->new SingleIntentTechnique("Pure Blade Technique",8.0,"ascension:spear_intent",new LnStabilityHandler())
@@ -280,7 +280,7 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     })
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:intent",0,3,"ascension:axe_intent_skill",true)
+                            new AcquirableSkillData("ascension:intent",0,3,"ascension:spear_intent_skill",true)
                     )));
     public static final TechniqueHolder PURE_FIST_INTENT = createTechnique("pure_fist_intent",
             ()->new SingleIntentTechnique("Pure Fist Technique",8.0,"ascension:fist_intent",new LnStabilityHandler())
@@ -293,8 +293,6 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
                         PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
-
-
                     })
                     .setOnMajorRealmChange(event ->{
                         Player player = event.player;
@@ -308,8 +306,8 @@ public class ModTechniques {
                             Component.literal("and all is weak")
                     )));
 
-    public static final TechniqueHolder FIST_KINGS_TECHNIQUE = createTechnique("fist_king_technique",
-            ()->new SingleAttributeTechnique("Fist Kings Technique",8.0,"ascension:fist_intent",new LnStabilityHandler())
+    public static final TechniqueHolder FIST_KINGS_TECHNIQUE = createTechnique("fist_king_intent",
+            ()->new SingleIntentTechnique("Fist Kings Technique",8.0,"ascension:fist_intent",new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{
 
                         put("ascension:fist_intent",4.8);
