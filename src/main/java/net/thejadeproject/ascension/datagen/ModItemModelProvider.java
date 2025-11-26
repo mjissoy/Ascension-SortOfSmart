@@ -128,12 +128,29 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.ASCENSION_ICON.get());
 
         //Manuals
+        //Essence
         manual(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get());
         manual(ModTechniques.PURE_WATER_TECHNIQUE.manual.get());
+        manual(ModTechniques.PURE_METAL_TECHNIQUE.manual.get());
+        manual(ModTechniques.PURE_EARTH_TECHNIQUE.manual.get());
+        manual(ModTechniques.PURE_WOOD_TECHNIQUE.manual.get());
+        manual(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get());
+
+        //Intent
         manual(ModTechniques.PURE_SWORD_INTENT.manual.get());
         manual(ModTechniques.PURE_FIST_INTENT.manual.get());
+        manual(ModTechniques.PURE_AXE_INTENT.manual.get());
+        manual(ModTechniques.PURE_BLADE_INTENT.manual.get());
+        manual(ModTechniques.PURE_SPEAR_INTENT.manual.get());
+        manual(ModTechniques.FIST_KINGS_TECHNIQUE.manual.get());
+
+        //Body
+        manual(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual.get());
+        manual(ModTechniques.FIRE_ELEMENTAL_TECHNIQUE.manual.get());
+        manual(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual.get());
+        manual(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual.get());
+        manual(ModTechniques.WOOD_ELEMENTAL_TECHNIQUE.manual.get());
         manual(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get());
-        manual(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get());
 
         //Tablet Of Destructions
         tablet(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get());

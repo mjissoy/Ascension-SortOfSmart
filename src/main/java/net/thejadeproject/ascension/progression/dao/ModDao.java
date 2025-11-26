@@ -85,7 +85,7 @@ public class ModDao {
             Map.of(
             ),
             Map.of(
-                    "ascension:voidd",2.3,
+                    "ascension:yang",2.3,
                     "ascension:yin",1.9
             ));
 
@@ -99,14 +99,10 @@ public class ModDao {
 
     public static final DeferredHolder<IDao, GenericDao> YIN_DAO = createDao("yin",Component.literal("§b[Yin]"));
     public static final DeferredHolder<IDao, GenericDao> YANG_DAO = createDao("yang",Component.literal("§4[Yang]"));
-
-    public static final DeferredHolder<IDao, GenericDao> VOIDD_DAO = createDao("voidd",Component.literal("§5[Void]"));
-
-
     public static final DeferredHolder<IDao,GenericDao> SWORD_DAO = createDao("sword_intent",Component.literal("§8[Sword Intent]"));
     public static final DeferredHolder<IDao,GenericDao> FIST_DAO = createDao("fist_intent",Component.literal("§8[Fist Intent]"));
     public static final DeferredHolder<IDao,GenericDao> BLADE_DAO = createDao("blade_intent",Component.literal("§8[Blade Intent]"));
-    public static final DeferredHolder<IDao,GenericDao> BOW_DAO = createDao("bow_intent",Component.literal("§8[Bow Intent]"));
+    public static final DeferredHolder<IDao,GenericDao> AXE_DAO = createDao("axe_intent",Component.literal("§8[Axe Intent]"));
     public static final DeferredHolder<IDao,GenericDao> SPEAR_DAO = createDao("spear_intent",Component.literal("§8[Spear Intent]"));
 
     public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title){

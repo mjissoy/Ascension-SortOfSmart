@@ -360,12 +360,33 @@ public class ModCreativeModeTabs {
             ()->CreativeModeTab.builder().icon(()-> new ItemStack(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get()))
                     .title(Component.translatable("creativetab.ascension.manuals"))
                     .displayItems((itemDisplayParameters, output) -> {
+
+
+                        //Essence
                         output.accept(ModTechniques.PURE_FIRE_TECHNIQUE.manual);
                         output.accept(ModTechniques.PURE_WATER_TECHNIQUE.manual);
+                        output.accept(ModTechniques.PURE_METAL_TECHNIQUE.manual);
+                        output.accept(ModTechniques.PURE_EARTH_TECHNIQUE.manual);
+                        output.accept(ModTechniques.PURE_WOOD_TECHNIQUE.manual);
+                        output.accept(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual);
+
+                        //Intent
                         output.accept(ModTechniques.PURE_SWORD_INTENT.manual);
                         output.accept(ModTechniques.PURE_FIST_INTENT.manual);
+                        output.accept(ModTechniques.PURE_AXE_INTENT.manual);
+                        output.accept(ModTechniques.PURE_BLADE_INTENT.manual);
+                        output.accept(ModTechniques.PURE_SPEAR_INTENT.manual);
+                        output.accept(ModTechniques.FIST_KINGS_TECHNIQUE.manual);
+
+                        //Body
+                        output.accept(ModTechniques.WOOD_ELEMENTAL_TECHNIQUE.manual);
+                        output.accept(ModTechniques.FIRE_ELEMENTAL_TECHNIQUE.manual);
+                        output.accept(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual);
+                        output.accept(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual);
+                        output.accept(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual);
                         output.accept(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual);
-                        output.accept(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual);
+
+
                     })
                     .build());
 
