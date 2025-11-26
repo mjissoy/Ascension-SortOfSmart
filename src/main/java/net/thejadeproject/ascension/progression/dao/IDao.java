@@ -16,7 +16,10 @@ public interface IDao {
 
     default Set<DaoInteractionType> getInteractionTypesOfDao(String daoId){
         HashSet<DaoInteractionType> interactionTypes = new HashSet<>();
-        return null;
+        if(getGenerativeDao().containsKey(daoId)) interactionTypes.add(DaoInteractionType.Generative);
+        if(getDestructiveDao().containsKey(daoId)) interactionTypes.add(DaoInteractionType.Destructive);
+        if(getRelatedDao().containsKey(daoId)) interactionTypes.add(DaoInteractionType.Related);
+        return interactionTypes;
 
     }
     //============= GETTING VALUES ===============

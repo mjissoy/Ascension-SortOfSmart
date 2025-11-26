@@ -42,7 +42,7 @@ public class SelectedSkillInfoPanel extends Image {
         Label titleLabel = new Label.Builder()
                 .screen(easyGuiScreen)
                 .x(40).y(65)
-                .width(60)
+                .width(60).customScaling(0.7)
                 .centered(true).build();
 
         SkillDescriptionContainer skillDescriptionContainer = new SkillDescriptionContainer(easyGuiScreen,12,72);

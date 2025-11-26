@@ -4,6 +4,7 @@ import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.ContainerRenderable;
+import net.lucent.easygui.interfaces.complex_events.Sticky;
 import net.lucent.easygui.interfaces.events.Clickable;
 import net.lucent.easygui.templating.actions.IAction;
 import net.lucent.easygui.templating.registry.EasyGuiRegistries;
@@ -60,6 +61,7 @@ public class ModActions {
 
                             String id = args[0] instanceof JsonPrimitive ? ((JsonPrimitive) args[0]).getAsString() : (String) args[0];
                             if(id.equals("technique_data")){
+                                if( ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique.equals("ascension:none")) return;
                                 renderable.getRoot().addChild(new TechniqueDataContainer(renderable.getScreen(),0,0, ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique));
                             } else if (id.equals("physique_data")) {
 

@@ -9,6 +9,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
+import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.DelayedFireLaunch;
 import net.thejadeproject.ascension.progression.skills.passive_skills.SwordIntent;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -36,10 +37,17 @@ public class ModSkills {
     public static final DeferredHolder<ISkill,  ? extends AbstractPassiveSkill > SWORD_INTENT = SKILLS.register("sword_intent_skill",
             SwordIntent::new);
     public static final DeferredHolder<ISkill,  ? extends AbstractActiveSkill > BASIC_FIRE_BALL = SKILLS.register("basic_fire_ball",
-            ()->new BasicFireBall()
+            ()->new BasicFireBall(1,5,"Basic Fire Ball")
                     .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fire_ball.png"),32,32)
                     ));
-
+    public static final DeferredHolder<ISkill,  ? extends AbstractActiveSkill > LARGE_FIRE_BALL = SKILLS.register("large_fire_ball",
+            ()->new BasicFireBall(1,10,"Large Fire Ball")
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fire_ball.png"),32,32)
+                    ));
+    public static final DeferredHolder<ISkill,  ? extends AbstractActiveSkill > DELAYED_FIRE_LAUNCH = SKILLS.register("delayed_fire_launch",
+            ()->new DelayedFireLaunch("Delayed Fire Launch")
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fire_ball.png"),32,32)
+                    ));
     public static void register(IEventBus eventBus){
         SKILLS.register(eventBus);
     }

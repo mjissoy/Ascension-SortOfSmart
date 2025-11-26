@@ -57,5 +57,5 @@ public interface ITechnique {
 
     void tryCultivate(Player player);
     void tryStabiliseRealm(Player player);
-    Double getEfficiencyValue(String attribute);
+    Double getDaoBonus(String attribute);
 }

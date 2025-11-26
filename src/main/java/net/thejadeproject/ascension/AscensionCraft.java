@@ -6,6 +6,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -257,6 +259,7 @@ public class AscensionCraft {
         SectCommand.register(event.getDispatcher());
     }
 
+
     // Get sect manager for current world
     public static SectManager getSectManager(net.minecraft.server.MinecraftServer server) {
         if (server == null) return null;
@@ -265,9 +268,12 @@ public class AscensionCraft {
     }
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
-    public static class ClientModEvents {
+    public static class ModEvents {
 
-
+        @SubscribeEvent
+        public static void onEntityAttributeModificationEvent(final EntityAttributeModificationEvent event) {
+            event.add(EntityType.PLAYER, ModAttributes.MAX_CASTING_INSTANCES);
+        }
 
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event){

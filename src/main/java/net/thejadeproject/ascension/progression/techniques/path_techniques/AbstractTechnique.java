@@ -74,19 +74,10 @@ public abstract class AbstractTechnique implements ITechnique {
     @Override
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
 
-
-        for(String attribute:event.ascensionAttributeID()){
-            IDao dao = AscensionRegistries.Dao.getDaoFromKey(attribute);
-            for(String techniqueAttributeId : getDaoBonuses()){
-                Double destructiveValue = dao.getDestructiveValue(techniqueAttributeId);
-                Double generativeValue = dao.getDestructiveValue(techniqueAttributeId);
-                Double relatedValue = dao.getDestructiveValue(techniqueAttributeId);
-            }
-            System.out.println("getting eff from technique");
-            System.out.println(attribute);
-            System.out.println(daoBonuses.get(attribute));
-            if(daoBonuses.containsKey(attribute)) event.addDaoMultiplier(daoBonuses.get(attribute));
+        for(String techniqueAttributeId : getDaoBonuses()){
+            event.tryAddDao(techniqueAttributeId,getDaoBonus(techniqueAttributeId));
         }
+
     }
 
     public AbstractTechnique setEfficiencyAttributes(Map<String,Double> efficiencyBonuses){
@@ -98,7 +89,7 @@ public abstract class AbstractTechnique implements ITechnique {
         return daoBonuses.keySet();
     }
     @Override
-    public Double getEfficiencyValue(String attribute) {
+    public Double getDaoBonus(String attribute) {
         return daoBonuses.get(attribute);
     }
     @Override

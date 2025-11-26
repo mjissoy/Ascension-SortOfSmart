@@ -47,14 +47,14 @@ public class SkillWheelContainer extends EmptyContainer {
         SkillWheelSegment FirstSkillSlot = new SkillWheelSegment(screen,0,0,0,0,0,null,0);
         createSkillIconAt(0,32,16);
 
-        SkillWheelSegment SecondSkillSlot = new SkillWheelSegment(screen,0,0,-16,16,0,null,270);
+        SkillWheelSegment SecondSkillSlot = new SkillWheelSegment(screen,0,0,16,16,0,null,90);
         createSkillIconAt(1,45,32);
 
 
         SkillWheelSegment ThirdSkillSlot = new SkillWheelSegment(screen,0,0,0,32,0,null,180);
         createSkillIconAt(2,32,45);
 
-        SkillWheelSegment FourthSkillSlot = new SkillWheelSegment(screen,0,0,16,16,0,null,90);
+        SkillWheelSegment FourthSkillSlot = new SkillWheelSegment(screen,0,0,-16,16,0,null,270);
         createSkillIconAt(3,16,32);
 
         addChild(FirstSkillSlot);
@@ -82,9 +82,9 @@ public class SkillWheelContainer extends EmptyContainer {
         //if(!CircleBoundChecker.isPointInCircle(center2d,point, (float) Math.pow((32*getTotalCustomScaling()),2))) return false;
         double angle = CircleBoundChecker.angleBetweenPointCenterAndNormal(point,center2d);
         System.out.println(angle);
-        if(angle<45 || angle > 315) hoveredSlot = 3;
+        if(angle<45 || angle > 315) hoveredSlot = 1;
         if(angle > 45 && angle < 45+90) hoveredSlot = 2;
-        if(angle > 45+90 && angle < 45+180) hoveredSlot = 1;
+        if(angle > 45+90 && angle < 45+180) hoveredSlot = 3;
         if(angle > 45+180 && angle < 45+270) hoveredSlot = 0;
         return super.isMouseOver(mouseX, mouseY);
     }

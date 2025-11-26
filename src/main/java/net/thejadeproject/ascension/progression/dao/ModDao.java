@@ -127,7 +127,7 @@ public class ModDao {
     public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> generativeDao,Map<String ,Double> destructiveDao,Map<String,Double> relatedDao){
         ModTags.Items.createDaoTag(id);
 
-        return DAO.register(id,()->new GenericDao(title).setDestructiveDao(generativeDao).setGenerativeDao(generativeDao).setRelatedDao(relatedDao).setDescription(description));
+        return DAO.register(id,()->new GenericDao(title).setDestructiveDao(destructiveDao).setGenerativeDao(generativeDao).setRelatedDao(relatedDao).setDescription(description));
     }
 
 

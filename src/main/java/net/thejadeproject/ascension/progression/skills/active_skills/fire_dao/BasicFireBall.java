@@ -16,8 +16,16 @@ import net.thejadeproject.ascension.progression.skills.data.CastType;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 
 public class BasicFireBall extends AbstractActiveSkill {
-    public BasicFireBall() {
-        super(Component.literal("Fire Ball"));
+    public final double speed;
+    public final float baseDamage;
+
+    public BasicFireBall(double speed,float baseDamage,String name) {
+
+        super(Component.literal(name));
+        this.speed = speed;
+        this.baseDamage = baseDamage;
+
+
     }
 
     @Override
@@ -61,7 +69,8 @@ public class BasicFireBall extends AbstractActiveSkill {
 
     public void createFireBall(Level level, Player player){
         Vec3 vec3 = player.getViewVector(0);
-        FireBallSkill fireBallSkill = new FireBallSkill(level,player, vec3.normalize());
+        FireBallSkill fireBallSkill = new FireBallSkill(level,player, vec3.normalize().scale(speed),baseDamage);
+
         fireBallSkill.setPos(fireBallSkill.getX(), player.getY()+ player.getEyeHeight() , fireBallSkill.getZ());
         level.addFreshEntity(fireBallSkill);
     }

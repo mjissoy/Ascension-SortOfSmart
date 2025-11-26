@@ -55,8 +55,11 @@ public class PlayerEventHandler {
         NeoForge.EVENT_BUS.post(effEvent);
         System.out.println("applicable attributes: "+ attributes);
         System.out.println("damage before : "+event.getNewDamage());
-        System.out.println("multipliers : "+effEvent.getTotalDaoEfficiencyMultiplier());
-        event.setNewDamage((float) (event.getNewDamage()*effEvent.getTotalDaoEfficiencyMultiplier()));
+        System.out.println("generative: "+effEvent.getTotalGenerativeMultiplier());
+        System.out.println("destructive: "+effEvent.getTotalDestructiveMultiplier());
+        System.out.println("dao: "+effEvent.getTotalDaoEfficiencyMultiplier());
+        System.out.println("multipliers : "+effEvent.getTotalEfficiencyMultiplier());
+        event.setNewDamage((float) (event.getNewDamage()*effEvent.getTotalEfficiencyMultiplier()));
         System.out.println("damage after : "+event.getNewDamage());
 
     }

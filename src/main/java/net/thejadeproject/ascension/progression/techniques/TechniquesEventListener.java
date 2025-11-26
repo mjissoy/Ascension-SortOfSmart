@@ -22,6 +22,7 @@ public class TechniquesEventListener {
         //check if player has technique
         PlayerData data = event.player.getData(ModAttachments.PLAYER_DATA);
         for(CultivationData.PathData pathData : data.getCultivationData().getPaths()){
+            if(pathData.technique.equals("ascension:none")) continue;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':')).onGatherEfficiencyModifiers(event);
 
         }

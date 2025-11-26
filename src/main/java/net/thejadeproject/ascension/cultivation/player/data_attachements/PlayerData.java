@@ -80,7 +80,11 @@ public class PlayerData {
         //use primary skill thread if skill is primary or user has 0 max casting instances
         if(activeSkill.isPrimarySkill() || player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue() == 0){
             System.out.println("casting primary skill");
-            if(primarySkillCastingInstance != null) primarySkillCastingInstance.cancelCast();
+            if(primarySkillCastingInstance != null) {
+                System.out.println("canceled "+primarySkillCastingInstance.skillId.toString()+ " skill cast");
+
+                primarySkillCastingInstance.cancelCast();
+            }
             if(activeSkill.getCastType() == CastType.INSTANT){
                 System.out.println("casting instant spell");
                 activeSkill.cast(0,player.level(),player);
@@ -88,11 +92,11 @@ public class PlayerData {
             }
             System.out.println("setting cast instance");
             primarySkillCastingInstance = castingInstance;
-            System.out.println(primarySkillCastingInstance);
+            System.out.println(primarySkillCastingInstance.skillId);
             return;
         }
         //attempted to add secondary skill casting instance
-
+        System.out.println("trying to cast secondary skill");
         //if casting threads are full remove one and replace it
         if(castingThreads.size() >= player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()){
             //cancel the cast of the first available secondary skill
@@ -118,15 +122,17 @@ public class PlayerData {
     public void tickAllCastingThreads(){
 
         if(primarySkillCastingInstance != null){
-            System.out.println("ticking fireball");
+
             if(!primarySkillCastingInstance.tick(player.level(),player)){
+                System.out.println("cast: "+ primarySkillCastingInstance.skillId.toString());
                 primarySkillCastingInstance = null;
-                System.out.println("fireball finished ticking");
+                System.out.println("skill cast finished");
             }
         }
 
         for(CastingInstance instance : castingThreads.values()){
             if(!instance.tick(player.level(),player)){
+                System.out.println("cast : "+instance.skillId.toString());
                 removeCastingInstanceThread(instance.uuid);
             }
         }
