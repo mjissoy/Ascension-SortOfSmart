@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-25T10:08:43.827083	Item Models: ascension
+// 1.21.1	2025-11-26T15:16:30.1271342	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -21,6 +21,9 @@ f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marbl
 abe2becd602169ae11df376855869494e03a5542 assets/ascension/models/item/diamond_spatial_ring.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/divine_phoenix_technique.json
 14a26ac05e802ef718798bbab95ed44d115a809f assets/ascension/models/item/ender_pouch.json
+9bbcd28229cd3ab1d51a6777be247f9cae6a69db assets/ascension/models/item/essence_gathering_pill_t1.json
+b55e6d37e8e8147fda0a2838a32abb722e1b236b assets/ascension/models/item/essence_gathering_pill_t2.json
+3004fdbf79121403e18ed7b2fdfbbe572d1ab5d6 assets/ascension/models/item/essence_gathering_pill_t3.json
 24d636705893eb64e2c11c327ff2067de21fe1da assets/ascension/models/item/fasting_pill_t1.json
 a7a0cfdd0338bc05cdd2bcfd788629bc35994828 assets/ascension/models/item/fasting_pill_t2.json
 5c9d7b313153f0eb76da3df42e0894407138cce3 assets/ascension/models/item/fasting_pill_t3.json
@@ -92,6 +95,9 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t1.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t2.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t3.json
+c707f86ce5008f1c2a96c9ca40ee5b5b2b1502fa assets/ascension/models/item/spirit_focus_pill_t1.json
+2ecc14f50d0b8ba2c3dec0f1a1b9d7f19fec3b1a assets/ascension/models/item/spirit_focus_pill_t2.json
+b60f7bee708913d9cae6e49b15bdbf0649ceefbb assets/ascension/models/item/spirit_focus_pill_t3.json
 1d3fe5992fff342daa85c2c5a007f4093300df29 assets/ascension/models/item/talisman_paper.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/tode.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todh.json

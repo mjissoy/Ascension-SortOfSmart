@@ -55,6 +55,7 @@ import net.thejadeproject.ascension.util.KeyBindHandler;
 import net.thejadeproject.ascension.util.ModAttachments;
 import net.thejadeproject.ascension.util.ModAttributes;
 import net.thejadeproject.ascension.util.ToolTips.ToolTipManager;
+import net.thejadeproject.ascension.villager.ModVillagers;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -124,6 +125,9 @@ public class AscensionCraft {
         ModSkills.register(modEventBus);
         ModTechniques.register(modEventBus);
         ModDao.register(modEventBus);
+
+        ModVillagers.VILLAGER_PROFESSIONS.register(modEventBus);
+        ModVillagers.POI_TYPES.register(modEventBus);
 
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
     }
