@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:dirt"
+    }
+  ],
+  "result": {
+    "components": {
+      "modopedia:book": "ascension:art_of_ascension"
+    },
+    "count": 1,
+    "id": "modopedia:book"
+  }
+}

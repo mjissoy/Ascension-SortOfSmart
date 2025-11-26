@@ -331,13 +331,26 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.NEUTRALITY_PILL);
                         output.accept(ModItems.REBIRTH_PILL);
 
+                        //Poison
+                        output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
+
                         //Cultivation
+
+                        //Body
                         output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
                         output.accept(ModItems.INNER_REINFORCEMENT_PILL_T2);
                         output.accept(ModItems.INNER_REINFORCEMENT_PILL_T3);
 
-                        //Poison
-                        output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
+                        //Essence
+                        output.accept(ModItems.ESSENCE_GATHERING_PILL_T1);
+                        output.accept(ModItems.ESSENCE_GATHERING_PILL_T2);
+                        output.accept(ModItems.ESSENCE_GATHERING_PILL_T3);
+
+                        //Intent
+                        output.accept(ModItems.SPIRIT_FOCUS_PILL_T1);
+                        output.accept(ModItems.SPIRIT_FOCUS_PILL_T2);
+                        output.accept(ModItems.SPIRIT_FOCUS_PILL_T3);
+
 
 
 

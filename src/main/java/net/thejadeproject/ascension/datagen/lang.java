@@ -64,6 +64,11 @@ public class lang extends LanguageProvider {
         add("entity.ascension.treasure_rat", "Treasure Rat");
 
 
+        //Villagers
+        add("entity.minecraft.villager.ascension.herbalist", "Herbalist");
+        add("entity.minecraft.villager.herbalist", "Herbalist");
+
+
         //Pills
         add("item.ascension.pill_residue", "Pill Residue");
         add("item.ascension.regeneration_pill", "Regeneration Pill");
@@ -75,13 +80,22 @@ public class lang extends LanguageProvider {
         add("item.ascension.fasting_pill_t1", "Fasting Pill");
         add("item.ascension.fasting_pill_t2", "Fasting Pill");
         add("item.ascension.fasting_pill_t3", "Fasting Pill");
-        add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
-        add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
-        add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
         add("item.ascension.cleansing_pill_t1", "Cleansing Pill");
         add("item.ascension.cleansing_pill_t2", "Cleansing Pill");
         add("item.ascension.cleansing_pill_t3", "Cleansing Pill");
         add("item.ascension.cleansing_pill_t4", "Cleansing Pill");
+
+        add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
+        add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
+        add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
+
+        add("item.ascension.essence_gathering_pill_t1", "Essence Gathering Pill");
+        add("item.ascension.essence_gathering_pill_t2", "Essence Gathering Pill");
+        add("item.ascension.essence_gathering_pill_t3", "Essence Gathering Pill");
+
+        add("item.ascension.spirit_focus_pill_t1", "Spirit Focus Pill");
+        add("item.ascension.spirit_focus_pill_t2", "Spirit Focus Pill");
+        add("item.ascension.spirit_focus_pill_t3", "Spirit Focus Pill");
 
 
 
