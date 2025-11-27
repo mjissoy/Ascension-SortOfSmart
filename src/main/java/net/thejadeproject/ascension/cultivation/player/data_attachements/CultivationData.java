@@ -100,6 +100,13 @@ public class CultivationData {
 
     private final HashMap<String, PathData> pathDataHashMap = new HashMap<>();
 
+    //TODO replace with interface that queries this so individual techniques can have differing req
+    public double getMaxQiForRealm(String path){
+        PathData data = pathDataHashMap.get(path);
+        if(data == null) return 1.0;
+        return 100;//TODO Replace with formula
+    }
+
     public PathData getPathData(String pathId){
 
         if(pathDataHashMap.containsKey(pathId)) return pathDataHashMap.get(pathId);
@@ -144,5 +151,7 @@ public class CultivationData {
             pathDataHashMap.put(key, PathData.loadNBTData(compound.getCompound(key)));
         }
     }
+
+
 
 }

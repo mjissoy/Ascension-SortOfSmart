@@ -18,8 +18,15 @@ public class ModAttributes {
             0,
             // Min and max values.
             0,
-            10));
-
+            4));
+    public static final Holder<Attribute> PLAYER_QI_INSTANCE = ATTRIBUTES.register("player_qi", () -> new RangedAttribute(
+            // The translation key to use.
+            "attributes.ascension.player_qi",
+            // The default value.
+            100,
+            // Min and max values.
+            0,
+            1000000000));
 
     public static void register(IEventBus modEventBus){
         ATTRIBUTES.register(modEventBus);

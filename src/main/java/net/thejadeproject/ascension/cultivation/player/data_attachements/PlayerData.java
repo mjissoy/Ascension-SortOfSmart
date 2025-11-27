@@ -24,6 +24,7 @@ import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.util.ModAttributes;
+import org.apache.logging.log4j.util.Cast;
 
 import java.util.*;
 public class PlayerData {
@@ -63,7 +64,29 @@ public class PlayerData {
         );
     }
 
+    public CastingInstance getSkillFromSlot(int slot){
+        if(slot == 0) return primarySkillCastingInstance;
+        if(slot >= castingThreadQueue.size()+1) return null;
+        return castingThreads.get(castingThreadQueue.get(slot-1));
+    }
 
+    public void tryAddSecondarySkillCastingInstance(CastingInstance castingInstance,boolean insertAtEnd){
+        //attempted to add secondary skill casting instance
+        System.out.println("trying to cast secondary skill");
+        //if casting threads are full remove one and replace it
+        if(castingThreads.size() >= player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()){
+            //cancel the cast of the first available secondary skill
+            UUID toCancel = null;
+            if(insertAtEnd) toCancel= castingThreadQueue.removeFirst();
+            else toCancel = castingThreadQueue.removeLast();
+            castingThreads.remove(toCancel).cancelCast();
+        }
+
+        if(insertAtEnd) castingThreadQueue.add(castingInstance.uuid);
+        else castingThreadQueue.addFirst(castingInstance.uuid);
+        castingThreads.put(castingInstance.uuid,castingInstance);
+
+    }
 
     //TODO do a QI check
     //TODO if cast type is instant, cast without creating thread. but only if thread is available
@@ -78,12 +101,13 @@ public class PlayerData {
         CastingInstance castingInstance = new CastingInstance(skill,uuid);
         if(!(skill instanceof AbstractActiveSkill activeSkill)) return;
         //use primary skill thread if skill is primary or user has 0 max casting instances
-        if(activeSkill.isPrimarySkill() || player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue() == 0){
-            System.out.println("casting primary skill");
+        if(activeSkill.isPrimarySkill() || player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue() == 0 || primarySkillCastingInstance == null){
+            System.out.println("casting primary skill or secondary as primary");
             if(primarySkillCastingInstance != null) {
                 System.out.println("canceled "+primarySkillCastingInstance.skillId.toString()+ " skill cast");
-
-                primarySkillCastingInstance.cancelCast();
+                AbstractActiveSkill skill2 =(AbstractActiveSkill) AscensionRegistries.Skills.SKILL_REGISTRY.get(primarySkillCastingInstance.skillId);
+                if(!skill2.isPrimarySkill())  tryAddSecondarySkillCastingInstance(castingInstance,false);
+                else primarySkillCastingInstance.cancelCast();
             }
             if(activeSkill.getCastType() == CastType.INSTANT){
                 System.out.println("casting instant spell");
@@ -95,18 +119,7 @@ public class PlayerData {
             System.out.println(primarySkillCastingInstance.skillId);
             return;
         }
-        //attempted to add secondary skill casting instance
-        System.out.println("trying to cast secondary skill");
-        //if casting threads are full remove one and replace it
-        if(castingThreads.size() >= player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue()){
-            //cancel the cast of the first available secondary skill
-            UUID toCancel = castingThreadQueue.removeFirst();
-            castingThreads.remove(toCancel).cancelCast();
-        }
-
-
-        castingThreads.put(castingInstance.uuid,castingInstance);
-        castingThreadQueue.add(castingInstance.uuid);
+        tryAddSecondarySkillCastingInstance(castingInstance,true);
     }
 
 
@@ -127,6 +140,7 @@ public class PlayerData {
                 System.out.println("cast: "+ primarySkillCastingInstance.skillId.toString());
                 primarySkillCastingInstance = null;
                 System.out.println("skill cast finished");
+
             }
         }
 
@@ -134,6 +148,7 @@ public class PlayerData {
             if(!instance.tick(player.level(),player)){
                 System.out.println("cast : "+instance.skillId.toString());
                 removeCastingInstanceThread(instance.uuid);
+
             }
         }
     }
@@ -171,6 +186,7 @@ public class PlayerData {
     public void onServerTick(ServerTickEvent.Post event){
         tickAllCooldowns();
         tickAllCastingThreads();
+        syncCastingData();
     }
 
     public void syncCastingData(){

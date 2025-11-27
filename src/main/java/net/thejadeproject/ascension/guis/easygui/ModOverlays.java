@@ -16,6 +16,10 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.guis.easygui.elements.skill_cast_progress.SkillCastProgressContainer;
+import net.thejadeproject.ascension.guis.easygui.overlay_views.CultivationProgressBarsView;
+import net.thejadeproject.ascension.guis.easygui.overlay_views.SkillCastProgressBarView;
+
 @OnlyIn(Dist.CLIENT)
 public class ModOverlays {
 
@@ -72,8 +76,23 @@ public class ModOverlays {
         view.addChild(progressBar);
     });
 
+    public static EasyGuiOverlay SKILL_CAST_PROGRESS = new EasyGuiOverlay(((eventHolder, easyGuiOverlay) -> {
+        SkillCastProgressBarView view = new SkillCastProgressBarView(easyGuiOverlay);
+
+        easyGuiOverlay.addView(view);
+
+    }));
+    public static EasyGuiOverlay CULTIVATION_PROGRESS = new EasyGuiOverlay(((eventHolder, easyGuiOverlay) -> {
+        CultivationProgressBarsView view = new CultivationProgressBarsView(easyGuiOverlay,0,0);
+
+        easyGuiOverlay.addView(view);
+
+    }));
     public static void register(){
         //EasyGuiOverlayManager.addLayer( ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),QI_TRACKER);
         EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH,HEALTH_BAR);
+        EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_cast_progress"),SKILL_CAST_PROGRESS);
+        EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_progress"),CULTIVATION_PROGRESS);
+
     }
 }

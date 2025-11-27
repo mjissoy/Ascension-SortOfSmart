@@ -89,9 +89,7 @@ public class CultivationSystem {
         System.out.println("base: "+cultivateEvent.baseRate);
         System.out.println(progressIncrement);
         //TODO work out what the hell i want to do with this
-        float CultivationStageMax = 1.0f +
-                (pathData.majorRealm * MAJOR_REALM_PROGRESS_MULTIPLIER) *
-                        (pathData.minorRealm * MINOR_REALM_PROGRESS_MULTIPLIER);
+        double CultivationStageMax = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getMaxQiForRealm(path);
 
         double progress = pathData.pathProgress + progressIncrement;
 
