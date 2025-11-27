@@ -5,6 +5,7 @@ import net.favouriteless.modopedia.common.init.MItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -34,6 +35,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     protected void buildRecipes(RecipeOutput recipeOutput) {
         var consumer = new NoAdvRecipeOutput(recipeOutput);
 
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_BLADE.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_BLADE.get());
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPEAR.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPEAR.get());
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SOULSTEAD_RETURN_TALISMAN.get())
                 .pattern("DED")
@@ -122,7 +125,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('T', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
                 .define('S', ModItems.DIAMOND_SPATIAL_RING.get())
                 .unlockedBy("has_diamond_spatial_ring", has(ModItems.DIAMOND_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
-        //SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPATIAL_RING.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPATIAL_RING.get()).unlocks("has_netherite_ingot", has(Items.NETHERITE_INGOT)).save(recipeOutput, "netherite_spatial_ring_smithing");
+
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SPATIAL_RING.get())
@@ -194,6 +197,46 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', Items.SUGAR_CANE)
                 .define('P', ModItems.JADE_BAMBOO_OF_SERENITY.get())
                 .unlockedBy("has_jade_bamboo_of_serenity", has(ModItems.JADE_BAMBOO_OF_SERENITY)).save(recipeOutput, "ascension:shaped/talisman_paper");
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.WOODEN_BLADE.get())
+                .pattern("JJ ")
+                .pattern(" J ")
+                .pattern(" S ")
+                .define('J', ItemTags.PLANKS)
+                .define('S', Items.STICK)
+                .unlockedBy("has_wood", has(ItemTags.PLANKS)).save(recipeOutput, "ascension:shaped/wooden_blade");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.STONE_BLADE.get())
+                .pattern("JJ ")
+                .pattern(" J ")
+                .pattern(" S ")
+                .define('J', Items.COBBLESTONE)
+                .define('S', Items.STICK)
+                .unlockedBy("has_cobble", has(Items.COBBLESTONE)).save(recipeOutput, "ascension:shaped/cobblestone_blade");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.IRON_BLADE.get())
+                .pattern("JJ ")
+                .pattern(" J ")
+                .pattern(" S ")
+                .define('J', Items.IRON_INGOT)
+                .define('S', Items.STICK)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT)).save(recipeOutput, "ascension:shaped/iron_blade");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.GOLD_BLADE.get())
+                .pattern("JJ ")
+                .pattern(" J ")
+                .pattern(" S ")
+                .define('J', Items.GOLD_INGOT)
+                .define('S', Items.STICK)
+                .unlockedBy("has_gold", has(Items.GOLD_INGOT)).save(recipeOutput, "ascension:shaped/gold_blade");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIAMOND_BLADE.get())
+                .pattern("JJ ")
+                .pattern(" J ")
+                .pattern(" S ")
+                .define('J', Items.DIAMOND)
+                .define('S', Items.STICK)
+                .unlockedBy("has_diamond", has(Items.DIAMOND)).save(recipeOutput, "ascension:shaped/diamond_blade");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_BLADE.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_BLADE.get()).unlocks(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT)).save(recipeOutput, "ascension:smithing/netherite_blade");
+
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_BLADE.get())
                 .pattern("JJ ")
                 .pattern(" J ")
@@ -209,6 +252,45 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('N', Items.NETHERITE_INGOT)
                 .define('S', Items.STICK)
                 .unlockedBy("has_crimson_lotus_flame", has(ModItems.CRIMSON_LOTUS_FLAME)).save(recipeOutput, "ascension:shaped/searing_blade");
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.WOODEN_SPEAR.get())
+                .pattern("  J")
+                .pattern(" J ")
+                .pattern("S  ")
+                .define('J', ItemTags.PLANKS)
+                .define('S', Items.STICK)
+                .unlockedBy("has_wood", has(ItemTags.PLANKS)).save(recipeOutput, "ascension:shaped/wooden_spear");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.STONE_SPEAR.get())
+                .pattern("  J")
+                .pattern(" J ")
+                .pattern("S  ")
+                .define('J', Items.COBBLESTONE)
+                .define('S', Items.STICK)
+                .unlockedBy("has_cobble", has(Items.COBBLESTONE)).save(recipeOutput, "ascension:shaped/stone_spear");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.IRON_SPEAR.get())
+                .pattern("  J")
+                .pattern(" J ")
+                .pattern("S  ")
+                .define('J', Items.IRON_INGOT)
+                .define('S', Items.STICK)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT)).save(recipeOutput, "ascension:shaped/iron_spear");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.GOLD_SPEAR.get())
+                .pattern("  J")
+                .pattern(" J ")
+                .pattern("S  ")
+                .define('J', Items.GOLD_INGOT)
+                .define('S', Items.STICK)
+                .unlockedBy("has_gold", has(Items.GOLD_INGOT)).save(recipeOutput, "ascension:shaped/gold_spear");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIAMOND_SPEAR.get())
+                .pattern("  J")
+                .pattern(" J ")
+                .pattern("S  ")
+                .define('J', Items.DIAMOND)
+                .define('S', Items.STICK)
+                .unlockedBy("has_diamond", has(Items.DIAMOND)).save(recipeOutput, "ascension:shaped/diamond_spear");
+        SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPEAR.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPEAR.get()).unlocks(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT)).save(recipeOutput, "ascension:smithing/netherite_spear");
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SPEAR.get())
                 .pattern("  J")
                 .pattern(" J ")
