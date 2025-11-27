@@ -66,10 +66,22 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
 
         tag(ModTags.Items.BLADE)
+                .add(ModItems.WOODEN_BLADE.get())
+                .add(ModItems.STONE_BLADE.get())
+                .add(ModItems.IRON_BLADE.get())
+                .add(ModItems.GOLD_BLADE.get())
+                .add(ModItems.DIAMOND_BLADE.get())
+                .add(ModItems.NETHERITE_BLADE.get())
                 .add(ModItems.SEARING_BLADE.get())
                 .add(ModItems.JADE_BLADE.get());
 
         tag(ModTags.Items.SPEAR)
+                .add(ModItems.WOODEN_SPEAR.get())
+                .add(ModItems.STONE_SPEAR.get())
+                .add(ModItems.IRON_SPEAR.get())
+                .add(ModItems.GOLD_SPEAR.get())
+                .add(ModItems.DIAMOND_SPEAR.get())
+                .add(ModItems.NETHERITE_SPEAR.get())
                 .add(ModItems.JADE_SPEAR.get());
 
 

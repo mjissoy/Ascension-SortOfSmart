@@ -1,12 +1,12 @@
-// 1.21.1	2025-11-26T22:55:05.0052687	Tags for minecraft:item mod id ascension
+// 1.21.1	2025-11-27T20:31:40.9539767	Tags for minecraft:item mod id ascension
 ba9125aa546790a0582445879c658b228dbb763c data/ascension/tags/item/axe_intent.json
-4b331a574c852b3ed27cd081b5501401149148b4 data/ascension/tags/item/blade.json
+596533336a43051e90a27b3defdee38aeb373152 data/ascension/tags/item/blade.json
 08248a73df114f60d1ffa79665c61e1a2a320e58 data/ascension/tags/item/blade_intent.json
 e4a74e3bac20e15f887a95ee7b0c12d6d885c4cd data/ascension/tags/item/earth.json
 f4384704423a2719b0bec2158d2c41d8d79296e8 data/ascension/tags/item/fire.json
 b79fab5829410b6b51f4d720188d05dbb1d4bec7 data/ascension/tags/item/herbs/medicinal.json
 c823cbbea6ccfbbf9a1549014bc917445435287b data/ascension/tags/item/metal.json
-079e87c19eb43de0e0553f12189cbd68ce6ad5d0 data/ascension/tags/item/spear.json
+e629ccb61b407365087393dfb5d02f33c7983136 data/ascension/tags/item/spear.json
 f5a2a0c1903b660da1eaea1a6674865feef25b45 data/ascension/tags/item/spear_enchantable.json
 f5a2a0c1903b660da1eaea1a6674865feef25b45 data/ascension/tags/item/spear_intent.json
 e6756cdd6fb03cf772eba210ae3f93335e83dcd6 data/ascension/tags/item/sword_intent.json

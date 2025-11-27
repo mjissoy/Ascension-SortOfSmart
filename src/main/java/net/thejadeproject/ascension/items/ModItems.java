@@ -78,17 +78,17 @@ public class ModItems {
 
 
     public static final DeferredItem<SpearItem> WOODEN_SPEAR = ITEMS.register("wooden_spear",
-            () -> new SpearItem(Tiers.WOOD, new Item.Properties().durability(49).attributes(SpearItem.createAttributes((Tier) Tiers.WOOD, 2, (float) -2))));
-    public static final DeferredItem<SpearItem> STONE_SPEAR = ITEMS.register("stone_blade",
-            () -> new SpearItem(Tiers.STONE, new Item.Properties().durability(121).attributes(SpearItem.createAttributes((Tier) Tiers.STONE, 2, (float) -2))));
-    public static final DeferredItem<SpearItem> IRON_SPEAR = ITEMS.register("iron_blade",
-            () -> new SpearItem(Tiers.IRON, new Item.Properties().durability(240).attributes(SpearItem.createAttributes((Tier) Tiers.IRON, 2, (float) -2))));
-    public static final DeferredItem<SpearItem> GOLD_SPEAR = ITEMS.register("gold_blade",
-            () -> new SpearItem(Tiers.GOLD, new Item.Properties().durability(22).attributes(SpearItem.createAttributes((Tier) Tiers.GOLD, 2f, (float) -2))));
-    public static final DeferredItem<SpearItem> DIAMOND_SPEAR = ITEMS.register("diamond_blade",
-            () -> new SpearItem(Tiers.DIAMOND, new Item.Properties().durability(1461).attributes(SpearItem.createAttributes((Tier) Tiers.DIAMOND, 2, (float) -2))));
-    public static final DeferredItem<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_blade",
-            () -> new SpearItem(Tiers.NETHERITE, new Item.Properties().durability(1931).attributes(SpearItem.createAttributes((Tier) Tiers.NETHERITE, 2, (float) -2))));
+            () -> new SpearItem(Tiers.WOOD, new Item.Properties().durability(49).attributes(SpearItem.createAttributes((Tier) Tiers.WOOD, 3, (float) -2.4))));
+    public static final DeferredItem<SpearItem> STONE_SPEAR = ITEMS.register("stone_spear",
+            () -> new SpearItem(Tiers.STONE, new Item.Properties().durability(121).attributes(SpearItem.createAttributes((Tier) Tiers.STONE, 3, (float) -2.4))));
+    public static final DeferredItem<SpearItem> IRON_SPEAR = ITEMS.register("iron_spear",
+            () -> new SpearItem(Tiers.IRON, new Item.Properties().durability(240).attributes(SpearItem.createAttributes((Tier) Tiers.IRON, 3, (float) -2.4))));
+    public static final DeferredItem<SpearItem> GOLD_SPEAR = ITEMS.register("gold_spear",
+            () -> new SpearItem(Tiers.GOLD, new Item.Properties().durability(22).attributes(SpearItem.createAttributes((Tier) Tiers.GOLD, 3, (float) -2.4))));
+    public static final DeferredItem<SpearItem> DIAMOND_SPEAR = ITEMS.register("diamond_spear",
+            () -> new SpearItem(Tiers.DIAMOND, new Item.Properties().durability(1461).attributes(SpearItem.createAttributes((Tier) Tiers.DIAMOND, 3, (float) -2.4))));
+    public static final DeferredItem<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear",
+            () -> new SpearItem(Tiers.NETHERITE, new Item.Properties().durability(1931).attributes(SpearItem.createAttributes((Tier) Tiers.NETHERITE, 3, (float) -2.4))));
 
     public static final DeferredItem<SpearItem> JADE_SPEAR = ITEMS.register("jade_spear",
             () -> new SpearItem(ModToolTiers.JADE, new Item.Properties()
