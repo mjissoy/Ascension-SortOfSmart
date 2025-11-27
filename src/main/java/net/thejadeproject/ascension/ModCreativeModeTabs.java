@@ -34,10 +34,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
                         output.accept(ModItems.TALISMAN_PAPER);
-
-                        output.accept(ModItems.JADE_BLADE);
-                        output.accept(ModItems.SEARING_BLADE);
-                        output.accept(ModItems.JADE_SPEAR);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
@@ -65,6 +61,29 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SOULSTEAD_RETURN_TALISMAN);
                         output.accept(ModItems.WORLD_AXIS_TALISMAN);
                         output.accept(ModItems.VOID_MARKING_TALISMAN);
+                    }).build());
+
+    public static final Supplier<CreativeModeTab> ASCENSION_TOOLS_TAB = CREATIVE_MODE_TAB.register("ascension_tools_tab",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.DIAMOND_BLADE.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_items_tab"))
+                    .title(Component.translatable("creativetab.ascension.tools"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.WOODEN_BLADE);
+                        output.accept(ModItems.STONE_BLADE);
+                        output.accept(ModItems.IRON_BLADE);
+                        output.accept(ModItems.GOLD_BLADE);
+                        output.accept(ModItems.DIAMOND_BLADE);
+                        output.accept(ModItems.NETHERITE_BLADE);
+                        output.accept(ModItems.JADE_BLADE);
+                        output.accept(ModItems.SEARING_BLADE);
+
+                        output.accept(ModItems.WOODEN_SPEAR);
+                        output.accept(ModItems.STONE_SPEAR);
+                        output.accept(ModItems.IRON_SPEAR);
+                        output.accept(ModItems.GOLD_SPEAR);
+                        output.accept(ModItems.DIAMOND_SPEAR);
+                        output.accept(ModItems.NETHERITE_SPEAR);
+                        output.accept(ModItems.JADE_SPEAR);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",

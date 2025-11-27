@@ -25,9 +25,9 @@ public class ModFoodProperties {
             .effect(() -> new MobEffectInstance(ModEffects.NEUTRALITY, 1000), 1f).build();
 
     public static final FoodProperties REBIRTH_PILL = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
-    public static final FoodProperties FASTING_PILL_T1 = new FoodProperties.Builder().nutrition(6).saturationModifier(6).fast().build();
-    public static final FoodProperties FASTING_PILL_T2 = new FoodProperties.Builder().nutrition(10).saturationModifier(10).fast().build();
-    public static final FoodProperties FASTING_PILL_T3 = new FoodProperties.Builder().nutrition(15).saturationModifier(15).fast().build();
+    public static final FoodProperties FASTING_PILL_T1 = new FoodProperties.Builder().nutrition(6).saturationModifier(2).fast().build();
+    public static final FoodProperties FASTING_PILL_T2 = new FoodProperties.Builder().nutrition(10).saturationModifier(1.4f).fast().build();
+    public static final FoodProperties FASTING_PILL_T3 = new FoodProperties.Builder().nutrition(15).saturationModifier(2).fast().build();
 
 
     public static final FoodProperties PILL_RESIDUE = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().alwaysEdible().build();

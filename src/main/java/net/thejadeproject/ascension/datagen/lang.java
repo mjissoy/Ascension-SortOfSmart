@@ -27,8 +27,21 @@ public class lang extends LanguageProvider {
         add("item.ascension.jade_slip", "Jade Slip");
 
         //Tools and Swords and Armor
+        add("item.ascension.wooden_blade", "Wooden Blade");
+        add("item.ascension.stone_blade", "Stone Blade");
+        add("item.ascension.iron_blade", "Iron Blade");
+        add("item.ascension.gold_blade", "Gold Blade");
+        add("item.ascension.diamond_blade", "Diamond Blade");
+        add("item.ascension.netherite_blade", "Netherite Blade");
         add("item.ascension.jade_blade", "Jade Blade");
-        add("item.ascension.searing_blade", "Fang of the Phoenix");
+        add("item.ascension.searing_blade", "Searing Blade");
+
+        add("item.ascension.wooden_spear", "Wooden Spear");
+        add("item.ascension.stone_spear", "Stone Spear");
+        add("item.ascension.iron_spear", "Iron Spear");
+        add("item.ascension.gold_spear", "Gold Spear");
+        add("item.ascension.diamond_spear", "Diamond Spear");
+        add("item.ascension.netherite_spear", "Netherite Spear");
         add("item.ascension.jade_spear", "Jade Spear");
 
 
@@ -456,6 +469,7 @@ public class lang extends LanguageProvider {
         //GUI & Other Stuff
         add("creativetab.ascension.items", "Ascension Items");
         add("creativetab.ascension.artifacts", "Ascension Artifacts");
+        add("creativetab.ascension.tools", "Ascension Tools");
         add("creativetab.ascension.blocks", "Ascension Blocks");
         add("creativetab.ascension.herbs", "Ascension Herbs");
         add("creativetab.ascension.pills", "Ascension Pills");

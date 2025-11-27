@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-26T23:01:26.1057341	Item Models: ascension
+// 1.21.1	2025-11-27T19:40:23.6239048	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -18,6 +18,7 @@ c57766879bb22d1cbcccacb3f39c724691ad72cb assets/ascension/models/item/burned_mar
 dfefb51f0ff77daee52a2c66462925ccbe5afed2 assets/ascension/models/item/crimson_lotus_flame.json
 784fd9542ee83749eb65f1203d3a6fa19c260a4e assets/ascension/models/item/cyan_marble_brick_wall.json
 f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marble_tile_wall.json
+4b5772016ddcd41aaae817646d1357bc59ee8741 assets/ascension/models/item/diamond_blade.json
 abe2becd602169ae11df376855869494e03a5542 assets/ascension/models/item/diamond_spatial_ring.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/divine_phoenix_technique.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/earth_elemental_technique.json
@@ -38,6 +39,7 @@ a45ea3a13a12d6b29ea2c6dc67e288843e9d07f6 assets/ascension/models/item/frost_silv
 a8e9779b889c8fdd9987b0f0a0f227780e247c2f assets/ascension/models/item/golden_palm_fence.json
 abc8d0fe9b80442f058c18614fd4280cbf3df943 assets/ascension/models/item/golden_palm_sapling.json
 357e5379fdd4d08265c0eae108ba44e3290fbf5e assets/ascension/models/item/golden_sun_leaf.json
+2f500169665302ecfb303c717e3a1773300af118 assets/ascension/models/item/gold_blade.json
 2075139153e67b8e73d0cfb117a196a132693e9d assets/ascension/models/item/gold_spatial_ring.json
 e5cefaee56b09c331ff2aa56978c82369a54963d assets/ascension/models/item/gray_marble_brick_wall.json
 42fac3c5c57434c1e885349ff08d5d4d5f9c6b67 assets/ascension/models/item/gray_marble_tile_wall.json
@@ -54,6 +56,7 @@ e727748c199f7082a2aa74f2fc0b2d501675b774 assets/ascension/models/item/inner_rein
 6173f9a36c9900783e561984dcb2d3cf3d63590f assets/ascension/models/item/inner_reinforcement_pill_t3.json
 05e2a8a9642b32214d854b302965b464d8777b00 assets/ascension/models/item/ironwood_sprout.json
 5ba4744b3f6c06caabf4e0f8ad91ed2b1e9878ab assets/ascension/models/item/ironwood_sprout_crop.json
+373f520ba2cc60f522949e7e5f101bd2edffe1d9 assets/ascension/models/item/iron_blade.json
 40a5bdf9b8f3dca46b3f9ea7c10238cf09ad7281 assets/ascension/models/item/iron_spatial_ring.json
 3ad9a12ddaf5421f386991c79685ecfdeb06d79f assets/ascension/models/item/jade.json
 5de35017ea8a49b96f8b198b88098c90bd5a2f91 assets/ascension/models/item/jade_bamboo_of_serenity.json
@@ -72,6 +75,7 @@ d94fbd639bc20724fe68f8b2a17f95f90400ff9e assets/ascension/models/item/magenta_ma
 a95e1feba121e840b1300c8df48bf3b0099ccac5 assets/ascension/models/item/marble_brick_wall.json
 3760aca7a3778d672f310125441ad79d0a4cd9e1 assets/ascension/models/item/marble_tile_wall.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/metal_elemental_technique.json
+b42f07c3cc823807b189ac2601ad61de881c6b24 assets/ascension/models/item/netherite_blade.json
 8fc12f5bcdd91880dfbcddc0df86113fc4238d43 assets/ascension/models/item/netherite_spatial_ring.json
 72010a264f4e1b76dc0ca7ff15bd9e12c7fd86a1 assets/ascension/models/item/neutrality_pill.json
 d2f6ff9a5555f8f3fcaf09cf0d3c910e086dde1b assets/ascension/models/item/orange_marble_brick_wall.json
@@ -108,6 +112,7 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 c707f86ce5008f1c2a96c9ca40ee5b5b2b1502fa assets/ascension/models/item/spirit_focus_pill_t1.json
 2ecc14f50d0b8ba2c3dec0f1a1b9d7f19fec3b1a assets/ascension/models/item/spirit_focus_pill_t2.json
 b60f7bee708913d9cae6e49b15bdbf0649ceefbb assets/ascension/models/item/spirit_focus_pill_t3.json
+deb3562e766fb2fd8e109507a73276091fa922df assets/ascension/models/item/stone_blade.json
 1d3fe5992fff342daa85c2c5a007f4093300df29 assets/ascension/models/item/talisman_paper.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/tode.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todh.json
@@ -118,6 +123,7 @@ b60f7bee708913d9cae6e49b15bdbf0649ceefbb assets/ascension/models/item/spirit_foc
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/water_elemental_technique.json
 f5846a37eb2d2b8c40f58a96f77b52ba2d479c08 assets/ascension/models/item/white_jade_orchid.json
 44da68e4588d03eab14e615994b783970ff317b1 assets/ascension/models/item/white_jade_orchid_crop.json
+59334b41564caa6f57eb5337a88d14e7b61b9868 assets/ascension/models/item/wooden_blade.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/wood_elemental_technique.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/world_axis_talisman.json
 feec49605f4b667f2242b90949f3695ab4224304 assets/ascension/models/item/yellow_marble_brick_wall.json

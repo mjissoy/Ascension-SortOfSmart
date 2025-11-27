@@ -96,6 +96,22 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.TALISMAN_PAPER.get());
 
 
+        //Tools & Armors & Weapons
+        basicItem(ModItems.WOODEN_BLADE.get());
+        basicItem(ModItems.STONE_BLADE.get());
+        basicItem(ModItems.IRON_BLADE.get());
+        basicItem(ModItems.GOLD_BLADE.get());
+        basicItem(ModItems.DIAMOND_BLADE.get());
+        basicItem(ModItems.NETHERITE_BLADE.get());
+
+        basicItem(ModItems.WOODEN_SPEAR.get());
+        basicItem(ModItems.STONE_SPEAR.get());
+        basicItem(ModItems.IRON_SPEAR.get());
+        basicItem(ModItems.GOLD_SPEAR.get());
+        basicItem(ModItems.DIAMOND_SPEAR.get());
+        basicItem(ModItems.NETHERITE_SPEAR.get());
+
+
 
         //Items
         basicItem(ModItems.JADE.get());
