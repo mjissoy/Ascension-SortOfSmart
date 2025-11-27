@@ -10,6 +10,7 @@ import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.AddItemModifier;
+import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +20,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
     }
     @Override
     protected void start() {
+
 
 
         this.add("jade_bamboo_of_serenity_from_bamboo", new AddItemModifier(new LootItemCondition[] {
