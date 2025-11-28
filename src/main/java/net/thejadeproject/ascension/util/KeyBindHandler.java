@@ -138,14 +138,16 @@ public class KeyBindHandler {
         }
 
         // Handle Cultivation key
-        CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence");
-        boolean cultivating = data.isCultivating();
+        if(player.getData(ModAttachments.PLAYER_DATA) != null){
+            CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence");
+            boolean cultivating = data.isCultivating();
 
-        data.setCultivating(CULTIVATE_KEY.isDown());
+            data.setCultivating(CULTIVATE_KEY.isDown());
 
-        if (cultivating != data.isCultivating()) {
-            System.out.println("sending sync packer");
-            PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence", data.isCultivating()));
+            if (cultivating != data.isCultivating()) {
+                System.out.println("sending sync packer");
+                PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence", data.isCultivating()));
+            }
         }
     }
 }
