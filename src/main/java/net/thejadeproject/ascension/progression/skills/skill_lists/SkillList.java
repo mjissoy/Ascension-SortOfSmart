@@ -17,6 +17,7 @@ public class SkillList {
         return List.copyOf(skills);
     }
 
+
     public List<Pair<String,Boolean>> getSkillsOfPathAndRealm(String path, int majorRealm, int minorRealm){
         List<Pair<String,Boolean>> skillList = new ArrayList<>();
         for(AcquirableSkillData acquirableSkillData: skills){

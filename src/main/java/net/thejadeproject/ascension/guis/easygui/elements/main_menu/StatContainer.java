@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension.guis.easygui.elements.main_menu;
 
-import com.google.gson.JsonPrimitive;
 import net.lucent.easygui.elements.containers.EmptyContainer;
 import net.lucent.easygui.elements.other.ClickableLabel;
 import net.lucent.easygui.elements.other.Label;
@@ -16,11 +15,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.thejadeproject.ascension.cultivation.player.PlayerData;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
-import org.checkerframework.checker.units.qual.A;
+
 @OnlyIn(Dist.CLIENT)
 //TODO
 public class StatContainer extends EmptyContainer {

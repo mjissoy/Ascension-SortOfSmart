@@ -4,8 +4,8 @@ import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.ContainerRenderable;
+import net.lucent.easygui.interfaces.complex_events.Sticky;
 import net.lucent.easygui.interfaces.events.Clickable;
-import net.lucent.easygui.interfaces.events.Hoverable;
 import net.lucent.easygui.templating.actions.IAction;
 import net.lucent.easygui.templating.registry.EasyGuiRegistries;
 import net.minecraft.client.Minecraft;
@@ -19,8 +19,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.player.CultivationData;
-import net.thejadeproject.ascension.cultivation.player.PlayerData;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.PhysiqueDataContainer;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.path_data.DisplayPathDataContainer;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.TechniqueDataContainer;
@@ -62,6 +61,7 @@ public class ModActions {
 
                             String id = args[0] instanceof JsonPrimitive ? ((JsonPrimitive) args[0]).getAsString() : (String) args[0];
                             if(id.equals("technique_data")){
+                                if( ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique.equals("ascension:none")) return;
                                 renderable.getRoot().addChild(new TechniqueDataContainer(renderable.getScreen(),0,0, ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique));
                             } else if (id.equals("physique_data")) {
 

@@ -1,21 +1,13 @@
 package net.thejadeproject.ascension.cultivation;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.thejadeproject.ascension.Config;
-import net.thejadeproject.ascension.cultivation.player.CultivationData;
-import net.thejadeproject.ascension.cultivation.player.PlayerData;
-import net.thejadeproject.ascension.events.custom.CultivateEvent;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
+import net.thejadeproject.ascension.events.custom.cultivation.CultivateEvent;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
-import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
+import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -23,6 +15,7 @@ import net.thejadeproject.ascension.util.ModAttachments;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class CultivationSystem {
     private static final float MAJOR_REALM_MULTIPLIER = 0.3f;
@@ -54,7 +47,7 @@ public class CultivationSystem {
         return realmNameMap.get(pathId)[majorRealm];
     }
 
-    public static void stabiliseRealm(StabilityHandler handler, Player player, String path, List<String> attributes, double minCultivationTickRate){
+    public static void stabiliseRealm(StabilityHandler handler, Player player, String path, Set<String> attributes, double minCultivationTickRate){
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);
         double currentStabilityTicks = pathData.stabilityCultivationTicks;
 
@@ -64,9 +57,9 @@ public class CultivationSystem {
         GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,attributes);
         NeoForge.EVENT_BUS.post(effEvent);
 
-        System.out.println("stabilising realm with effectiveness: "+effEvent.getTotalEfficiencyMultiplier());
+        System.out.println("stabilising realm with effectiveness: "+effEvent.getTotalDaoEfficiencyMultiplier()+" and "+effEvent.getTotalPathEfficiencyMultiplier());
 
-        double cultivationTicks = currentStabilityTicks+ 1*effEvent.getTotalEfficiencyMultiplier();
+        double cultivationTicks = currentStabilityTicks+ 1*effEvent.getTotalDaoEfficiencyMultiplier()+effEvent.getTotalPathEfficiencyMultiplier();
         System.out.println("stabilising realm with "+cultivationTicks +" cultivation ticks");
         System.out.println("current Stability = "+handler.getStability(cultivationTicks));
         pathData.stabilityCultivationTicks = Math.min(cultivationTicks, handler.getMaxCultivationTicks());
@@ -75,7 +68,7 @@ public class CultivationSystem {
     }
 
     //returns false if realm is not increased
-    public static boolean cultivate(Player player, String path,Double baseRate,List<String> attributes){
+    public static boolean cultivate(Player player, String path,Double baseRate,Set<String> attributes){
         //TODO change to use technique for base rate
         //TODO fire is temp
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);
@@ -85,20 +78,18 @@ public class CultivationSystem {
         GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,attributes);
         NeoForge.EVENT_BUS.post(effEvent);
 
-        System.out.println("cultivating with effectiveness: "+effEvent.getTotalEfficiencyMultiplier());
+        System.out.println("cultivating with effectiveness: "+effEvent.getTotalDaoEfficiencyMultiplier()+" and "+effEvent.getTotalPathEfficiencyMultiplier());
         CultivateEvent cultivateEvent = new CultivateEvent(player,baseRate,path,attributes);
         NeoForge.EVENT_BUS.post(cultivateEvent);
 
         double progressIncrement = (cultivateEvent.baseRate+cultivateEvent.flatBaseRateIncrease)
                 *(1+cultivateEvent.multiplier)
-                *(effEvent.getTotalEfficiencyMultiplier())
+                *(effEvent.getTotalPathEfficiencyMultiplier()+effEvent.getTotalDaoEfficiencyMultiplier())
                 +cultivateEvent.flatFinalRateIncrease;
         System.out.println("base: "+cultivateEvent.baseRate);
         System.out.println(progressIncrement);
         //TODO work out what the hell i want to do with this
-        float CultivationStageMax = 1.0f +
-                (pathData.majorRealm * MAJOR_REALM_PROGRESS_MULTIPLIER) *
-                        (pathData.minorRealm * MINOR_REALM_PROGRESS_MULTIPLIER);
+        double CultivationStageMax = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getMaxQiForRealm(path);
 
         double progress = pathData.pathProgress + progressIncrement;
 

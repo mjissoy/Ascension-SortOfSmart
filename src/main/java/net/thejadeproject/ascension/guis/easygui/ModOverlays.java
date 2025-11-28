@@ -16,28 +16,14 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.guis.easygui.elements.player_qi_display.QiBar;
+import net.thejadeproject.ascension.guis.easygui.elements.skill_cast_progress.SkillCastProgressContainer;
+import net.thejadeproject.ascension.guis.easygui.overlay_views.CultivationProgressBarsView;
+import net.thejadeproject.ascension.guis.easygui.overlay_views.SkillCastProgressBarView;
+
 @OnlyIn(Dist.CLIENT)
 public class ModOverlays {
 
-    public static EasyGuiOverlay QI_TRACKER = new EasyGuiOverlay((eventHolder, overlay)->{
-        View view = new View(overlay,0,0);
-        overlay.addView(view);
-        view.setUseMinecraftScale(true);
-        view.setCustomScale(2);
-        Image image = new Image(overlay,
-                new TextureDataSubSection(
-                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/gui_all.png"),
-                        256,256,
-                        0,147,
-                        53,163
-                ),
-                0,0);
-        Label progressLabel = (new Label.Builder()).screen(overlay).centered(true).x(26).y((163-147)/2).build();
-        progressLabel.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Progress"}));
-        image.addChild(progressLabel);
-
-        view.addChild(image);
-    });
 
     public static EasyGuiOverlay HEALTH_BAR = new EasyGuiOverlay((eventHolder, overlay) ->{
         View view = new View(overlay,0,0){};
@@ -91,8 +77,31 @@ public class ModOverlays {
         view.addChild(progressBar);
     });
 
+    public static EasyGuiOverlay SKILL_CAST_PROGRESS = new EasyGuiOverlay(((eventHolder, easyGuiOverlay) -> {
+        SkillCastProgressBarView view = new SkillCastProgressBarView(easyGuiOverlay);
+
+        easyGuiOverlay.addView(view);
+
+    }));
+    public static EasyGuiOverlay CULTIVATION_PROGRESS = new EasyGuiOverlay(((eventHolder, easyGuiOverlay) -> {
+        CultivationProgressBarsView view = new CultivationProgressBarsView(easyGuiOverlay,0,0);
+
+        easyGuiOverlay.addView(view);
+
+    }));
+    public static EasyGuiOverlay PLAYER_QI_BAR = new EasyGuiOverlay(((eventHolder, easyGuiOverlay) -> {
+        View view = new View(easyGuiOverlay,0,0);
+        view.setUseMinecraftScale(true);
+        view.addChild(new QiBar(easyGuiOverlay,view.getScaledWidth(),view.getScaledHeight()));
+        easyGuiOverlay.addView(view);
+
+    }));
     public static void register(){
         //EasyGuiOverlayManager.addLayer( ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),QI_TRACKER);
         EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH,HEALTH_BAR);
+        EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_cast_progress"),SKILL_CAST_PROGRESS);
+        EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_progress"),CULTIVATION_PROGRESS);
+        EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"qi_bar"),PLAYER_QI_BAR);
+
     }
 }

@@ -14,21 +14,37 @@ a dao inherits the interactions of related Dao at a multiplier rate
  */
 public class GenericDao implements IDao{
     public Component title;
-    public Map<String ,Double> interactions = Map.of();
+
+    public Map<String ,Double> destructiveDao = Map.of();
+
+    public Map<String ,Double> generativeDao = Map.of();
+
+
     public Map<String ,Double> relatedDao = Map.of();
     public List<Component> description = new ArrayList<>();
     public GenericDao(Component title){
         this.title = title;
     }
 
-    public GenericDao setInteractions(Map<String ,Double> interactions){
-        if(interactions == null){
-            this.interactions = Map.of();
+
+    public GenericDao setGenerativeDao(Map<String ,Double> generativeDao){
+        if(generativeDao == null){
+            this.generativeDao = Map.of();
             return this;
         }
-        this.interactions = interactions;
+        this.generativeDao = generativeDao;
         return this;
     }
+    public GenericDao setDestructiveDao(Map<String ,Double> destructiveDao){
+        if(destructiveDao == null){
+            this.destructiveDao = Map.of();
+            return this;
+        }
+        this.destructiveDao = destructiveDao;
+        return this;
+    }
+
+
     public GenericDao setRelatedDao(Map<String ,Double> relatedDao){
         if(relatedDao == null){
             this.relatedDao = Map.of();
@@ -58,12 +74,21 @@ public class GenericDao implements IDao{
         }};
         extraInfo.addAll(new ArrayList<>(description));
         extraInfo.add(
-                Component.literal("Interactions:").withStyle(ChatFormatting.BOLD)
+                Component.literal("Generative Dao:").withStyle(ChatFormatting.BOLD)
         );
-        for (Map.Entry<String,Double> interaction: getInteractions().entrySet()){
+        for (Map.Entry<String,Double> generativeDao: getGenerativeDao().entrySet()){
 
             extraInfo.add(
-                    AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(interaction.getKey(),':')).getDisplayTitle().copy().append( ": "+interaction.getValue())
+                    AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(generativeDao.getKey(),':')).getDisplayTitle().copy().append( ": "+generativeDao.getValue())
+            );
+        }
+        extraInfo.add(
+                Component.literal("Destructive Dao:").withStyle(ChatFormatting.BOLD)
+        );
+        for (Map.Entry<String,Double> destructiveDao: getDestructiveDao().entrySet()){
+
+            extraInfo.add(
+                    AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(destructiveDao.getKey(),':')).getDisplayTitle().copy().append( ": "+destructiveDao.getValue())
             );
         }
 
@@ -80,29 +105,18 @@ public class GenericDao implements IDao{
         return extraInfo;
     }
 
-    @Override
-    public Double getInteractionValue(IDao dao) {
-        Double value = 0.0;
-        String daoId = AscensionRegistries.Dao.DAO_REGISTRY.getKey(dao).toString();
-        if(getInteractions().containsKey(daoId)) value = getInteractions().get(daoId);
-        for(Map.Entry<String ,Double> daoRelation : getRelatedDao().entrySet()){
-            double tempValue = 1.0;
-            IDao relatedDao = AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(daoRelation.getKey(),':'));
-            if(daoRelation.getKey().equals(daoId)){
-                tempValue = tempValue*daoRelation.getValue();
-            }else{
-                tempValue =  tempValue*relatedDao.getInteractionValue(dao)*daoRelation.getValue();
-            }
-            value = value == 0 ? tempValue : value*tempValue;
 
-        }
-        return value;
+
+    @Override
+    public Map<String, Double> getGenerativeDao() {
+        return generativeDao;
     }
 
     @Override
-    public Map<String , Double> getInteractions() {
-        return interactions;
+    public Map<String, Double> getDestructiveDao() {
+        return destructiveDao;
     }
+
 
     @Override
     public Map<String , Double> getRelatedDao() {

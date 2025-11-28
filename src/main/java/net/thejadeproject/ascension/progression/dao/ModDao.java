@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.progression.dao;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -26,7 +27,7 @@ public class ModDao {
     public static final DeferredHolder<IDao,GenericDao> FIRE_DAO =createDao("fire",Component.literal("§4[Fire]"),
             new ArrayList<>(),
             Map.of(
-                    "ascension:metal",0.5D,
+                    "ascension:metal", 0.5D,
                     "ascension:earth",2D
             ),
             Map.of(
@@ -111,13 +112,21 @@ public class ModDao {
     public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title, List<Component> description){
         return createDao(id,title,description,Map.of(),Map.of());
     }
-    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> interactions){
-        return createDao(id,title,description,interactions,Map.of());
+    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> generativeDao){
+        return createDao(id,title,description,generativeDao,Map.of());
     }
-    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> interactions,Map<String ,Double> relatedDao){
+    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> generativeDao,Map<String ,Double> destructiveDao){
         ModTags.Items.createDaoTag(id);
-        return DAO.register(id,()->new GenericDao(title).setInteractions(interactions).setRelatedDao(relatedDao).setDescription(description));
+
+        return createDao(id,title,description,generativeDao,destructiveDao,Map.of());
     }
+    public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title,  List<Component> description,Map<String ,Double> generativeDao,Map<String ,Double> destructiveDao,Map<String,Double> relatedDao){
+        ModTags.Items.createDaoTag(id);
+
+        return DAO.register(id,()->new GenericDao(title).setDestructiveDao(destructiveDao).setGenerativeDao(generativeDao).setRelatedDao(relatedDao).setDescription(description));
+    }
+
+
 
     public static void register(IEventBus modEventBus){
         DAO.register(modEventBus);

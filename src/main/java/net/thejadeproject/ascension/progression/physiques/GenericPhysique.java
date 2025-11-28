@@ -9,6 +9,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.events.custom.*;
+import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
@@ -84,10 +86,9 @@ public class GenericPhysique implements IPhysique{
     @Override
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
 
-        if(event.pathID != null && pathBonuses.containsKey(event.pathID)) event.addMultiplier(pathBonuses.get(event.pathID));
-        for(String attributeId : event.ascensionAttributeID()){
-            if( otherBonuses.containsKey(attributeId)) event.addMultiplier(otherBonuses.get(attributeId));
-
+        if(event.pathID != null && pathBonuses.containsKey(event.pathID)) event.addPathMultiplier(pathBonuses.get(event.pathID));
+        for(String techniqueAttributeId : otherBonuses.keySet()){
+            event.tryAddDao(techniqueAttributeId,otherBonuses.get(techniqueAttributeId));
         }
 
     }
@@ -173,13 +174,7 @@ public class GenericPhysique implements IPhysique{
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
             String skillType = "Passive";
             if(skill instanceof AbstractActiveSkill) skillType = "Active";
-            boolean fixed = false;
-
-            if(player.getData(ModAttachments.PLAYER_DATA).hasSkill(skillData.getA())){
-                fixed = player.getData(ModAttachments.PLAYER_DATA).getSkill(skillData.getA()).fixed;
-            }
-            player.getData(ModAttachments.PLAYER_DATA).getSkill(skillData.getA()).fixed = fixed || skillData.getB();
-
+            player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
             skill.onSkillAdded(player);
         }
 
