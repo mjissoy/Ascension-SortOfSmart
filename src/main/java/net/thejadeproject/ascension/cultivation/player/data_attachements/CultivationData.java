@@ -104,6 +104,8 @@ public class CultivationData {
     public double getMaxQiForRealm(String path){
         PathData data = pathDataHashMap.get(path);
         if(data == null) return 1.0;
+        int minorRealm = getPathData(path).minorRealm;
+        int majorRealm = getPathData(path).majorRealm;
         return 100;//TODO Replace with formula
     }
 

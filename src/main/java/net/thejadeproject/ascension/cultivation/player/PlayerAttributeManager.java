@@ -13,7 +13,10 @@ import net.thejadeproject.ascension.util.ModAttachments;
 public class PlayerAttributeManager {
 
     public static void increaseAttribute(Player player, Double value, Holder<Attribute> attributeHolder){
+        //System.out.println(player.getAttributeBaseValue(attributeHolder));
+        //System.out.println(player.getAttributeBaseValue(attributeHolder) + value);
         player.getAttribute(attributeHolder).setBaseValue(player.getAttributeBaseValue(attributeHolder) + value);
+        System.out.println(player.getAttributeBaseValue(attributeHolder));
         if(attributeHolder == Attributes.ATTACK_DAMAGE){
             PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttackDamageAttribute(player.getAttribute(attributeHolder).getBaseValue()));
         }

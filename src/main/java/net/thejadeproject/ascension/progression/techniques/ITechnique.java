@@ -23,14 +23,16 @@ public interface ITechnique {
 
     default void onRealmChangeEvent(RealmChangeEvent event) {
         IRealmChangeHandler changeHandler = getRealmChangeHandler();
-
+        System.out.println("minor realm increase");
+        System.out.println(event.getTotalMinorRealmsChanged());
+        System.out.println(event.getMajorRealmsChanged());
         //major realms
         if (event.getMajorRealmsChanged() > 0) changeHandler.onMajorRealmIncrease(event.player, event.pathId, event.getMajorRealmsChanged());
-        else changeHandler.onMajorRealmDecrease(event.player, event.pathId, event.getMajorRealmsChanged());
+        else if(event.getMajorRealmsChanged() < 0) changeHandler.onMajorRealmDecrease(event.player, event.pathId, event.getMajorRealmsChanged());
 
         //minor realms
         if (event.getTotalMinorRealmsChanged() > 0) changeHandler.onMinorRealmIncrease(event.player, event.pathId, event.getTotalMinorRealmsChanged());
-        else changeHandler.onMinorRealmDecrease(event.player,event.pathId,event.getTotalMinorRealmsChanged());
+        else if(event.getTotalMinorRealmsChanged() < 0) changeHandler.onMinorRealmDecrease(event.player,event.pathId,event.getTotalMinorRealmsChanged());
     }
 
     //run when a player logs in (if you need to load data)

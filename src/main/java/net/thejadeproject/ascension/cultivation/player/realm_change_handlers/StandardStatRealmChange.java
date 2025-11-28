@@ -22,6 +22,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
     @Override
     public void onMinorRealmIncrease(Player player, String path, int numberOfMinorRealms) {
         for(Holder<Attribute> attributeHolder : minorRealmAttributeIncrease.keySet()){
+            System.out.println("trying to increase attribute");
             PlayerAttributeManager.increaseAttribute(
                     player,
                     minorRealmAttributeIncrease.get(attributeHolder),

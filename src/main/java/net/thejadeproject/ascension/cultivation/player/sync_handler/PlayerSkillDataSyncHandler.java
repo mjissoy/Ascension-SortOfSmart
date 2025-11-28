@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.attachment.AttachmentSyncHandler;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
@@ -117,7 +118,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         // `previousValue` is `null` if there was no prior data on the client
         // The result should return `null` if the data attachment should be removed
         System.out.println("reading data");
-
+        if(previousValue == null) previousValue = new PlayerSkillData((Player) holder);
         if(buf.readBoolean()){
             //initial sync
             System.out.println("initial sync");
