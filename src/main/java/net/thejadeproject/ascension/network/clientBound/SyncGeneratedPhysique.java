@@ -12,6 +12,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 //import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.events.custom.PhysiqueGeneratedEvent;
 import net.thejadeproject.ascension.util.ModAttachments;
 
@@ -34,6 +35,7 @@ public record SyncGeneratedPhysique(String generated_physique, byte[] other_phys
     public static void handlePayload(SyncGeneratedPhysique payload, IPayloadContext context) {
         //deserialize physiques
         String joined = new String(payload.other_physiques(), StandardCharsets.UTF_8);
+        context.player().setData(ModAttachments.PHYSIQUE, payload.generated_physique);
         NeoForge.EVENT_BUS.post(new PhysiqueGeneratedEvent(payload.generated_physique(),joined.split(";")));
 
     }

@@ -36,6 +36,7 @@ public record SyncCastingInstance(CastingInstance primary, List<CastingInstance>
     }
     public static void handlePayload(SyncCastingInstance payload, IPayloadContext context) {
         PlayerData data = context.player().getData(ModAttachments.PLAYER_DATA);
+        if(data == null) return;
         data.setCastingInstances(payload.castingInstances());
         data.setPrimarySkillCastingInstance(payload.primary);
     }
