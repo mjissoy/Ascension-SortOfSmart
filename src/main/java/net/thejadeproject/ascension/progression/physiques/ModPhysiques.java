@@ -1,12 +1,16 @@
 package net.thejadeproject.ascension.progression.physiques;
 
 import net.lucent.easygui.util.textures.TextureDataSubSection;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.StandardStatRealmChange;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 
@@ -17,6 +21,41 @@ public class ModPhysiques {
 
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
+    public static HashMap<Holder<Attribute>,Double> GENERIC_MINOR_REALM_STATS_1 = new HashMap<>(){{
+        put(Attributes.MAX_HEALTH,5.0);
+        put(Attributes.ATTACK_DAMAGE,1.0);
+        put(Attributes.MOVEMENT_SPEED,0.01);
+        put(Attributes.JUMP_STRENGTH,0.01);
+        put(Attributes.STEP_HEIGHT,0.01);
+
+    }};
+    public static HashMap<Holder<Attribute>,Double> ENHANCED_MINOR_REALM_STATS_1 = new HashMap<>(){{
+        put(Attributes.MAX_HEALTH,10.0);
+        put(Attributes.ATTACK_DAMAGE,1.8);
+        put(Attributes.MOVEMENT_SPEED,0.2);
+        put(Attributes.JUMP_STRENGTH,0.04);
+        put(Attributes.STEP_HEIGHT,0.04);
+
+    }};
+
+    public static HashMap<Holder<Attribute>,Double> GENERIC_MAJOR_REALM_STATS_1 = new HashMap<>(){{
+        put(Attributes.MAX_HEALTH,10.0);
+        put(Attributes.ATTACK_DAMAGE,2.0);
+        put(Attributes.MOVEMENT_SPEED,0.5);
+        put(Attributes.JUMP_STRENGTH,0.02);
+        put(Attributes.STEP_HEIGHT,0.02);
+
+    }};
+    public static HashMap<Holder<Attribute>,Double> ENHANCED_MAJOR_REALM_STATS_1 = new HashMap<>(){{
+        put(Attributes.MAX_HEALTH,10.0);
+        put(Attributes.ATTACK_DAMAGE,1.8);
+        put(Attributes.MOVEMENT_SPEED,0.2);
+        put(Attributes.JUMP_STRENGTH,0.04);
+        put(Attributes.STEP_HEIGHT,0.04);
+
+    }};
+
+
     public static final DeferredHolder<IPhysique,GenericPhysique> EMPTY_VESSEL = PHYSIQUES.register("empty_vessel",
             ()-> new GenericPhysique("Empty Vessel",
                     new HashMap<>(){{
@@ -24,7 +63,7 @@ public class ModPhysiques {
                         put("ascension:body",0.1);
                         put("ascension:essence",0.1);
                     }},
-                    new HashMap<>())
+                    new HashMap<>(), new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
 
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_SWORD_BODY = PHYSIQUES.register("pure_sword_body",
@@ -36,7 +75,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:sword_intent",3.0);
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
             );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_SPEAR_BODY = PHYSIQUES.register("pure_spear_body",
             ()-> new GenericPhysique("Pure Spear Body",
@@ -47,7 +86,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:spear_intent",3.0);
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_BOW_BODY = PHYSIQUES.register("pure_axe_body",
             ()-> new GenericPhysique("Pure Axe Body",
@@ -58,7 +97,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:intent",3.0);
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_BLADE_BODY = PHYSIQUES.register("pure_blade_body",
             ()-> new GenericPhysique("Pure Blade Body",
@@ -69,7 +108,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:blade_intent",3.0);
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_FIST_BODY = PHYSIQUES.register("pure_fist_body",
             ()-> new GenericPhysique("Pure Fist Body",
@@ -80,7 +119,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:fist_intent",3.0);
-                    }}).setSkillList(List.of(
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1)).setSkillList(List.of(
                             new AcquirableSkillData("ascension:intent",0,0,"ascension:fist_aura_skill",true)
             )).setDescription(List.of( Component.literal("my fist is my body and my body is my fist")))
     );
@@ -94,7 +133,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:water",3.0);
-                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1)).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
                             "textures/physiques/root_cards.png"
@@ -115,7 +154,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:earth",3.0);
-                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1)).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
                             "textures/physiques/root_cards.png"
@@ -136,7 +175,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:fire",3.0);
-                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1)).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
                             "textures/physiques/root_cards.png"
@@ -157,7 +196,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:wood",3.0);
-                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1)).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
                             "textures/physiques/root_cards.png"
@@ -178,7 +217,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:metal",3.0);
-                    }}).setPhysiqueCard(new TextureDataSubSection(
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1)).setPhysiqueCard(new TextureDataSubSection(
                     ResourceLocation.fromNamespaceAndPath(
                             AscensionCraft.MOD_ID,
                             "textures/physiques/root_cards.png"
@@ -200,7 +239,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:metal",1.2);
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
                     .setSkillList( List.of(
                             new AcquirableSkillData("ascension:body",0,0,"ascension:iron_bones_passive_skill",true)
                     ))
@@ -215,7 +254,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:fire",1.2);
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> HUNDRED_POISON_PHYSIQUE = PHYSIQUES.register("hundred_poison_physique",
             ()-> new GenericPhysique("Hundred Poison Physique",
@@ -226,7 +265,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:poison",1.2);
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
 
     public static final DeferredHolder<IPhysique,GenericPhysique> SACRED_SAPLING_PHYSIQUE = PHYSIQUES.register("sacred_sapling_physique",
@@ -238,7 +277,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:wood",1.2);
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
 
     public static final DeferredHolder<IPhysique,GenericPhysique> SUPPRESSED_YIN_PHYSIQUE = PHYSIQUES.register("suppressed_yin_physique",
@@ -252,7 +291,7 @@ public class ModPhysiques {
                         put("ascension:yin",1.2);
                         put("ascension:ice",1.2);
 
-                    }})
+                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
     public static void register(IEventBus modEventBus){
         PHYSIQUES.register(modEventBus);

@@ -45,6 +45,7 @@ public class GenericPhysique implements IPhysique{
         this.otherBonuses = otherBonuses;
         this.title = title;
         this.realmChangeHandler = realmChangeHandler;
+
     }
 
     @Override

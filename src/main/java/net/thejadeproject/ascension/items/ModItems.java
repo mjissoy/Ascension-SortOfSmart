@@ -1,7 +1,5 @@
 package net.thejadeproject.ascension.items;
 
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
@@ -25,10 +23,8 @@ import net.thejadeproject.ascension.items.pills.ThrowablePoisonPill;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.util.ItemUtil;
-import net.thejadeproject.ascension.util.ToolTips.ToolTipsGradient;
 
 import java.util.HashSet;
-import java.util.List;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
