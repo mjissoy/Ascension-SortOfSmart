@@ -45,6 +45,7 @@ public class QiBar extends EmptyContainer implements Sticky {
     public double getProgress(){
         if(Minecraft.getInstance().player == null) return 0.0;
         PlayerData data = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA);
+        if(data == null) return 0.0;
         return data.getCurrentQi()/data.getPlayerMaxQi();
     }
 

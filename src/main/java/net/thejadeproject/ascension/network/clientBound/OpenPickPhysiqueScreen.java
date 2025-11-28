@@ -26,6 +26,7 @@ public record OpenPickPhysiqueScreen(boolean state)  implements CustomPacketPayl
         return TYPE;
     }
     public static void handlePayload(OpenPickPhysiqueScreen payload, IPayloadContext context) {
+
         NeoForge.EVENT_BUS.post(new OpenPhysiqueSelectScreenEvent(payload.state));
 
     }
