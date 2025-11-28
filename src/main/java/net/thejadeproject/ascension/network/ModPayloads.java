@@ -6,20 +6,13 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.network.clientBound.*;
-import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
-import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
-import net.thejadeproject.ascension.network.serverBound.TriggerGeneratePhysique;
-import net.thejadeproject.ascension.network.serverBound.TriggerMajorRealmBreakthrough;
+import net.thejadeproject.ascension.network.serverBound.*;
 
 public class ModPayloads {
     public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar(AscensionCraft.MOD_ID).versioned("1.0");
-        registrar.playToServer(
-                SyncCultivationPayload.TYPE,
-                SyncCultivationPayload.STREAM_CODEC,
-                SyncCultivationPayload::handlePayload
 
-        );
+        //=================================== CLIENT======================================
         registrar.playToClient(
                 SyncAttackDamageAttribute.TYPE,
                 SyncAttackDamageAttribute.STREAM_CODEC,
@@ -30,25 +23,11 @@ public class ModPayloads {
                 OpenPickPhysiqueScreen.STREAM_CODEC,
                 OpenPickPhysiqueScreen::handlePayload
         );
+
         registrar.playToClient(
                 SyncGeneratedPhysique.TYPE,
                 SyncGeneratedPhysique.STREAM_CODEC,
                 SyncGeneratedPhysique::handlePayload
-        );
-        registrar.playToServer(
-                TriggerGeneratePhysique.TYPE,
-                TriggerGeneratePhysique.STREAM_CODEC,
-                TriggerGeneratePhysique::handlePayload
-        );
-        registrar.playToServer(
-                TriggerMajorRealmBreakthrough.TYPE,
-                TriggerMajorRealmBreakthrough.STREAM_CODEC,
-                TriggerMajorRealmBreakthrough::handlePayload
-        );
-        registrar.playToClient(
-                SyncSkillDataPayload.TYPE,
-                SyncSkillDataPayload.STREAM_CODEC,
-                SyncSkillDataPayload::handlePayload
         );
         registrar.playToClient(
                 SyncPathDataPayload.TYPE,
@@ -59,6 +38,46 @@ public class ModPayloads {
                 SyncPlayerPhysique.TYPE,
                 SyncPlayerPhysique.STREAM_CODEC,
                 SyncPlayerPhysique::handlePayload
+        );
+        registrar.playToClient(
+                SyncCastingInstance.TYPE,
+                SyncCastingInstance.STREAM_CODEC,
+                SyncCastingInstance::handlePayload
+        );
+        registrar.playToClient(
+                SyncPlayerQi.TYPE,
+                SyncPlayerQi.STREAM_CODEC,
+                SyncPlayerQi::handlePayload
+        );
+
+        //===================================== SERVER ==================================
+        registrar.playToServer(
+                TriggerGeneratePhysique.TYPE,
+                TriggerGeneratePhysique.STREAM_CODEC,
+                TriggerGeneratePhysique::handlePayload
+        );
+        registrar.playToServer(
+                TriggerMajorRealmBreakthrough.TYPE,
+                TriggerMajorRealmBreakthrough.STREAM_CODEC,
+                TriggerMajorRealmBreakthrough::handlePayload
+        );
+        registrar.playToServer(
+                ChangeSkillSlotSpellPayload.TYPE,
+                ChangeSkillSlotSpellPayload.STREAM_CODEC,
+                ChangeSkillSlotSpellPayload::handlePayload
+        );
+
+        registrar.playToServer(
+                SyncCultivationPayload.TYPE,
+                SyncCultivationPayload.STREAM_CODEC,
+                SyncCultivationPayload::handlePayload
+
+        );
+        registrar.playToServer(
+                SyncSelectedSkill.TYPE,
+                SyncSelectedSkill.STREAM_CODEC,
+                SyncSelectedSkill::handlePayload
+
         );
 
         registrar.playToServer(
@@ -72,6 +91,13 @@ public class ModPayloads {
                 ToggleTabletDropModePayload::handlePayload
         );
 
+
+        registrar.playToServer(
+                ServerCastSkillPayload.TYPE,
+                ServerCastSkillPayload.STREAM_CODEC,
+                ServerCastSkillPayload::handlePayload
+
+        );
 
     }
 }

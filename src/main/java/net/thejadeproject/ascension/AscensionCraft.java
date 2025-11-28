@@ -6,6 +6,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -24,7 +26,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
-import net.thejadeproject.ascension.cultivation.player.CultivationData;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
@@ -54,6 +56,7 @@ import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
 import net.thejadeproject.ascension.util.ModAttributes;
+import net.thejadeproject.ascension.util.ModTags;
 import net.thejadeproject.ascension.util.ToolTips.ToolTipManager;
 import net.thejadeproject.ascension.villager.ModVillagers;
 import org.slf4j.Logger;
@@ -162,6 +165,9 @@ public class AscensionCraft {
         event.register(KeyBindHandler.CULTIVATE_KEY);
         event.register(KeyBindHandler.OPEN_SPATIAL_RING_KEY);
         event.register(KeyBindHandler.TOGGLE_ARTIFACT_MODE_KEY);
+        event.register(KeyBindHandler.SKILL_MENU_KEY);
+        event.register(KeyBindHandler.SKILL_WHEEL_KEY);
+        event.register(KeyBindHandler.CAST_SKILL_KEY);
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {
@@ -250,6 +256,7 @@ public class AscensionCraft {
         SectCommand.register(event.getDispatcher());
     }
 
+
     // Get sect manager for current world
     public static SectManager getSectManager(net.minecraft.server.MinecraftServer server) {
         if (server == null) return null;
@@ -258,9 +265,14 @@ public class AscensionCraft {
     }
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
-    public static class ClientModEvents {
+    public static class ModEvents {
 
-
+        @SubscribeEvent
+        public static void onEntityAttributeModificationEvent(final EntityAttributeModificationEvent event) {
+            event.add(EntityType.PLAYER, ModAttributes.MAX_CASTING_INSTANCES);
+            event.add(EntityType.PLAYER,ModAttributes.PLAYER_QI_INSTANCE);
+            event.add(EntityType.PLAYER,ModAttributes.PLAYER_QI_REGEN_RATE);
+        }
 
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event){

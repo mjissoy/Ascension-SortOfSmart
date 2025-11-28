@@ -2,6 +2,8 @@ package net.thejadeproject.ascension.progression.skills;
 
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
@@ -18,11 +20,15 @@ public interface ISkill {
     default String getSkillPath(){return "ascension:neutral";}
     ISkillData getSkillData(CompoundTag tag);
     ISkillData getSkillData();
-    default List<MutableComponent> getSkillDescription(){return List.of();}
+
+    default List<MutableComponent> getSkillDescription(Player player){return List.of();}
     default ITextureData skillIcon(){return null;}
-    String getSkillTitle();
+    Component getSkillTitle();
     //this skill will no be removed by physiques and techniques changing
     default boolean isFixedSkill(){return false;}
-    default CastType getCastType(){return CastType.NONE;}
+
     void setFixedSkill(boolean fixed);
+
+    ISkillData decode(RegistryFriendlyByteBuf buf);
+
 }

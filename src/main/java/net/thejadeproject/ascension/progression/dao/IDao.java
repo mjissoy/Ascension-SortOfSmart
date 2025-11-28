@@ -1,9 +1,12 @@
 package net.thejadeproject.ascension.progression.dao;
 
 import net.minecraft.network.chat.Component;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface IDao {
 
@@ -11,8 +14,42 @@ public interface IDao {
     List<Component> getDescription();
 
 
-    Double getInteractionValue(IDao dao);
+    default Set<DaoInteractionType> getInteractionTypesOfDao(String daoId){
+        HashSet<DaoInteractionType> interactionTypes = new HashSet<>();
+        if(getGenerativeDao().containsKey(daoId)) interactionTypes.add(DaoInteractionType.Generative);
+        if(getDestructiveDao().containsKey(daoId)) interactionTypes.add(DaoInteractionType.Destructive);
+        if(getRelatedDao().containsKey(daoId)) interactionTypes.add(DaoInteractionType.Related);
+        return interactionTypes;
 
-    Map<String,Double> getInteractions();
+    }
+    //============= GETTING VALUES ===============
+    //note this is the raw INTERACTION value. each one is used slightly differently
+    // eg when using destructive value also * dao multiplier/event dao multiplier
+
+    default Double getDestructiveValue(IDao dao) {
+        return getDestructiveValue(AscensionRegistries.Dao.DAO_REGISTRY.getKey(dao).toString());
+    }
+    default Double getDestructiveValue(String dao){
+        return getDestructiveDao().get(dao);
+    }
+
+    default Double getGenerativeValue(IDao dao) {
+        return getGenerativeValue(AscensionRegistries.Dao.DAO_REGISTRY.getKey(dao).toString());
+    }
+    default Double getGenerativeValue(String dao) {
+        return getGenerativeDao().get(dao);
+    }
+
+    default Double getRelatedValue(IDao dao) {
+        return getRelatedValue(AscensionRegistries.Dao.DAO_REGISTRY.getKey(dao).toString());
+    }
+    default Double getRelatedValue(String dao){
+        return getRelatedDao().get(dao);
+    }
+
+    Map<String,Double> getGenerativeDao(); //Dao that GENERATE this dao (enhance it)
+    Map<String,Double> getDestructiveDao(); //Dao that DESTROY this dao (weaken it)
+
+
     Map<String,Double> getRelatedDao();
 }

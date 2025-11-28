@@ -7,14 +7,14 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
+import net.thejadeproject.ascension.progression.dao.IDao;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
@@ -23,7 +23,6 @@ import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
-import net.thejadeproject.ascension.util.ModTags;
 import oshi.util.tuples.Pair;
 
 import java.util.*;
@@ -35,7 +34,7 @@ public abstract class AbstractTechnique implements ITechnique {
     public Double baseRate;
     public Consumer<MinorRealmChangeEvent> minorRealmChangeEventConsumer;
     public Consumer<MajorRealmChangeEvent> majorRealmChangeEventConsumer;
-    public Map<String,Double> efficiencyBonuses = new HashMap<>();
+    public Map<String,Double> daoBonuses = new HashMap<>();
     public String path;
     public SkillList skillList = new SkillList(List.of());
     public ITextureData techniqueImage;
@@ -74,23 +73,24 @@ public abstract class AbstractTechnique implements ITechnique {
 
     @Override
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
-        if(!Objects.equals(event.pathID, getPath())) return;
-        for(String attribute:event.ascensionAttributeID()){
-            if(efficiencyBonuses.containsKey(attribute)) event.addMultiplier(efficiencyBonuses.get(attribute));
+
+        for(String techniqueAttributeId : getDaoBonuses()){
+            event.tryAddDao(techniqueAttributeId,getDaoBonus(techniqueAttributeId));
         }
+
     }
 
     public AbstractTechnique setEfficiencyAttributes(Map<String,Double> efficiencyBonuses){
-        this.efficiencyBonuses = efficiencyBonuses;
+        this.daoBonuses = efficiencyBonuses;
         return this;
     }
     @Override
-    public List<String> getEfficiencyAttributes() {
-        return efficiencyBonuses.keySet().stream().toList();
+    public Set<String> getDaoBonuses() {
+        return daoBonuses.keySet();
     }
     @Override
-    public Double getEfficiencyValue(String attribute) {
-        return efficiencyBonuses.get(attribute);
+    public Double getDaoBonus(String attribute) {
+        return daoBonuses.get(attribute);
     }
     @Override
     public String getPath() {
@@ -151,6 +151,14 @@ public abstract class AbstractTechnique implements ITechnique {
         );
     }
 
+    //TODO add some sort of path registry and use that for this
+    @Override
+    public void onTechniqueAcquisition(Player player) {
+        for(String path : List.of("ascension:intent","ascension:essence","ascension:body")){
+            updatePlayerSkills(player,path,0,0);
+        }
+    }
+
     public AbstractTechnique setOnMinorRealmChange(Consumer<MinorRealmChangeEvent> consumer){
         minorRealmChangeEventConsumer = consumer;
         return this;
@@ -180,7 +188,7 @@ public abstract class AbstractTechnique implements ITechnique {
                         .customScaling(0.5)
                         .build()
         );
-        for (Map.Entry<String ,Double> value : efficiencyBonuses.entrySet()){
+        for (Map.Entry<String ,Double> value : daoBonuses.entrySet()){
             Component text = AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(value.getKey(),':')).getDisplayTitle().copy().append(": "+value.getValue().toString());
             HoverableLabel hoverableLabel = (new HoverableLabel.Builder())
                     .screen(screen)
@@ -202,7 +210,7 @@ public abstract class AbstractTechnique implements ITechnique {
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
             String skillType = "Passive";
             if(skill instanceof AbstractActiveSkill) skillType = "Active";
-            player.getData(ModAttachments.PLAYER_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
+            player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
             skill.onSkillAdded(player);
         }
 
@@ -214,7 +222,7 @@ public abstract class AbstractTechnique implements ITechnique {
         extraInfo.add(
                 Component.literal("Dao Efficiencies:").withStyle(ChatFormatting.BOLD)
         );
-        for (Map.Entry<String ,Double> value : efficiencyBonuses.entrySet()){
+        for (Map.Entry<String ,Double> value : daoBonuses.entrySet()){
             Component text = AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(value.getKey(),':')).getDisplayTitle().copy().append(": "+value.getValue().toString());
 
             extraInfo.add(text.copy().append(": "+value.getValue().toString()));

@@ -1,16 +1,22 @@
 package net.thejadeproject.ascension.progression.skills.passive_skills;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.events.custom.*;
+import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
 import net.thejadeproject.ascension.progression.physiques.PhysiqueEventListener;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
+import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.progression.techniques.TechniquesEventListener;
 import net.thejadeproject.ascension.util.ModAttachments;
 
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -18,32 +24,34 @@ public class IronBonesPassiveSkill extends AbstractPassiveSkill {
 
 
     public IronBonesPassiveSkill(){
-        super("Iron Bones");
+        super(Component.literal("Iron Bones"));
         this.path = "ascension:body";
     }
     public void onPhysiqueChange(PhysiqueChangeEvent event){
-        if(event.player.getData(ModAttachments.PLAYER_DATA).hasSkill( "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
+        if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill( "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
     }
     public void onTechniqueChange(TechniqueChangeEvent event){
-        if(event.player.getData(ModAttachments.PLAYER_DATA).hasSkill("ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
+        if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill("ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
 
     }
 
     public void onMajorRealmChange(MajorRealmChangeEvent event){
-        if(event.player.getData(ModAttachments.PLAYER_DATA).hasSkill( "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
+        if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill( "ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
 
     }
     public void onMinorRealmChange(MinorRealmChangeEvent event){
-        if(event.player.getData(ModAttachments.PLAYER_DATA).hasSkill("ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
+        if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill("ascension:iron_bones_passive_skill","Passive")) updateSkillData(event.player);
 
     }
     public void updateSkillData(Player player){
-        GatherEfficiencyModifiersEvent event = new GatherEfficiencyModifiersEvent(player,this.path, List.of("ascension:metal"));
+        GatherEfficiencyModifiersEvent event = new GatherEfficiencyModifiersEvent(player,this.path,new HashSet<>(){{
+            add("ascension:metal");
+        }});
         PhysiqueEventListener.gatherEfficiencyMultipliers(event);
         TechniquesEventListener.gatherEfficiencyMultipliers(event);
         player.getAttribute(Attributes.MAX_HEALTH).addOrReplacePermanentModifier(new AttributeModifier(
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"iron_bone_passive_boost"),
-                2*event.getTotalEfficiencyMultiplier(),
+                2*event.getTotalDaoEfficiencyMultiplier(),
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE
         ));
     }
@@ -60,5 +68,10 @@ public class IronBonesPassiveSkill extends AbstractPassiveSkill {
         player.getAttribute(Attributes.MAX_HEALTH).removeModifier(ResourceLocation.fromNamespaceAndPath(
                 AscensionCraft.MOD_ID,"iron_bone_passive_boost"
         ));
+    }
+
+    @Override
+    public ISkillData decode(RegistryFriendlyByteBuf buf) {
+        return null;
     }
 }

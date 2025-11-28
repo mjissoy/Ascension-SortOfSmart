@@ -68,9 +68,15 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
                     })
+                    .setSkillList(List.of(
+                        new AcquirableSkillData("ascension:essence",0,0,"ascension:basic_fire_ball",false),
+                        new AcquirableSkillData("ascension:essence",0,0,"ascension:large_fire_ball",false),
+                            new AcquirableSkillData("ascension:essence",0,0,"ascension:delayed_fire_launch",false)
+                    ))
                     .setDescription(List.of(
                             Component.literal("breathe in pure ").append("§4fire ").append("and purify ones essence")
                     )));
+
     public static final TechniqueHolder PURE_WATER_TECHNIQUE = createTechnique("pure_water_technique",
             ()->new SingleElementTechnique("Pure Water Technique","ascension:water",2.0,new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -301,10 +307,14 @@ public class ModTechniques {
                         PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
                         PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
-                    }).setDescription(List.of(
+                    }).setSkillList(List.of(
+                    new AcquirableSkillData("ascension:intent",0,0,"ascension:fist_aura_skill",true)
+            )).setDescription(List.of(
                             Component.literal("what heavens? under my").append(" §8Fist ").append("all is equal"),
                             Component.literal("and all is weak")
                     )));
+    public static final TechniqueHolder DIVINE_PHOENIX_TECHNIQUE = createTechnique("divine_phoenix_technique",
+            ()->new SingleAttributeTechnique("Divine Phoenix Technique",8.0,"ascension:phoenix_fire",new LnStabilityHandler())
 
     public static final TechniqueHolder FIST_KINGS_TECHNIQUE = createTechnique("fist_king_intent",
             ()->new SingleIntentTechnique("Fist Kings Technique",8.0,"ascension:fist_intent",new LnStabilityHandler())

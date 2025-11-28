@@ -1,17 +1,21 @@
-package net.thejadeproject.ascension.cultivation.player;
+package net.thejadeproject.ascension.cultivation.player.data_attachements;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.Collection;
 import java.util.HashMap;
 
 public class CultivationData {
 
+    Player player;
+    public CultivationData(Player player){
+        this.player = player;
+    }
     public static class PathData{
         public String pathId;
         public int majorRealm;
@@ -96,6 +100,13 @@ public class CultivationData {
 
     private final HashMap<String, PathData> pathDataHashMap = new HashMap<>();
 
+    //TODO replace with interface that queries this so individual techniques can have differing req
+    public double getMaxQiForRealm(String path){
+        PathData data = pathDataHashMap.get(path);
+        if(data == null) return 1.0;
+        return 100;//TODO Replace with formula
+    }
+
     public PathData getPathData(String pathId){
 
         if(pathDataHashMap.containsKey(pathId)) return pathDataHashMap.get(pathId);
@@ -121,7 +132,12 @@ public class CultivationData {
     public void increaseMajorRealm(String pathId){
         pathDataHashMap.get(pathId).increaseMajorRealm();
     }
-    public void setPathTechnique(String pathId,String technique){pathDataHashMap.get(pathId).technique = technique;}
+    public void setPathTechnique(String pathId,String technique){
+        pathDataHashMap.get(pathId).technique = technique;
+        if(player.level().isClientSide())return;
+        ITechnique techniqueManual = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(technique,':'));
+        techniqueManual.onTechniqueAcquisition(player);
+    }
 
     public CompoundTag writeNBTData(){
         CompoundTag tag = new CompoundTag();
@@ -135,5 +151,7 @@ public class CultivationData {
             pathDataHashMap.put(key, PathData.loadNBTData(compound.getCompound(key)));
         }
     }
+
+
 
 }

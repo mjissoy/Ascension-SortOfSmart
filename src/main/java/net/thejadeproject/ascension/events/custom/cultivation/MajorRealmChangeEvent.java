@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.events.custom;
+package net.thejadeproject.ascension.events.custom.cultivation;
 
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
