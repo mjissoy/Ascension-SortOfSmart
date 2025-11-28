@@ -1,8 +1,11 @@
 package net.thejadeproject.ascension.progression.breakthrough.handlers;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
+import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
@@ -30,6 +33,11 @@ public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
 
     @Override
     public void failBreakthrough(Player player, String pathId) {
+
         System.out.println("Failed to breakthrough");
+        CultivationData.PathData data =  player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
+        data.pathProgress = 0;
+        data.stabilityCultivationTicks = 0;
+        PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(data));
     }
 }

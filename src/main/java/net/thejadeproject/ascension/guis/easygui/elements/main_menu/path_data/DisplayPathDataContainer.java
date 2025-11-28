@@ -20,9 +20,14 @@ import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.Brea
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 @OnlyIn(Dist.CLIENT)
 public class DisplayPathDataContainer extends EmptyContainer {
 
+    public CultivationData cultivationData;
     public CultivationData.PathData pathData;
     public BreakthroughButton breakthroughButton;
     public Label pathTitle;
@@ -35,6 +40,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
     public DisplayPathDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y, int width, int height,String pathId) {
         super(easyGuiScreen, x, y, width, height);
         setID("path_data_container");
+        cultivationData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData();
         pathData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
         String name = "Essence Path";
         if(pathData.pathId.equals("ascension:body")) name = "Body Path";
@@ -46,7 +52,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
         Component progressTitleComponent =Component.literal("Progress:").withStyle(ChatFormatting.BOLD);
         Component techniqueTitleComponent = Component.literal("Technique:").withStyle(ChatFormatting.BOLD);
         Font font = Minecraft.getInstance().font;
-        pathTitle = (new Label.Builder()).screen(easyGuiScreen).x(getWidth()/2).y(10).centered(true).text(majorRealmTitleComponent).customScaling(0.5).build();
+        pathTitle = (new Label.Builder()).screen(easyGuiScreen).x(getWidth()/2).y(10).centered(true).text(nameComponent).customScaling(0.5).build();
         pathTitle.setID("path_title");
 
         Label majorRealmTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(15).text(majorRealmTitleComponent).customScaling(0.5).build();
@@ -55,7 +61,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
 
         breakthroughButton = new BreakthroughButton(getScreen(), (int) (getScreen().getElementByID("major_realm_data").getWidth()*getScreen().getElementByID("major_realm_data").getCustomScale()), getScreen().getElementByID("major_realm_data").getY());
         breakthroughButton.setID("breakthrough_button");
-        addChild(breakthroughButton);
+
         breakthroughButton.setActive(false);
 
         Label minorRealmTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(25).text(minorRealmTitleComponent).customScaling(0.5).build();
@@ -86,7 +92,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
 
         addChild(techniqueTitle);
         addChild(techniqueData);
-
+        addChild(breakthroughButton);
 
     }
 
@@ -112,7 +118,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
             majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm)+" ("+String.format("%.2f",technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks)*100)+"%)");
             majorRealmData.width = Minecraft.getInstance().font.width(majorRealmData.text);
             breakthroughButton.setActive(true);
-            System.out.println(majorRealmData.text);
+
             breakthroughButton.setX((int) (majorRealmData.getWidth()*majorRealmData.getCustomScale()));
             breakthroughButton.setY(majorRealmData.getY());
         }else breakthroughButton.setActive(false);
@@ -120,9 +126,9 @@ public class DisplayPathDataContainer extends EmptyContainer {
 
         minorRealmData.text =Component.literal(String.valueOf(pathData.minorRealm));
         minorRealmData.width = Minecraft.getInstance().font.width(String.valueOf(pathData.minorRealm));
-
-        progressData.text =Component.literal(String.valueOf(pathData.pathProgress));
-        progressData.width = Minecraft.getInstance().font.width(String.valueOf(pathData.pathProgress));
+        NumberFormat format = new DecimalFormat("#0.00");
+        progressData.text =Component.literal(format.format(pathData.pathProgress)+"/"+format.format(cultivationData.getMaxQiForRealm(pathData.pathId)));
+        progressData.width = Minecraft.getInstance().font.width(progressData.text);
 
 
 

@@ -25,6 +25,10 @@ import net.thejadeproject.ascension.guis.easygui.elements.main_menu.path_data.Di
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.TechniqueDataContainer;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 @OnlyIn(Dist.CLIENT)
 public class ModActions {
     public static final DeferredRegister<IAction> ACTIONS =DeferredRegister.create(EasyGuiRegistries.Actions.ACTION_REGISTRY,AscensionCraft.MOD_ID);
@@ -101,22 +105,25 @@ public class ModActions {
                     Label label = ((Label) renderable);
                     if(player == null )return;
                     CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence");
-
+                    NumberFormat formatter = new DecimalFormat("#0.00");
                     if(attribute.equals("Max Health")){
-                        label.text =  Component.literal(Double.toString(player.getMaxHealth()));
+                        label.text =  Component.literal(formatter.format(player.getMaxHealth()));
                     }else if(attribute.equals("Health")){
-                        label.text = Component.literal(Double.toString(player.getHealth()));
+                        label.text = Component.literal(formatter.format(player.getHealth()));
                     }else if(attribute.equals("Armor")){
-                        label.text =  Component.literal(Double.toString(player.getArmorValue()));
+                        label.text =  Component.literal(formatter.format(player.getArmorValue()));
                     }else if(attribute.equals("Attack")){
-                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+                        label.text =  Component.literal(formatter.format(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
                     }else if(attribute.equals("Speed")){
-                        label.text =  Component.literal(Double.toString(player.getSpeed()));
+                        label.text =  Component.literal(formatter.format(player.getSpeed()));
                     }else if(attribute.equals("Attack Speed")){
-                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.ATTACK_SPEED).getBaseValue()));
+                        label.text =  Component.literal(formatter.format(player.getAttribute(Attributes.ATTACK_SPEED).getBaseValue()));
+                    }else if(attribute.equals("Safe Fall")){
+                        label.text =  Component.literal(formatter.format(player.getAttribute(Attributes.SAFE_FALL_DISTANCE).getBaseValue()));
+
                     }
                     else if(attribute.equals("Jump Strength")){
-                        label.text =  Component.literal(Double.toString(player.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue()));
+                        label.text =  Component.literal(formatter.format(player.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue()));
                     }else if(attribute.equals("Physique")){
 
                         String[] physique = player.getData(ModAttachments.PHYSIQUE).split(":");

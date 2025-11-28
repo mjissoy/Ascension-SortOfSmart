@@ -202,6 +202,21 @@ public class PlayerSkillData {
         activeSkillBuffer.add(new Pair<>(false,activeSkillHashMap.remove(skillId)));
         if(activeSkillContainer.skillIdList.contains(skillId)) activeSkillContainer.unSlotSkill(skillId);
     }
+    public void triggerSkillRemoval(String skillId){
+        ResourceLocation id = ResourceLocation.bySeparator(skillId,':');
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(id);
+        if(skill == null) return;
+        skill.onSkillRemoved(player);
+    }
+    public void removeAllSkills(){
+        for(SkillMetaData data : getActiveSkills()){
+            triggerSkillRemoval(activeSkillHashMap.remove(data.skillId).skillId);
+        }
+        for(SkillMetaData data : getPassiveSkills()){
+            triggerSkillRemoval(passiveSkillHashMap.remove(data.skillId).skillId);
+        }
+
+    }
     public List<Pair<Boolean, SkillMetaData>> getPassiveSkillBuffer(){
         return passiveSkillBuffer;
     }

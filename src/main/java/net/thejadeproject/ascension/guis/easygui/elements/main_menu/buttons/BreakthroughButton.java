@@ -19,16 +19,16 @@ public class BreakthroughButton extends AbstractButton {
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/screen/gui_all.png"),
             256,
             256,
-            56,169,
-            56+6,169+4
+            56,153,
+            56+6,153+4
     );
     public ITextureData hoverTexture = new TextureDataSubSection(
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,
                     "textures/gui/screen/gui_all.png"),
             256,
             256,
-            56, 174,
-            56+6, 174+4
+            56, 158,
+            56+6, 158+4
     );
 
     public BreakthroughButton(IEasyGuiScreen screen,int x, int y){

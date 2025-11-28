@@ -16,10 +16,7 @@ import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
 import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
 import net.thejadeproject.ascension.items.herbs.PlantableHerb;
-import net.thejadeproject.ascension.items.pills.PillAntidote;
-import net.thejadeproject.ascension.items.pills.PillCooldownItem;
-import net.thejadeproject.ascension.items.pills.PillResidue;
-import net.thejadeproject.ascension.items.pills.ThrowablePoisonPill;
+import net.thejadeproject.ascension.items.pills.*;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.util.ItemUtil;
@@ -188,7 +185,7 @@ public class ModItems {
     public static final DeferredItem<Item> PILL_RESIDUE = ITEMS.register("pill_residue",
             () -> new PillResidue(new Item.Properties().food(ModFoodProperties.PILL_RESIDUE)));
     public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
+            () -> new RebirthPill(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
     public static final DeferredItem<Item> FASTING_PILL_T1 = ITEMS.register("fasting_pill_t1",
             () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T1)));
     public static final DeferredItem<Item> FASTING_PILL_T2 = ITEMS.register("fasting_pill_t2",

@@ -41,8 +41,8 @@ public class PhysiqueEventListener{
         if(event.newPhysique.equals(physique_id)){
             IPhysique oldPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(event.oldPhysique,':'));
             IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(event.newPhysique,':'));
-            oldPhysique.onRemovePhysique(event.player);
-            newPhysique.onPhysiqueAcquisition(event.player);
+            if(oldPhysique != null) oldPhysique.onRemovePhysique(event.player);
+            if(newPhysique != null) newPhysique.onPhysiqueAcquisition(event.player);
         }
     }
 }

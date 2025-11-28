@@ -98,7 +98,11 @@ public class CultivationSystem {
             progress = 0;
             int minorRealm = pathData.minorRealm;
             minorRealm ++;
+
             if(minorRealm >= 10){
+                pathData.pathProgress = CultivationStageMax;
+                PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(path, pathData.majorRealm, pathData.minorRealm, pathData.pathProgress,pathData.technique, pathData.stabilityCultivationTicks));
+
                 return false;
             }else{
                 NeoForge.EVENT_BUS.post(new RealmChangeEvent(

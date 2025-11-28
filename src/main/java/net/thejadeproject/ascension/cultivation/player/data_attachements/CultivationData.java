@@ -106,7 +106,22 @@ public class CultivationData {
         if(data == null) return 1.0;
         int minorRealm = getPathData(path).minorRealm;
         int majorRealm = getPathData(path).majorRealm;
-        return 100;//TODO Replace with formula
+
+        return 1000*(getMinorRealmMultiplier(minorRealm,majorRealm)+getMajorRealmMultiplier(majorRealm)) ;
+    }
+    private double getMinorRealmMultiplier(int minorRealm,int majorRealm){
+        double total = 0;
+        for(int i = 0; i<minorRealm+majorRealm*9;i++){
+            total += 2.47+0.06*i;
+        }
+        return total;
+    }
+    private double getMajorRealmMultiplier(int majorRealm){
+        double total = 0.0;
+        for(int i = 0;i<majorRealm;i++){
+            total += 2+i;
+        }
+        return total;
     }
 
     public PathData getPathData(String pathId){

@@ -37,8 +37,11 @@ public class StatContainer extends EmptyContainer {
         Label l8 = (new Label.Builder()).screen(easyGuiScreen).x(0).y(45).customScaling(0.5).width(140).build();
         Label l9Title = (new Label.Builder()).screen(easyGuiScreen).x(0).y(50).text(Component.literal("Jump Strength:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
         Label l9 = (new Label.Builder()).screen(easyGuiScreen).x(0).y(55).customScaling(0.5).width(140).build();
-        Label l10Title = (new Label.Builder()).screen(easyGuiScreen).x(0).y(70).text(Component.literal("Physique:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
-        ClickableLabel l10 = (new ClickableLabel.Builder()).screen(easyGuiScreen).x(0).y(75).customScaling(0.5).hoverColor(1686472069).build();
+        Label l10Title = (new Label.Builder()).screen(easyGuiScreen).x(0).y(60).text(Component.literal("Safe Fall:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
+        Label l10 = (new Label.Builder()).screen(easyGuiScreen).x(0).y(65).customScaling(0.5).width(140).build();
+
+        Label l11Title = (new Label.Builder()).screen(easyGuiScreen).x(0).y(80).text(Component.literal("Physique:").withStyle(ChatFormatting.BOLD)).width(140).customScaling(0.5).build();
+        ClickableLabel l11 = (new ClickableLabel.Builder()).screen(easyGuiScreen).x(0).y(85).customScaling(0.5).hoverColor(1686472069).build();
 
   
         l4.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Max Health"}));
@@ -47,7 +50,8 @@ public class StatContainer extends EmptyContainer {
         l7.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Attack"}));
         l8.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Speed"}));
         l9.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Jump Strength"}));
-        l10.setTickAction(new Action(new IAction(){
+        l10.setTickAction(new Action(ModActions.DISPLAY_ATTRIBUTE_VALUE.get(),new Object[]{"Safe Fall"}));
+        l11.setTickAction(new Action(new IAction(){
             @Override
             public void run(ContainerRenderable renderable, Object[] customArgs) {
                  Player player = Minecraft.getInstance().player;
@@ -66,7 +70,7 @@ public class StatContainer extends EmptyContainer {
                 label.setWidth(label.font.width(label.text));
             }
         },new Object[]{}));
-        l10.clickAction = new Action(ModActions.CREATE_CONTAINER.get(),new Object[]{"physique_data"});
+        l11.clickAction = new Action(ModActions.CREATE_CONTAINER.get(),new Object[]{"physique_data"});
   
         addChild(l4Title);
         addChild(l4);
@@ -82,6 +86,8 @@ public class StatContainer extends EmptyContainer {
         addChild(l9);
         addChild(l10Title);
         addChild(l10);
+        addChild(l11Title);
+        addChild(l11);
     }
 
     @Override
