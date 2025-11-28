@@ -13,6 +13,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.StandardStatRealmChange;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.technique_manuals.GenericTechniqueManual;
@@ -24,6 +25,7 @@ import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.body.SingleAttributeTechnique;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.essence.SingleElementTechnique;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.intent.SingleIntentTechnique;
+import net.thejadeproject.ascension.util.ModAttributes;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.HashMap;
@@ -51,11 +53,12 @@ public class ModTechniques {
     }
 
     public static HashMap<Holder<Attribute>,Double> GENERIC_MINOR_REALM_STATS_1 = new HashMap<>(){{
-            put(Attributes.MAX_HEALTH,5.0);
-            put(Attributes.ATTACK_DAMAGE,1.0);
-            put(Attributes.MOVEMENT_SPEED,0.01);
-            put(Attributes.JUMP_STRENGTH,0.01);
-            put(Attributes.STEP_HEIGHT,0.01);
+        put(Attributes.MAX_HEALTH,5.0);
+        put(Attributes.ATTACK_DAMAGE,1.0);
+        put(Attributes.MOVEMENT_SPEED,0.01);
+        put(Attributes.JUMP_STRENGTH,0.01);
+        put(Attributes.STEP_HEIGHT,0.01);
+        put(Attributes.SAFE_FALL_DISTANCE,0.6);
 
     }};
     public static HashMap<Holder<Attribute>,Double> ENHANCED_MINOR_REALM_STATS_1 = new HashMap<>(){{
@@ -64,6 +67,7 @@ public class ModTechniques {
         put(Attributes.MOVEMENT_SPEED,0.2);
         put(Attributes.JUMP_STRENGTH,0.04);
         put(Attributes.STEP_HEIGHT,0.04);
+        put(Attributes.SAFE_FALL_DISTANCE,1.2);
 
     }};
 
@@ -73,7 +77,9 @@ public class ModTechniques {
         put(Attributes.MOVEMENT_SPEED,0.5);
         put(Attributes.JUMP_STRENGTH,0.02);
         put(Attributes.STEP_HEIGHT,0.02);
-
+        put(Attributes.SAFE_FALL_DISTANCE,0.6);
+        put(ModAttributes.PLAYER_QI_REGEN_RATE,0.2);
+        put(ModAttributes.PLAYER_QI_INSTANCE, 100.0);
     }};
         public static HashMap<Holder<Attribute>,Double> ENHANCED_MAJOR_REALM_STATS_1 = new HashMap<>(){{
         put(Attributes.MAX_HEALTH,10.0);
@@ -81,7 +87,9 @@ public class ModTechniques {
         put(Attributes.MOVEMENT_SPEED,0.2);
         put(Attributes.JUMP_STRENGTH,0.04);
         put(Attributes.STEP_HEIGHT,0.04);
-
+        put(Attributes.SAFE_FALL_DISTANCE,1.2);
+        put(ModAttributes.PLAYER_QI_REGEN_RATE,0.4);
+        put(ModAttributes.PLAYER_QI_INSTANCE, 100.0);
     }};
     public static final DeferredRegister<ITechnique> TECHNIQUES =DeferredRegister.create(AscensionRegistries.Techniques.TECHNIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
@@ -98,7 +106,7 @@ public class ModTechniques {
                     .setSkillList(List.of(
                         new AcquirableSkillData("ascension:essence",0,0,"ascension:basic_fire_ball",false),
                         new AcquirableSkillData("ascension:essence",0,0,"ascension:large_fire_ball",false),
-                            new AcquirableSkillData("ascension:essence",0,0,"ascension:delayed_fire_launch",false)
+                        new AcquirableSkillData("ascension:essence",0,0,"ascension:delayed_fire_launch",false)
                     ))
                     .setDescription(List.of(
                             Component.literal("breathe in pure ").append("§4fire ").append("and purify ones essence")
@@ -146,7 +154,21 @@ public class ModTechniques {
             ()->new SingleElementTechnique(
                     "Void Swallowing Technique","ascension:void",
                     8.0,new LnStabilityHandler(),
-                    new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                        new HashMap<>(){{
+                            put(Attributes.MAX_HEALTH,23.0);
+                            put(Attributes.ATTACK_DAMAGE,5.4);
+                            put(Attributes.MOVEMENT_SPEED,1.0);
+                            put(Attributes.JUMP_STRENGTH,0.06);
+                            put(Attributes.STEP_HEIGHT,0.06);
+                        }}, new HashMap<>(){{
+                            put(Attributes.MAX_HEALTH,5.0);
+                            put(Attributes.ATTACK_DAMAGE,2.4);
+                            put(Attributes.MOVEMENT_SPEED,0.1);
+                            put(Attributes.JUMP_STRENGTH,0.02);
+                            put(Attributes.STEP_HEIGHT,0.06);
+                        }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
 
                         put("ascension:void",2.0);
