@@ -40,6 +40,14 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T2.get(), Component.translatable("ascension.tooltip.cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.INNER_REINFORCEMENT_PILL_T3.get(), Component.translatable("ascension.tooltip.cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
 
+        ToolTipHandler.registerTooltip(ModItems.ESSENCE_GATHERING_PILL_T1.get(), Component.translatable("ascension.tooltip.cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.ESSENCE_GATHERING_PILL_T2.get(), Component.translatable("ascension.tooltip.cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.ESSENCE_GATHERING_PILL_T3.get(), Component.translatable("ascension.tooltip.cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+
+        ToolTipHandler.registerTooltip(ModItems.SPIRIT_FOCUS_PILL_T1.get(), Component.translatable("ascension.tooltip.cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.SPIRIT_FOCUS_PILL_T2.get(), Component.translatable("ascension.tooltip.cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.SPIRIT_FOCUS_PILL_T3.get(), Component.translatable("ascension.tooltip.cultivation").withStyle(ChatFormatting.LIGHT_PURPLE), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+
         //Poison Pills
         ToolTipHandler.registerTooltip(ModItems.QI_DEVOURING_PARASITE_PILL.get(), Component.translatable("ascension.tooltip.poisonous").withStyle(ChatFormatting.GREEN), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
         //Herbs
