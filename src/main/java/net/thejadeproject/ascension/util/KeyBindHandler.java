@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
+import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionEarth;
 import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionHeaven;
@@ -57,6 +58,8 @@ public class KeyBindHandler {
     public static final KeyMapping CULTIVATE_KEY = new KeyMapping("key.ascension.cultivate", 67, CULTIVATION_CATEGORY);
     public static final KeyMapping SKILL_WHEEL_KEY = new KeyMapping("key.ascension.skill_wheel", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_R, CULTIVATION_CATEGORY);
     public static final KeyMapping CAST_SKILL_KEY = new KeyMapping("key.ascension.cast_skill", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_V, CULTIVATION_CATEGORY);
+
+
 
     public static void register() {
         IEventBus eventBus = NeoForge.EVENT_BUS;

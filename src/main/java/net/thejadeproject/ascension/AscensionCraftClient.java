@@ -5,10 +5,12 @@ import net.lucent.easygui.elements.other.SquareRenderable;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.overlays.EasyGuiOverlayManager;
 import net.lucent.easygui.templating.registry.EasyGuiRegistries;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -18,6 +20,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -27,8 +30,11 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
+import net.thejadeproject.ascension.events.custom.OpenPhysiqueSelectScreenEvent;
+import net.thejadeproject.ascension.events.custom.PhysiqueGeneratedEvent;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.ModOverlays;
+import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
@@ -52,6 +58,18 @@ public class AscensionCraftClient {
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID,value = Dist.CLIENT)
     static class ClientEvents{
+
+        @SubscribeEvent
+        public static void physiqueGenerateEvent(OpenPhysiqueSelectScreenEvent event){
+            Minecraft.getInstance().setScreen(new GeneratePhysiqueScreen(Component.literal("Select")));
+        }
+        @SubscribeEvent
+        public static void physiqueGenerateEvent(PhysiqueGeneratedEvent event){
+            System.out.println("damn");
+           if(Minecraft.getInstance().screen instanceof GeneratePhysiqueScreen screen){
+               screen.updateGeneratedPhysiques(event.generatedPhysique,event.otherPhysiques);
+           }
+        }
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
