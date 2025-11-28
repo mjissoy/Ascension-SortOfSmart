@@ -19,8 +19,7 @@ public class SkillCastProgressContainer extends EmptyContainer implements Sticky
         super(screen,x,0,80,100);
 
         setY(scaledHeight-40-20-100);
-        System.out.println("Creating :"+((RangedAttribute)ModAttributes.MAX_CASTING_INSTANCES.value()).getMaxValue() +" bars");
-        for(int i = 0;i< ((RangedAttribute)ModAttributes.MAX_CASTING_INSTANCES.value()).getMaxValue();i++){
+        for(int i = 0;i< ModAttributes.MAX_CASTING_INSTANCE_NUMBER;i++){
             addChild(new SkillCastProgressBar(screen,0,100-i*15,i));
         }
 

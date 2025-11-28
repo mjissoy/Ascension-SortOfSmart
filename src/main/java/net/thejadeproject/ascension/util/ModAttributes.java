@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 public class ModAttributes {
     public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(
             BuiltInRegistries.ATTRIBUTE, AscensionCraft.MOD_ID);
+    public static int MAX_CASTING_INSTANCE_NUMBER = 4;
     public static final Holder<Attribute> MAX_CASTING_INSTANCES = ATTRIBUTES.register("max_casting_instances", () -> new RangedAttribute(
             // The translation key to use.
             "attributes.ascension.max_casting_instances",
@@ -18,7 +19,7 @@ public class ModAttributes {
             0,
             // Min and max values.
             0,
-            4));
+            MAX_CASTING_INSTANCE_NUMBER).setSyncable(true));
     public static final Holder<Attribute> PLAYER_QI_INSTANCE = ATTRIBUTES.register("player_qi", () -> new RangedAttribute(
             // The translation key to use.
             "attributes.ascension.player_qi",
@@ -26,7 +27,7 @@ public class ModAttributes {
             100,
             // Min and max values.
             0,
-            1000000000));
+            1000000000).setSyncable(true));
     public static final Holder<Attribute> PLAYER_QI_REGEN_RATE = ATTRIBUTES.register("player_qi_regen_rate", () -> new RangedAttribute(
             // The translation key to use.
             "attributes.ascension.player_qi_regen_rate",
@@ -34,7 +35,7 @@ public class ModAttributes {
             2,
             // Min and max values.
             0,
-            1000000));
+            1000000).setSyncable(true));
     public static void register(IEventBus modEventBus){
         ATTRIBUTES.register(modEventBus);
     }

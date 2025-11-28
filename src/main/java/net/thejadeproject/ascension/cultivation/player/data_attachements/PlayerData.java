@@ -68,6 +68,7 @@ public class PlayerData {
         return  currentQi;
     }
     public double getPlayerMaxQi(){
+        if(player.getAttribute(ModAttributes.PLAYER_QI_INSTANCE) == null) return 0.0;
         return player.getAttribute(ModAttributes.PLAYER_QI_INSTANCE).getValue();
     }
     public boolean tryConsumeQi(double amount){
@@ -84,7 +85,7 @@ public class PlayerData {
         ticksSinceRegen += 1;
 
         if(ticksSinceRegen >= TICKS_FOR_REGEN){
-            increaseQi(player.getAttribute(ModAttributes.PLAYER_QI_REGEN_RATE).getValue());
+            if(player.getAttribute(ModAttributes.PLAYER_QI_REGEN_RATE) != null) increaseQi(player.getAttribute(ModAttributes.PLAYER_QI_REGEN_RATE).getValue());
             ticksSinceRegen = 0;
         }
     }
