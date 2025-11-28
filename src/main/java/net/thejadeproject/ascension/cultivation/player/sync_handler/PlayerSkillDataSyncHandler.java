@@ -117,7 +117,6 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         // `previousValue` is `null` if there was no prior data on the client
         // The result should return `null` if the data attachment should be removed
         System.out.println("reading data");
-        if(previousValue == null) previousValue = new PlayerSkillData(Minecraft.getInstance().player);
         if(buf.readBoolean()){
             //initial sync
             System.out.println("initial sync");

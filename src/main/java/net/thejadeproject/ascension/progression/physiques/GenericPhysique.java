@@ -8,9 +8,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.*;
-import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
@@ -23,7 +23,6 @@ import oshi.util.tuples.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 
 //if you want some sort of extra progress data separate from standard use direct nbt write
@@ -37,22 +36,27 @@ public class GenericPhysique implements IPhysique{
     public final String title;
     public ITextureData textureData;
     public SkillList skillList = new SkillList(List.of());
-    public Supplier<MajorRealmChangeEvent> majorRealmAction;
-    public Supplier<MinorRealmChangeEvent> minorRealmAction;
-    public List<MutableComponent> description;
-    public GenericPhysique(String title, Map<String,Double> pathBonuses, Map<String,Double> otherBonuses){
+     public List<MutableComponent> description;
+    public IRealmChangeHandler realmChangeHandler;
+
+
+    public GenericPhysique(String title, Map<String,Double> pathBonuses, Map<String,Double> otherBonuses,IRealmChangeHandler realmChangeHandler){
         this.pathBonuses = pathBonuses;
         this.otherBonuses = otherBonuses;
         this.title = title;
+        this.realmChangeHandler = realmChangeHandler;
     }
 
-    public GenericPhysique setOnMajorRealmIncrease(Supplier<MajorRealmChangeEvent> action){
-        majorRealmAction = action;
-        return this;
-    }
-    public GenericPhysique setOnMinorRealmIncrease(Supplier<MinorRealmChangeEvent> action){
-        minorRealmAction = action;
-        return this;
+    @Override
+    public void onRealmChangeEvent(RealmChangeEvent event) {
+        IPhysique.super.onRealmChangeEvent(event);
+        if(event.getMajorRealmsChanged() < 0 ||(event.getMajorRealmsChanged() == 0 && event.getTotalMinorRealmsChanged() <0) ) return;
+        updatePlayerSkills(
+                event.player,
+                event.pathId,
+                event.newMajorRealm,
+                event.newMinorRealm
+        );
     }
 
     public GenericPhysique setSkillList(List<AcquirableSkillData> skillList){
@@ -83,6 +87,12 @@ public class GenericPhysique implements IPhysique{
         this.description = description;
         return this;
     }
+
+    @Override
+    public IRealmChangeHandler getRealmChangeHandler() {
+        return realmChangeHandler;
+    }
+
     @Override
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
 
@@ -151,21 +161,7 @@ public class GenericPhysique implements IPhysique{
     }
 
 
-    @Override
-    public void onMajorRealmIncrease(MajorRealmChangeEvent event) {
-        if(event.oldRealm > event.newRealm) return;
 
-        updatePlayerSkills(event.player,event.pathId,event.newRealm,
-                event.player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(event.pathId).minorRealm);
-    }
-
-    @Override
-    public void onMinorRealmIncrease(MinorRealmChangeEvent event) {
-        if(event.oldRealm > event.newRealm)return;
-        updatePlayerSkills(event.player,event.pathId,
-                event.player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(event.pathId).majorRealm
-                ,event.newRealm);
-    }
     public void updatePlayerSkills(Player player, String path, int majorRealm, int minorRealm){
         if(skillList == null) return;
         List<Pair<String,Boolean>> newSkills = skillList.getSkillsOfPathAndRealm(path,majorRealm,minorRealm);

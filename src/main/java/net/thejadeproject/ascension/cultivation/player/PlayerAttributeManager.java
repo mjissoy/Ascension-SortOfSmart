@@ -21,6 +21,15 @@ public class PlayerAttributeManager {
             player.setData(ModAttachments.MOVEMENT_SPEED,player.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
         }
     }
+    public static void decreaseAttribute(Player player, Double value, Holder<Attribute> attributeHolder){
+        player.getAttribute(attributeHolder).setBaseValue(Math.max(player.getAttributeBaseValue(attributeHolder) - value,0));
+        if(attributeHolder == Attributes.ATTACK_DAMAGE){
+            PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttackDamageAttribute(player.getAttribute(attributeHolder).getBaseValue()));
+        }
+        if(attributeHolder == Attributes.MOVEMENT_SPEED){
+            player.setData(ModAttachments.MOVEMENT_SPEED,player.getAttributeBaseValue(Attributes.MOVEMENT_SPEED));
+        }
+    }
     public static void changeAttributeRange(double min, double max, RangedAttribute attribute){
         attribute.minValue = min;
         attribute.maxValue = max;

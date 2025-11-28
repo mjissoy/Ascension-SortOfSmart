@@ -5,9 +5,10 @@ import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
+
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
@@ -17,9 +18,20 @@ import java.util.Set;
 
 //TODO include realm foundation in stat upgrade for major realms
 public interface ITechnique {
-    default void onMinorRealmIncrease(MinorRealmChangeEvent event){}
-    //run when a players major realm increases
-    default void onMajorRealmIncrease(MajorRealmChangeEvent event){}
+
+    IRealmChangeHandler getRealmChangeHandler();
+
+    default void onRealmChangeEvent(RealmChangeEvent event) {
+        IRealmChangeHandler changeHandler = getRealmChangeHandler();
+
+        //major realms
+        if (event.getMajorRealmsChanged() > 0) changeHandler.onMajorRealmIncrease(event.player, event.pathId, event.getMajorRealmsChanged());
+        else changeHandler.onMajorRealmDecrease(event.player, event.pathId, event.getMajorRealmsChanged());
+
+        //minor realms
+        if (event.getTotalMinorRealmsChanged() > 0) changeHandler.onMinorRealmIncrease(event.player, event.pathId, event.getTotalMinorRealmsChanged());
+        else changeHandler.onMinorRealmDecrease(event.player,event.pathId,event.getTotalMinorRealmsChanged());
+    }
 
     //run when a player logs in (if you need to load data)
     default void onPlayerLogIn(Player player){}

@@ -28,7 +28,11 @@ import java.util.Set;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class PlayerEventHandler {
-
+    /*
+    TODO change how damage works
+    TODO first sends out a gatherDamageDaoAttributes. this lets items ands skills add damage types
+    TODO then send out the gatherDaoEfficiencies
+     */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingDamageEvent(LivingDamageEvent.Pre event){
         System.out.println("custom damage event");

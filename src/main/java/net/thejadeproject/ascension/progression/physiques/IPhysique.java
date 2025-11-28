@@ -5,9 +5,10 @@ import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
+
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 
 import java.util.List;
@@ -15,12 +16,19 @@ import java.util.List;
 //TODO have a get skill List method
 //TODO requires skills completed
 public interface IPhysique {
+    IRealmChangeHandler getRealmChangeHandler();
 
+    default void onRealmChangeEvent(RealmChangeEvent event) {
+        IRealmChangeHandler changeHandler = getRealmChangeHandler();
 
-    //run when a players minor realm increases
-    default void onMinorRealmIncrease(MinorRealmChangeEvent event){}
-    //run when a players major realm increases
-    default void onMajorRealmIncrease(MajorRealmChangeEvent event){}
+        //major realms
+        if (event.getMajorRealmsChanged() > 0) changeHandler.onMajorRealmIncrease(event.player, event.pathId, event.getMajorRealmsChanged());
+        else changeHandler.onMajorRealmDecrease(event.player, event.pathId, event.getMajorRealmsChanged());
+
+        //minor realms
+        if (event.getTotalMinorRealmsChanged() > 0) changeHandler.onMinorRealmIncrease(event.player, event.pathId, event.getTotalMinorRealmsChanged());
+        else changeHandler.onMinorRealmDecrease(event.player,event.pathId,event.getTotalMinorRealmsChanged());
+    }
 
     //run when a player logs in (if you need to load data)
      default void onPlayerLogIn(Player player){}

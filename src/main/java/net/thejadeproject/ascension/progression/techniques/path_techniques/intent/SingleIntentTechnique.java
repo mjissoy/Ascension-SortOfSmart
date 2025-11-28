@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.progression.techniques.path_techniques.intent;
 
+import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.progression.breakthrough.handlers.StabilityCheckBreakthroughHandler;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.AbstractTechnique;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
@@ -12,8 +13,8 @@ public class SingleIntentTechnique extends AbstractTechnique {
 
     public String intent;
 
-    public SingleIntentTechnique(String title, double baseRate, String intent, StabilityHandler stabilityHandler) {
-        super(title, baseRate,"ascension:intent",stabilityHandler,new StabilityCheckBreakthroughHandler());
+    public SingleIntentTechnique(String title, double baseRate, String intent, StabilityHandler stabilityHandler, IRealmChangeHandler realmChangeHandler) {
+        super(title, baseRate,"ascension:intent",stabilityHandler,new StabilityCheckBreakthroughHandler(),realmChangeHandler);
         this.intent = intent;
     }
 

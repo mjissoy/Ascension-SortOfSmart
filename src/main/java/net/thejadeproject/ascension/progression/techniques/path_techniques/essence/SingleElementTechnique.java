@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.progression.techniques.path_techniques.essence;
 
+import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.progression.breakthrough.handlers.StabilityCheckBreakthroughHandler;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.AbstractTechnique;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
@@ -14,8 +15,8 @@ public class SingleElementTechnique extends AbstractTechnique {
     public String element;
 
 
-    public SingleElementTechnique(String title, String element, Double baseRate, StabilityHandler stabilityHandler){
-        super(title,baseRate,"ascension:essence",stabilityHandler,new StabilityCheckBreakthroughHandler());
+    public SingleElementTechnique(String title, String element, Double baseRate, StabilityHandler stabilityHandler, IRealmChangeHandler realmChangeHandler){
+        super(title,baseRate,"ascension:essence",stabilityHandler,new StabilityCheckBreakthroughHandler(),realmChangeHandler);
         this.element = element;
 
     }

@@ -63,7 +63,7 @@ public class GatherEfficiencyModifiersEvent extends Event {
         return total;
     }
     public double getTotalEfficiencyMultiplier(){
-        return (getTotalDaoEfficiencyMultiplier()*(1+getTotalGenerativeMultiplier()))/(1+getTotalDestructiveMultiplier());
+        return (1+getTotalDaoEfficiencyMultiplier()*(1+getTotalGenerativeMultiplier()))/(1+getTotalDestructiveMultiplier());
     }
     public void addPathMultiplier(Double mul){
         pathMultipliers += mul;

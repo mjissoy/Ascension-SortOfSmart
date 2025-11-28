@@ -6,8 +6,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.events.custom.*;
-import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
+
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 
@@ -23,27 +23,14 @@ public class PhysiqueEventListener{
             ).onGatherEfficiencyModifiers(event);
         }
     }
-
-
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onMinorRealmChangeEvent(MinorRealmChangeEvent event){
+    public static void onRealmChange(RealmChangeEvent event){
         if(event.player.hasData(ModAttachments.PHYSIQUE)){
             String physique_id = event.player.getData(ModAttachments.PHYSIQUE);
             IPhysique physique =  AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
                     ResourceLocation.fromNamespaceAndPath(physique_id.split(":")[0],physique_id.split(":")[1])
             );
-            physique.onMinorRealmIncrease(event);
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onMajorRealmChangeEvent(MajorRealmChangeEvent event){
-        if(event.player.hasData(ModAttachments.PHYSIQUE)){
-            String physique_id = event.player.getData(ModAttachments.PHYSIQUE);
-            IPhysique physique =  AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
-                    ResourceLocation.fromNamespaceAndPath(physique_id.split(":")[0],physique_id.split(":")[1])
-            );
-            physique.onMajorRealmIncrease(event);
+            physique.onRealmChangeEvent(event);
         }
     }
 

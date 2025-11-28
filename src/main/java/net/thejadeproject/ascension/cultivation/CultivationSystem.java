@@ -7,7 +7,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.events.custom.cultivation.CultivateEvent;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -101,7 +101,9 @@ public class CultivationSystem {
             if(minorRealm >= 10){
                 return false;
             }else{
-                NeoForge.EVENT_BUS.post(new MinorRealmChangeEvent(player,path, pathData.minorRealm,minorRealm ));
+                NeoForge.EVENT_BUS.post(new RealmChangeEvent(
+                        player,path, pathData.majorRealm,pathData.majorRealm,
+                        pathData.minorRealm,minorRealm,0,null));
                 pathData.minorRealm = minorRealm;
             }
         }

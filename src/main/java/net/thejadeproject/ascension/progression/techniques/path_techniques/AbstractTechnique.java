@@ -9,12 +9,11 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
+import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
-import net.thejadeproject.ascension.events.custom.cultivation.MinorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
-import net.thejadeproject.ascension.progression.dao.IDao;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
@@ -27,13 +26,11 @@ import oshi.util.tuples.Pair;
 
 import java.util.*;
 import java.util.List;
-import java.util.function.Consumer;
 
 public abstract class AbstractTechnique implements ITechnique {
     public String title;
     public Double baseRate;
-    public Consumer<MinorRealmChangeEvent> minorRealmChangeEventConsumer;
-    public Consumer<MajorRealmChangeEvent> majorRealmChangeEventConsumer;
+
     public Map<String,Double> daoBonuses = new HashMap<>();
     public String path;
     public SkillList skillList = new SkillList(List.of());
@@ -41,12 +38,16 @@ public abstract class AbstractTechnique implements ITechnique {
     public List<MutableComponent> description = new ArrayList<>();
     public StabilityHandler stabilityHandler;
     public IBreakthroughHandler breakthroughHandler;
-    public AbstractTechnique(String title, double baseRate,String path,StabilityHandler stabilityHandler,IBreakthroughHandler handler){
+    public IRealmChangeHandler realmChangeHandler;
+
+
+    public AbstractTechnique(String title, double baseRate, String path, StabilityHandler stabilityHandler, IBreakthroughHandler handler,IRealmChangeHandler realmChangeHandler){
         this.title = title;
         this.baseRate = baseRate;
         this.path = path;
         this.stabilityHandler =stabilityHandler;
         this.breakthroughHandler =handler;
+        this.realmChangeHandler = realmChangeHandler;
     }
 
 
@@ -54,7 +55,10 @@ public abstract class AbstractTechnique implements ITechnique {
     public IBreakthroughHandler getBreakthroughHandler() {
         return breakthroughHandler;
     }
-
+    @Override
+    public IRealmChangeHandler getRealmChangeHandler() {
+        return realmChangeHandler;
+    }
     @Override
     public StabilityHandler getStabilityHandler() {
         return stabilityHandler;
@@ -126,28 +130,14 @@ public abstract class AbstractTechnique implements ITechnique {
     }
 
     @Override
-    public void onMinorRealmIncrease(MinorRealmChangeEvent event) {
-        ITechnique.super.onMinorRealmIncrease(event);
-        minorRealmChangeEventConsumer.accept(event);
-        if(event.oldRealm > event.newRealm) return;
+    public void onRealmChangeEvent(RealmChangeEvent event) {
+        ITechnique.super.onRealmChangeEvent(event);
+        if(event.getMajorRealmsChanged() < 0 ||(event.getMajorRealmsChanged() == 0 && event.getTotalMinorRealmsChanged() <0) ) return;
         updatePlayerSkills(
                 event.player,
                 event.pathId,
-                event.player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(event.pathId).majorRealm,
-                event.newRealm
-        );
-    }
-
-    @Override
-    public void onMajorRealmIncrease(MajorRealmChangeEvent event) {
-        ITechnique.super.onMajorRealmIncrease(event);
-        majorRealmChangeEventConsumer.accept(event);
-        if(event.oldRealm > event.newRealm) return;
-        updatePlayerSkills(
-                event.player,
-                event.pathId,
-                event.newRealm,
-                event.player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(event.pathId).minorRealm
+                event.newMajorRealm,
+                event.newMinorRealm
         );
     }
 
@@ -159,14 +149,6 @@ public abstract class AbstractTechnique implements ITechnique {
         }
     }
 
-    public AbstractTechnique setOnMinorRealmChange(Consumer<MinorRealmChangeEvent> consumer){
-        minorRealmChangeEventConsumer = consumer;
-        return this;
-    }
-    public AbstractTechnique setOnMajorRealmChange(Consumer<MajorRealmChangeEvent> consumer){
-        majorRealmChangeEventConsumer = consumer;
-        return this;
-    }
     public AbstractTechnique setDescription(List<MutableComponent> description){
         this.description = description;
         return this;

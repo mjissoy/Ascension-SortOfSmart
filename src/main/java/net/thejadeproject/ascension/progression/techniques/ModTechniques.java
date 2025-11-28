@@ -1,7 +1,9 @@
 package net.thejadeproject.ascension.progression.techniques;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -11,6 +13,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
+import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.StandardStatRealmChange;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.technique_manuals.GenericTechniqueManual;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
@@ -21,6 +24,7 @@ import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.body.SingleAttributeTechnique;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.essence.SingleElementTechnique;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.intent.SingleIntentTechnique;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,34 +44,41 @@ public class ModTechniques {
 
     }
 
+    public static HashMap<Holder<Attribute>,Double> modifyGenericStatMap(HashMap<Holder<Attribute>,Double> map,Holder<Attribute> key,Double stat){
+        HashMap<Holder<Attribute>,Double> newMap = new HashMap<>(map);
+        newMap.put(key,stat);
+        return newMap;
+    }
 
+    public static HashMap<Holder<Attribute>,Double> GENERIC_MINOR_REALM_STATS_1 = new HashMap<>(){{
+            put(Attributes.MAX_HEALTH,5.0);
+            put(Attributes.ATTACK_DAMAGE,1.0);
+            put(Attributes.MOVEMENT_SPEED,0.01);
+            put(Attributes.JUMP_STRENGTH,0.01);
+            put(Attributes.STEP_HEIGHT,0.01);
+
+    }};
+
+    public static HashMap<Holder<Attribute>,Double> GENERIC_MAJOR_REALM_STATS_1 = new HashMap<>(){{
+        put(Attributes.MAX_HEALTH,10.0);
+        put(Attributes.ATTACK_DAMAGE,2.0);
+        put(Attributes.MOVEMENT_SPEED,0.5);
+        put(Attributes.JUMP_STRENGTH,0.02);
+        put(Attributes.STEP_HEIGHT,0.02);
+
+    }};
     public static final DeferredRegister<ITechnique> TECHNIQUES =DeferredRegister.create(AscensionRegistries.Techniques.TECHNIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
 
     //Essence Techniques
     public static final TechniqueHolder PURE_FIRE_TECHNIQUE = createTechnique("pure_fire_technique",
-            ()->new SingleElementTechnique("Pure Fire Technique","ascension:fire",2.0,new LnStabilityHandler())
+            ()->new SingleElementTechnique(
+                        "Pure Fire Technique","ascension:fire",
+                        2.0,new LnStabilityHandler()
+                        ,new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire",2.0);
                     }})
-                    .setOnMinorRealmChange(event -> {
-                        Player player = event.player;
-                        PlayerAttributeManager.increaseAttribute(player,5.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
-
-
-                    })
-                    .setOnMajorRealmChange(event ->{
-                        Player player = event.player;
-                        PlayerAttributeManager.increaseAttribute(player,10.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
-                    })
                     .setSkillList(List.of(
                         new AcquirableSkillData("ascension:essence",0,0,"ascension:basic_fire_ball",false),
                         new AcquirableSkillData("ascension:essence",0,0,"ascension:large_fire_ball",false),
@@ -78,73 +89,29 @@ public class ModTechniques {
                     )));
 
     public static final TechniqueHolder PURE_WATER_TECHNIQUE = createTechnique("pure_water_technique",
-            ()->new SingleElementTechnique("Pure Water Technique","ascension:water",2.0,new LnStabilityHandler())
+            ()->new SingleElementTechnique(
+                    "Pure Water Technique","ascension:water",
+                    2.0,new LnStabilityHandler(),
+                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
-                    }}).setOnMinorRealmChange(event -> {
-                        Player player = event.player;
-                        PlayerAttributeManager.increaseAttribute(player,5.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.WATER_MOVEMENT_EFFICIENCY);
-
-
-                    })
-                    .setOnMajorRealmChange(event ->{
-                        Player player = event.player;
-                        PlayerAttributeManager.increaseAttribute(player,10.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.WATER_MOVEMENT_EFFICIENCY);
-                    }));
+                    }}));
     public static final TechniqueHolder PURE_WOOD_TECHNIQUE = createTechnique("pure_wood_technique",
-            ()->new SingleElementTechnique("Pure Wood Technique","ascension:wood",2.0,new LnStabilityHandler())
+            ()->new SingleElementTechnique(
+                    "Pure Wood Technique","ascension:wood",
+                    2.0,new LnStabilityHandler(),
+                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
-                    }}).setOnMinorRealmChange(event -> {
-                        Player player = event.player;
-                        PlayerAttributeManager.increaseAttribute(player,5.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.WATER_MOVEMENT_EFFICIENCY);
-                    })
-                    .setOnMajorRealmChange(event ->{
-                        Player player = event.player;
-                        PlayerAttributeManager.increaseAttribute(player,10.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.WATER_MOVEMENT_EFFICIENCY);
-                    }));
+                    }}));
     public static final TechniqueHolder PURE_EARTH_TECHNIQUE = createTechnique("pure_earth_technique",
-            ()->new SingleElementTechnique("Pure Earth Technique","ascension:earth",2.0,new LnStabilityHandler())
+            ()->new SingleElementTechnique(
+                    "Pure Earth Technique","ascension:earth",
+                    2.0,new LnStabilityHandler(),
+                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth",2.0);
-                    }}).setOnMinorRealmChange(event -> {
-                        Player player = event.player;
-                        PlayerAttributeManager.increaseAttribute(player,5.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,1.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.1,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.STEP_HEIGHT);
-                        PlayerAttributeManager.increaseAttribute(player,0.01,Attributes.WATER_MOVEMENT_EFFICIENCY);
-                    })
-                    .setOnMajorRealmChange(event ->{
-                        Player player = event.player;
-                        PlayerAttributeManager.increaseAttribute(player,10.0,Attributes.MAX_HEALTH);
-                        PlayerAttributeManager.increaseAttribute(player,2.0,Attributes.ATTACK_DAMAGE);
-                        PlayerAttributeManager.increaseAttribute(player,0.5,Attributes.MOVEMENT_SPEED);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.JUMP_STRENGTH);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.STEP_HEIGHT);
-                        PlayerAttributeManager.increaseAttribute(player,0.02,Attributes.WATER_MOVEMENT_EFFICIENCY);
-                    }));
+                    }}));
     public static final TechniqueHolder PURE_METAL_TECHNIQUE = createTechnique("pure_metal_technique",
             ()->new SingleElementTechnique("Pure Metal Technique","ascension:metal",2.0,new LnStabilityHandler())
                     .setEfficiencyAttributes(new HashMap<>(){{

@@ -5,6 +5,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
+import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 
 import java.util.ArrayList;
@@ -72,5 +75,10 @@ public abstract class AbstractPassiveSkill implements ISkill{
     @Override
     public ISkillData getSkillData() {
         return null;
+    }
+    public void onRealmChange(RealmChangeEvent event){}
+    public void onTechniqueChange(TechniqueChangeEvent event){}
+    public void onPhysiqueChange(PhysiqueChangeEvent  event){
+
     }
 }

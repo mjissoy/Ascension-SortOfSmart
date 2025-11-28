@@ -9,7 +9,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
-import net.thejadeproject.ascension.events.custom.cultivation.MajorRealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -37,14 +37,17 @@ public interface IBreakthroughHandler {
                 pathData.technique,
                 ':'
         ));
-        MajorRealmChangeEvent event = new MajorRealmChangeEvent(
+        RealmChangeEvent event = new RealmChangeEvent(
                 player,
                 pathId,
                 pathData.majorRealm,
                 pathData.majorRealm+1,
+                9,0,
                 technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks),
                 pathData.breakthroughData
-                );
+
+        );
+
 
         pathData.increaseMajorRealm();
         PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
