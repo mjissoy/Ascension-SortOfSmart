@@ -28,11 +28,11 @@ public class ModAttachments {
 
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerData>> PLAYER_DATA = ATTACHMENT_TYPES.register("player_data",
-            () -> AttachmentType.builder((holder) -> holder instanceof ServerPlayer player ? new PlayerData(player):null)
+            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerData(player):null)
                     .serialize(new PlayerDataProvider()).copyOnDeath().build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerSkillData>> PLAYER_SKILL_DATA = ATTACHMENT_TYPES.register("player_skill_data",
-            () -> AttachmentType.builder((holder) -> holder instanceof ServerPlayer player ? new PlayerSkillData(player):null)
+            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerSkillData(player):null)
                     .serialize(new PlayerSkillDataProvider())
                     .sync(new PlayerSkillDataSyncHandler())
                     .copyOnDeath().build());
