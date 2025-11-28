@@ -34,6 +34,13 @@ import java.util.function.Supplier;
 
 public class ModTechniques {
 
+    public static double getMaxSpeed() {
+        return MaxSpeed;
+    }
+
+    public static double MaxSpeed = 0.8;
+
+
     public static class TechniqueHolder{
 
         public DeferredHolder<ITechnique,? extends ITechnique> technique;
@@ -115,6 +122,8 @@ public class ModTechniques {
                                     put(Attributes.JUMP_STRENGTH,0.9);
                                     put(Attributes.STEP_HEIGHT,1.2);
                         }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire",2.0);
@@ -152,6 +161,8 @@ public class ModTechniques {
                                 put(Attributes.OXYGEN_BONUS,0.4);
                                 put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
@@ -176,6 +187,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.14);
                                 put(Attributes.STEP_HEIGHT,1.0);
                         }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
@@ -200,6 +213,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.5);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth",2.0);
@@ -226,6 +241,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.5);
                         }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
@@ -250,6 +267,8 @@ public class ModTechniques {
                             put(Attributes.JUMP_STRENGTH,0.06);
                             put(Attributes.STEP_HEIGHT,0.8);
                         }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
 
@@ -279,6 +298,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.06);
                                 put(Attributes.STEP_HEIGHT,0.6);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:sword_intent",2.0);
@@ -306,6 +327,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.09);
                                 put(Attributes.STEP_HEIGHT,0.7);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:axe_intent",2.0);
@@ -333,6 +356,8 @@ public class ModTechniques {
                                     put(Attributes.JUMP_STRENGTH,0.14);
                                     put(Attributes.STEP_HEIGHT,0.9);
                         }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:blade_intent",2.0);
@@ -361,6 +386,8 @@ public class ModTechniques {
                                 put(Attributes.STEP_HEIGHT,0.7);
                                 put(Attributes.ENTITY_INTERACTION_RANGE,1.2);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:spear_intent",2.0);
@@ -390,6 +417,8 @@ public class ModTechniques {
                                 put(Attributes.STEP_HEIGHT,0.7);
                                 put(Attributes.ATTACK_KNOCKBACK,0.8);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fist_intent",2.0);
@@ -422,6 +451,8 @@ public class ModTechniques {
                                 put(Attributes.STEP_HEIGHT,0.7);
                                 put(Attributes.ATTACK_KNOCKBACK,1.4);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
 
@@ -448,6 +479,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,1.2);
                                 put(Attributes.STEP_HEIGHT,1.2);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
@@ -472,6 +505,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.9);
                                 put(Attributes.STEP_HEIGHT,1.2);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire",2.0);
@@ -494,6 +529,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.5);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth",2.0);
@@ -516,6 +553,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.5);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
@@ -542,6 +581,8 @@ public class ModTechniques {
                                 put(Attributes.OXYGEN_BONUS,0.4);
                                 put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
@@ -565,6 +606,8 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.6);
                                 put(Attributes.STEP_HEIGHT,0.5);
                     }}))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence",6,4,"ascension:flight_passive_skill",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
 

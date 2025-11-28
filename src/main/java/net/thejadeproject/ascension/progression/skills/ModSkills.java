@@ -10,6 +10,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.DelayedFireLaunch;
+import net.thejadeproject.ascension.progression.skills.passive_skills.FlightPassiveSkill;
 import net.thejadeproject.ascension.progression.skills.passive_skills.SwordIntent;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -26,6 +27,11 @@ public class ModSkills {
            ()->new IronBonesPassiveSkill()
                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/iron_body.png"),32,32)
            ));
+
+    public static final DeferredHolder<ISkill,  ? extends AbstractPassiveSkill> FLIGHT = SKILLS.register("flight_passive_skill",
+            ()->new FlightPassiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/iron_body.png"),32,32)
+                    ));
 
     public static final DeferredHolder<ISkill, ? extends AbstractPassiveSkill > FIST_AURA = SKILLS.register("fist_aura_skill",
             ()->new FistAura()
