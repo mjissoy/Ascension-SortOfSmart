@@ -24,10 +24,8 @@ import net.thejadeproject.ascension.guis.easygui.overlay_views.SkillCastProgress
 @OnlyIn(Dist.CLIENT)
 public class ModOverlays {
 
-
     public static EasyGuiOverlay HEALTH_BAR = new EasyGuiOverlay((eventHolder, overlay) ->{
         View view = new View(overlay,0,0){};
-
         overlay.addView(view);
         view.setUseMinecraftScale(true);
 
@@ -55,7 +53,7 @@ public class ModOverlays {
                 bar,
                 background,
                 view.getScaledWidth()/2-91,
-                view.getScaledHeight()-39
+                view.getScaledHeight()-49 // Move it down to avoid armor bar
         ){
             @Override
             public double getProgress() {
@@ -66,12 +64,9 @@ public class ModOverlays {
             }
             @Override
             public void recalculatePos(int oldWidth, int oldHeight) {
-
                 setX((getRoot()).getScaledWidth()/2-91);
-                setY((getRoot()).getScaledHeight() - 39);
+                setY((getRoot()).getScaledHeight() - 49); // Match the new Y position
             }
-
-
         };
         progressBar.setSticky(true);
         view.addChild(progressBar);

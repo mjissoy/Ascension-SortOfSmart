@@ -108,7 +108,7 @@ public class ModTechniques {
             ()->new SingleElementTechnique(
                     "Pure Water Technique","ascension:water",
                     2.0,new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1, GENERIC_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
                     }}));

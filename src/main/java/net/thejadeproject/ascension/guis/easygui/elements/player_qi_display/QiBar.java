@@ -32,13 +32,13 @@ public class QiBar extends EmptyContainer implements Sticky {
             66,230);
 
     public QiBar(IEasyGuiScreen screen,int scaledWidth,int scaledHeight){
-        super(screen,scaledWidth/2+25,scaledHeight-50,0,0);
+        super(screen,scaledWidth/2+25,scaledHeight-49,0,0);
     }
 
     @Override
     public void recalculatePos(int oldWidth, int oldHeight) {
         setX(getRoot().getScaledWidth()/2+25);
-        setY(getRoot().getScaledHeight()-50);
+        setY(getRoot().getScaledHeight()-49);
 
     }
 
