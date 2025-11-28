@@ -37,11 +37,11 @@ public class ModSkills {
     public static final DeferredHolder<ISkill,  ? extends AbstractPassiveSkill > SWORD_INTENT = SKILLS.register("sword_intent_skill",
             SwordIntent::new);
     public static final DeferredHolder<ISkill,  ? extends AbstractActiveSkill > BASIC_FIRE_BALL = SKILLS.register("basic_fire_ball",
-            ()->new BasicFireBall(1,5,"Basic Fire Ball")
+            ()->new BasicFireBall(1,5,"Basic Fire Ball",10,60)
                     .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fire_ball.png"),32,32)
                     ));
     public static final DeferredHolder<ISkill,  ? extends AbstractActiveSkill > LARGE_FIRE_BALL = SKILLS.register("large_fire_ball",
-            ()->new BasicFireBall(1,10,"Large Fire Ball")
+            ()->new BasicFireBall(1,10,"Large Fire Ball",50,60)
                     .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fire_ball.png"),32,32)
                     ));
     public static final DeferredHolder<ISkill,  ? extends AbstractActiveSkill > DELAYED_FIRE_LAUNCH = SKILLS.register("delayed_fire_launch",

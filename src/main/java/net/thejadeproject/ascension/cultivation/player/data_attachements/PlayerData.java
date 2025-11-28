@@ -1,9 +1,11 @@
 package net.thejadeproject.ascension.cultivation.player.data_attachements;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -17,6 +19,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.CastingInstance;
 import net.thejadeproject.ascension.network.clientBound.SyncCastingInstance;
+import net.thejadeproject.ascension.network.clientBound.SyncPlayerQi;
 import net.thejadeproject.ascension.progression.skills.data.CastSource;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
@@ -26,7 +29,12 @@ import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.util.ModAttributes;
 import org.apache.logging.log4j.util.Cast;
 
+import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
+import java.util.List;
+
 public class PlayerData {
     //TODO add a packet for syncing castingThread data like ticks elapsed
 
@@ -40,6 +48,46 @@ public class PlayerData {
 
     public CultivationData getCultivationData(){ return cultivationData;}
 
+    /********* Player Qi *******************************************************/
+
+    private double currentQi =  0;
+    private int ticksSinceRegen = 0;
+    private final int TICKS_FOR_REGEN = 60;
+    public void increaseQi(double qi){
+        double max = player.getAttribute(ModAttributes.PLAYER_QI_INSTANCE).getValue();
+        setQi(Math.min(currentQi + qi,max));
+    }
+    public void setQiNoSync(double qi){
+        currentQi = qi;
+    }
+    public void setQi(double qi){
+        currentQi = qi;
+        syncQi();
+    }
+    public double getCurrentQi(){
+        return  currentQi;
+    }
+    public double getPlayerMaxQi(){
+        return player.getAttribute(ModAttributes.PLAYER_QI_INSTANCE).getValue();
+    }
+    public boolean tryConsumeQi(double amount){
+        if(currentQi < amount) return false;
+        setQi(currentQi-amount);
+        return true;
+
+    }
+    public void syncQi(){
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerQi(getCurrentQi()));
+    }
+
+    public void regenQi(){
+        ticksSinceRegen += 1;
+
+        if(ticksSinceRegen >= TICKS_FOR_REGEN){
+            increaseQi(player.getAttribute(ModAttributes.PLAYER_QI_REGEN_RATE).getValue());
+            ticksSinceRegen = 0;
+        }
+    }
     /********* Casting Data *******************************************************/
     //using indexes could cause sync issues cus of index shuffling
 
@@ -53,6 +101,14 @@ public class PlayerData {
     }
     public ResourceLocation getSelectedSkillId(){
         return selectedSkillId;
+    }
+    public int getSkillCooldown(String skillId){
+        AbstractActiveSkill activeSkill = (AbstractActiveSkill) AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillId,':'));
+        return activeSkill.getCooldown();
+    }
+    public double getQiCost(String skillId){
+        AbstractActiveSkill activeSkill = (AbstractActiveSkill) AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillId,':'));
+        return activeSkill.getQiCost();
     }
 
     public void castSelectedSkill(){
@@ -79,6 +135,10 @@ public class PlayerData {
             UUID toCancel = null;
             if(insertAtEnd) toCancel= castingThreadQueue.removeFirst();
             else toCancel = castingThreadQueue.removeLast();
+            putSkillOnCooldown(
+                    castingThreads.get(toCancel).skillId,
+                    getSkillCooldown(castingThreads.get(toCancel).skillId.toString())
+            );
             castingThreads.remove(toCancel).cancelCast();
         }
 
@@ -100,6 +160,13 @@ public class PlayerData {
         UUID uuid = UUID.randomUUID();
         CastingInstance castingInstance = new CastingInstance(skill,uuid);
         if(!(skill instanceof AbstractActiveSkill activeSkill)) return;
+
+        //consumeQi
+        if(!tryConsumeQi(((AbstractActiveSkill) skill).getQiCost())){
+            player.displayClientMessage(Component.literal("not enough qi").withColor(ChatFormatting.RED.getColor()),true);
+            return;
+        }
+
         //use primary skill thread if skill is primary or user has 0 max casting instances
         if(activeSkill.isPrimarySkill() || player.getAttribute(ModAttributes.MAX_CASTING_INSTANCES).getValue() == 0 || primarySkillCastingInstance == null){
             System.out.println("casting primary skill or secondary as primary");
@@ -107,7 +174,14 @@ public class PlayerData {
                 System.out.println("canceled "+primarySkillCastingInstance.skillId.toString()+ " skill cast");
                 AbstractActiveSkill skill2 =(AbstractActiveSkill) AscensionRegistries.Skills.SKILL_REGISTRY.get(primarySkillCastingInstance.skillId);
                 if(!skill2.isPrimarySkill())  tryAddSecondarySkillCastingInstance(castingInstance,false);
-                else primarySkillCastingInstance.cancelCast();
+                else {
+                    putSkillOnCooldown(
+                            primarySkillCastingInstance.skillId,
+                            getSkillCooldown(primarySkillCastingInstance.skillId.toString())
+                    );
+                    primarySkillCastingInstance.cancelCast();
+
+                }
             }
             if(activeSkill.getCastType() == CastType.INSTANT){
                 System.out.println("casting instant spell");
@@ -128,6 +202,10 @@ public class PlayerData {
     }
 
     public void removeCastingInstanceThread(UUID uuid){
+        putSkillOnCooldown(
+                castingThreads.get(uuid).skillId,
+                getSkillCooldown(castingThreads.get(uuid).skillId.toString())
+        );
         castingThreads.remove(uuid);
         castingThreadQueue.remove(uuid);
     }
@@ -138,6 +216,10 @@ public class PlayerData {
 
             if(!primarySkillCastingInstance.tick(player.level(),player)){
                 System.out.println("cast: "+ primarySkillCastingInstance.skillId.toString());
+                putSkillOnCooldown(
+                        primarySkillCastingInstance.skillId,
+                        getSkillCooldown(primarySkillCastingInstance.skillId.toString())
+                );
                 primarySkillCastingInstance = null;
                 System.out.println("skill cast finished");
 
@@ -157,7 +239,12 @@ public class PlayerData {
     private final HashMap<ResourceLocation,Integer> cooldowns = new HashMap<>();
 
     public boolean isSkillOnCooldown(ResourceLocation skillId){
-        return cooldowns.containsKey(skillId);
+        if(!cooldowns.containsKey(skillId)) return false;
+        NumberFormat format = new DecimalFormat("#0.00");
+        player.displayClientMessage(Component.literal("On Cooldown : "+format.format(cooldowns.get(skillId)/20.0))+"s".withColor(ChatFormatting.RED.getColor()),true);
+
+
+        return true;
     }
 
     public void tickAllCooldowns(){
@@ -176,9 +263,11 @@ public class PlayerData {
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
         getCultivationData().loadNBTData(tag.getCompound("path_data"));
 
+        currentQi = tag.getDouble("qi");
     }
     public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
         tag.put("path_data",getCultivationData().writeNBTData());
+        tag.putDouble("qi",currentQi);
     }
 
 
@@ -187,6 +276,8 @@ public class PlayerData {
         tickAllCooldowns();
         tickAllCastingThreads();
         syncCastingData();
+        regenQi();
+
     }
 
     public void syncCastingData(){

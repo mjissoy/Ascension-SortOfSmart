@@ -44,7 +44,11 @@ public class ModPayloads {
                 SyncCastingInstance.STREAM_CODEC,
                 SyncCastingInstance::handlePayload
         );
-
+        registrar.playToClient(
+                SyncPlayerQi.TYPE,
+                SyncPlayerQi.STREAM_CODEC,
+                SyncPlayerQi::handlePayload
+        );
 
         //===================================== SERVER ==================================
         registrar.playToServer(

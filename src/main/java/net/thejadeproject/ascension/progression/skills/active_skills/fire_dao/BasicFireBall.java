@@ -18,14 +18,20 @@ import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 public class BasicFireBall extends AbstractActiveSkill {
     public final double speed;
     public final float baseDamage;
-
-    public BasicFireBall(double speed,float baseDamage,String name) {
+    public final int cooldown;
+    public BasicFireBall(double speed,float baseDamage,String name,double qiCost,int cooldown) {
 
         super(Component.literal(name));
         this.speed = speed;
         this.baseDamage = baseDamage;
+        this.qiCost = qiCost;
+        this.cooldown = cooldown;
 
+    }
 
+    @Override
+    public int getCooldown() {
+        return cooldown;
     }
 
     @Override

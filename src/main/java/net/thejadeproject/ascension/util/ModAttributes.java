@@ -27,7 +27,14 @@ public class ModAttributes {
             // Min and max values.
             0,
             1000000000));
-
+    public static final Holder<Attribute> PLAYER_QI_REGEN_RATE = ATTRIBUTES.register("player_qi_regen_rate", () -> new RangedAttribute(
+            // The translation key to use.
+            "attributes.ascension.player_qi_regen_rate",
+            // The default value.
+            2,
+            // Min and max values.
+            0,
+            1000000));
     public static void register(IEventBus modEventBus){
         ATTRIBUTES.register(modEventBus);
     }

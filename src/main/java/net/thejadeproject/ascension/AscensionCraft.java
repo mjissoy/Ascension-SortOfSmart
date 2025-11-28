@@ -273,6 +273,8 @@ public class AscensionCraft {
         @SubscribeEvent
         public static void onEntityAttributeModificationEvent(final EntityAttributeModificationEvent event) {
             event.add(EntityType.PLAYER, ModAttributes.MAX_CASTING_INSTANCES);
+            event.add(EntityType.PLAYER,ModAttributes.PLAYER_QI_INSTANCE);
+            event.add(EntityType.PLAYER,ModAttributes.PLAYER_QI_REGEN_RATE);
         }
 
         @SubscribeEvent
