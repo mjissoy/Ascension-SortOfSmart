@@ -263,7 +263,23 @@ public class ModTechniques {
             ()->new SingleIntentTechnique(
                     "Pure Sword Technique",8.0,
                     "ascension:sword_intent",new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,7.5);
+                                put(Attributes.ATTACK_DAMAGE,2.3);
+                                put(Attributes.ARMOR,0.1);
+                                put(Attributes.MOVEMENT_SPEED,0.3);
+                                put(Attributes.JUMP_STRENGTH,0.03);
+                                put(Attributes.STEP_HEIGHT,0.03);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,26.4);
+                                put(Attributes.ATTACK_DAMAGE,7.4);
+                                put(Attributes.ARMOR,0.4);
+                                put(Attributes.MOVEMENT_SPEED,0.9);
+                                put(Attributes.JUMP_STRENGTH,0.06);
+                                put(Attributes.STEP_HEIGHT,0.6);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:sword_intent",2.0);
                     }})
@@ -274,7 +290,23 @@ public class ModTechniques {
             ()->new SingleIntentTechnique(
                     "Pure Axe Technique",8.0,
                     "ascension:axe_intent",new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,6.5);
+                                put(Attributes.ATTACK_DAMAGE,3.3);
+                                put(Attributes.ARMOR,0.2);
+                                put(Attributes.MOVEMENT_SPEED,0.2);
+                                put(Attributes.JUMP_STRENGTH,0.04);
+                                put(Attributes.STEP_HEIGHT,0.04);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,17.4);
+                                put(Attributes.ATTACK_DAMAGE,8.4);
+                                put(Attributes.ARMOR,0.6);
+                                put(Attributes.MOVEMENT_SPEED,0.8);
+                                put(Attributes.JUMP_STRENGTH,0.09);
+                                put(Attributes.STEP_HEIGHT,0.7);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:axe_intent",2.0);
                     }})
@@ -285,7 +317,23 @@ public class ModTechniques {
             ()->new SingleIntentTechnique(
                         "Pure Blade Technique",8.0,"ascension:blade_intent",
                         new LnStabilityHandler(),
-                        new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                        new StandardStatRealmChange(
+                                new HashMap<>(){{ //Minor Realm Stats
+                                    put(Attributes.MAX_HEALTH,8.5);
+                                    put(Attributes.ATTACK_DAMAGE,2.3);
+                                    put(Attributes.ARMOR,0.5);
+                                    put(Attributes.MOVEMENT_SPEED,0.5);
+                                    put(Attributes.JUMP_STRENGTH,0.07);
+                                    put(Attributes.STEP_HEIGHT,0.07);
+                                }}, new HashMap<>(){{ //Major Realm Stats
+                                    put(Attributes.MAX_HEALTH,26.4);
+                                    put(Attributes.ATTACK_DAMAGE,7.8);
+                                    put(Attributes.ARMOR,1.2);
+                                    put(Attributes.MOVEMENT_SPEED,1.1);
+                                    put(Attributes.JUMP_STRENGTH,0.14);
+                                    put(Attributes.STEP_HEIGHT,0.9);
+                        }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:blade_intent",2.0);
                     }}).setSkillList(List.of(
@@ -295,7 +343,25 @@ public class ModTechniques {
             ()->new SingleIntentTechnique(
                     "Pure Blade Technique",8.0,"ascension:spear_intent",
                     new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,11.5);
+                                put(Attributes.ATTACK_DAMAGE,2.0);
+                                put(Attributes.ARMOR,0.3);
+                                put(Attributes.MOVEMENT_SPEED,0.3);
+                                put(Attributes.JUMP_STRENGTH,0.04);
+                                put(Attributes.STEP_HEIGHT,0.11);
+                                put(Attributes.ENTITY_INTERACTION_RANGE,0.2);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,29.4);
+                                put(Attributes.ATTACK_DAMAGE,4.8);
+                                put(Attributes.ARMOR,0.8);
+                                put(Attributes.MOVEMENT_SPEED,0.7);
+                                put(Attributes.JUMP_STRENGTH,0.08);
+                                put(Attributes.STEP_HEIGHT,0.7);
+                                put(Attributes.ENTITY_INTERACTION_RANGE,1.2);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:spear_intent",2.0);
                     }})
@@ -306,7 +372,25 @@ public class ModTechniques {
             ()->new SingleIntentTechnique(
                     "Pure Fist Technique",8.0,
                     "ascension:fist_intent",new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,12.5);
+                                put(Attributes.ATTACK_DAMAGE,4.0);
+                                put(Attributes.ARMOR,0.5);
+                                put(Attributes.MOVEMENT_SPEED,0.5);
+                                put(Attributes.JUMP_STRENGTH,0.02);
+                                put(Attributes.STEP_HEIGHT,0.02);
+                                put(Attributes.ATTACK_KNOCKBACK, 0.2);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,29.4);
+                                put(Attributes.ATTACK_DAMAGE,4.8);
+                                put(Attributes.ARMOR,0.8);
+                                put(Attributes.MOVEMENT_SPEED,0.7);
+                                put(Attributes.JUMP_STRENGTH,0.08);
+                                put(Attributes.STEP_HEIGHT,0.7);
+                                put(Attributes.ATTACK_KNOCKBACK,0.8);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fist_intent",2.0);
                     }}).setSkillList(List.of(
@@ -320,17 +404,25 @@ public class ModTechniques {
             ()->new SingleIntentTechnique(
                     "Fist Kings Technique",8.0,"ascension:fist_intent",
                     new LnStabilityHandler(),
-                    new StandardStatRealmChange(modifyGenericStatMap(
-                            modifyGenericStatMap(GENERIC_MAJOR_REALM_STATS_1, Attributes.MOVEMENT_SPEED,0.2),
-                            Attributes.MAX_HEALTH,11.0
-
-                    ), new HashMap<>(){{
-                        put(Attributes.MAX_HEALTH,23.0);
-                        put(Attributes.ATTACK_DAMAGE,5.4);
-                        put(Attributes.MOVEMENT_SPEED,1.0);
-                        put(Attributes.JUMP_STRENGTH,0.06);
-                        put(Attributes.STEP_HEIGHT,0.06);
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,15.5);
+                                put(Attributes.ATTACK_DAMAGE,5.0);
+                                put(Attributes.ARMOR,0.1);
+                                put(Attributes.MOVEMENT_SPEED,0.5);
+                                put(Attributes.JUMP_STRENGTH,0.02);
+                                put(Attributes.STEP_HEIGHT,0.02);
+                                put(Attributes.ATTACK_KNOCKBACK, 0.6);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,34.4);
+                                put(Attributes.ATTACK_DAMAGE,11.8);
+                                put(Attributes.ARMOR,0.4);
+                                put(Attributes.MOVEMENT_SPEED,0.7);
+                                put(Attributes.JUMP_STRENGTH,0.08);
+                                put(Attributes.STEP_HEIGHT,0.7);
+                                put(Attributes.ATTACK_KNOCKBACK,1.4);
                     }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
 
                         put("ascension:fist_intent",4.8);
@@ -340,7 +432,23 @@ public class ModTechniques {
     //Body Techniques
     public static final TechniqueHolder WOOD_ELEMENTAL_TECHNIQUE = createTechnique("wood_elemental_technique",
             ()->new SingleAttributeTechnique("Wood Elemental Technique",8.0,"ascension:wood",new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,12.5);
+                                put(Attributes.ATTACK_DAMAGE,4.4);
+                                put(Attributes.MOVEMENT_SPEED,0.1);
+                                put(Attributes.ARMOR,0.8);
+                                put(Attributes.JUMP_STRENGTH,0.07);
+                                put(Attributes.STEP_HEIGHT,0.08);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,21.5);
+                                put(Attributes.ATTACK_DAMAGE,8.5);
+                                put(Attributes.ARMOR,1.6);
+                                put(Attributes.MOVEMENT_SPEED,2.2);
+                                put(Attributes.JUMP_STRENGTH,1.2);
+                                put(Attributes.STEP_HEIGHT,1.2);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
                     }}));
@@ -348,32 +456,116 @@ public class ModTechniques {
             ()->new SingleAttributeTechnique(
                     "Fire Elemental Technique",8.0,"ascension:fire",
                     new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,12.5);
+                                put(Attributes.ATTACK_DAMAGE,3.4);
+                                put(Attributes.MOVEMENT_SPEED,0.08);
+                                put(Attributes.ARMOR,0.5);
+                                put(Attributes.JUMP_STRENGTH,0.04);
+                                put(Attributes.STEP_HEIGHT,0.08);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,21.5);
+                                put(Attributes.ATTACK_DAMAGE,7.5);
+                                put(Attributes.ARMOR,1.5);
+                                put(Attributes.MOVEMENT_SPEED,0.8);
+                                put(Attributes.JUMP_STRENGTH,0.9);
+                                put(Attributes.STEP_HEIGHT,1.2);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire",2.0);
                     }}));
     public static final TechniqueHolder EARTH_ELEMENTAL_TECHNIQUE = createTechnique("earth_elemental_technique",
             ()->new SingleAttributeTechnique("Earth Elemental Technique",8.0,"ascension:earth",new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,17.5);
+                                put(Attributes.ATTACK_DAMAGE,2.2);
+                                put(Attributes.MOVEMENT_SPEED,0.1);
+                                put(Attributes.ARMOR,0.3);
+                                put(Attributes.JUMP_STRENGTH,0.01);
+                                put(Attributes.STEP_HEIGHT,0.01);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,33.5);
+                                put(Attributes.ATTACK_DAMAGE,9.5);
+                                put(Attributes.ARMOR,0.6);
+                                put(Attributes.MOVEMENT_SPEED,1.3);
+                                put(Attributes.JUMP_STRENGTH,0.03);
+                                put(Attributes.STEP_HEIGHT,0.5);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth",2.0);
                     }}));
     public static final TechniqueHolder METAL_ELEMENTAL_TECHNIQUE = createTechnique("metal_elemental_technique",
             ()->new SingleAttributeTechnique("Metal Elemental Technique",8.0,"ascension:metal",new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,17.5);
+                                put(Attributes.ATTACK_DAMAGE,2.2);
+                                put(Attributes.ARMOR,0.6);
+                                put(Attributes.MOVEMENT_SPEED,0.1);
+                                put(Attributes.JUMP_STRENGTH,0.01);
+                                put(Attributes.STEP_HEIGHT,0.01);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,33.5);
+                                put(Attributes.ATTACK_DAMAGE,9.5);
+                                put(Attributes.ARMOR,1.5);
+                                put(Attributes.MOVEMENT_SPEED,1.3);
+                                put(Attributes.JUMP_STRENGTH,0.03);
+                                put(Attributes.STEP_HEIGHT,0.5);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
                     }}));
     public static final TechniqueHolder WATER_ELEMENTAL_TECHNIQUE = createTechnique("water_elemental_technique",
             ()->new SingleAttributeTechnique("Water Elemental Technique",8.0,"ascension:water",new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,9.5);
+                                put(Attributes.ATTACK_DAMAGE,1.4);
+                                put(Attributes.MOVEMENT_SPEED,0.2);
+                                put(Attributes.ARMOR,0.3);
+                                put(Attributes.JUMP_STRENGTH,0.02);
+                                put(Attributes.STEP_HEIGHT,0.02);
+                                put(Attributes.OXYGEN_BONUS,0.1);
+                                put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.08);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,18.5);
+                                put(Attributes.ATTACK_DAMAGE,3.5);
+                                put(Attributes.ARMOR,1.1);
+                                put(Attributes.MOVEMENT_SPEED,0.6);
+                                put(Attributes.JUMP_STRENGTH,0.8);
+                                put(Attributes.STEP_HEIGHT,0.6);
+                                put(Attributes.OXYGEN_BONUS,0.4);
+                                put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
                     }}));
 
     public static final TechniqueHolder DIVINE_PHOENIX_TECHNIQUE = createTechnique("divine_phoenix_technique",
             ()->new SingleAttributeTechnique("Divine Phoenix Technique",8.0,"ascension:phoenix_fire",new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,25.5);
+                                put(Attributes.ATTACK_DAMAGE,5.2);
+                                put(Attributes.ARMOR,1.2);
+                                put(Attributes.MOVEMENT_SPEED,0.6);
+                                put(Attributes.JUMP_STRENGTH,0.06);
+                                put(Attributes.STEP_HEIGHT,0.06);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,45.5);
+                                put(Attributes.ATTACK_DAMAGE,11.5);
+                                put(Attributes.ARMOR,2.5);
+                                put(Attributes.MOVEMENT_SPEED,1.4);
+                                put(Attributes.JUMP_STRENGTH,0.6);
+                                put(Attributes.STEP_HEIGHT,0.5);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
 
                         put("ascension:phoenix_fire",2.0);
