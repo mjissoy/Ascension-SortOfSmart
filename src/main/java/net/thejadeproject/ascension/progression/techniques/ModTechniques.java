@@ -155,13 +155,13 @@ public class ModTechniques {
                     "Void Swallowing Technique","ascension:void",
                     8.0,new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                        new HashMap<>(){{
+                        new HashMap<>(){{ //Minor Realm Stats
                             put(Attributes.MAX_HEALTH,23.0);
                             put(Attributes.ATTACK_DAMAGE,5.4);
                             put(Attributes.MOVEMENT_SPEED,1.0);
                             put(Attributes.JUMP_STRENGTH,0.06);
                             put(Attributes.STEP_HEIGHT,0.06);
-                        }}, new HashMap<>(){{
+                        }}, new HashMap<>(){{ //Minor Realm Stats
                             put(Attributes.MAX_HEALTH,5.0);
                             put(Attributes.ATTACK_DAMAGE,2.4);
                             put(Attributes.MOVEMENT_SPEED,0.1);
