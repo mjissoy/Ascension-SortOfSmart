@@ -49,8 +49,8 @@ public class ModPhysiques {
                         put("ascension:spear_intent",3.0);
                     }})
     );
-    public static final DeferredHolder<IPhysique,GenericPhysique> PURE_BOW_BODY = PHYSIQUES.register("pure_bow_body",
-            ()-> new GenericPhysique("Pure Bow Body",
+    public static final DeferredHolder<IPhysique,GenericPhysique> PURE_BOW_BODY = PHYSIQUES.register("pure_axe_body",
+            ()-> new GenericPhysique("Pure Axe Body",
                     new HashMap<>(){{
                         put("ascension:intent",1.0);
                         put("ascension:body",0.4);
