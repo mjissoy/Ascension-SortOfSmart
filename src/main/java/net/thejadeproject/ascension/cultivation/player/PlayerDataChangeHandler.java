@@ -42,11 +42,11 @@ public class PlayerDataChangeHandler {
                 instance.removeModifiers();
             }
         }
-        System.out.println("resetting");
+        
         PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique("ascension:empty_vessel"));
         for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
-            System.out.println("technique");
-            System.out.println(pathData.technique);
+            
+            
             PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(
                     pathData.pathId,
                     0,

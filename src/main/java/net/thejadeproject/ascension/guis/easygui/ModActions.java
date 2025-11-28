@@ -71,9 +71,9 @@ public class ModActions {
 
                                 renderable.getRoot().addChild(new PhysiqueDataContainer(renderable.getScreen(),0,0,player.getData(ModAttachments.PHYSIQUE)));
                             }
-                            System.out.println("trying to build container");
+                            
                             //renderable.getRoot().addChild(new DraggableDataContainer(renderable.getScreen(),0,0));
-                            System.out.println("built container");
+                            
                         }
                     }
     );

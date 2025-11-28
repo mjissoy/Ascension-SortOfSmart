@@ -21,7 +21,7 @@ public record ServerCastSkillPayload() implements CustomPacketPayload {
         return TYPE;
     }
     public static void handlePayload(ServerCastSkillPayload payload, IPayloadContext context) {
-        System.out.println("casting skill");
+        
        context.player().getData(ModAttachments.PLAYER_DATA).castSelectedSkill();
     }
 }

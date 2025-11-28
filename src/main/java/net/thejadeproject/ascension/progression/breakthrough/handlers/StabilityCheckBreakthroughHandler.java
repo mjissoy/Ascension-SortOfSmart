@@ -21,12 +21,12 @@ public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
 
     @Override
     public void attemptBreakthrough(Player player, String pathId, ITechnique technique) {
-        System.out.println("attempting to break through");
+        
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
         double stability = technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks);
         double random = ThreadLocalRandom.current().nextDouble(0,1);
-        System.out.println(random);
-        System.out.println(stability);
+        
+        
         if(random <= stability) completeBreakthrough(player, pathId);
         else failBreakthrough(player,pathId);
     }
@@ -34,7 +34,7 @@ public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
     @Override
     public void failBreakthrough(Player player, String pathId) {
 
-        System.out.println("Failed to breakthrough");
+        
         CultivationData.PathData data =  player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
         data.pathProgress = 0;
         data.stabilityCultivationTicks = 0;

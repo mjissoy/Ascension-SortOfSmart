@@ -36,14 +36,14 @@ public record TriggerGeneratePhysique(String physiquePath,int numberOfExtra) imp
         return TYPE;
     }
     public static void handlePayload(TriggerGeneratePhysique payload, IPayloadContext context) {
-        System.out.println("Received Packet");
+        
         List<? extends String> physiqueList = new ArrayList<>();
 
         if(payload.physiquePath.equals("Essence")) physiqueList = new ArrayList<>(Config.CULTIVATION.AVAILABLE_STARTING_ESSENCE_PHYSIQUE.get());
         else if(payload.physiquePath.equals("Body")) physiqueList =new ArrayList<>(Config.CULTIVATION.AVAILABLE_STARTING_BODY_PHYSIQUE.get());
         else if(payload.physiquePath.equals("Intent")) physiqueList = new ArrayList<>(Config.CULTIVATION.AVAILABLE_STARTING_INTENT_PHYSIQUE.get());
-        System.out.println(physiqueList);
-        System.out.println(physiqueList.size());
+        
+        
         int genPhysique = ThreadLocalRandom.current().nextInt(0,physiqueList.size());
         String generatedPhysique = physiqueList.remove(genPhysique);
         String[] extra = new String[payload.numberOfExtra];

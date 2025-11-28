@@ -100,8 +100,8 @@ public class GatherEfficiencyModifiersEvent extends Event {
             IDao dao = AscensionRegistries.Dao.getDaoFromKey(attribute);
 
             Set<DaoInteractionType> interactionTypes = dao.getInteractionTypesOfDao(daoId);
-            System.out.println("adding dao with interaction types : "+ interactionTypes);
-            System.out.println("dao :"+daoId);
+            
+            
             if(interactionTypes.contains(DaoInteractionType.Destructive)){
                 addDestructiveMultiplier(attribute,daoId,mul,dao.getDestructiveValue(daoId));
             }

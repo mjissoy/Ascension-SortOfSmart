@@ -15,9 +15,9 @@ import java.io.IOException;
 public class MainScreen extends EasyGuiScreen {
     public MainScreen(Component title) throws IOException {
         super(title);
-        System.out.println("path data:");
+        
         for(CultivationData.PathData pathData : Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
-            System.out.println(pathData.toString());
+            
         }
 
         /*

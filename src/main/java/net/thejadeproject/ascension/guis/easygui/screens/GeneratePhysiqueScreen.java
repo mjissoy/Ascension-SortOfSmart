@@ -135,8 +135,8 @@ public class GeneratePhysiqueScreen extends EasyGuiScreen {
 
     public void updateGeneratedPhysiques(String generated_physique, String[] other_physique){
 
-        System.out.println("generated physique: "+ generated_physique);
-        System.out.println("with extra : " + Arrays.toString(other_physique));
+        
+        
         physiqueGenerated = true;
         ((CardHolderView)getElementByID("card_view")).updateGeneratedPhysiques(generated_physique,other_physique);
     }

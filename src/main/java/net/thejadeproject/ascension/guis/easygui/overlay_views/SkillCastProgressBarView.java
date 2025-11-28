@@ -8,7 +8,7 @@ public class SkillCastProgressBarView extends View {
 
     public SkillCastProgressBarView(IEasyGuiScreen screen){
         super(screen,0,0);
-        System.out.println("creaing skill cast coantainer");
+        
         setUseMinecraftScale(true);
         addChild(new SkillCastProgressContainer(screen,getScaledWidth()/2-40,getScaledHeight()));
     }

@@ -64,8 +64,8 @@ public class SkillCastProgressBar extends EmptyContainer {
     public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
         if(shouldRender()){
-            System.out.println("trying to render");
-            System.out.println(getProgress());
+            
+            
             //guiGraphics.fill(0,0,100,100,-16777216);
             background.renderTexture(guiGraphics);
             bar.renderTexture(guiGraphics,3,3,3,13, (int) (76*getProgress()),7);

@@ -83,7 +83,7 @@ public class PlayerSkillData {
     public void writeSkillContainerNBTData(ListTag tag){
 
         for(int i = 0;i<activeSkillContainer.MAX_SKILL_SLOTS; i++){
-            System.out.println("writing skill slot "+i );
+            
 
             tag.add(i, StringTag.valueOf(activeSkillContainer.getSkillIdList().get(i)));
         }
@@ -91,7 +91,7 @@ public class PlayerSkillData {
     }
     public void loadSkillContainerNBTData(ListTag skillList){
         for(int i = 0;i<skillList.size(); i++){
-            System.out.println("skill slot : " +i);
+            
             activeSkillContainer.slotSkill(skillList.getString(i),i);
         }
     }
@@ -187,8 +187,8 @@ public class PlayerSkillData {
         else if (passiveSkillHashMap.containsKey(skillId))passiveSkillHashMap.get(skillId).fixed = fixed;
         else passiveSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,data));
         passiveSkillBuffer.add(new Pair<>(true,passiveSkillHashMap.get(skillId)));
-        System.out.println("passive skill added");
-        System.out.println(passiveSkillBuffer.size());
+        
+        
     }
     //removes even if fixed so make sure to check
     public void removePassiveSkill(String skillId){
@@ -255,7 +255,7 @@ public class PlayerSkillData {
         loadSkillContainerNBTData((ListTag) tag.get("equip_skill_list"));
     }
     public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
-        System.out.println("writing skill data");
+        
         CompoundTag skillTag = new CompoundTag();
         writeSkillNBTData(skillTag);
         tag.put("skill_data",skillTag);

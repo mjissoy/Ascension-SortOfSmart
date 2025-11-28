@@ -44,7 +44,7 @@ public class ChangeSkillSlotButton extends AbstractButton {
         ResourceLocation skillId = skillInfoPanel.getSelectedSkillId();
         int slot = skillInfoPanel.activeSkillBar.getSelectedSkillSlotId();
         boolean slotSkill = renderTexture.equals(slotTexture);
-        System.out.println("try to change active skill slots");
+        
         ChangeSkillSlotSpellPayload payload = new ChangeSkillSlotSpellPayload(slot,skillId.toString(),slotSkill);
         PacketDistributor.sendToServer(payload);
     }

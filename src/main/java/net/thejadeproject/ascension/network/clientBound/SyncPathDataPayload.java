@@ -33,8 +33,8 @@ public record SyncPathDataPayload(String pathId,int majorRealm,int minorRealm,do
         return TYPE;
     }
     public static void handlePayload(SyncPathDataPayload payload, IPayloadContext context) {
-        System.out.println("syncing data");
-        System.out.println(payload.progress());
+        
+        
         PlayerData data = context.player().getData(ModAttachments.PLAYER_DATA);
         CultivationData.PathData pathData = data.getCultivationData().getPathData(payload.pathId());
         pathData.pathProgress = payload.progress();

@@ -124,7 +124,7 @@ public abstract class AbstractActiveSkill implements ISkill{
         return false;
     }
     public boolean attemptInitialCast(Player player, Level level, CastSource castSource){
-        System.out.println("initial Cast");
+        
         //this is a server side cast
         //client stuff is done later
         if(level.isClientSide()) return false;

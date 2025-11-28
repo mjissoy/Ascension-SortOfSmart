@@ -26,7 +26,7 @@ public class GenericTechniqueManual extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        System.out.println("Trying to use manual: "+ getTechnique().getDisplayTitle());
+        
         ItemStack itemstack = player.getItemInHand(usedHand);
         itemstack.shrink(1);
         if(level.isClientSide()) return InteractionResultHolder.fail(itemstack);

@@ -65,7 +65,7 @@ public class AscensionCraftClient {
         }
         @SubscribeEvent
         public static void physiqueGenerateEvent(PhysiqueGeneratedEvent event){
-            System.out.println("damn");
+            
            if(Minecraft.getInstance().screen instanceof GeneratePhysiqueScreen screen){
                screen.updateGeneratedPhysiques(event.generatedPhysique,event.otherPhysiques);
            }

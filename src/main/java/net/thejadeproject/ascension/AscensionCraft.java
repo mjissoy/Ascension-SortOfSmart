@@ -184,7 +184,7 @@ public class AscensionCraft {
     }
 
     private void onPlayerLogOut(PlayerEvent.PlayerLoggedOutEvent event){
-        System.out.println(event.getEntity().getData(ModAttachments.PHYSIQUE));
+        
     }
 
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
@@ -278,7 +278,7 @@ public class AscensionCraft {
 
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event){
-            System.out.println("Registering stuff");
+            
             ModPayloads.registerPayloads(event);
         }
     }

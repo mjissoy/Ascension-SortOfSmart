@@ -35,9 +35,9 @@ public class PlayerEventHandler {
      */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onLivingDamageEvent(LivingDamageEvent.Pre event){
-        System.out.println("custom damage event");
+        
         if(!(event.getSource().getEntity() instanceof  Player player)) return;
-        System.out.println("getting started");
+        
         Set<String> attributes = new HashSet<>();
 
 
@@ -57,14 +57,14 @@ public class PlayerEventHandler {
 
         GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,"ascension:intent",attributes);
         NeoForge.EVENT_BUS.post(effEvent);
-        System.out.println("applicable attributes: "+ attributes);
-        System.out.println("damage before : "+event.getNewDamage());
-        System.out.println("generative: "+effEvent.getTotalGenerativeMultiplier());
-        System.out.println("destructive: "+effEvent.getTotalDestructiveMultiplier());
-        System.out.println("dao: "+effEvent.getTotalDaoEfficiencyMultiplier());
-        System.out.println("multipliers : "+effEvent.getTotalEfficiencyMultiplier());
+        
+        
+        
+        
+        
+        
         event.setNewDamage((float) (event.getNewDamage()*effEvent.getTotalEfficiencyMultiplier()));
-        System.out.println("damage after : "+event.getNewDamage());
+        
 
     }
     @SubscribeEvent
@@ -73,7 +73,7 @@ public class PlayerEventHandler {
 
             //gather attributes
 
-            System.out.println("Trying to cultivate intent");
+            
 
 
             if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:intent").technique.equals("ascension:none")) return;
@@ -82,10 +82,10 @@ public class PlayerEventHandler {
                     ':'
             )).tryCultivate(player);
         }
-        System.out.println("damaged entity : "+ event.getEntity());
+        
         if(event.getEntity() instanceof Player player){
             //cultivate body
-            System.out.println("trying to cultivate body");
+            
             if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique.equals("ascension:none")) return;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
                     player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique,

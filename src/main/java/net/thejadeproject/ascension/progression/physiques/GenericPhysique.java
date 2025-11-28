@@ -182,7 +182,7 @@ public class GenericPhysique implements IPhysique{
     }
     @Override
     public void onPhysiqueAcquisition(Player player) {
-        System.out.println("physique acquired");
+        
         IPhysique.super.onPhysiqueAcquisition(player);
         for(String path : pathBonuses.keySet()){
             updatePlayerSkills(player,path,0,0);

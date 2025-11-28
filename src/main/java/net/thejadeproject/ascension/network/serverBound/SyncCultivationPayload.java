@@ -24,7 +24,7 @@ public record SyncCultivationPayload(String path,Boolean newState) implements Cu
         return TYPE;
     }
     public static void handlePayload(SyncCultivationPayload payload, IPayloadContext context) {
-        System.out.println("Received Packet");
+        
         context.player().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(payload.path).setCultivating(payload.newState);
         CompoundTag data = context.player().getPersistentData().getCompound("Cultivation");
         data.putBoolean("CultivationState",payload.newState);

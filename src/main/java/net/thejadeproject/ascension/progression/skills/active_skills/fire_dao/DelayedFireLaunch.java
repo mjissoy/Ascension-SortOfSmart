@@ -50,7 +50,7 @@ public class DelayedFireLaunch extends AbstractActiveSkill {
     @Override
     public void cast(int castingTicksElapsed, Level level, Player player) {
         //TODO create fireball
-        System.out.println("CASTING FIRE LAUNCH");
+        
         launchPlayer(level,player);
     }
 

@@ -57,11 +57,11 @@ public class CultivationSystem {
         GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,attributes);
         NeoForge.EVENT_BUS.post(effEvent);
 
-        System.out.println("stabilising realm with effectiveness: "+effEvent.getTotalDaoEfficiencyMultiplier()+" and "+effEvent.getTotalPathEfficiencyMultiplier());
+        
 
         double cultivationTicks = currentStabilityTicks+ 1*effEvent.getTotalDaoEfficiencyMultiplier()+effEvent.getTotalPathEfficiencyMultiplier();
-        System.out.println("stabilising realm with "+cultivationTicks +" cultivation ticks");
-        System.out.println("current Stability = "+handler.getStability(cultivationTicks));
+        
+        
         pathData.stabilityCultivationTicks = Math.min(cultivationTicks, handler.getMaxCultivationTicks());
         PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(path, pathData.majorRealm, pathData.minorRealm, pathData.pathProgress,pathData.technique, pathData.stabilityCultivationTicks));
 
@@ -72,13 +72,13 @@ public class CultivationSystem {
         //TODO change to use technique for base rate
         //TODO fire is temp
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);
-        System.out.println("path Progress:" + pathData.pathProgress);
+        
         //TODO store the max realm some where
         if(pathData.majorRealm >= realmNameMap.get(path).length-1 && pathData.minorRealm >= 9) return false;
         GatherEfficiencyModifiersEvent effEvent = new GatherEfficiencyModifiersEvent(player,path,attributes);
         NeoForge.EVENT_BUS.post(effEvent);
 
-        System.out.println("cultivating with effectiveness: "+effEvent.getTotalDaoEfficiencyMultiplier()+" and "+effEvent.getTotalPathEfficiencyMultiplier());
+        
         CultivateEvent cultivateEvent = new CultivateEvent(player,baseRate,path,attributes);
         NeoForge.EVENT_BUS.post(cultivateEvent);
 
@@ -86,8 +86,8 @@ public class CultivationSystem {
                 *(1+cultivateEvent.multiplier)
                 *(effEvent.getTotalPathEfficiencyMultiplier()+effEvent.getTotalDaoEfficiencyMultiplier())
                 +cultivateEvent.flatFinalRateIncrease;
-        System.out.println("base: "+cultivateEvent.baseRate);
-        System.out.println(progressIncrement);
+        
+        
         //TODO work out what the hell i want to do with this
         double CultivationStageMax = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getMaxQiForRealm(path);
 
@@ -112,7 +112,7 @@ public class CultivationSystem {
             }
         }
         pathData.pathProgress = progress;
-        System.out.println(pathData.pathProgress);
+        
         PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(path, pathData.majorRealm, pathData.minorRealm, pathData.pathProgress,pathData.technique, pathData.stabilityCultivationTicks));
         return true;
     }

@@ -32,28 +32,28 @@ public class FlightPassiveSkill extends AbstractPassiveSkill {
     public FlightPassiveSkill(){
         super(Component.literal("Flight"));
         this.path = "ascension:body";
-        System.out.println("Flight Active");
+        
     }
     @Override
     public void onPhysiqueChange(PhysiqueChangeEvent event){
         if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill( "ascension:flight_passive_skill","Passive")) updateSkillData(event.player);
-        System.out.println("Flight PhysChange");
+        
     }
     @Override
     public void onTechniqueChange(TechniqueChangeEvent event){
         if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill("ascension:flight_passive_skill","Passive")) updateSkillData(event.player);
-        System.out.println("Flight TechChange");
+        
     }
     @Override
     public void onRealmChange(RealmChangeEvent event){
         if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill("ascension:flight_passive_skill","Passive")) updateSkillData(event.player);
-        System.out.println("Flight RealmChange");
+        
     }
 
     public void updateSkillData(Player player){
         GatherEfficiencyModifiersEvent event = new GatherEfficiencyModifiersEvent(player,this.path,new HashSet<>(){{
             add("ascension:flight");
-            System.out.println("Flight Update1");
+            
         }});
         player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).addOrReplacePermanentModifier(new AttributeModifier(
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_boost"),
@@ -61,7 +61,7 @@ public class FlightPassiveSkill extends AbstractPassiveSkill {
                 AttributeModifier.Operation.ADD_MULTIPLIED_BASE
 
         ));
-        System.out.println("Flight GetAttribute");
+        
     }
     //TODO have it update on realm change and technique change and physique change
     @Override

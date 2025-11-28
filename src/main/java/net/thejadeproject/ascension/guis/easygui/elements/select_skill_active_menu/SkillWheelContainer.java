@@ -33,7 +33,7 @@ public class SkillWheelContainer extends EmptyContainer {
     );
 
     private void createSkillIconAt(int slot,int x,int y){
-        System.out.println("creating skill icon");
+        
         if(activeSkillContainer.getSkillIdList().get(slot).isEmpty()) return;
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(activeSkillContainer.getSkillIdList().get(slot),':'));
         if(skill == null) return;
@@ -81,7 +81,7 @@ public class SkillWheelContainer extends EmptyContainer {
         Vec2 point = new Vec2((float) mouseX, (float) mouseY);
         //if(!CircleBoundChecker.isPointInCircle(center2d,point, (float) Math.pow((32*getTotalCustomScaling()),2))) return false;
         double angle = CircleBoundChecker.angleBetweenPointCenterAndNormal(point,center2d);
-        System.out.println(angle);
+        
         if(angle<45 || angle > 315) hoveredSlot = 1;
         if(angle > 45 && angle < 45+90) hoveredSlot = 2;
         if(angle > 45+90 && angle < 45+180) hoveredSlot = 3;

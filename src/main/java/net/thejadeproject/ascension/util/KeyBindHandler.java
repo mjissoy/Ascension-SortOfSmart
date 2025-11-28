@@ -81,13 +81,13 @@ public class KeyBindHandler {
                 try {
                     SelectSkillMenu.open(Component.literal("Skill Wheel"));
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("failed to open Skill Wheel");
+                    
+                    
                 }
             }
         } else if (event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 0) {
             // Close
-            System.out.println("TRYING TO CLOSE SKILL WHEEL");
+            
             if (minecraft.screen != null && SelectSkillMenu.hasInstance()) {
                 SelectSkillMenu.close();
             }
@@ -105,17 +105,17 @@ public class KeyBindHandler {
             try {
                 minecraft.setScreen(new MainScreen(Component.literal("Introspection")));
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("failed to open introspection menu");
+                
+                
             }
         }
         if (SKILL_MENU_KEY.consumeClick()) {
-            System.out.println("J KEY PRESSED");
+            
             try {
                 minecraft.setScreen(new SkillMenuScreen(Component.literal("Skill Menu")));
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println("failed to open skill menu");
+                
+                
             }
         }
 
@@ -148,7 +148,7 @@ public class KeyBindHandler {
             data.setCultivating(CULTIVATE_KEY.isDown());
 
             if (cultivating != data.isCultivating()) {
-                System.out.println("sending sync packer");
+                
                 PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence", data.isCultivating()));
             }
         }

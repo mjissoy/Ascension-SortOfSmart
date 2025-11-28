@@ -63,7 +63,7 @@ public class BasicFireBall extends AbstractActiveSkill {
     @Override
     public void cast(int castingTicksElapsed, Level level,Player player) {
         //TODO create fireball
-        System.out.println("CAST A FUCKING FIREBALL");
+        
         createFireBall(level,player);
     }
 

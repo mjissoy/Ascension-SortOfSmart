@@ -201,8 +201,8 @@ public class CardHolderView extends View {
     }
     public void updateGeneratedPhysiques(String generatedPhysique, String[] otherPhysiques){
         //TODO
-        System.out.println("generated physique: "+ generatedPhysique);
-        System.out.println("with extra : " + Arrays.toString(otherPhysiques));
+        
+        
         List<String> otherOptions = new ArrayList<>(Arrays.stream(otherPhysiques).toList());
         for(ContainerRenderable renderable:getChildren()){
             if(selected == renderable){

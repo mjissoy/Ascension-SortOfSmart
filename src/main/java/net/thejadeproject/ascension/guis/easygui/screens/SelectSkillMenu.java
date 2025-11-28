@@ -18,7 +18,7 @@ public class SelectSkillMenu extends EasyGuiScreen {
     public static void open(Component title){
         instance = new SelectSkillMenu(title);
         Minecraft.getInstance().setScreen(instance);
-        System.out.println("created new Skill Wheel Menu");
+        
     }
     public static void close(){
         //TODO send packet for spell selection
@@ -53,7 +53,7 @@ public class SelectSkillMenu extends EasyGuiScreen {
         view.addChild(container);
         container.setID("skill_wheel_container");
         container.setCustomScale(7);
-        System.out.println("Select skill menu created");
+        
 
 
     }

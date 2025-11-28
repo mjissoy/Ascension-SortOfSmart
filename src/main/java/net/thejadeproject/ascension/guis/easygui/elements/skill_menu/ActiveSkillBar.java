@@ -32,14 +32,14 @@ public class ActiveSkillBar extends Image {
                         "textures/gui/screen/skill_select.png"
                 ),320,240,0,0,225,72)
                 ,x,y);
-        System.out.println("creating skill box");
+        
         DynamicScrollBox scrollBox = new DynamicScrollBox(easyGuiScreen,11,14,203,50){
             @Override
             public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 updateScrollData();
             }
         };
-        System.out.println("creating skill list box");
+        
         DynamicSizedListContainer skillSlotListContainer = new DynamicSizedListContainer(easyGuiScreen,0,0,false){
 
             @Override
@@ -55,7 +55,7 @@ public class ActiveSkillBar extends Image {
         scrollBox.addChild(skillSlotListContainer);
 
         activeSkillContainer  = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_SKILL_DATA).activeSkillContainer;
-        System.out.println("populating skill slots");
+        
 
         addChild(scrollBox);
         setSticky(true);
@@ -94,7 +94,7 @@ public class ActiveSkillBar extends Image {
 
     //TODO add some way to config how many slots are available
     public void populateSkillSlots(ContainerRenderable container){
-        System.out.println("populating skill bar with active skill slots");
+        
         for(int i = 0;i<activeSkillContainer.MAX_SKILL_SLOTS;i++){
             SkillBarSkillSlot skillBarSkillSlot = new SkillBarSkillSlot(getScreen(),0,0,i,activeSkillContainer);
             container.addChild(skillBarSkillSlot);

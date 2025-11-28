@@ -22,15 +22,15 @@ public record SyncSelectedSkill(int slot) implements CustomPacketPayload {
         return TYPE;
     }
     public static void handlePayload(SyncSelectedSkill payload, IPayloadContext context) {
-        System.out.println("syncing selected skill");
-        System.out.println(payload.slot);
+        
+        
         String id = context.player().getData(ModAttachments.PLAYER_SKILL_DATA).activeSkillContainer.getSkillIdList().get(payload.slot);
-        System.out.println(id);
+        
         ResourceLocation skillId = null;
         if(!id.isEmpty()){
             skillId = ResourceLocation.bySeparator(id,':');
         }
-        System.out.println(skillId);
+        
         context.player().getData(ModAttachments.PLAYER_DATA).setSelectedSkillId(skillId);
 
     }
