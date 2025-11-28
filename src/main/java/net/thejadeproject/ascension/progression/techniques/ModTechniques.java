@@ -99,7 +99,23 @@ public class ModTechniques {
             ()->new SingleElementTechnique(
                         "Pure Fire Technique","ascension:fire",
                         2.0,new LnStabilityHandler()
-                        ,new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                        ,new StandardStatRealmChange(
+                                new HashMap<>(){{ //Minor Realm Stats
+                                    put(Attributes.MAX_HEALTH,12.5);
+                                    put(Attributes.ATTACK_DAMAGE,3.4);
+                                    put(Attributes.MOVEMENT_SPEED,0.08);
+                                    put(Attributes.ARMOR,0.5);
+                                    put(Attributes.JUMP_STRENGTH,0.04);
+                                    put(Attributes.STEP_HEIGHT,0.08);
+                                }}, new HashMap<>(){{ //Major Realm Stats
+                                    put(Attributes.MAX_HEALTH,21.5);
+                                    put(Attributes.ATTACK_DAMAGE,7.5);
+                                    put(Attributes.ARMOR,1.5);
+                                    put(Attributes.MOVEMENT_SPEED,0.8);
+                                    put(Attributes.JUMP_STRENGTH,0.9);
+                                    put(Attributes.STEP_HEIGHT,1.2);
+                        }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire",2.0);
                     }})
@@ -116,7 +132,27 @@ public class ModTechniques {
             ()->new SingleElementTechnique(
                     "Pure Water Technique","ascension:water",
                     2.0,new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1, GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,9.5);
+                                put(Attributes.ATTACK_DAMAGE,1.4);
+                                put(Attributes.MOVEMENT_SPEED,0.2);
+                                put(Attributes.ARMOR,0.3);
+                                put(Attributes.JUMP_STRENGTH,0.02);
+                                put(Attributes.STEP_HEIGHT,0.02);
+                                put(Attributes.OXYGEN_BONUS,0.1);
+                                put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.08);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,18.5);
+                                put(Attributes.ATTACK_DAMAGE,3.5);
+                                put(Attributes.ARMOR,1.1);
+                                put(Attributes.MOVEMENT_SPEED,0.6);
+                                put(Attributes.JUMP_STRENGTH,0.8);
+                                put(Attributes.STEP_HEIGHT,0.6);
+                                put(Attributes.OXYGEN_BONUS,0.4);
+                                put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
                     }}));
@@ -124,7 +160,23 @@ public class ModTechniques {
             ()->new SingleElementTechnique(
                     "Pure Wood Technique","ascension:wood",
                     2.0,new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,7.5);
+                                put(Attributes.ATTACK_DAMAGE,1.2);
+                                put(Attributes.MOVEMENT_SPEED,0.9);
+                                put(Attributes.ARMOR,0.2);
+                                put(Attributes.JUMP_STRENGTH,0.09);
+                                put(Attributes.STEP_HEIGHT,0.1);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,15.5);
+                                put(Attributes.ATTACK_DAMAGE,6.5);
+                                put(Attributes.ARMOR,0.4);
+                                put(Attributes.MOVEMENT_SPEED,1.8);
+                                put(Attributes.JUMP_STRENGTH,0.14);
+                                put(Attributes.STEP_HEIGHT,1.0);
+                        }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
                     }}));
@@ -132,21 +184,49 @@ public class ModTechniques {
             ()->new SingleElementTechnique(
                     "Pure Earth Technique","ascension:earth",
                     2.0,new LnStabilityHandler(),
-                    new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    new StandardStatRealmChange(
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,17.5);
+                                put(Attributes.ATTACK_DAMAGE,2.2);
+                                put(Attributes.MOVEMENT_SPEED,0.1);
+                                put(Attributes.ARMOR,0.3);
+                                put(Attributes.JUMP_STRENGTH,0.01);
+                                put(Attributes.STEP_HEIGHT,0.01);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,33.5);
+                                put(Attributes.ATTACK_DAMAGE,9.5);
+                                put(Attributes.ARMOR,0.6);
+                                put(Attributes.MOVEMENT_SPEED,1.3);
+                                put(Attributes.JUMP_STRENGTH,0.03);
+                                put(Attributes.STEP_HEIGHT,0.5);
+                    }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth",2.0);
                     }}));
+
+
     public static final TechniqueHolder PURE_METAL_TECHNIQUE = createTechnique("pure_metal_technique",
             ()->new SingleElementTechnique(
                     "Pure Metal Technique","ascension:metal",
                     2.0,new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            modifyGenericStatMap(
-                                    GENERIC_MINOR_REALM_STATS_1,
-                                    Attributes.WATER_MOVEMENT_EFFICIENCY,0.01),
-                            modifyGenericStatMap(
-                                    GENERIC_MAJOR_REALM_STATS_1,
-                                    Attributes.WATER_MOVEMENT_EFFICIENCY,0.02)))
+                            new HashMap<>(){{ //Minor Realm Stats
+                                put(Attributes.MAX_HEALTH,17.5);
+                                put(Attributes.ATTACK_DAMAGE,2.2);
+                                put(Attributes.ARMOR,0.6);
+                                put(Attributes.MOVEMENT_SPEED,0.1);
+                                put(Attributes.JUMP_STRENGTH,0.01);
+                                put(Attributes.STEP_HEIGHT,0.01);
+                            }}, new HashMap<>(){{ //Major Realm Stats
+                                put(Attributes.MAX_HEALTH,33.5);
+                                put(Attributes.ATTACK_DAMAGE,9.5);
+                                put(Attributes.ARMOR,1.5);
+                                put(Attributes.MOVEMENT_SPEED,1.3);
+                                put(Attributes.JUMP_STRENGTH,0.03);
+                                put(Attributes.STEP_HEIGHT,0.5);
+                        }}))
+                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
                     }}));
@@ -156,17 +236,19 @@ public class ModTechniques {
                     8.0,new LnStabilityHandler(),
                     new StandardStatRealmChange(
                         new HashMap<>(){{ //Minor Realm Stats
-                            put(Attributes.MAX_HEALTH,23.0);
-                            put(Attributes.ATTACK_DAMAGE,5.4);
-                            put(Attributes.MOVEMENT_SPEED,1.0);
+                            put(Attributes.MAX_HEALTH,13.0);
+                            put(Attributes.ATTACK_DAMAGE,3.2);
+                            put(Attributes.ARMOR,0.3);
+                            put(Attributes.MOVEMENT_SPEED,0.3);
+                            put(Attributes.JUMP_STRENGTH,0.03);
+                            put(Attributes.STEP_HEIGHT,0.03);
+                        }}, new HashMap<>(){{ //Major Realm Stats
+                            put(Attributes.MAX_HEALTH,26.4);
+                            put(Attributes.ATTACK_DAMAGE,11.4);
+                            put(Attributes.ARMOR,1.0);
+                            put(Attributes.MOVEMENT_SPEED,2.3);
                             put(Attributes.JUMP_STRENGTH,0.06);
-                            put(Attributes.STEP_HEIGHT,0.06);
-                        }}, new HashMap<>(){{ //Minor Realm Stats
-                            put(Attributes.MAX_HEALTH,5.0);
-                            put(Attributes.ATTACK_DAMAGE,2.4);
-                            put(Attributes.MOVEMENT_SPEED,0.1);
-                            put(Attributes.JUMP_STRENGTH,0.02);
-                            put(Attributes.STEP_HEIGHT,0.06);
+                            put(Attributes.STEP_HEIGHT,0.8);
                         }}))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
