@@ -503,6 +503,9 @@ public class lang extends LanguageProvider {
         add("key.ascension.introspection", "Introspection");
         add("key.ascension.open_spatial_ring", "Open Spatial Ring");
         add("key.ascension.toggle_artifact_mode", "Toggle Mode");
+        add("key.ascension.cast_skill", "Cast Skill");
+        add("key.ascension.skill_menu", "Open Skill Menu");
+        add("key.ascension.skill_wheel", "Skill Wheel");
 
 
 

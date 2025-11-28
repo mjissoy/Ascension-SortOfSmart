@@ -33,8 +33,6 @@ import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayl
 public class KeyBindHandler {
 
     public static final String CULTIVATION_CATEGORY = "category.ascension.cultivation";
-    public static final String MENU_CATEGORY = "category.ascension.menu";
-    public static final String SKILL_CATEGORY = "category.ascension.skills";
     private static boolean wasCultivating = false;
 
     private KeyBindHandler() {
@@ -52,87 +50,79 @@ public class KeyBindHandler {
         return player.getPersistentData().getBoolean("isCultivating");
     }
 
-
+    public static final KeyMapping OPEN_SPATIAL_RING_KEY = new KeyMapping("key.ascension.open_spatial_ring", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_B, CULTIVATION_CATEGORY);
+    public static final KeyMapping TOGGLE_ARTIFACT_MODE_KEY = new KeyMapping("key.ascension.toggle_artifact_mode", 77, CULTIVATION_CATEGORY);
+    public static final KeyMapping INTROSPECTION_KEY = new KeyMapping("key.ascension.introspection", 73, CULTIVATION_CATEGORY);
+    public static final KeyMapping SKILL_MENU_KEY = new KeyMapping("key.ascension.skill_menu", 74, CULTIVATION_CATEGORY);
     public static final KeyMapping CULTIVATE_KEY = new KeyMapping("key.ascension.cultivate", 67, CULTIVATION_CATEGORY);
-
-    public static final KeyMapping INTROSPECTION_KEY = new KeyMapping("key.ascension.introspection", 73, MENU_CATEGORY);
-
-    public static final KeyMapping SKILL_MENU_KEY = new KeyMapping("key.ascension.skill_menu", 74, MENU_CATEGORY);
-
-    public static final KeyMapping CAST_SKILL_KEY = new KeyMapping("key.ascension.cast_skill",KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_V, SKILL_CATEGORY);
-
-    public static final KeyMapping OPEN_SPATIAL_RING_KEY = new KeyMapping("key.ascension.open_spatial_ring",  InputConstants.KEY_H, "category.ascension.cultivation"); // 'R' key
-    public static final KeyMapping TOGGLE_ARTIFACT_MODE_KEY = new KeyMapping("key.ascension.toggle_artifact_mode", 77, "category.ascension.cultivation"); // 'M' key
-
-    public static final KeyMapping SKILL_WHEEL_KEY = new KeyMapping("key.ascension.skill_wheel",KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_R, SKILL_CATEGORY);
+    public static final KeyMapping SKILL_WHEEL_KEY = new KeyMapping("key.ascension.skill_wheel", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_R, CULTIVATION_CATEGORY);
+    public static final KeyMapping CAST_SKILL_KEY = new KeyMapping("key.ascension.cast_skill", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_V, CULTIVATION_CATEGORY);
 
     public static void register() {
         IEventBus eventBus = NeoForge.EVENT_BUS;
         eventBus.addListener(EventPriority.HIGH, KeyBindHandler::handleKeyInputEvent);
-        eventBus.addListener(EventPriority.HIGHEST,KeyBindHandler::keyInputEvents);
+        eventBus.addListener(EventPriority.HIGHEST, KeyBindHandler::keyInputEvents);
     }
 
-    public static void keyInputEvents(InputEvent.Key event){
+    public static void keyInputEvents(InputEvent.Key event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if(minecraft.level == null && minecraft.getConnection() == null) return;
+        if (minecraft.level == null && minecraft.getConnection() == null) return;
 
-        if(CAST_SKILL_KEY.consumeClick()){
+        if (CAST_SKILL_KEY.consumeClick()) {
             PacketDistributor.sendToServer(new ServerCastSkillPayload());
         }
-        //a bit hacky
-        if(event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 1){
-            //Open menu
-            if(minecraft.screen == null){
+        // a bit hacky
+        if (event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 1) {
+            // Open menu
+            if (minecraft.screen == null) {
                 try {
-                    SelectSkillMenu.open(Component.literal("SKill Wheel"));
-                }catch (Exception e){
+                    SelectSkillMenu.open(Component.literal("Skill Wheel"));
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
-                    System.out.println("failed to open SKill Wheel");
+                    System.out.println("failed to open Skill Wheel");
                 }
             }
-        }else if(event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 0){
-            //Close
+        } else if (event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 0) {
+            // Close
             System.out.println("TRYING TO CLOSE SKILL WHEEL");
-            if(minecraft.screen != null && SelectSkillMenu.hasInstance()){
+            if (minecraft.screen != null && SelectSkillMenu.hasInstance()) {
                 SelectSkillMenu.close();
             }
         }
-
     }
 
     public static void handleKeyInputEvent(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
-        if(minecraft.level == null && minecraft.getConnection() == null) return;
-
+        if (minecraft.level == null && minecraft.getConnection() == null) return;
 
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
 
-        if(INTROSPECTION_KEY.consumeClick()){
+        if (INTROSPECTION_KEY.consumeClick()) {
             try {
                 minecraft.setScreen(new MainScreen(Component.literal("Introspection")));
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println("failed to open introspection menu");
             }
         }
-        if(SKILL_MENU_KEY.consumeClick()){
+        if (SKILL_MENU_KEY.consumeClick()) {
             System.out.println("J KEY PRESSED");
             try {
                 minecraft.setScreen(new SkillMenuScreen(Component.literal("Skill Menu")));
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println("failed to open skill menu");
             }
         }
 
         // Handle Spatial Ring key - SEND PACKET TO SERVER
-        if(OPEN_SPATIAL_RING_KEY.consumeClick()) {
+        if (OPEN_SPATIAL_RING_KEY.consumeClick()) {
             PacketDistributor.sendToServer(new OpenSpatialRingPacket());
         }
 
         // Handle Toggle Tablet Mode key
-        if(TOGGLE_ARTIFACT_MODE_KEY.consumeClick()) {
+        if (TOGGLE_ARTIFACT_MODE_KEY.consumeClick()) {
             ItemStack mainHandItem = player.getMainHandItem();
             ItemStack offHandItem = player.getOffhandItem();
 
@@ -153,7 +143,7 @@ public class KeyBindHandler {
 
         data.setCultivating(CULTIVATE_KEY.isDown());
 
-        if(cultivating != data.isCultivating()){
+        if (cultivating != data.isCultivating()) {
             System.out.println("sending sync packer");
             PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence", data.isCultivating()));
         }
