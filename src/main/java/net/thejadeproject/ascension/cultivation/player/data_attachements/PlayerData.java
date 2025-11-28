@@ -241,7 +241,7 @@ public class PlayerData {
     public boolean isSkillOnCooldown(ResourceLocation skillId){
         if(!cooldowns.containsKey(skillId)) return false;
         NumberFormat format = new DecimalFormat("#0.00");
-        player.displayClientMessage(Component.literal("On Cooldown : "+format.format(cooldowns.get(skillId)/20.0))+"s".withColor(ChatFormatting.RED.getColor()),true);
+        player.displayClientMessage(Component.literal("On Cooldown : "+format.format(cooldowns.get(skillId)/20.0)+"s").withColor(ChatFormatting.RED.getColor()),true);
 
 
         return true;

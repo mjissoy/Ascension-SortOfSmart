@@ -22,7 +22,6 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
-            .add(Registries.BIOME, ModBiomes::bootstrap)
             .add(Registries.DAMAGE_TYPE, bootstrap -> bootstrap.register(ModTags.DamageTypes.DAO_DAMAGE_KEY, new DamageType(ModTags.DamageTypes.DAO_DAMAGE_KEY.location().toString(),
                     DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER,
                     0.1f,

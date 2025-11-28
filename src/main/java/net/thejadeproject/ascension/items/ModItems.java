@@ -218,44 +218,39 @@ public class ModItems {
                     .addOnUse((item,level,entity)->{
                         CultivationSystem.cultivate((Player) entity,"ascension:body",80.0,new HashSet<>());
                     }));
-    public static final DeferredItem<Item> PILL_RESIDUE = ITEMS.register("pill_residue",
-            () -> new PillResidue(new Item.Properties().food(ModFoodProperties.PILL_RESIDUE)));
-    public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
-
 
     //Essence
     public static final DeferredItem<Item> ESSENCE_GATHERING_PILL_T1 = ITEMS.register("essence_gathering_pill_t1",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 400 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:essence",20.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:essence",20.0,new HashSet<>());
                     }));
     public static final DeferredItem<Item> ESSENCE_GATHERING_PILL_T2 = ITEMS.register("essence_gathering_pill_t2",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 800 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:essence",40.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:essence",40.0,new HashSet<>());
                     }));
     public static final DeferredItem<Item> ESSENCE_GATHERING_PILL_T3 = ITEMS.register("essence_gathering_pill_t3",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 1600 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:essence",80.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:essence",80.0,new HashSet<>());
                     }));
 
     //Intent
     public static final DeferredItem<Item> SPIRIT_FOCUS_PILL_T1 = ITEMS.register("spirit_focus_pill_t1",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 400 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:intent",20.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:intent",20.0,new HashSet<>());
                     }));
     public static final DeferredItem<Item> SPIRIT_FOCUS_PILL_T2 = ITEMS.register("spirit_focus_pill_t2",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 800 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:intent",40.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:intent",40.0,new HashSet<>());
                     }));
     public static final DeferredItem<Item> SPIRIT_FOCUS_PILL_T3 = ITEMS.register("spirit_focus_pill_t3",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 1600 /*Will be 10 min later*/)
                     .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:intent",80.0,List.of());
+                        CultivationSystem.cultivate((Player) entity,"ascension:intent",80.0,new HashSet<>());
                     }));
 
 
