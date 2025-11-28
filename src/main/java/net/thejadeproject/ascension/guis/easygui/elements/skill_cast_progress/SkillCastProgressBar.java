@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.CastingInstance;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -43,13 +44,16 @@ public class SkillCastProgressBar extends EmptyContainer {
 
     public boolean shouldRender(){
         if(Minecraft.getInstance().player == null) return false;
-        CastingInstance instance = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getSkillFromSlot(spellCastingSlot);
+        PlayerData data = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA);
+        if(data == null) return false;
+        CastingInstance instance = data.getSkillFromSlot(spellCastingSlot);
         return instance != null;
     }
 
     public double getProgress() {
-
-        CastingInstance instance = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getSkillFromSlot(spellCastingSlot);
+        PlayerData data = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA);
+        if(data == null) return 0.0;
+        CastingInstance instance = data.getSkillFromSlot(spellCastingSlot);
 
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(instance.skillId);
         double maxTime =((AbstractActiveSkill) skill).maxCastingTicks();
