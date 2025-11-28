@@ -31,6 +31,7 @@ public class SpatialRuptureTalismanT1 extends Item {
     private static final String GLOBAL_COOLDOWN_TIME_TAG = "SpatialRuptureCooldownTimeT1";
     private static final String COUNTDOWN_TAG = "SpatialRuptureCountdownT1";
     private static final String INITIAL_POS_TAG = "SpatialRuptureInitialPosT1";
+    private static final String INITIAL_HEALTH_TAG = "SpatialRuptureInitialHealthT1";
 
     public SpatialRuptureTalismanT1(Properties properties) {
         super(properties.stacksTo(16).rarity(Rarity.UNCOMMON));
@@ -91,10 +92,8 @@ public class SpatialRuptureTalismanT1 extends Item {
         posTag.putDouble("z", player.getZ());
         persistentData.put(INITIAL_POS_TAG, posTag);
 
-        // Consume item immediately
-        if (!player.getAbilities().instabuild) {
-            itemstack.shrink(1);
-        }
+        // Store initial health for damage check
+        persistentData.putFloat(INITIAL_HEALTH_TAG, player.getHealth());
 
         // Initial countdown message
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleporting_in_seconds", 5), true);
@@ -109,7 +108,18 @@ public class SpatialRuptureTalismanT1 extends Item {
         teleportFuture.thenAccept(success -> {
             serverLevel.getServer().execute(() -> {
                 if (success) {
-                    // Teleportation successful
+                    // Teleportation successful - CONSUME ITEM HERE
+                    if (!player.getAbilities().instabuild) {
+                        // Find and consume the talisman from player's inventory
+                        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                            ItemStack stack = player.getInventory().getItem(i);
+                            if (stack.getItem() instanceof SpatialRuptureTalismanT1) {
+                                stack.shrink(1);
+                                break;
+                            }
+                        }
+                    }
+
                     setGlobalCooldown(player, COOLDOWN_TICKS);
                     player.getCooldowns().addCooldown(this, 10);
 
@@ -123,7 +133,16 @@ public class SpatialRuptureTalismanT1 extends Item {
 
                     player.displayClientMessage(Component.translatable("ascension.tooltip.teleported_to_location"), true);
                 } else {
-                    // Teleportation failed
+                    // Teleportation failed - STILL CONSUME ITEM
+                    if (!player.getAbilities().instabuild) {
+                        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                            ItemStack stack = player.getInventory().getItem(i);
+                            if (stack.getItem() instanceof SpatialRuptureTalismanT1) {
+                                stack.shrink(1);
+                                break;
+                            }
+                        }
+                    }
                     player.displayClientMessage(Component.translatable("ascension.tooltip.no_safe_location"), true);
                 }
 
@@ -135,15 +154,26 @@ public class SpatialRuptureTalismanT1 extends Item {
 
     private void cancelTeleport(ServerPlayer player, String reason) {
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleport_cancelled", reason), true);
-        clearCountdownData(player);
 
-        // Item was already consumed in startCountdown
+        // Consume item even when cancelled since it was "used"
+        if (!player.getAbilities().instabuild) {
+            for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                ItemStack stack = player.getInventory().getItem(i);
+                if (stack.getItem() instanceof SpatialRuptureTalismanT1) {
+                    stack.shrink(1);
+                    break;
+                }
+            }
+        }
+
+        clearCountdownData(player);
     }
 
     private void clearCountdownData(Player player) {
         CompoundTag persistentData = player.getPersistentData();
         persistentData.remove(COUNTDOWN_TAG);
         persistentData.remove(INITIAL_POS_TAG);
+        persistentData.remove(INITIAL_HEALTH_TAG);
     }
 
     @Override
@@ -227,12 +257,10 @@ public class SpatialRuptureTalismanT1 extends Item {
     }
 
     private boolean hasPlayerTakenDamage(ServerPlayer player) {
-        // Check if player's health has decreased since countdown started
         CompoundTag persistentData = player.getPersistentData();
-        if (persistentData.contains(INITIAL_POS_TAG)) {
-            // We can store initial health if needed, but for now we'll check if health is less than max
-            // This is a simple implementation - you might want to store initial health for more accuracy
-            return player.getHealth() < player.getMaxHealth();
+        if (persistentData.contains(INITIAL_HEALTH_TAG) && persistentData.contains(INITIAL_POS_TAG)) {
+            float initialHealth = persistentData.getFloat(INITIAL_HEALTH_TAG);
+            return player.getHealth() < initialHealth;
         }
         return false;
     }

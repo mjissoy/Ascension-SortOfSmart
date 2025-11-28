@@ -94,11 +94,6 @@ public class SpatialRuptureTalismanT2 extends Item {
         // Store initial health for damage check
         persistentData.putFloat(INITIAL_HEALTH_TAG, player.getHealth());
 
-        // Consume item immediately
-        if (!player.getAbilities().instabuild) {
-            itemstack.shrink(1);
-        }
-
         // Initial countdown message
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleporting_in_seconds", 5), true);
     }
@@ -112,7 +107,18 @@ public class SpatialRuptureTalismanT2 extends Item {
         teleportFuture.thenAccept(success -> {
             serverLevel.getServer().execute(() -> {
                 if (success) {
-                    // Teleportation successful
+                    // Teleportation successful - CONSUME ITEM HERE
+                    if (!player.getAbilities().instabuild) {
+                        // Find and consume the talisman from player's inventory
+                        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                            ItemStack stack = player.getInventory().getItem(i);
+                            if (stack.getItem() instanceof SpatialRuptureTalismanT2) {
+                                stack.shrink(1);
+                                break;
+                            }
+                        }
+                    }
+
                     setGlobalCooldown(player, COOLDOWN_TICKS);
                     player.getCooldowns().addCooldown(this, 10);
 
@@ -126,7 +132,16 @@ public class SpatialRuptureTalismanT2 extends Item {
 
                     player.displayClientMessage(Component.translatable("ascension.tooltip.teleported_to_location"), true);
                 } else {
-                    // Teleportation failed
+                    // Teleportation failed - STILL CONSUME ITEM
+                    if (!player.getAbilities().instabuild) {
+                        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                            ItemStack stack = player.getInventory().getItem(i);
+                            if (stack.getItem() instanceof SpatialRuptureTalismanT2) {
+                                stack.shrink(1);
+                                break;
+                            }
+                        }
+                    }
                     player.displayClientMessage(Component.translatable("ascension.tooltip.no_safe_location"), true);
                 }
 
@@ -138,6 +153,18 @@ public class SpatialRuptureTalismanT2 extends Item {
 
     private void cancelTeleport(ServerPlayer player, String reason) {
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleport_cancelled", reason), true);
+
+        // Consume item even when cancelled since it was "used"
+        if (!player.getAbilities().instabuild) {
+            for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+                ItemStack stack = player.getInventory().getItem(i);
+                if (stack.getItem() instanceof SpatialRuptureTalismanT2) {
+                    stack.shrink(1);
+                    break;
+                }
+            }
+        }
+
         clearCountdownData(player);
     }
 

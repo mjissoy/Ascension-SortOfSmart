@@ -161,13 +161,14 @@ public class AscensionCraft {
     }
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
-        event.register(KeyBindHandler.INTROSPECTION_KEY);
-        event.register(KeyBindHandler.CULTIVATE_KEY);
         event.register(KeyBindHandler.OPEN_SPATIAL_RING_KEY);
         event.register(KeyBindHandler.TOGGLE_ARTIFACT_MODE_KEY);
+        event.register(KeyBindHandler.INTROSPECTION_KEY);
         event.register(KeyBindHandler.SKILL_MENU_KEY);
         event.register(KeyBindHandler.SKILL_WHEEL_KEY);
+        event.register(KeyBindHandler.CULTIVATE_KEY);
         event.register(KeyBindHandler.CAST_SKILL_KEY);
+
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {
