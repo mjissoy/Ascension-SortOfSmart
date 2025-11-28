@@ -34,6 +34,51 @@ public class ModEvents {
             Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
 
 
+            //Body Tech
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.FIRE_ELEMENTAL_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.WOOD_ELEMENTAL_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
+            ));
+
+            //Intent Tech
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.PURE_SWORD_INTENT.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.PURE_SPEAR_INTENT.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.PURE_AXE_INTENT.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.PURE_BLADE_INTENT.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.PURE_FIST_INTENT.manual.get(), 1), 4, 10, 10.0f
+            ));
+
+            //Essence Tech
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 32),
                     new ItemStack(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
@@ -44,11 +89,15 @@ public class ModEvents {
             ));
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 32),
-                    new ItemStack(ModTechniques.PURE_SWORD_INTENT.manual.get(), 1), 4, 10, 10.0f
+                    new ItemStack(ModTechniques.PURE_EARTH_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
             ));
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 32),
-                    new ItemStack(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
+                    new ItemStack(ModTechniques.PURE_METAL_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
+            ));
+            trades.get(5).add((entity, randomSource) -> new MerchantOffer(
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 32),
+                    new ItemStack(ModTechniques.PURE_WOOD_TECHNIQUE.manual.get(), 1), 4, 10, 10.0f
             ));
 
 
