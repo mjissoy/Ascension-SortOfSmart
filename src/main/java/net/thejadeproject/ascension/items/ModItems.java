@@ -86,7 +86,7 @@ public class ModItems {
 
     public static final DeferredItem<SpearItem> JADE_SPEAR = ITEMS.register("jade_spear",
             () -> new SpearItem(ModToolTiers.JADE, new Item.Properties()
-                    .attributes(ItemUtil.createAscensionItemAttributes(ModToolTiers.JADE, 6, -2.8f,3))
+                    .attributes(ItemUtil.createAscensionItemAttributes(ModToolTiers.JADE, 6, -2.4f,3))
                   ));
 
 
