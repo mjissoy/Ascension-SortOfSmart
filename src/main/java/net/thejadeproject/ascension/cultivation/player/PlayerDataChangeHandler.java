@@ -30,6 +30,14 @@ public class PlayerDataChangeHandler {
 
         player.setData(ModAttachments.PLAYER_SKILL_DATA,new PlayerSkillData(player));
         player.setData(ModAttachments.MOVEMENT_SPEED,0.1);
+        player.setData(ModAttachments.ATTACK_DAMAGE, 1.0);
+        player.setData(ModAttachments.JUMP_HEIGHT, 0.42);
+        player.setData(ModAttachments.MAX_HEALTH, 20.0);
+        player.setData(ModAttachments.SAFE_FALL_DISTANCE, 3.0);
+        player.setData(ModAttachments.ARMOR, 0.0);
+        player.setData(ModAttachments.OXYGEN_BONUS, 0.0);
+        player.setData(ModAttachments.WATER_MOVEMENT_EFFICIENCY, 0.0);
+
         AttributeSupplier playerSupplier = Player.createAttributes().build();
         for(Holder<Attribute> attributeHolder :player.getAttributes().attributes.keySet()){
             if(playerSupplier.hasAttribute(attributeHolder)){
