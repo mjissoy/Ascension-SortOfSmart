@@ -21,14 +21,15 @@ public class SectEventHandler {
         if (manager == null) return;
 
         if (manager.isChatToggled(player.getUUID())) {
-            // Cancel normal chat and send to sect chat
+            // Cancel normal chat and send as command instead
             event.setCanceled(true);
 
             Sect sect = manager.getPlayerSect(player.getUUID());
             if (sect != null) {
                 String message = event.getRawText();
-                // Use the same format as /sect chat command
-                sendSectChatMessage(sect, player, message, player.getServer());
+                // Add space after "chat" and properly escape the message
+                String command = "sect chat " + message;
+                player.getServer().getCommands().performPrefixedCommand(player.createCommandSourceStack(), command);
             } else {
                 // If no sect but chat is toggled, send error and untoggle
                 player.sendSystemMessage(Component.literal("§cYou are not in a sect! Switching back to global chat."));

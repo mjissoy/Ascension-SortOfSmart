@@ -18,6 +18,8 @@ public class SectMission {
     private final long createdTime;
     private long expirationTime = 0;
     final Map<UUID, MissionProgress> acceptedBy = new HashMap<>();
+    private ItemStack rewardItem;
+
 
     public SectMission(String displayName, SectRank targetRank, List<MissionRequirement> requirements,
                        int rewardMerit, UUID createdBy) {
@@ -28,9 +30,18 @@ public class SectMission {
         this.rewardMerit = rewardMerit;
         this.createdBy = createdBy;
         this.createdTime = System.currentTimeMillis();
+        this.rewardItem = ItemStack.EMPTY; // Initialize as empty
     }
 
     // Getters
+    public ItemStack getRewardItem() {
+        return rewardItem;
+    }
+
+    public void setRewardItem(ItemStack rewardItem) {
+        this.rewardItem = rewardItem;
+    }
+
     public UUID getMissionId() {
         return missionId;
     }
@@ -142,6 +153,12 @@ public class SectMission {
         }
         tag.put("acceptedBy", acceptedList);
 
+        if (!rewardItem.isEmpty()) {
+            CompoundTag itemTag = new CompoundTag();
+            rewardItem.save(registries, itemTag);
+            tag.put("rewardItem", itemTag);
+        }
+
         return tag;
     }
 
@@ -170,6 +187,11 @@ public class SectMission {
             UUID playerId = progressTag.getUUID("playerId");
             MissionProgress progress = MissionProgress.fromNBT(progressTag.getCompound("progress"));
             mission.acceptedBy.put(playerId, progress);
+        }
+
+        if (tag.contains("rewardItem")) {
+            CompoundTag itemTag = tag.getCompound("rewardItem");
+            mission.rewardItem = ItemStack.parse(registries, itemTag).orElse(ItemStack.EMPTY);
         }
 
         return mission;

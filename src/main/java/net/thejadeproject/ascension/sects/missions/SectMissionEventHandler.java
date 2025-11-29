@@ -206,6 +206,8 @@ public class SectMissionEventHandler {
             return false;
         }
 
+
+
         // Remove required items from player and collect them
         List<ItemStack> submittedItems = removeAndCollectRequiredItems(player, mission);
 
@@ -245,8 +247,27 @@ public class SectMissionEventHandler {
         // Give merit points
         sect.addPlayerMerit(player.getUUID(), mission.getRewardMerit());
 
-        // Send reward message
-        player.sendSystemMessage(Component.literal("§aYou received §e" + mission.getRewardMerit() + " Merit Points§a for completing '" + mission.getDisplayName() + "'!"));
+        // Give item reward if present
+        ItemStack rewardItem = mission.getRewardItem();
+        if (!rewardItem.isEmpty()) {
+            ItemStack rewardCopy = rewardItem.copy();
+
+            // Try to add to player inventory
+            if (player.getInventory().add(rewardCopy)) {
+                String itemName = rewardCopy.getHoverName().getString();
+                player.sendSystemMessage(Component.literal("§aYou received §e" + mission.getRewardMerit() + " Merit Points§a and §e" +
+                        itemName + "§a for completing '" + mission.getDisplayName() + "'!"));
+            } else {
+                // Drop if inventory is full
+                player.drop(rewardCopy, false);
+                String itemName = rewardCopy.getHoverName().getString();
+                player.sendSystemMessage(Component.literal("§aYou received §e" + mission.getRewardMerit() + " Merit Points§a for completing '" + mission.getDisplayName() + "'!"));
+                player.sendSystemMessage(Component.literal("§cYour inventory was full, so §e" + itemName + "§c was dropped on the ground!"));
+            }
+        } else {
+            // Only merit points
+            player.sendSystemMessage(Component.literal("§aYou received §e" + mission.getRewardMerit() + " Merit Points§a for completing '" + mission.getDisplayName() + "'!"));
+        }
     }
 
     // Reset kill counts and notifications when player logs out

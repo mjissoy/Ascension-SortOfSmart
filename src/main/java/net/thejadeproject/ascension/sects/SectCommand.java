@@ -1,14 +1,18 @@
 package net.thejadeproject.ascension.sects;
 
+import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.GameProfileArgument;
 import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -20,6 +24,7 @@ import net.thejadeproject.ascension.sects.missions.SectMission;
 import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class SectCommand {
@@ -31,15 +36,61 @@ public class SectCommand {
                                 .executes(SectCommand::createSect)))
                 .then(Commands.literal("invite")
                         .then(Commands.argument("playername", StringArgumentType.string())
+                                .suggests((context, builder) -> {
+                                    ServerPlayer player = context.getSource().getPlayer();
+                                    if (player != null) {
+                                        SectManager manager = AscensionCraft.getSectManager(context.getSource().getServer());
+                                        if (manager != null) {
+                                            Sect sect = manager.getPlayerSect(player.getUUID());
+                                            if (sect != null && sect.hasPermission(player.getUUID(), SectPermission.INVITE)) {
+                                                // Get all online players and filter out those already in a sect
+                                                Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
+                                                for (ServerPlayer onlinePlayer : onlinePlayers) {
+                                                    // Don't suggest players who are already in a sect or the inviting player themselves
+                                                    if (onlinePlayer != player && manager.getPlayerSect(onlinePlayer.getUUID()) == null) {
+                                                        builder.suggest(onlinePlayer.getGameProfile().getName());
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    return builder.buildFuture();
+                                })
                                 .executes(SectCommand::invitePlayer)))
+                .then(Commands.literal("merit")
+                        .executes(SectCommand::showMerit))
+
+                .then(Commands.literal("recommend")
+                        .then(Commands.argument("playername", StringArgumentType.string())
+                                .suggests((context, builder) -> suggestInnerMembers(context, builder))
+                                .executes(SectCommand::recommendPlayer)))
+                .then(Commands.literal("claim")
+                        .then(Commands.literal("mission")
+                                .then(Commands.literal("submissions")
+                                        .executes(SectCommand::claimMissionSubmissions))))
+                //sect settings
+                .then(Commands.literal("settings")
+                        .then(Commands.literal("friendlyfire")
+                                .then(Commands.argument("value", BoolArgumentType.bool())
+                                        .executes(SectCommand::setFriendlyFire))))
+                .then(Commands.literal("help")
+                        .executes(SectCommand::help))
+
+
+                .then(Commands.literal("decline")
+                        .then(Commands.argument("sectname", StringArgumentType.string())
+                                .executes(SectCommand::declineInvite)))
                 .then(Commands.literal("promote")
                         .then(Commands.argument("playername", StringArgumentType.string())
+                                .suggests((context, builder) -> suggestSectMembers(context, builder, false))
                                 .executes(SectCommand::promotePlayer)))
                 .then(Commands.literal("demote")
                         .then(Commands.argument("playername", StringArgumentType.string())
+                                .suggests((context, builder) -> suggestSectMembers(context, builder, false))
                                 .executes(SectCommand::demotePlayer)))
                 .then(Commands.literal("title")
                         .then(Commands.argument("playername", StringArgumentType.string())
+                                .suggests((context, builder) -> suggestSectMembers(context, builder, true))
                                 .then(Commands.argument("title", StringArgumentType.greedyString())
                                         .executes(SectCommand::setTitle))))
                 .then(Commands.literal("join")
@@ -65,9 +116,11 @@ public class SectCommand {
                         .executes(SectCommand::leaveSect))
                 .then(Commands.literal("master")
                         .then(Commands.argument("playername", StringArgumentType.string())
+                                .suggests((context, builder) -> suggestSectMembers(context, builder, false))
                                 .executes(SectCommand::transferMaster)))
                 .then(Commands.literal("kick")
                         .then(Commands.argument("playername", StringArgumentType.string())
+                                .suggests((context, builder) -> suggestSectMembers(context, builder, false))
                                 .executes(SectCommand::kickPlayer)))
                 .then(Commands.literal("desc")
                         .then(Commands.argument("description", StringArgumentType.greedyString())
@@ -78,38 +131,56 @@ public class SectCommand {
                         .executes(SectCommand::listMissions))
 
                 .then(Commands.literal("mission")
-                        .then(Commands.literal("create")
-                                .then(Commands.argument("displayName", StringArgumentType.string())
-                                        .then(Commands.argument("targetRank", StringArgumentType.word())
-                                                .then(Commands.argument("meritReward", IntegerArgumentType.integer(1))
-                                                        .then(Commands.argument("duration", StringArgumentType.string())
-                                                                .then(Commands.argument("requirements", StringArgumentType.greedyString())
-                                                                        .executes(SectCommand::createMissionAdvanced))))))))
-                .then(Commands.literal("recommend")
-                        .then(Commands.argument("playername", StringArgumentType.string())
-                                .executes(SectCommand::recommendPlayer)))
-                .then(Commands.literal("mission")
                         .then(Commands.literal("accept")
                                 .then(Commands.argument("missionId", StringArgumentType.string())
                                         .executes(SectCommand::acceptMission)))
                         .then(Commands.literal("complete")
                                 .then(Commands.argument("missionId", StringArgumentType.string())
-                                        .executes(SectCommand::completeMission))))
-                .then(Commands.literal("merit")
-                        .executes(SectCommand::showMerit))
-                .then(Commands.literal("claim")
-                        .then(Commands.literal("mission")
-                                .then(Commands.literal("submissions")
-                                        .executes(SectCommand::claimMissionSubmissions))))
-                //sect settings
-                .then(Commands.literal("settings")
-                        .then(Commands.literal("friendlyfire")
-                                .then(Commands.argument("value", BoolArgumentType.bool())
-                                        .executes(SectCommand::setFriendlyFire))))
-                .then(Commands.literal("help")
-                        .executes(SectCommand::help))
+                                        .executes(SectCommand::completeMission)))
+                        .then(Commands.literal("create")
+                                .then(Commands.argument("displayName", StringArgumentType.string())
+                                        .then(Commands.argument("targetRank", StringArgumentType.word())
+                                                .then(Commands.argument("meritReward", IntegerArgumentType.integer(1))
+                                                        .then(Commands.argument("duration", StringArgumentType.string())
+                                                                .then(Commands.argument("useHandItem", BoolArgumentType.bool())
+                                                                        .then(Commands.argument("requirements", StringArgumentType.greedyString())
+                                                                                .executes(SectCommand::createMissionAdvanced))))))))
 
-        );
+        ));
+        debugCommandRegistration(dispatcher);
+    }
+
+    private static void debugCommandRegistration(CommandDispatcher<CommandSourceStack> dispatcher) {
+        System.out.println("=== SECT COMMAND REGISTRATION DEBUG ===");
+
+        // Check if /sect exists
+        if (dispatcher.findNode(Collections.singletonList("sect")) != null) {
+            System.out.println("✓ /sect command registered");
+
+            // Check if /sect mission exists
+            if (dispatcher.findNode(Arrays.asList("sect", "mission")) != null) {
+                System.out.println("✓ /sect mission command registered");
+
+                // Check if /sect mission accept exists
+                if (dispatcher.findNode(Arrays.asList("sect", "mission", "accept")) != null) {
+                    System.out.println("✓ /sect mission accept command registered");
+                } else {
+                    System.out.println("✗ /sect mission accept command NOT registered");
+                }
+
+                // Check if /sect mission complete exists
+                if (dispatcher.findNode(Arrays.asList("sect", "mission", "complete")) != null) {
+                    System.out.println("✓ /sect mission complete command registered");
+                } else {
+                    System.out.println("✗ /sect mission complete command NOT registered");
+                }
+            } else {
+                System.out.println("✗ /sect mission command NOT registered");
+            }
+        } else {
+            System.out.println("✗ /sect command NOT registered");
+        }
+        System.out.println("=====================================");
     }
 
     private static SectManager getManager(CommandContext<CommandSourceStack> context) {
@@ -209,11 +280,110 @@ public class SectCommand {
             return 0;
         }
 
+        // Find the target player
+        ServerPlayer targetPlayer = context.getSource().getServer().getPlayerList().getPlayerByName(targetName);
+        if (targetPlayer == null) {
+            context.getSource().sendFailure(Component.literal("§cPlayer '" + targetName + "' is not online!"));
+            return 0;
+        }
+
+        // Check if target is already in a sect
+        if (manager.getPlayerSect(targetPlayer.getUUID()) != null) {
+            context.getSource().sendFailure(Component.literal("§c" + targetName + " is already in a sect!"));
+            return 0;
+        }
+
+        // Check if trying to invite yourself
+        if (targetPlayer.getUUID().equals(player.getUUID())) {
+            context.getSource().sendFailure(Component.literal("§cYou cannot invite yourself!"));
+            return 0;
+        }
+
         manager.addInvite(sect.getName(), targetName);
         context.getSource().sendSuccess(() -> Component.literal("§aInvited " + targetName + " to join your sect!"), false);
 
+        // ENHANCED INVITATION MESSAGE WITH CLICKABLE BUTTONS
+        sendEnhancedInvitationMessage(targetPlayer, sect, player);
+
         return 1;
     }
+
+    private static void sendEnhancedInvitationMessage(ServerPlayer targetPlayer, Sect sect, ServerPlayer inviter) {
+        // Create the main invitation message
+        MutableComponent inviteMessage = Component.literal("§6§lSECT INVITATION\n§r")
+                .append(Component.literal("§eYou have been invited to join §b" + sect.getName() + "§e!\n"))
+                .append(Component.literal("§7Invited by: §f" + inviter.getScoreboardName() + "\n\n"));
+
+        // Create clickable accept button
+        MutableComponent acceptButton = Component.literal("[§a✔ ACCEPT§r]")
+                .withStyle(Style.EMPTY
+                        .withColor(ChatFormatting.GREEN)
+                        .withBold(true)
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect join " + sect.getName()))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                Component.literal("§aClick to join §b" + sect.getName() + "§a!")))
+                );
+
+        // Create clickable decline button
+        MutableComponent declineButton = Component.literal("[§c✖ DECLINE§r]")
+                .withStyle(Style.EMPTY
+                        .withColor(ChatFormatting.RED)
+                        .withBold(true)
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect decline " + sect.getName()))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                Component.literal("§cClick to decline the invitation from §b" + sect.getName() + "§c!")))
+                );
+
+        // Combine everything
+        inviteMessage.append(Component.literal("§eClick to respond: "))
+                .append(acceptButton)
+                .append(Component.literal(" §8| "))
+                .append(declineButton)
+                .append(Component.literal("\n§7Or type: §a/sect join " + sect.getName()));
+
+        targetPlayer.sendSystemMessage(inviteMessage);
+    }
+
+    private static int declineInvite(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String sectName = StringArgumentType.getString(context, "sectname");
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        // Check if player actually has an invite
+        if (!manager.hasInvite(sectName, player.getScoreboardName())) {
+            context.getSource().sendFailure(Component.literal("§cYou don't have an invitation from §e" + sectName + "§c!"));
+            return 0;
+        }
+
+        // Remove the invite by removing from pendingInvites
+        Set<String> invites = manager.pendingInvites.get(sectName);
+        if (invites != null) {
+            invites.remove(player.getScoreboardName().toLowerCase());
+            if (invites.isEmpty()) {
+                manager.pendingInvites.remove(sectName);
+            }
+        }
+
+        context.getSource().sendSuccess(() -> Component.literal("§eYou have declined the invitation from §b" + sectName + "§e."), false);
+
+        // Optional: Notify the sect leader who sent the invite
+        Sect sect = manager.getSect(sectName);
+        if (sect != null) {
+            ServerPlayer inviter = context.getSource().getServer().getPlayerList().getPlayer(sect.getOwnerId());
+            if (inviter != null) {
+                inviter.sendSystemMessage(Component.literal("§e" + player.getScoreboardName() + " §7has declined your sect invitation."));
+            }
+        }
+
+        return 1;
+    }
+
+
 
     private static int promotePlayer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
@@ -226,7 +396,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -944,13 +1113,13 @@ public class SectCommand {
 
         context.getSource().sendSuccess(() -> Component.literal("§6=== Available Missions ==="), false);
 
-        // FIXED: Show missions that the player can interact with
         List<SectMission> validMissions = new ArrayList<>();
 
         for (SectMission mission : availableMissions) {
             if (mission.isExpired()) continue;
 
             boolean isAccepted = mission.isAcceptedBy(player.getUUID());
+            MissionProgress progress = mission.getProgress(player.getUUID());
 
             // If player hasn't accepted the mission, show it as available
             if (!isAccepted) {
@@ -959,7 +1128,6 @@ public class SectCommand {
             }
 
             // If player has accepted it, check the progress
-            MissionProgress progress = mission.getProgress(player.getUUID());
             if (progress != null) {
                 // Show the mission if it's not completed OR if it can be completed (ready to claim)
                 if (!progress.isCompleted() || progress.canComplete()) {
@@ -986,20 +1154,29 @@ public class SectCommand {
                     status = "§7[AVAILABLE]";
                 }
 
-                Component missionText = Component.literal(status + " " + mission.getDisplayName())
-                        .withStyle(style -> style
-                                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, createMissionHoverText(mission, progress)))
-                                .withClickEvent(canComplete && isAccepted ?
-                                        new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect mission complete " + mission.getMissionId()) :
-                                        !isAccepted ?
-                                                new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect mission accept " + mission.getMissionId()) :
-                                                null));
+                // Create the mission component
+                MutableComponent missionComponent = Component.literal(status + " " + mission.getDisplayName());
 
-                context.getSource().sendSuccess(() -> missionText, false);
+                // Add hover event
+                missionComponent.withStyle(style -> style
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, createMissionHoverText(mission, progress))));
+
+                // Add click event based on mission state
+                if (canComplete && isAccepted) {
+                    String completeCommand = "/sect mission complete " + mission.getMissionId().toString();
+                    missionComponent.withStyle(style -> style
+                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, completeCommand)));
+                } else if (!isAccepted) {
+                    String acceptCommand = "/sect mission accept " + mission.getMissionId().toString();
+                    missionComponent.withStyle(style -> style
+                            .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, acceptCommand)));
+                }
+
+                context.getSource().sendSuccess(() -> missionComponent, false);
             }
         }
 
-        // Show merit points
+        // Show merit points (existing code)
         int merit = sect.getPlayerMerit(player.getUUID());
         String nextPromotion;
         if (member.getRank() == SectRank.OUTER) {
@@ -1021,9 +1198,16 @@ public class SectCommand {
         // Show time remaining
         text.append(Component.literal("§7Duration: " + mission.getTimeRemaining() + "\n\n"));
 
+        // Show item reward if present
+        if (!mission.getRewardItem().isEmpty()) {
+            String itemName = mission.getRewardItem().getHoverName().getString();
+            text.append(Component.literal("§aItem Reward: §f" + itemName + "\n\n"));
+        }
+
         text.append(Component.literal("§7Requirements:\n"));
 
-        for (MissionRequirement req : mission.getRequirements()) {
+        for (int i = 0; i < mission.getRequirements().size(); i++) {
+            MissionRequirement req = mission.getRequirements().get(i);
             String requirementText = "";
             switch (req.getType()) {
                 case ITEM:
@@ -1035,13 +1219,22 @@ public class SectCommand {
             }
 
             if (progress != null) {
-                requirementText += " §8(" + progress.getProgress() + "/" + req.getCount() + ")";
+                // Get progress for this specific requirement
+                Map<Integer, Integer> currentProgress = progress.getProgress();
+                int currentAmount = currentProgress.getOrDefault(i, 0);
+                requirementText += " §8(" + currentAmount + "/" + req.getCount() + ")";
             }
 
             text.append(Component.literal("§7- " + requirementText + "\n"));
         }
 
         text.append(Component.literal("\n§6Reward: §e" + mission.getRewardMerit() + " Merit Points"));
+
+        // Add item reward to the tooltip
+        if (!mission.getRewardItem().isEmpty()) {
+            String itemName = mission.getRewardItem().getHoverName().getString();
+            text.append(Component.literal(" §a+ " + itemName));
+        }
 
         return text;
     }
@@ -1077,6 +1270,7 @@ public class SectCommand {
         String rankStr = StringArgumentType.getString(context, "targetRank");
         int meritReward = IntegerArgumentType.getInteger(context, "meritReward");
         String durationStr = StringArgumentType.getString(context, "duration");
+        boolean useHandItem = BoolArgumentType.getBool(context, "useHandItem"); // Moved before requirements
         String requirementsStr = StringArgumentType.getString(context, "requirements");
 
         SectManager manager = getManager(context);
@@ -1116,6 +1310,22 @@ public class SectCommand {
             return 0;
         }
 
+        // Check if using hand item and validate
+        ItemStack handItem = ItemStack.EMPTY;
+        if (useHandItem) {
+            handItem = player.getMainHandItem();
+            if (handItem.isEmpty()) {
+                context.getSource().sendFailure(Component.literal("§cYou must hold an item in your main hand to use as a reward!"));
+                return 0;
+            }
+
+            // Create a copy to avoid modifying the original stack
+            handItem = handItem.copy();
+
+            // Optional: Limit to one item to prevent duplication exploits
+            handItem.setCount(1);
+        }
+
         try {
             // Parse requirements from the string
             List<MissionRequirement> requirements = parseRequirements(requirementsStr);
@@ -1129,7 +1339,7 @@ public class SectCommand {
                 return 0;
             }
 
-            // Create the mission (no repeatable parameter)
+            // Create the mission
             SectMission mission = new SectMission(
                     displayName,
                     targetRank,
@@ -1141,6 +1351,15 @@ public class SectCommand {
             // Set expiration time
             mission.setExpirationTime(expirationTime);
 
+            // Set reward item if using hand item
+            if (useHandItem) {
+                mission.setRewardItem(handItem);
+
+                // Remove the item from player's hand (optional - you can choose to keep it or remove it)
+                player.getMainHandItem().shrink(1);
+                // Uncomment the line above if you want to consume the item from the creator's hand
+            }
+
             // Add the mission to the sect
             sect.addMission(mission);
             manager.setDirty();
@@ -1150,6 +1369,13 @@ public class SectCommand {
             // Show mission details
             context.getSource().sendSuccess(() -> Component.literal("§7Target Rank: §e" + mission.getTargetRank().getDisplayName()), false);
             context.getSource().sendSuccess(() -> Component.literal("§7Duration: " + mission.getTimeRemaining()), false);
+
+            // Show item reward if present
+            if (useHandItem && !handItem.isEmpty()) {
+                String itemName = handItem.getHoverName().getString();
+                context.getSource().sendSuccess(() -> Component.literal("§7Item Reward: §e" + itemName), false);
+            }
+
             context.getSource().sendSuccess(() -> Component.literal("§7Requirements:"), false);
             for (MissionRequirement req : requirements) {
                 String reqText = switch (req.getType()) {
@@ -1158,7 +1384,8 @@ public class SectCommand {
                 };
                 context.getSource().sendSuccess(() -> Component.literal("§7- " + reqText), false);
             }
-            context.getSource().sendSuccess(() -> Component.literal("§6Reward: §e" + mission.getRewardMerit() + " Merit Points"), false);
+            context.getSource().sendSuccess(() -> Component.literal("§6Reward: §e" + mission.getRewardMerit() + " Merit Points" +
+                    (useHandItem ? " §a+ Item Reward" : "")), false);
             context.getSource().sendSuccess(() -> Component.literal("§7Submitted items will be stored for sect leaders to collect"), false);
 
             return 1;
@@ -1242,14 +1469,19 @@ public class SectCommand {
         String missionIdStr = StringArgumentType.getString(context, "missionId");
 
         SectManager manager = getManager(context);
-        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
 
+        Sect sect = manager.getPlayerSect(player.getUUID());
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
         }
 
         try {
+            // Parse the UUID from string
             UUID missionId = UUID.fromString(missionIdStr);
             SectMission mission = sect.getMission(missionId);
 
@@ -1266,7 +1498,7 @@ public class SectCommand {
             }
 
             if (!mission.canAccept(player.getUUID())) {
-                context.getSource().sendFailure(Component.literal("§cYou have already accepted this mission!"));
+                context.getSource().sendFailure(Component.literal("§cYou have already accepted this mission or it's expired!"));
                 return 0;
             }
 
@@ -1277,7 +1509,7 @@ public class SectCommand {
             return 1;
 
         } catch (IllegalArgumentException e) {
-            context.getSource().sendFailure(Component.literal("§cInvalid mission ID!"));
+            context.getSource().sendFailure(Component.literal("§cInvalid mission ID format!"));
             return 0;
         }
     }
@@ -1287,23 +1519,22 @@ public class SectCommand {
         String missionIdStr = StringArgumentType.getString(context, "missionId");
 
         SectManager manager = getManager(context);
-        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
 
+        Sect sect = manager.getPlayerSect(player.getUUID());
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
         }
 
         try {
+            // Parse the UUID from string
             UUID missionId = UUID.fromString(missionIdStr);
-            SectMission mission = sect.getMission(missionId);
 
-            if (mission == null) {
-                context.getSource().sendFailure(Component.literal("§cMission not found!"));
-                return 0;
-            }
-
-            if (SectMissionEventHandler.claimMissionReward(player, mission)) {
+            if (SectMissionEventHandler.claimMissionReward(player, missionId)) {
                 context.getSource().sendSuccess(() -> Component.literal("§aMission completed and rewards claimed!"), false);
                 return 1;
             } else {
@@ -1312,7 +1543,7 @@ public class SectCommand {
             }
 
         } catch (IllegalArgumentException e) {
-            context.getSource().sendFailure(Component.literal("§cInvalid mission ID!"));
+            context.getSource().sendFailure(Component.literal("§cInvalid mission ID format!"));
             return 0;
         }
     }
@@ -1903,5 +2134,59 @@ public class SectCommand {
                 );
 
         player.sendSystemMessage(message);
+    }
+
+    /**
+     * Suggests online members of the player's sect
+     */
+    private static CompletableFuture<Suggestions> suggestSectMembers(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder, boolean includeSelf) {
+        ServerPlayer player = context.getSource().getPlayer();
+        if (player != null) {
+            SectManager manager = getManager(context);
+            if (manager != null) {
+                Sect sect = manager.getPlayerSect(player.getUUID());
+                if (sect != null) {
+                    Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
+                    for (ServerPlayer onlinePlayer : onlinePlayers) {
+                        if (!includeSelf && onlinePlayer == player) continue;
+
+                        SectMember member = sect.getMember(onlinePlayer.getUUID());
+                        if (member != null) {
+                            builder.suggest(onlinePlayer.getGameProfile().getName());
+                        }
+                    }
+                }
+            }
+        }
+        return builder.buildFuture();
+    }
+
+    /**
+     * Suggests online Inner members of the player's sect (for recommendation)
+     */
+    private static CompletableFuture<Suggestions> suggestInnerMembers(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
+        ServerPlayer player = context.getSource().getPlayer();
+        if (player != null) {
+            SectManager manager = getManager(context);
+            if (manager != null) {
+                Sect sect = manager.getPlayerSect(player.getUUID());
+                if (sect != null) {
+                    // Check if player has permission to recommend
+                    SectMember recommender = sect.getMember(player.getUUID());
+                    if (recommender != null && (recommender.getRank() == SectRank.ELDER || recommender.getRank() == SectRank.SECT_MASTER)) {
+                        Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
+                        for (ServerPlayer onlinePlayer : onlinePlayers) {
+                            if (onlinePlayer == player) continue;
+
+                            SectMember targetMember = sect.getMember(onlinePlayer.getUUID());
+                            if (targetMember != null && targetMember.getRank() == SectRank.INNER) {
+                                builder.suggest(onlinePlayer.getGameProfile().getName());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return builder.buildFuture();
     }
 }

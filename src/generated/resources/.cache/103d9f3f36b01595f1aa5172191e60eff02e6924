@@ -1,4 +1,4 @@
-// 1.21.1	2025-11-28T10:51:04.5910099	Registries
+// 1.21.1	2025-11-29T11:52:50.9018821	Registries
 644ab57e14fe71196d4f7c0a459d282bf0823bcc data/ascension/damage_type/dao.json
 741e2aa674991f609a5d2cfe25643da47f0849e2 data/ascension/neoforge/biome_modifier/add_black_iron_ore.json
 854df35a4d9f1e2ce73ba76d772a918867b07141 data/ascension/neoforge/biome_modifier/add_frost_silver_ore.json
@@ -21,7 +21,7 @@ d9e772f9becfd9ad284fcbb5ab5b8356b371e165 data/ascension/worldgen/configured_feat
 fd67eb580e9f99d169a2dc1f07acbbb7022be43b data/ascension/worldgen/configured_feature/jade_ore.json
 73f2f25b53424d2d7e605f16ce15728824bf56da data/ascension/worldgen/configured_feature/raw_marble.json
 001b5e702ccd7c72142f83c9aa37d50677cd9be1 data/ascension/worldgen/configured_feature/white_jade_orchid_crop.json
-4d4230faffd32934114e425ef600c1dbe6ff06ce data/ascension/worldgen/placed_feature/black_iron_ore_placed.json
+3bbedc3c40a51b2c3ebf7c90b3165009e7361f79 data/ascension/worldgen/placed_feature/black_iron_ore_placed.json
 e4555f1bfa50124af953597425cce79dfa36157b data/ascension/worldgen/placed_feature/frost_silver_ore_placed.json
 84af3832b455a10ecef51bf7d5ee81956cfcac17 data/ascension/worldgen/placed_feature/golden_palm_placed.json
 52a168855cf3afd76d46b7fdfe6dcdbd5262b573 data/ascension/worldgen/placed_feature/hundred_year_fire_ginseng_crop_placed.json

@@ -13,7 +13,7 @@ public class SectManager extends SavedData {
     private final Map<String, Sect> sects = new ConcurrentHashMap<>();
     private final Map<UUID, String> playerSects = new ConcurrentHashMap<>();
     private final Map<UUID, Boolean> chatToggles = new ConcurrentHashMap<>();
-    private final Map<String, Set<String>> pendingInvites = new ConcurrentHashMap<>();
+    public final Map<String, Set<String>> pendingInvites = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> allyRequests = new ConcurrentHashMap<>();
     private final String worldId;
 
@@ -96,6 +96,17 @@ public class SectManager extends SavedData {
         playerSects.remove(playerId);
         chatToggles.remove(playerId);
         setDirty();
+    }
+
+    public void removeInvite(String sectName, String playerName) {
+        Set<String> invites = pendingInvites.get(sectName);
+        if (invites != null) {
+            invites.remove(playerName.toLowerCase());
+            if (invites.isEmpty()) {
+                pendingInvites.remove(sectName);
+            }
+            setDirty();
+        }
     }
 
     // NEW: Public method to remove a sect completely
