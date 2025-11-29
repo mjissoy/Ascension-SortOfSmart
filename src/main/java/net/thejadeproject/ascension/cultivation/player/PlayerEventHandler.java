@@ -14,6 +14,8 @@ import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.custom.AscensionSkillEntity;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
@@ -70,10 +72,14 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public static void postDamageListener(LivingDamageEvent.Post event){
         if(event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Player player) {
+            if (event.getOriginalDamage() < (player.getMaxHealth() /8) ) return;
+            if (event.getEntity().getMaxHealth() < 10f) return;
+
+
 
             //gather attributes
 
-            
+
 
 
             if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:intent").technique.equals("ascension:none")) return;
@@ -82,10 +88,11 @@ public class PlayerEventHandler {
                     ':'
             )).tryCultivate(player);
         }
-        
+
         if(event.getEntity() instanceof Player player){
             //cultivate body
-            
+            if (event.getOriginalDamage() < (player.getMaxHealth() /5) ) return;
+
             if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique.equals("ascension:none")) return;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
                     player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique,
@@ -93,5 +100,16 @@ public class PlayerEventHandler {
             )).tryCultivate(player);
         }
     }
+
+
+    @SubscribeEvent
+    public static void livingDeathEvent(LivingDeathEvent event){
+        if(event.getEntity() != null && event.getEntity() instanceof Player player) {
+
+
+        }
+    }
+
+
 
 }
