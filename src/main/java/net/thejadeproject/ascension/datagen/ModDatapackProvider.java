@@ -11,6 +11,7 @@ import net.minecraft.world.damagesource.DeathMessageType;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.util.ModDamageTypes;
 import net.thejadeproject.ascension.util.ModTags;
 import net.thejadeproject.ascension.worldgen.*;
 
@@ -22,11 +23,13 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.CONFIGURED_FEATURE, ModConfiguredFeatures::bootstrap)
             .add(Registries.PLACED_FEATURE, ModPlacedFeatures::bootstrap)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModBiomeModifiers::bootstrap)
-            .add(Registries.DAMAGE_TYPE, bootstrap -> bootstrap.register(ModTags.DamageTypes.DAO_DAMAGE_KEY, new DamageType(ModTags.DamageTypes.DAO_DAMAGE_KEY.location().toString(),
-                    DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER,
-                    0.1f,
-                    DamageEffects.HURT,
-                    DeathMessageType.DEFAULT)));
+            .add(Registries.DAMAGE_TYPE, bootstrap -> {
+                bootstrap.register(ModTags.DamageTypes.DAO_DAMAGE_KEY, new DamageType(ModTags.DamageTypes.DAO_DAMAGE_KEY.location().toString(),
+                        DamageScaling.WHEN_CAUSED_BY_LIVING_NON_PLAYER,
+                        0.1f,
+                        DamageEffects.HURT,
+                        DeathMessageType.DEFAULT));
+            });
 
 
     public ModDatapackProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {

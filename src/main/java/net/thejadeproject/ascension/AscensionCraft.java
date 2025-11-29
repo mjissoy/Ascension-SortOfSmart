@@ -198,7 +198,7 @@ public class AscensionCraft {
                 //open menu
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new OpenPickPhysiqueScreen(true));
             }else {
-                PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
+                //PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
             }
 
             for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){

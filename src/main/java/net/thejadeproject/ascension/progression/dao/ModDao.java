@@ -90,7 +90,7 @@ public class ModDao {
                     "ascension:yin",1.9
             ));
 
-    public static final DeferredHolder<IDao, GenericDao> Poison_DAO = createDao("poison",Component.literal("§5[Poison]"));
+    public static final DeferredHolder<IDao, GenericDao> POISON_DAO = createDao("poison",Component.literal("§5[Poison]"));
 
 
     public static final DeferredHolder<IDao,GenericDao> REINCARNATION_DAO = createDao("reincarnation",Component.literal("§3[Reincarnation]"),
@@ -105,7 +105,7 @@ public class ModDao {
     public static final DeferredHolder<IDao,GenericDao> BLADE_DAO = createDao("blade_intent",Component.literal("§8[Blade Intent]"));
     public static final DeferredHolder<IDao,GenericDao> AXE_DAO = createDao("axe_intent",Component.literal("§8[Axe Intent]"));
     public static final DeferredHolder<IDao,GenericDao> SPEAR_DAO = createDao("spear_intent",Component.literal("§8[Spear Intent]"));
-
+    public static final DeferredHolder<IDao,GenericDao> BOW_DAO = createDao("bow_intent",Component.literal("§8[Bow Intent]"));
     public static DeferredHolder<IDao,GenericDao> createDao(String id, Component title){
         return createDao(id,title,new ArrayList<>(),Map.of(),Map.of());
     }

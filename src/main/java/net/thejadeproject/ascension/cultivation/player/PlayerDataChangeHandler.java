@@ -51,7 +51,7 @@ public class PlayerDataChangeHandler {
             }
         }
         
-        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique("ascension:empty_vessel"));
+        //PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique("ascension:empty_vessel"));
         for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
             
             

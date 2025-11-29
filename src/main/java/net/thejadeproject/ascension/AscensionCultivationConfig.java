@@ -59,7 +59,7 @@ public class AscensionCultivationConfig {
                 new ArrayList<>() {{
                     add("ascension:pure_sword_body");
                     add("ascension:pure_spear_body");
-                    add("ascension:pure_bow_body");
+                    add("ascension:pure_axe_body");
                     add("ascension:pure_blade_body");
                     add("ascension:pure_fist_body");
                 }}, (item) -> true);

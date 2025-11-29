@@ -104,7 +104,7 @@ public class ModActions {
 
                     Label label = ((Label) renderable);
                     if(player == null )return;
-                    CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence");
+
                     NumberFormat formatter = new DecimalFormat("#0.00");
                     if(attribute.equals("Max Health")){
                         label.text =  Component.literal(formatter.format(player.getMaxHealth()));
@@ -125,15 +125,16 @@ public class ModActions {
                     else if(attribute.equals("Jump Strength")){
                         label.text =  Component.literal(formatter.format(player.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue()));
                     }else if(attribute.equals("Physique")){
+                        String physique = player.getData(ModAttachments.PHYSIQUE);
+                        if(physique == null) label.text = Component.literal("ascension:empty_vessel");
+                        else{
+                            label.text = Component.literal(
+                                    AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(
+                                            physique,':'
+                                    )).getDisplayTitle()
+                            );
+                        }
 
-                        String[] physique = player.getData(ModAttachments.PHYSIQUE).split(":");
-
-                        label.text = Component.literal(
-                                AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.fromNamespaceAndPath(
-                                        physique[0],
-                                        physique[1]
-                                )).getDisplayTitle()
-                        );
                     }
 
                     label.width = label.font.width(label.text);

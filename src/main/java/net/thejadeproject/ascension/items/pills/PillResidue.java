@@ -23,7 +23,7 @@ public class PillResidue extends Item {
             DamageSource damageSource = new DamageSource(
                     level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.PILL_RESIDUE)
             );
-
+            //player.kill();
             player.hurt(damageSource, Float.MAX_VALUE);
 
             if (!player.getAbilities().instabuild) {

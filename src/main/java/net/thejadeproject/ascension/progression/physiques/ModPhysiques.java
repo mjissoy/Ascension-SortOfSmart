@@ -88,7 +88,7 @@ public class ModPhysiques {
                         put("ascension:spear_intent",3.0);
                     }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
-    public static final DeferredHolder<IPhysique,GenericPhysique> PURE_BOW_BODY = PHYSIQUES.register("pure_axe_body",
+    public static final DeferredHolder<IPhysique,GenericPhysique> PURE_AXE_BODY = PHYSIQUES.register("pure_axe_body",
             ()-> new GenericPhysique("Pure Axe Body",
                     new HashMap<>(){{
                         put("ascension:intent",1.0);
