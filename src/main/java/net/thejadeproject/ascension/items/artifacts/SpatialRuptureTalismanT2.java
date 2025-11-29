@@ -154,17 +154,7 @@ public class SpatialRuptureTalismanT2 extends Item {
     private void cancelTeleport(ServerPlayer player, String reason) {
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleport_cancelled", reason), true);
 
-        // Consume item even when cancelled since it was "used"
-        if (!player.getAbilities().instabuild) {
-            for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-                ItemStack stack = player.getInventory().getItem(i);
-                if (stack.getItem() instanceof SpatialRuptureTalismanT2) {
-                    stack.shrink(1);
-                    break;
-                }
-            }
-        }
-
+        // Removed item consumption when teleport is cancelled
         clearCountdownData(player);
     }
 

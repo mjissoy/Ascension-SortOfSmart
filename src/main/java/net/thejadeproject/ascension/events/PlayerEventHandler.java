@@ -17,7 +17,7 @@ public class PlayerEventHandler {
     private static final String RECEIVED_STARTER_KIT_TAG = AscensionCraft.MOD_ID + ":received_starter_kit";
 
     @SubscribeEvent
-    public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+    public static void onPlayerJoinFirstTime(PlayerEvent.PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
         }
@@ -30,8 +30,9 @@ public class PlayerEventHandler {
             return;
         }
 
-        // Check if player already received starter kit
-        if (player.getPersistentData().getBoolean(RECEIVED_STARTER_KIT_TAG)) {
+        // Check if player already received starter kit OR if player has played before
+        if (player.getPersistentData().getBoolean(RECEIVED_STARTER_KIT_TAG) ||
+                player.getStats().getValue(net.minecraft.stats.Stats.CUSTOM.get(net.minecraft.stats.Stats.PLAY_TIME)) > 0) {
             return;
         }
 
