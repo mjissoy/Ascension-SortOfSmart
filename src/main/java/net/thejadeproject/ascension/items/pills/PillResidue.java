@@ -18,33 +18,22 @@ public class PillResidue extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         if (!level.isClientSide() && livingEntity instanceof Player player) {
-            // Create the custom damage source
             DamageSource damageSource = new DamageSource(
                     level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.PILL_RESIDUE)
             );
 
-            // Apply damage that bypasses totem protection
-            // We'll use a combination of approaches to ensure the custom damage source is used
+            //boolean wasKilled = player.hurt(damageSource, Float.MAX_VALUE);
 
-            // First, try to apply lethal damage with our custom source
-            boolean wasKilled = player.hurt(damageSource, Float.MAX_VALUE);
-
-            // If the player is still alive (due to totem), we need to bypass it
             if (player.isAlive()) {
-                // Force death with our custom damage source
-                // We'll use reflection or a different approach to set the last damage source
                 try {
-                    // Try to set the last damage source via reflection
                     var lastDamageSourceField = LivingEntity.class.getDeclaredField("lastDamageSource");
                     lastDamageSourceField.setAccessible(true);
                     lastDamageSourceField.set(player, damageSource);
                 } catch (Exception e) {
-                    // If reflection fails, fall back to another method
                 }
 
-                // Now kill the player - this should use our custom damage source
-                player.setHealth(0);
-                player.die(damageSource);
+                player.hurt(damageSource, 1000);
+                //player.die(damageSource);
             }
 
             if (!player.getAbilities().instabuild) {

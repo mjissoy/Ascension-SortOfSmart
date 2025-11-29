@@ -18,6 +18,7 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.CastingInstance;
+import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.network.clientBound.SyncCastingInstance;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerQi;
 import net.thejadeproject.ascension.progression.skills.data.CastSource;
@@ -83,6 +84,8 @@ public class PlayerData {
 
     public void regenQi(){
         ticksSinceRegen += 1;
+
+        if (player.hasEffect(ModEffects.PARASITE)) return;
 
         if(ticksSinceRegen >= TICKS_FOR_REGEN){
             if(player.getAttribute(ModAttributes.PLAYER_QI_REGEN_RATE) != null) increaseQi(player.getAttribute(ModAttributes.PLAYER_QI_REGEN_RATE).getValue());
