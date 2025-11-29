@@ -1,8 +1,7 @@
 {
-
   "message_id": "pill_residue",
   "scaling": "always",
-  "exhaustion": 1,
+  "exhaustion" : 1.0,
   "effects": "hurt",
   "death_message_type": "default"
 }

@@ -28,8 +28,8 @@ public class MainScreen extends EasyGuiScreen {
         */
         View view = new View(this);
         addView(view);
-        view.setUseMinecraftScale(true);
-        view.setCustomScale(2);
+        view.setUseMinecraftScale(false);
+        view.setCustomScale(3);
         MainMenuContainer container = new MainMenuContainer(this,view.getScaledWidth()/2-71,view.getScaledHeight()/2-71);
         view.addChild(container);
         container.setSticky(true);

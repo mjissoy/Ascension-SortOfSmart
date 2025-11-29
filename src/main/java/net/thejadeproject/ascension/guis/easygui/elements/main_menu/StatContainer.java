@@ -58,12 +58,12 @@ public class StatContainer extends EmptyContainer {
 
                 ClickableLabel label = ((ClickableLabel) renderable);
                 if(player == null )return;
-                String[] physique = player.getData(ModAttachments.PHYSIQUE).split(":");
-
+                String physique = player.getData(ModAttachments.PHYSIQUE);
+                if(physique == null) return;
                 label.text = Component.literal(
-                        AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.fromNamespaceAndPath(
-                                physique[0],
-                                physique[1]
+                        AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(
+                                physique,
+                                ':'
                         )).getDisplayTitle()
                 );
 

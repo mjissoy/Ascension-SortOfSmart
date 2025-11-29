@@ -34,11 +34,8 @@ import java.util.function.Supplier;
 
 public class ModTechniques {
 
-    public static double getMaxSpeed() {
-        return MaxSpeed;
-    }
-
-    public static double MaxSpeed = 0.8;
+    public static double MaxSpeed = 0.4;
+    public static double MaxJumpStrength = 2.0;
 
 
     public static class TechniqueHolder{
@@ -332,10 +329,7 @@ public class ModTechniques {
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:axe_intent",2.0);
-                    }})
-                    .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:intent",0,3,"ascension:axe_intent_skill",true)
-                    )));
+                    }}));
     public static final TechniqueHolder PURE_BLADE_INTENT = createTechnique("pure_blade_intent",
             ()->new SingleIntentTechnique(
                         "Pure Blade Technique",8.0,"ascension:blade_intent",
@@ -361,9 +355,7 @@ public class ModTechniques {
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:blade_intent",2.0);
-                    }}).setSkillList(List.of(
-                            new AcquirableSkillData("ascension:intent",0,3,"ascension:blade_intent_skill",true)
-                    )));
+                    }}));
     public static final TechniqueHolder PURE_SPEAR_INTENT = createTechnique("pure_spear_intent",
             ()->new SingleIntentTechnique(
                     "Pure Blade Technique",8.0,"ascension:spear_intent",
@@ -391,10 +383,7 @@ public class ModTechniques {
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:spear_intent",2.0);
-                    }})
-                    .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:intent",0,3,"ascension:spear_intent_skill",true)
-                    )));
+                    }}));
     public static final TechniqueHolder PURE_FIST_INTENT = createTechnique("pure_fist_intent",
             ()->new SingleIntentTechnique(
                     "Pure Fist Technique",8.0,

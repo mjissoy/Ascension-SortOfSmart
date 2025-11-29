@@ -35,7 +35,6 @@ public record SyncGeneratedPhysique(String generated_physique, byte[] other_phys
     public static void handlePayload(SyncGeneratedPhysique payload, IPayloadContext context) {
         //deserialize physiques
         String joined = new String(payload.other_physiques(), StandardCharsets.UTF_8);
-        context.player().setData(ModAttachments.PHYSIQUE, payload.generated_physique);
         NeoForge.EVENT_BUS.post(new PhysiqueGeneratedEvent(payload.generated_physique(),joined.split(";")));
 
     }

@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.util;
 
 import com.mojang.serialization.Codec;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -48,7 +49,10 @@ public class ModAttachments {
             "water_movement_efficiency", () -> AttachmentType.builder(() -> 0.0).serialize(Codec.DOUBLE).copyOnDeath().build()
     );
     public static final Supplier<AttachmentType<String>> PHYSIQUE = ATTACHMENT_TYPES.register(
-            "physique", () -> AttachmentType.builder(() -> "ascension:empty_vessel").serialize(Codec.STRING).copyOnDeath().build()
+            "physique", () -> AttachmentType.builder(() -> "ascension:empty_vessel")
+                    .serialize(Codec.STRING)
+                    .sync(ByteBufCodecs.STRING_UTF8)
+                    .copyOnDeath().build()
     );
 
 

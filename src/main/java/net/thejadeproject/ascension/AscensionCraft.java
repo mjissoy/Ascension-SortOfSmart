@@ -198,7 +198,7 @@ public class AscensionCraft {
                 //open menu
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new OpenPickPhysiqueScreen(true));
             }else {
-                PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
+                //PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
             }
 
             for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
@@ -219,6 +219,7 @@ public class AscensionCraft {
     public void onLoadComplete(FMLLoadCompleteEvent event) {
         PlayerAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.MAX_HEALTH.value());
         PlayerAttributeManager.changeAttributeRange(0,ModTechniques.MaxSpeed,(RangedAttribute) Attributes.MOVEMENT_SPEED.value());
+        PlayerAttributeManager.changeAttributeRange(0,ModTechniques.MaxJumpStrength,(RangedAttribute) Attributes.JUMP_STRENGTH.value());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

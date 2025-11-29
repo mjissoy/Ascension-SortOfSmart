@@ -17,10 +17,11 @@ public class PhysiqueEventListener{
     @SubscribeEvent
     public static void gatherEfficiencyMultipliers(GatherEfficiencyModifiersEvent event){
         if(event.player.hasData(ModAttachments.PHYSIQUE)){
-            String physique = event.player.getData(ModAttachments.PHYSIQUE);
-            AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
-                ResourceLocation.fromNamespaceAndPath(physique.split(":")[0],physique.split(":")[1])
-            ).onGatherEfficiencyModifiers(event);
+            String physiqueId = event.player.getData(ModAttachments.PHYSIQUE);
+            IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
+                ResourceLocation.fromNamespaceAndPath(physiqueId.split(":")[0],physiqueId.split(":")[1])
+            );
+            if(physique != null) physique.onGatherEfficiencyModifiers(event);
         }
     }
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -30,7 +31,7 @@ public class PhysiqueEventListener{
             IPhysique physique =  AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
                     ResourceLocation.fromNamespaceAndPath(physique_id.split(":")[0],physique_id.split(":")[1])
             );
-            physique.onRealmChangeEvent(event);
+            if(physique != null)  physique.onRealmChangeEvent(event);
         }
     }
 
