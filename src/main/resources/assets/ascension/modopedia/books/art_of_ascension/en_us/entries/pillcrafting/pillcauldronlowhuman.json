@@ -38,7 +38,7 @@
         {
           "header": "§bHeat System",
           "template": "modopedia:page/headered_text",
-          "text": "In order to actually craft inside this Pill Cauldron. You need the Required Ingredients and also Heat! \n\nTo add heat simply Right Click the block with specific items! \n\nThese items are currently Coal adding 8 Heat, Coal Block adding 72 and Crimson Fire Lotus adding 300 Heat! \nDo be careful as Heat slowly drains by itself!"
+          "text": "In order to actually craft inside this Pill Cauldron. You need the Required Ingredients and also Heat! \n\nTo add heat simply Right Click the block with specific items! \n\nThese items are currently Flame adding 8 Heat, Soul Flame adding 16 and Crimson Fire Lotus adding 200 Heat! \nDo be careful as Heat slowly drains by itself!"
         }
       ]
     }

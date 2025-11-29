@@ -10,7 +10,7 @@
   ],
 
   "required_heat": 120,
-  "chance": 0.30,
+  "chance": 0.40,
   "success": {
     "id": "ascension:fasting_pill_t3",
     "count": 4

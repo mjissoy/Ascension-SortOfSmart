@@ -10,7 +10,7 @@
   ],
 
   "required_heat": 225,
-  "chance": 0.09,
+  "chance": 0.60,
   "success": {
     "id": "ascension:inner_reinforcement_pill_t2",
     "count": 1

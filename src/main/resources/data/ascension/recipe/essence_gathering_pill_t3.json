@@ -10,7 +10,7 @@
   ],
 
   "required_heat": 325,
-  "chance": 0.08,
+  "chance": 0.55,
   "success": {
     "id": "ascension:essence_gathering_pill_t3",
     "count": 1
