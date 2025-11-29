@@ -28,9 +28,11 @@ public class GenericTechniqueManual extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         
         ItemStack itemstack = player.getItemInHand(usedHand);
-        itemstack.shrink(1);
         if(level.isClientSide()) return InteractionResultHolder.fail(itemstack);
-        if(learnTechnique(player)) return InteractionResultHolder.success(itemstack);
+        if(learnTechnique(player)) {
+            itemstack.shrink(1);
+            return InteractionResultHolder.success(itemstack);
+        }
         return InteractionResultHolder.fail(itemstack);
     }
 
