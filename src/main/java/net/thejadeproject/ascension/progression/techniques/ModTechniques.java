@@ -34,11 +34,8 @@ import java.util.function.Supplier;
 
 public class ModTechniques {
 
-    public static double getMaxSpeed() {
-        return MaxSpeed;
-    }
-
-    public static double MaxSpeed = 0.8;
+    public static double MaxSpeed = 0.4;
+    public static double MaxJumpStrength = 2.0;
 
 
     public static class TechniqueHolder{

@@ -219,6 +219,7 @@ public class AscensionCraft {
     public void onLoadComplete(FMLLoadCompleteEvent event) {
         PlayerAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.MAX_HEALTH.value());
         PlayerAttributeManager.changeAttributeRange(0,ModTechniques.MaxSpeed,(RangedAttribute) Attributes.MOVEMENT_SPEED.value());
+        PlayerAttributeManager.changeAttributeRange(0,ModTechniques.MaxJumpStrength,(RangedAttribute) Attributes.JUMP_STRENGTH.value());
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
