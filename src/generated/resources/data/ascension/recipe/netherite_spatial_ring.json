@@ -1,0 +1,24 @@
+{
+  "type": "ascension:spatialring_upgrade",
+  "category": "misc",
+  "key": {
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "S": {
+      "item": "ascension:diamond_spatial_ring"
+    },
+    "T": {
+      "item": "minecraft:netherite_upgrade_smithing_template"
+    }
+  },
+  "pattern": [
+    "NNN",
+    "NSN",
+    "NTN"
+  ],
+  "result": {
+    "count": 1,
+    "id": "ascension:netherite_spatial_ring"
+  }
+}
