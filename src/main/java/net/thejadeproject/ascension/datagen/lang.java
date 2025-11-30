@@ -21,6 +21,10 @@ public class lang extends LanguageProvider {
         add("sect.claim.cannot_overclaim", "Cannot overclaim %s sect! You need more than %s power (you have %s)");
 
 
+        add("sect.deposit.opening", "Opening Deposit Vault");
+        add("container.sect_deposit", "Sect Deposit Vault");
+
+
         //Advancements
         add("advancements.ascension.root.install", "Ascension Loaded");
         add("advancements.ascension.root.welcome", "Welcome to the world of Ascension! We hope you will cultivate to immortality!");

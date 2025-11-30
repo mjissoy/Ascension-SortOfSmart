@@ -71,6 +71,18 @@ public class Sect {
         return totalDeposited;
     }
 
+    public void setMaxPower(int maxPower) {
+        this.maxPower = maxPower;
+    }
+
+    public void setCurrentPower(int currentPower) {
+        this.currentPower = currentPower;
+    }
+
+    public void setTotalDeposited(int totalDeposited) {
+        this.totalDeposited = totalDeposited;
+    }
+
     public void addPower(int amount) {
         this.currentPower += amount;
         this.maxPower += amount; // Increase max power when depositing
