@@ -14,6 +14,13 @@ public class lang extends LanguageProvider {
 
 
 
+        //Commands
+        add("sect.info.power", "Power: %s/%s");
+        add("sect.info.total_deposited", "Total Deposited: %s");
+        add("sect.claim.insufficient_power", "Your sect doesn't have enough power to claim this chunk");
+        add("sect.claim.cannot_overclaim", "Cannot overclaim %s sect! You need more than %s power (you have %s)");
+
+
         //Advancements
         add("advancements.ascension.root.install", "Ascension Loaded");
         add("advancements.ascension.root.welcome", "Welcome to the world of Ascension! We hope you will cultivate to immortality!");

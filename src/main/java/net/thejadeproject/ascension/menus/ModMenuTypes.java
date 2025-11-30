@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 import net.thejadeproject.ascension.menus.spatialrings.SRContainer;
+import net.thejadeproject.ascension.sects.SectDepositMenu;
 
 
 public class ModMenuTypes {
@@ -21,6 +22,9 @@ public class ModMenuTypes {
 
     public static final DeferredHolder<MenuType<?>, MenuType<PillCauldronLowHumanMenu>> PILL_CAULDRON_LOW_HUMAN_MENU =
             registerMenuType("pill_cauldron_low_human_menu", PillCauldronLowHumanMenu::new);
+
+    public static final DeferredHolder<MenuType<?>, MenuType<SectDepositMenu>> SECT_DEPOSIT_MENU =
+            MENUS.register("sect_deposit", () -> IMenuTypeExtension.create((windowId, inv, data) -> new SectDepositMenu(windowId, inv)));
 
     public static final DeferredHolder<MenuType<?>, MenuType<SRContainer>> SR_CONTAINER =
             registerMenuType("sr_container", SRContainer::fromNetwork);

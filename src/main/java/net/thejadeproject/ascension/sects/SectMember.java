@@ -31,6 +31,8 @@ public class SectMember {
         return tag;
     }
 
+
+
     public static SectMember fromNBT(CompoundTag tag) {
         UUID playerId = tag.getUUID("playerId");
         String playerName = tag.getString("playerName");

@@ -10,8 +10,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class SectManager extends SavedData {
-    private final Map<String, Sect> sects = new ConcurrentHashMap<>();
-    private final Map<UUID, String> playerSects = new ConcurrentHashMap<>();
+    final Map<String, Sect> sects = new ConcurrentHashMap<>();
+    final Map<UUID, String> playerSects = new ConcurrentHashMap<>();
     private final Map<UUID, Boolean> chatToggles = new ConcurrentHashMap<>();
     public final Map<String, Set<String>> pendingInvites = new ConcurrentHashMap<>();
     private final Map<String, Set<String>> allyRequests = new ConcurrentHashMap<>();
@@ -25,6 +25,16 @@ public class SectManager extends SavedData {
         this.worldId = worldId;
     }
 
+    public List<String> getPendingInvites(String playerName) {
+        List<String> invitedSects = new ArrayList<>();
+        for (Map.Entry<String, Set<String>> entry : pendingInvites.entrySet()) {
+            if (entry.getValue().contains(playerName.toLowerCase())) {
+                invitedSects.add(entry.getKey());
+            }
+        }
+        return invitedSects;
+    }
+
     public static SectManager get(MinecraftServer server, String worldId) {
         if (server == null || worldId == null) return null;
 
@@ -36,6 +46,24 @@ public class SectManager extends SavedData {
                         (tag, registries) -> load(tag, registries, worldId)),
                 fileName
         );
+    }
+
+    public boolean isChunkClaimed(long chunkPos) {
+        for (Sect sect : getAllSects().values()) {
+            if (sect.isChunkClaimed(chunkPos)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Sect getSectByChunk(long chunkPos) {
+        for (Sect sect : getAllSects().values()) {
+            if (sect.isChunkClaimed(chunkPos)) {
+                return sect;
+            }
+        }
+        return null;
     }
 
     public static SectManager load(CompoundTag tag, HolderLookup.Provider registries, String worldId) {
