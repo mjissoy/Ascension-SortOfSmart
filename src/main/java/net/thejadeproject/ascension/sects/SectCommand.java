@@ -1552,7 +1552,7 @@ public class SectCommand {
 
         context.getSource().sendSuccess(() -> Component.literal("§6=== Territory Map (7x7 chunks) ==="), false);
         context.getSource().sendSuccess(() -> Component.literal("§7Green: Your sect §a█ §7Red: Enemy §c█ §7White: Unclaimed §f█"), false);
-        context.getSource().sendSuccess(() -> Component.literal("§7Yellow: Ally §e█ §7Gray: Other sect §8█ §7▲: Your position"), false);
+        context.getSource().sendSuccess(() -> Component.literal("§7Yellow: Ally §e█ §7Gray: Other sect §8█ §b█: Your position"), false);
         context.getSource().sendSuccess(() -> Component.literal(""), false);
 
         for (int z = centerChunkZ - 3; z <= centerChunkZ + 3; z++) {
@@ -1562,7 +1562,7 @@ public class SectCommand {
                 String symbol = "§f█"; // Default: unclaimed
 
                 if (x == centerChunkX && z == centerChunkZ) {
-                    symbol = "§b▲"; // Player position
+                    symbol = "§b█"; // Player position
                 } else {
                     // Check all sects for this chunk
                     boolean claimed = false;

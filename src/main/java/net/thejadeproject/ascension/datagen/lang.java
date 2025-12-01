@@ -166,9 +166,9 @@ public class lang extends LanguageProvider {
         add("item.ascension.tablet_of_destruction_human.cooldown", "Ability is on cooldown!");
         add("item.ascension.tablet_of_destruction_heaven.cooldown", "Item is on cooldown!");
         add("item.ascension.tablet_of_destruction_heaven.drop_blocks", "Drop Blocks = ");
-        add("item.ascension.tablet.drop_blocks", "Drop Blocks = ");
+        add("ascension.tablet.drop_blocks", "Drop Blocks = ");
         add("item.ascension.tablet_of_destruction_heaven.toggle_mode", "Press 'M' to toggle mode");
-        add("item.ascension.tablet.toggle_mode", "Press 'M' to toggle mode ");
+        add("ascension.tablet.toggle_mode", "Press 'M' to toggle mode ");
         add("item.ascension.tablet_of_destruction_heaven.link_instruction", "Shift+Right-Click chest/barrel to link");
         add("item.ascension.tablet_of_destruction_heaven.unlinked", "Unlinked from chest or barrel.");
         add("item.ascension.tablet_of_destruction_heaven.linked", "Linked to %s at (%d, %d, %d)");
