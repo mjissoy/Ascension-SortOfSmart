@@ -59,24 +59,6 @@ public class SectManager extends SavedData {
         );
     }
 
-    public boolean isChunkClaimed(long chunkPos) {
-        for (Sect sect : getAllSects().values()) {
-            if (sect.isChunkClaimed(chunkPos)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Sect getSectByChunk(long chunkPos) {
-        for (Sect sect : getAllSects().values()) {
-            if (sect.isChunkClaimed(chunkPos)) {
-                return sect;
-            }
-        }
-        return null;
-    }
-
     public static SectManager load(CompoundTag tag, HolderLookup.Provider registries, String worldId) {
         SectManager manager = new SectManager(worldId);
 

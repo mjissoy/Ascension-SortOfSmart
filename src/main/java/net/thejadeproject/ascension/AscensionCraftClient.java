@@ -43,8 +43,6 @@ import net.thejadeproject.ascension.menus.spatialrings.SRScreen;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
-import net.thejadeproject.ascension.sects.SectDepositMenu;
-import net.thejadeproject.ascension.sects.SectDepositScreen;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 @Mod(value = AscensionCraft.MOD_ID,dist = Dist.CLIENT)
@@ -76,7 +74,6 @@ public class AscensionCraftClient {
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
             event.register(ModMenuTypes.SR_CONTAINER.get(), SRScreen::new);
-            event.register(ModMenuTypes.SECT_DEPOSIT_MENU.get(), SectDepositScreen::new);
         }
 
         @SubscribeEvent

@@ -18,30 +18,23 @@ public class Sect {
     private UUID ownerId;
     private final Map<UUID, SectMember> members;
     private final Set<String> allies;
+    private final Set<String> enemies; // NEW: Restored enemy system
     private boolean open;
     private final long createdTime;
     private String description;
     private boolean friendlyFire = true;
 
-
-    private final Map<Long, UUID> claimedChunks = new HashMap<>(); // chunkPos -> player who claimed it
-    private int depositedMerit = 0; // Total merit deposited by members
-    private final Set<String> enemies = new HashSet<>(); // Names of enemy sects
-
     private final Map<UUID, SectMission> missions = new HashMap<>();
     private final Map<UUID, List<ItemStack>> missionSubmissions = new HashMap<>();
-    private final Map<UUID, Integer> playerMerit = new HashMap<>();
-    private final Map<UUID, Set<UUID>> elderRecommendations = new HashMap<>();
-
-
-
-
+    final Map<UUID, Integer> playerMerit = new HashMap<>();
+    final Map<UUID, Set<UUID>> elderRecommendations = new HashMap<>();
 
     public Sect(String name, UUID ownerId, String ownerName) {
         this.name = name;
         this.ownerId = ownerId;
         this.members = new HashMap<>();
         this.allies = new HashSet<>();
+        this.enemies = new HashSet<>(); // NEW: Initialize enemies set
         this.open = false;
         this.createdTime = System.currentTimeMillis();
         this.description = "A newly formed sect.";
@@ -53,105 +46,16 @@ public class Sect {
     public UUID getOwnerId() { return ownerId; }
     public Map<UUID, SectMember> getMembers() { return members; }
     public Set<String> getAllies() { return allies; }
+    public Set<String> getEnemies() { return enemies; } // NEW: Getter for enemies
     public boolean isOpen() { return open; }
     public void setOpen(boolean open) { this.open = open; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    // Power methods
-    public int getMaxPower() {
-        return maxPower;
-    }
-
-    public int getCurrentPower() {
-        return currentPower;
-    }
-
-    public int getTotalDeposited() {
-        return totalDeposited;
-    }
-
-    public void setMaxPower(int maxPower) {
-        this.maxPower = maxPower;
-    }
-
-    public void setCurrentPower(int currentPower) {
-        this.currentPower = currentPower;
-    }
-
-    public void setTotalDeposited(int totalDeposited) {
-        this.totalDeposited = totalDeposited;
-    }
-
-    public void addPower(int amount) {
-        this.currentPower += amount;
-        this.maxPower += amount; // Increase max power when depositing
-        this.totalDeposited += amount;
-    }
-
-    public boolean usePower(int amount) {
-        if (this.currentPower >= amount) {
-            this.currentPower -= amount;
-            return true;
-        }
-        return false;
-    }
-
-    private int maxPower;  // Maximum power capacity
-    private int currentPower; // Current available power
-    private int totalDeposited; // Total power ever deposited (for tracking)
-
-
-
-    public Set<String> getEnemies() { return enemies; }
-
+    // NEW: Enemy system methods (restored)
     public void addEnemy(String sectName) { enemies.add(sectName); }
-
     public void removeEnemy(String sectName) { enemies.remove(sectName); }
-
     public boolean isEnemy(String sectName) { return enemies.contains(sectName); }
-
-    public Map<Long, UUID> getClaimedChunks() { return claimedChunks; }
-
-    public void claimChunk(long chunkPos, UUID claimerId) {
-        claimedChunks.put(chunkPos, claimerId);
-    }
-
-    public void unclaimChunk(long chunkPos) {
-        claimedChunks.remove(chunkPos);
-    }
-
-    public boolean isChunkClaimed(long chunkPos) {
-        return claimedChunks.containsKey(chunkPos);
-    }
-
-    public UUID getChunkClaimer(long chunkPos) {
-        return claimedChunks.get(chunkPos);
-    }
-
-    public int getClaimedChunkCount() {
-        return claimedChunks.size();
-    }
-
-    // For claiming chunks - check if we have enough power
-    public boolean canClaimChunk() {
-        // Example: 1 power per chunk claim, adjust as needed
-        return this.currentPower >= 1;
-    }
-
-    // For overclaiming - check if we have more power than another sect's max power
-    public boolean canOverclaim(Sect otherSect) {
-        return this.currentPower > otherSect.getMaxPower();
-    }
-
-    // Update your existing getPower() method if it exists
-    public int getPower() {
-        return this.currentPower; // For backward compatibility
-    }
-
-    public void refundPower(int amount) {
-        this.currentPower += amount;
-    }
 
     public boolean isFriendlyFire() {
         return friendlyFire;
@@ -160,7 +64,6 @@ public class Sect {
     public void setFriendlyFire(boolean friendlyFire) {
         this.friendlyFire = friendlyFire;
     }
-
 
     public void addMember(UUID playerId, String playerName, SectRank rank) {
         members.put(playerId, new SectMember(playerId, playerName, rank, ""));
@@ -319,23 +222,12 @@ public class Sect {
         tag.putString("description", description);
         tag.putBoolean("friendlyFire", friendlyFire);
 
-
-        // Save deposited merit
-        tag.putInt("depositedMerit", depositedMerit);
-
-        // Save enemies
+        // NEW: Save enemies
         ListTag enemiesList = new ListTag();
         for (String enemy : enemies) {
             enemiesList.add(StringTag.valueOf(enemy));
         }
         tag.put("enemies", enemiesList);
-
-        // Save claimed chunks
-        CompoundTag chunksTag = new CompoundTag();
-        for (Map.Entry<Long, UUID> entry : claimedChunks.entrySet()) {
-            chunksTag.putUUID(entry.getKey().toString(), entry.getValue());
-        }
-        tag.put("claimedChunks", chunksTag);
 
         // Save members
         ListTag membersList = new ListTag();
@@ -411,6 +303,14 @@ public class Sect {
             sect.friendlyFire = tag.getBoolean("friendlyFire");
         }
 
+        // NEW: Load enemies
+        if (tag.contains("enemies")) {
+            ListTag enemiesList = tag.getList("enemies", Tag.TAG_STRING);
+            for (int i = 0; i < enemiesList.size(); i++) {
+                sect.enemies.add(enemiesList.getString(i));
+            }
+        }
+
         // Load members
         ListTag membersList = tag.getList("members", Tag.TAG_COMPOUND);
         for (int i = 0; i < membersList.size(); i++) {
@@ -473,32 +373,6 @@ public class Sect {
                 sect.elderRecommendations.put(playerId, recommenders);
             }
         }
-        // Load deposited merit
-        if (tag.contains("depositedMerit")) {
-            sect.depositedMerit = tag.getInt("depositedMerit");
-        }
-
-        // Load enemies
-        if (tag.contains("enemies")) {
-            ListTag enemiesList = tag.getList("enemies", Tag.TAG_STRING);
-            for (int i = 0; i < enemiesList.size(); i++) {
-                sect.enemies.add(enemiesList.getString(i));
-            }
-        }
-
-        // Load claimed chunks
-        if (tag.contains("claimedChunks")) {
-            CompoundTag chunksTag = tag.getCompound("claimedChunks");
-            for (String chunkPosStr : chunksTag.getAllKeys()) {
-                try {
-                    long chunkPos = Long.parseLong(chunkPosStr);
-                    UUID claimerId = chunksTag.getUUID(chunkPosStr);
-                    sect.claimedChunks.put(chunkPos, claimerId);
-                } catch (NumberFormatException e) {
-                    // Skip invalid chunk positions
-                }
-            }
-        }
 
         return sect;
     }
@@ -515,5 +389,6 @@ public class Sect {
     public void disband() {
         members.clear();
         allies.clear();
+        enemies.clear(); // NEW: Clear enemies when disbanding
     }
 }

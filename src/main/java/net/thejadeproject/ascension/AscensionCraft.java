@@ -131,7 +131,6 @@ public class AscensionCraft {
         ModVillagers.POI_TYPES.register(modEventBus);
 
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
-        NeoForge.EVENT_BUS.register(new SectTerritoryEventHandler());
 
     }
 
