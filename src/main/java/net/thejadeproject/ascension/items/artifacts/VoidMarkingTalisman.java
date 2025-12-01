@@ -131,10 +131,8 @@ public class VoidMarkingTalisman extends Item {
         // Store initial health for damage check
         persistentData.putFloat(INITIAL_HEALTH_TAG, player.getHealth());
 
-        // Consume item immediately
-        if (!player.getAbilities().instabuild) {
-            itemstack.shrink(1);
-        }
+        // Store which hand was used for teleportation
+        persistentData.putString("VoidMarkingTeleportHand", player.getUsedItemHand().name());
 
         // Initial countdown message
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleporting_in_seconds", 5), true);
@@ -145,6 +143,11 @@ public class VoidMarkingTalisman extends Item {
 
         // Get saved location data from component
         SavedLocationData locationData = getSavedLocation(player.getMainHandItem());
+        if (locationData == null) {
+            // Try offhand if main hand doesn't have the item
+            locationData = getSavedLocation(player.getOffhandItem());
+        }
+
         if (locationData == null) {
             player.displayClientMessage(Component.translatable("ascension.tooltip.failed_read_location"), true);
             clearCountdownData(player);
@@ -179,6 +182,21 @@ public class VoidMarkingTalisman extends Item {
 
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleported_to_saved"), true);
 
+        // Consume the item now that teleport is successful
+        CompoundTag persistentData = player.getPersistentData();
+        String handUsed = persistentData.getString("VoidMarkingTeleportHand");
+
+        ItemStack itemToConsume = null;
+        if (handUsed.equals("MAIN_HAND")) {
+            itemToConsume = player.getMainHandItem();
+        } else if (handUsed.equals("OFF_HAND")) {
+            itemToConsume = player.getOffhandItem();
+        }
+
+        if (!player.getAbilities().instabuild && itemToConsume != null && itemToConsume.getItem() == this) {
+            itemToConsume.shrink(1);
+        }
+
         // Clear countdown data
         clearCountdownData(player);
     }
@@ -193,6 +211,7 @@ public class VoidMarkingTalisman extends Item {
         persistentData.remove(COUNTDOWN_TAG);
         persistentData.remove(INITIAL_POS_TAG);
         persistentData.remove(INITIAL_HEALTH_TAG);
+        persistentData.remove("VoidMarkingTeleportHand"); // Remove the hand tracking
     }
 
     @Override

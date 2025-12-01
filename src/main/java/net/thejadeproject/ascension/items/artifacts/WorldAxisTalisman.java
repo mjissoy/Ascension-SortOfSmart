@@ -90,11 +90,6 @@ public class WorldAxisTalisman extends Item {
         // Store initial health for damage check
         persistentData.putFloat(INITIAL_HEALTH_TAG, player.getHealth());
 
-        // Consume item immediately
-        if (!player.getAbilities().instabuild) {
-            itemstack.shrink(1);
-        }
-
         // Initial countdown message
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleporting_in_seconds", 5), true);
     }
@@ -126,6 +121,12 @@ public class WorldAxisTalisman extends Item {
                 50, 0.5, 1, 0.5, 0.1);
 
         player.displayClientMessage(Component.translatable("ascension.tooltip.teleported_to_world_spawn"), true);
+
+        // Consume the item now that teleport is successful
+        ItemStack heldItem = player.getMainHandItem();
+        if (!player.getAbilities().instabuild && heldItem.getItem() == this) {
+            heldItem.shrink(1);
+        }
 
         // Clear countdown data
         clearCountdownData(player);
