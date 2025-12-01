@@ -34,6 +34,10 @@ public class Sect {
     private final Map<UUID, Set<UUID>> elderRecommendations = new HashMap<>();
 
 
+    private int maxPower;  // Maximum power capacity
+    private int currentPower; // Current available power
+    private int totalDeposited; // Total power ever deposited (for tracking)
+
 
 
 
@@ -96,10 +100,6 @@ public class Sect {
         }
         return false;
     }
-
-    private int maxPower;  // Maximum power capacity
-    private int currentPower; // Current available power
-    private int totalDeposited; // Total power ever deposited (for tracking)
 
 
 
@@ -310,6 +310,7 @@ public class Sect {
         missionSubmissions.clear();
     }
 
+
     public CompoundTag toNBT(HolderLookup.Provider registries) {
         CompoundTag tag = new CompoundTag();
         tag.putString("name", name);
@@ -318,8 +319,9 @@ public class Sect {
         tag.putLong("createdTime", createdTime);
         tag.putString("description", description);
         tag.putBoolean("friendlyFire", friendlyFire);
-
-
+        tag.putInt("max_power",maxPower);
+        tag.putInt("current_power",currentPower);
+        tag.putInt("total_deposited",totalDeposited);
         // Save deposited merit
         tag.putInt("depositedMerit", depositedMerit);
 
@@ -477,6 +479,11 @@ public class Sect {
         if (tag.contains("depositedMerit")) {
             sect.depositedMerit = tag.getInt("depositedMerit");
         }
+
+        // power
+        sect.maxPower = tag.getInt("max_power");
+        sect.currentPower = tag.getInt("current_power");
+        sect.totalDeposited = tag.getInt("total_deposited");
 
         // Load enemies
         if (tag.contains("enemies")) {
