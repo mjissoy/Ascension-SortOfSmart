@@ -5,6 +5,7 @@ import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.complex_events.Sticky;
 import net.minecraft.client.Minecraft;
 import net.neoforged.neoforge.common.NeoForge;
+import net.thejadeproject.ascension.events.custom.client.PlayerCultivationChanged;
 import net.thejadeproject.ascension.events.custom.cultivation.CultivateEvent;
 
 public class PathProgressBarContainer extends EmptyContainer implements Sticky {
@@ -36,7 +37,7 @@ public class PathProgressBarContainer extends EmptyContainer implements Sticky {
 
     }
 
-    public void onPlayerCultivate(CultivateEvent event){
+    public void onPlayerCultivate(PlayerCultivationChanged event){
         if(event.player.equals(Minecraft.getInstance().player)){
             //same player
             tryDisplayBar(event.path);

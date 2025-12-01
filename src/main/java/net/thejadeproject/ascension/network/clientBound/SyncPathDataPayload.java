@@ -5,10 +5,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
+import net.thejadeproject.ascension.events.custom.client.PlayerCultivationChanged;
 import net.thejadeproject.ascension.util.ModAttachments;
 
 public record SyncPathDataPayload(String pathId,int majorRealm,int minorRealm,double progress,String technique,double stabilityTicks) implements CustomPacketPayload {
@@ -42,6 +44,7 @@ public record SyncPathDataPayload(String pathId,int majorRealm,int minorRealm,do
         pathData.majorRealm = payload.majorRealm();
         pathData.technique = payload.technique();
         pathData.stabilityCultivationTicks = payload.stabilityTicks();
+        NeoForge.EVENT_BUS.post(new PlayerCultivationChanged(context.player(),pathData.pathId));
     }
     public static SyncPathDataPayload fromPathData(CultivationData.PathData pathData){
         return new SyncPathDataPayload(pathData.pathId, pathData.majorRealm, pathData.minorRealm, pathData.pathProgress,pathData.technique,pathData.stabilityCultivationTicks);
