@@ -190,6 +190,12 @@ public class PlayerSkillData {
         
         
     }
+    public void removeSkill(String skillId){
+        removePassiveSkill(skillId);
+        removeActiveSkill(skillId);
+        triggerSkillRemoval(skillId);
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+    }
     //removes even if fixed so make sure to check
     public void removePassiveSkill(String skillId){
         if(!passiveSkillHashMap.containsKey(skillId)) return;
@@ -210,11 +216,14 @@ public class PlayerSkillData {
     }
     public void removeAllSkills(){
         for(SkillMetaData data : getActiveSkills()){
-            triggerSkillRemoval(activeSkillHashMap.remove(data.skillId).skillId);
+            removeActiveSkill(data.skillId);
+            triggerSkillRemoval(data.skillId);
         }
         for(SkillMetaData data : getPassiveSkills()){
-            triggerSkillRemoval(passiveSkillHashMap.remove(data.skillId).skillId);
+            removePassiveSkill(data.skillId);
+            triggerSkillRemoval(data.skillId);
         }
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
 
     }
     public List<Pair<Boolean, SkillMetaData>> getPassiveSkillBuffer(){
