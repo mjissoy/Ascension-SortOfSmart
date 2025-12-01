@@ -182,6 +182,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_authors            : mod_authors,
             mod_description        : mod_description,
             modopedia_version        : modopedia_version,
+            easy_gui_version       : easy_gui_version,
             jei_version        : jei_version,
             jade_version        : jade_version,
             curios_version        : curios_version
