@@ -15,8 +15,10 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.GameProfileArgument;
 import net.minecraft.network.chat.*;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.sects.missions.MissionProgress;
 import net.thejadeproject.ascension.sects.missions.MissionRequirement;
@@ -60,14 +62,29 @@ public class SectCommand {
                 .then(Commands.literal("merit")
                         .executes(SectCommand::showMerit))
 
+                        .then(Commands.literal("rename")
+                                .then(Commands.argument("new_name", StringArgumentType.string())
+                                        .executes(SectCommand::renameSect)))
+
                 .then(Commands.literal("recommend")
                         .then(Commands.argument("playername", StringArgumentType.string())
                                 .suggests((context, builder) -> suggestInnerMembers(context, builder))
                                 .executes(SectCommand::recommendPlayer)))
                 .then(Commands.literal("claim")
-                        .then(Commands.literal("mission")
-                                .then(Commands.literal("submissions")
-                                        .executes(SectCommand::claimMissionSubmissions))))
+                        .then(Commands.argument("radius", IntegerArgumentType.integer(1, 10))
+                                .executes(SectCommand::claimChunksWithRadius))
+                        .executes(SectCommand::claimSingleChunk))
+                .then(Commands.literal("deposit")
+                        .executes(SectCommand::depositMerit)) // No integer argument anymore
+                .then(Commands.literal("enemy")
+                        .then(Commands.argument("sectname", StringArgumentType.string())
+                                .executes(SectCommand::setEnemy)))
+                .then(Commands.literal("unclaim")
+                        .executes(SectCommand::unclaimChunk)
+                        .then(Commands.argument("radius", IntegerArgumentType.integer(1, 10))
+                                .executes(SectCommand::unclaimChunks)))
+                .then(Commands.literal("map")
+                        .executes(SectCommand::showClaimMap))
                 //sect settings
                 .then(Commands.literal("settings")
                         .then(Commands.literal("friendlyfire")
@@ -75,8 +92,6 @@ public class SectCommand {
                                         .executes(SectCommand::setFriendlyFire))))
                 .then(Commands.literal("help")
                         .executes(SectCommand::help))
-
-
                 .then(Commands.literal("decline")
                         .then(Commands.argument("sectname", StringArgumentType.string())
                                 .executes(SectCommand::declineInvite)))
@@ -103,9 +118,17 @@ public class SectCommand {
                                 .executes(SectCommand::sectChat)))
                 .then(Commands.literal("togglechat")
                         .executes(SectCommand::toggleChat))
-                .then(Commands.literal("ally")
-                        .then(Commands.argument("sectname", StringArgumentType.string())
-                                .executes(SectCommand::allySect)))
+                        .then(Commands.literal("ally")
+                                .then(Commands.argument("sectname", StringArgumentType.string())
+                                        .executes(SectCommand::allySect))
+                                .then(Commands.literal("accept")
+                                        .then(Commands.argument("sectname", StringArgumentType.string())
+                                                .executes(SectCommand::acceptAlly)))
+                                .then(Commands.literal("decline")
+                                        .then(Commands.argument("sectname", StringArgumentType.string())
+                                                .executes(SectCommand::declineAlly)))
+                                .then(Commands.literal("requests")
+                                        .executes(SectCommand::listAllyRequests)))
                 .then(Commands.literal("info")
                         .executes(SectCommand::sectInfo)
                         .then(Commands.argument("target", StringArgumentType.string())
@@ -129,11 +152,13 @@ public class SectCommand {
                         .executes(SectCommand::listSects))
                 .then(Commands.literal("missions")
                         .executes(SectCommand::listMissions))
-
                 .then(Commands.literal("mission")
                         .then(Commands.literal("accept")
                                 .then(Commands.argument("missionId", StringArgumentType.string())
                                         .executes(SectCommand::acceptMission)))
+                        .then(Commands.literal("claim")
+                                .then(Commands.literal("submissions")
+                                        .executes(SectCommand::claimMissionSubmissions)))
                         .then(Commands.literal("complete")
                                 .then(Commands.argument("missionId", StringArgumentType.string())
                                         .executes(SectCommand::completeMission)))
@@ -144,9 +169,8 @@ public class SectCommand {
                                                         .then(Commands.argument("duration", StringArgumentType.string())
                                                                 .then(Commands.argument("useHandItem", BoolArgumentType.bool())
                                                                         .then(Commands.argument("requirements", StringArgumentType.greedyString())
-                                                                                .executes(SectCommand::createMissionAdvanced))))))))
-
-        ));
+                                                                                .executes(SectCommand::createMissionAdvanced)))))))))
+                );
         debugCommandRegistration(dispatcher);
     }
 
@@ -269,7 +293,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -309,27 +332,30 @@ public class SectCommand {
     }
 
     private static void sendEnhancedInvitationMessage(ServerPlayer targetPlayer, Sect sect, ServerPlayer inviter) {
+        // Get the sect name and ensure it's URL-safe
+        String sectName = sect.getName().replace(" ", "_");
+
         // Create the main invitation message
         MutableComponent inviteMessage = Component.literal("§6§lSECT INVITATION\n§r")
                 .append(Component.literal("§eYou have been invited to join §b" + sect.getName() + "§e!\n"))
                 .append(Component.literal("§7Invited by: §f" + inviter.getScoreboardName() + "\n\n"));
 
-        // Create clickable accept button
+        // Create clickable accept button with properly encoded sect name
         MutableComponent acceptButton = Component.literal("[§a✔ ACCEPT§r]")
                 .withStyle(Style.EMPTY
                         .withColor(ChatFormatting.GREEN)
                         .withBold(true)
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect join " + sect.getName()))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect join " + sectName))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 Component.literal("§aClick to join §b" + sect.getName() + "§a!")))
                 );
 
-        // Create clickable decline button
+        // Create clickable decline button with properly encoded sect name
         MutableComponent declineButton = Component.literal("[§c✖ DECLINE§r]")
                 .withStyle(Style.EMPTY
                         .withColor(ChatFormatting.RED)
                         .withBold(true)
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect decline " + sect.getName()))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect decline " + sectName))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
                                 Component.literal("§cClick to decline the invitation from §b" + sect.getName() + "§c!")))
                 );
@@ -339,14 +365,14 @@ public class SectCommand {
                 .append(acceptButton)
                 .append(Component.literal(" §8| "))
                 .append(declineButton)
-                .append(Component.literal("\n§7Or type: §a/sect join " + sect.getName()));
+                .append(Component.literal("\n§7Or type: §a/sect join " + sectName));
 
         targetPlayer.sendSystemMessage(inviteMessage);
     }
 
     private static int declineInvite(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
-        String sectName = StringArgumentType.getString(context, "sectname");
+        String sectName = StringArgumentType.getString(context, "sectname").replace('_', ' ');
 
         SectManager manager = getManager(context);
         if (manager == null) {
@@ -354,25 +380,28 @@ public class SectCommand {
             return 0;
         }
 
-        // Check if player actually has an invite
-        if (!manager.hasInvite(sectName, player.getScoreboardName())) {
+        // Use the new getPendingInvites method to find the exact sect name
+        List<String> pendingInvites = manager.getPendingInvites(player.getScoreboardName());
+        String exactSectName = pendingInvites.stream().filter(invitedSect -> invitedSect.equalsIgnoreCase(sectName)).findFirst().orElse(null);
+
+        if (exactSectName == null) {
             context.getSource().sendFailure(Component.literal("§cYou don't have an invitation from §e" + sectName + "§c!"));
             return 0;
         }
 
-        // Remove the invite by removing from pendingInvites
-        Set<String> invites = manager.pendingInvites.get(sectName);
+        // Remove the invite using the exact sect name
+        Set<String> invites = manager.pendingInvites.get(exactSectName);
         if (invites != null) {
             invites.remove(player.getScoreboardName().toLowerCase());
             if (invites.isEmpty()) {
-                manager.pendingInvites.remove(sectName);
+                manager.pendingInvites.remove(exactSectName);
             }
         }
 
-        context.getSource().sendSuccess(() -> Component.literal("§eYou have declined the invitation from §b" + sectName + "§e."), false);
+        context.getSource().sendSuccess(() -> Component.literal("§eYou have declined the invitation from §b" + exactSectName + "§e."), false);
 
         // Optional: Notify the sect leader who sent the invite
-        Sect sect = manager.getSect(sectName);
+        Sect sect = manager.getSect(exactSectName);
         if (sect != null) {
             ServerPlayer inviter = context.getSource().getServer().getPlayerList().getPlayer(sect.getOwnerId());
             if (inviter != null) {
@@ -382,9 +411,6 @@ public class SectCommand {
 
         return 1;
     }
-
-
-
     private static int promotePlayer(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
         String targetName = StringArgumentType.getString(context, "playername");
@@ -448,7 +474,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -521,7 +546,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -558,7 +582,7 @@ public class SectCommand {
 
     private static int joinSect(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
-        String sectName = StringArgumentType.getString(context, "sectname");
+        String sectName = StringArgumentType.getString(context, "sectname").replace('_', ' ');
 
         SectManager manager = getManager(context);
         if (manager == null) {
@@ -566,7 +590,13 @@ public class SectCommand {
             return 0;
         }
 
+        // Try exact match first
         Sect sect = manager.getSect(sectName);
+
+        // If exact match fails, try case-insensitive search
+        if (sect == null) {
+            sect = findSectByNameIgnoreCase(manager, sectName);
+        }
 
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cSect '" + sectName + "' does not exist!"));
@@ -579,8 +609,9 @@ public class SectCommand {
         }
 
         if (sect.isOpen() || manager.hasInvite(sectName, player.getScoreboardName())) {
-            manager.addPlayerToSect(player.getUUID(), player.getScoreboardName(), sectName);
-            context.getSource().sendSuccess(() -> Component.literal("§aJoined sect '" + sectName + "'!"), false);
+            manager.addPlayerToSect(player.getUUID(), player.getScoreboardName(), sect.getName());
+            Sect finalSect = sect;
+            context.getSource().sendSuccess(() -> Component.literal("§aJoined sect '" + finalSect.getName() + "'!"), false);
 
             // Notify sect members
             broadcastToSect(sect, context.getSource().getServer(), "§e" + player.getScoreboardName() + " has joined the sect!");
@@ -589,6 +620,16 @@ public class SectCommand {
             context.getSource().sendFailure(Component.literal("§cYou are not invited to this sect and it's not open!"));
             return 0;
         }
+    }
+
+    // Helper method for case-insensitive sect search
+    private static Sect findSectByNameIgnoreCase(SectManager manager, String sectName) {
+        for (Sect sect : manager.getAllSects().values()) {
+            if (sect.getName().equalsIgnoreCase(sectName)) {
+                return sect;
+            }
+        }
+        return null;
     }
 
     private static int openSect(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -601,7 +642,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -636,7 +676,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -676,7 +715,6 @@ public class SectCommand {
         }
 
         Sect playerSect = manager.getPlayerSect(player.getUUID());
-
         if (playerSect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -718,12 +756,207 @@ public class SectCommand {
             // Send ally request
             manager.addAllyRequest(playerSect.getName(), targetSectName);
             context.getSource().sendSuccess(() -> Component.literal("§aAlly request sent to " + targetSectName), false);
-            broadcastToSect(targetSect, context.getSource().getServer(),
-                    "§eAlly request received from " + playerSect.getName() + "! Use /sect ally " + playerSect.getName() + " to accept.");
+
+            // Send enhanced notification to target sect's Elders and Sect Master
+            sendEnhancedAllyRequest(targetSect, playerSect, player, context.getSource().getServer());
         }
 
         return 1;
     }
+
+    private static void sendEnhancedAllyRequest(Sect targetSect, Sect requestingSect, ServerPlayer requester, net.minecraft.server.MinecraftServer server) {
+        String requestingSectName = requestingSect.getName();
+        String targetSectName = targetSect.getName();
+
+        // Create the main invitation message
+        MutableComponent allyMessage = Component.literal("§6§lALLY REQUEST\n§r")
+                .append(Component.literal("§eYou have received an alliance request from §b" + requestingSectName + "§e!\n"))
+                .append(Component.literal("§7Requested by: §f" + requester.getScoreboardName() + "\n\n"));
+
+        // Create clickable accept button
+        MutableComponent acceptButton = Component.literal("[§a✔ ACCEPT§r]")
+                .withStyle(Style.EMPTY
+                        .withColor(ChatFormatting.GREEN)
+                        .withBold(true)
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect ally accept " + requestingSectName.replace(" ", "_")))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                Component.literal("§aClick to accept alliance with §b" + requestingSectName + "§a!")))
+                );
+
+        // Create clickable decline button
+        MutableComponent declineButton = Component.literal("[§c✖ DECLINE§r]")
+                .withStyle(Style.EMPTY
+                        .withColor(ChatFormatting.RED)
+                        .withBold(true)
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/sect ally decline " + requestingSectName.replace(" ", "_")))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                Component.literal("§cClick to decline alliance with §b" + requestingSectName + "§c!")))
+                );
+
+        // Combine everything
+        allyMessage.append(Component.literal("§eClick to respond: "))
+                .append(acceptButton)
+                .append(Component.literal(" §8| "))
+                .append(declineButton)
+                .append(Component.literal("\n§7Or type: §a/sect ally accept " + requestingSectName.replace(" ", "_")));
+
+        // Send to all Elders and Sect Master in the target sect
+        for (SectMember member : targetSect.getMembers().values()) {
+            if (member.getRank() == SectRank.ELDER || member.getRank() == SectRank.SECT_MASTER) {
+                ServerPlayer onlineMember = server.getPlayerList().getPlayer(member.getPlayerId());
+                if (onlineMember != null) {
+                    onlineMember.sendSystemMessage(allyMessage);
+                }
+            }
+        }
+    }
+
+    private static int acceptAlly(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String requestingSectName = StringArgumentType.getString(context, "sectname").replace('_', ' ');
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect playerSect = manager.getPlayerSect(player.getUUID());
+        if (playerSect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        if (!playerSect.hasPermission(player.getUUID(), SectPermission.ALLY)) {
+            context.getSource().sendFailure(Component.literal("§cYou don't have permission to accept ally requests!"));
+            return 0;
+        }
+
+        Sect requestingSect = manager.getSect(requestingSectName);
+        if (requestingSect == null) {
+            context.getSource().sendFailure(Component.literal("§cSect '" + requestingSectName + "' does not exist!"));
+            return 0;
+        }
+
+        if (!manager.hasAllyRequest(requestingSectName, playerSect.getName())) {
+            context.getSource().sendFailure(Component.literal("§cNo pending ally request from §e" + requestingSectName + "§c!"));
+            return 0;
+        }
+
+        // Form alliance
+        playerSect.addAlly(requestingSectName);
+        requestingSect.addAlly(playerSect.getName());
+        manager.removeAllyRequest(requestingSectName, playerSect.getName());
+
+        // FIX: Notify both sects with proper messages
+        String allianceMessage1 = "§aAlliance formed with " + requestingSectName + "!";
+        String allianceMessage2 = "§aAlliance formed with " + playerSect.getName() + "!";
+
+        broadcastToSect(playerSect, context.getSource().getServer(), allianceMessage1);
+        broadcastToSect(requestingSect, context.getSource().getServer(), allianceMessage2);
+
+        // FIX: Also send success message to the player who accepted
+        context.getSource().sendSuccess(() -> Component.literal("§aAlliance formed with " + requestingSectName + "!"), true);
+        return 1;
+    }
+
+    private static int declineAlly(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String requestingSectName = StringArgumentType.getString(context, "sectname").replace('_', ' ');
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect playerSect = manager.getPlayerSect(player.getUUID());
+        if (playerSect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        if (!playerSect.hasPermission(player.getUUID(), SectPermission.ALLY)) {
+            context.getSource().sendFailure(Component.literal("§cYou don't have permission to decline ally requests!"));
+            return 0;
+        }
+
+        Sect requestingSect = manager.getSect(requestingSectName);
+        if (requestingSect == null) {
+            context.getSource().sendFailure(Component.literal("§cSect '" + requestingSectName + "' does not exist!"));
+            return 0;
+        }
+
+        if (!manager.hasAllyRequest(requestingSectName, playerSect.getName())) {
+            context.getSource().sendFailure(Component.literal("§cNo pending ally request from §e" + requestingSectName + "§c!"));
+            return 0;
+        }
+
+        manager.removeAllyRequest(requestingSectName, playerSect.getName());
+        context.getSource().sendSuccess(() -> Component.literal("§eYou have declined the alliance request from §b" + requestingSectName + "§e."), true);
+
+        // Notify the requesting sect
+        broadcastToSect(requestingSect, context.getSource().getServer(),
+                "§e" + playerSect.getName() + " has declined your alliance request.");
+
+        return 1;
+    }
+
+    private static int listAllyRequests(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        if (!sect.hasPermission(player.getUUID(), SectPermission.ALLY)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can view ally requests!"));
+            return 0;
+        }
+
+        List<String> pendingRequests = manager.getPendingAllyRequests(sect.getName());
+
+        if (pendingRequests.isEmpty()) {
+            context.getSource().sendSuccess(() -> Component.literal("§7No pending ally requests."), false);
+        } else {
+            context.getSource().sendSuccess(() -> Component.literal("§6=== Pending Ally Requests ==="), false);
+            for (String requestingSect : pendingRequests) {
+                MutableComponent requestLine = Component.literal("§e- " + requestingSect)
+                        .append(Component.literal(" §7[")
+                                .append(createClickableAllyComponent("§aAccept", "accept", requestingSect))
+                                .append(Component.literal("§7|"))
+                                .append(createClickableAllyComponent("§cDecline", "decline", requestingSect))
+                                .append(Component.literal("§7]")));
+
+                context.getSource().sendSuccess(() -> requestLine, false);
+            }
+        }
+
+        return 1;
+    }
+
+
+    private static MutableComponent createClickableAllyComponent(String text, String action, String sectName) {
+        return Component.literal(text)
+                .withStyle(Style.EMPTY
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+                                "/sect ally " + action + " " + sectName.replace(" ", "_")))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                Component.literal(action.equals("accept") ?
+                                        "§aAccept alliance with §e" + sectName :
+                                        "§cDecline alliance with §e" + sectName))));
+    }
+
+
+
 
     private static int sectInfo(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
@@ -740,7 +973,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -753,6 +985,32 @@ public class SectCommand {
         }
 
         String sectName = sect.getName();
+
+        // FIX: Notify all allied sects before disbanding and remove from their ally lists
+        for (String allyName : sect.getAllies()) {
+            Sect allySect = manager.getSect(allyName);
+            if (allySect != null) {
+                allySect.removeAlly(sectName);
+                // Notify the allied sect
+                broadcastToSect(allySect, context.getSource().getServer(),
+                        "§cYour alliance with §e" + sectName + "§c has been dissolved because they disbanded.");
+            }
+        }
+
+        // FIX: Clean up any pending ally requests involving this sect
+        // Remove requests this sect sent to others
+        for (String targetSectName : new ArrayList<>(manager.allyRequests.keySet())) {
+            Set<String> requests = manager.allyRequests.get(targetSectName);
+            if (requests != null) {
+                requests.remove(sectName);
+                if (requests.isEmpty()) {
+                    manager.allyRequests.remove(targetSectName);
+                }
+            }
+        }
+
+        // Remove requests others sent to this sect
+        manager.allyRequests.remove(sectName);
 
         // Notify all members before disbanding
         broadcastToSect(sect, context.getSource().getServer(), "§cThe sect has been disbanded by the owner!");
@@ -774,7 +1032,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -816,7 +1073,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -881,7 +1137,6 @@ public class SectCommand {
         }
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-
         if (sect == null) {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
@@ -981,6 +1236,370 @@ public class SectCommand {
         return displaySectInfo(context, player, target);
     }
 
+    private static int claimSingleChunk(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        return claimChunks(context, 0); // Radius 0 = only current chunk
+    }
+
+    private static int claimChunksWithRadius(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        int radius = IntegerArgumentType.getInteger(context, "radius");
+        return claimChunks(context, radius);
+    }
+
+    private static int claimChunks(CommandContext<CommandSourceStack> context, int radius) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        // Check if player is Elder or above
+        SectMember member = sect.getMember(player.getUUID());
+        if (member == null || (member.getRank() != SectRank.ELDER && member.getRank() != SectRank.SECT_MASTER)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can claim chunks!"));
+            return 0;
+        }
+
+        // Calculate chunk coordinates
+        int centerChunkX = player.chunkPosition().x;
+        int centerChunkZ = player.chunkPosition().z;
+
+        // Track different types of claims
+        int normalClaims = 0;
+        int enemyOverclaims = 0;
+        Set<Long> chunksToClaim = new HashSet<>();
+        int totalCost = 0;
+
+        for (int x = centerChunkX - radius; x <= centerChunkX + radius; x++) {
+            for (int z = centerChunkZ - radius; z <= centerChunkZ + radius; z++) {
+                long chunkPos = ChunkPos.asLong(x, z);
+
+                if (sect.isChunkClaimed(chunkPos)) {
+                    continue; // Already claimed by our sect
+                }
+
+                // Check if claimed by another sect
+                boolean canClaim = true;
+                boolean isOverclaim = false;
+                String claimingSectName = null;
+
+                // Check all sects to see who owns this chunk
+                for (Sect otherSect : manager.getAllSects().values()) {
+                    if (otherSect.isChunkClaimed(chunkPos)) {
+                        if (sect.isEnemy(otherSect.getName())) {
+                            // Check max power for overclaim
+                            if (sect.getMaxPower() > otherSect.getMaxPower()) {
+                                // Can overclaim enemy with lower max power
+                                isOverclaim = true;
+                                enemyOverclaims++;
+                                claimingSectName = otherSect.getName();
+                            } else {
+                                canClaim = false;
+                                context.getSource().sendFailure(Component.literal(
+                                        "§cCannot claim chunk at [" + x + ", " + z + "] - enemy sect §e" +
+                                                otherSect.getName() + "§c has equal or higher max power! " +
+                                                "(§e" + sect.getMaxPower() + "§c vs §e" + otherSect.getMaxPower() + "§c)"
+                                ));
+                            }
+                        } else {
+                            canClaim = false;
+                            context.getSource().sendFailure(Component.literal(
+                                    "§cChunk at [" + x + ", " + z + "] is already claimed by §e" +
+                                            otherSect.getName() + "§c and they are not your enemy!"
+                            ));
+                        }
+                        break;
+                    }
+                }
+
+                if (canClaim) {
+                    chunksToClaim.add(chunkPos);
+                    if (isOverclaim) {
+                        totalCost += 100; // Overclaim cost
+                    } else {
+                        normalClaims++;
+                        totalCost += 50; // Normal claim cost
+                    }
+                }
+            }
+        }
+
+        int successfullyClaimed = normalClaims + enemyOverclaims;
+
+        if (successfullyClaimed == 0) {
+            context.getSource().sendFailure(Component.literal("§cNo chunks could be claimed!"));
+            return 0;
+        }
+
+        // Check if we have enough power for the total cost
+        if (!sect.usePower(totalCost)) {
+            context.getSource().sendFailure(Component.literal(
+                    "§cNot enough power! Need §e" + totalCost +
+                            "§c power but only have §e" + sect.getCurrentPower() + "§c current power."
+            ));
+            return 0;
+        }
+
+        // Claim chunks
+        for (long chunkPos : chunksToClaim) {
+            sect.claimChunk(chunkPos, player.getUUID());
+        }
+
+        manager.setDirty();
+
+        // Success message with cost breakdown
+        MutableComponent successMessage = Component.literal("§aSuccessfully claimed §e" + successfullyClaimed + "§a chunks!");
+
+        if (normalClaims > 0) {
+            successMessage.append(Component.literal(" §7(§e" + normalClaims + "§7 normal @ §e50§7 power each)"));
+        }
+
+        if (enemyOverclaims > 0) {
+            successMessage.append(Component.literal(" §6(§e" + enemyOverclaims + "§6 overclaims @ §e100§6 power each)"));
+        }
+
+        successMessage.append(Component.literal(" §7Total: §e" + totalCost + "§7 power"));
+
+        context.getSource().sendSuccess(() -> successMessage, true);
+
+        // Notify sect with detailed breakdown
+        String broadcastMessage = "§e" + player.getScoreboardName() + " claimed " + successfullyClaimed + " chunks!";
+        if (normalClaims > 0) {
+            broadcastMessage += " §7(" + normalClaims + " normal)";
+        }
+        if (enemyOverclaims > 0) {
+            broadcastMessage += " §6(" + enemyOverclaims + " overclaims)";
+        }
+        broadcastMessage += " §7(" + totalCost + " power)";
+
+        broadcastToSect(sect, context.getSource().getServer(), broadcastMessage);
+
+        return successfullyClaimed;
+    }
+
+    private static int depositMerit(CommandContext<CommandSourceStack> context) {
+        CommandSourceStack source = context.getSource();
+
+        if (!(source.getEntity() instanceof ServerPlayer player)) {
+            source.sendFailure(Component.literal("This command can only be used by players"));
+            return 0;
+        }
+
+        SectManager manager = AscensionCraft.getSectManager(player.getServer());
+        if (manager == null) {
+            source.sendFailure(Component.literal("Sect system not available"));
+            return 0;
+        }
+
+        Sect playerSect = manager.getPlayerSect(player.getUUID());
+        if (playerSect == null) {
+            source.sendFailure(Component.literal("You are not in a sect"));
+            return 0;
+        }
+
+        // Open the deposit GUI
+        player.openMenu(new SimpleMenuProvider(
+                (windowId, inv, p) -> new SectDepositMenu(windowId, inv),
+                Component.translatable("container.sect_deposit")
+        ));
+
+        source.sendSuccess(() -> Component.translatable("sect.deposit.opening"), true);
+        return 1;
+    }
+
+    private static int setEnemy(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String enemySectName = StringArgumentType.getString(context, "sectname");
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        // Check if player is Elder or above
+        SectMember member = sect.getMember(player.getUUID());
+        if (member == null || (member.getRank() != SectRank.ELDER && member.getRank() != SectRank.SECT_MASTER)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can set enemies!"));
+            return 0;
+        }
+
+        // Check if enemy sect exists
+        Sect enemySect = manager.getSect(enemySectName);
+        if (enemySect == null) {
+            context.getSource().sendFailure(Component.literal("§cSect '" + enemySectName + "' does not exist!"));
+            return 0;
+        }
+
+        // Check if trying to set own sect as enemy
+        if (sect.getName().equals(enemySectName)) {
+            context.getSource().sendFailure(Component.literal("§cYou cannot set your own sect as an enemy!"));
+            return 0;
+        }
+
+        // Check if already enemies
+        if (sect.isEnemy(enemySectName)) {
+            context.getSource().sendFailure(Component.literal("§c" + enemySectName + " is already your enemy!"));
+            return 0;
+        }
+
+        sect.addEnemy(enemySectName);
+        manager.setDirty();
+
+        context.getSource().sendSuccess(() -> Component.literal(
+                "§cMarked §e" + enemySectName + "§c as an enemy! " +
+                        "You can now overclaim their territory if you have more power."
+        ), true);
+
+        // Notify sect
+        broadcastToSect(sect, context.getSource().getServer(),
+                "§c" + enemySectName + " has been marked as an enemy by " + player.getScoreboardName() + "!");
+
+        return 1;
+    }
+
+    private static int unclaimChunk(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        return unclaimChunks(context, 0);
+    }
+
+    private static int unclaimChunks(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        int radius = 0;
+        try {
+            radius = IntegerArgumentType.getInteger(context, "radius");
+        } catch (IllegalArgumentException e) {
+            // Use default radius of 0 (single chunk)
+        }
+        return unclaimChunks(context, radius);
+    }
+
+    private static int unclaimChunks(CommandContext<CommandSourceStack> context, int radius) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        // Check if player is Elder or above
+        SectMember member = sect.getMember(player.getUUID());
+        if (member == null || (member.getRank() != SectRank.ELDER && member.getRank() != SectRank.SECT_MASTER)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can unclaim chunks!"));
+            return 0;
+        }
+
+        int centerChunkX = player.chunkPosition().x;
+        int centerChunkZ = player.chunkPosition().z;
+        int unclaimedCount = 0;
+
+        for (int x = centerChunkX - radius; x <= centerChunkX + radius; x++) {
+            for (int z = centerChunkZ - radius; z <= centerChunkZ + radius; z++) {
+                long chunkPos = ChunkPos.asLong(x, z);
+
+                if (sect.isChunkClaimed(chunkPos)) {
+                    sect.unclaimChunk(chunkPos);
+                    unclaimedCount++;
+                }
+            }
+        }
+
+        if (unclaimedCount > 0) {
+            manager.setDirty();
+
+            // Refund power (1 power per chunk)
+            sect.refundPower(unclaimedCount);
+
+            int finalUnclaimedCount = unclaimedCount;
+            context.getSource().sendSuccess(() -> Component.literal(
+                    "§aUnclaimed §e" + finalUnclaimedCount + "§a chunks. Refunded §e" +
+                            finalUnclaimedCount + "§a power."
+            ), true);
+        }
+        return unclaimedCount;
+    }
+
+    private static int showClaimMap(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect playerSect = manager.getPlayerSect(player.getUUID());
+        int centerChunkX = player.chunkPosition().x;
+        int centerChunkZ = player.chunkPosition().z;
+
+        context.getSource().sendSuccess(() -> Component.literal("§6=== Territory Map (7x7 chunks) ==="), false);
+        context.getSource().sendSuccess(() -> Component.literal("§7Green: Your sect §a█ §7Red: Enemy §c█ §7White: Unclaimed §f█"), false);
+        context.getSource().sendSuccess(() -> Component.literal("§7Yellow: Ally §e█ §7Gray: Other sect §8█ §7▲: Your position"), false);
+        context.getSource().sendSuccess(() -> Component.literal(""), false);
+
+        for (int z = centerChunkZ - 3; z <= centerChunkZ + 3; z++) {
+            StringBuilder row = new StringBuilder();
+            for (int x = centerChunkX - 3; x <= centerChunkX + 3; x++) {
+                long chunkPos = ChunkPos.asLong(x, z);
+                String symbol = "§f█"; // Default: unclaimed
+
+                if (x == centerChunkX && z == centerChunkZ) {
+                    symbol = "§b▲"; // Player position
+                } else {
+                    // Check all sects for this chunk
+                    boolean claimed = false;
+                    for (Sect sect : manager.getAllSects().values()) {
+                        if (sect.isChunkClaimed(chunkPos)) {
+                            claimed = true;
+                            if (sect == playerSect) {
+                                symbol = "§a█"; // Own sect
+                            } else if (playerSect != null && playerSect.isEnemy(sect.getName())) {
+                                symbol = "§c█"; // Enemy
+                            } else if (playerSect != null && playerSect.getAllies().contains(sect.getName())) {
+                                symbol = "§e█"; // Ally
+                            } else {
+                                symbol = "§8█"; // Other sect
+                            }
+                            break;
+                        }
+                    }
+                }
+                row.append(symbol);
+            }
+            final String finalRow = row.toString();
+            context.getSource().sendSuccess(() -> Component.literal(finalRow), false);
+        }
+
+        if (playerSect != null) {
+            context.getSource().sendSuccess(() -> Component.literal(""), false);
+            context.getSource().sendSuccess(() -> Component.literal(
+                    "§eYour Sect: §a" + playerSect.getClaimedChunkCount() +
+                            "§e chunks claimed | §6Power: " + playerSect.getCurrentPower() + "/" + playerSect.getMaxPower() +
+                            "§e | §aTotal Deposited: " + playerSect.getTotalDeposited()
+            ), false);
+        }
+
+        return 1;
+    }
+
     private static int displaySectInfo(CommandContext<CommandSourceStack> context, ServerPlayer player, String target) throws CommandSyntaxException {
         SectManager manager = getManager(context);
         if (manager == null) {
@@ -1050,6 +1669,24 @@ public class SectCommand {
             allies.append(String.join(", ", sect.getAllies()));
         }
         context.getSource().sendSuccess(() -> Component.literal(allies.toString()), false);
+
+        Sect finalSect2 = sect;
+        context.getSource().sendSuccess(() -> Component.literal(
+                "§ePower: §6" + finalSect2.getCurrentPower() + "§e/§6" + finalSect2.getMaxPower() +
+                        "§e (Total Deposited: §6" + finalSect2.getTotalDeposited() + "§e)"
+        ), false);
+        // Claimed Chunks
+        Sect finalSect3 = sect;
+        context.getSource().sendSuccess(() -> Component.literal("§eClaimed Chunks: §a" + finalSect3.getClaimedChunkCount()), false);
+
+        // Enemies
+        StringBuilder enemiesBuilder = new StringBuilder("§eEnemies: §c");
+        if (sect.getEnemies().isEmpty()) {
+            enemiesBuilder.append("None");
+        } else {
+            enemiesBuilder.append(String.join(", §c", sect.getEnemies()));
+        }
+        context.getSource().sendSuccess(() -> Component.literal(enemiesBuilder.toString()), false);
 
         // Members
         Sect finalSect1 = sect;
@@ -1462,7 +2099,6 @@ public class SectCommand {
 
         return requirements;
     }
-
 
     private static int acceptMission(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
@@ -1938,6 +2574,163 @@ public class SectCommand {
 
         return 1;
     }
+
+    private static int renameSect(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        String newName = StringArgumentType.getString(context, "new_name").replace('_', ' ');
+
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+
+        Sect oldSect = manager.getPlayerSect(player.getUUID());
+        if (oldSect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+
+        // Check if player is the Sect Master
+        if (!oldSect.getOwnerId().equals(player.getUUID())) {
+            context.getSource().sendFailure(Component.literal("§cOnly the Sect Master can rename the sect!"));
+            return 0;
+        }
+
+        // Validate new name
+        if (newName.length() > 40) {
+            context.getSource().sendFailure(Component.literal("§cSect name too long! Maximum 40 characters."));
+            return 0;
+        }
+
+        if (!newName.matches("[a-zA-Z0-9 _]+")) {
+            context.getSource().sendFailure(Component.literal("§cSect name can only contain letters, numbers, and spaces."));
+            return 0;
+        }
+
+        // Check if name already exists
+        if (manager.getSect(newName) != null) {
+            context.getSource().sendFailure(Component.literal("§cA sect with that name already exists!"));
+            return 0;
+        }
+
+        String oldName = oldSect.getName();
+
+        // FIX: Get allies before creating new sect
+        Set<String> allies = new HashSet<>(oldSect.getAllies());
+
+        // Create a new sect with the same data but new name
+        Sect newSect = new Sect(newName, oldSect.getOwnerId(), "Transfer");
+
+        // Copy all data from old sect to new sect
+        copySectData(oldSect, newSect);
+
+        // FIX: Update ally relationships - notify allied sects and update their ally lists
+        for (String allyName : allies) {
+            Sect allySect = manager.getSect(allyName);
+            if (allySect != null) {
+                // Remove old name and add new name to ally's list
+                allySect.removeAlly(oldName);
+                allySect.addAlly(newName);
+
+                // Notify the allied sect
+                broadcastToSect(allySect, context.getSource().getServer(),
+                        "§eYour ally §b" + oldName + "§e has been renamed to §b" + newName + "§e!");
+            }
+        }
+
+        // FIX: Update ally requests
+        // Update requests where this sect is the target
+        Set<String> oldRequests = manager.allyRequests.remove(oldName);
+        if (oldRequests != null) {
+            manager.allyRequests.put(newName, oldRequests);
+        }
+
+        // Update requests where this sect is the requester
+        for (Map.Entry<String, Set<String>> entry : manager.allyRequests.entrySet()) {
+            Set<String> requests = entry.getValue();
+            if (requests.remove(oldName)) {
+                requests.add(newName);
+            }
+        }
+
+        // Replace the old sect with the new one
+        manager.removeSect(oldName);
+        manager.sects.put(newName, newSect);
+
+        // Update playerSects for all members
+        for (SectMember member : newSect.getMembers().values()) {
+            manager.playerSects.put(member.getPlayerId(), newName);
+        }
+
+        manager.setDirty();
+
+        // Notify all sect members
+        broadcastToSect(newSect, context.getSource().getServer(),
+                "§eThe sect has been renamed to §b" + newName + "§e by the Sect Master!");
+
+        context.getSource().sendSuccess(() -> Component.literal("§aSect renamed to '" + newName + "'!"), true);
+
+        return 1;
+    }
+
+    // Helper method to copy sect data
+    private static void copySectData(Sect source, Sect destination) {
+        // Copy basic properties
+        destination.setOpen(source.isOpen());
+        destination.setDescription(source.getDescription());
+        destination.setFriendlyFire(source.isFriendlyFire());
+
+        destination.setMaxPower(source.getMaxPower());
+        destination.setCurrentPower(source.getCurrentPower());
+        destination.setTotalDeposited(source.getTotalDeposited());
+
+        // Copy members
+        for (SectMember member : source.getMembers().values()) {
+            destination.addMember(member.getPlayerId(), member.getPlayerName(), member.getRank());
+            if (!member.getTitle().isEmpty()) {
+                destination.setMemberTitle(member.getPlayerId(), member.getTitle());
+            }
+        }
+
+        // Copy allies
+        for (String ally : source.getAllies()) {
+            destination.addAlly(ally);
+        }
+
+        // Copy enemies
+        for (String enemy : source.getEnemies()) {
+            destination.addEnemy(enemy);
+        }
+
+        // Copy claimed chunks
+        for (Map.Entry<Long, UUID> entry : source.getClaimedChunks().entrySet()) {
+            destination.claimChunk(entry.getKey(), entry.getValue());
+        }
+    }
+
+    private static void copySectPowerData(Sect source, Sect destination) {
+        try {
+            // Use reflection as a temporary solution, but you should add proper setters to Sect class
+            java.lang.reflect.Field maxPowerField = Sect.class.getDeclaredField("maxPower");
+            java.lang.reflect.Field currentPowerField = Sect.class.getDeclaredField("currentPower");
+            java.lang.reflect.Field totalDepositedField = Sect.class.getDeclaredField("totalDeposited");
+
+            maxPowerField.setAccessible(true);
+            currentPowerField.setAccessible(true);
+            totalDepositedField.setAccessible(true);
+
+            maxPowerField.set(destination, maxPowerField.get(source));
+            currentPowerField.set(destination, currentPowerField.get(source));
+            totalDepositedField.set(destination, totalDepositedField.get(source));
+
+        } catch (Exception e) {
+            // If reflection fails, use the public methods available
+            // This is a fallback - you should implement proper setters in Sect class
+            System.out.println("Warning: Could not copy power data during sect rename");
+        }
+    }
+
     public static int help(CommandContext<CommandSourceStack> context) {
         CommandSourceStack source = context.getSource();
         Player player = source.getPlayer();
@@ -2018,6 +2811,33 @@ public class SectCommand {
         // Elder Commands (Elder+)
         player.sendSystemMessage(Component.literal("\n§c§lElder Commands:§r").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
 
+        sendHelpEntry(player, "/sect claim [radius]",
+                "Claim territory for your sect using power",
+                "Usage: /sect claim [radius]\n" +
+                        "- No radius: Claims only the current chunk (1 chunk)\n" +
+                        "- With radius: Claims chunks in a square area (radius 1 = 3x3, radius 2 = 5x5)\n\n" +
+                        "§6Costs:\n" +
+                        "§7- Normal claim: §e50 power§7 per chunk\n" +
+                        "§7- Overclaim enemy: §e100 power§7 per chunk\n\n" +
+                        "§6Requirements:\n" +
+                        "§7- Must be §cElder§7 or §6Sect Master\n" +
+                        "§7- Must have enough current power\n" +
+                        "§7- Can only overclaim enemy sects with lower max power",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect unclaim [radius]",
+                "Unclaim territory from your sect and refund power",
+                "Usage: /sect unclaim [radius]\n" +
+                        "- No radius: Unclaims only the current chunk (1 chunk)\n" +
+                        "- With radius: Unclaims chunks in a square area (radius 1 = 3x3, radius 2 = 5x5)\n\n" +
+                        "§6Refund:\n" +
+                        "§7- §e1 power§7 refunded per chunk unclaimed\n\n" +
+                        "§6Requirements:\n" +
+                        "§7- Must be §cElder§7 or §6Sect Master\n" +
+                        "§7- Can only unclaim your own sect's territory\n\n" +
+                        "§6Note:§7 Refunded power goes to current power, not max power",
+                "Rank: §cElder§7+");
+
         sendHelpEntry(player, "/sect invite <player>",
                 "Invite a player to join your sect",
                 "Usage: /sect invite <playerName>\nPlayer must be online and not in a sect",
@@ -2039,8 +2859,23 @@ public class SectCommand {
                 "Rank: §cElder§7+");
 
         sendHelpEntry(player, "/sect ally <sect>",
-                "Send or accept an alliance request with another sect",
-                "Usage: /sect ally <sectName>\nBoth sects must send requests to form alliance",
+                "Send an alliance request to another sect",
+                "Usage: /sect ally <sectName>\nSends a request that target sect's Elders can accept/deny",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect ally accept <sect>",
+                "Accept a pending alliance request",
+                "Usage: /sect ally accept <sectName>\nAccept a pending alliance request from another sect",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect ally decline <sect>",
+                "Decline a pending alliance request",
+                "Usage: /sect ally decline <sectName>\nDecline a pending alliance request from another sect",
+                "Rank: §cElder§7+");
+
+        sendHelpEntry(player, "/sect ally requests",
+                "List pending alliance requests for your sect",
+                "Usage: /sect ally requests\nShows all pending alliance requests with accept/decline buttons",
                 "Rank: §cElder§7+");
 
         sendHelpEntry(player, "/sect recommend <player>",
@@ -2067,6 +2902,11 @@ public class SectCommand {
 
         // Sect Master Commands
         player.sendSystemMessage(Component.literal("\n§6§lSect Master Commands:§r").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD));
+
+        sendHelpEntry(player, "/sect rename <new_name>",
+                "Rename your sect",
+                "Usage: /sect rename <newName>\nName can contain letters, numbers, and spaces\n§cWarning: This will update all references to your sect!",
+                "Rank: §6Sect Master");
 
         sendHelpEntry(player, "/sect promote <player>",
                 "Promote a member to higher rank",
@@ -2107,7 +2947,7 @@ public class SectCommand {
         // Merit & Auto-Promotion Info
         player.sendSystemMessage(Component.literal("\n§b§lMerit & Auto-Promotion:§r").withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD));
         player.sendSystemMessage(Component.literal("§7- §aOuter §7→ §bInner: §62500 merit points"));
-        player.sendSystemMessage(Component.literal("§7- §bInner §7→ §cElder: §610000 merit points"));
+        player.sendSystemMessage(Component.literal("§7- §bInner §7→ §cElder: §610000 merit points, and 3 Recommandations from 3 elders and above"));
         player.sendSystemMessage(Component.literal("§7- Earn merit by completing missions"));
         player.sendSystemMessage(Component.literal("§7- Promotions to §6Sect Master §7must be done manually"));
 

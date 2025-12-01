@@ -48,9 +48,7 @@ import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipeSha
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.ModSkills;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
-import net.thejadeproject.ascension.sects.SectCommand;
-import net.thejadeproject.ascension.sects.SectEventHandler;
-import net.thejadeproject.ascension.sects.SectManager;
+import net.thejadeproject.ascension.sects.*;
 import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
@@ -133,6 +131,8 @@ public class AscensionCraft {
         ModVillagers.POI_TYPES.register(modEventBus);
 
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
+        NeoForge.EVENT_BUS.register(new SectTerritoryEventHandler());
+
     }
 
     public AscensionCraft(IEventBus modEventBus, ModContainer modContainer) {

@@ -32,7 +32,7 @@ public class ModFoodProperties {
 
     public static final FoodProperties PILL_RESIDUE = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().alwaysEdible().build();
 
-    public static final FoodProperties CULT_PILL = new FoodProperties.Builder().nutrition(0).saturationModifier(0).fast().build();
+    public static final FoodProperties CULT_PILL = new FoodProperties.Builder().alwaysEdible().nutrition(0).saturationModifier(0).fast().build();
 
 
 

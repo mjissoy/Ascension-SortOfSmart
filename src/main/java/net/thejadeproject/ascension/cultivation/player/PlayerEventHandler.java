@@ -79,7 +79,7 @@ public class PlayerEventHandler {
     public static void postDamageListener(LivingDamageEvent.Post event){
         if(event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Player player) {
             if (event.getOriginalDamage() < (player.getMaxHealth() /8) ) return;
-            if (event.getEntity().getMaxHealth() < 10f) return;
+            if (event.getEntity().getMaxHealth() < player.getMaxHealth() /8) return;
 
 
 

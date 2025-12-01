@@ -111,6 +111,7 @@ public class ModTechniques {
                                     put(Attributes.ARMOR,0.5);
                                     put(Attributes.JUMP_STRENGTH,0.04);
                                     put(Attributes.STEP_HEIGHT,0.08);
+                                    put(Attributes.SAFE_FALL_DISTANCE,0.6);
                                 }}, new HashMap<>(){{ //Major Realm Stats
                                     put(Attributes.MAX_HEALTH,21.5);
                                     put(Attributes.ATTACK_DAMAGE,7.5);
@@ -118,6 +119,7 @@ public class ModTechniques {
                                     put(Attributes.MOVEMENT_SPEED,0.8);
                                     put(Attributes.JUMP_STRENGTH,0.9);
                                     put(Attributes.STEP_HEIGHT,1.2);
+                                    put(Attributes.SAFE_FALL_DISTANCE,1.2);
                         }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
@@ -148,6 +150,7 @@ public class ModTechniques {
                                 put(Attributes.STEP_HEIGHT,0.02);
                                 put(Attributes.OXYGEN_BONUS,0.1);
                                 put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.08);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,18.5);
                                 put(Attributes.ATTACK_DAMAGE,3.5);
@@ -157,6 +160,7 @@ public class ModTechniques {
                                 put(Attributes.STEP_HEIGHT,0.6);
                                 put(Attributes.OXYGEN_BONUS,0.4);
                                 put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
@@ -176,6 +180,7 @@ public class ModTechniques {
                                 put(Attributes.ARMOR,0.2);
                                 put(Attributes.JUMP_STRENGTH,0.09);
                                 put(Attributes.STEP_HEIGHT,0.1);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,15.5);
                                 put(Attributes.ATTACK_DAMAGE,6.5);
@@ -183,6 +188,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,1.8);
                                 put(Attributes.JUMP_STRENGTH,0.14);
                                 put(Attributes.STEP_HEIGHT,1.0);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                         }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
@@ -202,6 +208,7 @@ public class ModTechniques {
                                 put(Attributes.ARMOR,0.3);
                                 put(Attributes.JUMP_STRENGTH,0.01);
                                 put(Attributes.STEP_HEIGHT,0.01);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,33.5);
                                 put(Attributes.ATTACK_DAMAGE,9.5);
@@ -209,6 +216,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,1.3);
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.5);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
@@ -230,6 +238,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,0.1);
                                 put(Attributes.JUMP_STRENGTH,0.01);
                                 put(Attributes.STEP_HEIGHT,0.01);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,33.5);
                                 put(Attributes.ATTACK_DAMAGE,9.5);
@@ -237,6 +246,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,1.3);
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.5);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                         }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
@@ -256,6 +266,7 @@ public class ModTechniques {
                             put(Attributes.MOVEMENT_SPEED,0.3);
                             put(Attributes.JUMP_STRENGTH,0.03);
                             put(Attributes.STEP_HEIGHT,0.03);
+                            put(Attributes.SAFE_FALL_DISTANCE,0.6);
                         }}, new HashMap<>(){{ //Major Realm Stats
                             put(Attributes.MAX_HEALTH,26.4);
                             put(Attributes.ATTACK_DAMAGE,11.4);
@@ -263,6 +274,7 @@ public class ModTechniques {
                             put(Attributes.MOVEMENT_SPEED,2.3);
                             put(Attributes.JUMP_STRENGTH,0.06);
                             put(Attributes.STEP_HEIGHT,0.8);
+                            put(Attributes.SAFE_FALL_DISTANCE,1.2);
                         }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
@@ -287,6 +299,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,0.3);
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.03);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,26.4);
                                 put(Attributes.ATTACK_DAMAGE,7.4);
@@ -294,6 +307,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,0.9);
                                 put(Attributes.JUMP_STRENGTH,0.06);
                                 put(Attributes.STEP_HEIGHT,0.6);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -316,6 +330,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,0.2);
                                 put(Attributes.JUMP_STRENGTH,0.04);
                                 put(Attributes.STEP_HEIGHT,0.04);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,17.4);
                                 put(Attributes.ATTACK_DAMAGE,8.4);
@@ -323,6 +338,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,0.8);
                                 put(Attributes.JUMP_STRENGTH,0.09);
                                 put(Attributes.STEP_HEIGHT,0.7);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -342,6 +358,7 @@ public class ModTechniques {
                                     put(Attributes.MOVEMENT_SPEED,0.5);
                                     put(Attributes.JUMP_STRENGTH,0.07);
                                     put(Attributes.STEP_HEIGHT,0.07);
+                                    put(Attributes.SAFE_FALL_DISTANCE,0.6);
                                 }}, new HashMap<>(){{ //Major Realm Stats
                                     put(Attributes.MAX_HEALTH,26.4);
                                     put(Attributes.ATTACK_DAMAGE,7.8);
@@ -349,6 +366,7 @@ public class ModTechniques {
                                     put(Attributes.MOVEMENT_SPEED,1.1);
                                     put(Attributes.JUMP_STRENGTH,0.14);
                                     put(Attributes.STEP_HEIGHT,0.9);
+                                    put(Attributes.SAFE_FALL_DISTANCE,1.2);
                         }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -369,6 +387,7 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.04);
                                 put(Attributes.STEP_HEIGHT,0.11);
                                 put(Attributes.ENTITY_INTERACTION_RANGE,0.2);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,29.4);
                                 put(Attributes.ATTACK_DAMAGE,4.8);
@@ -377,6 +396,7 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.08);
                                 put(Attributes.STEP_HEIGHT,0.7);
                                 put(Attributes.ENTITY_INTERACTION_RANGE,1.2);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -397,6 +417,7 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.02);
                                 put(Attributes.STEP_HEIGHT,0.02);
                                 put(Attributes.ATTACK_KNOCKBACK, 0.2);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,29.4);
                                 put(Attributes.ATTACK_DAMAGE,4.8);
@@ -405,6 +426,7 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.08);
                                 put(Attributes.STEP_HEIGHT,0.7);
                                 put(Attributes.ATTACK_KNOCKBACK,0.8);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -431,6 +453,7 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.02);
                                 put(Attributes.STEP_HEIGHT,0.02);
                                 put(Attributes.ATTACK_KNOCKBACK, 0.6);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,34.4);
                                 put(Attributes.ATTACK_DAMAGE,11.8);
@@ -439,6 +462,7 @@ public class ModTechniques {
                                 put(Attributes.JUMP_STRENGTH,0.08);
                                 put(Attributes.STEP_HEIGHT,0.7);
                                 put(Attributes.ATTACK_KNOCKBACK,1.4);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -460,6 +484,7 @@ public class ModTechniques {
                                 put(Attributes.ARMOR,0.8);
                                 put(Attributes.JUMP_STRENGTH,0.07);
                                 put(Attributes.STEP_HEIGHT,0.08);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,21.5);
                                 put(Attributes.ATTACK_DAMAGE,8.5);
@@ -467,6 +492,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,2.2);
                                 put(Attributes.JUMP_STRENGTH,1.2);
                                 put(Attributes.STEP_HEIGHT,1.2);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -486,6 +512,7 @@ public class ModTechniques {
                                 put(Attributes.ARMOR,0.5);
                                 put(Attributes.JUMP_STRENGTH,0.04);
                                 put(Attributes.STEP_HEIGHT,0.08);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,21.5);
                                 put(Attributes.ATTACK_DAMAGE,7.5);
@@ -493,6 +520,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,0.8);
                                 put(Attributes.JUMP_STRENGTH,0.9);
                                 put(Attributes.STEP_HEIGHT,1.2);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -510,6 +538,7 @@ public class ModTechniques {
                                 put(Attributes.ARMOR,0.3);
                                 put(Attributes.JUMP_STRENGTH,0.01);
                                 put(Attributes.STEP_HEIGHT,0.01);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,33.5);
                                 put(Attributes.ATTACK_DAMAGE,9.5);
@@ -517,6 +546,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,1.3);
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.5);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -534,6 +564,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,0.1);
                                 put(Attributes.JUMP_STRENGTH,0.01);
                                 put(Attributes.STEP_HEIGHT,0.01);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,33.5);
                                 put(Attributes.ATTACK_DAMAGE,9.5);
@@ -541,6 +572,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,1.3);
                                 put(Attributes.JUMP_STRENGTH,0.03);
                                 put(Attributes.STEP_HEIGHT,0.5);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -560,6 +592,7 @@ public class ModTechniques {
                                 put(Attributes.STEP_HEIGHT,0.02);
                                 put(Attributes.OXYGEN_BONUS,0.1);
                                 put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.08);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,18.5);
                                 put(Attributes.ATTACK_DAMAGE,3.5);
@@ -569,6 +602,7 @@ public class ModTechniques {
                                 put(Attributes.STEP_HEIGHT,0.6);
                                 put(Attributes.OXYGEN_BONUS,0.4);
                                 put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
@@ -587,6 +621,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,0.6);
                                 put(Attributes.JUMP_STRENGTH,0.06);
                                 put(Attributes.STEP_HEIGHT,0.06);
+                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
                             }}, new HashMap<>(){{ //Major Realm Stats
                                 put(Attributes.MAX_HEALTH,45.5);
                                 put(Attributes.ATTACK_DAMAGE,11.5);
@@ -594,6 +629,7 @@ public class ModTechniques {
                                 put(Attributes.MOVEMENT_SPEED,1.4);
                                 put(Attributes.JUMP_STRENGTH,0.6);
                                 put(Attributes.STEP_HEIGHT,0.5);
+                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,4,"ascension:flight_passive_skill",false)))
