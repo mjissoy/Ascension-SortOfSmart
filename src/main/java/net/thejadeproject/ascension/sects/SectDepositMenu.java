@@ -150,26 +150,35 @@ public class SectDepositMenu extends AbstractContainerMenu {
 
     private int getItemValue(ItemStack stack) {
         // Define your item values here
-        if (stack.is(Items.IRON_INGOT)) {
+        if (stack.is(Items.COPPER_INGOT)) {
             return 1;
+        }
+        if (stack.is(Items.IRON_INGOT)) {
+            return 2;
         }
         if (stack.is(Items.GOLD_INGOT)) {
             return 2;
         }
         if (stack.is(Items.DIAMOND)) {
-            return 5;
-        }
-        if (stack.is(Items.NETHERITE_INGOT)) {
-            return 12;
+            return 4;
         }
         if (stack.is(Items.EMERALD)) {
             return 5;
         }
+        if (stack.is(Items.NETHERITE_INGOT)) {
+            return 6;
+        }
 
         // Check for mod items - you'll need to import your mod items
         // Example:
+        if (stack.is(ModItems.FROST_SILVER_INGOT.get())) {
+            return 3;
+        }
+        if (stack.is(ModItems.BLACK_IRON_INGOT.get())) {
+            return 3;
+        }
         if (stack.is(ModItems.JADE.get())) {
-            return 8;
+            return 4;
         }
         if (stack.is(ModItems.SPIRITUAL_STONE.get())) {
             return 16;

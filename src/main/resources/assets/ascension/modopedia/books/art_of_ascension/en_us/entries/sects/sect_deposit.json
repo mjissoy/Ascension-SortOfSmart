@@ -1,0 +1,33 @@
+{
+  "title": "Sect Deposit",
+  "icon": { "id": "ascension:spiritual_stone" },
+  "pages": [
+    {
+      "components": [
+        {
+          "header": "§b/sect deposit",
+          "template": "modopedia:page/headered_text",
+          "text": "/sect deposit is a command that is extremely important to keep your claims yours!\n\n In the next page I will explain how much each item gives your in Power. \n\nItems = Power and if you put in an item in the /sect deposit that can't go in there then it will be given back to you when you close the Gui!"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§cVanilla Materials Values",
+          "template": "modopedia:page/headered_text",
+          "text": "Copper Ingot = 1 Power\n\nIron Ingot = 2 Power\n\nGold Ingot = 2 Power\n\nDiamond = 4 Power\n\nEmerald = 5 Power\n\nNetherite Ingot = 6 Power"
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§cModded Materials Values",
+          "template": "modopedia:page/headered_text",
+          "text": "Frost Silver Ingot = 3 Power\n\nBlack Iron Ingot = 3 Power\n\nJade = 4 Power\n\nSpiritual Stone = 16 Power"
+        }
+      ]
+    }
+  ]
+}

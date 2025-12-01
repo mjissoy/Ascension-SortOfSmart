@@ -1,0 +1,24 @@
+{
+  "title": "Sect Power",
+  "icon": { "id": "ascension:spiritual_stone" },
+  "pages": [
+    {
+      "components": [
+        {
+          "header": "§b/sect info",
+          "template": "modopedia:page/headered_text",
+          "text": "Using the /sect info command will allow you to see your Current and Max Power like this 12/20\nSect Power is used to claim land 1 chunk cost 50 power\nYou can also use power to Overclaim someone elses claims! As long as you have more Max Power then the other sect and you are enemies you can Overclaim. It costs 100 power to overclaim a sect."
+        }
+      ]
+    },
+    {
+      "components": [
+        {
+          "header": "§c/sect enemy",
+          "template": "modopedia:page/headered_text",
+          "text": "Using the /sect enemy [sectName] you can enemy another sect. This is Strictly required to Overclaim another sects land!"
+        }
+      ]
+    }
+  ]
+}

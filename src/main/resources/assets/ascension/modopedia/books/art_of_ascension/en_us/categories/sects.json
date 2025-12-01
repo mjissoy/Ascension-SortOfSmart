@@ -1,0 +1,11 @@
+{
+  "title": "Sects",
+  "landing_text": "Info on some sect commands, Highly recommend you to also do the /sect help command as it explains alot aswell!",
+  "icon": { "id": "ascension:diamond_blade", "count": 1},
+  "entries": [
+    "sects/sect_deposit",
+    "sects/claiming",
+    "sects/sect_map"
+  ],
+  "display_on_front_page": true
+}

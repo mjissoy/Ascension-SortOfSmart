@@ -1651,11 +1651,6 @@ public class SectCommand {
         // NEW: Display description
         context.getSource().sendSuccess(() -> Component.literal("§eDescription: §7" + finalSect.getDescription()), false);
 
-        // Owner info
-        SectMember owner = sect.getMember(sect.getOwnerId());
-        if (owner != null) {
-            context.getSource().sendSuccess(() -> Component.literal("§eOwner: §f" + owner.getPlayerName()), false);
-        }
 
         // Open status
         String openStatus = sect.isOpen() ? "§aOpen" : "§cClosed";
@@ -1688,14 +1683,60 @@ public class SectCommand {
         }
         context.getSource().sendSuccess(() -> Component.literal(enemiesBuilder.toString()), false);
 
-        // Members
+        // Get server for checking online status
+        net.minecraft.server.MinecraftServer server = context.getSource().getServer();
+
+        // Separate online and offline members
+        List<SectMember> onlineMembers = new ArrayList<>();
+        List<SectMember> offlineMembers = new ArrayList<>();
+
+        for (SectMember member : sect.getMembers().values()) {
+            ServerPlayer onlinePlayer = server.getPlayerList().getPlayer(member.getPlayerId());
+            if (onlinePlayer != null) {
+                onlineMembers.add(member);
+            } else {
+                offlineMembers.add(member);
+            }
+        }
+
+        // Sort by rank: SECT_MASTER, ELDER, INNER, OUTER
+        Comparator<SectMember> rankComparator = Comparator.comparingInt(m -> {
+            switch (m.getRank()) {
+                case SECT_MASTER: return 0;
+                case ELDER: return 1;
+                case INNER: return 2;
+                case OUTER: return 3;
+                default: return 4;
+            }
+        });
+
+        onlineMembers.sort(rankComparator);
+        offlineMembers.sort(rankComparator);
+
+        // Display total members count
         Sect finalSect1 = sect;
         context.getSource().sendSuccess(() -> Component.literal("§eMembers (" + finalSect1.getMembers().size() + "):"), false);
-        for (SectMember member : sect.getMembers().values()) {
-            String rankColor = getRankColor(member.getRank());
-            String title = member.getTitle().isEmpty() ? "" : " §7" + member.getTitle();
-            String memberInfo = "  §7- " + rankColor + member.getPlayerName() + " §8[" + member.getRank().getDisplayName() + "§8]" + title;
-            context.getSource().sendSuccess(() -> Component.literal(memberInfo), false);
+
+        // Display online members
+        if (!onlineMembers.isEmpty()) {
+            context.getSource().sendSuccess(() -> Component.literal("§aOnline (" + onlineMembers.size() + "):"), false);
+            for (SectMember member : onlineMembers) {
+                String rankColor = getRankColor(member.getRank());
+                String title = member.getTitle().isEmpty() ? "" : " §7" + member.getTitle();
+                String memberInfo = "  §7- " + rankColor + member.getPlayerName() + " §8[" + member.getRank().getDisplayName() + "§8]" + title;
+                context.getSource().sendSuccess(() -> Component.literal(memberInfo), false);
+            }
+        }
+
+        // Display offline members
+        if (!offlineMembers.isEmpty()) {
+            context.getSource().sendSuccess(() -> Component.literal("§7Offline (" + offlineMembers.size() + "):"), false);
+            for (SectMember member : offlineMembers) {
+                String rankColor = getRankColor(member.getRank());
+                String title = member.getTitle().isEmpty() ? "" : " §7" + member.getTitle();
+                String memberInfo = "  §7- " + rankColor + member.getPlayerName() + " §8[" + member.getRank().getDisplayName() + "§8]" + title;
+                context.getSource().sendSuccess(() -> Component.literal(memberInfo), false);
+            }
         }
 
         return 1;
