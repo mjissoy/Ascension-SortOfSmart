@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.cultivation.player;
 
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -14,9 +15,13 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.Cultiva
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
+import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
+import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
+import net.thejadeproject.ascension.progression.techniques.ITechnique;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 
 public class PlayerDataChangeHandler {
@@ -50,11 +55,11 @@ public class PlayerDataChangeHandler {
                 instance.removeModifiers();
             }
         }
-        
+
         //PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique("ascension:empty_vessel"));
         for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
-            
-            
+
+
             PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPathDataPayload(
                     pathData.pathId,
                     0,
@@ -68,6 +73,41 @@ public class PlayerDataChangeHandler {
 
         PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttackDamageAttribute(player.getAttributeValue(Attributes.ATTACK_DAMAGE)));
         //PacketDistributor.sendToPlayer((ServerPlayer) player,new Sync(player.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+
+    }
+
+    //TODO update physiques to use new skill update sysstem
+    //will delete cultivation progress
+    public static void removeTechnique(Player player,String path){
+        CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);
+        ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':'));
+        if (technique == null) return;
+
+        int majorRealm = pathData.majorRealm;
+        int minorRealm = pathData.minorRealm;
+
+        RealmChangeEvent realmChangeEvent = new RealmChangeEvent(player,path,majorRealm,0,minorRealm,0,0,null);
+        System.out.println("Before: " + System.identityHashCode(realmChangeEvent));
+        System.out.println("realm changed");
+        System.out.println("major : "+realmChangeEvent.oldMajorRealm +"->"+realmChangeEvent.newMajorRealm);
+        System.out.println("minor : "+realmChangeEvent.oldMinorRealm +"->"+realmChangeEvent.newMinorRealm);
+
+        System.out.println("trying to reset data for essence");
+        System.out.println(majorRealm);
+        System.out.println(minorRealm);
+        TechniqueChangeEvent techniqueChangeEvent = new TechniqueChangeEvent(player,path,pathData.technique,"ascension:none");
+        NeoForge.EVENT_BUS.post(realmChangeEvent);
+        NeoForge.EVENT_BUS.post(techniqueChangeEvent);
+
+        pathData.pathProgress = 0;
+        pathData.technique = "ascension:none";
+        pathData.stabilityCultivationTicks = 0;
+        pathData.breakingThrough = false;
+        pathData.cultivating = false;
+        pathData.majorRealm = 0;
+        pathData.minorRealm = 0;
+        pathData.breakthroughData = null;
+        PacketDistributor.sendToPlayer((ServerPlayer) player,SyncPathDataPayload.fromPathData(pathData));
 
     }
 }

@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.skills.PlayerSkillRemoveEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
@@ -131,22 +132,18 @@ public abstract class AbstractTechnique implements ITechnique {
 
     @Override
     public void onRealmChangeEvent(RealmChangeEvent event) {
+        System.out.println("Handler: " + System.identityHashCode(event));
+        System.out.println("realm changed");
+        System.out.println("major : "+event.oldMajorRealm +"->"+event.newMajorRealm);
+        System.out.println("minor : "+event.oldMinorRealm +"->"+event.newMinorRealm);
+        updatePlayerSkills(event.player,event.oldMajorRealm,event.newMajorRealm,event.oldMinorRealm,event.newMinorRealm);
         ITechnique.super.onRealmChangeEvent(event);
-        if(event.getMajorRealmsChanged() < 0 ||(event.getMajorRealmsChanged() == 0 && event.getTotalMinorRealmsChanged() <0) ) return;
-        updatePlayerSkills(
-                event.player,
-                event.pathId,
-                event.newMajorRealm,
-                event.newMinorRealm
-        );
     }
 
     //TODO add some sort of path registry and use that for this
     @Override
     public void onTechniqueAcquisition(Player player) {
-        for(String path : List.of("ascension:intent","ascension:essence","ascension:body")){
-            updatePlayerSkills(player,path,0,0);
-        }
+        updatePlayerSkills(player,-1,0,-1,0);
     }
 
     public AbstractTechnique setDescription(List<MutableComponent> description){
@@ -183,20 +180,52 @@ public abstract class AbstractTechnique implements ITechnique {
         }
         return extraInfo;
     }
-    public void updatePlayerSkills(Player player, String path, int majorRealm, int minorRealm){
-        if(skillList == null) return;
-        List<Pair<String,Boolean>> newSkills = skillList.getSkillsOfPathAndRealm(path,majorRealm,minorRealm);
+    public void updatePlayerSkills(Player player,int oldMajorRealm,int newMajorRealm,int oldMinorRealm,int newMinorRealm){
+        System.out.println("trying to update player skills");
+        System.out.println("major : "+oldMajorRealm +"->"+newMajorRealm);
+        System.out.println("minor : "+oldMinorRealm +"->"+newMinorRealm);
+        if(
+                (oldMajorRealm > newMajorRealm)
+                || (oldMajorRealm == newMajorRealm && oldMinorRealm >= newMinorRealm)
+        ){
+            System.out.println("trying to remove skills");
+            //realm was lowered
+            List<Pair<String,Boolean>> skillsToRemove = getSkillList().getSkillsBetweenRealmsIncludingMin(
+                    newMajorRealm,oldMajorRealm,
+                    newMinorRealm,oldMinorRealm
+            );
+            for(Pair<String,Boolean> skillData : skillsToRemove){
+                if(skillData.getB()) continue; //fixed skill do not remove
+                PlayerSkillRemoveEvent event = new PlayerSkillRemoveEvent(player,newMinorRealm,newMajorRealm,path,skillData.getA());
+                if(event.isCanceled()) continue;
+                ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
+                if(skill == null) continue; //TODO find a way to log an error?
 
-        for(Pair<String,Boolean> skillData :newSkills){
+                System.out.println("removing skill: "+skillData.getA());
+                player.getData(ModAttachments.PLAYER_SKILL_DATA).removeSkill(skillData.getA());
+                skill.onSkillRemoved(player);
+            }
 
-            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
-            String skillType = "Passive";
-            if(skill instanceof AbstractActiveSkill) skillType = "Active";
-            player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
-            skill.onSkillAdded(player);
         }
+        else{
+            //add skills
+            List<Pair<String,Boolean>> skillStoAdd = getSkillList().getSkillsBetweenRealmsExcludingMin(
+                    oldMajorRealm,newMajorRealm,
+                    oldMinorRealm,newMinorRealm
+            );
+            for(Pair<String,Boolean> skillData : skillStoAdd){
+                ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
+                if(skill == null) continue; //TODO find a way to log an error?
+                String skillType = "Passive";
+                if(skill instanceof AbstractActiveSkill) skillType = "Active";
 
+                System.out.println("adding skill: "+skillData.getA());
+                player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
+                skill.onSkillAdded(player);
+            }
+        }
     }
+
     @Override
     public List<MutableComponent> getFullDescription() {
         List<MutableComponent> extraInfo = new ArrayList<>();
