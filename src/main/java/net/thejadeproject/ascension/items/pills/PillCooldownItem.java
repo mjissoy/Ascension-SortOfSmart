@@ -21,6 +21,7 @@ public class PillCooldownItem extends Item {
             player.getCooldowns().addCooldown(this, cooldownTimeValue);
             // Consume one item from the stack
             if (!player.getAbilities().instabuild) {
+                super.finishUsingItem(stack, level, livingEntity);
                 stack.shrink(1);
             }
             if(consumer != null) consumer.accept(stack,level,livingEntity);
