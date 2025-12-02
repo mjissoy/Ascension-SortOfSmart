@@ -33,6 +33,9 @@ public class SectCommand {
                 .then(Commands.literal("create")
                         .then(Commands.argument("name", StringArgumentType.string())
                                 .executes(SectCommand::createSect)))
+                .then(Commands.literal("join")
+                        .then(Commands.argument("sectname", StringArgumentType.string())
+                                .executes(SectCommand::joinSect)))
                 .then(Commands.literal("invite")
                         .then(Commands.argument("playername", StringArgumentType.string())
                                 .suggests((context, builder) -> {

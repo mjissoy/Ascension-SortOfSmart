@@ -64,7 +64,7 @@ public class ModPlacedFeatures {
             commonOrePlacement(5, HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(0))));
 
         register(context, BLACK_IRON_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_BLACK_IRON_ORE_KEY),
-            commonOrePlacement(5, HeightRangePlacement.triangle(VerticalAnchor.absolute(60), VerticalAnchor.absolute(300))));
+            commonOrePlacement(5, HeightRangePlacement.triangle(VerticalAnchor.absolute(10), VerticalAnchor.absolute(120))));
         register(context, FROST_SILVER_ORE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OVERWORLD_FROST_SILVER_ORE_KEY),
             commonOrePlacement(5, HeightRangePlacement.triangle(VerticalAnchor.absolute(-64), VerticalAnchor.absolute(0))));
 
