@@ -354,6 +354,19 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', ModItems.BLACK_IRON_INGOT.get())
                 .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/pill_cauldron_from_black_iron");
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.GOLDEN_PALM_PLANKS.get(), 4)
+                .requires(ModBlocks.GOLDEN_PALM_LOG)
+                .unlockedBy("has_golden_palm_log", has(ModBlocks.GOLDEN_PALM_LOG)).save(recipeOutput, "ascension:shapeless/palm_planks");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.GOLDEN_PALM_PLANKS.get(), 4)
+                .requires(ModBlocks.GOLDEN_PALM_WOOD)
+                .unlockedBy("has_golden_palm_wood", has(ModBlocks.GOLDEN_PALM_WOOD)).save(recipeOutput, "ascension:shapeless/palm_planks_from_wood");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.GOLDEN_PALM_PLANKS.get(), 4)
+                .requires(ModBlocks.STRIPPED_GOLDEN_PALM_LOG)
+                .unlockedBy("has_golden_palm_log_stripped", has(ModBlocks.STRIPPED_GOLDEN_PALM_LOG)).save(recipeOutput, "ascension:shapeless/palm_planks_stripped");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.GOLDEN_PALM_PLANKS.get(), 4)
+                .requires(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD)
+                .unlockedBy("has_golden_palm_wood_stripped", has(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD)).save(recipeOutput, "ascension:shapeless/palm_planks_from_wood_stripped");
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE.get(), 9)
                 .requires(ModBlocks.SPIRITUAL_STONE_BLOCK)
                 .unlockedBy("has_ssb", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(recipeOutput, "ascension:shapeless/ss_from_ssb");

@@ -110,108 +110,108 @@ public class ModEvents {
             //Level 1 Herbalist
             trades.get(1).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 1),
-                    new ItemStack(Items.CARROT, 16), 16, 10, 0.0f
+                    new ItemStack(Items.CARROT, 16), 16, 10, 0.5f
             ));
             trades.get(1).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 1),
-                    new ItemStack(Items.POTATO, 16), 16, 10, 0.0f
+                    new ItemStack(Items.POTATO, 16), 16, 10, 0.5f
             ));
             trades.get(1).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 1),
-                    new ItemStack(Items.WHEAT, 16), 16, 10, 0.0f
+                    new ItemStack(Items.WHEAT, 16), 16, 10, 0.5f
             ));
             trades.get(1).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(Items.CARROT, 48),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 1), 16, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 1), 16, 10, 0.5f
             ));
             trades.get(1).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(Items.WHEAT, 48),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 1), 16, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 1), 16, 10, 0.5f
             ));
             trades.get(1).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(Items.POTATO, 48),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 1), 16, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 1), 16, 10, 0.5f
             ));
 
             //Level 2 Herbalist
             trades.get(2).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 1),
-                    new ItemStack(Items.PUMPKIN, 8), 16, 10, 0.0f
+                    new ItemStack(Items.PUMPKIN, 8), 16, 10, 0.5f
             ));
             trades.get(2).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 1),
-                    new ItemStack(Items.MELON, 8), 16, 10, 0.0f
+                    new ItemStack(Items.MELON, 8), 16, 10, 0.5f
             ));
             trades.get(2).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 2),
-                    new ItemStack(ModBlocks.GOLDEN_PALM_SAPLING, 1), 16, 10, 0.0f
+                    new ItemStack(ModBlocks.GOLDEN_PALM_SAPLING, 1), 16, 10, 0.5f
             ));
             trades.get(2).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(Items.PUMPKIN, 64),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 2), 16, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 2), 16, 10, 0.5f
             ));
             trades.get(2).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(Items.MELON, 64),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 2), 16, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 2), 16, 10, 0.5f
             ));
 
             //Level 3 Herbalist
             trades.get(3).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 1),
-                    new ItemStack(Items.NETHERITE_HOE, 1), 16, 10, 0.0f
+                    new ItemStack(Items.NETHERITE_HOE, 1), 16, 10, 0.5f
             ));
             trades.get(3).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 1),
-                    new ItemStack(ModBlocks.PILL_CAULDRON_HUMAN_LOW, 1), 16, 10, 0.0f
+                    new ItemStack(ModBlocks.PILL_CAULDRON_HUMAN_LOW, 1), 16, 10, 0.5f
             ));
             trades.get(3).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.FASTING_PILL_T1, 4),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 1), 8, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 1), 8, 10, 0.5f
             ));
             trades.get(3).add((entity, randomSource) -> new MerchantOffer(
-                    new ItemCost(ModItems.SPIRITUAL_STONE, 3),
-                    new ItemStack(ModItems.GOLDEN_SUN_LEAF.get(), 2), 16, 10, 0.0f
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 1),
+                    new ItemStack(ModItems.GOLDEN_SUN_LEAF.get(), 2), 16, 10, 0.5f
             ));
             trades.get(3).add((entity, randomSource) -> new MerchantOffer(
-                    new ItemCost(ModItems.SPIRITUAL_STONE, 3),
-                    new ItemStack(ModItems.JADE_BAMBOO_OF_SERENITY.get(), 2), 16, 10, 0.0f
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 1),
+                    new ItemStack(ModItems.JADE_BAMBOO_OF_SERENITY.get(), 2), 16, 10, 0.5f
             ));
 
             //Level 4 Herbalist
             trades.get(4).add((entity, randomSource) -> new MerchantOffer(
-                    new ItemCost(ModItems.SPIRITUAL_STONE, 6),
-                    new ItemStack(ModItems.HUNDRED_YEAR_GINSENG.get(), 1), 16, 10, 0.0f
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 2),
+                    new ItemStack(ModItems.HUNDRED_YEAR_GINSENG.get(), 1), 16, 10, 0.5f
             ));
             trades.get(4).add((entity, randomSource) -> new MerchantOffer(
-                    new ItemCost(ModItems.SPIRITUAL_STONE, 6),
-                    new ItemStack(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), 1), 16, 10, 0.0f
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 2),
+                    new ItemStack(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), 1), 16, 10, 0.5f
             ));
             trades.get(4).add((entity, randomSource) -> new MerchantOffer(
-                    new ItemCost(ModItems.SPIRITUAL_STONE, 6),
-                    new ItemStack(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), 1), 16, 10, 0.0f
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 2),
+                    new ItemStack(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), 1), 16, 10, 0.5f
             ));
             trades.get(4).add((entity, randomSource) -> new MerchantOffer(
-                    new ItemCost(ModItems.SPIRITUAL_STONE, 9),
-                    new ItemStack(ModItems.IRONWOOD_SPROUT.get(), 1), 16, 10, 0.0f
+                    new ItemCost(ModItems.SPIRITUAL_STONE, 1),
+                    new ItemStack(ModItems.IRONWOOD_SPROUT.get(), 1), 16, 10, 0.5f
             ));
 
 
             //Level 5 Herbalist
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.CRIMSON_LOTUS_FLAME, 16),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 8), 16, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 8), 16, 10, 0.5f
             ));
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 13),
-                    new ItemStack(ModItems.WHITE_JADE_ORCHID.get(), 1), 16, 10, 0.0f
+                    new ItemStack(ModItems.WHITE_JADE_ORCHID.get(), 1), 16, 10, 0.5f
             ));
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(Blocks.NETHERITE_BLOCK, 4),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 16), 16, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 16), 16, 10, 0.5f
             ));
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(Blocks.DIAMOND_BLOCK, 2),
-                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 4), 16, 10, 0.0f
+                    new ItemStack(ModItems.SPIRITUAL_STONE.get(), 4), 16, 10, 0.5f
             ));
 
         }
