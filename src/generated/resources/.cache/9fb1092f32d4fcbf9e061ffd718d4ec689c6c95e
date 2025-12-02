@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-01T13:30:39.8542069	Recipes
+// 1.21.1	2025-12-02T11:25:05.8586284	Recipes
 da9eaf334b8ff9d37b2fbb9fd8de6baf027edf64 data/ascension/advancement/recipes/building_blocks/blue_marble_bricks.json
 60ea0a8913cba8d6930aeb68209f704f9b030baa data/ascension/advancement/recipes/building_blocks/blue_marble_brick_slabs.json
 77e006eabd326806f054577716fc77a5e3b86b63 data/ascension/advancement/recipes/building_blocks/blue_marble_brick_stairs.json
@@ -444,9 +444,9 @@ fa387c955dfe7ebc692fcb2a55ed08646b6770e6 data/ascension/recipe/shaped/spatial_ru
 e433fb11b03996d2a072d62227bdc4e047ea86a1 data/ascension/recipe/shaped/spatial_rupture_talisman_t3.json
 c0a77ab914168488fecc66aac2c9cc89668dab7f data/ascension/recipe/shaped/ssb_from_spiritual_stone.json
 61caade8d1e65b3231817990a8ade4dceaafef74 data/ascension/recipe/shaped/stone_spear.json
-d9bc79d668515150a3481783e5fcfca929600a27 data/ascension/recipe/shaped/tablet_of_destruction_earth.json
-0ecaf0095ca402ff9ab38dd846d3ce0083d03203 data/ascension/recipe/shaped/tablet_of_destruction_heaven.json
-e96e32184b13f18ca0deda590026347dbf2eb93a data/ascension/recipe/shaped/tablet_of_destruction_human.json
+816e26dbf5a87099ee3e7bab3f1b355c5dd6ba39 data/ascension/recipe/shaped/tablet_of_destruction_earth.json
+86a2bf5eed46c9bc375147c3485d011ba37291ec data/ascension/recipe/shaped/tablet_of_destruction_heaven.json
+72ce1e261430609dc8fa99ae854c752bd69ff7d1 data/ascension/recipe/shaped/tablet_of_destruction_human.json
 96ceeca153e370643e45627b90f6aedd8bd93843 data/ascension/recipe/shaped/talisman_paper.json
 a6a22742a99e32439b17b56570d2b878ce7ced06 data/ascension/recipe/shaped/void_marking_talisman.json
 229090893edf98b915b5cb3cdbf061c955c056b8 data/ascension/recipe/shaped/wooden_blade.json

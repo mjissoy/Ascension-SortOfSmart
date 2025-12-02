@@ -141,21 +141,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("GBG")
                 .pattern("BGB")
                 .pattern("GBG")
-                .define('G', Items.GUNPOWDER)
-                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .define('G', Items.IRON_INGOT)
+                .define('B', ModBlocks.RAW_MARBLE.get())
                 .unlockedBy("has_gunpowder", has(Items.GUNPOWDER)).save(recipeOutput, "ascension:shaped/tablet_of_destruction_human");
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_EARTH.get(), 2)
                 .pattern("TTT")
                 .pattern("THT")
                 .pattern("TTT")
-                .define('T', Blocks.TNT)
+                .define('T', Items.GUNPOWDER)
                 .define('H', ModItems.TABLET_OF_DESTRUCTION_HUMAN.get())
                 .unlockedBy("has_tablet_of_destruction_human", has(ModItems.TABLET_OF_DESTRUCTION_HUMAN)).save(recipeOutput, "ascension:shaped/tablet_of_destruction_earth");
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get(), 2)
                 .pattern("TTT")
                 .pattern("THT")
                 .pattern("TTT")
-                .define('T', Blocks.TNT)
+                .define('T', Items.GUNPOWDER)
                 .define('H', ModItems.TABLET_OF_DESTRUCTION_EARTH.get())
                 .unlockedBy("has_tablet_of_destruction_eart", has(ModItems.TABLET_OF_DESTRUCTION_EARTH)).save(recipeOutput, "ascension:shaped/tablet_of_destruction_heaven");
 

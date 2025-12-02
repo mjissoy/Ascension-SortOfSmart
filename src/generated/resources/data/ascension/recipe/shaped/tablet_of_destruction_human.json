@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "B": {
-      "item": "ascension:black_iron_ingot"
+      "item": "ascension:raw_marble"
     },
     "G": {
-      "item": "minecraft:gunpowder"
+      "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
