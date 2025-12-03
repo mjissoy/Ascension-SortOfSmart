@@ -25,36 +25,36 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
         this.add("jade_bamboo_of_serenity_from_bamboo", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("blocks/bamboo")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.JADE_BAMBOO_OF_SERENITY.get()));
+                LootItemRandomChanceCondition.randomChance(0.08F).build()}, ModItems.JADE_BAMBOO_OF_SERENITY.get()));
 
 
         //Living Core Drop Regular Mobs
         this.add("living_core_from_strider", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/strider")).build(),
-                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.LIVING_CORE.get()));
         this.add("living_core_from_piglin", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/piglin")).build(),
-                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.LIVING_CORE.get()));
         this.add("living_core_from_hoglin", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/hoglin")).build(),
-                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.LIVING_CORE.get()));
         this.add("living_core_from_zoglin", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/zoglin")).build(),
-                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.LIVING_CORE.get()));
         this.add("living_core_from_vex", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/vex")).build(),
-                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.LIVING_CORE.get()));
         this.add("living_core_from_allay", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/allay")).build(),
-                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.LIVING_CORE.get()));
         this.add("living_core_from_golem", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/iron_golem")).build(),
-                LootItemRandomChanceCondition.randomChance(0.04F).build()}, ModItems.LIVING_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.LIVING_CORE.get()));
 
         //Living Core Drop Boss Undead
         this.add("living_core_from_ender_dragon", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/ender_dragon")).build(),
-                LootItemRandomChanceCondition.randomChance(0.14F).build()}, ModItems.LIVING_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.15F).build()}, ModItems.LIVING_CORE.get()));
 
 
 
@@ -64,37 +64,37 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         //Undead Core Drop Regular Undead Mobs
         this.add("undead_core_from_zombie", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/zombie")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_skeleton", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/skeleton")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_wither_skeleton", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/wither_skeleton")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_stray", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/stray")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_husk", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/husk")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_drowned", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/drowned")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_zombie_villager", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/zombie_villager")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_zombified_piglin", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/zombified_piglin")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_zombie_horse", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/zombie_horse")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_phantom", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/phantom")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         this.add("undead_core_from_zoglin", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/zoglin")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()}, ModItems.UNDEAD_CORE.get()));
+                LootItemRandomChanceCondition.randomChance(0.06F).build()}, ModItems.UNDEAD_CORE.get()));
         //Undead Core Drop Boss Undead
         this.add("undead_core_from_wither", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/wither")).build(),

@@ -67,7 +67,7 @@ public class ModBiomeModifiers {
 
         context.register(SPAWN_RAT, new BiomeModifiers.AddSpawnsBiomeModifier(
                 HolderSet.direct(biomes.getOrThrow(Biomes.FOREST), biomes.getOrThrow(Biomes.BIRCH_FOREST)),
-                        List.of(new MobSpawnSettings.SpawnerData(ModEntities.RAT.get(), 5, 2, 4))));
+                        List.of(new MobSpawnSettings.SpawnerData(ModEntities.RAT.get(), 10, 2, 4))));
 
 
         //Herbs

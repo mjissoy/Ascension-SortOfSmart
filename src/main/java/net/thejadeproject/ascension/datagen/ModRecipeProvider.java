@@ -5,6 +5,7 @@ import net.favouriteless.modopedia.common.init.MItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
@@ -16,6 +17,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipeShaped;
+import net.thejadeproject.ascension.util.ModTags;
 import net.thejadeproject.ascension.util.NoAdvRecipeOutput;
 import net.thejadeproject.ascension.util.RecipeInjector;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +46,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("DED")
                 .define('T', ModItems.TALISMAN_PAPER.get())
                 .define('E', Items.ENDER_PEARL)
-                .define('D', Items.WHITE_BED)
+                .define('D', ModTags.Items.WOOLABLE)
                 .unlockedBy("has_talisman_paper", has(ModItems.TALISMAN_PAPER)).save(recipeOutput, "ascension:shaped/soulstead_return_talisman");
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.WORLD_AXIS_TALISMAN.get())
                 .pattern("DED")

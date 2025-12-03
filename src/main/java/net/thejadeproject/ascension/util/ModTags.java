@@ -44,6 +44,7 @@ public class ModTags {
         public static final TagKey<Item> SPEAR_ENCHANTABLE = createTag("spear_enchantable");
 
 
+
         public static final TagKey<Item> CURIOS_RING = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("curios", "ring"));
 
 
@@ -54,6 +55,8 @@ public class ModTags {
         public static final TagKey<Item> FROST_SILVER_RAW = createCommonTag("raw_materials/frost_silver");
         public static final TagKey<Item> INGOTS_FROST_SILVER = createCommonTag("ingots/frost_silver");
         public static final TagKey<Item> NUGGETS_FROST_SILVER = createCommonTag("nuggets/frost_silver");
+
+        public static final TagKey<Item> WOOLABLE = createTag("crafting/woolable");
 
 
 
@@ -81,6 +84,8 @@ public class ModTags {
 
         public static final TagKey<Block> STORAGE_BLOCKS_BLACK_IRON = createCommonTag("storage_blocks/black_iron");
         public static final TagKey<Block> STORAGE_BLOCKS_FROST_SILVER = createCommonTag("storage_blocks/frost_silver");
+
+
 
 
 

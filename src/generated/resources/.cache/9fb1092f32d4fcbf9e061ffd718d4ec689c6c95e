@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-02T16:12:44.4773044	Recipes
+// 1.21.1	2025-12-03T16:00:37.9342732	Recipes
 da9eaf334b8ff9d37b2fbb9fd8de6baf027edf64 data/ascension/advancement/recipes/building_blocks/blue_marble_bricks.json
 60ea0a8913cba8d6930aeb68209f704f9b030baa data/ascension/advancement/recipes/building_blocks/blue_marble_brick_slabs.json
 77e006eabd326806f054577716fc77a5e3b86b63 data/ascension/advancement/recipes/building_blocks/blue_marble_brick_stairs.json
@@ -442,7 +442,7 @@ a98e3765ad53064bf2b57c4d9f6625ce3611249f data/ascension/recipe/shaped/jade_slip.
 8b5dd5727aa07a883a21d2e0cd1ebdfb8f03756c data/ascension/recipe/shaped/pill_cauldron_from_black_iron.json
 321a9af4bd491261f52deb06563bb8b128d829e4 data/ascension/recipe/shaped/repair_slip.json
 4172a1e5c812dbf97f595be77aa283b082ec2144 data/ascension/recipe/shaped/searing_blade.json
-69c757ec8b1d8284542878264d2b609782155314 data/ascension/recipe/shaped/soulstead_return_talisman.json
+fde8096d8faf06a788ba89137ada088f1518d390 data/ascension/recipe/shaped/soulstead_return_talisman.json
 e1d1bef98509bd720a11b5c5860269b60ee7fdca data/ascension/recipe/shaped/spatial_rupture_talisman_t1.json
 fa387c955dfe7ebc692fcb2a55ed08646b6770e6 data/ascension/recipe/shaped/spatial_rupture_talisman_t2.json
 e433fb11b03996d2a072d62227bdc4e047ea86a1 data/ascension/recipe/shaped/spatial_rupture_talisman_t3.json

@@ -222,6 +222,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.SAND)
                 .add(Blocks.TUFF)
                 .add(Blocks.DIRT)
+                .add(Blocks.NETHERRACK)
+                .add(Blocks.BLACKSTONE)
+                .add(Blocks.BASALT)
                 .add(ModBlocks.RAW_MARBLE.get());
 
         tag(BlockTags.NEEDS_DIAMOND_TOOL)

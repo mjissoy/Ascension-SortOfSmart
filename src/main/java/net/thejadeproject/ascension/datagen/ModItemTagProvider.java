@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -66,6 +67,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .addTag(ModTags.Items.SPEAR);
 
 
+
         tag(ModTags.Items.BLADE)
                 .add(ModItems.WOODEN_BLADE.get())
                 .add(ModItems.STONE_BLADE.get())
@@ -75,6 +77,25 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.NETHERITE_BLADE.get())
                 .add(ModItems.SEARING_BLADE.get())
                 .add(ModItems.JADE_BLADE.get());
+
+
+        tag(ModTags.Items.WOOLABLE)
+                .add(Items.WHITE_WOOL)
+                .add(Items.LIGHT_GRAY_WOOL)
+                .add(Items.GRAY_WOOL)
+                .add(Items.BLACK_WOOL)
+                .add(Items.BROWN_WOOL)
+                .add(Items.RED_WOOL)
+                .add(Items.ORANGE_WOOL)
+                .add(Items.YELLOW_WOOL)
+                .add(Items.LIME_WOOL)
+                .add(Items.GREEN_WOOL)
+                .add(Items.CYAN_WOOL)
+                .add(Items.LIGHT_BLUE_WOOL)
+                .add(Items.BLUE_WOOL)
+                .add(Items.PURPLE_WOOL)
+                .add(Items.MAGENTA_WOOL)
+                .add(Items.PINK_WOOL);
 
         tag(ModTags.Items.SPEAR)
                 .add(ModItems.WOODEN_SPEAR.get())
