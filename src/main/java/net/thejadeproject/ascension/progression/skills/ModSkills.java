@@ -8,14 +8,12 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.progression.skills.active_skills.IndestructibleVajraActiveSkill;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.DelayedFireLaunch;
-import net.thejadeproject.ascension.progression.skills.passive_skills.FlightPassiveSkill;
-import net.thejadeproject.ascension.progression.skills.passive_skills.SwordIntent;
+import net.thejadeproject.ascension.progression.skills.passive_skills.*;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.progression.skills.passive_skills.FistAura;
-import net.thejadeproject.ascension.progression.skills.passive_skills.IronBonesPassiveSkill;
 
 import java.util.List;
 
@@ -54,6 +52,51 @@ public class ModSkills {
             ()->new DelayedFireLaunch("Delayed Fire Launch")
                     .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fire_ball.png"),32,32)
                     ));
+
+
+
+    public static final DeferredHolder<ISkill, ? extends AbstractPassiveSkill> STONEHIDE_PASSIVE = SKILLS.register("stonehide_passive",
+            () -> new StonehidePassiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/stonehide.png"), 32, 32)
+                    ).setSkillDescription(List.of(
+                            Component.translatable("ascension.physique.passive.stonehide.desc1"),
+                            Component.translatable("ascension.physique.passive.stonehide.desc2"),
+                            Component.translatable("ascension.physique.passive.stonehide.desc3"),
+                            Component.translatable("ascension.physique.passive.stonehide.desc4"),
+                            Component.translatable("ascension.physique.passive.stonehide.desc5"),
+                            Component.translatable("ascension.physique.passive.stonehide.desc6")
+                    ))
+    );
+    public static final DeferredHolder<ISkill, ? extends AbstractPassiveSkill> DIAMOND_ADAMANT_PASSIVE = SKILLS.register("diamond_adamant_passive",
+            () -> new DiamondAdamantPassiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/diamond_body.png"), 32, 32)
+                    ).setSkillDescription(List.of(
+                            Component.translatable("ascension.physique.passive.diamond_adamant.desc1"),
+                            Component.translatable("ascension.physique.passive.diamond_adamant.desc2"),
+                            Component.translatable("ascension.physique.passive.diamond_adamant.desc3"),
+                            Component.translatable("ascension.physique.passive.diamond_adamant.desc4"),
+                            Component.translatable("ascension.physique.passive.diamond_adamant.desc5"),
+                            Component.translatable("ascension.physique.passive.diamond_adamant.desc6")
+                    ))
+    );
+    public static final DeferredHolder<ISkill, ? extends  AbstractActiveSkill> INDESTRUCTIBLE_VAJRA_ACTIVE = SKILLS.register("indestructible_vajra_active",
+            () -> new IndestructibleVajraActiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/vajra_form.png"), 32, 32)
+                    ).setSkillDescription(List.of(
+                            Component.translatable("ascension.physique.active.indestructible_vajra.desc1"),
+                            Component.translatable("ascension.physique.active.indestructible_vajra.desc2"),
+                            Component.translatable("ascension.physique.active.indestructible_vajra.desc3"),
+                            Component.translatable("ascension.physique.active.indestructible_vajra.desc4"),
+                            Component.translatable("ascension.physique.active.indestructible_vajra.desc5"),
+                            Component.translatable("ascension.physique.active.indestructible_vajra.desc6"),
+                            Component.translatable("ascension.physique.active.indestructible_vajra.desc7"),
+                            Component.translatable("ascension.physique.active.indestructible_vajra.desc8")
+                    ))
+    );
+
+
+
+
     public static void register(IEventBus eventBus){
         SKILLS.register(eventBus);
     }

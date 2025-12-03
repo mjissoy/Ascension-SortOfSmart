@@ -55,6 +55,64 @@ public class ModPhysiques {
 
     }};
 
+    public static HashMap<Holder<Attribute>,Double> STONE_MONKEY_MINOR_REALM_STATS = new HashMap<>(){{
+        put(Attributes.MAX_HEALTH, 20.0);  // High HP
+        put(Attributes.ATTACK_DAMAGE, 2.5); // High damage
+        put(Attributes.MOVEMENT_SPEED, 0.01); // Slow base, but compensated by abilities
+        put(Attributes.JUMP_STRENGTH, 0.1); // Better jump
+        put(Attributes.KNOCKBACK_RESISTANCE, 0.5); // Can't be knocked back easily
+        put(Attributes.STEP_HEIGHT, 0.02);
+    }};
+
+    public static HashMap<Holder<Attribute>,Double> STONE_MONKEY_MAJOR_REALM_STATS = new HashMap<>(){{
+        put(Attributes.MAX_HEALTH, 30.0);
+        put(Attributes.ATTACK_DAMAGE, 4.0);
+        put(Attributes.MOVEMENT_SPEED, 0.02);
+        put(Attributes.JUMP_STRENGTH, 0.2);
+        put(Attributes.KNOCKBACK_RESISTANCE, 1.0); // Complete knockback immunity at high realms
+        put(Attributes.STEP_HEIGHT, 0.1);
+    }};
+
+
+    public static final DeferredHolder<IPhysique,GenericPhysique> HEAVENBORN_STONE_MONKEY_PHYSIQUE = PHYSIQUES.register("heavenborn_stone_monkey_physique",
+            ()-> new GenericPhysique("Heaven-Born Stone Monkey Physique",
+                    new HashMap<>(){{
+                        put("ascension:intent", 0.6);    // High intent for defiance
+                        put("ascension:body", 1.5);      // Very high body focus (primary)
+                        put("ascension:essence", 0.1);   // Lower essence focus
+                    }},
+                    new HashMap<>(){{
+                        put("ascension:earth", 3.0);         // Stone origin
+                        put("ascension:yang", 2.5);          // Active, aggressive nature
+                        put("ascension:chaos", 2.0);         // Chaotic, heaven-defying
+                        put("ascension:defiance", 2.0);      // Rebel against authority
+                        put("ascension:fist_intent", 1.8);   // Prefers unarmed combat
+                        put("ascension:earthshatter", 1.5);  // Breaking power
+                        put("ascension:transformation", 1.0); // 72 Transformations
+                    }},
+                    new StandardStatRealmChange(STONE_MONKEY_MINOR_REALM_STATS, STONE_MONKEY_MAJOR_REALM_STATS))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:body", 5, 1, "ascension:stonehide_passive", true),
+
+                            new AcquirableSkillData("ascension:body", 2, 2, "ascension:diamond_adamant_passive", true),
+
+                            new AcquirableSkillData("ascension:body", 4, 5, "ascension:indestructible_vajra_active", false)
+                    ))
+                    .setDescription(List.of(
+                            Component.literal("§6Born from chaos, defying heaven's will."),
+                            Component.literal("§7A physique that grows through conflict and rebellion."),
+                            Component.literal(""),
+                            Component.literal("§e◆ §fGrowth: Survive what should break you"),
+                            Component.literal("§e◆ §fPath: Conflict → Resilience → Defiance"),
+                            Component.literal("§e◆ §fWeakness: Susceptible to order-based attacks")
+                    ))
+    );
+
+
+
+
+
+
 
     public static final DeferredHolder<IPhysique,GenericPhysique> EMPTY_VESSEL = PHYSIQUES.register("empty_vessel",
             ()-> new GenericPhysique("Empty Vessel",
@@ -293,6 +351,14 @@ public class ModPhysiques {
 
                     }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
+
+
+
+
+
+
+
+
     public static void register(IEventBus modEventBus){
         PHYSIQUES.register(modEventBus);
     }

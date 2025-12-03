@@ -24,6 +24,146 @@ import java.util.Map;
 public class ModDao {
     public static final DeferredRegister<IDao> DAO = DeferredRegister.create(AscensionRegistries.Dao.DAO_REGISTRY, AscensionCraft.MOD_ID);
 
+
+    public static final DeferredHolder<IDao, GenericDao> CHAOS_DAO = createDao("chaos",
+            Component.literal("§5[Chaos]"),
+            List.of(
+                    Component.literal("Primordial disorder, the state before creation"),
+                    Component.literal("The essence of rebellion against established order")
+            ),
+            Map.of(), // No generative
+            Map.of( // Destructive to order-based Daos
+                    "ascension:yin", 2.0,
+                    "ascension:yang", 2.0,
+                    "ascension:order", 1.8
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> DEFIANCE_DAO = createDao("defiance",
+            Component.literal("§c[Defiance]"),
+            List.of(
+                    Component.literal("The will to resist all authority"),
+                    Component.literal("Strength born from opposition")
+            ),
+            Map.of(),
+            Map.of(
+                    "ascension:order", 2.0,
+                    "ascension:karma", 1.5
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> EARTHSHATTER_DAO = createDao("earthshatter",
+            Component.literal("§6[Earthshatter]"),
+            List.of(
+                    Component.literal("The power to break mountains with a single strike"),
+                    Component.literal("Unstoppable force meeting immovable object")
+            ),
+            Map.of(
+                    "ascension:earth", 1.5,
+                    "ascension:yang", 1.2
+            ),
+            Map.of(
+                    "ascension:void", 0.5
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> TRANSFORMATION_DAO = createDao("transformation",
+            Component.literal("§3[Transformation]"),
+            List.of(
+                    Component.literal("Mastery over form and essence"),
+                    Component.literal("The fluidity to become anything")
+            ),
+            Map.of(
+                    "ascension:chaos", 1.2,
+                    "ascension:yin", 0.8
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> ORDER_DAO = createDao("order",
+            Component.literal("§f[Order]").withColor(0xAAAAAA),
+            List.of(
+                    Component.literal("The principle of structure, law, and harmony"),
+                    Component.literal("Natural balance and cosmic hierarchy"),
+                    Component.literal("Opposite of chaos and defiance")
+            ),
+            Map.of(
+                    "ascension:yin", 1.2,    // Balance
+                    "ascension:yang", 1.2,   // Structure
+                    "ascension:earth", 0.8,  // Stability
+                    "ascension:metal", 0.5   // Rigidity
+            ),
+            Map.of(
+                    "ascension:chaos", 2.0,      // Order suppresses chaos
+                    "ascension:defiance", 1.8,   // Law suppresses rebellion
+                    "ascension:void", 0.5        // Order fills emptiness
+            ),
+            Map.of( // Related Daos
+                    "ascension:balance", 1.5,
+                    "ascension:law", 1.2
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> KARMA_DAO = createDao("karma",
+            Component.literal("§d[Karma]").withColor(0x9932CC),
+            List.of(
+                    Component.literal("Cosmic justice and retribution"),
+                    Component.literal("Actions and their consequences"),
+                    Component.literal("Heaven's judgment and balance")
+            ),
+            Map.of(
+                    "ascension:order", 1.5,     // Karma maintains order
+                    "ascension:yin", 1.0,       // Balance
+                    "ascension:reincarnation", 0.8  // Related to rebirth
+            ),
+            Map.of(
+                    "ascension:defiance", 1.8,  // Karma punishes defiance
+                    "ascension:chaos", 1.5      // Karma opposes chaos
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> LAW_DAO = createDao("law",
+            Component.literal("§7[Law]").withColor(0x696969),
+            List.of(
+                    Component.literal("Codified rules and regulations"),
+                    Component.literal("Social structure and governance")
+            ),
+            Map.of(
+                    "ascension:order", 1.2,
+                    "ascension:metal", 0.8
+            ),
+            Map.of(
+                    "ascension:chaos", 1.5,
+                    "ascension:defiance", 1.5
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> BALANCE_DAO = createDao("balance",
+            Component.literal("§b[Balance]").withColor(0x87CEEB),
+            List.of(
+                    Component.literal("Equilibrium between opposing forces"),
+                    Component.literal("Harmony and moderation")
+            ),
+            Map.of(
+                    "ascension:yin", 1.0,
+                    "ascension:yang", 1.0,
+                    "ascension:order", 0.8
+            ),
+            Map.of(
+                    "ascension:chaos", 1.2,
+                    "ascension:void", 0.5  // Balance can't exist in emptiness
+            )
+    );
+
+
+
+
+
+
+
+
+
+
+
     public static final DeferredHolder<IDao,GenericDao> FIRE_DAO =createDao("fire",Component.literal("§4[Fire]"),
             new ArrayList<>(),
             Map.of(

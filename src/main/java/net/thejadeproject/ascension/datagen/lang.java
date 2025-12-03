@@ -589,7 +589,36 @@ public class lang extends LanguageProvider {
         add("message.ascension.milk_denied","§cMilk buckets are not drinkable in this mod. Use antidote pills instead!");
 
 
-        //tags
+        //tags'
+
+
+
+        //Skills
+        add("ascension.physique.passive.stonehide", "Stonehide");
+        add("ascension.physique.passive.stonehide.desc1", "§6Stone Monkey's Primitive Defense");
+        add("ascension.physique.passive.stonehide.desc2", "§7Your flesh hardens like unhewn stone.");
+        add("ascension.physique.passive.stonehide.desc3", "");
+        add("ascension.physique.passive.stonehide.desc4", "§e◆ §f+5% Damage Reduction");
+        add("ascension.physique.passive.stonehide.desc5", "§e◆ §f+100% Knockback Resistance");
+        add("ascension.physique.passive.stonehide.desc6", "§e◆ §fScales with Body Path cultivation");
+
+        add("ascension.physique.passive.diamond_adamant", "Diamond Adamant");
+        add("ascension.physique.passive.diamond_adamant.desc1", "§6Heaven-Forged Resilience\"");
+        add("ascension.physique.passive.diamond_adamant.desc2", "§7Your body becomes as hard as diamond.");
+        add("ascension.physique.passive.diamond_adamant.desc3", "");
+        add("ascension.physique.passive.diamond_adamant.desc4", "§e◆ §fCritical hits deal 50% less damage");
+        add("ascension.physique.passive.diamond_adamant.desc5", "§e◆ §fChance to survive fatal blows at 1 HP");
+        add("ascension.physique.passive.diamond_adamant.desc6", "§c◆ §f5 minute cooldown on survival");
+
+        add("ascension.physique.active.indestructible_vajra", "Indestructible Vajra");
+        add("ascension.physique.active.indestructible_vajra.desc1", "§6Ultimate Stone Monkey Defense");
+        add("ascension.physique.active.indestructible_vajra.desc2", "§7Become truly invulnerable for a short time.");
+        add("ascension.physique.active.indestructible_vajra.desc3", "");
+        add("ascension.physique.active.indestructible_vajra.desc4", "§e◆ §fBecome completely invulnerable");
+        add("ascension.physique.active.indestructible_vajra.desc5", "§e◆ §fStore all damage taken");
+        add("ascension.physique.active.indestructible_vajra.desc6", "§e◆ §fRelease stored damage as shockwave");
+        add("ascension.physique.active.indestructible_vajra.desc7", "§c◆ §fCost: 100 Qi");
+        add("ascension.physique.active.indestructible_vajra.desc8", "§c◆ §fCooldown: 2 minutes");
 
     }
 }
