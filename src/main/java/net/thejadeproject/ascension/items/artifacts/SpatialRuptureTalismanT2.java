@@ -192,10 +192,12 @@ public class SpatialRuptureTalismanT2 extends Item {
                 int countdown = persistentData.getInt(COUNTDOWN_TAG);
 
                 // Check for cancellation conditions
-                if (hasPlayerMoved(player) || hasPlayerTakenDamage(player)) {
+                if (hasPlayerMoved(player) || hasPlayerTakenDamage(player) || !hasItemInMainHand(player)) {
                     String reason = hasPlayerTakenDamage(player) ?
                             Component.translatable("ascension.tooltip.damage_taken").getString() :
-                            Component.translatable("ascension.tooltip.movement_detected").getString();
+                            (hasPlayerMoved(player) ?
+                                    Component.translatable("ascension.tooltip.movement_detected").getString() :
+                                    Component.translatable("ascension.tooltip.item_not_in_hand").getString());
                     cancelTeleport(player, reason);
                     return;
                 }
@@ -223,6 +225,11 @@ public class SpatialRuptureTalismanT2 extends Item {
             }
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
+    }
+
+    private boolean hasItemInMainHand(ServerPlayer player) {
+        ItemStack mainHandItem = player.getMainHandItem();
+        return mainHandItem.getItem() == this;
     }
 
     private boolean hasPlayerMoved(ServerPlayer player) {

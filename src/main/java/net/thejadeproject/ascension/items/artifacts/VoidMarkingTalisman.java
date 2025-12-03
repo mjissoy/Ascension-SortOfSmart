@@ -276,10 +276,12 @@ public class VoidMarkingTalisman extends Item {
                 int countdown = persistentData.getInt(COUNTDOWN_TAG);
 
                 // Check for cancellation conditions
-                if (hasPlayerMoved(player) || hasPlayerTakenDamage(player)) {
+                if (hasPlayerMoved(player) || hasPlayerTakenDamage(player) || !hasItemInUsedHand(player)) {
                     String reason = hasPlayerTakenDamage(player) ?
                             Component.translatable("ascension.tooltip.damage_taken").getString() :
-                            Component.translatable("ascension.tooltip.movement_detected").getString();
+                            (hasPlayerMoved(player) ?
+                                    Component.translatable("ascension.tooltip.movement_detected").getString() :
+                                    Component.translatable("ascension.tooltip.item_not_in_hand").getString());
                     cancelTeleport(player, reason);
                     return;
                 }
@@ -307,6 +309,17 @@ public class VoidMarkingTalisman extends Item {
             }
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
+    }
+
+    private boolean hasItemInUsedHand(ServerPlayer player) {
+        CompoundTag persistentData = player.getPersistentData();
+        if (persistentData.contains("VoidMarkingTeleportHand")) {
+            String handUsed = persistentData.getString("VoidMarkingTeleportHand");
+            ItemStack itemInHand = handUsed.equals("MAIN_HAND") ?
+                    player.getMainHandItem() : player.getOffhandItem();
+            return itemInHand.getItem() == this;
+        }
+        return false;
     }
 
     private boolean hasPlayerMoved(ServerPlayer player) {
