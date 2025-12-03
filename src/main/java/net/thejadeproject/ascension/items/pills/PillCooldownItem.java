@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 public class PillCooldownItem extends Item {
     public int cooldownTimeValue = 50;
     public onItemUse consumer;
+
     public PillCooldownItem(Properties properties, Integer value) {
         super(properties);
         this.cooldownTimeValue = value;
@@ -16,25 +17,22 @@ public class PillCooldownItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
+        ItemStack resultStack = super.finishUsingItem(stack, level, livingEntity);
+
         if (!level.isClientSide() && livingEntity instanceof Player player) {
-            // Apply cooldown on server side
             player.getCooldowns().addCooldown(this, cooldownTimeValue);
-            // Consume one item from the stack
-            if (!player.getAbilities().instabuild) {
-                super.finishUsingItem(stack, level, livingEntity);
-                stack.shrink(1);
-            }
-            if(consumer != null) consumer.accept(stack,level,livingEntity);
+            if(consumer != null) consumer.accept(stack, level, livingEntity);
         }
-        // Call super to handle food effects (e.g., regeneration)
-        return super.finishUsingItem(stack, level, livingEntity);
+
+        return resultStack;
     }
+
     public PillCooldownItem addOnUse(onItemUse onItemUse){
         this.consumer = onItemUse;
         return this;
     }
+
     public interface onItemUse{
         void accept(ItemStack stack, Level level, LivingEntity livingEntity);
-
     }
 }
