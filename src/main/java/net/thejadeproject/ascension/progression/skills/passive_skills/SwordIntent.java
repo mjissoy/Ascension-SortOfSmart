@@ -29,7 +29,7 @@ public class SwordIntent extends AbstractPassiveSkill {
             //weapon was used
             if(event.getSource().isDirect() &&
                     event.getSource().getWeaponItem() != ItemStack.EMPTY &&
-                    !event.getSource().getWeaponItem().is(ModTags.Items.daoItemTags.get("ascension:sword_intent_skill"))
+                    !event.getSource().getWeaponItem().is(ModTags.Items.daoItemTags.get("ascension:sword_intent"))
             ) return;
             else {
                 if(event.getSource().getDirectEntity() instanceof AscensionSkillEntity ascensionSkillEntity){
