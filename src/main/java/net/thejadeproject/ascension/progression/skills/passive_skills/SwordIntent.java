@@ -33,7 +33,7 @@ public class SwordIntent extends AbstractPassiveSkill {
             ) return;
             else {
                 if(event.getSource().getDirectEntity() instanceof AscensionSkillEntity ascensionSkillEntity){
-                    if(!ascensionSkillEntity.getDaoTags().contains("ascension:fist_intent")) return;
+                    if(!ascensionSkillEntity.getDaoTags().contains("ascension:sword_intent")) return;
                 }
             }
 
