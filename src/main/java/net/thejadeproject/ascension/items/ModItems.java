@@ -16,6 +16,7 @@ import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
 import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
 import net.thejadeproject.ascension.items.herbs.PlantableHerb;
+import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
 import net.thejadeproject.ascension.items.pills.*;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
@@ -258,6 +259,10 @@ public class ModItems {
             () -> new ThrowablePoisonPill(new Item.Properties().food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL), new MobEffectInstance(ModEffects.PARASITE, 400, 1)));
 
 
+
+    //Phys Stuff
+    public static final DeferredItem<Item> PHYSIQUE_SLIP = ITEMS.register("physique_slip",
+            () -> new PhysiqueTransferItem(new Item.Properties().stacksTo(1)));
 
 
 

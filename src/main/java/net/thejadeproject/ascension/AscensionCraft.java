@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,10 +27,10 @@ import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
+import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
-import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.progression.dao.ModDao;
 import net.thejadeproject.ascension.progression.physiques.ModPhysiques;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
@@ -54,7 +53,6 @@ import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.util.ModAttachments;
 import net.thejadeproject.ascension.util.ModAttributes;
-import net.thejadeproject.ascension.util.ModTags;
 import net.thejadeproject.ascension.util.ToolTips.ToolTipManager;
 import net.thejadeproject.ascension.villager.ModVillagers;
 import org.slf4j.Logger;
@@ -131,6 +129,9 @@ public class AscensionCraft {
         ModVillagers.POI_TYPES.register(modEventBus);
 
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
+
+        ModDataComponents.register(modEventBus);
+        CreativeTabHandler.register(modEventBus);
 
     }
 

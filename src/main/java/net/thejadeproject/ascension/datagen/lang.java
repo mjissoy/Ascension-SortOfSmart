@@ -86,6 +86,10 @@ public class lang extends LanguageProvider {
 
 
 
+        //Physiques
+        add("item.ascension.physique_slip", "Physique Slip");
+
+
 
 
         add("item.ascension.rat_spawn_egg", "Treasure Rat Spawn Egg");

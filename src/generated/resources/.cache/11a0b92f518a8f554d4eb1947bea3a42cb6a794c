@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-06T14:36:31.1251262	Item Models: ascension
+// 1.21.1	2025-12-06T20:19:10.6427835	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -85,6 +85,7 @@ b42f07c3cc823807b189ac2601ad61de881c6b24 assets/ascension/models/item/netherite_
 72010a264f4e1b76dc0ca7ff15bd9e12c7fd86a1 assets/ascension/models/item/neutrality_pill.json
 d2f6ff9a5555f8f3fcaf09cf0d3c910e086dde1b assets/ascension/models/item/orange_marble_brick_wall.json
 d444f0d2fa5e69c9b94fc7845713f61b53575a39 assets/ascension/models/item/orange_marble_tile_wall.json
+f1d5fd8cba882466217eefbecf9aaca0ea471e22 assets/ascension/models/item/physique_slip.json
 4853c59c8284bac480ed2ed97b07c87d923d2601 assets/ascension/models/item/pill_residue.json
 26fb96759eae49d274da53e1a3786720e6de4b52 assets/ascension/models/item/pink_marble_brick_wall.json
 fd8380413755ee016f51bb609fd2839c0616cb46 assets/ascension/models/item/pink_marble_tile_wall.json
