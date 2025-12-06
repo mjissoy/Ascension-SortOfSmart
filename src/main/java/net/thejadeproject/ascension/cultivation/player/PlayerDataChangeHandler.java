@@ -110,4 +110,7 @@ public class PlayerDataChangeHandler {
         PacketDistributor.sendToPlayer((ServerPlayer) player,SyncPathDataPayload.fromPathData(pathData));
 
     }
+
+
+
 }

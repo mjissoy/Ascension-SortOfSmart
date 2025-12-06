@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-01T13:30:39.8530259	Loot Tables
+// 1.21.1	2025-12-06T14:36:31.1139684	Loot Tables
 4e350a86b42d1ae1ba4f4fbeb663b3ef86261196 data/ascension/loot_table/blocks/black_iron_block.json
 38f47b8a49c39deb26be96306d89c92e4f616193 data/ascension/loot_table/blocks/black_iron_ore.json
 8fa1f6d0faab7897bb4c5b07978d69be87825eae data/ascension/loot_table/blocks/blue_marble.json
@@ -204,4 +204,4 @@ d4aa5efdade3dd0e230ab2a870e02212930c6237 data/ascension/loot_table/blocks/yellow
 65fb371426136dff6e0e2cbda1701420af64a948 data/ascension/loot_table/blocks/yellow_marble_tile_stairs.json
 f263d07a4f80d69f184138a2f1b83db9d973aa43 data/ascension/loot_table/blocks/yellow_marble_tile_wall.json
 56d7924161f069949754c27ffc308f5d4f74f2b5 data/ascension/loot_table/blocks/yellow_polished_marble.json
-3ae1dd7652fa78c4303333965ddcf720d3d93e85 data/ascension/loot_table/entities/treasure_rat.json
+663254ceb08dfb5c10519eb1029d0ee885499292 data/ascension/loot_table/entities/treasure_rat.json

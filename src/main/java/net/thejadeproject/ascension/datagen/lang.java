@@ -104,6 +104,7 @@ public class lang extends LanguageProvider {
         add("item.ascension.regeneration_pill", "Regeneration Pill");
         add("item.ascension.neutrality_pill", "Neutrality Pill");
         add("item.ascension.rebirth_pill", "Rebirth Pill");
+        add("item.ascension.body_amnesia_pill", "Body Amnesia Pill");
         add("item.ascension.antidote_pill_qdppill", "Antidote Pill");
         add("item.ascension.antidote_pill_t2", "Antidote Pill");
         add("item.ascension.antidote_pill_t3", "Antidote Pill");

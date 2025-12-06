@@ -8,6 +8,6 @@
     "type": "ascension:treasure_rat",
     "maxCount": 4,
     "minCount": 2,
-    "weight": 5
+    "weight": 10
   }
 }

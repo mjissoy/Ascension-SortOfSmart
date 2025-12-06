@@ -184,14 +184,19 @@ public class ModItems {
             () -> new PillAntidote(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL), 400));
     public static final DeferredItem<Item> PILL_RESIDUE = ITEMS.register("pill_residue",
             () -> new PillResidue(new Item.Properties().food(ModFoodProperties.PILL_RESIDUE)));
-    public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
-            () -> new RebirthPill(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
     public static final DeferredItem<Item> FASTING_PILL_T1 = ITEMS.register("fasting_pill_t1",
             () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T1)));
     public static final DeferredItem<Item> FASTING_PILL_T2 = ITEMS.register("fasting_pill_t2",
             () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T2)));
     public static final DeferredItem<Item> FASTING_PILL_T3 = ITEMS.register("fasting_pill_t3",
             () -> new Item(new Item.Properties().food(ModFoodProperties.FASTING_PILL_T3)));
+
+
+    //Important Pills
+    public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
+            () -> new RebirthPill(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
+    public static final DeferredItem<Item> BODY_AMNESIA_PILL = ITEMS.register("body_amnesia_pill",
+            () -> new BodyTechniqueChangePill(new Item.Properties().food(ModFoodProperties.PILLS), 3 /*Going to be 72000 so 8 hour cooldown when released*/));
 
     //Cultivation Pills
 

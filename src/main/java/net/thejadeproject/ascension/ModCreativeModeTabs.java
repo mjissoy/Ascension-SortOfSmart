@@ -348,7 +348,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.ANTIDOTE_PILL_T3);
                         output.accept(ModItems.REGENERATION_PILL);
                         output.accept(ModItems.NEUTRALITY_PILL);
-                        output.accept(ModItems.REBIRTH_PILL);
 
                         //Poison
                         output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
@@ -370,9 +369,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SPIRIT_FOCUS_PILL_T2);
                         output.accept(ModItems.SPIRIT_FOCUS_PILL_T3);
 
-
-
-
+                        //Important Pills
+                        output.accept(ModItems.REBIRTH_PILL);
+                        output.accept(ModItems.BODY_AMNESIA_PILL);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_TECHNIQUE_MANUALS = CREATIVE_MODE_TAB.register("ascension_technique_manuals",

@@ -353,6 +353,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.STRIPPED_GOLDEN_PALM_LOG.get())
                 .add(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD.get());
 
+        this.tag(BlockTags.MINEABLE_WITH_AXE)
+                        .add(ModBlocks.GOLDEN_PALM_PLANKS.get());
+
 
         tag(ModTags.Blocks.STORAGE_BLOCKS_BLACK_IRON)
                 .add(ModBlocks.BLACK_IRON_BLOCK.get());
