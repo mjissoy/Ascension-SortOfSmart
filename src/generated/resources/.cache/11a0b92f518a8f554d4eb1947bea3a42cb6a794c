@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-06T20:19:10.6427835	Item Models: ascension
+// 1.21.1	2025-12-07T14:55:59.5004363	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -50,7 +50,7 @@ e5cefaee56b09c331ff2aa56978c82369a54963d assets/ascension/models/item/gray_marbl
 31d556d977e27d40257e4ae6a87a9b97b20ff716 assets/ascension/models/item/green_marble_tile_wall.json
 968c475d982ff6308b6a964fc8d32b1ea9c2e356 assets/ascension/models/item/hundred_year_fire_ginseng.json
 9a2c6503354e6fac14205d2d4e9e31393fdf1095 assets/ascension/models/item/hundred_year_fire_ginseng_crop.json
-dda2987e8dc98a20e3d6da2f826275ab8f109387 assets/ascension/models/item/hundred_year_ginseng.json
+f724d6d858c6a505bf312ae2d71f653a51a9b05b assets/ascension/models/item/hundred_year_ginseng.json
 46e8414c966f73eb0577157dd211cc909087deb5 assets/ascension/models/item/hundred_year_ginseng_crop.json
 5d237bcd417e0e69d6d2de95d4c0801e3134ba28 assets/ascension/models/item/hundred_year_snow_ginseng.json
 7f6f3e0a1c47f85c0d924f908f0304f4ce79e35a assets/ascension/models/item/hundred_year_snow_ginseng_crop.json

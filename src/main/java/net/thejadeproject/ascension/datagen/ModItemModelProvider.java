@@ -217,8 +217,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         herbs(ModItems.WHITE_JADE_ORCHID.get());
         herbs(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get());
-        herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
+
+        //herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
+        basicItem(ModItems.HUNDRED_YEAR_GINSENG.get());
+
         herbs(ModItems.IRONWOOD_SPROUT.get());
+
 
         herbsBlockItem(ModBlocks.IRONWOOD_SPROUT_CROP);
         herbsBlockItem(ModBlocks.WHITE_JADE_ORCHID_CROP);

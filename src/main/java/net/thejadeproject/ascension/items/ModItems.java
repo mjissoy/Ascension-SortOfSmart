@@ -284,8 +284,10 @@ public class ModItems {
     public static final DeferredItem<Item> HUNDRED_YEAR_FIRE_GINSENG = ITEMS.register("hundred_year_fire_ginseng",
             () -> new HundredYearFireGinseng(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_FIRE_GINSENG)));
+
+
     public static final DeferredItem<Item> HUNDRED_YEAR_GINSENG = ITEMS.register("hundred_year_ginseng",
-            () -> new PlantableHerb(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
+            () -> new ItemNameBlockItem(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_GINSENG)));
 
 
