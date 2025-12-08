@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -22,12 +24,15 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
@@ -273,15 +278,26 @@ public class AscensionCraft {
         @SubscribeEvent
         public static void onEntityAttributeModificationEvent(final EntityAttributeModificationEvent event) {
             event.add(EntityType.PLAYER, ModAttributes.MAX_CASTING_INSTANCES);
-            event.add(EntityType.PLAYER,ModAttributes.PLAYER_QI_INSTANCE);
-            event.add(EntityType.PLAYER,ModAttributes.PLAYER_QI_REGEN_RATE);
+            event.add(EntityType.PLAYER, ModAttributes.PLAYER_QI_INSTANCE);
+            event.add(EntityType.PLAYER, ModAttributes.PLAYER_QI_REGEN_RATE);
         }
 
         @SubscribeEvent
-        public static void registerPayloads(RegisterPayloadHandlersEvent event){
-            
+        public static void registerPayloads(RegisterPayloadHandlersEvent event) {
+
             ModPayloads.registerPayloads(event);
         }
-    }
 
+        @SubscribeEvent
+        public static void registerLootModifierSerializers(final RegisterEvent event) {
+            if (event.getRegistryKey().equals(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS)) {
+                event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
+                    helper.register(
+                            ResourceLocation.fromNamespaceAndPath(MOD_ID, "add_physique_item"),
+                            AddPhysiqueItemModifier.CODEC
+                    );
+                });
+            }
+        }
+    }
 }
