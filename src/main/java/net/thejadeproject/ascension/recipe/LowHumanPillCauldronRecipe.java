@@ -126,24 +126,39 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
         return ingredients;
     }
 
-    //TODO
     @Override
     public boolean matches(@NotNull PillCauldronInput pillCauldronInput, Level level) {
         if (level.isClientSide()) {
             return false;
         }
-        if(pillCauldronInput.items.isEmpty()) return false;
-        for(ItemStack item:pillCauldronInput.items){
 
-            boolean found = false;
-            for(SizedIngredient ingredient: getSizedIngredients()){
-
-                found = ingredient.test(item);
-                if(found) break;
-            }
-            if(found) continue;
+        // Check heat requirement
+        if (pillCauldronInput.getCurrentHeat() < this.requiredHeat) {
             return false;
         }
+
+        if (pillCauldronInput.items.isEmpty()) return false;
+
+        // Check each slot against the corresponding ingredient (positional matching)
+        for (int i = 0; i < MAX_INPUT_ITEMS; i++) {
+            ItemStack inputItem = pillCauldronInput.getItem(i);
+
+            if (i < ingredients.size()) {
+                // This slot should have a specific ingredient
+                SizedIngredient requiredIngredient = ingredients.get(i);
+
+                if (inputItem == null || !requiredIngredient.test(inputItem) ||
+                        inputItem.getCount() < requiredIngredient.count()) {
+                    return false; // Slot doesn't have the required ingredient or not enough
+                }
+            } else {
+                // No ingredient required for this slot, but if there's an item, recipe doesn't match
+                if (inputItem != null && !inputItem.isEmpty()) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 

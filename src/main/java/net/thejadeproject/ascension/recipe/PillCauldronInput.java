@@ -8,9 +8,16 @@ import java.util.List;
 public class PillCauldronInput implements RecipeInput {
     public int inputSlots;
     public List<ItemStack> items;
-    public PillCauldronInput(int inputSlots, List<ItemStack> item){
+    public int currentHeat; // Add this field
+
+    public PillCauldronInput(int inputSlots, List<ItemStack> item, int currentHeat) {
         this.items = item;
         this.inputSlots = inputSlots;
+        this.currentHeat = currentHeat; // Initialize it
+    }
+
+    public int getCurrentHeat() {
+        return currentHeat; // Return the field, not call a method
     }
 
     @Override
@@ -26,6 +33,6 @@ public class PillCauldronInput implements RecipeInput {
 
     @Override
     public int size() {
-        return 0;
+        return items.size(); // Should return actual size, not 0
     }
 }
