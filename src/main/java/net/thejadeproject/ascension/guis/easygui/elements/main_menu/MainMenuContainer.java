@@ -16,6 +16,7 @@ public class MainMenuContainer extends EmptyContainer {
 
     public MainMenuContainer(IEasyGuiScreen easyGuiScreen, int x, int y){
         super(easyGuiScreen,x,y,0,0);
+
         Image bg = new Image(
                 easyGuiScreen,
                 new TextureDataSubSection(

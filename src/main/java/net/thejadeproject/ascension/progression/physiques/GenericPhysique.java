@@ -36,7 +36,7 @@ public class GenericPhysique implements IPhysique{
     public final String title;
     public ITextureData textureData;
     public SkillList skillList = new SkillList(List.of());
-     public List<MutableComponent> description;
+     public Component description = Component.empty();
     public IRealmChangeHandler realmChangeHandler;
 
 
@@ -71,20 +71,16 @@ public class GenericPhysique implements IPhysique{
 
 
     @Override
-    public List<Component> getDescription() {
-        List<Component> extraInfo = new ArrayList<>();
-        if(description != null) extraInfo = new ArrayList<>(description);
-        return extraInfo;
+    public Component getDescription() {
+        return description;
     }
 
     @Override
-    public List<Component> getFullDescription() {
-        var list = new ArrayList<>(getDescription());
-        list.addAll(getDisplayPaths());
-        return list;
+    public Component getFullDescription() {
+        return Component.empty().append(getDescription()).append("\n").append(getDisplayPaths());
     }
 
-    public GenericPhysique setDescription(List<MutableComponent> description){
+    public GenericPhysique setDescription(Component description){
         this.description = description;
         return this;
     }
@@ -115,27 +111,30 @@ public class GenericPhysique implements IPhysique{
     }
 
 
+    //TODO replace String title with Component Title
     @Override
-    public String getDisplayTitle() {
-        return title;
+    public Component getDisplayTitle() {
+        return Component.literal(title);
     }
 
     @Override
-    public List<Component> getDisplayPaths() {
-        List<Component> extraInfo = new ArrayList<>();
-        extraInfo.add(
-                Component.literal("Path Efficiencies:").withStyle(ChatFormatting.BOLD)
-        );
+    public Component getDisplayPaths() {
+
+        MutableComponent component = Component.empty();
+
+
+        component.append("Path Efficiencies:").withStyle(ChatFormatting.BOLD);
         for (Map.Entry<String ,Double> value : pathBonuses.entrySet()){
             String name = "§b[Essence Path]";
             if(value.getKey().equals("ascension:body")) name = "§6[Body Path]";
             if(value.getKey().equals("ascension:intent")) name = "§5[Intent Path]";
 
-            extraInfo.add(Component.literal(name).append(": "+value.getValue().toString()));
+            component.append("\n"+name + ": "+value.getValue().toString());
         }
-        return extraInfo;
+        return component;
     }
 
+    //TODO move this code over to the ui
     @Override
     public List<Label> getDisplayEfficiencies(IEasyGuiScreen screen) {
         List<Label> extraInfo = new ArrayList<>();

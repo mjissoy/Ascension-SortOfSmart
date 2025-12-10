@@ -1,9 +1,13 @@
 package net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data;
 
 import net.lucent.easygui.elements.containers.EmptyContainer;
+import net.lucent.easygui.elements.containers.scroll_boxes.DynamicScrollBox;
 import net.lucent.easygui.elements.other.Label;
+import net.lucent.easygui.interfaces.ContainerRenderable;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -13,71 +17,86 @@ import net.thejadeproject.ascension.progression.physiques.IPhysique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 
+import java.awt.*;
 import java.util.List;
+//TODO redo parts to be just one Component to render
 @OnlyIn(Dist.CLIENT)
 public class PhysiqueDataContainer extends DraggableDataContainer{
     public IPhysique physique;
     public PhysiqueDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y,String physiqueId) {
         super(easyGuiScreen, x, y);
+
+        DynamicScrollBox textArea = new DynamicScrollBox(easyGuiScreen,11,17,120,109){
+            @Override
+            public int getMaxXOffset() {
+                return 0;
+            }
+
+            @Override
+            public int getMaxYOffset() {
+                int maxYOffset = 0;
+                for(ContainerRenderable containerRenderable : getChildren()){
+                    int yOffset = (int) (containerRenderable.getY()+containerRenderable.getHeight()*containerRenderable.getCustomScale());
+                    if(yOffset > maxYOffset) maxYOffset = yOffset;
+
+                }
+                return Math.max(0,maxYOffset-getHeight());
+            }
+        };
+        addChild(textArea);
+        textArea.useBackgroundColor = false;
+        textArea.setBorderVisible(false);
         this.physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(physiqueId,':'));
         setSticky(true);
+        Component title = physique.getDisplayTitle();
 
-        addChild((new Label.Builder())
-                .screen(easyGuiScreen)
-                .x(getWidth()/2).y(20).centered(true)
-                .text(Component.literal(physique.getDisplayTitle()).withStyle(ChatFormatting.BOLD))
-                .customScaling(0.5).build());
-        addChild(
-                (new Label.Builder())
-                        .screen(easyGuiScreen)
-                        .x(11).y(25).width(121)
-                        .text(Component.literal("Description").withStyle(ChatFormatting.BOLD))
-                        .customScaling(0.5)
-                        .build()
-        );
-        //todo replace with a scroll box
-        EmptyContainer descriptionContainer = new EmptyContainer(easyGuiScreen,11,30,121,50);
-        addChild(descriptionContainer);
-        descriptionContainer.setCull(true);
-        List<Component> lines = physique.getFullDescription();
-        for (int i = 0; i<lines.size(); i++){
-            descriptionContainer.addChild(
-                    (new Label.Builder())
-                            .screen(easyGuiScreen)
-                            .x(0).y(5*i)
-                            .text(lines.get(i))
-                            .customScaling(0.5)
-                            .build()
-            );
-        }
+        Label titleLabel = new Label(easyGuiScreen,textArea.getWidth()/2,5,title);
+        titleLabel.useCustomScaling = true;
+        titleLabel.setCustomScale(0.5);
+        titleLabel.centered = true;
+        titleLabel.setWidth(textArea.getWidth());
+        titleLabel.setWrap(true);
+        textArea.addChild(titleLabel);
+
+        MutableComponent text = Component.empty().append("\nDescription")
+                .withStyle(ChatFormatting.BOLD)
+                .append(physique.getFullDescription());
+
+        Label basicDescription = new Label(easyGuiScreen,0, (int) (titleLabel.getHeight()*titleLabel.getCustomScale()),text);
+        basicDescription.useCustomScaling = true;
+        basicDescription.setCustomScale(0.5);
+        basicDescription.setWidth(textArea.getWidth());
+        basicDescription.setWrap(true);
+
+
+        textArea.addChild(basicDescription);
+
+        int daoY = (int) (basicDescription.getHeight()*basicDescription.getCustomScale())+ (int) (titleLabel.getHeight()*titleLabel.getCustomScale())+5;
         List<Label> dao = physique.getDisplayEfficiencies(easyGuiScreen);
-        for (int i = 0; i<dao.size(); i++){
-            dao.get(i).setY(lines.size()*5+5*i);
-            descriptionContainer.addChild(dao.get(i));
+        for (Label label : dao) {
+            label.setY(daoY);
+            label.setWidth(textArea.getWidth());
+            label.setWrap(true);
+            textArea.addChild(label);
+            daoY += (int) (label.getHeight() * label.getCustomScale());
         }
-        addChild(
-                (new Label.Builder())
-                        .screen(easyGuiScreen)
-                        .x(11).y(80).width(121)
-                        .text(Component.literal("Skill List").withStyle(ChatFormatting.BOLD))
-                        .customScaling(0.5)
-                        .build()
-        );
-        //todo replace with a scroll box
-        EmptyContainer skillListContainer = new EmptyContainer(easyGuiScreen,11,85,121,45);
-        addChild(skillListContainer);
-        skillListContainer.setCull(true);
+
+        MutableComponent skillListText = Component.empty()
+                .append(Component.literal("Skill List").withStyle(ChatFormatting.BOLD));
+
         List<AcquirableSkillData> skillList = physique.getSkillList().getSkillList();
-        for(int i = 0; i<skillList.size(); i++){
+        for (AcquirableSkillData acquirableSkillData : skillList) {
             //TODO change text color if unlocked or locked
-            skillListContainer.addChild(
-                    (new Label.Builder())
-                            .screen(easyGuiScreen)
-                            .x(0).y(5*i)
-                            .customScaling(0.5)
-                            .text(Component.literal(skillList.get(i).asString()))
-                            .build()
-            );
+            //TODO replace aquirableSkillData
+            skillListText.append("\n").append(acquirableSkillData.asComponent());
         }
+        Label skillListLabel = new Label(easyGuiScreen,getWidth()/2,daoY+5,skillListText);
+        skillListLabel.setWrap(true);
+        skillListLabel.setWidth(121);
+        skillListLabel.centered = true;
+        skillListLabel.useCustomScaling = true;
+        skillListLabel.setCustomScale(0.5);
+        textArea.addChild(skillListLabel);
+
     }
 }

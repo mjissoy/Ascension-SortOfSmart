@@ -128,11 +128,11 @@ public class ModActions {
                         String physique = player.getData(ModAttachments.PHYSIQUE);
                         if(physique == null) label.text = Component.literal("ascension:empty_vessel");
                         else{
-                            label.text = Component.literal(
+                            label.text =
                                     AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(
                                             physique,':'
-                                    )).getDisplayTitle()
-                            );
+                                    )).getDisplayTitle();
+
                         }
 
                     }

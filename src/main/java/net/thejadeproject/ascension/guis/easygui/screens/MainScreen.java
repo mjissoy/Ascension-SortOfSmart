@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.guis.easygui.screens;
 
 import net.lucent.easygui.elements.containers.View;
+import net.lucent.easygui.properties.Positioning;
 import net.lucent.easygui.screens.EasyGuiScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -30,7 +31,9 @@ public class MainScreen extends EasyGuiScreen {
         addView(view);
         view.setUseMinecraftScale(false);
         view.setCustomScale(3);
-        MainMenuContainer container = new MainMenuContainer(this,view.getScaledWidth()/2-71,view.getScaledHeight()/2-71);
+        MainMenuContainer container = new MainMenuContainer(this,-71,-71);
+        container.setXPositioning(Positioning.CENTER);
+        container.setYPositioning(Positioning.CENTER);
         view.addChild(container);
         container.setSticky(true);
         container.setID("main_menu_container");

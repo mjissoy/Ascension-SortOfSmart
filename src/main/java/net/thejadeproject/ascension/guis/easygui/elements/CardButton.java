@@ -110,9 +110,9 @@ public class CardButton extends TextureButton {
             guiGraphics.pose().translate(0,0,500);
             if(cardPhysique != null) {
                 getScreen().setTooltip(new EasyTooltip(mouseX,mouseY, List.of(
-                        Component.literal(AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
+                       AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
                                 ResourceLocation.fromNamespaceAndPath(cardPhysique.split(":")[0],cardPhysique.split(":")[1])
-                        ).getDisplayTitle())
+                        ).getDisplayTitle()
                 )));
 
             }

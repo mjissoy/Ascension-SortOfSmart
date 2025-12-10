@@ -48,10 +48,11 @@ public interface IPhysique {
 
     SkillList getSkillList();
 
-    String getDisplayTitle();
-    List<Component> getDisplayPaths();
+    Component getDisplayTitle();
+    Component getDisplayPaths();
     List<Label> getDisplayEfficiencies(IEasyGuiScreen screen);
-    List<Component> getDescription();
+    Component getDescription();
 
-    List<Component> getFullDescription();
+
+    Component getFullDescription();
 }

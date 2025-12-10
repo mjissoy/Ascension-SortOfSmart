@@ -98,14 +98,14 @@ public class ModPhysiques {
 
                             new AcquirableSkillData("ascension:body", 4, 5, "ascension:indestructible_vajra_active", false)
                     ))
-                    .setDescription(List.of(
-                            Component.literal("§6Born from chaos, defying heaven's will."),
-                            Component.literal("§7A physique that grows through conflict and rebellion."),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Survive what should break you"),
-                            Component.literal("§e◆ §fPath: Conflict → Resilience → Defiance"),
-                            Component.literal("§e◆ §fWeakness: Susceptible to order-based attacks")
-                    ))
+                    .setDescription(
+                            Component.empty()
+                                            .append("§6Born from chaos, defying heaven's will.\n")
+                                            .append("§7A physique that grows through conflict and rebellion.\n\n")
+                                            .append("§e◆ §fGrowth: Survive what should break you\n")
+                                            .append("§e◆ §fPath: Conflict → Resilience → Defiance\n")
+                                            .append("§e◆ §fWeakness: Susceptible to order-based attacks")
+                     )
     );
 
 
@@ -179,7 +179,7 @@ public class ModPhysiques {
                         put("ascension:fist_intent",3.0);
                     }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1)).setSkillList(List.of(
                             new AcquirableSkillData("ascension:intent",0,0,"ascension:fist_aura_skill",true)
-            )).setDescription(List.of( Component.literal("my fist is my body and my body is my fist")))
+            )).setDescription(Component.literal("my fist is my body and my body is my fist"))
     );
 
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_WATER_BODY = PHYSIQUES.register("pure_water_body",
