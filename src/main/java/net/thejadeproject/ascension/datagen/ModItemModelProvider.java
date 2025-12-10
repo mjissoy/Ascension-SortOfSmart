@@ -97,19 +97,19 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         //Tools & Armors & Weapons
-        basicItem(ModItems.WOODEN_BLADE.get());
-        basicItem(ModItems.STONE_BLADE.get());
-        basicItem(ModItems.IRON_BLADE.get());
-        basicItem(ModItems.GOLD_BLADE.get());
-        basicItem(ModItems.DIAMOND_BLADE.get());
-        basicItem(ModItems.NETHERITE_BLADE.get());
+        handheldItem(ModItems.WOODEN_BLADE.get());
+        handheldItem(ModItems.STONE_BLADE.get());
+        handheldItem(ModItems.IRON_BLADE.get());
+        handheldItem(ModItems.GOLD_BLADE.get());
+        handheldItem(ModItems.DIAMOND_BLADE.get());
+        handheldItem(ModItems.NETHERITE_BLADE.get());
 
-        basicItem(ModItems.WOODEN_SPEAR.get());
-        basicItem(ModItems.STONE_SPEAR.get());
-        basicItem(ModItems.IRON_SPEAR.get());
-        basicItem(ModItems.GOLD_SPEAR.get());
-        basicItem(ModItems.DIAMOND_SPEAR.get());
-        basicItem(ModItems.NETHERITE_SPEAR.get());
+        handheldItem(ModItems.WOODEN_SPEAR.get());
+        handheldItem(ModItems.STONE_SPEAR.get());
+        handheldItem(ModItems.IRON_SPEAR.get());
+        handheldItem(ModItems.GOLD_SPEAR.get());
+        handheldItem(ModItems.DIAMOND_SPEAR.get());
+        handheldItem(ModItems.NETHERITE_SPEAR.get());
 
 
 
@@ -207,6 +207,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.BODY_AMNESIA_PILL.get());
 
 
+        basicItem(ModItems.BLOOD_ESSENCE.get());
+
+
 
         //herbs
         herbs(ModItems.GOLDEN_SUN_LEAF.get());
@@ -214,8 +217,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         herbs(ModItems.WHITE_JADE_ORCHID.get());
         herbs(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get());
-        herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
+
+        //herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
+        basicItem(ModItems.HUNDRED_YEAR_GINSENG.get());
+
         herbs(ModItems.IRONWOOD_SPROUT.get());
+
 
         herbsBlockItem(ModBlocks.IRONWOOD_SPROUT_CROP);
         herbsBlockItem(ModBlocks.WHITE_JADE_ORCHID_CROP);

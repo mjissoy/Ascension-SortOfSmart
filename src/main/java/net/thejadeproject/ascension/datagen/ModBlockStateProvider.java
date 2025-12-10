@@ -4,7 +4,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -13,7 +16,10 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.blocks.custom.crops.HundredYearGinsengCropBlock;
 import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
+
+import java.util.function.Function;
 
 
 public class ModBlockStateProvider extends BlockStateProvider {
@@ -27,13 +33,16 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         //fireBlock(ModBlocks.CRIMSON_LOTUS_FIRE, "crimson_lotus_fire");
 
+        //Crops
+        makeCrop(((CropBlock) ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get()), "hundred_year_ginseng_stage", "hundred_year_ginseng_stage");
 
 
         //Herbs Blocks
         herbsBlockCross(ModBlocks.IRONWOOD_SPROUT_CROP);
         herbsBlockCross(ModBlocks.WHITE_JADE_ORCHID_CROP);
 
-        herbsBlockCutout(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
+        //herbsBlockCutout(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
+
         herbsBlockCutout(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP);
         herbsBlockCutout(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP);
 
@@ -350,6 +359,22 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(ModBlocks.GOLDEN_PALM_FENCE_GATE);
         blockItem(ModBlocks.GOLDEN_PALM_TRAPDOOR, "_bottom");
     }
+
+    public void makeCrop(CropBlock block, String modelName, String textureName) {
+        Function<BlockState, ConfiguredModel[]> function = state -> states(state, block, modelName, textureName);
+
+        getVariantBuilder(block).forAllStates(function);
+    }
+
+    private ConfiguredModel[] states(BlockState state, CropBlock block, String modelName, String textureName) {
+        ConfiguredModel[] models = new ConfiguredModel[1];
+        models[0] = new ConfiguredModel(models().crop(modelName + state.getValue(((HundredYearGinsengCropBlock) block).getAgeProperty()),
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + textureName + state.getValue(((HundredYearGinsengCropBlock) block).getAgeProperty()))).renderType("cutout"));
+
+        return models;
+    }
+
+
 
     private void simpleBlockWithItem(DeferredBlock<?> deferredBlock) {
         simpleBlockWithItem(deferredBlock.get(), cubeAll(deferredBlock.get()));

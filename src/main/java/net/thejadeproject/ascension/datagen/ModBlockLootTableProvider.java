@@ -15,10 +15,12 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.blocks.custom.crops.HundredYearGinsengCropBlock;
 import net.thejadeproject.ascension.items.ModItems;
 
 import java.util.Set;
@@ -133,8 +135,12 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createSingleItemTable(ModItems.IRONWOOD_SPROUT.get()));
         add(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
                 block -> createSingleItemTable(ModItems.WHITE_JADE_ORCHID.get()));
-        add(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
-                block -> createSingleItemTable(ModItems.HUNDRED_YEAR_GINSENG.get()));
+
+
+        //add(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
+                //block -> createSingleItemTable(ModItems.HUNDRED_YEAR_GINSENG.get()));
+
+
         add(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
                 block -> createSingleItemTable(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()));
         add(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
@@ -317,6 +323,12 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                         NORMAL_LEAVES_SAPLING_CHANCES,
                         0.005F
                 ));
+
+
+        LootItemCondition.Builder lootItemConditionBuilder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get())
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(HundredYearGinsengCropBlock.AGE, 3));
+        this.add(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(), this.createCropDrops(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
+                ModItems.HUNDRED_YEAR_GINSENG.get(), ModItems.HUNDRED_YEAR_GINSENG.get(), lootItemConditionBuilder));
 
 
     }

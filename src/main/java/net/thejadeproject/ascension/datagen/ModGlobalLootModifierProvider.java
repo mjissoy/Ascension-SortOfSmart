@@ -10,6 +10,7 @@ import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.AddItemModifier;
+import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 import java.util.concurrent.CompletableFuture;
@@ -22,11 +23,47 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
     protected void start() {
 
 
+        add("heavenborn_end_city", new AddPhysiqueItemModifier(
+                new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/end_city_treasure")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.2f).build()
+                },
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "heavenborn_stone_monkey_physique"),
+                10 // 10% purity
+        ));
+
+        add("pure_sword_bastion", new AddPhysiqueItemModifier(
+                new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/bastion_treasure")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.3f).build()
+                },
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_sword_body"),
+                25 // 25% purity
+        ));
+
+        add("pure_fire_fortress_broken", new AddPhysiqueItemModifier(
+                new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/nether_bridge")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.3f).build() // High chance for broken physique
+                },
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_fire_body"),
+                25 // 25% purity
+        ));
+
+
+
+
+
+
+
+
+
+
+
 
         this.add("jade_bamboo_of_serenity_from_bamboo", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("blocks/bamboo")).build(),
                 LootItemRandomChanceCondition.randomChance(0.08F).build()}, ModItems.JADE_BAMBOO_OF_SERENITY.get()));
-
 
         //Living Core Drop Regular Mobs
         this.add("living_core_from_strider", new AddItemModifier(new LootItemCondition[] {

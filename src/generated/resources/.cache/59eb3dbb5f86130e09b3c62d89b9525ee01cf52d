@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-06T14:36:31.1139684	Loot Tables
+// 1.21.1	2025-12-07T14:55:59.4933557	Loot Tables
 4e350a86b42d1ae1ba4f4fbeb663b3ef86261196 data/ascension/loot_table/blocks/black_iron_block.json
 38f47b8a49c39deb26be96306d89c92e4f616193 data/ascension/loot_table/blocks/black_iron_ore.json
 8fa1f6d0faab7897bb4c5b07978d69be87825eae data/ascension/loot_table/blocks/blue_marble.json
@@ -78,7 +78,7 @@ b407419c9d2358e5b25cbb9005086459812dde14 data/ascension/loot_table/blocks/green_
 5adf3447d32ecfa2ac76d758259411a5200a5b95 data/ascension/loot_table/blocks/green_marble_tile_wall.json
 03a3d29c7335eaa7acf108219eea874b0df0b208 data/ascension/loot_table/blocks/green_polished_marble.json
 934e14a6a3806d766f4a542f70a767f98e4d345c data/ascension/loot_table/blocks/hundred_year_fire_ginseng_crop.json
-f8e6518e1d1b1b82ebeb64a680b4ca62b6c295ad data/ascension/loot_table/blocks/hundred_year_ginseng_crop.json
+a0bdb65eee5efc3b8ecf50cc62036c317c7c858e data/ascension/loot_table/blocks/hundred_year_ginseng_crop.json
 13964cf2ee550c83bc55739d6d306d70c70d370d data/ascension/loot_table/blocks/hundred_year_snow_ginseng_crop.json
 356c496af0ff6d0f94993944e3e4f4b700249ae6 data/ascension/loot_table/blocks/ironwood_sprout_crop.json
 57bb7a7f3ca90dd11fbf957b2e2bc353df616830 data/ascension/loot_table/blocks/jade_block.json

@@ -223,13 +223,19 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
 
     private void craftItem() {
         Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
+        if (recipe.isEmpty()) {
+            return;
+        }
+
         LowHumanPillCauldronRecipe recipeValue = recipe.get().value();
         NonNullList<SizedIngredient> ingredients = recipeValue.getSizedIngredients();
 
-        // Consume input items
-        itemHandler.extractItem(INPUT_SLOT0, ingredients.get(INPUT_SLOT0).count(), false);
-        itemHandler.extractItem(INPUT_SLOT1, ingredients.get(INPUT_SLOT1).count(), false);
-        itemHandler.extractItem(INPUT_SLOT2, ingredients.get(INPUT_SLOT2).count(), false);
+        // Consume input items from each slot based on recipe requirements
+        for (int i = 0; i < ingredients.size(); i++) {
+            SizedIngredient ingredient = ingredients.get(i);
+            // Extract the required amount from the corresponding slot
+            itemHandler.extractItem(i, ingredient.count(), false);
+        }
 
         // Determine success or fail based on chance
         boolean isSuccess = ThreadLocalRandom.current().nextDouble() < recipeValue.getChance();
@@ -241,7 +247,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         if (currentStack.isEmpty()) {
             // Slot is empty, place new stack
             itemHandler.setStackInSlot(targetSlot, output.copy());
-        } else if (currentStack.getItem() == output.getItem() &&
+        } else if (ItemStack.isSameItemSameComponents(currentStack, output) &&
                 currentStack.getCount() + output.getCount() <= currentStack.getMaxStackSize()) {
             // Same item and has space, add to existing stack
             currentStack.grow(output.getCount());
@@ -265,7 +271,13 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
             return false;
         }
 
+        // Check heat requirement
         LowHumanPillCauldronRecipe recipeValue = recipe.get().value();
+        if (this.heatLevel < recipeValue.getRequiredHeat()) {
+            return false;
+        }
+
+        // Check output slots
         ItemStack successOutput = recipeValue.getSuccess();
         ItemStack failOutput = recipeValue.getFail();
 
@@ -274,12 +286,12 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
 
         // Check if success output can go to success slot
         boolean canInsertSuccess = successSlot.isEmpty() ||
-                (successSlot.getItem() == successOutput.getItem() &&
+                (ItemStack.isSameItemSameComponents(successSlot, successOutput) &&
                         successSlot.getCount() + successOutput.getCount() <= successSlot.getMaxStackSize());
 
         // Check if fail output can go to fail slot
         boolean canInsertFail = failSlot.isEmpty() ||
-                (failSlot.getItem() == failOutput.getItem() &&
+                (ItemStack.isSameItemSameComponents(failSlot, failOutput) &&
                         failSlot.getCount() + failOutput.getCount() <= failSlot.getMaxStackSize());
 
         return canInsertSuccess && canInsertFail;
@@ -291,7 +303,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
                         itemHandler.getStackInSlot(INPUT_SLOT0),
                         itemHandler.getStackInSlot(INPUT_SLOT1),
                         itemHandler.getStackInSlot(INPUT_SLOT2)
-                )), level);
+                ), this.heatLevel), level);
     }
 
     @Override

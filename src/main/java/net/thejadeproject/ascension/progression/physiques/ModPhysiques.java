@@ -154,7 +154,7 @@ public class ModPhysiques {
                         put("ascension:essence",0.1);
                     }},
                     new HashMap<>(){{
-                        put("ascension:intent",3.0);
+                        put("ascension:axe_intent",3.0);
                     }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
     );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_BLADE_BODY = PHYSIQUES.register("pure_blade_body",
