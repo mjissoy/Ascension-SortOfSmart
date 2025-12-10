@@ -6,9 +6,10 @@
       "loot_table_id": "minecraft:chests/nether_bridge"
     },
     {
-      "chance": 0.5,
+      "chance": 0.3,
       "condition": "minecraft:random_chance"
     }
   ],
-  "physiqueId": "ascension:pure_fire_body"
+  "physiqueId": "ascension:pure_fire_body",
+  "purity": 25
 }

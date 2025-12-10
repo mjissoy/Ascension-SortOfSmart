@@ -26,25 +26,28 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("heavenborn_end_city", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/end_city_treasure")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.5f).build()
+                        LootItemRandomChanceCondition.randomChance(0.2f).build()
                 },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "heavenborn_stone_monkey_physique")
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "heavenborn_stone_monkey_physique"),
+                10 // 10% purity
         ));
 
         add("pure_sword_bastion", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/bastion_treasure")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.5f).build()
+                        LootItemRandomChanceCondition.randomChance(0.3f).build()
                 },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_sword_body")
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_sword_body"),
+                25 // 25% purity
         ));
 
-        add("pure_fire_fortress", new AddPhysiqueItemModifier(
+        add("pure_fire_fortress_broken", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/nether_bridge")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.5f).build()
+                        LootItemRandomChanceCondition.randomChance(0.3f).build() // High chance for broken physique
                 },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_fire_body")
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_fire_body"),
+                25 // 25% purity
         ));
 
 

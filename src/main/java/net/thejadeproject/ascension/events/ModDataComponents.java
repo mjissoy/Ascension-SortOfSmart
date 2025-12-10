@@ -23,6 +23,14 @@ public class ModDataComponents {
                     .build()
     );
 
+    public static final Supplier<DataComponentType<Integer>> PURITY = DATA_COMPONENTS.register(
+            "purity",
+            () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.VAR_INT)
+                    .build()
+    );
+
     public static void register(IEventBus eventBus) {
         DATA_COMPONENTS.register(eventBus);
     }

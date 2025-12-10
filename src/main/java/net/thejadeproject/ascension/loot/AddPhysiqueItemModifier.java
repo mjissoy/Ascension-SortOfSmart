@@ -18,25 +18,36 @@ public class AddPhysiqueItemModifier extends LootModifier {
     public static final MapCodec<AddPhysiqueItemModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
             codecStart(inst)
                     .and(ResourceLocation.CODEC.fieldOf("physiqueId").forGetter(m -> m.physiqueId))
+                    .and(Codec.INT.optionalFieldOf("purity", 100).forGetter(m -> m.purity)) // Default to 100 if not specified
                     .apply(inst, AddPhysiqueItemModifier::new)
     );
 
     private final ResourceLocation physiqueId;
+    private final int purity;
 
-    public AddPhysiqueItemModifier(LootItemCondition[] conditionsIn, ResourceLocation physiqueId) {
+    public AddPhysiqueItemModifier(LootItemCondition[] conditionsIn, ResourceLocation physiqueId, int purity) {
         super(conditionsIn);
         this.physiqueId = physiqueId;
+        this.purity = Math.min(Math.max(purity, 1), 100);
     }
 
-    // Constructor that takes String for convenience
     public AddPhysiqueItemModifier(LootItemCondition[] conditionsIn, String physiqueId) {
-        this(conditionsIn, ResourceLocation.parse(physiqueId));
+        this(conditionsIn, ResourceLocation.parse(physiqueId), 100);
+    }
+
+    public AddPhysiqueItemModifier(LootItemCondition[] conditionsIn, String physiqueId, int purity) {
+        this(conditionsIn, ResourceLocation.parse(physiqueId), purity);
+    }
+
+    public AddPhysiqueItemModifier(LootItemCondition[] conditionsIn, ResourceLocation physiqueId) {
+        this(conditionsIn, physiqueId, 100);
     }
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         ItemStack stack = new ItemStack(ModItems.PHYSIQUE_SLIP.get());
         stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId.toString());
+        stack.set(ModDataComponents.PURITY.get(), purity);
         generatedLoot.add(stack);
         return generatedLoot;
     }

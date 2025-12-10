@@ -6,9 +6,10 @@
       "loot_table_id": "minecraft:chests/bastion_treasure"
     },
     {
-      "chance": 0.5,
+      "chance": 0.3,
       "condition": "minecraft:random_chance"
     }
   ],
-  "physiqueId": "ascension:pure_sword_body"
+  "physiqueId": "ascension:pure_sword_body",
+  "purity": 25
 }

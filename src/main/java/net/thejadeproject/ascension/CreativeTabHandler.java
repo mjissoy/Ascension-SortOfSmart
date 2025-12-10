@@ -38,23 +38,20 @@ public class CreativeTabHandler {
                     }
 
                     stack.set(ModDataComponents.PHYSIQUE_ID.get(), firstPhysiqueId);
+                    stack.set(ModDataComponents.PURITY.get(), 100); // Full purity for the icon
                     return stack;
                 })
                 .displayItems((parameters, output) -> {
-                    // Generate one item for each physique automatically
                     generatePhysiqueTransferItems(output);
                 })
                 .build());
     }
 
     private static void generatePhysiqueTransferItems(CreativeModeTab.Output output) {
-        // Get all registered physiques
         List<String> physiqueIds = new ArrayList<>();
 
-        // Add empty vessel first (as a reset option)
         physiqueIds.add("ascension:empty_vessel");
 
-        // Add all other physiques
         AscensionRegistries.Physiques.PHSIQUES_REGISTRY.keySet().forEach(resourceLocation -> {
             String id = resourceLocation.toString();
             if (!id.equals("ascension:empty_vessel")) {
@@ -62,11 +59,18 @@ public class CreativeTabHandler {
             }
         });
 
-        // Create an item stack for each physique
+        // Create an item stack for each physique with 1% purity
         for (String physiqueId : physiqueIds) {
             ItemStack stack = new ItemStack(ModItems.PHYSIQUE_SLIP.get());
             stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
+            stack.set(ModDataComponents.PURITY.get(), 1); // Start with 1% purity
             output.accept(stack);
+
+            // Also add a 100% purity version for testing
+            ItemStack fullStack = new ItemStack(ModItems.PHYSIQUE_SLIP.get());
+            fullStack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
+            fullStack.set(ModDataComponents.PURITY.get(), 100);
+            output.accept(fullStack);
         }
     }
 }

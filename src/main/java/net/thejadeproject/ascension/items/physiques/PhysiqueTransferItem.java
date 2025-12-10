@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.items.physiques;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -8,7 +9,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
@@ -37,7 +37,21 @@ public class PhysiqueTransferItem extends Item {
 
         if (!level.isClientSide() && player.isShiftKeyDown()) {
             String targetPhysiqueId = stack.get(ModDataComponents.PHYSIQUE_ID.get());
-            if (targetPhysiqueId == null || targetPhysiqueId.isEmpty()) {
+            Integer purity = stack.get(ModDataComponents.PURITY.get());
+
+            if (targetPhysiqueId == null || targetPhysiqueId.isEmpty() || purity == null) {
+                return InteractionResultHolder.fail(stack);
+            }
+
+            // Check if purity is 100%
+            if (purity < 100) {
+                player.sendSystemMessage(
+                        Component.literal("Cannot transfer physique: ")
+                                .append(Component.literal(purity + "%").withStyle(ChatFormatting.GOLD))
+                                .append(Component.literal(" purity. Need "))
+                                .append(Component.literal("100%").withStyle(ChatFormatting.GREEN))
+                                .append(Component.literal(" purity."))
+                );
                 return InteractionResultHolder.fail(stack);
             }
 
@@ -51,21 +65,24 @@ public class PhysiqueTransferItem extends Item {
 
             NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique, targetPhysiqueId));
 
-            ResourceLocation physiqueResource = ResourceLocation.bySeparator(targetPhysiqueId, ':');
+            ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
             IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
 
             if (newPhysique != null) {
                 newPhysique.onPhysiqueAcquisition(player);
             }
 
+            // Sync to client
             if (player instanceof ServerPlayer serverPlayer) {
                 PacketDistributor.sendToPlayer(serverPlayer, new SyncPlayerPhysique(targetPhysiqueId));
             }
 
-            player.displayClientMessage(
-                    Component.literal("Your physique has been transferred to ")
-                            .append(getPhysiqueDisplayName(targetPhysiqueId)),
-            true);
+            // Send feedback message
+            player.sendSystemMessage(
+                    Component.literal("Successfully transferred to ")
+                            .append(getPhysiqueDisplayName(targetPhysiqueId))
+                            .append(Component.literal("!"))
+            );
 
             return InteractionResultHolder.success(stack);
         }
@@ -76,14 +93,25 @@ public class PhysiqueTransferItem extends Item {
     @Override
     public Component getName(ItemStack stack) {
         String targetPhysiqueId = stack.get(ModDataComponents.PHYSIQUE_ID.get());
+        Integer purity = stack.get(ModDataComponents.PURITY.get());
+
         if (targetPhysiqueId != null && !targetPhysiqueId.isEmpty()) {
-            ResourceLocation physiqueResource = ResourceLocation.bySeparator(targetPhysiqueId, ':');
+            ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
             IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
             if (physique != null) {
-                return Component.literal(physique.getDisplayTitle() + " Transfer Stone");
+                Component baseName = Component.literal(physique.getDisplayTitle()).append(" Transfer Slip");
+
+                // Add purity to name if not 100%
+                if (purity != null && purity < 100) {
+                    return baseName.copy()
+                            .append(Component.literal(" [").withStyle(ChatFormatting.GRAY))
+                            .append(Component.literal(purity + "%").withStyle(ChatFormatting.GOLD))
+                            .append(Component.literal("]").withStyle(ChatFormatting.GRAY));
+                }
+                return baseName;
             }
         }
-        return Component.literal("Physique Transfer Stone");
+        return Component.literal("Physique Transfer Slip");
     }
 
     @Override
@@ -91,28 +119,80 @@ public class PhysiqueTransferItem extends Item {
         super.appendHoverText(stack, context, tooltip, flag);
 
         String targetPhysiqueId = stack.get(ModDataComponents.PHYSIQUE_ID.get());
+        Integer purity = stack.get(ModDataComponents.PURITY.get());
+
         if (targetPhysiqueId != null && !targetPhysiqueId.isEmpty()) {
-            tooltip.add(Component.literal("§7Target: " + getPhysiqueDisplayName(targetPhysiqueId)));
+            tooltip.add(Component.literal("Target: ").withStyle(ChatFormatting.GRAY)
+                    .append(getPhysiqueDisplayName(targetPhysiqueId)));
+
+            if (purity != null) {
+                ChatFormatting purityColor = ChatFormatting.GRAY;
+                if (purity >= 100) purityColor = ChatFormatting.GREEN;
+                else if (purity >= 75) purityColor = ChatFormatting.YELLOW;
+                else if (purity >= 50) purityColor = ChatFormatting.GOLD;
+                else if (purity >= 25) purityColor = ChatFormatting.RED;
+
+                tooltip.add(Component.literal("Purity: ").withStyle(ChatFormatting.GRAY)
+                        .append(Component.literal(purity + "%").withStyle(purityColor)));
+
+                if (purity < 100) {
+                    tooltip.add(Component.literal("Combine with same physique slips")
+                            .withStyle(ChatFormatting.DARK_GRAY).withStyle(ChatFormatting.ITALIC));
+                    tooltip.add(Component.literal("in an anvil to increase purity")
+                            .withStyle(ChatFormatting.DARK_GRAY).withStyle(ChatFormatting.ITALIC));
+                }
+            }
         } else {
-            tooltip.add(Component.literal("§7No physique set"));
+            tooltip.add(Component.literal("No physique set").withStyle(ChatFormatting.GRAY));
         }
 
-        tooltip.add(Component.literal("§eShift-right-click to transfer physique"));
-        tooltip.add(Component.literal("§cWarning: Resets all cultivation progress!"));
+        tooltip.add(Component.literal("Shift-right-click to transfer physique")
+                .withStyle(ChatFormatting.YELLOW));
+
+        if (purity != null && purity >= 100) {
+            tooltip.add(Component.literal("Ready to use!").withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD));
+        } else if (purity != null) {
+            tooltip.add(Component.literal("Requires 100% purity to use")
+                    .withStyle(ChatFormatting.RED));
+        }
+
+        tooltip.add(Component.literal("Warning: Resets all cultivation progress!")
+                .withStyle(ChatFormatting.DARK_RED));
     }
 
     private Component getPhysiqueDisplayName(String targetPhysiqueId) {
-        ResourceLocation physiqueResource = ResourceLocation.bySeparator(targetPhysiqueId, ':');
+        ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
         IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
         if (physique != null) {
-            return Component.literal("§6" + physique.getDisplayTitle());
+            return Component.literal(physique.getDisplayTitle()).withStyle(ChatFormatting.GOLD);
         }
-        return Component.literal("§7Unknown Physique");
+        return Component.literal("Unknown Physique").withStyle(ChatFormatting.GRAY);
     }
 
-    public static ItemStack createWithPhysique(String physiqueId) {
+    public static ItemStack createWithPhysique(String physiqueId, int purity) {
         ItemStack stack = new ItemStack(ModItems.PHYSIQUE_SLIP.get());
         stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
+        stack.set(ModDataComponents.PURITY.get(), Math.min(purity, 100));
         return stack;
+    }
+
+    // Check if two slips can be combined (same physique ID)
+    public static boolean canCombine(ItemStack stack1, ItemStack stack2) {
+        String id1 = stack1.get(ModDataComponents.PHYSIQUE_ID.get());
+        String id2 = stack2.get(ModDataComponents.PHYSIQUE_ID.get());
+
+        if (id1 == null || id2 == null) return false;
+        return id1.equals(id2);
+    }
+
+    // Get the resulting purity when combining two slips
+    public static int getCombinedPurity(ItemStack stack1, ItemStack stack2) {
+        Integer purity1 = stack1.get(ModDataComponents.PURITY.get());
+        Integer purity2 = stack2.get(ModDataComponents.PURITY.get());
+
+        if (purity1 == null) purity1 = 0;
+        if (purity2 == null) purity2 = 0;
+
+        return Math.min(purity1 + purity2, 100);
     }
 }
