@@ -45,7 +45,7 @@ public class AddPhysiqueItemModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        ItemStack stack = new ItemStack(ModItems.PHYSIQUE_SLIP.get());
+        ItemStack stack = new ItemStack(ModItems.BLOOD_ESSENCE.get());
         stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId.toString());
         stack.set(ModDataComponents.PURITY.get(), purity);
         generatedLoot.add(stack);

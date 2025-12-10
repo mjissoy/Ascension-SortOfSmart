@@ -22,7 +22,6 @@ import net.thejadeproject.ascension.progression.physiques.IPhysique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.util.ModAttachments;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class PhysiqueTransferItem extends Item {
@@ -99,7 +98,7 @@ public class PhysiqueTransferItem extends Item {
             ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
             IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
             if (physique != null) {
-                Component baseName = Component.literal(physique.getDisplayTitle()).append(" Transfer Slip");
+                Component baseName = Component.literal(physique.getDisplayTitle()).append(" Blood Essence");
 
                 // Add purity to name if not 100%
                 if (purity != null && purity < 100) {
@@ -111,7 +110,7 @@ public class PhysiqueTransferItem extends Item {
                 return baseName;
             }
         }
-        return Component.literal("Physique Transfer Slip");
+        return Component.literal("Blood Essence");
     }
 
     @Override
@@ -134,13 +133,6 @@ public class PhysiqueTransferItem extends Item {
 
                 tooltip.add(Component.literal("Purity: ").withStyle(ChatFormatting.GRAY)
                         .append(Component.literal(purity + "%").withStyle(purityColor)));
-
-                if (purity < 100) {
-                    tooltip.add(Component.literal("Combine with same physique slips")
-                            .withStyle(ChatFormatting.DARK_GRAY).withStyle(ChatFormatting.ITALIC));
-                    tooltip.add(Component.literal("in an anvil to increase purity")
-                            .withStyle(ChatFormatting.DARK_GRAY).withStyle(ChatFormatting.ITALIC));
-                }
             }
         } else {
             tooltip.add(Component.literal("No physique set").withStyle(ChatFormatting.GRAY));
@@ -170,7 +162,7 @@ public class PhysiqueTransferItem extends Item {
     }
 
     public static ItemStack createWithPhysique(String physiqueId, int purity) {
-        ItemStack stack = new ItemStack(ModItems.PHYSIQUE_SLIP.get());
+        ItemStack stack = new ItemStack(ModItems.BLOOD_ESSENCE.get());
         stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
         stack.set(ModDataComponents.PURITY.get(), Math.min(purity, 100));
         return stack;

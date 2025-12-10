@@ -207,7 +207,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.BODY_AMNESIA_PILL.get());
 
 
-        basicItem(ModItems.PHYSIQUE_SLIP.get());
+        basicItem(ModItems.BLOOD_ESSENCE.get());
 
 
 

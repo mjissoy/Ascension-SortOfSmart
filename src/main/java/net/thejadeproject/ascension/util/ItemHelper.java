@@ -15,7 +15,7 @@ public class ItemHelper {
      * @return An ItemStack configured for that physique
      */
     public static ItemStack createPhysiqueTransferItem(String physiqueId) {
-        ItemStack stack = new ItemStack(ModItems.PHYSIQUE_SLIP.get());
+        ItemStack stack = new ItemStack(ModItems.BLOOD_ESSENCE.get());
         stack.set(ModDataComponents.PHYSIQUE_ID, physiqueId);
         return stack;
     }
