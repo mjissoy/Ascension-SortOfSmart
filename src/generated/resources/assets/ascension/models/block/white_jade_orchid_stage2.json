@@ -2,6 +2,6 @@
   "parent": "minecraft:block/cross",
   "render_type": "minecraft:cutout",
   "textures": {
-    "cross": "ascension:block/herbs/white_jade_orchid_crop"
+    "cross": "ascension:block/herbs/white_jade_orchid_stage2"
   }
 }

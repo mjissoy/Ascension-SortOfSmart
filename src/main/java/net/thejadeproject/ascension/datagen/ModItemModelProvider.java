@@ -34,6 +34,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         buttonItem(ModBlocks.GOLDEN_PALM_BUTTON, ModBlocks.GOLDEN_PALM_PLANKS);
         fenceItem(ModBlocks.GOLDEN_PALM_FENCE, ModBlocks.GOLDEN_PALM_PLANKS);
         basicItem(ModBlocks.GOLDEN_PALM_DOOR.asItem());
+        buttonItem(ModBlocks.IRONWOOD_BUTTON, ModBlocks.IRONWOOD_PLANKS);
+        fenceItem(ModBlocks.IRONWOOD_FENCE, ModBlocks.IRONWOOD_PLANKS);
+        basicItem(ModBlocks.IRONWOOD_DOOR.asItem());
 
 
         /** Walls */
@@ -215,11 +218,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         herbs(ModItems.GOLDEN_SUN_LEAF.get());
         herbs(ModItems.JADE_BAMBOO_OF_SERENITY.get());
         herbs(ModItems.WHITE_JADE_ORCHID.get());
+
+        herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get());
-
-        //herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
-        basicItem(ModItems.HUNDRED_YEAR_GINSENG.get());
 
         herbs(ModItems.IRONWOOD_SPROUT.get());
 
@@ -233,6 +235,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Saplings
         saplingItem(ModBlocks.GOLDEN_PALM_SAPLING);
+        saplingItem(ModBlocks.IRONWOOD_SAPLING);
 
 
         //MobEggs

@@ -241,9 +241,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.FROST_SILVER_ORE.get());
 
         tag(BlockTags.FENCES)
-                .add(ModBlocks.GOLDEN_PALM_FENCE.get());
+                .add(ModBlocks.GOLDEN_PALM_FENCE.get())
+                .add(ModBlocks.IRONWOOD_FENCE.get());
         tag(BlockTags.FENCE_GATES)
-                .add(ModBlocks.GOLDEN_PALM_FENCE_GATE.get());
+                .add(ModBlocks.GOLDEN_PALM_FENCE_GATE.get())
+                .add(ModBlocks.IRONWOOD_FENCE_GATE.get());
         tag(BlockTags.STAIRS)
                 .add(ModBlocks.MARBLE_BRICK_STAIRS.get())
                 .add(ModBlocks.MARBLE_TILE_STAIRS.get())
@@ -351,10 +353,15 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.GOLDEN_PALM_LOG.get())
                 .add(ModBlocks.GOLDEN_PALM_WOOD.get())
                 .add(ModBlocks.STRIPPED_GOLDEN_PALM_LOG.get())
-                .add(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD.get());
+                .add(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD.get())
+                .add(ModBlocks.IRONWOOD_LOG.get())
+                .add(ModBlocks.IRONWOOD_WOOD.get())
+                .add(ModBlocks.STRIPPED_IRONWOOD_LOG.get())
+                .add(ModBlocks.STRIPPED_IRONWOOD_WOOD.get());
 
         this.tag(BlockTags.MINEABLE_WITH_AXE)
-                        .add(ModBlocks.GOLDEN_PALM_PLANKS.get());
+                        .add(ModBlocks.GOLDEN_PALM_PLANKS.get())
+                        .add(ModBlocks.IRONWOOD_PLANKS.get());
 
 
         tag(ModTags.Blocks.STORAGE_BLOCKS_BLACK_IRON)

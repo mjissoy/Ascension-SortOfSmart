@@ -16,7 +16,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.thejadeproject.ascension.items.ModItems;
 
-public class HundredYearGinsengCropBlock extends CropBlock {
+public class GenericSlowCropBlock extends CropBlock {
     public static final int MAX_AGE = 3;
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 3);
     private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
@@ -25,9 +25,24 @@ public class HundredYearGinsengCropBlock extends CropBlock {
             Block.box(0.0, 0.0, 0.0, 16.0, 6.0, 16.0),
             Block.box(0.0, 0.0, 0.0, 16.0, 8.0, 16.0)};
 
+    private final ItemLike seedItem;
+    private final float growthChance;
 
-    public HundredYearGinsengCropBlock(Properties properties) {
+    // Factory method for the original crop
+    public static GenericSlowCropBlock createHundredYearGinseng(Properties properties) {
+        return new GenericSlowCropBlock(properties, ModItems.HUNDRED_YEAR_GINSENG, 0.001f);
+    }
+
+    // Generic constructor
+    public GenericSlowCropBlock(Properties properties, ItemLike seedItem, float growthChance) {
         super(properties);
+        this.seedItem = seedItem;
+        this.growthChance = growthChance;
+    }
+
+    // Constructor for default growth chance
+    public GenericSlowCropBlock(Properties properties, ItemLike seedItem) {
+        this(properties, seedItem, 0.001f);
     }
 
     @Override
@@ -37,7 +52,7 @@ public class HundredYearGinsengCropBlock extends CropBlock {
 
     @Override
     protected ItemLike getBaseSeedId() {
-        return ModItems.HUNDRED_YEAR_GINSENG;
+        return seedItem;
     }
 
     @Override
@@ -56,18 +71,13 @@ public class HundredYearGinsengCropBlock extends CropBlock {
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!level.isAreaLoaded(pos, 1)) return;
 
         if (level.getRawBrightness(pos, 0) >= 9) {
             int currentAge = this.getAge(state);
+
             if (currentAge < this.getMaxAge()) {
-                float growthChance = 0.15f;
-
-                if (currentAge >= 2) {
-                    growthChance = 0.10f;
-                }
-
                 if (random.nextFloat() < growthChance) {
                     level.setBlock(pos, this.getStateForAge(currentAge + 1), 2);
                 }
@@ -83,5 +93,10 @@ public class HundredYearGinsengCropBlock extends CropBlock {
     @Override
     public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
         return false;
+    }
+
+    @Override
+    protected int getBonemealAgeIncrease(Level level) {
+        return 0;
     }
 }

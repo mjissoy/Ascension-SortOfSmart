@@ -8,11 +8,11 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
-import net.thejadeproject.ascension.blocks.custom.crops.HundredYearGinsengCropBlock;
+import net.thejadeproject.ascension.blocks.custom.crops.GenericSlowCropBlock;
+import net.thejadeproject.ascension.blocks.custom.crops.StemSlowCropBlock;
 import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
@@ -346,6 +346,7 @@ public class ModBlocks {
                 }
             });
 
+
     public static final DeferredBlock<StairBlock> GOLDEN_PALM_STAIRS = registerBlock("golden_palm_stairs",
             () -> new StairBlock(ModBlocks.GOLDEN_PALM_PLANKS.get().defaultBlockState(),
                     BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)));
@@ -367,12 +368,6 @@ public class ModBlocks {
     public static final DeferredBlock<TrapDoorBlock> GOLDEN_PALM_TRAPDOOR = registerBlock("golden_palm_trapdoor",
             () -> new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).noOcclusion()));
 
-
-
-
-
-
-
     public static final DeferredBlock<Block> GOLDEN_PALM_LEAVES = registerBlock("golden_palm_leaves",
             () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)) {
                 @Override
@@ -392,22 +387,91 @@ public class ModBlocks {
     public static final DeferredBlock<Block> GOLDEN_PALM_SAPLING = registerBlock("golden_palm_sapling",
             () -> new GoldenPalmSapling(ModTreeGrowers.GOLDEN_PALM, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING), () -> Blocks.SAND));
 
+
+
+    //IronWood
+    public static final DeferredBlock<Block> IRONWOOD_LOG = registerBlock("ironwood_log",
+            () -> new ModFlammableRotatePillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)));
+    public static final DeferredBlock<Block> STRIPPED_IRONWOOD_LOG = registerBlock("stripped_ironwood_log",
+            () -> new ModFlammableRotatePillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_LOG)));
+    public static final DeferredBlock<Block> IRONWOOD_WOOD = registerBlock("ironwood_wood",
+            () -> new ModFlammableRotatePillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LOG)));
+    public static final DeferredBlock<Block> STRIPPED_IRONWOOD_WOOD = registerBlock("stripped_ironwood_wood",
+            () -> new ModFlammableRotatePillarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STRIPPED_OAK_WOOD)));
+
+    public static final DeferredBlock<DoorBlock> IRONWOOD_DOOR = registerBlock("ironwood_door",
+            () -> new DoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final DeferredBlock<TrapDoorBlock> IRONWOOD_TRAPDOOR = registerBlock("ironwood_trapdoor",
+            () -> new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).noOcclusion()));
+
+    public static final DeferredBlock<Block> IRONWOOD_PLANKS = registerBlock("ironwood_planks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)) {
+                @Override
+                public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return true;
+                }
+                @Override
+                public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 20;
+                }
+                @Override
+                public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 5;
+                }
+            });
+
+    public static final DeferredBlock<StairBlock> IRONWOOD_STAIRS = registerBlock("ironwood_stairs",
+            () -> new StairBlock(ModBlocks.IRONWOOD_PLANKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)));
+    public static final DeferredBlock<SlabBlock> IRONWOOD_SLABS = registerBlock("ironwood_slabs",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)));
+
+    public static final DeferredBlock<PressurePlateBlock> IRONWOOD_PRESSURE_PLATE = registerBlock("ironwood_pressure_plate",
+            () -> new PressurePlateBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
+    public static final DeferredBlock<ButtonBlock> IRONWOOD_BUTTON = registerBlock("ironwood_button",
+            () -> new ButtonBlock(BlockSetType.OAK, 20, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON).noCollission()));
+
+    public static final DeferredBlock<FenceBlock> IRONWOOD_FENCE = registerBlock("ironwood_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+    public static final DeferredBlock<FenceGateBlock> IRONWOOD_FENCE_GATE = registerBlock("ironwood_fence_gate",
+            () -> new FenceGateBlock(WoodType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
+
+    public static final DeferredBlock<Block> IRONWOOD_LEAVES = registerBlock("ironwood_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES)) {
+                @Override
+                public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return true;
+                }
+                @Override
+                public int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 60;
+                }
+                @Override
+                public int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
+                    return 30;
+                }
+            });
+
+    public static final DeferredBlock<Block> IRONWOOD_SAPLING = registerBlock("ironwood_sapling",
+            () -> new GoldenPalmSapling(ModTreeGrowers.IRONWOOD, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING), () -> Blocks.GRASS_BLOCK));
+
+
+
     //Herbs
 
     public static final DeferredBlock<Block> IRONWOOD_SPROUT_CROP = registerBlock("ironwood_sprout_crop",
             () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
-    public static final DeferredBlock<Block> WHITE_JADE_ORCHID_CROP = registerBlock("white_jade_orchid_crop",
-            () -> new CustomHerbs(() -> Set.of(Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE)));
 
+
+    public static final DeferredBlock<Block> WHITE_JADE_ORCHID_CROP = registerBlock("white_jade_orchid_crop",
+            () -> new StemSlowCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT), ModItems.WHITE_JADE_ORCHID));
 
     public static final DeferredBlock<Block> HUNDRED_YEAR_GINSENG_CROP = BLOCK.register("hundred_year_ginseng_crop",
-            () -> new HundredYearGinsengCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
-
-
+            () -> new GenericSlowCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT), ModItems.HUNDRED_YEAR_GINSENG));
     public static final DeferredBlock<Block> HUNDRED_YEAR_SNOW_GINSENG_CROP = registerBlock("hundred_year_snow_ginseng_crop",
-            () -> new CustomHerbs(() -> Set.of(Blocks.SNOW_BLOCK, Blocks.GRASS_BLOCK)));
+            () -> new GenericSlowCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT), ModItems.HUNDRED_YEAR_SNOW_GINSENG));
     public static final DeferredBlock<Block> HUNDRED_YEAR_FIRE_GINSENG_CROP = registerBlock("hundred_year_fire_ginseng_crop",
-            () -> new CustomHerbs(() -> Set.of(Blocks.SAND, Blocks.RED_SAND)));
+            () -> new GenericSlowCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT), ModItems.HUNDRED_YEAR_FIRE_GINSENG));
 
     //Fires / Flames
 

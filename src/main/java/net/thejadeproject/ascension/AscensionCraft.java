@@ -108,6 +108,7 @@ public class AscensionCraft {
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
 
+        ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
 
@@ -120,7 +121,7 @@ public class AscensionCraft {
         ModParticles.register(modEventBus);
         ModEntities.register(modEventBus);
 
-        ModItems.register(modEventBus);
+
         ModEffects.register(modEventBus);
 
         ModAttributes.register(modEventBus);

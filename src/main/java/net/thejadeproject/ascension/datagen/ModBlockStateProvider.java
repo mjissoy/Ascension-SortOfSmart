@@ -16,7 +16,8 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.blocks.custom.crops.HundredYearGinsengCropBlock;
+import net.thejadeproject.ascension.blocks.custom.crops.GenericSlowCropBlock;
+import net.thejadeproject.ascension.blocks.custom.crops.StemSlowCropBlock;
 import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
 
 import java.util.function.Function;
@@ -35,18 +36,16 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         //Crops
         makeCrop(((CropBlock) ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get()), "hundred_year_ginseng_stage", "hundred_year_ginseng_stage");
-
+        makeCrop(((CropBlock) ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get()), "hundred_year_snow_ginseng_stage", "hundred_year_snow_ginseng_stage");
+        makeCrop(((CropBlock) ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get()), "hundred_year_fire_ginseng_stage", "hundred_year_fire_ginseng_stage");
+        makeStemCrop(((CropBlock) ModBlocks.WHITE_JADE_ORCHID_CROP.get()), "white_jade_orchid_stage", "white_jade_orchid_stage");
 
         //Herbs Blocks
         herbsBlockCross(ModBlocks.IRONWOOD_SPROUT_CROP);
-        herbsBlockCross(ModBlocks.WHITE_JADE_ORCHID_CROP);
-
-        //herbsBlockCutout(ModBlocks.HUNDRED_YEAR_GINSENG_CROP);
-
-        herbsBlockCutout(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP);
-        herbsBlockCutout(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP);
 
 
+
+        //Ores
         simpleBlockWithItem(ModBlocks.BLACK_IRON_ORE);
         simpleBlockWithItem(ModBlocks.BLACK_IRON_BLOCK);
         simpleBlockWithItem(ModBlocks.FROST_SILVER_ORE);
@@ -146,21 +145,36 @@ public class ModBlockStateProvider extends BlockStateProvider {
         logBlock(((RotatedPillarBlock) ModBlocks.STRIPPED_GOLDEN_PALM_LOG.get()));
         axisBlock(((RotatedPillarBlock) ModBlocks.STRIPPED_GOLDEN_PALM_WOOD.get()), blockTexture(ModBlocks.STRIPPED_GOLDEN_PALM_LOG.get()), blockTexture(ModBlocks.STRIPPED_GOLDEN_PALM_LOG.get()));
 
+        logBlock(((RotatedPillarBlock) ModBlocks.IRONWOOD_LOG.get()));
+        axisBlock(((RotatedPillarBlock) ModBlocks.IRONWOOD_WOOD.get()), blockTexture(ModBlocks.IRONWOOD_LOG.get()), blockTexture(ModBlocks.IRONWOOD_LOG.get()));
+        logBlock(((RotatedPillarBlock) ModBlocks.STRIPPED_IRONWOOD_LOG.get()));
+        axisBlock(((RotatedPillarBlock) ModBlocks.STRIPPED_IRONWOOD_WOOD.get()), blockTexture(ModBlocks.STRIPPED_IRONWOOD_LOG.get()), blockTexture(ModBlocks.STRIPPED_IRONWOOD_LOG.get()));
+
         blockItem(ModBlocks.GOLDEN_PALM_LOG);
         blockItem(ModBlocks.GOLDEN_PALM_WOOD);
         blockItem(ModBlocks.STRIPPED_GOLDEN_PALM_LOG);
         blockItem(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD);
 
+        blockItem(ModBlocks.IRONWOOD_LOG);
+        blockItem(ModBlocks.IRONWOOD_WOOD);
+        blockItem(ModBlocks.STRIPPED_IRONWOOD_LOG);
+        blockItem(ModBlocks.STRIPPED_IRONWOOD_WOOD);
+
         blockWithItem(ModBlocks.GOLDEN_PALM_PLANKS);
+        blockWithItem(ModBlocks.IRONWOOD_PLANKS);
 
         //Leaves
         leavesBlock(ModBlocks.GOLDEN_PALM_LEAVES);
+        leavesBlock(ModBlocks.IRONWOOD_LEAVES);
 
         //Saplings
         saplingBlock(ModBlocks.GOLDEN_PALM_SAPLING);
+        saplingBlock(ModBlocks.IRONWOOD_SAPLING);
 
         //Stairs
         stairsBlock(ModBlocks.GOLDEN_PALM_STAIRS.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        stairsBlock(ModBlocks.IRONWOOD_STAIRS.get(), blockTexture(ModBlocks.IRONWOOD_PLANKS.get()));
+
         stairsBlock(ModBlocks.MARBLE_BRICK_STAIRS.get(), blockTexture(ModBlocks.MARBLE_BRICKS.get()));
         stairsBlock(ModBlocks.MARBLE_TILE_STAIRS.get(), blockTexture(ModBlocks.MARBLE_TILES.get()));
         stairsBlock(ModBlocks.CHARRED_MARBLE_BRICK_STAIRS.get(), blockTexture(ModBlocks.CHARRED_MARBLE_BRICKS.get()));
@@ -196,6 +210,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         //Slabs
         slabBlock(ModBlocks.GOLDEN_PALM_SLAB.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        slabBlock(ModBlocks.IRONWOOD_SLABS.get(), blockTexture(ModBlocks.IRONWOOD_PLANKS.get()), blockTexture(ModBlocks.IRONWOOD_PLANKS.get()));
+
         slabBlock(ModBlocks.MARBLE_BRICK_SLABS.get(), blockTexture(ModBlocks.MARBLE_BRICKS.get()), blockTexture(ModBlocks.MARBLE_BRICKS.get()));
         slabBlock(ModBlocks.MARBLE_TILE_SLABS.get(), blockTexture(ModBlocks.MARBLE_TILES.get()), blockTexture(ModBlocks.MARBLE_TILES.get()));
         slabBlock(ModBlocks.CHARRED_MARBLE_BRICK_SLABS.get(), blockTexture(ModBlocks.CHARRED_MARBLE_BRICKS.get()), blockTexture(ModBlocks.CHARRED_MARBLE_BRICKS.get()));
@@ -265,25 +281,33 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         //Buttons
         buttonBlock(ModBlocks.GOLDEN_PALM_BUTTON.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        buttonBlock(ModBlocks.IRONWOOD_BUTTON.get(), blockTexture(ModBlocks.IRONWOOD_PLANKS.get()));
 
         //PresurePlates
         pressurePlateBlock(ModBlocks.GOLDEN_PALM_PRESSURE_PLATE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        pressurePlateBlock(ModBlocks.IRONWOOD_PRESSURE_PLATE.get(), blockTexture(ModBlocks.IRONWOOD_PLANKS.get()));
 
         //Fences
         fenceBlock(ModBlocks.GOLDEN_PALM_FENCE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        fenceBlock(ModBlocks.IRONWOOD_FENCE.get(), blockTexture(ModBlocks.IRONWOOD_PLANKS.get()));
 
         //FenceGates
         fenceGateBlock(ModBlocks.GOLDEN_PALM_FENCE_GATE.get(), blockTexture(ModBlocks.GOLDEN_PALM_PLANKS.get()));
+        fenceGateBlock(ModBlocks.IRONWOOD_FENCE_GATE.get(), blockTexture(ModBlocks.IRONWOOD_PLANKS.get()));
 
         //Doors
         doorBlockWithRenderType(ModBlocks.GOLDEN_PALM_DOOR.get(), modLoc("block/golden_palm_door_bottom"), modLoc("block/golden_palm_door_top"), "cutout");
+        doorBlockWithRenderType(ModBlocks.IRONWOOD_DOOR.get(), modLoc("block/ironwood_door_bottom"), modLoc("block/ironwood_door_top"), "cutout");
 
         //TrapDoors
         trapdoorBlockWithRenderType(ModBlocks.GOLDEN_PALM_TRAPDOOR.get(), modLoc("block/golden_palm_trapdoor"), true, "cutout");
+        trapdoorBlockWithRenderType(ModBlocks.IRONWOOD_TRAPDOOR.get(), modLoc("block/ironwood_trapdoor"), true, "cutout");
 
 
         //BlockItems Stairs
         blockItem(ModBlocks.GOLDEN_PALM_STAIRS);
+        blockItem(ModBlocks.IRONWOOD_STAIRS);
+
         blockItem(ModBlocks.MARBLE_TILE_STAIRS);
         blockItem(ModBlocks.MARBLE_BRICK_STAIRS);
         blockItem(ModBlocks.CHARRED_MARBLE_TILE_STAIRS);
@@ -319,6 +343,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         //BlockItems Slabs
         blockItem(ModBlocks.GOLDEN_PALM_SLAB);
+        blockItem(ModBlocks.IRONWOOD_SLABS);
+
         blockItem(ModBlocks.MARBLE_BRICK_SLABS);
         blockItem(ModBlocks.MARBLE_TILE_SLABS);
         blockItem(ModBlocks.CHARRED_MARBLE_BRICK_SLABS);
@@ -358,6 +384,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(ModBlocks.GOLDEN_PALM_PRESSURE_PLATE);
         blockItem(ModBlocks.GOLDEN_PALM_FENCE_GATE);
         blockItem(ModBlocks.GOLDEN_PALM_TRAPDOOR, "_bottom");
+        blockItem(ModBlocks.IRONWOOD_PRESSURE_PLATE);
+        blockItem(ModBlocks.IRONWOOD_FENCE_GATE);
+        blockItem(ModBlocks.IRONWOOD_TRAPDOOR, "_bottom");
     }
 
     public void makeCrop(CropBlock block, String modelName, String textureName) {
@@ -368,8 +397,24 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private ConfiguredModel[] states(BlockState state, CropBlock block, String modelName, String textureName) {
         ConfiguredModel[] models = new ConfiguredModel[1];
-        models[0] = new ConfiguredModel(models().crop(modelName + state.getValue(((HundredYearGinsengCropBlock) block).getAgeProperty()),
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/" + textureName + state.getValue(((HundredYearGinsengCropBlock) block).getAgeProperty()))).renderType("cutout"));
+        models[0] = new ConfiguredModel(models().crop(modelName + state.getValue(((GenericSlowCropBlock) block).getAgeProperty()),
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/herbs/" + textureName + state.getValue(((GenericSlowCropBlock) block).getAgeProperty()))).renderType("cutout"));
+
+        return models;
+    }
+
+    public void makeStemCrop(CropBlock block2, String modelName2, String textureName2) {
+        Function<BlockState, ConfiguredModel[]> function = state2 -> states2(state2, block2, modelName2, textureName2);
+        getVariantBuilder(block2).forAllStates(function);
+    }
+
+    private ConfiguredModel[] states2(BlockState state2, CropBlock block2, String modelName2, String textureName2) {
+        ConfiguredModel[] models = new ConfiguredModel[1];
+        int age = state2.getValue(((StemSlowCropBlock) block2).getAgeProperty());
+        models[0] = new ConfiguredModel(models().cross(
+                        modelName2 + age,
+                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "block/herbs/" + textureName2 + age))
+                .renderType("cutout"));
 
         return models;
     }

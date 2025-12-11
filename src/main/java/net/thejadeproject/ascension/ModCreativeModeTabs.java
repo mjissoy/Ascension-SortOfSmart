@@ -106,13 +106,10 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModBlocks.GOLDEN_PALM_LOG);
                         output.accept(ModBlocks.GOLDEN_PALM_WOOD);
-
                         output.accept(ModBlocks.STRIPPED_GOLDEN_PALM_LOG);
                         output.accept(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD);
-
                         output.accept(ModBlocks.GOLDEN_PALM_PLANKS);
                         output.accept(ModBlocks.GOLDEN_PALM_SAPLING);
-
                         output.accept(ModBlocks.GOLDEN_PALM_LEAVES);
                         output.accept(ModBlocks.GOLDEN_PALM_STAIRS);
                         output.accept(ModBlocks.GOLDEN_PALM_SLAB);
@@ -122,6 +119,22 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.GOLDEN_PALM_FENCE_GATE);
                         output.accept(ModBlocks.GOLDEN_PALM_DOOR);
                         output.accept(ModBlocks.GOLDEN_PALM_TRAPDOOR);
+
+                        output.accept(ModBlocks.IRONWOOD_LOG);
+                        output.accept(ModBlocks.IRONWOOD_WOOD);
+                        output.accept(ModBlocks.STRIPPED_IRONWOOD_LOG);
+                        output.accept(ModBlocks.STRIPPED_IRONWOOD_WOOD);
+                        output.accept(ModBlocks.IRONWOOD_PLANKS);
+                        output.accept(ModBlocks.IRONWOOD_SAPLING);
+                        output.accept(ModBlocks.IRONWOOD_LEAVES);
+                        output.accept(ModBlocks.IRONWOOD_STAIRS);
+                        output.accept(ModBlocks.IRONWOOD_SLABS);
+                        output.accept(ModBlocks.IRONWOOD_PRESSURE_PLATE);
+                        output.accept(ModBlocks.IRONWOOD_BUTTON);
+                        output.accept(ModBlocks.IRONWOOD_FENCE);
+                        output.accept(ModBlocks.IRONWOOD_FENCE_GATE);
+                        output.accept(ModBlocks.IRONWOOD_DOOR);
+                        output.accept(ModBlocks.IRONWOOD_TRAPDOOR);
 
                         /** Marble */
                         output.accept(ModBlocks.RAW_MARBLE);

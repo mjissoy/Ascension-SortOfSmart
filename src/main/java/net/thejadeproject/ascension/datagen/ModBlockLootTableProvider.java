@@ -7,7 +7,6 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -20,7 +19,8 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.blocks.custom.crops.HundredYearGinsengCropBlock;
+import net.thejadeproject.ascension.blocks.custom.crops.GenericSlowCropBlock;
+import net.thejadeproject.ascension.blocks.custom.crops.StemSlowCropBlock;
 import net.thejadeproject.ascension.items.ModItems;
 
 import java.util.Set;
@@ -163,8 +163,17 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.GOLDEN_PALM_PLANKS.get());
         this.dropSelf(ModBlocks.GOLDEN_PALM_SAPLING.get());
 
+        this.dropSelf(ModBlocks.IRONWOOD_LOG.get());
+        this.dropSelf(ModBlocks.IRONWOOD_WOOD.get());
+        this.dropSelf(ModBlocks.STRIPPED_IRONWOOD_WOOD.get());
+        this.dropSelf(ModBlocks.STRIPPED_IRONWOOD_LOG.get());
+        this.dropSelf(ModBlocks.IRONWOOD_PLANKS.get());
+        this.dropSelf(ModBlocks.IRONWOOD_SAPLING.get());
+
         /** Stairs */
         dropSelf(ModBlocks.GOLDEN_PALM_STAIRS.get());
+        dropSelf(ModBlocks.IRONWOOD_STAIRS.get());
+
         dropSelf(ModBlocks.CHARRED_MARBLE_BRICK_STAIRS.get());
         dropSelf(ModBlocks.CHARRED_MARBLE_TILE_STAIRS.get());
         dropSelf(ModBlocks.MARBLE_BRICK_STAIRS.get());
@@ -236,6 +245,9 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         /** Slabs */
         add(ModBlocks.GOLDEN_PALM_SLAB.get(),
                 block -> createSlabItemTable(ModBlocks.GOLDEN_PALM_SLAB.get()));
+        add(ModBlocks.IRONWOOD_SLABS.get(),
+                block -> createSlabItemTable(ModBlocks.IRONWOOD_SLABS.get()));
+
         add(ModBlocks.MARBLE_TILE_SLABS.get(),
                 block -> createSlabItemTable(ModBlocks.MARBLE_TILE_SLABS.get()));
         add(ModBlocks.MARBLE_BRICK_SLABS.get(),
@@ -307,8 +319,16 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.GOLDEN_PALM_FENCE_GATE.get());
         dropSelf(ModBlocks.GOLDEN_PALM_TRAPDOOR.get());
 
+        dropSelf(ModBlocks.IRONWOOD_PRESSURE_PLATE.get());
+        dropSelf(ModBlocks.IRONWOOD_BUTTON.get());
+        dropSelf(ModBlocks.IRONWOOD_FENCE.get());
+        dropSelf(ModBlocks.IRONWOOD_FENCE_GATE.get());
+        dropSelf(ModBlocks.IRONWOOD_TRAPDOOR.get());
+
         add(ModBlocks.GOLDEN_PALM_DOOR.get(),
                 block -> createDoorTable(ModBlocks.GOLDEN_PALM_DOOR.get()));
+        add(ModBlocks.IRONWOOD_DOOR.get(),
+                block -> createDoorTable(ModBlocks.IRONWOOD_DOOR.get()));
 
 
 
@@ -323,15 +343,36 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                         NORMAL_LEAVES_SAPLING_CHANCES,
                         0.005F
                 ));
+        this.add(ModBlocks.IRONWOOD_LEAVES.get(), block ->
+                createLeavesDropsWithSecondary(
+                        block,
+                        ModBlocks.IRONWOOD_SAPLING.get(),
+                        ModItems.IRONWOOD_SPROUT.get(),
+                        NORMAL_LEAVES_SAPLING_CHANCES,
+                        0.005F
+                ));
 
 
         LootItemCondition.Builder lootItemConditionBuilder = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get())
-                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(HundredYearGinsengCropBlock.AGE, 3));
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GenericSlowCropBlock.AGE, 3));
         this.add(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(), this.createCropDrops(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
                 ModItems.HUNDRED_YEAR_GINSENG.get(), ModItems.HUNDRED_YEAR_GINSENG.get(), lootItemConditionBuilder));
+        LootItemCondition.Builder lootItemConditionBuilder2 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get())
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GenericSlowCropBlock.AGE, 3));
+        this.add(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(), this.createCropDrops(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
+                ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), lootItemConditionBuilder2));
+        LootItemCondition.Builder lootItemConditionBuilder3 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get())
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(GenericSlowCropBlock.AGE, 3));
+        this.add(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(), this.createCropDrops(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
+                ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), lootItemConditionBuilder3));
+        LootItemCondition.Builder lootItemConditionBuilder4 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.WHITE_JADE_ORCHID_CROP.get())
+                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(StemSlowCropBlock.AGE, 3));
+        this.add(ModBlocks.WHITE_JADE_ORCHID_CROP.get(), this.createCropDrops(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
+                ModItems.WHITE_JADE_ORCHID.get(), ModItems.WHITE_JADE_ORCHID.get(), lootItemConditionBuilder4));
 
 
     }
+
 
 
 

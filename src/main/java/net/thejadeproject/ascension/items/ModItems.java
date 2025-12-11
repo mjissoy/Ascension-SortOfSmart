@@ -277,8 +277,10 @@ public class ModItems {
     public static final DeferredItem<Item> IRONWOOD_SPROUT = ITEMS.register("ironwood_sprout",
             () -> new PlantableHerb(ModBlocks.IRONWOOD_SPROUT_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.IRONWOOD_SPROUT)));
+
+
     public static final DeferredItem<Item> WHITE_JADE_ORCHID = ITEMS.register("white_jade_orchid",
-            () -> new PlantableHerb(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
+            () -> new ItemNameBlockItem(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.WHITE_JADE_ORCHID)));
     public static final DeferredItem<Item> HUNDRED_YEAR_SNOW_GINSENG = ITEMS.register("hundred_year_snow_ginseng",
             () -> new HundredYearSnowGinseng(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
@@ -286,8 +288,6 @@ public class ModItems {
     public static final DeferredItem<Item> HUNDRED_YEAR_FIRE_GINSENG = ITEMS.register("hundred_year_fire_ginseng",
             () -> new HundredYearFireGinseng(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_FIRE_GINSENG)));
-
-
     public static final DeferredItem<Item> HUNDRED_YEAR_GINSENG = ITEMS.register("hundred_year_ginseng",
             () -> new ItemNameBlockItem(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_GINSENG)));

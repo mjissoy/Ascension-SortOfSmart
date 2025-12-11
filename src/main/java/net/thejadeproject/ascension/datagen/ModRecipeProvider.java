@@ -368,6 +368,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.GOLDEN_PALM_PLANKS.get(), 4)
                 .requires(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD)
                 .unlockedBy("has_golden_palm_wood_stripped", has(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD)).save(recipeOutput, "ascension:shapeless/palm_planks_from_wood_stripped");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.IRONWOOD_PLANKS.get(), 4)
+                .requires(ModBlocks.IRONWOOD_LOG)
+                .unlockedBy("has_ironwood_log", has(ModBlocks.IRONWOOD_LOG)).save(recipeOutput, "ascension:shapeless/ironwood_planks");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.IRONWOOD_PLANKS.get(), 4)
+                .requires(ModBlocks.IRONWOOD_WOOD)
+                .unlockedBy("has_ironwood_wood", has(ModBlocks.IRONWOOD_WOOD)).save(recipeOutput, "ascension:shapeless/ironwood_from_wood");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.IRONWOOD_PLANKS.get(), 4)
+                .requires(ModBlocks.STRIPPED_IRONWOOD_LOG)
+                .unlockedBy("has_ironwood_stripped", has(ModBlocks.STRIPPED_IRONWOOD_LOG)).save(recipeOutput, "ascension:shapeless/ironwood_planks_stripped");
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.IRONWOOD_PLANKS.get(), 4)
+                .requires(ModBlocks.STRIPPED_IRONWOOD_WOOD)
+                .unlockedBy("has_ironwood_stripped", has(ModBlocks.STRIPPED_IRONWOOD_WOOD)).save(recipeOutput, "ascension:shapeless/ironwood_planks_from_wood_stripped");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE.get(), 9)
                 .requires(ModBlocks.SPIRITUAL_STONE_BLOCK)
@@ -396,6 +408,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         /** Marble Recipes */
         //Polished
+        polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.IRONWOOD_WOOD.get(), ModBlocks.IRONWOOD_LOG.get());
+        polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.STRIPPED_IRONWOOD_WOOD.get(), ModBlocks.STRIPPED_IRONWOOD_LOG.get());
+        polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.GOLDEN_PALM_WOOD.get(), ModBlocks.GOLDEN_PALM_LOG.get());
+        polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.STRIPPED_GOLDEN_PALM_WOOD.get(), ModBlocks.STRIPPED_GOLDEN_PALM_LOG.get());
+
         polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.POLISHED_MARBLE.get(), ModBlocks.RAW_MARBLE.get());
         polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.POLISHED_LIGHT_GRAY_MARBLE.get(), ModBlocks.LIGHT_GRAY_MARBLE.get());
         polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.GRAY_POLISHED_MARBLE.get(), ModBlocks.GRAY_MARBLE.get());
@@ -501,6 +518,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         //Stairs
         stairBuilder(ModBlocks.GOLDEN_PALM_STAIRS.get(), Ingredient.of(ModBlocks.GOLDEN_PALM_PLANKS)).group("golden_palm_planks")
                 .unlockedBy("has_golden_palm_planks", has(ModBlocks.GOLDEN_PALM_PLANKS)).save(recipeOutput);
+        stairBuilder(ModBlocks.IRONWOOD_STAIRS.get(), Ingredient.of(ModBlocks.IRONWOOD_PLANKS)).group("ironwood_planks")
+                .unlockedBy("has_ironwood_planks", has(ModBlocks.IRONWOOD_PLANKS)).save(recipeOutput);
 
         stairBuilder(ModBlocks.MARBLE_BRICK_STAIRS.get(), Ingredient.of(ModBlocks.MARBLE_BRICKS)).group("marble_bricks")
                 .unlockedBy("has_marble_bricks", has(ModBlocks.MARBLE_BRICKS)).save(recipeOutput);
@@ -569,6 +588,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         //Slabs
         slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.GOLDEN_PALM_SLAB.get(), ModBlocks.GOLDEN_PALM_PLANKS.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.IRONWOOD_SLABS.get(), ModBlocks.IRONWOOD_PLANKS.get());
 
         slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.MARBLE_BRICK_SLABS.get(), ModBlocks.MARBLE_BRICKS.get());
         slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.MARBLE_TILE_SLABS.get(), ModBlocks.MARBLE_TILES.get());
@@ -668,6 +688,20 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_golden_palm_planks", has(ModBlocks.GOLDEN_PALM_PLANKS.get())).save(recipeOutput);
         trapdoorBuilder(ModBlocks.GOLDEN_PALM_TRAPDOOR.get(), Ingredient.of(ModBlocks.GOLDEN_PALM_PLANKS.get())).group("golden_palm_planks")
                 .unlockedBy("has_golden_palm_planks", has(ModBlocks.GOLDEN_PALM_PLANKS.get())).save(recipeOutput);
+
+        buttonBuilder(ModBlocks.IRONWOOD_BUTTON.get(), Ingredient.of(ModBlocks.IRONWOOD_PLANKS.get())).group("ironwood_planks")
+                .unlockedBy("has_golden_palm_planks", has(ModBlocks.IRONWOOD_PLANKS.get())).save(recipeOutput);
+        pressurePlate(recipeOutput, ModBlocks.IRONWOOD_PRESSURE_PLATE.get(), ModBlocks.IRONWOOD_PLANKS.get());
+
+        fenceBuilder(ModBlocks.IRONWOOD_FENCE.get(), Ingredient.of(ModBlocks.IRONWOOD_PLANKS.get())).group("ironwood_planks")
+                .unlockedBy("has_ironwood_planks", has(ModBlocks.IRONWOOD_PLANKS.get())).save(recipeOutput);
+        fenceGateBuilder(ModBlocks.IRONWOOD_FENCE_GATE.get(), Ingredient.of(ModBlocks.IRONWOOD_PLANKS.get())).group("ironwood_planks")
+                .unlockedBy("has_ironwood_planks", has(ModBlocks.IRONWOOD_PLANKS.get())).save(recipeOutput);
+
+        doorBuilder(ModBlocks.IRONWOOD_DOOR.get(), Ingredient.of(ModBlocks.IRONWOOD_PLANKS.get())).group("ironwood_planks")
+                .unlockedBy("has_ironwood_planks", has(ModBlocks.IRONWOOD_PLANKS.get())).save(recipeOutput);
+        trapdoorBuilder(ModBlocks.IRONWOOD_TRAPDOOR.get(), Ingredient.of(ModBlocks.IRONWOOD_PLANKS.get())).group("ironwood_planks")
+                .unlockedBy("has_ironwood_planks", has(ModBlocks.IRONWOOD_PLANKS.get())).save(recipeOutput);
 
 
     }
