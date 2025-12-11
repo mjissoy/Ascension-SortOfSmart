@@ -92,11 +92,11 @@ public class ModPhysiques {
                     }},
                     new StandardStatRealmChange(STONE_MONKEY_MINOR_REALM_STATS, STONE_MONKEY_MAJOR_REALM_STATS))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:body", 5, 1, "ascension:stonehide_passive", true),
+                            new AcquirableSkillData("ascension:body", 1, 0, "ascension:stonehide_passive", true),
 
-                            new AcquirableSkillData("ascension:body", 2, 2, "ascension:diamond_adamant_passive", true),
+                            new AcquirableSkillData("ascension:body", 1, 0, "ascension:diamond_adamant_passive", true),
 
-                            new AcquirableSkillData("ascension:body", 4, 5, "ascension:indestructible_vajra_active", false)
+                            new AcquirableSkillData("ascension:body", 1, 0, "ascension:indestructible_vajra_active", false)
                     ))
                     .setDescription(List.of(
                             Component.literal("§6Born from chaos, defying heaven's will."),
