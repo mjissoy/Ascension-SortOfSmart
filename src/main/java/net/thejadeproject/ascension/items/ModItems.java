@@ -93,6 +93,10 @@ public class ModItems {
 
     //Artifacts
 
+    //public static final DeferredItem<Item> FORMATION_SLIP = ITEMS.register("jade_slip",
+            //() -> new FormationSlips(new Item.Properties().stacksTo(1)));
+
+
     public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
             () -> new JadeSlip(new Item.Properties().stacksTo(1)));
 

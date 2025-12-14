@@ -1,12 +1,17 @@
 package net.thejadeproject.ascension.recipe;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.recipe.crafting.WoodTypeSlipRecipe;
+
+import java.util.List;
+import java.util.Map;
 
 
 public class ModRecipes {
@@ -24,7 +29,6 @@ public class ModRecipes {
                     return "pill_cauldron_low_human";
                 }
             });
-
 
 
 

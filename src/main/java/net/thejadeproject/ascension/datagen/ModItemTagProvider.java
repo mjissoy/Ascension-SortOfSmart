@@ -52,7 +52,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD.get().asItem());
 
         this.tag(ItemTags.PLANKS)
-                .add(ModBlocks.GOLDEN_PALM_PLANKS.asItem());
+                .add(ModBlocks.GOLDEN_PALM_PLANKS.asItem())
+                .add(ModBlocks.IRONWOOD_PLANKS.asItem());
 
         tag(ModTags.Items.daoItemTags.get("ascension:sword_intent"))
                 .addTag(ItemTags.SWORDS);
