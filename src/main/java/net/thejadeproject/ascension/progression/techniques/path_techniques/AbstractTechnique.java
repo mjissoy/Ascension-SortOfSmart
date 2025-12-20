@@ -5,7 +5,6 @@ import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
@@ -22,7 +21,7 @@ import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import oshi.util.tuples.Pair;
 
 import java.util.*;

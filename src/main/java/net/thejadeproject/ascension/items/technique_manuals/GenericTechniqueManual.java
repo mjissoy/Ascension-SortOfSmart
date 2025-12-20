@@ -14,7 +14,7 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.Cultiva
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class GenericTechniqueManual extends Item {
     public ResourceLocation technique;

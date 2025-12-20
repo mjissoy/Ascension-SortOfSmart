@@ -13,7 +13,7 @@ import net.thejadeproject.ascension.progression.physiques.PhysiqueEventListener;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.progression.techniques.TechniquesEventListener;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.HashSet;
 

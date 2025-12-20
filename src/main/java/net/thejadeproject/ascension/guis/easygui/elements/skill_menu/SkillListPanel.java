@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.skill_slots.BasicSkillSlot;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class SkillListPanel extends Image {
     FixedSizedWrappedSingleItemListScrollBox skillListBox;

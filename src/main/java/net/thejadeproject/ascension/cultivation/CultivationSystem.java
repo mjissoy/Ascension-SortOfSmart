@@ -10,7 +10,7 @@ import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.ArrayList;
 import java.util.HashMap;

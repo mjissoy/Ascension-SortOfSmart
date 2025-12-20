@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension.guis.easygui.screens;
 
-import net.lucent.easygui.elements.BaseRenderable;
 import net.lucent.easygui.elements.containers.View;
 import net.lucent.easygui.screens.EasyGuiScreen;
 import net.minecraft.client.Minecraft;
@@ -10,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.guis.easygui.elements.select_skill_active_menu.SkillWheelContainer;
 import net.thejadeproject.ascension.network.serverBound.SyncSelectedSkill;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class SelectSkillMenu extends EasyGuiScreen {
     private static SelectSkillMenu instance = null;

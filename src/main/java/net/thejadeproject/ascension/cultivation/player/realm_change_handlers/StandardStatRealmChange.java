@@ -2,9 +2,8 @@ package net.thejadeproject.ascension.cultivation.player.realm_change_handlers;
 
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
+import net.thejadeproject.ascension.cultivation.player.EntityAttributeManager;
 
 import java.util.Map;
 
@@ -23,7 +22,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
     public void onMinorRealmIncrease(Player player, String path, int numberOfMinorRealms) {
         for(Holder<Attribute> attributeHolder : minorRealmAttributeIncrease.keySet()){
             
-            PlayerAttributeManager.increaseAttribute(
+            EntityAttributeManager.increaseAttribute(
                     player,
                     minorRealmAttributeIncrease.get(attributeHolder),
                     attributeHolder
@@ -34,7 +33,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
     @Override
     public void onMajorRealmIncrease(Player player, String path, int numberOfMajorRealms) {
         for(Holder<Attribute> attributeHolder : majorRealmAttributeIncrease.keySet()){
-            PlayerAttributeManager.increaseAttribute(
+            EntityAttributeManager.increaseAttribute(
                     player,
                     majorRealmAttributeIncrease.get(attributeHolder),
                     attributeHolder
@@ -45,7 +44,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
     @Override
     public void onMinorRealmDecrease(Player player, String path, int numberOfMinorRealms) {
         for(Holder<Attribute> attributeHolder : minorRealmAttributeIncrease.keySet()){
-            PlayerAttributeManager.decreaseAttribute(
+            EntityAttributeManager.decreaseAttribute(
                     player,
                     minorRealmAttributeIncrease.get(attributeHolder),
                     attributeHolder
@@ -56,7 +55,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
     @Override
     public void onMajorRealmDecrease(Player player, String path, int numberOfMajorRealms) {
         for(Holder<Attribute> attributeHolder : majorRealmAttributeIncrease.keySet()){
-            PlayerAttributeManager.decreaseAttribute(
+            EntityAttributeManager.decreaseAttribute(
                     player,
                     majorRealmAttributeIncrease.get(attributeHolder),
                     attributeHolder

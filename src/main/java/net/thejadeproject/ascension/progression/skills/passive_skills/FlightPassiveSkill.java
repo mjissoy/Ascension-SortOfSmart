@@ -3,25 +3,18 @@ package net.thejadeproject.ascension.progression.skills.passive_skills;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.NeoForgeMod;
-import net.neoforged.neoforge.common.data.internal.NeoForgeAdvancementProvider;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
+import net.thejadeproject.ascension.cultivation.player.EntityAttributeManager;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
-import net.thejadeproject.ascension.progression.physiques.PhysiqueEventListener;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
-import net.thejadeproject.ascension.progression.techniques.TechniquesEventListener;
-import net.thejadeproject.ascension.util.ModAttachments;
-import net.thejadeproject.ascension.util.ModAttributes;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.HashSet;
 
@@ -68,7 +61,7 @@ public class FlightPassiveSkill extends AbstractPassiveSkill {
     public void onSkillAdded(Player player) {
         super.onSkillAdded(player);
         updateSkillData(player);
-        PlayerAttributeManager.increaseAttribute(
+        EntityAttributeManager.increaseAttribute(
                 player,
                 1.0,
                 NeoForgeMod.CREATIVE_FLIGHT
@@ -78,7 +71,7 @@ public class FlightPassiveSkill extends AbstractPassiveSkill {
     @Override
     public void onSkillRemoved(Player player) {
         super.onSkillRemoved(player);
-        PlayerAttributeManager.increaseAttribute(
+        EntityAttributeManager.increaseAttribute(
                 player,
                 0.0,
                 NeoForgeMod.CREATIVE_FLIGHT

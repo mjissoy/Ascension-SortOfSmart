@@ -1,7 +1,6 @@
 package net.thejadeproject.ascension.network.serverBound;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -14,7 +13,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.Config;
 import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncGeneratedPhysique;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

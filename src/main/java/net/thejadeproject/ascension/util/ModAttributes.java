@@ -36,7 +36,9 @@ public class ModAttributes {
             // Min and max values.
             0,
             1000000).setSyncable(true));
+
     public static void register(IEventBus modEventBus){
         ATTRIBUTES.register(modEventBus);
+
     }
 }

@@ -1,13 +1,11 @@
 package net.thejadeproject.ascension.event_handlers;
 
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class SkillEventHandlers {

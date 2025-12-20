@@ -9,7 +9,7 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerD
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class TechniquesEventListener {

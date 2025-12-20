@@ -1,7 +1,6 @@
 package net.thejadeproject.ascension.guis.easygui.elements.skill_cast_progress;
 
 import net.lucent.easygui.elements.containers.EmptyContainer;
-import net.lucent.easygui.elements.other.ProgressBar;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
@@ -11,11 +10,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.CastingInstance;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class SkillCastProgressBar extends EmptyContainer {
     private final ITextureData background = new TextureDataSubSection(

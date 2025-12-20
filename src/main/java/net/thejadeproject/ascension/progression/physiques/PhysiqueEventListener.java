@@ -9,7 +9,7 @@ import net.thejadeproject.ascension.events.custom.*;
 
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class PhysiqueEventListener{
