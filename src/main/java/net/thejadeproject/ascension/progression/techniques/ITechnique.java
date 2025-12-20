@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.progression.techniques;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
@@ -54,10 +55,9 @@ public interface ITechnique {
 
     SkillList getSkillList();
 
-    String getDisplayTitle();
+    Component getDisplayTitle();
 
-    List<MutableComponent> getFullDescription();
-    List<MutableComponent> getDescription();
+     Component getDescription();
 
     List<Label> getDisplayDaoEfficiencies(IEasyGuiScreen screen);
 

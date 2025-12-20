@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.cultivation.player;
 
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -105,7 +106,7 @@ public class PlayerDataChangeHandler {
 
         // Send feedback message to player
         if (player instanceof ServerPlayer serverPlayer) {
-            String physiqueName = "Empty Vessel";
+            Component physiqueName = Component.literal("Empty Vessel");
             if (!targetPhysiqueId.equals("ascension:empty_vessel") && newPhysique != null) {
                 physiqueName = newPhysique.getDisplayTitle();
             }

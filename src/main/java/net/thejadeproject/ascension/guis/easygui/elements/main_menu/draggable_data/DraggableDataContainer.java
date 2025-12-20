@@ -13,7 +13,7 @@ import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.BigB
 @OnlyIn(Dist.CLIENT)
 public class DraggableDataContainer extends EmptyDraggableContainer {
     public DraggableDataContainer(IEasyGuiScreen easyGuiScreen, int x, int y) {
-        super(easyGuiScreen, x, y, 0, 0);
+        super(easyGuiScreen, x-142/2, y-136/2, 0, 0);
         setSticky(true);
         Image bg = new Image(
                 easyGuiScreen,

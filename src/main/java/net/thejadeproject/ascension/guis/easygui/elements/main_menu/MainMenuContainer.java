@@ -94,9 +94,5 @@ public class MainMenuContainer extends EmptyContainer {
         outerPathDataContainer.setID("outer_path_container");
     }
 
-    @Override
-    public void recalculatePos(int oldWidth, int oldHeight) {
-        setX(getRoot().getScaledWidth()/2-71);
-        setY(getRoot().getScaledHeight()/2-71);
-    }
+
 }

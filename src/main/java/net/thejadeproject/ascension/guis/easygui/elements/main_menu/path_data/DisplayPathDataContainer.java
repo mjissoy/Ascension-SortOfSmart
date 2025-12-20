@@ -72,7 +72,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
         progressData = (new Label.Builder()).screen(easyGuiScreen).x(0).y(40).text(Component.literal(String.valueOf(pathData.pathProgress))).customScaling(0.5).build();
         progressData.setID("progress_data");
 
-        String techniqueName = "none";
+        Component techniqueName = Component.literal("none");
         if(!pathData.technique.equals("ascension:none")) techniqueName = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':')).getDisplayTitle();
         Label techniqueTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(45).text(techniqueTitleComponent).customScaling(0.5).build();
         techniqueData = (new ClickableLabel.Builder()).screen(easyGuiScreen).x(0).y(50).text(techniqueName).customScaling(0.5).hoverColor(1686472069).build();
@@ -108,7 +108,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
         }
 
 
-        techniqueData.text =Component.literal((technique == null) ? "none" : technique.getDisplayTitle());
+        techniqueData.text =(technique == null) ?  Component.literal("none") : technique.getDisplayTitle();
         techniqueData.width = Minecraft.getInstance().font.width( techniqueData.text);
 
         majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm));

@@ -131,7 +131,7 @@ public class TabletOfDestructionHeaven extends Item {
                 .withStyle(dropBlocks ? ChatFormatting.GREEN : ChatFormatting.RED);
         tooltipComponents.add(Component.translatable("item.ascension.tablet_of_destruction_heaven.drop_blocks").append(status));
         tooltipComponents.add(Component.translatable("item.ascension.tablet_of_destruction_heaven.toggle_mode").withStyle(ChatFormatting.GRAY));
-        tooltipComponents.add(Component.translatable("item.ascension.tablet_of_destruction_heaven.link_instruction").withStyle(ChatFormatting.GRAY));
+            tooltipComponents.add(Component.translatable("item.ascension.tablet_of_destruction_heaven.link_instruction").withStyle(ChatFormatting.GRAY));
 
         // Add linked chest or barrel info if present
         if (customData != null && customData.getUnsafe().contains("LinkedChestX")) {

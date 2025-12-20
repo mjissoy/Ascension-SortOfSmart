@@ -35,7 +35,7 @@ public class MainScreen extends EasyGuiScreen {
         container.setXPositioning(Positioning.CENTER);
         container.setYPositioning(Positioning.CENTER);
         view.addChild(container);
-        container.setSticky(true);
+        container.setSticky(false);
         container.setID("main_menu_container");
 
     }

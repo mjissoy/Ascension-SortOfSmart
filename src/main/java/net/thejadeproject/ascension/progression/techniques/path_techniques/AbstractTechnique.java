@@ -36,7 +36,7 @@ public abstract class AbstractTechnique implements ITechnique {
     public String path;
     public SkillList skillList = new SkillList(List.of());
     public ITextureData techniqueImage;
-    public List<MutableComponent> description = new ArrayList<>();
+    public Component description = Component.empty();
     public StabilityHandler stabilityHandler;
     public IBreakthroughHandler breakthroughHandler;
     public IRealmChangeHandler realmChangeHandler;
@@ -102,8 +102,8 @@ public abstract class AbstractTechnique implements ITechnique {
         return path;
     }
 
-    public String getDisplayTitle(){
-        return title;
+    public Component getDisplayTitle(){
+        return Component.literal(title);
     }
 
     @Override
@@ -146,13 +146,13 @@ public abstract class AbstractTechnique implements ITechnique {
         updatePlayerSkills(player,-1,0,-1,0);
     }
 
-    public AbstractTechnique setDescription(List<MutableComponent> description){
+    public AbstractTechnique setDescription(Component description){
         this.description = description;
         return this;
     }
 
     @Override
-    public List<MutableComponent> getDescription() {
+    public Component getDescription() {
         return description;
     }
 
@@ -226,19 +226,4 @@ public abstract class AbstractTechnique implements ITechnique {
         }
     }
 
-    @Override
-    public List<MutableComponent> getFullDescription() {
-        List<MutableComponent> extraInfo = new ArrayList<>();
-        if(description != null) extraInfo = new ArrayList<>(description);
-        extraInfo.add(
-                Component.literal("Dao Efficiencies:").withStyle(ChatFormatting.BOLD)
-        );
-        for (Map.Entry<String ,Double> value : daoBonuses.entrySet()){
-            Component text = AscensionRegistries.Dao.DAO_REGISTRY.get(ResourceLocation.bySeparator(value.getKey(),':')).getDisplayTitle().copy().append(": "+value.getValue().toString());
-
-            extraInfo.add(text.copy().append(": "+value.getValue().toString()));
-        }
-
-        return extraInfo;
-    }
 }

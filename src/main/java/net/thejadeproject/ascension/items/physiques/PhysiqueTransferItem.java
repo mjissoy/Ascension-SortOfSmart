@@ -98,7 +98,7 @@ public class PhysiqueTransferItem extends Item {
             ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
             IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
             if (physique != null) {
-                Component baseName = Component.literal(physique.getDisplayTitle()).append(" Blood Essence");
+                Component baseName = Component.empty().append(physique.getDisplayTitle()).append(" Blood Essence");
 
                 // Add purity to name if not 100%
                 if (purity != null && purity < 100) {
@@ -156,7 +156,7 @@ public class PhysiqueTransferItem extends Item {
         ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
         IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
         if (physique != null) {
-            return Component.literal(physique.getDisplayTitle()).withStyle(ChatFormatting.GOLD);
+            return Component.empty().append(physique.getDisplayTitle()).withStyle(ChatFormatting.GOLD);
         }
         return Component.literal("Unknown Physique").withStyle(ChatFormatting.GRAY);
     }
