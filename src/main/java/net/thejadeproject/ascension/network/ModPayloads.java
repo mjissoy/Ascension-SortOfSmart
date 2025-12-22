@@ -101,6 +101,11 @@ public class ModPayloads {
 
         );
 
+        registrar.playToClient(
+                OpenKarmicLedgerScreen.TYPE,
+                OpenKarmicLedgerScreen.STREAM_CODEC,
+                OpenKarmicLedgerScreen::handlePayload
+        );
 
         registrar.playToClient(
                 KarmaSyncPayload.TYPE,

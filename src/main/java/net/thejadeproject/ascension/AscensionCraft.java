@@ -35,6 +35,7 @@ import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.events.karma.KarmaEvents;
 import net.thejadeproject.ascension.events.karma.KarmaManager;
+import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
 import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
@@ -154,6 +155,8 @@ public class AscensionCraft {
 
         NeoForge.EVENT_BUS.register(new SectEventHandler());
         NeoForge.EVENT_BUS.register(new SectMissionEventHandler());
+
+        NeoForge.EVENT_BUS.register(new KarmicLedgerEvents());
 
         NeoForge.EVENT_BUS.register(new KarmaEvents());
 

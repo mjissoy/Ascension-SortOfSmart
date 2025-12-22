@@ -97,6 +97,10 @@ public class ModItems {
             //() -> new FormationSlips(new Item.Properties().stacksTo(1)));
 
 
+    public static final DeferredItem<Item> KARMIC_DEBT_LEDGER = ITEMS.register("karmic_debt_ledger",
+            () -> new KarmicDebtLedgerItem());
+
+
     public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
             () -> new JadeSlip(new Item.Properties().stacksTo(1)));
 

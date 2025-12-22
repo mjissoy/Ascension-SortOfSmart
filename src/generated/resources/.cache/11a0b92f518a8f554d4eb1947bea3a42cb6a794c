@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-11T13:38:26.7774798	Item Models: ascension
+// 1.21.1	2025-12-22T18:14:23.8774025	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -72,6 +72,7 @@ bacc0151cd0adb6169b2d4bf15bb42cd7ec710ed assets/ascension/models/item/iron_spear
 dc985f6e9fbe09d8d740c4f130b29eec1e1db883 assets/ascension/models/item/jade_nugget.json
 e8186c3399ff6de314330d989f165b3010cc922e assets/ascension/models/item/jade_slip.json
 5ef37572f02a7c112edca4445325738517648426 assets/ascension/models/item/jade_spatial_ring.json
+503ca8f4b650ff576eea416bc99d5bd1dd84419b assets/ascension/models/item/karmic_debt_ledger.json
 9b5467f78e7030f5fe721be4fa4f81fbb2d56b65 assets/ascension/models/item/light_blue_marble_brick_wall.json
 b18afa41c2d06bb36dfa6e99378716a35669a673 assets/ascension/models/item/light_blue_marble_tile_wall.json
 c00a24e5bc9c47310567a6a262b2f457248a8f9a assets/ascension/models/item/light_gray_marble_brick_wall.json
