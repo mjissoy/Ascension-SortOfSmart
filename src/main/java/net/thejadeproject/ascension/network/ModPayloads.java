@@ -4,6 +4,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.events.karma.KarmaNetworkHandler;
+import net.thejadeproject.ascension.events.karma.KarmaSyncPayload;
 import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.serverBound.*;
@@ -99,5 +101,11 @@ public class ModPayloads {
 
         );
 
+
+        registrar.playToClient(
+                KarmaSyncPayload.TYPE,
+                KarmaSyncPayload.STREAM_CODEC,
+                KarmaSyncPayload::handle
+        );
     }
 }

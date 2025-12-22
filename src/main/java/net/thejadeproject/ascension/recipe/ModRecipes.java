@@ -8,7 +8,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.recipe.crafting.WoodTypeSlipRecipe;
 
 import java.util.List;
 import java.util.Map;

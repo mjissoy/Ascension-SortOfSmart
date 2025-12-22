@@ -29,9 +29,12 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.command.karma.KarmaCommand;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.events.karma.KarmaEvents;
+import net.thejadeproject.ascension.events.karma.KarmaManager;
 import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
@@ -152,6 +155,8 @@ public class AscensionCraft {
         NeoForge.EVENT_BUS.register(new SectEventHandler());
         NeoForge.EVENT_BUS.register(new SectMissionEventHandler());
 
+        NeoForge.EVENT_BUS.register(new KarmaEvents());
+
         register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -195,6 +200,10 @@ public class AscensionCraft {
 
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = (Player) event.getEntity();
+        if (!player.level().isClientSide) {
+            KarmaManager.initializeKarma(player);
+        }
+
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
 
         if(!event.getEntity().level().isClientSide()){
@@ -263,6 +272,7 @@ public class AscensionCraft {
 
     private void registerCommands(RegisterCommandsEvent event) {
         SectCommand.register(event.getDispatcher());
+        KarmaCommand.register(event.getDispatcher());
     }
 
 
