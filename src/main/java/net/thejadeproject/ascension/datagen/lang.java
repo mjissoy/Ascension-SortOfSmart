@@ -640,5 +640,13 @@ public class lang extends LanguageProvider {
         add("ascension.physique.active.indestructible_vajra.desc7", "§c◆ §fCost: 100 Qi");
         add("ascension.physique.active.indestructible_vajra.desc8", "§c◆ §fCooldown: 2 minutes");
 
+
+        add("ascension.skill.active.ore_sight", "Ore Sight");
+        add("ascension.skill.active.ore_sight.desc1", "What stone conceals, the Metal Dao reveals. The cultivator's qi illuminates what time and earth have hidden.");
+        add("ascension.skill.active.ore_sight.desc2", "Each ore sings with a different color—coal's dark hum, copper's warm glow, diamond's cold fire, emerald's verdant whisper.");
+        add("ascension.skill.active.ore_sight.desc3", "As the moon waxes with each night, so too does the cultivator's sight sharpen with each realm ascended.");
+        add("ascension.skill.active.ore_sight.desc4", "§c◆ §fCost: 15 Qi");
+        add("ascension.skill.active.ore_sight.desc5", "§c◆ §fCooldown: 1 minute");
+
     }
 }

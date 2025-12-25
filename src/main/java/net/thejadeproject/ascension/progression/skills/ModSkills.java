@@ -11,6 +11,8 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.skills.active_skills.IndestructibleVajraActiveSkill;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.DelayedFireLaunch;
+import net.thejadeproject.ascension.progression.skills.active_skills.metal_dao.OreSightActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.wood_dao.RootwardensCallActiveSkill;
 import net.thejadeproject.ascension.progression.skills.passive_skills.*;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -93,6 +95,31 @@ public class ModSkills {
                             Component.translatable("ascension.physique.active.indestructible_vajra.desc8")
                     ))
     );
+
+    public static final DeferredHolder<ISkill, ? extends AbstractActiveSkill> ORE_SIGHT_ACTIVE = SKILLS.register("ore_sight_active",
+            () -> new OreSightActiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/ore_sight.png"), 32, 32))
+                    .setSkillDescription(List.of(
+                            Component.translatable("ascension.skill.active.ore_sight.desc1"),
+                            Component.translatable("ascension.skill.active.ore_sight.desc2"),
+                            Component.translatable("ascension.skill.active.ore_sight.desc3"),
+                            Component.translatable("ascension.skill.active.ore_sight.desc4"),
+                            Component.translatable("ascension.skill.active.ore_sight.desc5")
+                    ))
+    );
+
+    public static final DeferredHolder<ISkill, ? extends AbstractActiveSkill> ROOTWARDENS_CALL = SKILLS.register("rootwardens_call",
+            () -> new RootwardensCallActiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/rootwardens_call.png"), 32, 32))
+                    .setSkillDescription(List.of(
+                            Component.translatable("ascension.skill.active.rootwardens_call.desc1"),
+                            Component.translatable("ascension.skill.active.rootwardens_call.desc2"),
+                            Component.translatable("ascension.skill.active.rootwardens_call.desc3"),
+                            Component.translatable("ascension.skill.active.rootwardens_call.desc4"),
+                            Component.translatable("ascension.skill.active.rootwardens_call.desc5")
+                    ))
+    );
+
 
 
 

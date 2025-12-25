@@ -191,7 +191,8 @@ public class ModTechniques {
                                 put(Attributes.SAFE_FALL_DISTANCE,1.2);
                         }}))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false),
+                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:rootwardens_call", false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
@@ -249,7 +250,8 @@ public class ModTechniques {
                                 put(Attributes.SAFE_FALL_DISTANCE,1.2);
                         }}))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false),
+                            new AcquirableSkillData("ascension:essence",5,1,"ascension:ore_sight_active",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
@@ -575,7 +577,8 @@ public class ModTechniques {
                                 put(Attributes.SAFE_FALL_DISTANCE,1.2);
                     }}))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
+                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false),
+                            new AcquirableSkillData("ascension:essence",5,1,"ascension:ore_sight_active",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
