@@ -9,6 +9,9 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -37,6 +40,7 @@ import net.thejadeproject.ascension.progression.skills.data.CastType;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.util.ModAttachments;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import java.util.*;
@@ -59,6 +63,11 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
     private static final int GREEN_OUTLINE_COLOR = 0x00FF00; // Bright green
     private static final int CONNECTED_OUTLINE_COLOR = 0x32CD32; // Lime green for connected
     private static final float OUTLINE_WIDTH = 2.0f; // Line width
+
+    // Particle settings
+    private static final Vector3f GREEN_PARTICLE_COLOR = new Vector3f(0.0f, 1.0f, 0.0f); // Green color
+    private static final float PARTICLE_SCALE = 1.5f; // Size of particles
+    private static final int PARTICLE_DURATION_TICKS = 30; // 1.5 seconds (20 ticks per second * 1.5 = 30)
 
     private static class WoodHarvestData {
         final Set<BlockPos> allWoodBlocks = new HashSet<>();
@@ -330,6 +339,9 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
         int blocksBroken = 0;
         int itemsDropped = 0;
 
+        // Create green dust particle options for breaking wood
+        ParticleOptions greenParticle = new DustParticleOptions(GREEN_PARTICLE_COLOR, PARTICLE_SCALE);
+
         for (BlockPos woodPos : allWoodPositions) {
             if (level.isLoaded(woodPos)) {
                 BlockState state = level.getBlockState(woodPos);
@@ -352,6 +364,9 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
 
                     // Remove block if game rules allow
                     if (!player.isCreative() && level.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
+                        // Spawn green particle at the center of the block
+                        spawnGreenParticles(serverLevel, woodPos, greenParticle);
+
                         // Set to air
                         level.setBlock(woodPos, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 3);
                         blocksBroken++;
@@ -371,6 +386,7 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
                         }
                     } else if (player.isCreative()) {
                         // In creative, just remove the block
+                        spawnGreenParticles(serverLevel, woodPos, greenParticle);
                         level.setBlock(woodPos, net.minecraft.world.level.block.Blocks.AIR.defaultBlockState(), 3);
                         blocksBroken++;
                     }
@@ -380,6 +396,44 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
                             SoundSource.BLOCKS, 1.0F, 0.8F);
                 }
             }
+        }
+    }
+
+    /**
+     * Spawn green particles at the center of a block position
+     */
+    private void spawnGreenParticles(ServerLevel level, BlockPos pos, ParticleOptions particle) {
+        // Center of the block
+        double centerX = pos.getX() + 0.5;
+        double centerY = pos.getY() + 0.5;
+        double centerZ = pos.getZ() + 0.5;
+
+        // Spawn multiple particles in a small area for better visibility
+        for (int i = 0; i < 8; i++) {
+            // Random offset within the block
+            double offsetX = (level.random.nextDouble() - 0.5) * 0.8;
+            double offsetY = (level.random.nextDouble() - 0.5) * 0.8;
+            double offsetZ = (level.random.nextDouble() - 0.5) * 0.8;
+
+            // Spawn particle with slight random velocity
+            level.sendParticles(particle,
+                    centerX + offsetX,
+                    centerY + offsetY,
+                    centerZ + offsetZ,
+                    1, // count
+                    0.0, 0.0, 0.0, // delta (velocity)
+                    0.1); // speed
+        }
+
+        // Also spawn some larger particles at the exact center
+        for (int i = 0; i < 3; i++) {
+            level.sendParticles(ParticleTypes.HAPPY_VILLAGER,
+                    centerX,
+                    centerY,
+                    centerZ,
+                    1,
+                    0.0, 0.0, 0.0,
+                    0.2);
         }
     }
 
@@ -396,199 +450,4 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
         CLIENT_WOOD_DATA.remove(playerId);
         SERVER_WOOD_DATA.remove(playerId);
     }
-
-
-/* Adding back renderer in future
-    // Client-side rendering
-    @EventBusSubscriber(modid = AscensionCraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
-    public static class WoodOutlineRenderer {
-
-        @SubscribeEvent
-        public static void onRenderLevel(RenderLevelStageEvent event) {
-            if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
-                return;
-            }
-
-            Minecraft mc = Minecraft.getInstance();
-            if (mc.level == null || mc.player == null) {
-                return;
-            }
-
-            UUID playerId = mc.player.getUUID();
-            WoodHarvestData data = getWoodDataForPlayer(playerId);
-
-            if (data == null || data.allWoodBlocks.isEmpty()) {
-                return;
-            }
-
-            Camera camera = mc.gameRenderer.getMainCamera();
-            double camX = camera.getPosition().x;
-            double camY = camera.getPosition().y;
-            double camZ = camera.getPosition().z;
-
-            PoseStack poseStack = event.getPoseStack();
-            MultiBufferSource.BufferSource buffers = mc.renderBuffers().bufferSource();
-
-            // Save OpenGL state
-            boolean depthTestEnabled = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
-            boolean blendEnabled = GL11.glIsEnabled(GL11.GL_BLEND);
-            boolean cullEnabled = GL11.glIsEnabled(GL11.GL_CULL_FACE);
-
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glDisable(GL11.GL_CULL_FACE);
-            GL11.glDisable(GL11.GL_DEPTH_TEST);
-
-            // Set line width
-            GL11.glLineWidth(OUTLINE_WIDTH);
-
-            // Render all wood blocks with green outlines
-            for (BlockPos pos : data.allWoodBlocks) {
-                renderSingleBlockOutline(poseStack, buffers, pos, GREEN_OUTLINE_COLOR, camX, camY, camZ);
-            }
-
-            // Render connected components with lime green bounding boxes
-            for (Set<BlockPos> component : data.connectedComponents) {
-                if (component.size() > 1) {
-                    renderConnectedOutline(poseStack, buffers, component, CONNECTED_OUTLINE_COLOR, camX, camY, camZ);
-                }
-            }
-
-            buffers.endBatch();
-
-            // Restore OpenGL state
-            GL11.glLineWidth(1.0f);
-            if (depthTestEnabled) {
-                GL11.glEnable(GL11.GL_DEPTH_TEST);
-            }
-            if (!blendEnabled) {
-                GL11.glDisable(GL11.GL_BLEND);
-            }
-            if (cullEnabled) {
-                GL11.glEnable(GL11.GL_CULL_FACE);
-            }
-        }
-
-        private static void renderSingleBlockOutline(PoseStack poseStack, MultiBufferSource.BufferSource buffers,
-                                                     BlockPos pos, int color, double camX, double camY, double camZ) {
-            poseStack.pushPose();
-            poseStack.translate(pos.getX() - camX, pos.getY() - camY, pos.getZ() - camZ);
-
-            VertexConsumer consumer = buffers.getBuffer(RenderType.debugLineStrip(2.0f));
-            Matrix4f matrix = poseStack.last().pose();
-
-            // Extract RGB from hex color, with alpha
-            int r = (color >> 16) & 0xFF;
-            int g = (color >> 8) & 0xFF;
-            int b = color & 0xFF;
-            int a = 180;
-
-            // Slightly expand the outline to be visible
-            float min = -0.01f;
-            float max = 1.01f;
-
-            // Draw wireframe cube (12 lines)
-            // Bottom square
-            consumer.addVertex(matrix, min, min, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, min, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, min, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, min, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, min, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, min, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, min, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, min, min).setColor(r, g, b, a);
-
-            // Top square
-            consumer.addVertex(matrix, min, max, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, max, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, max, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, max, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, max, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, max, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, max, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, max, min).setColor(r, g, b, a);
-
-            // Vertical edges
-            consumer.addVertex(matrix, min, min, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, max, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, min, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, max, min).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, min, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, max, max, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, min, max).setColor(r, g, b, a);
-            consumer.addVertex(matrix, min, max, max).setColor(r, g, b, a);
-
-            poseStack.popPose();
-        }
-
-        private static void renderConnectedOutline(PoseStack poseStack, MultiBufferSource.BufferSource buffers,
-                                                   Set<BlockPos> component, int color, double camX, double camY, double camZ) {
-            if (component.isEmpty()) return;
-
-            // Calculate bounding box for the connected component
-            int minX = Integer.MAX_VALUE, minY = Integer.MAX_VALUE, minZ = Integer.MAX_VALUE;
-            int maxX = Integer.MIN_VALUE, maxY = Integer.MIN_VALUE, maxZ = Integer.MIN_VALUE;
-
-            for (BlockPos pos : component) {
-                minX = Math.min(minX, pos.getX());
-                minY = Math.min(minY, pos.getY());
-                minZ = Math.min(minZ, pos.getZ());
-                maxX = Math.max(maxX, pos.getX());
-                maxY = Math.max(maxY, pos.getY());
-                maxZ = Math.max(maxZ, pos.getZ());
-            }
-
-            poseStack.pushPose();
-            poseStack.translate(minX - camX, minY - camY, minZ - camZ);
-
-            VertexConsumer consumer = buffers.getBuffer(RenderType.debugLineStrip(2.5f)); // Thicker line
-            Matrix4f matrix = poseStack.last().pose();
-
-            // Extract RGB from hex color, with alpha
-            int r = (color >> 16) & 0xFF;
-            int g = (color >> 8) & 0xFF;
-            int b = color & 0xFF;
-            int a = 200;
-
-            float width = maxX - minX + 1;
-            float height = maxY - minY + 1;
-            float depth = maxZ - minZ + 1;
-
-            // Slight expansion
-            float expand = 0.02f;
-
-            // Draw wireframe bounding box
-            // Bottom square
-            consumer.addVertex(matrix, -expand, -expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, -expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, -expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, -expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, -expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, -expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, -expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, -expand, -expand).setColor(r, g, b, a);
-
-            // Top square
-            consumer.addVertex(matrix, -expand, height + expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, height + expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, height + expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, height + expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, height + expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, height + expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, height + expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, height + expand, -expand).setColor(r, g, b, a);
-
-            // Vertical edges
-            consumer.addVertex(matrix, -expand, -expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, height + expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, -expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, height + expand, -expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, -expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, width + expand, height + expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, -expand, depth + expand).setColor(r, g, b, a);
-            consumer.addVertex(matrix, -expand, height + expand, depth + expand).setColor(r, g, b, a);
-
-            poseStack.popPose();
-        }
-    }*/
 }
