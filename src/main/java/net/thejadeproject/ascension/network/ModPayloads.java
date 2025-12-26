@@ -8,6 +8,9 @@ import net.thejadeproject.ascension.events.karma.KarmaNetworkHandler;
 import net.thejadeproject.ascension.events.karma.KarmaSyncPayload;
 import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.network.clientBound.*;
+import net.thejadeproject.ascension.network.packets.ClearSpiritualSensePacket;
+import net.thejadeproject.ascension.network.packets.SyncSpiritualSenseEntitiesPacket;
+import net.thejadeproject.ascension.network.packets.SyncSpiritualSensePacket;
 import net.thejadeproject.ascension.network.serverBound.*;
 
 public class ModPayloads {
@@ -50,6 +53,22 @@ public class ModPayloads {
                 SyncPlayerQi.TYPE,
                 SyncPlayerQi.STREAM_CODEC,
                 SyncPlayerQi::handlePayload
+        );
+
+        registrar.playToClient(
+                SyncSpiritualSensePacket.TYPE,
+                SyncSpiritualSensePacket.STREAM_CODEC,
+                SyncSpiritualSensePacket::handle
+        );
+        registrar.playToClient(
+                ClearSpiritualSensePacket.TYPE,
+                ClearSpiritualSensePacket.STREAM_CODEC,
+                ClearSpiritualSensePacket::handle
+        );
+        registrar.playToClient(
+                SyncSpiritualSenseEntitiesPacket.TYPE,
+                SyncSpiritualSenseEntitiesPacket.STREAM_CODEC,
+                SyncSpiritualSenseEntitiesPacket::handle
         );
 
         //===================================== SERVER ==================================
@@ -104,7 +123,14 @@ public class ModPayloads {
         registrar.playToClient(
                 OpenKarmicLedgerScreen.TYPE,
                 OpenKarmicLedgerScreen.STREAM_CODEC,
-                OpenKarmicLedgerScreen::handlePayload
+                (payload, context) -> {
+                    context.enqueueWork(() -> {
+                        if (context.flow().isClientbound()) {
+                            // Only handle on client
+                            net.thejadeproject.ascension.clients.ClientPacketHandler.handleOpenKarmicLedgerScreen(payload);
+                        }
+                    });
+                }
         );
 
         registrar.playToClient(

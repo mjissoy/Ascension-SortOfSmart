@@ -4,10 +4,9 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.world.entity.player.Player;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.menus.karmicledger.KarmicLedgerScreen;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -39,17 +38,5 @@ public record OpenKarmicLedgerScreen(
     @Override
     public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
-    }
-
-    public void handlePayload(IPayloadContext context) {
-        context.enqueueWork(() -> {
-            Player player = context.player();
-            if (player != null) {
-                // Open the GUI on client side
-                net.minecraft.client.Minecraft.getInstance().setScreen(
-                        new KarmicLedgerScreen(this)
-                );
-            }
-        });
     }
 }

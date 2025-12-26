@@ -6,12 +6,16 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.events.karma.KarmaRank;
 import net.thejadeproject.ascension.network.clientBound.OpenKarmicLedgerScreen;
 
 import java.util.Map;
 
+
+@OnlyIn(Dist.CLIENT)
 public class KarmicLedgerScreen extends Screen {
 
     private static final ResourceLocation TEXTURE =

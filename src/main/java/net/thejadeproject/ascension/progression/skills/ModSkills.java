@@ -9,6 +9,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.skills.active_skills.IndestructibleVajraActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.SpiritualSenseActiveSkill;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.DelayedFireLaunch;
 import net.thejadeproject.ascension.progression.skills.active_skills.metal_dao.OreSightActiveSkill;
@@ -117,6 +118,18 @@ public class ModSkills {
                             Component.translatable("ascension.skill.active.rootwardens_call.desc3"),
                             Component.translatable("ascension.skill.active.rootwardens_call.desc4"),
                             Component.translatable("ascension.skill.active.rootwardens_call.desc5")
+                    ))
+    );
+
+    public static final DeferredHolder<ISkill, ? extends AbstractActiveSkill> SPIRITUAL_SENSE = SKILLS.register("spiritual_sense",
+            () -> new SpiritualSenseActiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/spiritual_sense.png"), 32, 32))
+                    .setSkillDescription(List.of(
+                            Component.translatable("ascension.skill.active.spiritual_sense.desc1"),
+                            Component.translatable("ascension.skill.active.spiritual_sense.desc2"),
+                            Component.translatable("ascension.skill.active.spiritual_sense.desc3"),
+                            Component.translatable("ascension.skill.active.spiritual_sense.desc4"),
+                            Component.translatable("ascension.skill.active.spiritual_sense.desc5")
                     ))
     );
 
