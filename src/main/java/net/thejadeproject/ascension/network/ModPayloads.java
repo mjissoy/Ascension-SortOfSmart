@@ -8,9 +8,7 @@ import net.thejadeproject.ascension.events.karma.KarmaNetworkHandler;
 import net.thejadeproject.ascension.events.karma.KarmaSyncPayload;
 import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.network.clientBound.*;
-import net.thejadeproject.ascension.network.packets.ClearSpiritualSensePacket;
-import net.thejadeproject.ascension.network.packets.SyncSpiritualSenseEntitiesPacket;
-import net.thejadeproject.ascension.network.packets.SyncSpiritualSensePacket;
+import net.thejadeproject.ascension.network.packets.*;
 import net.thejadeproject.ascension.network.serverBound.*;
 
 public class ModPayloads {
@@ -70,6 +68,35 @@ public class ModPayloads {
                 SyncSpiritualSenseEntitiesPacket.STREAM_CODEC,
                 SyncSpiritualSenseEntitiesPacket::handle
         );
+        registrar.playToClient(
+                SyncOreSightPacket.TYPE,
+                SyncOreSightPacket.STREAM_CODEC,
+                SyncOreSightPacket::handle
+        );
+        registrar.playToClient(
+                ClearOreSightPacket.TYPE,
+                ClearOreSightPacket.STREAM_CODEC,
+                ClearOreSightPacket::handle
+        );
+
+        registrar.playToClient(
+                OpenKarmicLedgerScreen.TYPE,
+                OpenKarmicLedgerScreen.STREAM_CODEC,
+                (payload, context) -> {
+                    context.enqueueWork(() -> {
+                        if (context.flow().isClientbound()) {
+                            // Only handle on client
+                            net.thejadeproject.ascension.clients.ClientPacketHandler.handleOpenKarmicLedgerScreen(payload);
+                        }
+                    });
+                }
+        );
+
+        registrar.playToClient(
+                KarmaSyncPayload.TYPE,
+                KarmaSyncPayload.STREAM_CODEC,
+                KarmaSyncPayload::handle
+        );
 
         //===================================== SERVER ==================================
         registrar.playToServer(
@@ -120,23 +147,5 @@ public class ModPayloads {
 
         );
 
-        registrar.playToClient(
-                OpenKarmicLedgerScreen.TYPE,
-                OpenKarmicLedgerScreen.STREAM_CODEC,
-                (payload, context) -> {
-                    context.enqueueWork(() -> {
-                        if (context.flow().isClientbound()) {
-                            // Only handle on client
-                            net.thejadeproject.ascension.clients.ClientPacketHandler.handleOpenKarmicLedgerScreen(payload);
-                        }
-                    });
-                }
-        );
-
-        registrar.playToClient(
-                KarmaSyncPayload.TYPE,
-                KarmaSyncPayload.STREAM_CODEC,
-                KarmaSyncPayload::handle
-        );
     }
 }

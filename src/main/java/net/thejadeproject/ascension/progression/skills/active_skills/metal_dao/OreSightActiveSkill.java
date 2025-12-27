@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -31,7 +32,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.network.packets.ClearOreSightPacket;
+import net.thejadeproject.ascension.network.packets.SyncOreSightPacket;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
@@ -41,18 +45,20 @@ import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class OreSightActiveSkill extends AbstractActiveSkill {
 
-    // Store glowing blocks per player with their color and expiration time
-    private static final Map<UUID, Map<BlockPos, OreGlowData>> playerGlowingBlocks = new HashMap<>();
+    // Server-side storage for glowing blocks per player
+    private static final Map<UUID, Map<BlockPos, OreGlowData>> playerGlowingBlocks = new ConcurrentHashMap<>();
+
+    // Client-side storage for glowing blocks (synced from server)
+    private static final Map<UUID, Map<BlockPos, OreGlowData>> clientGlowingBlocks = new ConcurrentHashMap<>();
+    private static final Map<UUID, Long> clientExpirationTimes = new ConcurrentHashMap<>();
 
     // Configuration for ore colors (loaded from config)
     private static Map<Block, OreColorConfig> oreColorConfig = new HashMap<>();
-
-    // Default vanilla ore colors (can be overridden by config)
-    private static final Map<Block, Integer> DEFAULT_ORE_COLORS;
 
     // Minimum realm required for ore name display
     private static final int MIN_REALM_FOR_NAME_DISPLAY = 5; // Example: 5th major realm
@@ -82,12 +88,14 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
         DEFAULT_ORE_COLORS = Collections.unmodifiableMap(tempMap);
     }
 
-    private static class OreGlowData {
+    private static final Map<Block, Integer> DEFAULT_ORE_COLORS;
+
+    public static class OreGlowData {
         final int color;
         final long expirationTime;
         final Block block;
 
-        OreGlowData(int color, long expirationTime, Block block) {
+        public OreGlowData(int color, long expirationTime, Block block) {
             this.color = color;
             this.expirationTime = expirationTime;
             this.block = block;
@@ -190,6 +198,30 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
 
         playerGlowingBlocks.put(playerId, glowingBlocks);
 
+        // Send packet to client to sync glowing blocks
+        if (player instanceof ServerPlayer serverPlayer) {
+            // Convert to packet data
+            Map<BlockPos, SyncOreSightPacket.BlockData> packetData = new HashMap<>();
+            for (Map.Entry<BlockPos, OreGlowData> entry : glowingBlocks.entrySet()) {
+                OreGlowData data = entry.getValue();
+                packetData.put(
+                        entry.getKey(),
+                        new SyncOreSightPacket.BlockData(
+                                data.color,
+                                data.expirationTime,
+                                BuiltInRegistries.BLOCK.getKey(data.block)
+                        )
+                );
+            }
+
+            SyncOreSightPacket packet = new SyncOreSightPacket(
+                    playerId,
+                    packetData,
+                    durationSeconds
+            );
+            serverPlayer.connection.send(packet);
+        }
+
         // Play sound based on ores found
         if (oresFound > 0) {
             level.playSound(null, playerPos, SoundEvents.EXPERIENCE_ORB_PICKUP,
@@ -211,7 +243,14 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
     @Override
     public void onSkillRemoved(Player player) {
         super.onSkillRemoved(player);
-        playerGlowingBlocks.remove(player.getUUID());
+        UUID playerId = player.getUUID();
+        playerGlowingBlocks.remove(playerId);
+
+        // Send packet to client to clear sense data
+        if (player instanceof ServerPlayer serverPlayer) {
+            ClearOreSightPacket packet = new ClearOreSightPacket(playerId);
+            serverPlayer.connection.send(packet);
+        }
     }
 
     private boolean isOreBlock(Block block) {
@@ -305,65 +344,100 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
         );
     }
 
+    private static void cleanupOldClientGlowingBlocks() {
+        long currentTime = System.currentTimeMillis();
+
+        clientGlowingBlocks.entrySet().removeIf(entry -> {
+            Long expirationTime = clientExpirationTimes.get(entry.getKey());
+            return expirationTime == null || currentTime > expirationTime;
+        });
+
+        clientExpirationTimes.entrySet().removeIf(entry -> currentTime > entry.getValue());
+    }
+
     public static Map<BlockPos, OreGlowData> getGlowingBlocksForPlayer(UUID playerId) {
+        // On client, use client-side data; on server, use server-side data
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level != null && mc.level.isClientSide()) {
+            return getClientGlowingBlocksForPlayer(playerId);
+        }
         cleanupOldGlowingBlocks();
         return playerGlowingBlocks.getOrDefault(playerId, Collections.emptyMap());
     }
 
+    public static Map<BlockPos, OreGlowData> getClientGlowingBlocksForPlayer(UUID playerId) {
+        cleanupOldClientGlowingBlocks();
+        return clientGlowingBlocks.getOrDefault(playerId, Collections.emptyMap());
+    }
+
     public static boolean hasActiveOreSight(Player player) {
-        Map<BlockPos, OreGlowData> blocks = playerGlowingBlocks.get(player.getUUID());
-        return blocks != null && !blocks.isEmpty();
+        // Check appropriate map based on side
+        if (player.level().isClientSide()) {
+            Map<BlockPos, OreGlowData> blocks = getClientGlowingBlocksForPlayer(player.getUUID());
+            return blocks != null && !blocks.isEmpty();
+        } else {
+            Map<BlockPos, OreGlowData> blocks = playerGlowingBlocks.get(player.getUUID());
+            return blocks != null && !blocks.isEmpty();
+        }
     }
 
     public static void clearPlayerOreSight(UUID playerId) {
         playerGlowingBlocks.remove(playerId);
     }
 
+    public static void updateClientGlowingBlocks(UUID playerId, Map<BlockPos, OreGlowData> blocks, long durationSeconds) {
+        clientGlowingBlocks.put(playerId, blocks);
+        clientExpirationTimes.put(playerId, System.currentTimeMillis() + (durationSeconds * 1000L));
+    }
+
+    public static void clearClientGlowingBlocks(UUID playerId) {
+        clientGlowingBlocks.remove(playerId);
+        clientExpirationTimes.remove(playerId);
+    }
+
     // Get the ore block the player is currently looking at based on their view direction
     public static Block getLookedAtOreFromGlow(Player player) {
-        if (player.level().isClientSide()) {
-            Minecraft mc = Minecraft.getInstance();
-            Map<BlockPos, OreGlowData> glowingBlocks = getGlowingBlocksForPlayer(player.getUUID());
+        Minecraft mc = Minecraft.getInstance();
+        Map<BlockPos, OreGlowData> glowingBlocks = getGlowingBlocksForPlayer(player.getUUID());
 
-            if (glowingBlocks.isEmpty()) {
-                return null;
-            }
+        if (glowingBlocks.isEmpty()) {
+            return null;
+        }
 
-            // Get player's eye position and look vector
-            Vec3 eyePos = player.getEyePosition();
-            Vec3 lookVec = player.getLookAngle();
+        // Get player's eye position and look vector
+        Vec3 eyePos = player.getEyePosition();
+        Vec3 lookVec = player.getLookAngle();
 
-            // Raycast through the view direction
-            double maxDistance = 64.0; // Max render distance for the glow
+        // Raycast through the view direction
+        double maxDistance = 64.0; // Max render distance for the glow
 
-            // Check each glowing block to see if it's in the view direction
-            BlockPos closestBlock = null;
-            double closestDistance = Double.MAX_VALUE;
+        // Check each glowing block to see if it's in the view direction
+        BlockPos closestBlock = null;
+        double closestDistance = Double.MAX_VALUE;
 
-            for (BlockPos pos : glowingBlocks.keySet()) {
-                // Create AABB for the glowing block (slightly expanded for easier targeting)
-                AABB blockAABB = new AABB(
-                        pos.getX() - 0.1, pos.getY() - 0.1, pos.getZ() - 0.1,
-                        pos.getX() + 1.1, pos.getY() + 1.1, pos.getZ() + 1.1
-                );
+        for (BlockPos pos : glowingBlocks.keySet()) {
+            // Create AABB for the glowing block (slightly expanded for easier targeting)
+            AABB blockAABB = new AABB(
+                    pos.getX() - 0.1, pos.getY() - 0.1, pos.getZ() - 0.1,
+                    pos.getX() + 1.1, pos.getY() + 1.1, pos.getZ() + 1.1
+            );
 
-                // Check if the look vector intersects with the block's AABB
-                Vec3 hitVec = blockAABB.clip(eyePos, eyePos.add(lookVec.scale(maxDistance))).orElse(null);
+            // Check if the look vector intersects with the block's AABB
+            Vec3 hitVec = blockAABB.clip(eyePos, eyePos.add(lookVec.scale(maxDistance))).orElse(null);
 
-                if (hitVec != null) {
-                    double distance = eyePos.distanceTo(hitVec);
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestBlock = pos;
-                    }
+            if (hitVec != null) {
+                double distance = eyePos.distanceTo(hitVec);
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestBlock = pos;
                 }
             }
+        }
 
-            if (closestBlock != null) {
-                OreGlowData data = glowingBlocks.get(closestBlock);
-                if (data != null) {
-                    return data.block;
-                }
+        if (closestBlock != null) {
+            OreGlowData data = glowingBlocks.get(closestBlock);
+            if (data != null) {
+                return data.block;
             }
         }
         return null;
@@ -371,10 +445,47 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
 
     // Get player's cultivation realm for this skill path
     public static int getPlayerRealm(Player player) {
-        if (player.level().isClientSide()) {
-            return player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").majorRealm;
+        return player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").majorRealm;
+    }
+
+    // Server tick handler for updating detected ores
+    @EventBusSubscriber(modid = AscensionCraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+    public static class ServerTickHandler {
+        @SubscribeEvent
+        public static void onPlayerTick(PlayerTickEvent.Pre event) {
+            if (!event.getEntity().level().isClientSide() && event.getEntity() instanceof ServerPlayer serverPlayer) {
+                UUID playerId = serverPlayer.getUUID();
+                Map<BlockPos, OreGlowData> glowing = playerGlowingBlocks.get(playerId);
+
+                // Sync ore sight data periodically (every 2 seconds) for reliability
+                if (glowing != null && !glowing.isEmpty() && serverPlayer.tickCount % 40 == 0) {
+                    // Get skill duration
+                    int majorRealm = serverPlayer.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").majorRealm;
+                    int durationSeconds = 10 + (majorRealm * 5);
+
+                    // Convert to packet data
+                    Map<BlockPos, SyncOreSightPacket.BlockData> packetData = new HashMap<>();
+                    for (Map.Entry<BlockPos, OreGlowData> entry : glowing.entrySet()) {
+                        OreGlowData data = entry.getValue();
+                        packetData.put(
+                                entry.getKey(),
+                                new SyncOreSightPacket.BlockData(
+                                        data.color,
+                                        data.expirationTime,
+                                        BuiltInRegistries.BLOCK.getKey(data.block)
+                                )
+                        );
+                    }
+
+                    SyncOreSightPacket packet = new SyncOreSightPacket(
+                            playerId,
+                            packetData,
+                            durationSeconds
+                    );
+                    serverPlayer.connection.send(packet);
+                }
+            }
         }
-        return 0;
     }
 
     // Client-side rendering
@@ -398,7 +509,7 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
                 return;
             }
 
-            Map<BlockPos, OreGlowData> glowing = getGlowingBlocksForPlayer(mc.player.getUUID());
+            Map<BlockPos, OreGlowData> glowing = getClientGlowingBlocksForPlayer(mc.player.getUUID());
             if (glowing.isEmpty()) {
                 return;
             }
@@ -427,7 +538,7 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
                 BlockPos pos = entry.getKey();
                 OreGlowData data = entry.getValue();
 
-                if (System.currentTimeMillis() > data.expirationTime) {
+                if (System.currentTimeMillis() > clientExpirationTimes.getOrDefault(mc.player.getUUID(), 0L)) {
                     continue;
                 }
 
@@ -550,6 +661,7 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
 
             // Check if player has active ore sight
             if (!hasActiveOreSight(mc.player)) {
+                lastLookedAtOre = null;
                 return;
             }
 
