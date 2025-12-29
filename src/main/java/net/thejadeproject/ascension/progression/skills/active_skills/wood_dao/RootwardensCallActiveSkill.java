@@ -59,11 +59,6 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
     private static final int COOLDOWN_REDUCTION_PER_REALM_TICKS = 40; // -2 seconds (40 ticks) per major realm
     private static final int MIN_COOLDOWN_TICKS = 20 * 5; // Minimum 5 second cooldown
 
-    // Colors for rendering
-    private static final int GREEN_OUTLINE_COLOR = 0x00FF00; // Bright green
-    private static final int CONNECTED_OUTLINE_COLOR = 0x32CD32; // Lime green for connected
-    private static final float OUTLINE_WIDTH = 2.0f; // Line width
-
     // Particle settings
     private static final Vector3f GREEN_PARTICLE_COLOR = new Vector3f(0.0f, 1.0f, 0.0f); // Green color
     private static final float PARTICLE_SCALE = 1.5f; // Size of particles
