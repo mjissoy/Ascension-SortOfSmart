@@ -144,11 +144,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
 
         this.tag(ModTags.Items.CURIOS_RING)
-                .add(ModItems.IRON_SPATIAL_RING.get())
-                .add(ModItems.GOLD_SPATIAL_RING.get())
-                .add(ModItems.DIAMOND_SPATIAL_RING.get())
-                .add(ModItems.NETHERITE_SPATIAL_RING.get())
-                .add(ModItems.JADE_SPATIAL_RING.get());
+                .add(ModItems.SPATIAL_RING.get());
 
     }
 }

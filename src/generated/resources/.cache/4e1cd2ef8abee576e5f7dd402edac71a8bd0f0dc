@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-22T18:14:23.8840927	Tags for minecraft:item mod id ascension
+// 1.21.1	2026-01-04T14:31:57.5585994	Tags for minecraft:item mod id ascension
 ba9125aa546790a0582445879c658b228dbb763c data/ascension/tags/item/axe_intent.json
 596533336a43051e90a27b3defdee38aeb373152 data/ascension/tags/item/blade.json
 08248a73df114f60d1ffa79665c61e1a2a320e58 data/ascension/tags/item/blade_intent.json
@@ -11,7 +11,7 @@ e629ccb61b407365087393dfb5d02f33c7983136 data/ascension/tags/item/spear.json
 f5a2a0c1903b660da1eaea1a6674865feef25b45 data/ascension/tags/item/spear_enchantable.json
 f5a2a0c1903b660da1eaea1a6674865feef25b45 data/ascension/tags/item/spear_intent.json
 e6756cdd6fb03cf772eba210ae3f93335e83dcd6 data/ascension/tags/item/sword_intent.json
-071f308de9351e92ddaea4e51c8e6a559623c35f data/curios/tags/item/ring.json
+e6ee8e4e35f7cb5d39fd02c2283e84f24b4d5b27 data/curios/tags/item/ring.json
 6216bc7fa4d371cf45c8b7056111fe820ede09c7 data/c/tags/item/enchantables.json
 9cc39268d42cf405595b859cc30020a3a910a10a data/c/tags/item/ingots/black_iron.json
 354f9c0697183b34f6eb16a23fb596ea2a14b86a data/c/tags/item/ingots/frost_silver.json

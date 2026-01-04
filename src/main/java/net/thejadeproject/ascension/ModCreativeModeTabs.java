@@ -37,7 +37,7 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE_SPATIAL_RING.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SPATIAL_RING.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_pills_tab"))
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -49,11 +49,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HUMAN);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_EARTH);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HEAVEN);
-                        output.accept(ModItems.IRON_SPATIAL_RING);
-                        output.accept(ModItems.GOLD_SPATIAL_RING);
-                        output.accept(ModItems.DIAMOND_SPATIAL_RING);
-                        output.accept(ModItems.NETHERITE_SPATIAL_RING);
-                        output.accept(ModItems.JADE_SPATIAL_RING);
+                        output.accept(ModItems.SPATIAL_RING);
                         output.accept(ModItems.FIRE_GOURD);
 
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);

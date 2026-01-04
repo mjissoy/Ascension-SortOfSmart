@@ -1,9 +1,5 @@
 {
   "values": [
-    "ascension:iron_spatial_ring",
-    "ascension:gold_spatial_ring",
-    "ascension:diamond_spatial_ring",
-    "ascension:netherite_spatial_ring",
-    "ascension:jade_spatial_ring"
+    "ascension:spatial_ring"
   ]
 }

@@ -18,14 +18,55 @@ import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
 import net.thejadeproject.ascension.items.herbs.PlantableHerb;
 import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
 import net.thejadeproject.ascension.items.pills.*;
+import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
+import net.thejadeproject.ascension.items.upgrades.UpgradeItem;
 import net.thejadeproject.ascension.util.ItemUtil;
 
 import java.util.HashSet;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
+
+
+
+    //Spatial Ring Stuff
+
+    public static final DeferredItem<Item> SPATIAL_STONE_TIER_1 = ITEMS.register("spatial_stone_tier_1",
+            () -> new SpatialStoneItem(1, "I", Rarity.COMMON));
+    public static final DeferredItem<Item> SPATIAL_STONE_TIER_2 = ITEMS.register("spatial_stone_tier_2",
+            () -> new SpatialStoneItem(2, "II", Rarity.UNCOMMON));
+
+    // Stack Upgrades
+    public static final DeferredItem<Item> STACK_UPGRADE_T1 = ITEMS.register("stack_upgrade_t1",
+            () -> new UpgradeItem("stack_upgrade_t1", Rarity.UNCOMMON));
+    public static final DeferredItem<Item> STACK_UPGRADE_T2 = ITEMS.register("stack_upgrade_t2",
+            () -> new UpgradeItem("stack_upgrade_t2", Rarity.RARE));
+
+    // Pickup Upgrade
+    public static final DeferredItem<Item> PICKUP_UPGRADE = ITEMS.register("pickup_upgrade",
+            () -> new UpgradeItem("pickup_upgrade", Rarity.RARE));
+
+
+    public static final DeferredItem<Item> SPATIAL_RING = ITEMS.register("spatial_ring",
+            () -> new SpatialRingItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static final DeferredItem<Item> RAW_BLACK_IRON = ITEMS.register("raw_black_iron",
             () -> new Item(new Item.Properties()));
@@ -103,17 +144,6 @@ public class ModItems {
 
     public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
             () -> new JadeSlip(new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<Item> IRON_SPATIAL_RING = ITEMS.register("iron_spatial_ring",
-            () -> new SpatialRingItem("iron_spatial_ring", SpatialRing.IRON));
-    public static final DeferredItem<Item> GOLD_SPATIAL_RING = ITEMS.register("gold_spatial_ring",
-            () -> new SpatialRingItem("gold_spatial_ring", SpatialRing.GOLD));
-    public static final DeferredItem<Item> DIAMOND_SPATIAL_RING = ITEMS.register("diamond_spatial_ring",
-            () -> new SpatialRingItem("diamond_spatial_ring", SpatialRing.DIAMOND));
-    public static final DeferredItem<Item> NETHERITE_SPATIAL_RING = ITEMS.register("netherite_spatial_ring",
-            () -> new SpatialRingItem("netherite_spatial_ring", SpatialRing.NETHERITE));
-    public static final DeferredItem<Item> JADE_SPATIAL_RING = ITEMS.register("jade_spatial_ring",
-            () -> new SpatialRingItem("JADE_spatial_ring", SpatialRing.JADE));
 
 
     public static final DeferredItem<Item> SPATIAL_RUPTURE_TALISMAN_T1 = ITEMS.register("spatial_rupture_talisman_t1",

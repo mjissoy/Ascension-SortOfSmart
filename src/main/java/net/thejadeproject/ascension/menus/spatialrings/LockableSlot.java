@@ -24,6 +24,4 @@ public class LockableSlot extends Slot {
     public boolean mayPlace(@Nonnull ItemStack p_75214_1_) {
         return !this.locked;
     }
-
-
 }

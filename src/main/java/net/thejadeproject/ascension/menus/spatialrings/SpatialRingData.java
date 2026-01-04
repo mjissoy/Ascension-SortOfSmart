@@ -1,75 +1,93 @@
 package net.thejadeproject.ascension.menus.spatialrings;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.items.IItemHandler;
-import net.thejadeproject.ascension.items.artifacts.SpatialRing;
+import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public class SpatialRingData {
     private final UUID uuid;
-    private SpatialRing tier;
     private final ASCItemHandler inventory;
     private final Optional<IItemHandler> optional;
     public final Metadata meta = new Metadata();
 
-
-    public Optional<IItemHandler> getOptional() {
-        return this.optional;
-    }
+    public static final int BASE_ROWS = 3;
 
     public IItemHandler getHandler() {
         return this.inventory;
     }
 
+    public int getExtraRows() {
+        return this.meta.extraRows;
+    }
 
-    public SpatialRing getTier() {
-        return this.tier;
+    public int getTotalRows() {
+        return BASE_ROWS + this.meta.extraRows;
+    }
+
+    public int getTotalSlots() {
+        return getTotalRows() * 9;
     }
 
     public void updateAccessRecords(String player, long time) {
         if (this.meta.firstAccessedTime == 0) {
-            //new Backpack, set creation data
             this.meta.firstAccessedTime = time;
             this.meta.firstAccessedPlayer = player;
         }
-
         this.meta.setLastAccessedTime(time);
         this.meta.setLastAccessedPlayer(player);
     }
 
-    public SpatialRingData(UUID uuid, SpatialRing tier) {
+    public SpatialRingData(UUID uuid) {
         this.uuid = uuid;
-        this.tier = tier;
-
-        this.inventory = new ASCItemHandler(tier.slots);
+        this.inventory = new ASCItemHandler(getTotalSlots());
         this.optional = Optional.of(this.inventory);
     }
 
     public SpatialRingData(UUID uuid, CompoundTag incomingNBT, HolderLookup.Provider pRegistries) {
         this.uuid = uuid;
-        this.tier = SpatialRing.values()[Math.min(incomingNBT.getInt("Tier"), SpatialRing.JADE.ordinal())];
-
-        this.inventory = new ASCItemHandler(this.tier.slots);
-
-        // Fixes FTBTeam/FTB-Modpack-Issues #478 Part 2
-        if (incomingNBT.getCompound("Inventory").contains("Size")) {
-            if (incomingNBT.getCompound("Inventory").getInt("Size") != tier.slots)
-                incomingNBT.getCompound("Inventory").putInt("Size", tier.slots);
+        this.inventory = new ASCItemHandler(getTotalSlots());
+        if (incomingNBT.contains("Inventory")) {
+            this.inventory.deserializeNBT(pRegistries, incomingNBT.getCompound("Inventory"));
         }
-        this.inventory.deserializeNBT(pRegistries, incomingNBT.getCompound("Inventory"));
         this.optional = Optional.of(this.inventory);
-
-        if (incomingNBT.contains("Metadata"))
-            this.meta.deserializeNBT(RegistryAccess.EMPTY, incomingNBT.getCompound("Metadata"));
+        if (incomingNBT.contains("Metadata")) {
+            this.meta.deserializeNBT(pRegistries, incomingNBT.getCompound("Metadata"));
+            if (this.meta.extraRows > 0) {
+                int newSize = getTotalSlots();
+                if (newSize > this.inventory.getSlots()) {
+                    this.inventory.upgrade(newSize);
+                }
+            }
+        }
     }
 
     public UUID getUuid() {
         return this.uuid;
+    }
+
+    public void updateUpgrades(NonNullList<ItemStack> upgradeItems) {
+        int extraRows = 0;
+        for (ItemStack stack : upgradeItems) {
+            if (stack.getItem() instanceof SpatialStoneItem stone) {
+                extraRows += stone.getRowsAdded();
+            }
+        }
+        this.meta.extraRows = Math.min(extraRows, 10);
+        this.meta.upgradeItems = upgradeItems;
+        int newSize = getTotalSlots();
+        if (newSize != this.inventory.getSlots()) {
+            this.inventory.upgrade(newSize);
+        }
+        SpatialRingManager.get().setDirty();
     }
 
     public static Optional<SpatialRingData> fromNBT(CompoundTag nbt, HolderLookup.Provider pRegistries) {
@@ -80,34 +98,23 @@ public class SpatialRingData {
         return Optional.empty();
     }
 
-    public void upgrade(SpatialRing newTier) {
-        if (newTier.ordinal() > this.tier.ordinal()) {
-            this.tier = newTier;
-            this.inventory.upgrade(this.tier.slots);
-        }
-    }
-
     public CompoundTag toNBT(HolderLookup.Provider pRegistries) {
         CompoundTag nbt = new CompoundTag();
-
         nbt.putUUID("UUID", this.uuid);
-        nbt.putInt("Tier", this.tier.ordinal());
-
+        nbt.putInt("ExtraRows", this.meta.extraRows);
         nbt.put("Inventory", this.inventory.serializeNBT(pRegistries));
-
-        nbt.put("Metadata", this.meta.serializeNBT(RegistryAccess.EMPTY));
-
+        nbt.put("Metadata", this.meta.serializeNBT(pRegistries));
         return nbt;
     }
 
-
-
     public static class Metadata implements INBTSerializable<CompoundTag> {
         private String firstAccessedPlayer = "";
-
         private long firstAccessedTime = 0;
         private String lastAccessedPlayer = "";
         private long lastAccessedTime = 0;
+        private int extraRows = 0;
+        private NonNullList<ItemStack> upgradeItems = NonNullList.withSize(36, ItemStack.EMPTY);
+
         public long getLastAccessedTime() {
             return this.lastAccessedTime;
         }
@@ -132,15 +139,33 @@ public class SpatialRingData {
             return this.firstAccessedPlayer;
         }
 
+        public int getExtraRows() {
+            return this.extraRows;
+        }
+
+        public NonNullList<ItemStack> getUpgradeItems() {
+            return this.upgradeItems;
+        }
+
         @Override
         public CompoundTag serializeNBT(HolderLookup.Provider pRegistries) {
             CompoundTag nbt = new CompoundTag();
-
             nbt.putString("firstPlayer", this.firstAccessedPlayer);
             nbt.putLong("firstTime", this.firstAccessedTime);
             nbt.putString("lastPlayer", this.lastAccessedPlayer);
             nbt.putLong("lastTime", this.lastAccessedTime);
-
+            nbt.putInt("extraRows", this.extraRows);
+            ListTag upgradeList = new ListTag();
+            for (int i = 0; i < this.upgradeItems.size(); i++) {
+                ItemStack stack = this.upgradeItems.get(i);
+                if (!stack.isEmpty()) {
+                    CompoundTag itemTag = new CompoundTag();
+                    itemTag.putInt("Slot", i);
+                    stack.save(pRegistries, itemTag);
+                    upgradeList.add(itemTag);
+                }
+            }
+            nbt.put("upgradeItems", upgradeList);
             return nbt;
         }
 
@@ -150,6 +175,21 @@ public class SpatialRingData {
             this.firstAccessedTime = nbt.getLong("firstTime");
             this.lastAccessedPlayer = nbt.getString("lastPlayer");
             this.lastAccessedTime = nbt.getLong("lastTime");
+            this.extraRows = nbt.getInt("extraRows");
+            this.upgradeItems = NonNullList.withSize(36, ItemStack.EMPTY);
+            if (nbt.contains("upgradeItems", Tag.TAG_LIST)) {
+                ListTag upgradeList = nbt.getList("upgradeItems", Tag.TAG_COMPOUND);
+                for (int i = 0; i < upgradeList.size(); i++) {
+                    CompoundTag itemTag = upgradeList.getCompound(i);
+                    int slot = itemTag.getInt("Slot");
+                    if (slot >= 0 && slot < this.upgradeItems.size()) {
+                        ItemStack parsedStack = ItemStack.parse(pRegistries, itemTag).orElse(ItemStack.EMPTY);
+                        if (!parsedStack.isEmpty()) {
+                            this.upgradeItems.set(slot, parsedStack);
+                        }
+                    }
+                }
+            }
         }
     }
 }

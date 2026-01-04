@@ -96,7 +96,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('F', ModItems.HUNDRED_YEAR_FIRE_GINSENG.get())
                 .define('M', ModBlocks.RAW_MARBLE.get())
                 .unlockedBy("has_marble", has(ModBlocks.RAW_MARBLE)).save(recipeOutput, "ascension:shaped/fire_gourd");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.IRON_SPATIAL_RING.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPATIAL_RING.get())
                 .pattern("FIF")
                 .pattern("BCB")
                 .pattern("FBF")
@@ -105,38 +105,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('F', ModItems.FROST_SILVER_INGOT.get())
                 .define('B', ModItems.BLACK_IRON_INGOT.get())
                 .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shaped/iron_spatial_ring");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.GOLD_SPATIAL_RING.get())
-                .pattern("GGG")
-                .pattern("GSG")
-                .pattern("GGG")
-                .define('G', Items.GOLD_INGOT)
-                .define('S', ModItems.IRON_SPATIAL_RING.get())
-                .unlockedBy("has_iron_spatial_ring", has(ModItems.IRON_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIAMOND_SPATIAL_RING.get())
-                .pattern("DDD")
-                .pattern("DSD")
-                .pattern("DDD")
-                .define('D', Items.DIAMOND)
-                .define('S', ModItems.GOLD_SPATIAL_RING.get())
-                .unlockedBy("has_gold_spatial_ring", has(ModItems.GOLD_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.NETHERITE_SPATIAL_RING.get())
-                .pattern("NNN")
-                .pattern("NSN")
-                .pattern("NTN")
-                .define('N', Items.NETHERITE_INGOT)
-                .define('T', Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE)
-                .define('S', ModItems.DIAMOND_SPATIAL_RING.get())
-                .unlockedBy("has_diamond_spatial_ring", has(ModItems.DIAMOND_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
-
-
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SPATIAL_RING.get())
-                .pattern("DDD")
-                .pattern("DSD")
-                .pattern("DDD")
-                .define('D', ModItems.JADE.get())
-                .define('S', ModItems.NETHERITE_SPATIAL_RING.get())
-                .unlockedBy("has_netherite_spatial_ring", has(ModItems.NETHERITE_SPATIAL_RING)).save(SpatialRingUpgrade(consumer));
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), 2)

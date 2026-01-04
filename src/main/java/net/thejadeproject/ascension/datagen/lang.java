@@ -12,17 +12,10 @@ public class lang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+        //Menus
+        add("container.ascension.spatial_stones", "§5Spatial Stones");
+        add("container.ascension.other_upgrades", "§6Upgrades");
 
-
-        //Commands
-        add("sect.info.power", "Power: %s/%s");
-        add("sect.info.total_deposited", "Total Deposited: %s");
-        add("sect.claim.insufficient_power", "Your sect doesn't have enough power to claim this chunk");
-        add("sect.claim.cannot_overclaim", "Cannot overclaim %s sect! You need more than %s power (you have %s)");
-
-
-        add("sect.deposit.opening", "Opening Deposit Vault");
-        add("container.sect_deposit", "Sect Deposit Vault");
 
 
         //Advancements
@@ -480,12 +473,8 @@ public class lang extends LanguageProvider {
 
 
         //Artifacts
-        add("item.ascension.iron_spatial_ring", "Iron Spatial Ring");
-        add("item.ascension.gold_spatial_ring", "Gold Spatial Ring");
-        add("item.ascension.diamond_spatial_ring", "Diamond Spatial Ring");
-        add("item.ascension.netherite_spatial_ring", "Netherite Spatial Ring");
-        add("item.ascension.jade_spatial_ring", "Jade Spatial Ring");
-        add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
+        add("item.ascension.spatial_ring", "Spatial Ring");
+
         add("item.ascension.fire_gourd", "Gourd O Fire");
         add("item.ascension.spatial_rupture_talisman_t1", "Lesser Spatial Rupture Talisman");
         add("item.ascension.spatial_rupture_talisman_t2", "Standard Spatial Rupture Talisman");

@@ -78,11 +78,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         //Artifacts
-        basicItem(ModItems.IRON_SPATIAL_RING.get());
-        basicItem(ModItems.GOLD_SPATIAL_RING.get());
-        basicItem(ModItems.DIAMOND_SPATIAL_RING.get());
-        basicItem(ModItems.NETHERITE_SPATIAL_RING.get());
-        basicItem(ModItems.JADE_SPATIAL_RING.get());
+        basicItem(ModItems.SPATIAL_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
 

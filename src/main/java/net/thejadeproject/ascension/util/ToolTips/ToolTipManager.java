@@ -83,11 +83,7 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.JADE_SLIP.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerAnimatedTooltip(ModItems.JADE_SLIP.get(), Component.translatable("ascension.tooltip.rgb.jade_slip"), 0.001f);
 
-        ToolTipHandler.registerTooltip(ModItems.IRON_SPATIAL_RING.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.RED));
-        ToolTipHandler.registerTooltip(ModItems.GOLD_SPATIAL_RING.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.RED));
-        ToolTipHandler.registerTooltip(ModItems.DIAMOND_SPATIAL_RING.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.RED));
-        ToolTipHandler.registerTooltip(ModItems.NETHERITE_SPATIAL_RING.get(), Component.literal("★★★★☆").withStyle(ChatFormatting.RED));
-        ToolTipHandler.registerTooltip(ModItems.JADE_SPATIAL_RING.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED));
+        ToolTipHandler.registerTooltip(ModItems.SPATIAL_RING.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.RED));
 
 
         //Crafting Ingredients

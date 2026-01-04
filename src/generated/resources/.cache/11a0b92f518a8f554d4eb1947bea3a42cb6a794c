@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-22T18:14:23.8774025	Item Models: ascension
+// 1.21.1	2026-01-04T14:31:57.5540231	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -21,7 +21,6 @@ dfefb51f0ff77daee52a2c66462925ccbe5afed2 assets/ascension/models/item/crimson_lo
 784fd9542ee83749eb65f1203d3a6fa19c260a4e assets/ascension/models/item/cyan_marble_brick_wall.json
 f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marble_tile_wall.json
 38b8fb051abd7c420998ca4844201a12eb285794 assets/ascension/models/item/diamond_blade.json
-abe2becd602169ae11df376855869494e03a5542 assets/ascension/models/item/diamond_spatial_ring.json
 314b298cf5460ebda41e529f392dcf27672e467e assets/ascension/models/item/diamond_spear.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/divine_phoenix_technique.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/earth_elemental_technique.json
@@ -43,7 +42,6 @@ a8e9779b889c8fdd9987b0f0a0f227780e247c2f assets/ascension/models/item/golden_pal
 abc8d0fe9b80442f058c18614fd4280cbf3df943 assets/ascension/models/item/golden_palm_sapling.json
 357e5379fdd4d08265c0eae108ba44e3290fbf5e assets/ascension/models/item/golden_sun_leaf.json
 ffd440b42e40ee4f94f7976f95de7861d6abff1b assets/ascension/models/item/gold_blade.json
-2075139153e67b8e73d0cfb117a196a132693e9d assets/ascension/models/item/gold_spatial_ring.json
 0f0d93f2684c27d4eff09166833831f8f95d15de assets/ascension/models/item/gold_spear.json
 e5cefaee56b09c331ff2aa56978c82369a54963d assets/ascension/models/item/gray_marble_brick_wall.json
 42fac3c5c57434c1e885349ff08d5d4d5f9c6b67 assets/ascension/models/item/gray_marble_tile_wall.json
@@ -65,13 +63,11 @@ f1448c8d48e815e44362f74e03c85cfdd8810b6a assets/ascension/models/item/ironwood_s
 05e2a8a9642b32214d854b302965b464d8777b00 assets/ascension/models/item/ironwood_sprout.json
 5ba4744b3f6c06caabf4e0f8ad91ed2b1e9878ab assets/ascension/models/item/ironwood_sprout_crop.json
 137991dde1bb9a32923fbd5ebe2e5262782a642e assets/ascension/models/item/iron_blade.json
-40a5bdf9b8f3dca46b3f9ea7c10238cf09ad7281 assets/ascension/models/item/iron_spatial_ring.json
 bacc0151cd0adb6169b2d4bf15bb42cd7ec710ed assets/ascension/models/item/iron_spear.json
 3ad9a12ddaf5421f386991c79685ecfdeb06d79f assets/ascension/models/item/jade.json
 5de35017ea8a49b96f8b198b88098c90bd5a2f91 assets/ascension/models/item/jade_bamboo_of_serenity.json
 dc985f6e9fbe09d8d740c4f130b29eec1e1db883 assets/ascension/models/item/jade_nugget.json
 e8186c3399ff6de314330d989f165b3010cc922e assets/ascension/models/item/jade_slip.json
-5ef37572f02a7c112edca4445325738517648426 assets/ascension/models/item/jade_spatial_ring.json
 503ca8f4b650ff576eea416bc99d5bd1dd84419b assets/ascension/models/item/karmic_debt_ledger.json
 9b5467f78e7030f5fe721be4fa4f81fbb2d56b65 assets/ascension/models/item/light_blue_marble_brick_wall.json
 b18afa41c2d06bb36dfa6e99378716a35669a673 assets/ascension/models/item/light_blue_marble_tile_wall.json
@@ -86,7 +82,6 @@ a95e1feba121e840b1300c8df48bf3b0099ccac5 assets/ascension/models/item/marble_bri
 3760aca7a3778d672f310125441ad79d0a4cd9e1 assets/ascension/models/item/marble_tile_wall.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/metal_elemental_technique.json
 20cec4913433ae585c64fb75e5869fee13d4df81 assets/ascension/models/item/netherite_blade.json
-8fc12f5bcdd91880dfbcddc0df86113fc4238d43 assets/ascension/models/item/netherite_spatial_ring.json
 f63e29620c65360185f215742e6512024da0b6f0 assets/ascension/models/item/netherite_spear.json
 72010a264f4e1b76dc0ca7ff15bd9e12c7fd86a1 assets/ascension/models/item/neutrality_pill.json
 d2f6ff9a5555f8f3fcaf09cf0d3c910e086dde1b assets/ascension/models/item/orange_marble_brick_wall.json
@@ -117,6 +112,7 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 74271bd33ef0167a397f600ea3f20c218cde6630 assets/ascension/models/item/repair_slip.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/soulstead_return_talisman.json
 858237a12c745a4a95c58dee5fd5ffff719a4aba assets/ascension/models/item/soul_flame.json
+640788c6cb5cca40186410e11c51593c9b765383 assets/ascension/models/item/spatial_ring.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t1.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t2.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t3.json

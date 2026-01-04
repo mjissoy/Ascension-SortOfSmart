@@ -39,8 +39,9 @@ import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
-import net.thejadeproject.ascension.menus.spatialrings.SRScreen;
-import net.thejadeproject.ascension.network.ModPayloads;
+import net.thejadeproject.ascension.menus.spatialrings.SpatialRingStorageScreen;
+import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUpgradeContainer;
+import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUpgradeScreen;
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.util.KeyBindHandler;
@@ -73,7 +74,8 @@ public class AscensionCraftClient {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
-            event.register(ModMenuTypes.SR_CONTAINER.get(), SRScreen::new);
+            event.register(ModMenuTypes.SPATIAL_RING_STORAGE.get(), SpatialRingStorageScreen::new);
+            event.register(ModMenuTypes.SPATIAL_RING_UPGRADE.get(), SpatialRingUpgradeScreen::new);
         }
 
         @SubscribeEvent
