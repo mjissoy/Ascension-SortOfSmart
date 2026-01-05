@@ -155,13 +155,13 @@ public class SpatialRingData {
             nbt.putString("lastPlayer", this.lastAccessedPlayer);
             nbt.putLong("lastTime", this.lastAccessedTime);
             nbt.putInt("extraRows", this.extraRows);
+
             ListTag upgradeList = new ListTag();
             for (int i = 0; i < this.upgradeItems.size(); i++) {
                 ItemStack stack = this.upgradeItems.get(i);
                 if (!stack.isEmpty()) {
-                    CompoundTag itemTag = new CompoundTag();
-                    itemTag.putInt("Slot", i);
-                    stack.save(pRegistries, itemTag);
+                    CompoundTag itemTag = (CompoundTag) stack.save(pRegistries, new CompoundTag());
+                    itemTag.putInt("Slot", i); // Add slot info to the item tag
                     upgradeList.add(itemTag);
                 }
             }
@@ -177,15 +177,20 @@ public class SpatialRingData {
             this.lastAccessedTime = nbt.getLong("lastTime");
             this.extraRows = nbt.getInt("extraRows");
             this.upgradeItems = NonNullList.withSize(36, ItemStack.EMPTY);
+
             if (nbt.contains("upgradeItems", Tag.TAG_LIST)) {
                 ListTag upgradeList = nbt.getList("upgradeItems", Tag.TAG_COMPOUND);
                 for (int i = 0; i < upgradeList.size(); i++) {
                     CompoundTag itemTag = upgradeList.getCompound(i);
-                    int slot = itemTag.getInt("Slot");
-                    if (slot >= 0 && slot < this.upgradeItems.size()) {
-                        ItemStack parsedStack = ItemStack.parse(pRegistries, itemTag).orElse(ItemStack.EMPTY);
-                        if (!parsedStack.isEmpty()) {
-                            this.upgradeItems.set(slot, parsedStack);
+                    if (itemTag.contains("Slot")) {
+                        int slot = itemTag.getInt("Slot");
+                        // Remove the Slot tag before parsing to avoid issues
+                        itemTag.remove("Slot");
+                        if (slot >= 0 && slot < this.upgradeItems.size()) {
+                            ItemStack parsedStack = ItemStack.parse(pRegistries, itemTag).orElse(ItemStack.EMPTY);
+                            if (!parsedStack.isEmpty()) {
+                                this.upgradeItems.set(slot, parsedStack);
+                            }
                         }
                     }
                 }

@@ -14,6 +14,7 @@ public class ASCItemHandler extends ItemStackHandler {
         super(size);
     }
 
+
     public void setStackMultiplier(int multiplier) {
         this.stackMultiplier = Math.max(1, multiplier);
     }

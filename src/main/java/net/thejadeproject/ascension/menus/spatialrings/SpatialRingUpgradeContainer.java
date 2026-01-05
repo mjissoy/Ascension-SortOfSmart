@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.menus.spatialrings;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -11,6 +12,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import net.thejadeproject.ascension.items.artifacts.SpatialRingItem;
 import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
+import net.thejadeproject.ascension.items.upgrades.UpgradeItem;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 import javax.annotation.Nonnull;
@@ -37,7 +39,12 @@ public class SpatialRingUpgradeContainer extends AbstractContainerMenu {
             protected void onContentsChanged(int slot) {
                 super.onContentsChanged(slot);
                 if (ringData != null) {
-                    ringData.updateUpgrades(this.stacks);
+                    // Create a NonNullList from current stacks
+                    NonNullList<ItemStack> currentStacks = NonNullList.create();
+                    for (int i = 0; i < this.getSlots(); i++) {
+                        currentStacks.add(this.getStackInSlot(i).copy());
+                    }
+                    ringData.updateUpgrades(currentStacks);
                 }
             }
         };
@@ -45,7 +52,7 @@ public class SpatialRingUpgradeContainer extends AbstractContainerMenu {
         if (ringData != null) {
             var existingItems = ringData.meta.getUpgradeItems();
             for (int i = 0; i < Math.min(existingItems.size(), 36); i++) {
-                upgradeHandler.setStackInSlot(i, existingItems.get(i));
+                upgradeHandler.setStackInSlot(i, existingItems.get(i).copy());
             }
         }
 
@@ -54,6 +61,7 @@ public class SpatialRingUpgradeContainer extends AbstractContainerMenu {
     }
 
     private void addUpgradeSlots() {
+        // First 18 slots: Spatial Stones only
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 9; col++) {
                 int index = row * 9 + col;
@@ -61,6 +69,7 @@ public class SpatialRingUpgradeContainer extends AbstractContainerMenu {
             }
         }
 
+        // Last 18 slots: Other Upgrades only (no spatial stones)
         for (int row = 2; row < 4; row++) {
             for (int col = 0; col < 9; col++) {
                 int index = row * 9 + col;
@@ -123,18 +132,25 @@ public class SpatialRingUpgradeContainer extends AbstractContainerMenu {
             itemstack = itemstack1.copy();
 
             if (index < 36) {
+                // Transfer from upgrade slots to player inventory
                 if (!this.moveItemStackTo(itemstack1, 36, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else {
+                // Transfer from player inventory to appropriate upgrade slots
                 if (itemstack1.getItem() instanceof SpatialStoneItem) {
+                    // Try to put in first 18 slots (spatial stone slots)
                     if (!this.moveItemStackTo(itemstack1, 0, 18, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else {
+                } else if (itemstack1.getItem() instanceof UpgradeItem) {
+                    // Try to put in last 18 slots (upgrade item slots)
                     if (!this.moveItemStackTo(itemstack1, 18, 36, false)) {
                         return ItemStack.EMPTY;
                     }
+                } else {
+                    // Not a valid upgrade item
+                    return ItemStack.EMPTY;
                 }
             }
 
@@ -149,24 +165,29 @@ public class SpatialRingUpgradeContainer extends AbstractContainerMenu {
     }
 
     private static class UpgradeSlot extends SlotItemHandler {
-        private final boolean spatialStoneOnly;
-        private final boolean rejectSpatialStones;
+        private final boolean spatialStoneSlot;
+        private final boolean upgradeItemSlot;
 
-        public UpgradeSlot(ItemStackHandler handler, int index, int x, int y, boolean spatialStoneOnly, boolean rejectSpatialStones) {
+        public UpgradeSlot(ItemStackHandler handler, int index, int x, int y,
+                           boolean spatialStoneSlot, boolean upgradeItemSlot) {
             super(handler, index, x, y);
-            this.spatialStoneOnly = spatialStoneOnly;
-            this.rejectSpatialStones = rejectSpatialStones;
+            this.spatialStoneSlot = spatialStoneSlot;
+            this.upgradeItemSlot = upgradeItemSlot;
         }
 
         @Override
         public boolean mayPlace(@Nonnull ItemStack stack) {
-            if (spatialStoneOnly) {
+            if (stack.isEmpty()) return true;
+
+            if (spatialStoneSlot) {
+                // Only spatial stones in stone slots
                 return stack.getItem() instanceof SpatialStoneItem;
+            } else if (upgradeItemSlot) {
+                // Only upgrade items in upgrade slots (and not spatial stones)
+                return stack.getItem() instanceof UpgradeItem &&
+                        !(stack.getItem() instanceof SpatialStoneItem);
             }
-            if (rejectSpatialStones) {
-                return !(stack.getItem() instanceof SpatialStoneItem);
-            }
-            return true;
+            return false;
         }
 
         @Override
