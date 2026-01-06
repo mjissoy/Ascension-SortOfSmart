@@ -280,7 +280,8 @@ public class ModTechniques {
                             put(Attributes.SAFE_FALL_DISTANCE,1.2);
                         }}))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
+                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false),
+                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:space_infusion", false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
 

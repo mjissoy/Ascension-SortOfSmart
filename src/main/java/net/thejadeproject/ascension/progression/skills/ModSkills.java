@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.progression.skills.active_skills.SpiritualSe
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.DelayedFireLaunch;
 import net.thejadeproject.ascension.progression.skills.active_skills.metal_dao.OreSightActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.space_dao.SpaceInfusionActiveSkill;
 import net.thejadeproject.ascension.progression.skills.active_skills.wood_dao.RootwardensCallActiveSkill;
 import net.thejadeproject.ascension.progression.skills.passive_skills.*;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
@@ -130,6 +131,20 @@ public class ModSkills {
                             Component.translatable("ascension.skill.active.spiritual_sense.desc3"),
                             Component.translatable("ascension.skill.active.spiritual_sense.desc4"),
                             Component.translatable("ascension.skill.active.spiritual_sense.desc5")
+                    ))
+    );
+
+
+
+    public static final DeferredHolder<ISkill, ? extends AbstractActiveSkill> SPACE_INFUSION = SKILLS.register("space_infusion",
+            () -> new SpaceInfusionActiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/ender_fracture.png"), 32, 32))
+                    .setSkillDescription(List.of(
+                            Component.translatable("ascension.skill.active.space_infusion.desc1"),
+                            Component.translatable("ascension.skill.active.space_infusion.desc2"),
+                            Component.translatable("ascension.skill.active.space_infusion.desc3"),
+                            Component.translatable("ascension.skill.active.space_infusion.desc4"),
+                            Component.translatable("ascension.skill.active.space_infusion.desc5")
                     ))
     );
 
