@@ -16,6 +16,9 @@ import net.thejadeproject.ascension.progression.skills.active_skills.metal_dao.O
 import net.thejadeproject.ascension.progression.skills.active_skills.space_dao.SpaceInfusionActiveSkill;
 import net.thejadeproject.ascension.progression.skills.active_skills.wood_dao.RootwardensCallActiveSkill;
 import net.thejadeproject.ascension.progression.skills.passive_skills.*;
+import net.thejadeproject.ascension.progression.skills.passive_skills.physique_skills.kitsune_skills.FoxfireManipulationActiveSkill;
+import net.thejadeproject.ascension.progression.skills.passive_skills.physique_skills.kitsune_skills.KitsuneIllusionBasicPassiveSkill;
+import net.thejadeproject.ascension.progression.skills.passive_skills.physique_skills.kitsune_skills.TailMultiplierPassiveSkill;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
@@ -57,6 +60,41 @@ public class ModSkills {
                     .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fire_ball.png"),32,32)
                     ));
 
+
+
+    public static final DeferredHolder<ISkill, ? extends AbstractPassiveSkill> KITSUNE_ILLUSION_BASIC = SKILLS.register("kitsune_illusion_basic",
+            () -> new KitsuneIllusionBasicPassiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/kitsune_illusion.png"), 32, 32))
+                    .setSkillDescription(List.of(
+                            Component.translatable("ascension.physique.passive.kitsune_illusion.desc1"),
+                            Component.translatable("ascension.physique.passive.kitsune_illusion.desc2"),
+                            Component.translatable("ascension.physique.passive.kitsune_illusion.desc3"),
+                            Component.translatable("ascension.physique.passive.kitsune_illusion.desc4")
+                    ))
+    );
+
+    public static final DeferredHolder<ISkill, ? extends AbstractActiveSkill> FOXFIRE_MANIPULATION = SKILLS.register("foxfire_manipulation",
+            () -> new FoxfireManipulationActiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/foxfire.png"), 32, 32))
+                    .setSkillDescription(List.of(
+                            Component.translatable("ascension.physique.active.foxfire_manipulation.desc1"),
+                            Component.translatable("ascension.physique.active.foxfire_manipulation.desc2"),
+                            Component.translatable("ascension.physique.active.foxfire_manipulation.desc3"),
+                            Component.translatable("ascension.physique.active.foxfire_manipulation.desc4"),
+                            Component.translatable("ascension.physique.active.foxfire_manipulation.desc5")
+                    ))
+    );
+
+    public static final DeferredHolder<ISkill, ? extends AbstractPassiveSkill> TAIL_MULTIPLIER_PASSIVE = SKILLS.register("tail_multiplier_passive",
+            () -> new TailMultiplierPassiveSkill()
+                    .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/tail_multiplier.png"), 32, 32))
+                    .setSkillDescription(List.of(
+                            Component.translatable("ascension.physique.passive.tail_multiplier.desc1"),
+                            Component.translatable("ascension.physique.passive.tail_multiplier.desc2"),
+                            Component.translatable("ascension.physique.passive.tail_multiplier.desc3"),
+                            Component.translatable("ascension.physique.passive.tail_multiplier.desc4")
+                    ))
+    );
 
 
     public static final DeferredHolder<ISkill, ? extends AbstractPassiveSkill> STONEHIDE_PASSIVE = SKILLS.register("stonehide_passive",

@@ -17,6 +17,9 @@ import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSki
 import java.util.HashMap;
 import java.util.List;
 
+import static net.thejadeproject.ascension.progression.physiques.CustomAttributesPhysiques.KITSUNE_BASE_MAJOR_STATS;
+import static net.thejadeproject.ascension.progression.physiques.CustomAttributesPhysiques.KITSUNE_BASE_MINOR_STATS;
+
 public class ModPhysiques {
 
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);
@@ -78,7 +81,7 @@ public class ModPhysiques {
             ()-> new GenericPhysique("Heaven-Born Stone Monkey Physique",
                     new HashMap<>(){{
                         put("ascension:intent", 0.6);    // High intent for defiance
-                        put("ascension:body", 1.5);      // Very high body focus (primary)
+                        put("ascension:body", 1.6);      // Very high body focus (primary)
                         put("ascension:essence", 0.1);   // Lower essence focus
                     }},
                     new HashMap<>(){{
@@ -106,6 +109,50 @@ public class ModPhysiques {
                             Component.literal("§e◆ §fPath: Conflict → Resilience → Defiance"),
                             Component.literal("§e◆ §fWeakness: Susceptible to order-based attacks")
                     ))
+    );
+
+
+    public static final DeferredHolder<IPhysique,GenericPhysique> NINE_TAILED_KITSUNE_PHYSIQUE = PHYSIQUES.register("nine_tailed_kitsune_physique",
+            ()-> new GenericPhysique("Nine-Tailed Kitsune Physique",
+                    new HashMap<>(){{
+                        put("ascension:intent", 0.7);    // High intent for illusions
+                        put("ascension:body", 0.6);      // Moderate body focus
+                        put("ascension:essence", 1.2);   // High essence focus (fox nature)
+                    }},
+                    new HashMap<>(){{
+                        put("ascension:yin", 3.0);           // Yin-aligned, moon affinity
+                        put("ascension:fire", 1.5);       // Foxfire/divine flames
+                        /*put("ascension:illusion", 2.5);      // Illusion mastery
+                        put("ascension:transformation", 2.0);// Shape-shifting ability
+                        put("ascension:spirit", 1.8);        // Spirit connection
+                        put("ascension:fire", 1.5);       // Foxfire/divine flames
+                        put("ascension:luck", 1.3);          // Fortune manipulation
+                        put("ascension:enchantment", 1.2);   // Charm and beguilement*/
+                    }}, new StandardStatRealmChange(KITSUNE_BASE_MINOR_STATS, KITSUNE_BASE_MAJOR_STATS))
+                    .setSkillList(List.of(
+                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:kitsune_illusion_basic", true),
+                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:foxfire_manipulation", false),
+                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:tail_multiplier_passive", true)
+                    ))
+                    .setDescription(List.of(
+                            Component.literal("§dBorn under the celestial moon, blessed by the fox spirits."),
+                            Component.literal("§7A physique that grows through wisdom, age, and spiritual cultivation."),
+                            Component.literal(""),
+                            Component.literal("§e◆ §fGrowth: Gain one tail per major realm starting from Realm 4"),
+                            Component.literal("§e◆ §fPath: Wisdom → Illusion → Transcendence"),
+                            Component.literal("§e◆ §fWeakness: Vulnerable to pure yang and purification techniques"),
+                            Component.literal(""),
+                            Component.literal("§5[Tail Progression]"),
+                            Component.literal("§7Realm 4-12: Gain +1 tail per realm (9 tails max)"),
+                            Component.literal("§7Each tail grants bonus stats and unlocks abilities")
+                    ))
+            // TODO: Implement tail data component system
+            // Each tail should be tracked via DataComponent and grant cumulative bonuses
+            // Example implementation plan:
+            // 1. Add tailCount DataComponent to ModDataComponents.java
+            // 2. Create system to increment tail count on realm advancement (4-12)
+            // 3. Apply KITSUNE_TAIL_BONUS stats multiplied by tailCount
+            // 4. Unlock tail-specific abilities at certain tail counts
     );
 
 

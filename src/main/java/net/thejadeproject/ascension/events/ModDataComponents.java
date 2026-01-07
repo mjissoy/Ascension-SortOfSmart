@@ -96,6 +96,18 @@ public class ModDataComponents {
 
 
 
+    //Physiques
+    // Add this with the other data components
+    public static final Supplier<DataComponentType<Integer>> TAIL_COUNT = DATA_COMPONENTS.register(
+            "tail_count",
+            () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.VAR_INT)
+                    .build()
+    );
+
+
+
 
     public static void register(IEventBus eventBus) {
         DATA_COMPONENTS.register(eventBus);
