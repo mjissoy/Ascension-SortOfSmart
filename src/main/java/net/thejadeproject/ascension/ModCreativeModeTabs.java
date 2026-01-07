@@ -29,6 +29,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.FROST_SILVER_INGOT);
                         output.accept(ModItems.FROST_SILVER_NUGGET);
                         output.accept(ModItems.SPIRITUAL_STONE);
+                        output.accept(ModItems.SPATIAL_STONE_TIER_1);
+                        output.accept(ModItems.SPATIAL_STONE_TIER_2);
                         output.accept(ModItems.JADE_NUGGET);
                         output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);

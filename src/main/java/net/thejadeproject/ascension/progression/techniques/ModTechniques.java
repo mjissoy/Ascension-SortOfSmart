@@ -128,9 +128,9 @@ public class ModTechniques {
                         put("ascension:fire",2.0);
                     }})
                     .setSkillList(List.of(
-                        new AcquirableSkillData("ascension:essence",0,0,"ascension:basic_fire_ball",false),
-                        new AcquirableSkillData("ascension:essence",0,0,"ascension:large_fire_ball",false),
-                        new AcquirableSkillData("ascension:essence",0,0,"ascension:delayed_fire_launch",false)
+                        new AcquirableSkillData("ascension:essence",4,0,"ascension:basic_fire_ball",false),
+                        new AcquirableSkillData("ascension:essence",5,0,"ascension:large_fire_ball",false),
+                        new AcquirableSkillData("ascension:essence",3,0,"ascension:delayed_fire_launch",false)
                     ))
                     .setDescription(List.of(
                             Component.literal("breathe in pure ").append("§4fire ").append("and purify ones essence")
@@ -192,8 +192,8 @@ public class ModTechniques {
                         }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false),
-                            new AcquirableSkillData("ascension:essence", 1, 3, "ascension:rootwardens_call", false),
-                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:spiritual_sense", false)))
+                            new AcquirableSkillData("ascension:essence", 1, 2, "ascension:rootwardens_call", false),
+                            new AcquirableSkillData("ascension:essence", 4, 3, "ascension:spiritual_sense", false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
@@ -252,7 +252,7 @@ public class ModTechniques {
                         }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false),
-                            new AcquirableSkillData("ascension:essence",1,4,"ascension:ore_sight_active",false)))
+                            new AcquirableSkillData("ascension:essence",2,3,"ascension:ore_sight_active",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
@@ -281,7 +281,7 @@ public class ModTechniques {
                         }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false),
-                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:space_infusion", false)))
+                            new AcquirableSkillData("ascension:essence", 6, 3, "ascension:space_infusion", false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
 
@@ -500,7 +500,7 @@ public class ModTechniques {
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false),
-                            new AcquirableSkillData("ascension:body", 1, 3, "ascension:rootwardens_call", false)))
+                            new AcquirableSkillData("ascension:body", 1, 2, "ascension:rootwardens_call", false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
@@ -581,7 +581,7 @@ public class ModTechniques {
                     }}))
                     .setSkillList(List.of(
                             new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false),
-                            new AcquirableSkillData("ascension:body",1,4,"ascension:ore_sight_active",false)))
+                            new AcquirableSkillData("ascension:body",2,3,"ascension:ore_sight_active",false)))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
