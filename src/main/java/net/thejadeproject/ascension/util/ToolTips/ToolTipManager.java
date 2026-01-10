@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.util.ToolTips;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 public class ToolTipManager {
     public static void registerAllTooltips() {
@@ -88,6 +89,11 @@ public class ToolTipManager {
 
         //Crafting Ingredients
         ToolTipHandler.registerTooltip(ModItems.TALISMAN_PAPER.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
+
+
+
+
+        ToolTipHandler.registerTooltip(ModTechniques.PURE_WOOD_TECHNIQUE.manual.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
 
         // Advanced example with conditional logic
         registerAdvancedTooltips();

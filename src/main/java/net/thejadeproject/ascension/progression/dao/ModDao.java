@@ -25,6 +25,461 @@ public class ModDao {
     public static final DeferredRegister<IDao> DAO = DeferredRegister.create(AscensionRegistries.Dao.DAO_REGISTRY, AscensionCraft.MOD_ID);
 
 
+    // Primordial Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> PRIMORDIAL_DAO = createDao("primordial",
+            Component.literal("§5[Primordial]").withColor(0x800080),
+            List.of(
+                    Component.literal("The first essence before all things"),
+                    Component.literal("The origin of chaos and creation")
+            ),
+            Map.of(
+                    "ascension:chaos", 1.5,
+                    "ascension:creation", 1.2
+            ),
+            Map.of(
+                    "ascension:order", 2.0,
+                    "ascension:void", 1.5
+            )
+    );
+
+    // Creation Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> CREATION_DAO = createDao("creation",
+            Component.literal("§a[Creation]").withColor(0x32CD32),
+            List.of(
+                    Component.literal("The force of bringing things into being"),
+                    Component.literal("Opposite of destruction, source of life")
+            ),
+            Map.of(
+                    "ascension:life", 1.8,
+                    "ascension:light", 1.5,
+                    "ascension:wood", 1.3
+            ),
+            Map.of(
+                    "ascension:destruction", 2.0,
+                    "ascension:void", 1.8,
+                    "ascension:death", 1.5
+            )
+    );
+
+    // Destruction Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> DESTRUCTION_DAO = createDao("destruction",
+            Component.literal("§4[Destruction]").withColor(0x8B0000),
+            List.of(
+                    Component.literal("The force of ending and unmaking"),
+                    Component.literal("Necessary counterpart to creation")
+            ),
+            Map.of(
+                    "ascension:void", 1.5,
+                    "ascension:chaos", 1.3
+            ),
+            Map.of(
+                    "ascension:creation", 2.0,
+                    "ascension:life", 1.8,
+                    "ascension:order", 1.5
+            )
+    );
+
+    // Devouring Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> DEVOURING_DAO = createDao("devouring",
+            Component.literal("§8[Devouring]").withColor(0x000000),
+            List.of(
+                    Component.literal("The act of consuming all that exists"),
+                    Component.literal("Ultimate form of destruction through consumption")
+            ),
+            Map.of(
+                    "ascension:destruction", 1.8,
+                    "ascension:void", 1.8,
+                    "ascension:chaos", 1.5
+            ),
+            Map.of(
+                    "ascension:creation", 2.2,
+                    "ascension:life", 2.0,
+                    "ascension:order", 1.8
+            )
+    );
+
+    // Heaven Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> HEAVEN_DAO = createDao("heaven",
+            Component.literal("§b[Heaven]").withColor(0x87CEEB),
+            List.of(
+                    Component.literal("Divine realm and celestial power"),
+                    Component.literal("Source of divine authority and order")
+            ),
+            Map.of(
+                    "ascension:light", 1.8,
+                    "ascension:order", 1.5,
+                    "ascension:yang", 1.2
+            ),
+            Map.of(
+                    "ascension:chaos", 2.0,
+                    "ascension:demonic", 1.8,
+                    "ascension:defiance", 1.5
+            )
+    );
+
+    // Dragon Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> DRAGON_DAO = createDao("dragon",
+            Component.literal("§6[Dragon]").withColor(0xFF8C00),
+            List.of(
+                    Component.literal("Primordial power of ancient dragons"),
+                    Component.literal("Mastery over elements and primordial forces")
+            ),
+            Map.of(
+                    "ascension:fire", 1.5,
+                    "ascension:water", 1.5,
+                    "ascension:earth", 1.5,
+                    "ascension:metal", 1.3,
+                    "ascension:primordial", 1.2
+            ),
+            Map.of(
+                    "ascension:order", 1.8,  // Dragons are chaotic by nature
+                    "ascension:law", 2.0     // Dragons defy mortal laws
+            )
+    );
+
+    // Space Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> SPACE_DAO = createDao("space",
+            Component.literal("§3[Space]").withColor(0x008B8B),
+            List.of(
+                    Component.literal("Manipulation of spatial dimensions"),
+                    Component.literal("Control over distance and location")
+            ),
+            Map.of(
+                    "ascension:void", 1.8,
+                    "ascension:light", 1.2
+            ),
+            Map.of(
+                    "ascension:earth", 1.5,  // Earth grounds space
+                    "ascension:metal", 1.3   // Metal contains space
+            )
+    );
+
+    // Darkness Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> DARKNESS_DAO = createDao("darkness",
+            Component.literal("§8[Darkness]").withColor(0x000000),
+            List.of(
+                    Component.literal("The absence of light, shadow essence"),
+                    Component.literal("Power of concealment and stealth")
+            ),
+            Map.of(
+                    "ascension:shadow", 1.8,
+                    "ascension:yin", 1.5,
+                    "ascension:void", 1.2
+            ),
+            Map.of(
+                    "ascension:light", 2.0,
+                    "ascension:sun", 2.0,
+                    "ascension:yang", 1.8
+            )
+    );
+
+    // Sun Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> SUN_DAO = createDao("sun",
+            Component.literal("§e[Sun]").withColor(0xFFD700),
+            List.of(
+                    Component.literal("Solar power and light essence"),
+                    Component.literal("Source of life and warmth")
+            ),
+            Map.of(
+                    "ascension:fire", 1.8,
+                    "ascension:light", 2.0,
+                    "ascension:yang", 1.8,
+                    "ascension:life", 1.5
+            ),
+            Map.of(
+                    "ascension:moon", 2.0,
+                    "ascension:darkness", 2.0,
+                    "ascension:yin", 1.8,
+                    "ascension:ice", 1.5
+            )
+    );
+
+    // Light Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> LIGHT_DAO = createDao("light",
+            Component.literal("§f[Light]").withColor(0xFFFFFF),
+            List.of(
+                    Component.literal("Pure illumination and clarity"),
+                    Component.literal("Dispels darkness and reveals truth")
+            ),
+            Map.of(
+                    "ascension:sun", 1.5,
+                    "ascension:yang", 1.2,
+                    "ascension:order", 1.0
+            ),
+            Map.of(
+                    "ascension:darkness", 2.0,
+                    "ascension:shadow", 2.0,
+                    "ascension:yin", 1.8
+            )
+    );
+
+    // Moon Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> MOON_DAO = createDao("moon",
+            Component.literal("§b[Moon]").withColor(0x87CEFA),
+            List.of(
+                    Component.literal("Lunar power and reflection"),
+                    Component.literal("Control over tides and dreams")
+            ),
+            Map.of(
+                    "ascension:yin", 1.8,
+                    "ascension:water", 1.5,
+                    "ascension:shadow", 1.2,
+                    "ascension:ice", 1.0
+            ),
+            Map.of(
+                    "ascension:sun", 2.0,
+                    "ascension:fire", 1.8,
+                    "ascension:light", 1.5
+            )
+    );
+
+    // Shadow Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> SHADOW_DAO = createDao("shadow",
+            Component.literal("§8[Shadow]").withColor(0x696969),
+            List.of(
+                    Component.literal("Manipulation of shadows and stealth"),
+                    Component.literal("Power of concealment and assassination")
+            ),
+            Map.of(
+                    "ascension:darkness", 1.8,
+                    "ascension:yin", 1.5,
+                    "ascension:void", 1.2
+            ),
+            Map.of(
+                    "ascension:light", 2.0,
+                    "ascension:sun", 2.0,
+                    "ascension:fire", 1.5
+            )
+    );
+
+    // Spirit Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> SPIRIT_DAO = createDao("spirit",
+            Component.literal("§d[Spirit]").withColor(0xDA70D6),
+            List.of(
+                    Component.literal("Ethereal essence and spiritual power"),
+                    Component.literal("Connection to the spirit realm")
+            ),
+            Map.of(
+                    "ascension:soul", 1.8,
+                    "ascension:life", 1.5,
+                    "ascension:void", 1.0
+            ),
+            Map.of(
+                    "ascension:body", 2.0,  // Spirit vs Physical
+                    "ascension:earth", 1.8  // Earth grounds spirits
+            )
+    );
+
+    // Demonic Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> DEMONIC_DAO = createDao("demonic",
+            Component.literal("§4[Demonic]").withColor(0x8B0000),
+            List.of(
+                    Component.literal("Infernal power and demonic essence"),
+                    Component.literal("Corruption and dark power")
+            ),
+            Map.of(
+                    "ascension:chaos", 1.8,
+                    "ascension:blood", 1.5,
+                    "ascension:fire", 1.3,
+                    "ascension:defiance", 1.2
+            ),
+            Map.of(
+                    "ascension:heaven", 2.0,
+                    "ascension:light", 1.8,
+                    "ascension:order", 1.5,
+                    "ascension:purity", 2.0
+            )
+    );
+
+    // Cosmos Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> COSMOS_DAO = createDao("cosmos",
+            Component.literal("§5[Cosmos]").withColor(0x9400D3),
+            List.of(
+                    Component.literal("The universe as a harmonious system"),
+                    Component.literal("Celestial bodies and cosmic forces")
+            ),
+            Map.of(
+                    "ascension:space", 1.8,
+                    "ascension:time", 1.5,
+                    "ascension:order", 1.2,
+                    "ascension:balance", 1.0
+            ),
+            Map.of(
+                    "ascension:chaos", 2.0,
+                    "ascension:void", 1.8
+            )
+    );
+
+    // Time Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> TIME_DAO = createDao("time",
+            Component.literal("§3[Time]").withColor(0x008080),
+            List.of(
+                    Component.literal("Control over temporal flow"),
+                    Component.literal("Manipulation of past, present, and future")
+            ),
+            Map.of(
+                    "ascension:space", 1.5,  // Spacetime connection
+                    "ascension:reincarnation", 1.2,
+                    "ascension:memory", 1.0
+            ),
+            Map.of(
+                    "ascension:chaos", 2.0,  // Chaos disrupts time
+                    "ascension:void", 1.8    // Void is timeless
+            )
+    );
+
+    // Memory Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> MEMORY_DAO = createDao("memory",
+            Component.literal("§d[Memory]").withColor(0xBA55D3),
+            List.of(
+                    Component.literal("Power of remembrance and recollection"),
+                    Component.literal("Storage and retrieval of experiences")
+            ),
+            Map.of(
+                    "ascension:soul", 1.5,
+                    "ascension:spirit", 1.2,
+                    "ascension:reincarnation", 1.0
+            ),
+            Map.of(
+                    "ascension:void", 2.0,    // Void erases memory
+                    "ascension:chaos", 1.8    // Chaos scrambles memory
+            )
+    );
+
+    // Sharpness Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> SHARPNESS_DAO = createDao("sharpness",
+            Component.literal("§7[Sharpness]").withColor(0xC0C0C0),
+            List.of(
+                    Component.literal("The quality of being sharp"),
+                    Component.literal("Cutting edge and precision")
+            ),
+            Map.of(
+                    "ascension:metal", 1.8,
+                    "ascension:sword_intent", 1.5,
+                    "ascension:blade_intent", 1.3
+            ),
+            Map.of(
+                    "ascension:earth", 1.5,   // Earth dulls edges
+                    "ascension:water", 1.3    // Water erodes sharpness
+            )
+    );
+
+    // Cutting Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> CUTTING_DAO = createDao("cutting",
+            Component.literal("§8[Cutting]").withColor(0x808080),
+            List.of(
+                    Component.literal("The act of dividing or severing"),
+                    Component.literal("Separation and division")
+            ),
+            Map.of(
+                    "ascension:sharpness", 1.8,
+                    "ascension:sword_intent", 1.5,
+                    "ascension:blade_intent", 1.3,
+                    "ascension:metal", 1.2
+            ),
+            Map.of(
+                    "ascension:earth", 1.8,   // Earth resists cutting
+                    "ascension:wood", 1.5     // Wood can be cut but resists
+            )
+    );
+
+
+
+    public static final DeferredHolder<IDao, GenericDao> STORM_DAO = createDao("storm",
+            Component.literal("§9[Storm]").withColor(0x4A90E2),
+            List.of(
+                    Component.literal("The fury of wind and lightning combined"),
+                    Component.literal("Unpredictable and overwhelming natural force")
+            ),
+            Map.of(
+                    "ascension:wind", 1.5,
+                    "ascension:lightning", 1.5,
+                    "ascension:chaos", 1.2
+            ),
+            Map.of(
+                    "ascension:earth", 1.8,
+                    "ascension:metal", 1.5
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> LIGHTNING_DAO = createDao("lightning",
+            Component.literal("§e[Lightning]").withColor(0xFFD700),
+            List.of(
+                    Component.literal("Heaven's wrath made manifest"),
+                    Component.literal("Instantaneous power and divine punishment")
+            ),
+            Map.of(
+                    "ascension:yang", 1.8,
+                    "ascension:void", 0.3  // Lightning bridges emptiness
+            ),
+            Map.of(
+                    "ascension:water", 2.0,
+                    "ascension:metal", 1.5
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> WIND_DAO = createDao("wind",
+            Component.literal("§7[Wind]").withColor(0xA0A0A0),
+            List.of(
+                    Component.literal("Freedom without boundaries"),
+                    Component.literal("Gentle breeze or howling tempest")
+            ),
+            Map.of(
+                    "ascension:void", 1.2,
+                    "ascension:yang", 0.8
+            ),
+            Map.of(
+                    "ascension:earth", 1.5
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> SOUL_DAO = createDao("soul",
+            Component.literal("§d[Soul]").withColor(0xDA70D6),
+            List.of(
+                    Component.literal("Essence of consciousness and spirit"),
+                    Component.literal("Connection to the spiritual realm")
+            ),
+            Map.of(
+                    "ascension:reincarnation", 1.5,
+                    "ascension:yin", 1.2
+            ),
+            Map.of(
+                    "ascension:void", 0.8  // Soul resists emptiness
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> BLOOD_DAO = createDao("blood",
+            Component.literal("§4[Blood]").withColor(0x8B0000),
+            List.of(
+                    Component.literal("Life essence and vitality"),
+                    Component.literal("Sacrificial power and lineage")
+            ),
+            Map.of(
+                    "ascension:fire", 1.2,
+                    "ascension:life", 1.0
+            ),
+            Map.of(
+                    "ascension:ice", 1.8,
+                    "ascension:purity", 2.0
+            )
+    );
+
+    public static final DeferredHolder<IDao, GenericDao> LIFE_DAO = createDao("life",
+            Component.literal("§a[Life]").withColor(0x32CD32),
+            List.of(
+                    Component.literal("Creation and vitality"),
+                    Component.literal("Healing and growth essence")
+            ),
+            Map.of(
+                    "ascension:wood", 1.5,
+                    "ascension:water", 1.2
+            ),
+            Map.of(
+                    "ascension:death", 2.0,
+                    "ascension:void", 1.8
+            )
+    );
+
     public static final DeferredHolder<IDao, GenericDao> CHAOS_DAO = createDao("chaos",
             Component.literal("§5[Chaos]"),
             List.of(
