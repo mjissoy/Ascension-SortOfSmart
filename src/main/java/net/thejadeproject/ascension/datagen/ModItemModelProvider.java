@@ -119,6 +119,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.JADE.get());
         basicItem(ModItems.JADE_NUGGET.get());
 
+
+        basicItem(ModItems.SPATIAL_STONE_TIER_1.get());
+        basicItem(ModItems.SPATIAL_STONE_TIER_2.get());
+
         basicItem(ModItems.RAW_BLACK_IRON.get());
         basicItem(ModItems.BLACK_IRON_INGOT.get());
         basicItem(ModItems.BLACK_IRON_NUGGET.get());

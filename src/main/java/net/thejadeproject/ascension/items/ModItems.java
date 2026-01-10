@@ -38,15 +38,15 @@ public class ModItems {
     public static final DeferredItem<Item> SPATIAL_STONE_TIER_2 = ITEMS.register("spatial_stone_tier_2",
             () -> new SpatialStoneItem(2, "II", Rarity.UNCOMMON));
 
-    // Stack Upgrades
-    public static final DeferredItem<Item> STACK_UPGRADE_T1 = ITEMS.register("stack_upgrade_t1",
+    // Stack Upgrades Todo Fix upgrades
+    /*public static final DeferredItem<Item> STACK_UPGRADE_T1 = ITEMS.register("stack_upgrade_t1",
             () -> new UpgradeItem("stack_upgrade_t1", Rarity.UNCOMMON));
     public static final DeferredItem<Item> STACK_UPGRADE_T2 = ITEMS.register("stack_upgrade_t2",
             () -> new UpgradeItem("stack_upgrade_t2", Rarity.RARE));
 
     // Pickup Upgrade
     public static final DeferredItem<Item> PICKUP_UPGRADE = ITEMS.register("pickup_upgrade",
-            () -> new UpgradeItem("pickup_upgrade", Rarity.RARE));
+            () -> new UpgradeItem("pickup_upgrade", Rarity.RARE));*/
 
 
     public static final DeferredItem<Item> SPATIAL_RING = ITEMS.register("spatial_ring",

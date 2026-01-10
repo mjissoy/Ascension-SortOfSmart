@@ -57,6 +57,8 @@ public class lang extends LanguageProvider {
 
         //Misc
         add("item.ascension.spiritual_stone", "Spiritual Stone");
+        add("item.ascension.spatial_stone_tier_1", "Spatial Stone I");
+        add("item.ascension.spatial_stone_tier_2", "Spatial Stone II");
         add("item.ascension.raw_black_iron", "Raw Black Iron");
         add("item.ascension.black_iron_ingot", "Black Iron Ingot");
         add("item.ascension.black_iron_nugget", "Black Iron Nugget");

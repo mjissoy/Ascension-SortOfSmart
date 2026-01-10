@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-04T14:31:57.5540231	Item Models: ascension
+// 1.21.1	2026-01-10T10:23:43.9490674	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -116,6 +116,8 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t1.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t2.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t3.json
+a7ff31f747dbbf2738ae2e466431d0053e40e809 assets/ascension/models/item/spatial_stone_tier_1.json
+57a70c9cb2ba815a029c34446d5c7260d5aa135a assets/ascension/models/item/spatial_stone_tier_2.json
 c707f86ce5008f1c2a96c9ca40ee5b5b2b1502fa assets/ascension/models/item/spirit_focus_pill_t1.json
 2ecc14f50d0b8ba2c3dec0f1a1b9d7f19fec3b1a assets/ascension/models/item/spirit_focus_pill_t2.json
 b60f7bee708913d9cae6e49b15bdbf0649ceefbb assets/ascension/models/item/spirit_focus_pill_t3.json
