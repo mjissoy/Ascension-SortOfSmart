@@ -30,6 +30,9 @@ public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
 
 
+    public static final DeferredItem<Item> RIFT_SUMMONER_DEBUG_STICK = ITEMS.register("rift_debug_stick",
+            () -> new ShaderSummonerItem(new Item.Properties()));
+
 
     //Spatial Ring Stuff
 
