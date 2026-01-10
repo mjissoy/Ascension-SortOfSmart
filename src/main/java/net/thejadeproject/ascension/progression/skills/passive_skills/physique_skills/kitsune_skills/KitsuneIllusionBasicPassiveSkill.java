@@ -1,4 +1,5 @@
 package net.thejadeproject.ascension.progression.skills.passive_skills.physique_skills.kitsune_skills;
+
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -20,7 +21,6 @@ import java.util.*;
 public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
 
     private static final Map<UUID, Long> illusionCooldowns = new HashMap<>();
-    private static final long ILLUSION_COOLDOWN_TICKS = 20 * 15; // 15 seconds
 
     public KitsuneIllusionBasicPassiveSkill() {
         super(Component.translatable("ascension.physique.passive.kitsune_illusion_basic"));
@@ -39,24 +39,19 @@ public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
             long currentTime = player.level().getGameTime();
             Long lastTrigger = illusionCooldowns.get(playerId);
 
-            // Check cooldown
-            if (lastTrigger != null && (currentTime - lastTrigger) < ILLUSION_COOLDOWN_TICKS) {
+            if (lastTrigger != null && (currentTime - lastTrigger) < 20 * 15) {
                 return;
             }
 
             int essenceRealm = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(this.path).majorRealm;
-            double dodgeChance = 0.10 + (essenceRealm * 0.05); // 10% base + 5% per realm
+            double dodgeChance = 0.10 + (essenceRealm * 0.05);
 
             if (player.getRandom().nextDouble() < dodgeChance) {
-                // Create illusion clone
                 createIllusionClone(player, attacker);
 
-                // Trigger cooldown
                 illusionCooldowns.put(playerId, currentTime);
 
-                // Cancel the damage
                 event.setNewDamage(0.0F);
-                // Spawn particles
                 spawnIllusionParticles(player.level(), player.position());
             }
         }
@@ -65,7 +60,6 @@ public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
     private void createIllusionClone(Player player, LivingEntity attacker) {
         if (!(player.level() instanceof ServerLevel serverLevel)) return;
 
-        // Find nearby monsters to distract
         AABB searchArea = player.getBoundingBox().inflate(10.0);
         List<Monster> nearbyMonsters = player.level().getEntitiesOfClass(
                 Monster.class,
@@ -73,7 +67,6 @@ public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
                 monster -> monster != attacker && monster.isAlive()
         );
 
-        // Choose a random monster or the attacker as target
         LivingEntity distractionTarget;
         if (!nearbyMonsters.isEmpty() && player.getRandom().nextBoolean()) {
             distractionTarget = nearbyMonsters.get(player.getRandom().nextInt(nearbyMonsters.size()));
@@ -81,7 +74,6 @@ public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
             distractionTarget = attacker;
         }
 
-        // Create illusion particles at distraction target
         for (int i = 0; i < 30; i++) {
             double offsetX = (player.getRandom().nextDouble() - 0.5) * 2.0;
             double offsetY = player.getRandom().nextDouble() * 2.0;
@@ -94,7 +86,6 @@ public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
                     1, 0, 0, 0, 0.05);
         }
 
-        // Foxfire particles around player (illusion effect)
         for (int i = 0; i < 20; i++) {
             double angle = player.getRandom().nextDouble() * Math.PI * 2;
             double radius = player.getRandom().nextDouble() * 1.5 + 0.5;
@@ -102,20 +93,16 @@ public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
             double z = player.getZ() + radius * Math.sin(angle);
             double y = player.getY() + player.getRandom().nextDouble() * 2.0;
 
-            // Foxfire particles (purple/blue)
             serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME,
                     x, y, z,
                     1, 0, 0.1, 0, 0.02);
 
-            // Additional illusion particles
             serverLevel.sendParticles(ParticleTypes.ENCHANT,
                     x, y, z,
                     1, 0, 0.05, 0, 0.05);
         }
 
-        // Make the distraction target more visible (temporary glow)
         distractionTarget.setGlowingTag(true);
-        // Remove glow after 3 seconds
         serverLevel.getServer().execute(() -> {
             if (distractionTarget.isAlive()) {
                 distractionTarget.setGlowingTag(false);
@@ -126,7 +113,6 @@ public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
     private void spawnIllusionParticles(Level level, Vec3 position) {
         if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) return;
 
-        // Create a puff of smoke/mist at player position
         for (int i = 0; i < 15; i++) {
             double offsetX = (level.random.nextDouble() - 0.5) * 1.0;
             double offsetY = level.random.nextDouble() * 2.0;
@@ -137,13 +123,11 @@ public class KitsuneIllusionBasicPassiveSkill extends AbstractPassiveSkill {
                     1, 0, 0, 0, 0.1);
         }
 
-        // Fox tail effect particles
         for (int i = 0; i < 10; i++) {
             double offsetX = (level.random.nextDouble() - 0.5) * 0.5;
             double offsetY = level.random.nextDouble() * 0.5;
             double offsetZ = (level.random.nextDouble() - 0.5) * 0.5;
 
-            // Purple/blue fox magic
             serverLevel.sendParticles(ParticleTypes.WITCH,
                     position.x + offsetX, position.y + offsetY, position.z + offsetZ,
                     1, 0, 0.05, 0, 0.05);

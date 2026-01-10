@@ -34,7 +34,6 @@ public class ModEntities {
                             .build("poison_pill"));
 
 
-
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);
     }

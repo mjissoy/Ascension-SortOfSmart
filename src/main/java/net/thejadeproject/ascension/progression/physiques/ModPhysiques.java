@@ -17,64 +17,12 @@ import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSki
 import java.util.HashMap;
 import java.util.List;
 
-import static net.thejadeproject.ascension.progression.physiques.CustomAttributesPhysiques.KITSUNE_BASE_MAJOR_STATS;
-import static net.thejadeproject.ascension.progression.physiques.CustomAttributesPhysiques.KITSUNE_BASE_MINOR_STATS;
+import static net.thejadeproject.ascension.progression.physiques.CustomAttributesPhysiques.*;
 
 public class ModPhysiques {
 
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
-    public static HashMap<Holder<Attribute>,Double> GENERIC_MINOR_REALM_STATS_1 = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH,5.0);
-        put(Attributes.ATTACK_DAMAGE,1.0);
-        put(Attributes.MOVEMENT_SPEED,0.01);
-        put(Attributes.JUMP_STRENGTH,0.01);
-        put(Attributes.STEP_HEIGHT,0.01);
-
-    }};
-    public static HashMap<Holder<Attribute>,Double> ENHANCED_MINOR_REALM_STATS_1 = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH,10.0);
-        put(Attributes.ATTACK_DAMAGE,1.8);
-        put(Attributes.MOVEMENT_SPEED,0.2);
-        put(Attributes.JUMP_STRENGTH,0.04);
-        put(Attributes.STEP_HEIGHT,0.04);
-
-    }};
-
-    public static HashMap<Holder<Attribute>,Double> GENERIC_MAJOR_REALM_STATS_1 = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH,10.0);
-        put(Attributes.ATTACK_DAMAGE,2.0);
-        put(Attributes.MOVEMENT_SPEED,0.5);
-        put(Attributes.JUMP_STRENGTH,0.02);
-        put(Attributes.STEP_HEIGHT,0.02);
-
-    }};
-    public static HashMap<Holder<Attribute>,Double> ENHANCED_MAJOR_REALM_STATS_1 = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH,10.0);
-        put(Attributes.ATTACK_DAMAGE,1.8);
-        put(Attributes.MOVEMENT_SPEED,0.2);
-        put(Attributes.JUMP_STRENGTH,0.04);
-        put(Attributes.STEP_HEIGHT,0.04);
-
-    }};
-
-    public static HashMap<Holder<Attribute>,Double> STONE_MONKEY_MINOR_REALM_STATS = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH, 20.0);  // High HP
-        put(Attributes.ATTACK_DAMAGE, 2.5); // High damage
-        put(Attributes.MOVEMENT_SPEED, 0.01); // Slow base, but compensated by abilities
-        put(Attributes.JUMP_STRENGTH, 0.1); // Better jump
-        put(Attributes.KNOCKBACK_RESISTANCE, 0.5); // Can't be knocked back easily
-        put(Attributes.STEP_HEIGHT, 0.02);
-    }};
-
-    public static HashMap<Holder<Attribute>,Double> STONE_MONKEY_MAJOR_REALM_STATS = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH, 30.0);
-        put(Attributes.ATTACK_DAMAGE, 4.0);
-        put(Attributes.MOVEMENT_SPEED, 0.02);
-        put(Attributes.JUMP_STRENGTH, 0.2);
-        put(Attributes.KNOCKBACK_RESISTANCE, 1.0); // Complete knockback immunity at high realms
-        put(Attributes.STEP_HEIGHT, 0.1);
-    }};
 
 
     public static final DeferredHolder<IPhysique,GenericPhysique> HEAVENBORN_STONE_MONKEY_PHYSIQUE = PHYSIQUES.register("heavenborn_stone_monkey_physique",

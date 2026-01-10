@@ -1,7 +1,6 @@
 package net.thejadeproject.ascension.progression.skills;
 
 import net.lucent.easygui.util.textures.TextureData;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -16,10 +15,9 @@ import net.thejadeproject.ascension.progression.skills.active_skills.metal_dao.O
 import net.thejadeproject.ascension.progression.skills.active_skills.space_dao.SpaceInfusionActiveSkill;
 import net.thejadeproject.ascension.progression.skills.active_skills.wood_dao.RootwardensCallActiveSkill;
 import net.thejadeproject.ascension.progression.skills.passive_skills.*;
-import net.thejadeproject.ascension.progression.skills.passive_skills.physique_skills.kitsune_skills.FoxfireManipulationActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.physique_skills.kitsune_skills.FoxfireManipulationActiveSkill;
 import net.thejadeproject.ascension.progression.skills.passive_skills.physique_skills.kitsune_skills.KitsuneIllusionBasicPassiveSkill;
 import net.thejadeproject.ascension.progression.skills.passive_skills.physique_skills.kitsune_skills.TailMultiplierPassiveSkill;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.List;
