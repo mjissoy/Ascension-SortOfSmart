@@ -7,7 +7,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.entity.client.shaders.RiftEntity;
+import net.thejadeproject.ascension.entity.custom.shaders.RiftEntity;
 import net.thejadeproject.ascension.entity.custom.TreasureRatEntity;
 
 import java.util.function.Supplier;
@@ -43,7 +43,8 @@ public class ModEntities {
                             .sized(0.5f, 3.0f)
                             .clientTrackingRange(64)
                             .updateInterval(1)
-                            .build("rift")
+                            .build("ascension:rift")
+
             );
 
 

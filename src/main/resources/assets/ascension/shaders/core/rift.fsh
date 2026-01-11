@@ -1,15 +1,14 @@
-
 #version 150
 
 uniform float GameTime;
+uniform sampler2D Sampler0;
 
 in vec2 texCoord;
-in vec3 worldPos;
 
 out vec4 FragColor;
 
 float noise(vec2 p) {
-    return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453);
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 void main() {
@@ -24,7 +23,7 @@ void main() {
     float crackMask = smoothstep(crackWidth, crackWidth - 0.02, dist);
 
     float flow = sin((texCoord.y * 20.0) - time * 6.0);
-    float pulse = sin (time * 3.0) * 0.2 + 0.8;
+    float pulse = sin(time * 3.0) * 0.2 + 0.8;
 
     vec3 baseColor = vec3(0.4, 0.8, 1.0);
     vec3 glowColor = vec3(0.6, 0.9, 1.0);
@@ -36,6 +35,11 @@ void main() {
     color += glow * vec3(0.3, 0.6, 1.0);
 
     float alpha = crackMask + glow * 0.6;
+
+    // Sample the texture to use Sampler0 and prevent optimization
+    vec4 texColor = texture(Sampler0, texCoord);
+    alpha *= texColor.a;
+
     if (alpha < 0.05) discard;
 
     FragColor = vec4(color, alpha);

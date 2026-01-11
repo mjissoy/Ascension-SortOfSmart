@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.thejadeproject.ascension.entity.ModEntities;
-import net.thejadeproject.ascension.entity.client.shaders.RiftEntity;
+import net.thejadeproject.ascension.entity.custom.shaders.RiftEntity;
 
 public class ShaderSummonerItem extends Item {
     public ShaderSummonerItem(Properties properties) {
@@ -17,26 +17,34 @@ public class ShaderSummonerItem extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        ItemStack itemStack = player.getItemInHand(hand);
+
+        System.out.println("[ShaderSummonerItem] Attempting to spawn rift...");
+        System.out.println("[ShaderSummonerItem] Is client side: " + level.isClientSide);
+
         if (!level.isClientSide) {
             // Calculate position 2 blocks in front of the player
-            Vec3 lookDirection = player.getLookAngle(); // Get the direction player is looking
-            double distance = 2.0; // Distance in blocks
+            Vec3 lookDirection = player.getLookAngle();
+            double distance = 2.0;
 
-            // Calculate spawn position: player position + look direction * distance
             double spawnX = player.getX() + lookDirection.x * distance;
-            double spawnY = player.getY() + player.getEyeHeight() + lookDirection.y * distance; // Adjust for eye height
+            double spawnY = player.getY() + player.getEyeHeight() + lookDirection.y * distance;
             double spawnZ = player.getZ() + lookDirection.z * distance;
 
-            // Ensure the rift spawns at ground level if looking downward
-            if (lookDirection.y < 0) {
-                // If looking down, adjust so it doesn't spawn underground
-                spawnY = Math.max(level.getMinBuildHeight() + 1, spawnY);
-            }
+            System.out.println("[ShaderSummonerItem] Spawning at: " + spawnX + ", " + spawnY + ", " + spawnZ);
 
             RiftEntity rift = new RiftEntity(ModEntities.RIFT.get(), level);
             rift.setPos(spawnX, spawnY, spawnZ);
-            level.addFreshEntity(rift);
+
+            if (level.addFreshEntity(rift)) {
+                System.out.println("[ShaderSummonerItem] Rift spawned successfully! Entity ID: " + rift.getId());
+            } else {
+                System.out.println("[ShaderSummonerItem] FAILED to spawn rift!");
+            }
+        } else {
+            System.out.println("[ShaderSummonerItem] Called on client side - not spawning");
         }
-        return InteractionResultHolder.success(player.getItemInHand(hand));
+
+        return InteractionResultHolder.success(itemStack);
     }
 }

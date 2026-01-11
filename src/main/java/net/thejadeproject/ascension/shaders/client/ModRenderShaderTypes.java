@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 
 public class ModRenderShaderTypes {
 
@@ -13,16 +14,19 @@ public class ModRenderShaderTypes {
             VertexFormat.Mode.QUADS,
             256,
             false,
-            true,
+            false,  // Changed to false for better transparency
             RenderType.CompositeState.builder()
                     .setShaderState(new RenderStateShard.ShaderStateShard(() -> ModShaders.RIFT_SHADER))
-                    .setTextureState(RenderStateShard.NO_TEXTURE)
+                    .setTextureState(new RenderStateShard.TextureStateShard(
+                            ResourceLocation.fromNamespaceAndPath("minecraft", "textures/misc/white.png"),
+                            false,
+                            false
+                    ))
                     .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
                     .setCullState(RenderType.NO_CULL)
                     .setLightmapState(RenderType.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY)
-                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
-                    .setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE)
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
                     .createCompositeState(false)
     );
 }

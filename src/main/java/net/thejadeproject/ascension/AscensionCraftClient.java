@@ -21,10 +21,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.event.RegisterShadersEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -47,6 +44,7 @@ import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.shaders.client.ModShaders;
 import net.thejadeproject.ascension.shaders.client.RiftRenderer;
+import net.thejadeproject.ascension.shaders.client.RiftRendererDebug;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import java.io.IOException;
@@ -84,11 +82,6 @@ public class AscensionCraftClient {
         }
 
         @SubscribeEvent
-        public static void registerShaders(RegisterShadersEvent event) throws IOException {
-            ModShaders.register(event);
-        }
-
-        @SubscribeEvent
         public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ModParticles.CULTIVATION_PARTICLES.get(), CultivationParticles.Provider::new);
         }
@@ -99,11 +92,26 @@ public class AscensionCraftClient {
         }
 
         @SubscribeEvent
+        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            // Register rift renderer here
+            event.registerEntityRenderer(
+                    ModEntities.RIFT.get(),
+                    RiftRendererDebug::new
+            );
+            System.out.println("[ClientEvents] Registered RiftRenderer");
+        }
+
+        @SubscribeEvent
+        public static void registerShaders(RegisterShadersEvent event) throws IOException {
+            ModShaders.register(event);
+        }
+
+        @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
 
             EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
-            EntityRenderers.register(ModEntities.RIFT.get(), RiftRenderer::new);
+
 
 
 
