@@ -18,6 +18,12 @@ public class lang extends LanguageProvider {
 
 
 
+        add("ascension.technique.path.essence", "§6[Essence]");
+        add("ascension.technique.path.intent", "§5[Intent]");
+        add("ascension.technique.path.body", "§c[Body]");
+
+
+
         //Advancements
         add("advancements.ascension.root.install", "Ascension Loaded");
         add("advancements.ascension.root.welcome", "Welcome to the world of Ascension! We hope you will cultivate to immortality!");
@@ -198,6 +204,11 @@ public class lang extends LanguageProvider {
         add("item.ascension.pure_earth_technique","Pure Earth Technique");
         add("item.ascension.pure_metal_technique","Pure Metal Technique");
         add("item.ascension.void_swallowing_technique","Void Swallowing Technique");
+        add("item.ascension.swift_breeze_technique","Swift Breeze Technique");
+        add("item.ascension.thunder_heart_technique","Thunder Heart Technique");
+        add("item.ascension.void_walker_technique","Void Walker Technique");
+        add("item.ascension.cosmic_creation_essence_technique","Cosmic Creation Essence Technique");
+        add("item.ascension.infinite_time_essence_technique","Infinite Time Essence Technique");
 
         //Intent
         add("item.ascension.pure_sword_intent","Pure Sword Intent Technique");
@@ -206,6 +217,11 @@ public class lang extends LanguageProvider {
         add("item.ascension.pure_spear_intent","Pure Spear Intent Technique");
         add("item.ascension.pure_blade_intent","Pure Blade Intent Technique");
         add("item.ascension.fist_king_intent","Fist Kings Technique");
+        add("item.ascension.focused_strike_technique","Focused Strike Technique");
+        add("item.ascension.blade_dance_technique","Blade Dance Technique");
+        add("item.ascension.sword_saint_technique","Sword Saint Technique");
+        add("item.ascension.universe_devourer_intent_technique","Universe Devourer Intent Technique");
+        add("item.ascension.eternal_reincarnation_intent_technique","Eternal Reincarnation Intent Technique");
 
         //Body
 
@@ -215,6 +231,11 @@ public class lang extends LanguageProvider {
         add("item.ascension.metal_elemental_technique","Metal Elemental Technique");
         add("item.ascension.fire_elemental_technique","Fire Elemental Technique");
         add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique");
+        add("item.ascension.iron_skin_technique","Iron Skin Technique");
+        add("item.ascension.jade_bone_technique","Jade Bone Technique");
+        add("item.ascension.celestial_body_technique","Celestial Body Technique");
+        add("item.ascension.primordial_chaos_body_technique","Primordial Chaos Body Technique");
+        add("item.ascension.dragon_king_body_technique","Dragon King Body Technique");
 
 
         add("ascension.learnt_technique","You have learned the %s");

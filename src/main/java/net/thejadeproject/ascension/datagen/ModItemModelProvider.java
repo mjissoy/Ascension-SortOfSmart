@@ -156,7 +156,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.PURE_METAL_TECHNIQUE.manual.get());
         manual(ModTechniques.PURE_EARTH_TECHNIQUE.manual.get());
         manual(ModTechniques.PURE_WOOD_TECHNIQUE.manual.get());
+        manual(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get()); // Human Tier - New
         manual(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get());
+        manual(ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get()); // Earth Tier - New
+        manual(ModTechniques.VOID_WALKER_TECHNIQUE.manual.get()); // Heaven Tier - New
+        manual(ModTechniques.COSMIC_CREATION_ESSENCE_TECHNIQUE.manual.get()); // Ascension Tier - New
+        manual(ModTechniques.INFINITE_TIME_ESSENCE_TECHNIQUE.manual.get()); // Ascension Tier - New
 
         //Intent
         manual(ModTechniques.PURE_SWORD_INTENT.manual.get());
@@ -164,7 +169,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.PURE_AXE_INTENT.manual.get());
         manual(ModTechniques.PURE_BLADE_INTENT.manual.get());
         manual(ModTechniques.PURE_SPEAR_INTENT.manual.get());
+        manual(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual.get()); // Human Tier - New
         manual(ModTechniques.FIST_KINGS_TECHNIQUE.manual.get());
+        manual(ModTechniques.BLADE_DANCE_TECHNIQUE.manual.get()); // Earth Tier - New
+        manual(ModTechniques.SWORD_SAINT_TECHNIQUE.manual.get()); // Heaven Tier - New
+        manual(ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual.get()); // Ascension Tier - New
+        manual(ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual.get()); // Ascension Tier - New
 
         //Body
         manual(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual.get());
@@ -172,7 +182,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual.get());
         manual(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual.get());
         manual(ModTechniques.WOOD_ELEMENTAL_TECHNIQUE.manual.get());
+        manual(ModTechniques.IRON_SKIN_TECHNIQUE.manual.get()); // Human Tier - New
         manual(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get());
+        manual(ModTechniques.JADE_BONE_TECHNIQUE.manual.get()); // Earth Tier - New
+        manual(ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual.get()); // Heaven Tier - New
+        manual(ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual.get()); // Ascension Tier - New
+        manual(ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual.get()); // Ascension Tier - New
 
         //Tablet Of Destructions
         tablet(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get());

@@ -14,18 +14,23 @@ public class ModRenderShaderTypes {
             VertexFormat.Mode.QUADS,
             256,
             false,
-            false,  // Changed to false for better transparency
+            false,
             RenderType.CompositeState.builder()
                     .setShaderState(new RenderStateShard.ShaderStateShard(() -> ModShaders.RIFT_SHADER))
                     .setTextureState(new RenderStateShard.TextureStateShard(
-                            ResourceLocation.fromNamespaceAndPath("minecraft", "textures/misc/white.png"),
+                            ResourceLocation.withDefaultNamespace("textures/misc/white.png"),
                             false,
                             false
                     ))
+
+                    // Transparency & visibility
                     .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
                     .setCullState(RenderType.NO_CULL)
                     .setLightmapState(RenderType.NO_LIGHTMAP)
                     .setOverlayState(RenderStateShard.NO_OVERLAY)
+
+                    // Depth handling
+                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                     .setWriteMaskState(RenderStateShard.COLOR_WRITE)
                     .createCompositeState(false)
     );

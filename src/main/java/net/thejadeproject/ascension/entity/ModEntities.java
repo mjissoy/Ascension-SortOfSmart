@@ -34,16 +34,18 @@ public class ModEntities {
                             .updateInterval(10)
                             .build("poison_pill"));
 
-    // Add RiftEntity registration
-    public static final Supplier<EntityType<RiftEntity>> RIFT =
+    public static final DeferredHolder<EntityType<?>, EntityType<RiftEntity>> RIFT =
             ENTITY_TYPES.register("rift",
-                    () -> EntityType.Builder.<RiftEntity>of(RiftEntity::new, MobCategory.MISC)
-                            .sized(1.0f, 2.0f) // Width and height of the entity
+                    () -> EntityType.Builder.of(
+                                    RiftEntity::new,
+                                    MobCategory.MISC
+                            )
+                            .sized(0.5f, 3.0f)
                             .clientTrackingRange(64)
                             .updateInterval(1)
                             .build("rift")
-            );
 
+            );
 
 
     public static void register(IEventBus eventBus) {

@@ -1,30 +1,22 @@
 #version 150
 
-in vec3 Position;
-in vec2 UV0;
-in vec4 Color;
-in vec3 Normal;
-
+uniform sampler2D Sampler0;
+uniform float GameTime;
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
-uniform float GameTime;
 
-out vec2 texCoord0;
-out vec4 vertexColor;
-out vec3 normal;
-out vec3 worldPos;
-out float time;
+in vec3 Position;
+in vec2 UV0;
+
+out vec2 texCoord;
 
 void main() {
-    // Calculate world position for fragment shader
-    worldPos = Position;
+    texCoord = UV0;
 
-    // Pass through texture coordinates and color
-    texCoord0 = UV0;
-    vertexColor = Color;
-    normal = Normal;
-    time = GameTime;
+    // Use GameTime in vertex transformation to prevent optimization
+    // This creates a subtle pulsing effect
+    float timeOffset = sin(GameTime * 3.0) * 0.01;
+    vec3 pos = Position + vec3(timeOffset, timeOffset, 0.0);
 
-    // Standard position transformation
-    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
+    gl_Position = ProjMat * ModelViewMat * vec4(pos, 1.0);
 }
