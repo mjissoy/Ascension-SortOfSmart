@@ -1,46 +1,121 @@
 #version 150
 
-uniform float GameTime;
 uniform sampler2D Sampler0;
+uniform float GameTime;
 
-in vec2 texCoord;
+in vec2 texCoord0;
+in vec4 vertexColor;
+in vec3 normal;
+in vec3 worldPos;
+in float time;
 
-out vec4 FragColor;
+out vec4 fragColor;
+
+// Simplex noise function (simplified for performance)
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
+}
 
 float noise(vec2 p) {
-    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+
+    vec2 u = f * f * (3.0 - 2.0 * f);
+
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+
+    return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+}
+
+// Fractal Brownian Motion
+float fbm(vec2 p) {
+    float value = 0.0;
+    float amplitude = 0.5;
+    float frequency = 1.0;
+
+    for (int i = 0; i < 5; i++) {
+        value += amplitude * noise(p * frequency);
+        amplitude *= 0.5;
+        frequency *= 2.0;
+    }
+
+    return value;
+}
+
+// Create crack pattern
+float crackPattern(vec2 uv) {
+    // Scale and rotate UV
+    uv = uv * 4.0;
+    uv.y += time * 0.1;
+
+    // Create main crack lines
+    float cracks = 0.0;
+    cracks += fbm(uv * 2.0) * 0.8;
+    cracks += fbm(uv * 4.0 + vec2(time * 0.05)) * 0.4;
+    cracks += fbm(uv * 8.0 - vec2(time * 0.1)) * 0.2;
+
+    // Threshold to create sharp cracks
+    cracks = smoothstep(0.3, 0.7, cracks);
+
+    return cracks;
 }
 
 void main() {
-    float time = GameTime * 0.02;
+    // Create UV with time-based animation
+    vec2 uv = texCoord0 * 2.0 - 1.0;
 
-    float crackWidth = 0.08;
-    float dist = abs(texCoord.x - 0.5);
+    // Calculate crack pattern
+    float cracks = crackPattern(uv);
 
-    float wave = sin((texCoord.y * 15.0) + time * 4.0) * 0.02;
-    dist += wave;
+    // Base light blue color
+    vec3 baseColor = vec3(0.5, 0.8, 1.0);
 
-    float crackMask = smoothstep(crackWidth, crackWidth - 0.02, dist);
+    // Inner glow color (brighter)
+    vec3 innerColor = vec3(0.7, 0.9, 1.0);
 
-    float flow = sin((texCoord.y * 20.0) - time * 6.0);
-    float pulse = sin(time * 3.0) * 0.2 + 0.8;
+    // Edge glow (very bright)
+    vec3 edgeColor = vec3(0.9, 1.0, 1.0);
 
-    vec3 baseColor = vec3(0.4, 0.8, 1.0);
-    vec3 glowColor = vec3(0.6, 0.9, 1.0);
+    // Create animated pulse
+    float pulse = sin(time * 2.0) * 0.1 + 0.9;
 
-    vec3 color = mix(baseColor, glowColor, flow * 0.5 + 0.5);
-    color *= pulse;
+    // Calculate final color
+    vec3 finalColor;
 
-    float glow = smoothstep(0.25, 0.0, dist);
-    color += glow * vec3(0.3, 0.6, 1.0);
+    if (cracks > 0.8) {
+        // Crack edges - brightest
+        finalColor = edgeColor * pulse * 1.5;
+    } else if (cracks > 0.5) {
+        // Inside cracks - bright glow
+        finalColor = mix(innerColor, edgeColor, (cracks - 0.5) / 0.3) * pulse;
+    } else if (cracks > 0.2) {
+        // Fade to base color
+        finalColor = mix(baseColor, innerColor, (cracks - 0.2) / 0.3) * 0.8;
+    } else {
+        // Transparent outside
+        finalColor = baseColor * cracks * 0.5;
+    }
 
-    float alpha = crackMask + glow * 0.6;
+    // Add time-based swirling effect
+    float swirl = sin(uv.x * 3.0 + uv.y * 3.0 + time) * 0.2;
+    finalColor += vec3(0.1, 0.2, 0.3) * swirl;
 
-    // Sample the texture to use Sampler0 and prevent optimization
-    vec4 texColor = texture(Sampler0, texCoord);
-    alpha *= texColor.a;
+    // Calculate alpha based on crack pattern
+    float alpha = cracks * 0.8 + 0.2;
 
-    if (alpha < 0.05) discard;
+    // Make edges fade out
+    float distFromCenter = length(uv);
+    alpha *= 1.0 - smoothstep(0.7, 1.0, distFromCenter);
 
-    FragColor = vec4(color, alpha);
+    // Add pulsing to alpha
+    alpha *= 0.7 + 0.3 * pulse;
+
+    // Output final color with transparency
+    fragColor = vec4(finalColor, alpha);
+
+    // Optional: For a more end-portal-like effect, uncomment this:
+    // fragColor *= texture(Sampler0, texCoord0 + vec2(time * 0.05)) * vertexColor;
 }

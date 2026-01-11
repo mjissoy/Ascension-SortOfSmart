@@ -44,7 +44,7 @@ import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.shaders.client.ModShaders;
 import net.thejadeproject.ascension.shaders.client.RiftRenderer;
-import net.thejadeproject.ascension.shaders.client.RiftRendererDebug;
+
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import java.io.IOException;
@@ -93,12 +93,7 @@ public class AscensionCraftClient {
 
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            // Register rift renderer here
-            event.registerEntityRenderer(
-                    ModEntities.RIFT.get(),
-                    RiftRendererDebug::new
-            );
-            System.out.println("[ClientEvents] Registered RiftRenderer");
+            event.registerEntityRenderer(ModEntities.RIFT.get(), RiftRenderer::new);
         }
 
         @SubscribeEvent

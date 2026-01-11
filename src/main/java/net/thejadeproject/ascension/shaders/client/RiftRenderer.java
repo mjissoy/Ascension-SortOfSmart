@@ -11,6 +11,7 @@ import org.joml.Matrix4f;
 
 public class RiftRenderer extends EntityRenderer<RiftEntity> {
 
+
     public RiftRenderer(EntityRendererProvider.Context ctx) {
         super(ctx);
     }
@@ -24,36 +25,31 @@ public class RiftRenderer extends EntityRenderer<RiftEntity> {
             MultiBufferSource buffer,
             int light
     ) {
-        // Debug output
-        System.out.println("[RiftRenderer] Rendering rift entity at " + entity.position());
-
-        if (ModShaders.RIFT_SHADER == null) {
-            System.err.println("[RiftRenderer] RIFT_SHADER is null!");
-            return;
-        }
-
         poseStack.pushPose();
 
         // Face player
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         poseStack.scale(2.0f, 4.0f, 1.0f);
 
+
+
         VertexConsumer vc = buffer.getBuffer(ModRenderShaderTypes.RIFT);
         Matrix4f mat = poseStack.last().pose();
 
-        // Render quad
-        vc.addVertex(mat, -0.5f, 0f, 0f).setUv(0, 0).setColor(255, 255, 255, 255);
-        vc.addVertex(mat,  0.5f, 0f, 0f).setUv(1, 0).setColor(255, 255, 255, 255);
-        vc.addVertex(mat,  0.5f, 1f, 0f).setUv(1, 1).setColor(255, 255, 255, 255);
-        vc.addVertex(mat, -0.5f, 1f, 0f).setUv(0, 1).setColor(255, 255, 255, 255);
+        vc.addVertex(mat, -0.5f, 0f, 0f).setUv(0, 0);
+        vc.addVertex(mat,  0.5f, 0f, 0f).setUv(1, 0);
+        vc.addVertex(mat,  0.5f, 1f, 0f).setUv(1, 1);
+        vc.addVertex(mat, -0.5f, 1f, 0f).setUv(0, 1);
 
         poseStack.popPose();
         super.render(entity, yaw, partialTicks, poseStack, buffer, light);
     }
 
+
+
+
     @Override
     public ResourceLocation getTextureLocation(RiftEntity riftEntity) {
-        // Return a valid texture location instead of null
-        return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/misc/white.png");
+        return null;
     }
 }

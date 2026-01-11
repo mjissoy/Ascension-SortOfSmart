@@ -12,23 +12,15 @@ public class ModShaders {
     public static ShaderInstance RIFT_SHADER;
 
     public static void register(RegisterShadersEvent event) throws IOException {
-        System.out.println("[ModShaders] Registering rift shader...");
-        try {
-            event.registerShader(
-                    new ShaderInstance(
-                            event.getResourceProvider(),
-                            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "rift"),
-                            DefaultVertexFormat.POSITION_TEX
-                    ),
-                    shader -> {
-                        RIFT_SHADER = shader;
-                        System.out.println("[ModShaders] RIFT_SHADER loaded successfully!");
-                        System.out.println("[ModShaders] Shader ID: " + shader.getId());
-                    }
-            );
-        } catch (Exception e) {
-            System.err.println("[ModShaders] Failed to load rift shader:");
-            e.printStackTrace();
-        }
+        event.registerShader(
+                new ShaderInstance(
+                        event.getResourceProvider(),
+                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "rift"),
+                        DefaultVertexFormat.POSITION_TEX
+                ),
+                shader -> {
+                    RIFT_SHADER = shader;
+                }
+        );
     }
 }
