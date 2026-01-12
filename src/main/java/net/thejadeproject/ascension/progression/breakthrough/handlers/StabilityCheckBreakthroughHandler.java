@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Supplier;
 
 public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
     @Override
@@ -39,5 +40,10 @@ public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
         data.pathProgress = 0;
         data.stabilityCultivationTicks = 0;
         PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(data));
+    }
+
+    @Override
+    public Supplier<IBreakthroughData> getBreakthroughDataInstance() {
+        return null;
     }
 }

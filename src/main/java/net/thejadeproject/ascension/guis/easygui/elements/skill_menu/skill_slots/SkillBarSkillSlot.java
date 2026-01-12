@@ -28,10 +28,8 @@ public class SkillBarSkillSlot extends TextureButton {
         this.skillContainer = activeSkillContainer;
     }
     public ITextureData getIcon(){
-        if(skillContainer.getSkillIdList().get(skillSlot).isEmpty()) return null;
-        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(
-                skillContainer.getSkillIdList().get(skillSlot),':'
-        ));
+        if(skillContainer.getSkillIdList().get(skillSlot).equals(PlayerSkillData.SkillSlot.EMPTY_SLOT)) return null;
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillContainer.getSkillIdList().get(skillSlot).skillId);
         if(skill == null) return null;
         return skill.skillIcon();
     }

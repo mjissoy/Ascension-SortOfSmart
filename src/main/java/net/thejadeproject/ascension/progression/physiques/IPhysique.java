@@ -3,15 +3,20 @@ package net.thejadeproject.ascension.progression.physiques;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
+import net.thejadeproject.ascension.progression.physiques.data.IPhysiqueData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 //TODO have a get skill List method
 //TODO requires skills completed
@@ -55,4 +60,7 @@ public interface IPhysique {
 
 
     Component getFullDescription();
+    IPhysique setDataSupplier(Supplier<IPhysiqueData> dataSupplier);
+    IPhysiqueData getPhysiqueDataInstance(RegistryFriendlyByteBuf buf);
+    IPhysiqueData getPhysiqueDataInstance(CompoundTag tag);
 }

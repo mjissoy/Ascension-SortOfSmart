@@ -15,6 +15,8 @@ import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
+import java.util.function.Supplier;
+
 public interface IBreakthroughHandler {
 
     IBreakthroughData getBreakthroughData(CompoundTag tag);
@@ -53,4 +55,6 @@ public interface IBreakthroughHandler {
         PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
         NeoForge.EVENT_BUS.post(event);
     }
+
+    Supplier<IBreakthroughData> getBreakthroughDataInstance();
 }

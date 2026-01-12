@@ -14,6 +14,9 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerS
 import net.thejadeproject.ascension.cultivation.player.providers.PlayerDataProvider;
 import net.thejadeproject.ascension.cultivation.player.providers.PlayerSkillDataProvider;
 import net.thejadeproject.ascension.cultivation.player.sync_handler.PlayerSkillDataSyncHandler;
+import net.thejadeproject.ascension.data_attachments.attachments.PhysiqueAttachment;
+import net.thejadeproject.ascension.data_attachments.attachments.PlayerInputStates;
+import net.thejadeproject.ascension.data_attachments.providers.PhysiqueProvider;
 
 import java.util.function.Supplier;
 
@@ -25,44 +28,27 @@ public class ModAttachments {
     public static final Supplier<AttachmentType<Double>> ATTACK_DAMAGE = ATTACHMENT_TYPES.register(
             "attack_damage", () -> AttachmentType.builder(() -> 1.0).serialize(Codec.DOUBLE).copyOnDeath().build()
     );
-    public static final Supplier<AttachmentType<Double>> JUMP_HEIGHT = ATTACHMENT_TYPES.register(
-            "jump_height", () -> AttachmentType.builder(() -> 0.42).serialize(Codec.DOUBLE).copyOnDeath().build()
-    );
-    public static final Supplier<AttachmentType<Double>> MAX_HEALTH = ATTACHMENT_TYPES.register(
-            "max_health", () -> AttachmentType.builder(() -> 20.0).serialize(Codec.DOUBLE).copyOnDeath().build()
-    );
-    public static final Supplier<AttachmentType<Double>> STEP_HEIGHT = ATTACHMENT_TYPES.register(
-            "step_height", () -> AttachmentType.builder(() -> 0.6).serialize(Codec.DOUBLE).copyOnDeath().build()
-    );
-    public static final Supplier<AttachmentType<Double>> SAFE_FALL_DISTANCE = ATTACHMENT_TYPES.register(
-            "safe_fall_distance", () -> AttachmentType.builder(() -> 3.0).serialize(Codec.DOUBLE).copyOnDeath().build()
-    );
-    public static final Supplier<AttachmentType<Double>> ARMOR = ATTACHMENT_TYPES.register(
-            "armor", () -> AttachmentType.builder(() -> 0.0).serialize(Codec.DOUBLE).copyOnDeath().build()
-    );
-    public static final Supplier<AttachmentType<Double>> OXYGEN_BONUS = ATTACHMENT_TYPES.register(
-            "oxygen_bonus", () -> AttachmentType.builder(() -> 0.0).serialize(Codec.DOUBLE).copyOnDeath().build()
-    );
-    public static final Supplier<AttachmentType<Double>> WATER_MOVEMENT_EFFICIENCY = ATTACHMENT_TYPES.register(
-            "water_movement_efficiency", () -> AttachmentType.builder(() -> 0.0).serialize(Codec.DOUBLE).copyOnDeath().build()
-    );
-    public static final Supplier<AttachmentType<String>> PHYSIQUE = ATTACHMENT_TYPES.register(
-            "physique", () -> AttachmentType.builder(() -> "ascension:empty_vessel")
-                    .serialize(Codec.STRING)
-                    .sync(ByteBufCodecs.STRING_UTF8)
-                    .copyOnDeath().build()
-    );
+
+
 
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerData>> PLAYER_DATA = ATTACHMENT_TYPES.register("player_data",
             () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerData(player):null)
                     .serialize(new PlayerDataProvider()).copyOnDeath().build());
 
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<PhysiqueAttachment>> PHYSIQUE = ATTACHMENT_TYPES.register("physique",
+            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PhysiqueAttachment(player):null)
+                    .serialize(new PhysiqueProvider()).copyOnDeath().build());
+
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerSkillData>> PLAYER_SKILL_DATA = ATTACHMENT_TYPES.register("player_skill_data",
             () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerSkillData(player):null)
                     .serialize(new PlayerSkillDataProvider())
                     .sync(new PlayerSkillDataSyncHandler())
                     .copyOnDeath().build());
+
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerInputStates>> INPUT_STATES = ATTACHMENT_TYPES.register("input_states",
+            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerInputStates(player):null).build());
+
 
     public static void register(IEventBus modEventBus){
         ATTACHMENT_TYPES.register(modEventBus);

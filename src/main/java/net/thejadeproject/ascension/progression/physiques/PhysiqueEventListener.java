@@ -17,20 +17,14 @@ public class PhysiqueEventListener{
     @SubscribeEvent
     public static void gatherEfficiencyMultipliers(GatherEfficiencyModifiersEvent event){
         if(event.player.hasData(ModAttachments.PHYSIQUE)){
-            String physiqueId = event.player.getData(ModAttachments.PHYSIQUE);
-            IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
-                ResourceLocation.fromNamespaceAndPath(physiqueId.split(":")[0],physiqueId.split(":")[1])
-            );
+            IPhysique physique = event.player.getData(ModAttachments.PHYSIQUE).getPhysique();
             if(physique != null) physique.onGatherEfficiencyModifiers(event);
         }
     }
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRealmChange(RealmChangeEvent event){
         if(event.player.hasData(ModAttachments.PHYSIQUE)){
-            String physique_id = event.player.getData(ModAttachments.PHYSIQUE);
-            IPhysique physique =  AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(
-                    ResourceLocation.fromNamespaceAndPath(physique_id.split(":")[0],physique_id.split(":")[1])
-            );
+            IPhysique physique = event.player.getData(ModAttachments.PHYSIQUE).getPhysique();
             if(physique != null)  physique.onRealmChangeEvent(event);
         }
     }
@@ -38,7 +32,7 @@ public class PhysiqueEventListener{
     @SubscribeEvent
     public static void onPhysiqueChange(PhysiqueChangeEvent event){
         if(!event.player.hasData(ModAttachments.PHYSIQUE)) return;
-        String physique_id = event.player.getData(ModAttachments.PHYSIQUE);
+        String physique_id = event.player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString();
         if(event.newPhysique.equals(physique_id)){
             IPhysique oldPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(event.oldPhysique,':'));
             IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(event.newPhysique,':'));

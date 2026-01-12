@@ -67,7 +67,7 @@ public class ModActions {
                                 renderable.getRoot().addChild(new TechniqueDataContainer(renderable.getScreen(),0,0, ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique));
                             } else if (id.equals("physique_data")) {
 
-                                renderable.getRoot().addChild(new PhysiqueDataContainer(renderable.getScreen(),0,0,player.getData(ModAttachments.PHYSIQUE)));
+                                renderable.getRoot().addChild(new PhysiqueDataContainer(renderable.getScreen(),0,0,player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString()));
                             }
                             
                             //renderable.getRoot().addChild(new DraggableDataContainer(renderable.getScreen(),0,0));
@@ -123,7 +123,7 @@ public class ModActions {
                     else if(attribute.equals("Jump Strength")){
                         label.text =  Component.literal(formatter.format(player.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue()));
                     }else if(attribute.equals("Physique")){
-                        String physique = player.getData(ModAttachments.PHYSIQUE);
+                        String physique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString();
                         if(physique == null) label.text = Component.literal("ascension:empty_vessel");
                         else{
                             label.text =

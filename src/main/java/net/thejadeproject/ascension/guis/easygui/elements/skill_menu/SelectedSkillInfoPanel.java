@@ -10,9 +10,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.buttons.ChangeSkillSlotButton;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.skill_description.SkillDescriptionContainer;
-import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.skill_slots.SkillBarSkillSlot;
 import net.thejadeproject.ascension.progression.skills.ISkill;
-import net.thejadeproject.ascension.progression.skills.data.SkillType;
+import net.thejadeproject.ascension.progression.skills.data.casting.SkillType;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 public class SelectedSkillInfoPanel extends Image {

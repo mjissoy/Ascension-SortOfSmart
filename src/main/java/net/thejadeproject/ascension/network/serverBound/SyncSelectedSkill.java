@@ -7,6 +7,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public record SyncSelectedSkill(int slot) implements CustomPacketPayload {
@@ -23,14 +24,10 @@ public record SyncSelectedSkill(int slot) implements CustomPacketPayload {
     public static void handlePayload(SyncSelectedSkill payload, IPayloadContext context) {
         
         
-        String id = context.player().getData(ModAttachments.PLAYER_SKILL_DATA).activeSkillContainer.getSkillIdList().get(payload.slot);
+        PlayerSkillData.SkillSlot skillSlot = context.player().getData(ModAttachments.PLAYER_SKILL_DATA).activeSkillContainer.getSkillIdList().get(payload.slot);
         
-        ResourceLocation skillId = null;
-        if(!id.isEmpty()){
-            skillId = ResourceLocation.bySeparator(id,':');
-        }
-        
-        context.player().getData(ModAttachments.PLAYER_DATA).setSelectedSkillId(skillId);
+
+        context.player().getData(ModAttachments.PLAYER_DATA).setSelectedSkillId(skillSlot.skillId);
 
     }
 }

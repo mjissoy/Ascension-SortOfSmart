@@ -53,8 +53,8 @@ public record TriggerGeneratePhysique(String physiquePath,int numberOfExtra) imp
             int index = ThreadLocalRandom.current().nextInt(0,physiqueList.size());
             extra[i] = physiqueList.remove(index);
         }
+        context.player().getData(ModAttachments.PHYSIQUE).setPhysique(generatedPhysique);
 
-        context.player().setData(ModAttachments.PHYSIQUE,generatedPhysique);
         PhysiqueChangeEvent event = new PhysiqueChangeEvent(context.player(), "ascension:empty_vessel",generatedPhysique);
         NeoForge.EVENT_BUS.post(event);
         PacketDistributor.sendToPlayer((ServerPlayer) context.player(), new SyncGeneratedPhysique(

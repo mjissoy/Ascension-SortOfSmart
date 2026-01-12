@@ -4,6 +4,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.events.custom.cultivation.CultivateEvent;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
@@ -29,7 +30,8 @@ public class CultivationSystem {
                 "Core Formation", "Nascent Soul", "Soul Formation",
                 "Soul Transformation", "Spirit Severing", "Immortal Ascension",
                 "True Immortal", "Golden Immortal", "Universe Creation Realm"});
-        put("ascension:intent",new String[]{ "Awakened Will","Focused Mind","Sharpened Desire",
+        put("ascension:intent",new String[]{
+                "Awakened Will","Focused Mind","Sharpened Desire",
                 "Unwavering Resolve","Trinity Convergence","Pentagonal Balance",
                 "Aura of Intent","Soul Pressure","Spatial Lock",
                 "Domain Seed", "Law Embodiment", "Heavenly Decree"});
@@ -68,7 +70,7 @@ public class CultivationSystem {
     }
 
     //returns false if realm is not increased
-    public static boolean cultivate(Player player, String path,Double baseRate,Set<String> attributes){
+    public static boolean cultivate(Player player, String path, Double baseRate, Set<String> attributes, CultivationSource source){
         //TODO change to use technique for base rate
         //TODO fire is temp
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);
@@ -79,9 +81,9 @@ public class CultivationSystem {
         NeoForge.EVENT_BUS.post(effEvent);
 
         
-        CultivateEvent cultivateEvent = new CultivateEvent(player,baseRate,path,attributes);
+        CultivateEvent cultivateEvent = new CultivateEvent(player,baseRate,path,attributes,source);
         NeoForge.EVENT_BUS.post(cultivateEvent);
-
+        if(cultivateEvent.isCanceled()) return false;
         double progressIncrement = (cultivateEvent.baseRate+cultivateEvent.flatBaseRateIncrease)
                 *(1+cultivateEvent.multiplier)
                 *(effEvent.getTotalPathEfficiencyMultiplier()+effEvent.getTotalDaoEfficiencyMultiplier())

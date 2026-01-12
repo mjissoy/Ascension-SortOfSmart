@@ -28,6 +28,9 @@ import net.thejadeproject.ascension.network.serverBound.ServerCastSkillPayload;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @OnlyIn(Dist.CLIENT)
 public class KeyBindHandler {
 
@@ -68,11 +71,15 @@ public class KeyBindHandler {
     public static void keyInputEvents(InputEvent.Key event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null && minecraft.getConnection() == null) return;
-
+        /*
         if (CAST_SKILL_KEY.consumeClick()) {
             PacketDistributor.sendToServer(new ServerCastSkillPayload());
         }
-        // a bit hacky
+
+
+         */
+
+        //a bit hacky
         if (event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 1) {
             // Open menu
             if (minecraft.screen == null) {
@@ -90,8 +97,10 @@ public class KeyBindHandler {
                 SelectSkillMenu.close();
             }
         }
-    }
 
+
+    }
+    public static Set<KeyMapping> state = new HashSet<>();
     public static void handleKeyInputEvent(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null && minecraft.getConnection() == null) return;

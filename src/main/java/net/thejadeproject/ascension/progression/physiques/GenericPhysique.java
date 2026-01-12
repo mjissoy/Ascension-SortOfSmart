@@ -4,6 +4,9 @@ import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +15,7 @@ import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRe
 import net.thejadeproject.ascension.events.custom.*;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
+import net.thejadeproject.ascension.progression.physiques.data.IPhysiqueData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
@@ -23,6 +27,7 @@ import oshi.util.tuples.Pair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 
 //if you want some sort of extra progress data separate from standard use direct nbt write
@@ -36,9 +41,9 @@ public class GenericPhysique implements IPhysique{
     public final String title;
     public ITextureData textureData;
     public SkillList skillList = new SkillList(List.of());
-     public Component description = Component.empty();
+    public Component description = Component.empty();
     public IRealmChangeHandler realmChangeHandler;
-
+    private Supplier<IPhysiqueData> dataSupplier= ()-> null;;
 
     public GenericPhysique(String title, Map<String,Double> pathBonuses, Map<String,Double> otherBonuses,IRealmChangeHandler realmChangeHandler){
         this.pathBonuses = pathBonuses;
@@ -170,7 +175,7 @@ public class GenericPhysique implements IPhysique{
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
             String skillType = "Passive";
             if(skill instanceof AbstractActiveSkill) skillType = "Active";
-            player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
+            player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getPersistentDataInstance());
             skill.onSkillAdded(player);
         }
 
@@ -193,4 +198,23 @@ public class GenericPhysique implements IPhysique{
         IPhysique.super.onRemovePhysique(player);
         removePlayerSkills(player);
     }
+    @Override
+    public IPhysique setDataSupplier(Supplier<IPhysiqueData> dataSupplier) {
+        this.dataSupplier = dataSupplier;
+        return this;
+    }
+    @Override
+    public IPhysiqueData getPhysiqueDataInstance(CompoundTag tag){
+        IPhysiqueData data = dataSupplier.get();
+        data.readData(tag);
+        return data;
+    }
+    @Override
+    public IPhysiqueData getPhysiqueDataInstance(RegistryFriendlyByteBuf buf){
+        IPhysiqueData data = dataSupplier.get();
+        data.decode(buf);
+        return data;
+    }
+
+
 }

@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.progression.skills.data;
+package net.thejadeproject.ascension.progression.skills.data.casting;
 
 public enum CastSource {
     PLAYER,

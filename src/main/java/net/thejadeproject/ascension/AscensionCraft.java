@@ -44,6 +44,7 @@ import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.particle.ModParticles;
+import net.thejadeproject.ascension.progression.realms.ModPaths;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipeShaped;
@@ -127,6 +128,7 @@ public class AscensionCraft {
         ModSkills.register(modEventBus);
         ModTechniques.register(modEventBus);
         ModDao.register(modEventBus);
+        ModPaths.register(modEventBus);
 
         ModVillagers.VILLAGER_PROFESSIONS.register(modEventBus);
         ModVillagers.POI_TYPES.register(modEventBus);
@@ -197,7 +199,7 @@ public class AscensionCraft {
         if(!event.getEntity().level().isClientSide()){
             PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 
-            if(player.getData(ModAttachments.PHYSIQUE).equals("ascension:empty_vessel")){
+            if(player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString().equals("ascension:empty_vessel")){
                 //open menu
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new OpenPickPhysiqueScreen(true));
             }else {

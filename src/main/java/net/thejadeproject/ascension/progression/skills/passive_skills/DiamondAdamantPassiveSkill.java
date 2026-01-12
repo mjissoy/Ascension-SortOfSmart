@@ -8,7 +8,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.HashMap;
@@ -100,10 +100,6 @@ public class DiamondAdamantPassiveSkill extends AbstractPassiveSkill {
         lastSurvivalTime.remove(player.getUUID());
     }
 
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
-    }
 
     public static void clearPlayerCooldown(UUID playerId) {
         lastSurvivalTime.remove(playerId);

@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.data_attachments;
+package net.thejadeproject.ascension.data_attachments.attachments;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -8,12 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.thejadeproject.ascension.constnats.LivingEntityState;
+import net.thejadeproject.ascension.constants.LivingEntityState;
 import net.thejadeproject.ascension.cultivation.player.EntityAttributeManager;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 //TODO set up compound tags
 public class AscensionAttributeWrapper {

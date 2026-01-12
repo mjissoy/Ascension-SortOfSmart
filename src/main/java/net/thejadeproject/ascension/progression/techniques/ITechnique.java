@@ -3,16 +3,24 @@ package net.thejadeproject.ascension.progression.techniques;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
+import net.thejadeproject.ascension.progression.physiques.data.IPhysiqueData;
+import net.thejadeproject.ascension.progression.realms.ModPaths;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
+import net.thejadeproject.ascension.progression.techniques.data.ITechniqueData;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.List;
 import java.util.Set;
@@ -69,7 +77,28 @@ public interface ITechnique {
     StabilityHandler getStabilityHandler();
     IBreakthroughHandler getBreakthroughHandler();
 
-    void tryCultivate(Player player);
-    void tryStabiliseRealm(Player player);
+    void tryCultivate(Player player, CultivationSource source);
+    void tryStabiliseRealm(Player player,CultivationSource source);
     Double getDaoBonus(String attribute);
+
+    ITechniqueData getTechniqueDataInstance();
+    ITechniqueData getTechniqueDataInstance(RegistryFriendlyByteBuf buf);
+    ITechniqueData getTechniqueDataInstance(CompoundTag tag);
+
+
+    //realm stuff
+    default Component getMajorRealmName(int majorRealm){
+        return ModPaths.getPath(getPath()).getMajorRealmName(majorRealm);
+    }
+    default int getMaxMajorRealm(){
+        return ModPaths.getPath(getPath()).getMaxMajorRealm();
+    }
+    default int getMaxMinorRealm(int majorRealm){
+        return ModPaths.getPath(getPath()).getMaxMinorRealm(majorRealm);
+    }
+    default Component getMinorRealmName(int majorRealm,int minorRealm){
+        return ModPaths.getPath(getPath()).getMinorRealmName(majorRealm,minorRealm);
+    }
+    double getQiForRealm(int majorRealm, int minorRealm);
+
 }

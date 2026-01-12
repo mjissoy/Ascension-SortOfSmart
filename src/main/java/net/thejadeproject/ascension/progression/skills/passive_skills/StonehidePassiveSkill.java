@@ -11,7 +11,7 @@ import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class StonehidePassiveSkill extends AbstractPassiveSkill {
@@ -85,8 +85,5 @@ public class StonehidePassiveSkill extends AbstractPassiveSkill {
         );
     }
 
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf){
-        return null;
-    }
+
 }

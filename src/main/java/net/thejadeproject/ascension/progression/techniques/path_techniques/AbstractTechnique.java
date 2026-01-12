@@ -4,9 +4,12 @@ import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
@@ -14,11 +17,13 @@ import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.events.custom.skills.PlayerSkillRemoveEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
+import net.thejadeproject.ascension.progression.physiques.data.IPhysiqueData;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
+import net.thejadeproject.ascension.progression.techniques.data.ITechniqueData;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
@@ -26,6 +31,7 @@ import oshi.util.tuples.Pair;
 
 import java.util.*;
 import java.util.List;
+import java.util.function.Supplier;
 
 public abstract class AbstractTechnique implements ITechnique {
     public String title;
@@ -40,6 +46,7 @@ public abstract class AbstractTechnique implements ITechnique {
     public IBreakthroughHandler breakthroughHandler;
     public IRealmChangeHandler realmChangeHandler;
 
+    private Supplier<ITechniqueData> dataSupplier = ()-> null;
 
     public AbstractTechnique(String title, double baseRate, String path, StabilityHandler stabilityHandler, IBreakthroughHandler handler,IRealmChangeHandler realmChangeHandler){
         this.title = title;
@@ -65,13 +72,13 @@ public abstract class AbstractTechnique implements ITechnique {
     }
 
     @Override
-    public void tryCultivate(Player player) {
+    public void tryCultivate(Player player, CultivationSource source) {
         if(player.level().isClientSide()) return;
-        if(!CultivationSystem.cultivate(player,getPath(),baseRate,getCultivationAttributes())) tryStabiliseRealm(player);
+        if(!CultivationSystem.cultivate(player,getPath(),baseRate,getCultivationAttributes(),source)) tryStabiliseRealm(player,source);
     }
 
     @Override
-    public void tryStabiliseRealm(Player player) {
+    public void tryStabiliseRealm(Player player,CultivationSource source) {
         CultivationSystem.stabiliseRealm(stabilityHandler,player,getPath(),getCultivationAttributes(),0);
     }
 
@@ -219,10 +226,50 @@ public abstract class AbstractTechnique implements ITechnique {
                 if(skill instanceof AbstractActiveSkill) skillType = "Active";
 
                 System.out.println("adding skill: "+skillData.getA());
-                player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
+                player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getPersistentDataInstance());
                 skill.onSkillAdded(player);
             }
         }
     }
 
+
+    public AbstractTechnique setDataHandler(Supplier<ITechniqueData> dataSupplier){this.dataSupplier = dataSupplier;return this;}
+
+    @Override
+    public ITechniqueData getTechniqueDataInstance() {
+        return dataSupplier.get();
+    }
+
+    @Override
+    public ITechniqueData getTechniqueDataInstance(CompoundTag tag) {
+        ITechniqueData data = getTechniqueDataInstance();
+        data.readData(tag);
+        return data;
+    }
+
+    @Override
+    public ITechniqueData getTechniqueDataInstance(RegistryFriendlyByteBuf buf) {
+        ITechniqueData data = getTechniqueDataInstance();
+        data.decode(buf);
+        return data;
+    }
+
+    @Override
+    public double getQiForRealm(int majorRealm, int minorRealm) {
+        return 1000*(getMinorRealmMultiplier(minorRealm,majorRealm)+getMajorRealmMultiplier(majorRealm)) ;
+    }
+    private double getMinorRealmMultiplier(int minorRealm,int majorRealm){
+        double total = 0;
+        for(int i = 0; i<minorRealm+majorRealm*9;i++){
+            total += 2.47+0.06*i;
+        }
+        return total;
+    }
+    private double getMajorRealmMultiplier(int majorRealm){
+        double total = 0.0;
+        for(int i = 0;i<majorRealm;i++){
+            total += 2+i;
+        }
+        return total;
+    }
 }

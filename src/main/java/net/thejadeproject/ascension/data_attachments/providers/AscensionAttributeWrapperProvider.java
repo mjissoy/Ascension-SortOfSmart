@@ -2,12 +2,10 @@ package net.thejadeproject.ascension.data_attachments.providers;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
-import net.thejadeproject.ascension.data_attachments.AscensionAttributeWrapper;
+import net.thejadeproject.ascension.data_attachments.attachments.AscensionAttributeWrapper;
 import org.jetbrains.annotations.Nullable;
 
 public class AscensionAttributeWrapperProvider implements IAttachmentSerializer<CompoundTag, AscensionAttributeWrapper> {

@@ -2,13 +2,14 @@ package net.thejadeproject.ascension.progression.skills;
 
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,18 +68,25 @@ public abstract class AbstractPassiveSkill implements ISkill{
         return path;
     }
 
-    @Override
-    public ISkillData getSkillData(CompoundTag tag) {
-        return null;
-    }
 
-    @Override
-    public ISkillData getSkillData() {
-        return null;
-    }
     public void onRealmChange(RealmChangeEvent event){}
     public void onTechniqueChange(TechniqueChangeEvent event){}
     public void onPhysiqueChange(PhysiqueChangeEvent  event){
 
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
+        return null;
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf) {
+        return null;
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance() {
+        return null;
     }
 }

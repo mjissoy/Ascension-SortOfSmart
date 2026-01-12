@@ -58,7 +58,7 @@ public class PhysiqueTransferItem extends Item {
                 stack.shrink(1);
             }
 
-            String oldPhysique = player.getData(ModAttachments.PHYSIQUE);
+            String oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString();
 
             PlayerDataChangeHandler.resetData(player, targetPhysiqueId);
 

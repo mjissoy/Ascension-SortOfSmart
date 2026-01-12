@@ -2,18 +2,14 @@ package net.thejadeproject.ascension.progression.skills.active_skills.fire_dao;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.LargeFireball;
-import net.minecraft.world.entity.projectile.SmallFireball;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.thejadeproject.ascension.cultivation.player.CastingInstance;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.entity.custom.spell_entities.FireBallSkill;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.CastSource;
-import net.thejadeproject.ascension.progression.skills.data.CastType;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 
 public class BasicFireBall extends AbstractActiveSkill {
     public final double speed;
@@ -51,13 +47,11 @@ public class BasicFireBall extends AbstractActiveSkill {
     }
 
     @Override
-    public ISkillData getSkillData() {
-        return null;
-    }
-
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
+    public boolean continueCasting(int castingTicksElapsed, Level level, Player player) {
+        boolean state  = super.continueCasting(castingTicksElapsed, level, player);
+        if(!state) return false;
+        if(castingTicksElapsed % 10 == 0) createFireBall(level,player);
+        return player.getData(ModAttachments.INPUT_STATES).isHeld("cast_skill_input");
     }
 
     @Override

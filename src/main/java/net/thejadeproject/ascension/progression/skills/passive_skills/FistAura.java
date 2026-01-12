@@ -8,7 +8,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.thejadeproject.ascension.entity.custom.AscensionSkillEntity;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.util.ModTags;
 
@@ -58,11 +58,6 @@ public class FistAura extends AbstractPassiveSkill {
     public void onSkillAdded(Player player) {
         super.onSkillAdded(player);
 
-    }
-
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
     }
 
 

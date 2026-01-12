@@ -11,7 +11,7 @@ import net.thejadeproject.ascension.events.custom.*;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.progression.physiques.PhysiqueEventListener;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.progression.techniques.TechniquesEventListener;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
@@ -67,8 +67,4 @@ public class IronBonesPassiveSkill extends AbstractPassiveSkill {
         ));
     }
 
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
-    }
 }

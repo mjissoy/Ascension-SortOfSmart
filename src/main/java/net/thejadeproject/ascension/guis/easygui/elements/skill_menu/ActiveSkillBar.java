@@ -23,7 +23,8 @@ public class ActiveSkillBar extends Image {
     private final PlayerSkillData.ActiveSkillContainer activeSkillContainer;
 
     public String getSelectedSkillId(){
-        return activeSkillContainer.getSkillIdList().get(selectedSkill);
+        ResourceLocation id = activeSkillContainer.getSkillIdList().get(selectedSkill).skillId;
+        return id == null ? "":id.toString();
     }
 
     public ActiveSkillBar(IEasyGuiScreen easyGuiScreen,int x, int y){

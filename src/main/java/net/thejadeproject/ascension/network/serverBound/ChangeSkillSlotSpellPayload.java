@@ -35,6 +35,6 @@ public record ChangeSkillSlotSpellPayload(int slot,String skillId,boolean slotSk
 
         PlayerSkillData playerSkillData = context.player().getData(ModAttachments.PLAYER_SKILL_DATA);
 
-        playerSkillData.modifySkillSlot(payload.slot, payload.skillId, payload.slotSkill);
+        playerSkillData.modifySkillSlot(payload.slot, ResourceLocation.bySeparator(payload.skillId,':'), payload.slotSkill);
     }
 }

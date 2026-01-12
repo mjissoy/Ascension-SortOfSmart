@@ -45,7 +45,9 @@ public class SkillCastProgressBar extends EmptyContainer {
         PlayerData data = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA);
         if(data == null) return false;
         CastingInstance instance = data.getSkillFromSlot(spellCastingSlot);
-        return instance != null;
+        if(instance == null) return false;
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(instance.skillId);
+        return skill instanceof  AbstractActiveSkill activeSkill && activeSkill.shouldRenderCastingBar();
     }
 
     public double getProgress() {

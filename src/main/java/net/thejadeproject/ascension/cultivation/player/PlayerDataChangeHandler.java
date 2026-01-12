@@ -35,14 +35,15 @@ public class PlayerDataChangeHandler {
     // New overloaded method that accepts target physique
     public static void resetData(Player player, String targetPhysiqueId) {
         // Get the old physique before resetting
-        String oldPhysique = player.getData(ModAttachments.PHYSIQUE);
+        String oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString();
 
         // Remove all skills
         PlayerSkillData skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
         skillData.removeAllSkills();
 
         // Set the new physique
-        player.setData(ModAttachments.PHYSIQUE, targetPhysiqueId);
+        player.getData(ModAttachments.PHYSIQUE).setPhysique(targetPhysiqueId);
+
 
         // Fire physique change event
         NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique, targetPhysiqueId));
@@ -53,12 +54,6 @@ public class PlayerDataChangeHandler {
         // Reset player attributes to default values
         player.setData(ModAttachments.MOVEMENT_SPEED, 0.1);
         player.setData(ModAttachments.ATTACK_DAMAGE, 1.0);
-        player.setData(ModAttachments.JUMP_HEIGHT, 0.42);
-        player.setData(ModAttachments.MAX_HEALTH, 20.0);
-        player.setData(ModAttachments.SAFE_FALL_DISTANCE, 3.0);
-        player.setData(ModAttachments.ARMOR, 0.0);
-        player.setData(ModAttachments.OXYGEN_BONUS, 0.0);
-        player.setData(ModAttachments.WATER_MOVEMENT_EFFICIENCY, 0.0);
 
         // Reset Minecraft attributes to default
         AttributeSupplier playerSupplier = Player.createAttributes().build();
