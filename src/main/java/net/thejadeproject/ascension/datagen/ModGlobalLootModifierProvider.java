@@ -11,7 +11,6 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.AddItemModifier;
 import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 import java.util.concurrent.CompletableFuture;
 

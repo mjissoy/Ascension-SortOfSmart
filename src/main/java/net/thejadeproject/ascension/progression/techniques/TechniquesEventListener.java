@@ -8,6 +8,7 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.Cultiva
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.skills.PlayerSkillRemoveEvent;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
@@ -27,9 +28,19 @@ public class TechniquesEventListener {
     }
     @SubscribeEvent
     public static void onRealmChangeEvent(RealmChangeEvent event){
+        ;
         PlayerData data = event.player.getData(ModAttachments.PLAYER_DATA);
         if(!data.getCultivationData().getPathData(event.pathId).technique.equals("ascension:none")){
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(data.getCultivationData().getPathData(event.pathId).technique,':')).onRealmChangeEvent(event);
+        }
+    }
+    @SubscribeEvent
+    public static void onSkillRemove(PlayerSkillRemoveEvent event){
+        PlayerData data = event.player.getData(ModAttachments.PLAYER_DATA);
+        for(CultivationData.PathData pathData : data.getCultivationData().getPaths()){
+            if(!pathData.technique.equals("ascension:none")){
+                AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':')).onSkillRemoveEvent(event);
+            }
         }
     }
 

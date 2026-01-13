@@ -6,10 +6,11 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.constants.SkillType;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 
 import java.util.List;
-
+//TODO add an IActiveSkill as well
 public interface ISkill {
     default void onSkillAdded(Player player){
         
@@ -20,12 +21,10 @@ public interface ISkill {
 
     default List<MutableComponent> getSkillDescription(Player player){return List.of();}
     default ITextureData skillIcon(){return null;}
-    Component getSkillTitle();
-    //this skill will no be removed by physiques and techniques changing
-    default boolean isFixedSkill(){return false;}
-
-    void setFixedSkill(boolean fixed);
-
+    default Component getSkillTitle(){
+        return Component.empty();
+    };
+    SkillType getType();
 
     IPersistentSkillData getPersistentDataInstance(CompoundTag tag);
     IPersistentSkillData getPersistentDataInstance();

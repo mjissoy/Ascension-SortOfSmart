@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.NeoForge;
+import net.thejadeproject.ascension.constants.SkillType;
 import net.thejadeproject.ascension.events.custom.skills.SkillPreCastEvent;
 import net.thejadeproject.ascension.progression.skills.data.IPreCastSkillData;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastResult;
@@ -70,15 +71,7 @@ public abstract class AbstractActiveSkill implements ISkill{
         return path;
     }
 
-    @Override
-    public boolean isFixedSkill() {
-        //todo uses nbt
-        return false;
-    }
-    @Override
-    public void setFixedSkill(boolean fixedSkill) {
-        //todo uses nbt data.
-    }
+
 
 
     /**
@@ -178,6 +171,11 @@ public abstract class AbstractActiveSkill implements ISkill{
 
     public IPreCastSkillData getPreCastDataInstance(RegistryFriendlyByteBuf buf) {
         return null;
+    }
+
+    @Override
+    public SkillType getType() {
+        return SkillType.ACTIVE;
     }
 
     @OnlyIn(Dist.CLIENT)

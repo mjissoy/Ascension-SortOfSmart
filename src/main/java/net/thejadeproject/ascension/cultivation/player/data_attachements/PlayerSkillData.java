@@ -6,12 +6,14 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.constants.SkillType;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.progression.skills.data.IPreCastSkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.util.NBTUtil;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
@@ -149,17 +151,20 @@ public class PlayerSkillData {
     public static class SkillMetaData {
         public String skillId;
         public boolean fixed;
+        public boolean permanent;
         public IPersistentSkillData data;
         public SkillMetaData(){}
-        public SkillMetaData(String skillId, boolean fixed, IPersistentSkillData data){
+        public SkillMetaData(String skillId, boolean fixed,boolean permanent, IPersistentSkillData data){
             this.skillId = skillId;
             this.fixed = fixed;
             this.data = data;
+            this.permanent = permanent;
         }
         public CompoundTag writeSkillNBTData(){
             CompoundTag tag = new CompoundTag();
-            tag.putString("skill_id",skillId);;
+            tag.putString("skill_id",skillId);
             tag.putBoolean("fixed",fixed);
+            tag.putBoolean("permanent",permanent);
 
             if(data != null) tag.put("data",data.writeData());
             return tag;
@@ -168,7 +173,8 @@ public class PlayerSkillData {
         public static SkillMetaData loadSkillNBTData(CompoundTag compound){
             SkillMetaData skillMetaData = new SkillMetaData();
             skillMetaData.skillId = compound.getString("skill_id");
-            skillMetaData.fixed = compound.getBoolean("fixed");
+            skillMetaData.fixed = NBTUtil.getBooleanWithDefault(compound,"fixed",false);
+            skillMetaData.permanent = NBTUtil.getBooleanWithDefault(compound,"permanent",false);
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillMetaData.skillId,':'));
             if(compound.hasUUID("data")) skillMetaData.data = skill.getPersistentDataInstance(compound.getCompound("data"));
             return skillMetaData;
@@ -220,25 +226,52 @@ public class PlayerSkillData {
         data.addAll(getPassiveSkills());
         return data;
     }
-
+    public void addSkill(ResourceLocation skillId,boolean fixed, boolean permanent){
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
+        addSkill(skillId,fixed,permanent,skill.getPersistentDataInstance());
+    }
+    public void addSkill(ResourceLocation skillId,boolean fixed, boolean permanent,IPersistentSkillData data){
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
+        if(skill.getType() == SkillType.ACTIVE){
+            addActiveSkill(skillId.toString(),fixed,permanent,data);
+        }else{
+            addPassiveSkill(skillId.toString(),fixed,permanent,data);
+        }
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+    }
     public void addSkill(String skillId, String type, boolean fixed, IPersistentSkillData data){
         if(type.equals("Active")) addActiveSkill(skillId,fixed,data);
         else addPassiveSkill(skillId,fixed,data);
         player.syncData(ModAttachments.PLAYER_SKILL_DATA);
     }
+    public void addActiveSkill(String skillId, boolean fixed,boolean permanent, IPersistentSkillData data){
+        if(activeSkillHashMap.containsKey(skillId) && activeSkillHashMap.get(skillId).fixed) return;
+        else if (activeSkillHashMap.containsKey(skillId))activeSkillHashMap.get(skillId).fixed = fixed;
+        else activeSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,permanent,data));
+        activeSkillBuffer.add(new Pair<>(true,activeSkillHashMap.get(skillId)));
+
+    }
+    public void addPassiveSkill(String skillId, boolean fixed,boolean permanent, IPersistentSkillData data){
+        if(passiveSkillHashMap.containsKey(skillId) && passiveSkillHashMap.get(skillId).fixed) return;
+        else if (passiveSkillHashMap.containsKey(skillId))passiveSkillHashMap.get(skillId).fixed = fixed;
+        else passiveSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,permanent,data));
+        passiveSkillBuffer.add(new Pair<>(true,passiveSkillHashMap.get(skillId)));
+
+    }
+    @Deprecated
     public void addActiveSkill(String skillId, boolean fixed, IPersistentSkillData data){
         if(activeSkillHashMap.containsKey(skillId) && activeSkillHashMap.get(skillId).fixed) return;
         else if (activeSkillHashMap.containsKey(skillId))activeSkillHashMap.get(skillId).fixed = fixed;
-        else activeSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,data));
+        else activeSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,false,data));
         activeSkillBuffer.add(new Pair<>(true,activeSkillHashMap.get(skillId)));
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
     }
+    @Deprecated
     public void addPassiveSkill(String skillId, boolean fixed, IPersistentSkillData data){
         if(passiveSkillHashMap.containsKey(skillId) && passiveSkillHashMap.get(skillId).fixed) return;
         else if (passiveSkillHashMap.containsKey(skillId))passiveSkillHashMap.get(skillId).fixed = fixed;
-        else passiveSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,data));
+        else passiveSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,false,data));
         passiveSkillBuffer.add(new Pair<>(true,passiveSkillHashMap.get(skillId)));
-        
-        
     }
     public void removeSkill(String skillId){
         removePassiveSkill(skillId);
@@ -275,6 +308,19 @@ public class PlayerSkillData {
         }
         player.syncData(ModAttachments.PLAYER_SKILL_DATA);
 
+    }
+    public void removeAllNonePermanentSkills(){
+        for(SkillMetaData data : getActiveSkills()){
+            if(data.permanent) continue;
+            removeActiveSkill(data.skillId);
+            triggerSkillRemoval(data.skillId);
+        }
+        for(SkillMetaData data : getPassiveSkills()){
+            if(data.permanent) continue;
+            removePassiveSkill(data.skillId);
+            triggerSkillRemoval(data.skillId);
+        }
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
     }
     public List<Pair<Boolean, SkillMetaData>> getPassiveSkillBuffer(){
         return passiveSkillBuffer;

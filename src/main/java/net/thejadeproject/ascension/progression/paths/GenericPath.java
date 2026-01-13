@@ -1,10 +1,9 @@
-package net.thejadeproject.ascension.progression.realms;
+package net.thejadeproject.ascension.progression.paths;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.constants.LivingEntityState;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -51,6 +50,11 @@ public class GenericPath implements IPath {
     @Override
     public int getMaxMinorRealm(int majorRealm) {
         return 9;
+    }
+
+    @Override
+    public int getTotalMinorRealmsTo(int majorRealm, int minorRealm) {
+        return majorRealm*getMaxMajorRealm()+minorRealm;
     }
 
     @Override

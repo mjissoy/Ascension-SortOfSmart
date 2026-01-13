@@ -13,6 +13,7 @@ public class RealmChangeEvent extends Event {
     public final int newMinorRealm;
     public final double stability;
     public final IBreakthroughData breakthroughData;
+
     public RealmChangeEvent(Player player, String pathId, int oldMajorRealm, int newMajorRealm, int oldMinorRealm, int newMinorRealm, double stability, IBreakthroughData breakthroughData) {
         this.player = player;
         this.pathId = pathId;
@@ -22,7 +23,11 @@ public class RealmChangeEvent extends Event {
         this.newMinorRealm = newMinorRealm;
         this.stability = stability;
         this.breakthroughData = breakthroughData;
+
     }
+
+
+    //TODO modify
     public int getTotalMinorRealmsChanged(){
         int totalOldMinorRealms = oldMajorRealm*9+oldMinorRealm;
         int totalNewMinorRealms = newMajorRealm*9+newMinorRealm;

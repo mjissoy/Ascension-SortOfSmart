@@ -65,8 +65,6 @@ public class BasicFireBall extends AbstractActiveSkill {
     public void onPreCast() {
     }
 
-
-
     public void createFireBall(Level level, Player player){
         Vec3 vec3 = player.getViewVector(0);
         FireBallSkill fireBallSkill = new FireBallSkill(level,player, vec3.normalize().scale(speed),baseDamage);

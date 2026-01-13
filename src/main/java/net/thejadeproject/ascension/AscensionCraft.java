@@ -27,6 +27,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.EntityAttributeManager;
 import net.thejadeproject.ascension.events.ModDataComponents;
@@ -35,7 +36,6 @@ import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.dao.ModDao;
-import net.thejadeproject.ascension.progression.physiques.ModPhysiques;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
@@ -44,13 +44,14 @@ import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.particle.ModParticles;
-import net.thejadeproject.ascension.progression.realms.ModPaths;
+import net.thejadeproject.ascension.progression.paths.ModPaths;
+import net.thejadeproject.ascension.progression.physiques.ModPhysiques;
+import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipeShaped;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.ModSkills;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.sects.*;
 import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 import net.thejadeproject.ascension.util.KeyBindHandler;
@@ -183,7 +184,7 @@ public class AscensionCraft {
                     && !event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique.equals("ascension:none")){
 
                 String technique = event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique;
-                AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(technique,':')).tryCultivate(event.getEntity());
+                AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(technique,':')).tryCultivate(event.getEntity(), CultivationSource.DEFAULT);
             }
         }
     }

@@ -8,9 +8,6 @@ public abstract class AbstractConditionalPassiveSkill extends AbstractPassiveSki
         super(title);
 
     }
-    @Override
-    public Component getSkillTitle() {
-        return title;
-    }
+
     abstract double getQiCost();
 }

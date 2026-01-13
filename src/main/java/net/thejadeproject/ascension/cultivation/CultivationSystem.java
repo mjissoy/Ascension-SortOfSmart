@@ -1,17 +1,22 @@
 package net.thejadeproject.ascension.cultivation;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.events.custom.cultivation.CultivateEvent;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
+import net.thejadeproject.ascension.progression.paths.ModPaths;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.StabilityHandler;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +49,12 @@ public class CultivationSystem {
     }};
     public static int getRealmNumber(String pathId){
         return realmNameMap.get(pathId).length;
+    }
+    public static Component getMajorRealmName(ResourceLocation techniqueId,ResourceLocation pathId,int majorRealm){
+        if(techniqueId == null || techniqueId.equals(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"none"))){
+            return ModPaths.getPath(pathId).getMajorRealmName(majorRealm);
+        }
+        return AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(techniqueId).getMajorRealmName(majorRealm);
     }
     public static String getPathMajorRealmName(String pathId,int majorRealm){
         return realmNameMap.get(pathId)[majorRealm];

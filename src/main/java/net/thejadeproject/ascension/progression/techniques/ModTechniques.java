@@ -11,16 +11,17 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.constants.LivingEntityState;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.StandardStatRealmChange;
+import net.thejadeproject.ascension.data_attachments.attachments.AscensionAttributeWrapper;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.technique_manuals.GenericTechniqueManual;
-import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
+import net.thejadeproject.ascension.progression.skills.skill_lists.SingleSkillAcquirableData;
 import net.thejadeproject.ascension.progression.techniques.stability_handlers.LnStabilityHandler;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.body.SingleAttributeTechnique;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.essence.SingleElementTechnique;
 import net.thejadeproject.ascension.progression.techniques.path_techniques.intent.SingleIntentTechnique;
-import net.thejadeproject.ascension.util.ModAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,52 +44,23 @@ public class ModTechniques {
         }
 
     }
+    public static AscensionAttributeWrapper.AscensionAttributeModifier modifier(Holder<Attribute> attributeHolder,double val){
+        return     new AscensionAttributeWrapper.AscensionAttributeModifier(
+                LivingEntityState.ALL,
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"realm_change_modifier"),
+                attributeHolder,
+                false,
+                val
 
+        );
+    }
     public static HashMap<Holder<Attribute>,Double> modifyGenericStatMap(HashMap<Holder<Attribute>,Double> map,Holder<Attribute> key,Double stat){
         HashMap<Holder<Attribute>,Double> newMap = new HashMap<>(map);
         newMap.put(key,stat);
         return newMap;
     }
 
-    public static HashMap<Holder<Attribute>,Double> GENERIC_MINOR_REALM_STATS_1 = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH,5.0);
-        put(Attributes.ATTACK_DAMAGE,1.0);
-        put(Attributes.MOVEMENT_SPEED,0.01);
-        put(Attributes.JUMP_STRENGTH,0.01);
-        put(Attributes.STEP_HEIGHT,0.01);
-        put(Attributes.SAFE_FALL_DISTANCE,0.6);
 
-    }};
-    public static HashMap<Holder<Attribute>,Double> ENHANCED_MINOR_REALM_STATS_1 = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH,10.0);
-        put(Attributes.ATTACK_DAMAGE,1.8);
-        put(Attributes.MOVEMENT_SPEED,0.2);
-        put(Attributes.JUMP_STRENGTH,0.04);
-        put(Attributes.STEP_HEIGHT,0.04);
-        put(Attributes.SAFE_FALL_DISTANCE,1.2);
-
-    }};
-
-    public static HashMap<Holder<Attribute>,Double> GENERIC_MAJOR_REALM_STATS_1 = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH,10.0);
-        put(Attributes.ATTACK_DAMAGE,2.0);
-        put(Attributes.MOVEMENT_SPEED,0.5);
-        put(Attributes.JUMP_STRENGTH,0.02);
-        put(Attributes.STEP_HEIGHT,0.02);
-        put(Attributes.SAFE_FALL_DISTANCE,0.6);
-        put(ModAttributes.PLAYER_QI_REGEN_RATE,0.2);
-        put(ModAttributes.PLAYER_QI_INSTANCE, 100.0);
-    }};
-        public static HashMap<Holder<Attribute>,Double> ENHANCED_MAJOR_REALM_STATS_1 = new HashMap<>(){{
-        put(Attributes.MAX_HEALTH,10.0);
-        put(Attributes.ATTACK_DAMAGE,1.8);
-        put(Attributes.MOVEMENT_SPEED,0.2);
-        put(Attributes.JUMP_STRENGTH,0.04);
-        put(Attributes.STEP_HEIGHT,0.04);
-        put(Attributes.SAFE_FALL_DISTANCE,1.2);
-        put(ModAttributes.PLAYER_QI_REGEN_RATE,0.4);
-        put(ModAttributes.PLAYER_QI_INSTANCE, 100.0);
-    }};
     public static final DeferredRegister<ITechnique> TECHNIQUES =DeferredRegister.create(AscensionRegistries.Techniques.TECHNIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
 
@@ -98,33 +70,33 @@ public class ModTechniques {
                         "Pure Fire Technique","ascension:fire",
                         2.0,new LnStabilityHandler()
                         ,new StandardStatRealmChange(
-                                new HashMap<>(){{ //Minor Realm Stats
-                                    put(Attributes.MAX_HEALTH,12.5);
-                                    put(Attributes.ATTACK_DAMAGE,3.4);
-                                    put(Attributes.MOVEMENT_SPEED,0.08);
-                                    put(Attributes.ARMOR,0.5);
-                                    put(Attributes.JUMP_STRENGTH,0.04);
-                                    put(Attributes.STEP_HEIGHT,0.08);
-                                    put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                                }}, new HashMap<>(){{ //Major Realm Stats
-                                    put(Attributes.MAX_HEALTH,21.5);
-                                    put(Attributes.ATTACK_DAMAGE,7.5);
-                                    put(Attributes.ARMOR,1.5);
-                                    put(Attributes.MOVEMENT_SPEED,0.8);
-                                    put(Attributes.JUMP_STRENGTH,0.9);
-                                    put(Attributes.STEP_HEIGHT,1.2);
-                                    put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                        }}))
-                    .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
+
+                                List.of( //Minor Realm Stats
+                                    modifier(Attributes.MAX_HEALTH,12.5),
+                                    modifier(Attributes.ATTACK_DAMAGE,3.4),
+                                    modifier(Attributes.MOVEMENT_SPEED,0.08),
+                                    modifier(Attributes.ARMOR,0.5),
+                                    modifier(Attributes.JUMP_STRENGTH,0.04),
+                                    modifier(Attributes.STEP_HEIGHT,0.08),
+                                    modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                                ), List.of( //Major Realm Stats
+                                    modifier(Attributes.MAX_HEALTH,21.5),
+                                    modifier(Attributes.ATTACK_DAMAGE,7.5),
+                                    modifier(Attributes.ARMOR,1.5),
+                                    modifier(Attributes.MOVEMENT_SPEED,0.8),
+                                    modifier(Attributes.JUMP_STRENGTH,0.9),
+                                    modifier(Attributes.STEP_HEIGHT,1.2),
+                                    modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                        )))
                     //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire",2.0);
                     }})
                     .setSkillList(List.of(
-                        new AcquirableSkillData("ascension:essence",0,0,"ascension:basic_fire_ball",false),
-                        new AcquirableSkillData("ascension:essence",0,0,"ascension:large_fire_ball",false),
-                        new AcquirableSkillData("ascension:essence",0,0,"ascension:delayed_fire_launch",false)
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false),
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"basic_fire_ball"),0,0,false,false),
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"large_fire_ball"),0,0,false,false),
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"delayed_fire_launch"),0,0,false,false)
                     ))
                     .setDescription(
                             Component.literal("breathe in pure ").append("§4fire ").append("and purify ones essence")
@@ -135,30 +107,30 @@ public class ModTechniques {
                     "Pure Water Technique","ascension:water",
                     2.0,new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,9.5);
-                                put(Attributes.ATTACK_DAMAGE,1.4);
-                                put(Attributes.MOVEMENT_SPEED,0.2);
-                                put(Attributes.ARMOR,0.3);
-                                put(Attributes.JUMP_STRENGTH,0.02);
-                                put(Attributes.STEP_HEIGHT,0.02);
-                                put(Attributes.OXYGEN_BONUS,0.1);
-                                put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.08);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,18.5);
-                                put(Attributes.ATTACK_DAMAGE,3.5);
-                                put(Attributes.ARMOR,1.1);
-                                put(Attributes.MOVEMENT_SPEED,0.6);
-                                put(Attributes.JUMP_STRENGTH,0.8);
-                                put(Attributes.STEP_HEIGHT,0.6);
-                                put(Attributes.OXYGEN_BONUS,0.4);
-                                put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,9.5),
+                            modifier(Attributes.ATTACK_DAMAGE,1.4),
+                            modifier(Attributes.MOVEMENT_SPEED,0.2),
+                            modifier(Attributes.ARMOR,0.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.02),
+                            modifier(Attributes.STEP_HEIGHT,0.02),
+                            modifier(Attributes.OXYGEN_BONUS,0.1),
+                            modifier(Attributes.WATER_MOVEMENT_EFFICIENCY,0.08),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,18.5),
+                            modifier(Attributes.ATTACK_DAMAGE,3.5),
+                            modifier(Attributes.ARMOR,1.1),
+                            modifier(Attributes.MOVEMENT_SPEED,0.6),
+                            modifier(Attributes.JUMP_STRENGTH,0.8),
+                            modifier(Attributes.STEP_HEIGHT,0.6),
+                            modifier(Attributes.OXYGEN_BONUS,0.4),
+                            modifier(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
                     }}));
@@ -167,26 +139,26 @@ public class ModTechniques {
                     "Pure Wood Technique","ascension:wood",
                     2.0,new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,7.5);
-                                put(Attributes.ATTACK_DAMAGE,1.2);
-                                put(Attributes.MOVEMENT_SPEED,0.9);
-                                put(Attributes.ARMOR,0.2);
-                                put(Attributes.JUMP_STRENGTH,0.09);
-                                put(Attributes.STEP_HEIGHT,0.1);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,15.5);
-                                put(Attributes.ATTACK_DAMAGE,6.5);
-                                put(Attributes.ARMOR,0.4);
-                                put(Attributes.MOVEMENT_SPEED,1.8);
-                                put(Attributes.JUMP_STRENGTH,0.14);
-                                put(Attributes.STEP_HEIGHT,1.0);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                        }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,7.5),
+                            modifier(Attributes.ATTACK_DAMAGE,1.2),
+                            modifier(Attributes.MOVEMENT_SPEED,0.9),
+                            modifier(Attributes.ARMOR,0.2),
+                            modifier(Attributes.JUMP_STRENGTH,0.09),
+                            modifier(Attributes.STEP_HEIGHT,0.1),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,15.5),
+                            modifier(Attributes.ATTACK_DAMAGE,6.5),
+                            modifier(Attributes.ARMOR,0.4),
+                            modifier(Attributes.MOVEMENT_SPEED,1.8),
+                            modifier(Attributes.JUMP_STRENGTH,0.14),
+                            modifier(Attributes.STEP_HEIGHT,1.0),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
                     }}));
@@ -195,26 +167,26 @@ public class ModTechniques {
                     "Pure Earth Technique","ascension:earth",
                     2.0,new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,17.5);
-                                put(Attributes.ATTACK_DAMAGE,2.2);
-                                put(Attributes.MOVEMENT_SPEED,0.1);
-                                put(Attributes.ARMOR,0.3);
-                                put(Attributes.JUMP_STRENGTH,0.01);
-                                put(Attributes.STEP_HEIGHT,0.01);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,33.5);
-                                put(Attributes.ATTACK_DAMAGE,9.5);
-                                put(Attributes.ARMOR,0.6);
-                                put(Attributes.MOVEMENT_SPEED,1.3);
-                                put(Attributes.JUMP_STRENGTH,0.03);
-                                put(Attributes.STEP_HEIGHT,0.5);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,17.5),
+                            modifier(Attributes.ATTACK_DAMAGE,2.2),
+                            modifier(Attributes.MOVEMENT_SPEED,0.1),
+                            modifier(Attributes.ARMOR,0.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.01),
+                            modifier(Attributes.STEP_HEIGHT,0.01),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,33.5),
+                            modifier(Attributes.ATTACK_DAMAGE,9.5),
+                            modifier(Attributes.ARMOR,0.6),
+                            modifier(Attributes.MOVEMENT_SPEED,1.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.03),
+                            modifier(Attributes.STEP_HEIGHT,0.5),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth",2.0);
                     }}));
@@ -225,26 +197,26 @@ public class ModTechniques {
                     "Pure Metal Technique","ascension:metal",
                     2.0,new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,17.5);
-                                put(Attributes.ATTACK_DAMAGE,2.2);
-                                put(Attributes.ARMOR,0.6);
-                                put(Attributes.MOVEMENT_SPEED,0.1);
-                                put(Attributes.JUMP_STRENGTH,0.01);
-                                put(Attributes.STEP_HEIGHT,0.01);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,33.5);
-                                put(Attributes.ATTACK_DAMAGE,9.5);
-                                put(Attributes.ARMOR,1.5);
-                                put(Attributes.MOVEMENT_SPEED,1.3);
-                                put(Attributes.JUMP_STRENGTH,0.03);
-                                put(Attributes.STEP_HEIGHT,0.5);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                        }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,17.5),
+                            modifier(Attributes.ATTACK_DAMAGE,2.2),
+                            modifier(Attributes.ARMOR,0.6),
+                            modifier(Attributes.MOVEMENT_SPEED,0.1),
+                            modifier(Attributes.JUMP_STRENGTH,0.01),
+                            modifier(Attributes.STEP_HEIGHT,0.01),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,33.5),
+                            modifier(Attributes.ATTACK_DAMAGE,9.5),
+                            modifier(Attributes.ARMOR,1.5),
+                            modifier(Attributes.MOVEMENT_SPEED,1.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.03),
+                            modifier(Attributes.STEP_HEIGHT,0.5),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
                     }}));
@@ -253,28 +225,27 @@ public class ModTechniques {
                     "Void Swallowing Technique","ascension:void",
                     8.0,new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                        new HashMap<>(){{ //Minor Realm Stats
-                            put(Attributes.MAX_HEALTH,13.0);
-                            put(Attributes.ATTACK_DAMAGE,3.2);
-                            put(Attributes.ARMOR,0.3);
-                            put(Attributes.MOVEMENT_SPEED,0.3);
-                            put(Attributes.JUMP_STRENGTH,0.03);
-                            put(Attributes.STEP_HEIGHT,0.03);
-                            put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                        }}, new HashMap<>(){{ //Major Realm Stats
-                            put(Attributes.MAX_HEALTH,26.4);
-                            put(Attributes.ATTACK_DAMAGE,11.4);
-                            put(Attributes.ARMOR,1.0);
-                            put(Attributes.MOVEMENT_SPEED,2.3);
-                            put(Attributes.JUMP_STRENGTH,0.06);
-                            put(Attributes.STEP_HEIGHT,0.8);
-                            put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                        }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,13.0),
+                            modifier(Attributes.ATTACK_DAMAGE,3.2),
+                            modifier(Attributes.ARMOR,0.3),
+                            modifier(Attributes.MOVEMENT_SPEED,0.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.03),
+                            modifier(Attributes.STEP_HEIGHT,0.03),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,26.4),
+                            modifier(Attributes.ATTACK_DAMAGE,11.4),
+                            modifier(Attributes.ARMOR,1.0),
+                            modifier(Attributes.MOVEMENT_SPEED,2.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.06),
+                            modifier(Attributes.STEP_HEIGHT,0.8),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",1,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
-
                         put("ascension:void",2.0);
                     }}));
 
@@ -286,57 +257,55 @@ public class ModTechniques {
                     "Pure Sword Technique",8.0,
                     "ascension:sword_intent",new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,7.5);
-                                put(Attributes.ATTACK_DAMAGE,2.3);
-                                put(Attributes.ARMOR,0.1);
-                                put(Attributes.MOVEMENT_SPEED,0.3);
-                                put(Attributes.JUMP_STRENGTH,0.03);
-                                put(Attributes.STEP_HEIGHT,0.03);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,26.4);
-                                put(Attributes.ATTACK_DAMAGE,7.4);
-                                put(Attributes.ARMOR,0.4);
-                                put(Attributes.MOVEMENT_SPEED,0.9);
-                                put(Attributes.JUMP_STRENGTH,0.06);
-                                put(Attributes.STEP_HEIGHT,0.6);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,7.5),
+                            modifier(Attributes.ATTACK_DAMAGE,2.3),
+                            modifier(Attributes.ARMOR,0.1),
+                            modifier(Attributes.MOVEMENT_SPEED,0.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.03),
+                            modifier(Attributes.STEP_HEIGHT,0.03),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,26.4),
+                            modifier(Attributes.ATTACK_DAMAGE,7.4),
+                            modifier(Attributes.ARMOR,0.4),
+                            modifier(Attributes.MOVEMENT_SPEED,0.9),
+                            modifier(Attributes.JUMP_STRENGTH,0.06),
+                            modifier(Attributes.STEP_HEIGHT,0.6),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false),
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"sword_intent_skill"),0,3,true,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:sword_intent",2.0);
-                    }})
-                    .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:intent",0,3,"ascension:sword_intent_skill",true)
-                    )));
+                    }}));
     public static final TechniqueHolder PURE_AXE_INTENT = createTechnique("pure_axe_intent",
             ()->new SingleIntentTechnique(
                     "Pure Axe Technique",8.0,
                     "ascension:axe_intent",new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,6.5);
-                                put(Attributes.ATTACK_DAMAGE,3.3);
-                                put(Attributes.ARMOR,0.2);
-                                put(Attributes.MOVEMENT_SPEED,0.2);
-                                put(Attributes.JUMP_STRENGTH,0.04);
-                                put(Attributes.STEP_HEIGHT,0.04);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,17.4);
-                                put(Attributes.ATTACK_DAMAGE,8.4);
-                                put(Attributes.ARMOR,0.6);
-                                put(Attributes.MOVEMENT_SPEED,0.8);
-                                put(Attributes.JUMP_STRENGTH,0.09);
-                                put(Attributes.STEP_HEIGHT,0.7);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,6.5),
+                            modifier(Attributes.ATTACK_DAMAGE,3.3),
+                            modifier(Attributes.ARMOR,0.2),
+                            modifier(Attributes.MOVEMENT_SPEED,0.2),
+                            modifier(Attributes.JUMP_STRENGTH,0.04),
+                            modifier(Attributes.STEP_HEIGHT,0.04),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,17.4),
+                            modifier(Attributes.ATTACK_DAMAGE,8.4),
+                            modifier(Attributes.ARMOR,0.6),
+                            modifier(Attributes.MOVEMENT_SPEED,0.8),
+                            modifier(Attributes.JUMP_STRENGTH,0.09),
+                            modifier(Attributes.STEP_HEIGHT,0.7),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:axe_intent",2.0);
                     }}));
@@ -345,26 +314,26 @@ public class ModTechniques {
                         "Pure Blade Technique",8.0,"ascension:blade_intent",
                         new LnStabilityHandler(),
                         new StandardStatRealmChange(
-                                new HashMap<>(){{ //Minor Realm Stats
-                                    put(Attributes.MAX_HEALTH,8.5);
-                                    put(Attributes.ATTACK_DAMAGE,2.3);
-                                    put(Attributes.ARMOR,0.5);
-                                    put(Attributes.MOVEMENT_SPEED,0.5);
-                                    put(Attributes.JUMP_STRENGTH,0.07);
-                                    put(Attributes.STEP_HEIGHT,0.07);
-                                    put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                                }}, new HashMap<>(){{ //Major Realm Stats
-                                    put(Attributes.MAX_HEALTH,26.4);
-                                    put(Attributes.ATTACK_DAMAGE,7.8);
-                                    put(Attributes.ARMOR,1.2);
-                                    put(Attributes.MOVEMENT_SPEED,1.1);
-                                    put(Attributes.JUMP_STRENGTH,0.14);
-                                    put(Attributes.STEP_HEIGHT,0.9);
-                                    put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                        }}))
+                            List.of( //Minor Realm Stats
+                                modifier(Attributes.MAX_HEALTH,8.5),
+                                modifier(Attributes.ATTACK_DAMAGE,2.3),
+                                modifier(Attributes.ARMOR,0.5),
+                                modifier(Attributes.MOVEMENT_SPEED,0.5),
+                                modifier(Attributes.JUMP_STRENGTH,0.07),
+                                modifier(Attributes.STEP_HEIGHT,0.07),
+                                modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                            ), List.of( //Major Realm Stats
+                                modifier(Attributes.MAX_HEALTH,26.4),
+                                modifier(Attributes.ATTACK_DAMAGE,7.8),
+                                modifier(Attributes.ARMOR,1.2),
+                                modifier(Attributes.MOVEMENT_SPEED,1.1),
+                                modifier(Attributes.JUMP_STRENGTH,0.14),
+                                modifier(Attributes.STEP_HEIGHT,0.9),
+                                modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:blade_intent",2.0);
                     }}));
@@ -373,28 +342,28 @@ public class ModTechniques {
                     "Pure Blade Technique",8.0,"ascension:spear_intent",
                     new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,11.5);
-                                put(Attributes.ATTACK_DAMAGE,2.0);
-                                put(Attributes.ARMOR,0.3);
-                                put(Attributes.MOVEMENT_SPEED,0.3);
-                                put(Attributes.JUMP_STRENGTH,0.04);
-                                put(Attributes.STEP_HEIGHT,0.11);
-                                put(Attributes.ENTITY_INTERACTION_RANGE,0.2);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,29.4);
-                                put(Attributes.ATTACK_DAMAGE,4.8);
-                                put(Attributes.ARMOR,0.8);
-                                put(Attributes.MOVEMENT_SPEED,0.7);
-                                put(Attributes.JUMP_STRENGTH,0.08);
-                                put(Attributes.STEP_HEIGHT,0.7);
-                                put(Attributes.ENTITY_INTERACTION_RANGE,1.2);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,11.5),
+                            modifier(Attributes.ATTACK_DAMAGE,2.0),
+                            modifier(Attributes.ARMOR,0.3),
+                            modifier(Attributes.MOVEMENT_SPEED,0.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.04),
+                            modifier(Attributes.STEP_HEIGHT,0.11),
+                            modifier(Attributes.ENTITY_INTERACTION_RANGE,0.2),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,29.4),
+                            modifier(Attributes.ATTACK_DAMAGE,4.8),
+                            modifier(Attributes.ARMOR,0.8),
+                            modifier(Attributes.MOVEMENT_SPEED,0.7),
+                            modifier(Attributes.JUMP_STRENGTH,0.08),
+                            modifier(Attributes.STEP_HEIGHT,0.7),
+                            modifier(Attributes.ENTITY_INTERACTION_RANGE,1.2),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:spear_intent",2.0);
                     }}));
@@ -403,33 +372,33 @@ public class ModTechniques {
                     "Pure Fist Technique",8.0,
                     "ascension:fist_intent",new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,12.5);
-                                put(Attributes.ATTACK_DAMAGE,4.0);
-                                put(Attributes.ARMOR,0.5);
-                                put(Attributes.MOVEMENT_SPEED,0.5);
-                                put(Attributes.JUMP_STRENGTH,0.02);
-                                put(Attributes.STEP_HEIGHT,0.02);
-                                put(Attributes.ATTACK_KNOCKBACK, 0.2);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,29.4);
-                                put(Attributes.ATTACK_DAMAGE,4.8);
-                                put(Attributes.ARMOR,0.8);
-                                put(Attributes.MOVEMENT_SPEED,0.7);
-                                put(Attributes.JUMP_STRENGTH,0.08);
-                                put(Attributes.STEP_HEIGHT,0.7);
-                                put(Attributes.ATTACK_KNOCKBACK,0.8);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,12.5),
+                            modifier(Attributes.ATTACK_DAMAGE,4.0),
+                            modifier(Attributes.ARMOR,0.5),
+                            modifier(Attributes.MOVEMENT_SPEED,0.5),
+                            modifier(Attributes.JUMP_STRENGTH,0.02),
+                            modifier(Attributes.STEP_HEIGHT,0.02),
+                            modifier(Attributes.ATTACK_KNOCKBACK, 0.2),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,29.4),
+                            modifier(Attributes.ATTACK_DAMAGE,4.8),
+                            modifier(Attributes.ARMOR,0.8),
+                            modifier(Attributes.MOVEMENT_SPEED,0.7),
+                            modifier(Attributes.JUMP_STRENGTH,0.08),
+                            modifier(Attributes.STEP_HEIGHT,0.7),
+                            modifier(Attributes.ATTACK_KNOCKBACK,0.8),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false),
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"fist_aura_skill"),0,0,true,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fist_intent",2.0);
-                    }}).setSkillList(List.of(
-                    new AcquirableSkillData("ascension:intent",0,0,"ascension:fist_aura_skill",true)
-            )).setDescription(
+                    }})
+                    .setDescription(
                             Component.literal("what heavens? under my").append(" §8Fist ").append("all is equal").append("and all is weak")
                     ));
 
@@ -438,30 +407,29 @@ public class ModTechniques {
                     "Fist Kings Technique",8.0,"ascension:fist_intent",
                     new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,15.5);
-                                put(Attributes.ATTACK_DAMAGE,5.0);
-                                put(Attributes.ARMOR,0.1);
-                                put(Attributes.MOVEMENT_SPEED,0.5);
-                                put(Attributes.JUMP_STRENGTH,0.02);
-                                put(Attributes.STEP_HEIGHT,0.02);
-                                put(Attributes.ATTACK_KNOCKBACK, 0.6);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,34.4);
-                                put(Attributes.ATTACK_DAMAGE,11.8);
-                                put(Attributes.ARMOR,0.4);
-                                put(Attributes.MOVEMENT_SPEED,0.7);
-                                put(Attributes.JUMP_STRENGTH,0.08);
-                                put(Attributes.STEP_HEIGHT,0.7);
-                                put(Attributes.ATTACK_KNOCKBACK,1.4);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,15.5),
+                            modifier(Attributes.ATTACK_DAMAGE,5.0),
+                            modifier(Attributes.ARMOR,0.1),
+                            modifier(Attributes.MOVEMENT_SPEED,0.5),
+                            modifier(Attributes.JUMP_STRENGTH,0.02),
+                            modifier(Attributes.STEP_HEIGHT,0.02),
+                            modifier(Attributes.ATTACK_KNOCKBACK, 0.6),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,34.4),
+                            modifier(Attributes.ATTACK_DAMAGE,11.8),
+                            modifier(Attributes.ARMOR,0.4),
+                            modifier(Attributes.MOVEMENT_SPEED,0.7),
+                            modifier(Attributes.JUMP_STRENGTH,0.08),
+                            modifier(Attributes.STEP_HEIGHT,0.7),
+                            modifier(Attributes.ATTACK_KNOCKBACK,1.4),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
-
                         put("ascension:fist_intent",4.8);
                     }}));
 
@@ -470,26 +438,26 @@ public class ModTechniques {
     public static final TechniqueHolder WOOD_ELEMENTAL_TECHNIQUE = createTechnique("wood_elemental_technique",
             ()->new SingleAttributeTechnique("Wood Elemental Technique",8.0,"ascension:wood",new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,12.5);
-                                put(Attributes.ATTACK_DAMAGE,4.4);
-                                put(Attributes.MOVEMENT_SPEED,0.1);
-                                put(Attributes.ARMOR,0.8);
-                                put(Attributes.JUMP_STRENGTH,0.07);
-                                put(Attributes.STEP_HEIGHT,0.08);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,21.5);
-                                put(Attributes.ATTACK_DAMAGE,8.5);
-                                put(Attributes.ARMOR,1.6);
-                                put(Attributes.MOVEMENT_SPEED,2.2);
-                                put(Attributes.JUMP_STRENGTH,1.2);
-                                put(Attributes.STEP_HEIGHT,1.2);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,12.5),
+                            modifier(Attributes.ATTACK_DAMAGE,4.4),
+                            modifier(Attributes.MOVEMENT_SPEED,0.1),
+                            modifier(Attributes.ARMOR,0.8),
+                            modifier(Attributes.JUMP_STRENGTH,0.07),
+                            modifier(Attributes.STEP_HEIGHT,0.08),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,21.5),
+                            modifier(Attributes.ATTACK_DAMAGE,8.5),
+                            modifier(Attributes.ARMOR,1.6),
+                            modifier(Attributes.MOVEMENT_SPEED,2.2),
+                            modifier(Attributes.JUMP_STRENGTH,1.2),
+                            modifier(Attributes.STEP_HEIGHT,1.2),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood",2.0);
                     }}));
@@ -498,108 +466,108 @@ public class ModTechniques {
                     "Fire Elemental Technique",8.0,"ascension:fire",
                     new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,12.5);
-                                put(Attributes.ATTACK_DAMAGE,3.4);
-                                put(Attributes.MOVEMENT_SPEED,0.08);
-                                put(Attributes.ARMOR,0.5);
-                                put(Attributes.JUMP_STRENGTH,0.04);
-                                put(Attributes.STEP_HEIGHT,0.08);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,21.5);
-                                put(Attributes.ATTACK_DAMAGE,7.5);
-                                put(Attributes.ARMOR,1.5);
-                                put(Attributes.MOVEMENT_SPEED,0.8);
-                                put(Attributes.JUMP_STRENGTH,0.9);
-                                put(Attributes.STEP_HEIGHT,1.2);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,12.5),
+                            modifier(Attributes.ATTACK_DAMAGE,3.4),
+                            modifier(Attributes.MOVEMENT_SPEED,0.08),
+                            modifier(Attributes.ARMOR,0.5),
+                            modifier(Attributes.JUMP_STRENGTH,0.04),
+                            modifier(Attributes.STEP_HEIGHT,0.08),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,21.5),
+                            modifier(Attributes.ATTACK_DAMAGE,7.5),
+                            modifier(Attributes.ARMOR,1.5),
+                            modifier(Attributes.MOVEMENT_SPEED,0.8),
+                            modifier(Attributes.JUMP_STRENGTH,0.9),
+                            modifier(Attributes.STEP_HEIGHT,1.2),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire",2.0);
                     }}));
     public static final TechniqueHolder EARTH_ELEMENTAL_TECHNIQUE = createTechnique("earth_elemental_technique",
             ()->new SingleAttributeTechnique("Earth Elemental Technique",8.0,"ascension:earth",new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,17.5);
-                                put(Attributes.ATTACK_DAMAGE,2.2);
-                                put(Attributes.MOVEMENT_SPEED,0.1);
-                                put(Attributes.ARMOR,0.3);
-                                put(Attributes.JUMP_STRENGTH,0.01);
-                                put(Attributes.STEP_HEIGHT,0.01);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,33.5);
-                                put(Attributes.ATTACK_DAMAGE,9.5);
-                                put(Attributes.ARMOR,0.6);
-                                put(Attributes.MOVEMENT_SPEED,1.3);
-                                put(Attributes.JUMP_STRENGTH,0.03);
-                                put(Attributes.STEP_HEIGHT,0.5);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,17.5),
+                            modifier(Attributes.ATTACK_DAMAGE,2.2),
+                            modifier(Attributes.MOVEMENT_SPEED,0.1),
+                            modifier(Attributes.ARMOR,0.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.01),
+                            modifier(Attributes.STEP_HEIGHT,0.01),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,33.5),
+                            modifier(Attributes.ATTACK_DAMAGE,9.5),
+                            modifier(Attributes.ARMOR,0.6),
+                            modifier(Attributes.MOVEMENT_SPEED,1.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.03),
+                            modifier(Attributes.STEP_HEIGHT,0.5),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth",2.0);
                     }}));
     public static final TechniqueHolder METAL_ELEMENTAL_TECHNIQUE = createTechnique("metal_elemental_technique",
             ()->new SingleAttributeTechnique("Metal Elemental Technique",8.0,"ascension:metal",new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,17.5);
-                                put(Attributes.ATTACK_DAMAGE,2.2);
-                                put(Attributes.ARMOR,0.6);
-                                put(Attributes.MOVEMENT_SPEED,0.1);
-                                put(Attributes.JUMP_STRENGTH,0.01);
-                                put(Attributes.STEP_HEIGHT,0.01);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,33.5);
-                                put(Attributes.ATTACK_DAMAGE,9.5);
-                                put(Attributes.ARMOR,1.5);
-                                put(Attributes.MOVEMENT_SPEED,1.3);
-                                put(Attributes.JUMP_STRENGTH,0.03);
-                                put(Attributes.STEP_HEIGHT,0.5);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,17.5),
+                            modifier(Attributes.ATTACK_DAMAGE,2.2),
+                            modifier(Attributes.ARMOR,0.6),
+                            modifier(Attributes.MOVEMENT_SPEED,0.1),
+                            modifier(Attributes.JUMP_STRENGTH,0.01),
+                            modifier(Attributes.STEP_HEIGHT,0.01),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,33.5),
+                            modifier(Attributes.ATTACK_DAMAGE,9.5),
+                            modifier(Attributes.ARMOR,1.5),
+                            modifier(Attributes.MOVEMENT_SPEED,1.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.03),
+                            modifier(Attributes.STEP_HEIGHT,0.5),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:metal",2.0);
                     }}));
     public static final TechniqueHolder WATER_ELEMENTAL_TECHNIQUE = createTechnique("water_elemental_technique",
             ()->new SingleAttributeTechnique("Water Elemental Technique",8.0,"ascension:water",new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,9.5);
-                                put(Attributes.ATTACK_DAMAGE,1.4);
-                                put(Attributes.MOVEMENT_SPEED,0.2);
-                                put(Attributes.ARMOR,0.3);
-                                put(Attributes.JUMP_STRENGTH,0.02);
-                                put(Attributes.STEP_HEIGHT,0.02);
-                                put(Attributes.OXYGEN_BONUS,0.1);
-                                put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.08);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,18.5);
-                                put(Attributes.ATTACK_DAMAGE,3.5);
-                                put(Attributes.ARMOR,1.1);
-                                put(Attributes.MOVEMENT_SPEED,0.6);
-                                put(Attributes.JUMP_STRENGTH,0.8);
-                                put(Attributes.STEP_HEIGHT,0.6);
-                                put(Attributes.OXYGEN_BONUS,0.4);
-                                put(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,9.5),
+                            modifier(Attributes.ATTACK_DAMAGE,1.4),
+                            modifier(Attributes.MOVEMENT_SPEED,0.2),
+                            modifier(Attributes.ARMOR,0.3),
+                            modifier(Attributes.JUMP_STRENGTH,0.02),
+                            modifier(Attributes.STEP_HEIGHT,0.02),
+                            modifier(Attributes.OXYGEN_BONUS,0.1),
+                            modifier(Attributes.WATER_MOVEMENT_EFFICIENCY,0.08),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,18.5),
+                            modifier(Attributes.ATTACK_DAMAGE,3.5),
+                            modifier(Attributes.ARMOR,1.1),
+                            modifier(Attributes.MOVEMENT_SPEED,0.6),
+                            modifier(Attributes.JUMP_STRENGTH,0.8),
+                            modifier(Attributes.STEP_HEIGHT,0.6),
+                            modifier(Attributes.OXYGEN_BONUS,0.4),
+                            modifier(Attributes.WATER_MOVEMENT_EFFICIENCY,0.14),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,5,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water",2.0);
                     }}));
@@ -607,28 +575,27 @@ public class ModTechniques {
     public static final TechniqueHolder DIVINE_PHOENIX_TECHNIQUE = createTechnique("divine_phoenix_technique",
             ()->new SingleAttributeTechnique("Divine Phoenix Technique",8.0,"ascension:phoenix_fire",new LnStabilityHandler(),
                     new StandardStatRealmChange(
-                            new HashMap<>(){{ //Minor Realm Stats
-                                put(Attributes.MAX_HEALTH,25.5);
-                                put(Attributes.ATTACK_DAMAGE,5.2);
-                                put(Attributes.ARMOR,1.2);
-                                put(Attributes.MOVEMENT_SPEED,0.6);
-                                put(Attributes.JUMP_STRENGTH,0.06);
-                                put(Attributes.STEP_HEIGHT,0.06);
-                                put(Attributes.SAFE_FALL_DISTANCE,0.6);
-                            }}, new HashMap<>(){{ //Major Realm Stats
-                                put(Attributes.MAX_HEALTH,45.5);
-                                put(Attributes.ATTACK_DAMAGE,11.5);
-                                put(Attributes.ARMOR,2.5);
-                                put(Attributes.MOVEMENT_SPEED,1.4);
-                                put(Attributes.JUMP_STRENGTH,0.6);
-                                put(Attributes.STEP_HEIGHT,0.5);
-                                put(Attributes.SAFE_FALL_DISTANCE,1.2);
-                    }}))
+                        List.of( //Minor Realm Stats
+                            modifier(Attributes.MAX_HEALTH,25.5),
+                            modifier(Attributes.ATTACK_DAMAGE,5.2),
+                            modifier(Attributes.ARMOR,1.2),
+                            modifier(Attributes.MOVEMENT_SPEED,0.6),
+                            modifier(Attributes.JUMP_STRENGTH,0.06),
+                            modifier(Attributes.STEP_HEIGHT,0.06),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,0.6)
+                        ), List.of( //Major Realm Stats
+                            modifier(Attributes.MAX_HEALTH,45.5),
+                            modifier(Attributes.ATTACK_DAMAGE,11.5),
+                            modifier(Attributes.ARMOR,2.5),
+                            modifier(Attributes.MOVEMENT_SPEED,1.4),
+                            modifier(Attributes.JUMP_STRENGTH,0.6),
+                            modifier(Attributes.STEP_HEIGHT,0.5),
+                            modifier(Attributes.SAFE_FALL_DISTANCE,1.2)
+                    )))
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence",6,4,"ascension:flight_passive_skill",false)))
-                    //new StandardStatRealmChange(ENHANCED_MINOR_REALM_STATS_1,ENHANCED_MAJOR_REALM_STATS_1))
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,4,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
-
                         put("ascension:phoenix_fire",2.0);
                     }}));
 

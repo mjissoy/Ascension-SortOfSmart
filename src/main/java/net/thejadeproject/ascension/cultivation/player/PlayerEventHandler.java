@@ -14,6 +14,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.entity.custom.AscensionSkillEntity;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
@@ -81,7 +82,7 @@ public class PlayerEventHandler {
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
                     player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:intent").technique,
                     ':'
-            )).tryCultivate(player);
+            )).tryCultivate(player, CultivationSource.DEFAULT);
         }
 
         if(event.getEntity() instanceof Player player){
@@ -92,7 +93,7 @@ public class PlayerEventHandler {
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
                     player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique,
                     ':'
-            )).tryCultivate(player);
+            )).tryCultivate(player, CultivationSource.DEFAULT);
         }
     }
 

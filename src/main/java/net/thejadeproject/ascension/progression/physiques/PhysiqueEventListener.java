@@ -5,9 +5,12 @@ import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.events.custom.*;
 
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.skills.PlayerSkillRemoveEvent;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
@@ -39,5 +42,16 @@ public class PhysiqueEventListener{
             if(oldPhysique != null) oldPhysique.onRemovePhysique(event.player);
             if(newPhysique != null) newPhysique.onPhysiqueAcquisition(event.player);
         }
+    }
+
+    @SubscribeEvent
+    public static void onSkillRemove(PlayerSkillRemoveEvent event){
+        PlayerData data = event.player.getData(ModAttachments.PLAYER_DATA);
+        ResourceLocation physiqueId = event.player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
+
+        if(AscensionRegistries.Physiques.PHSIQUES_REGISTRY.containsKey(physiqueId)){
+            AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueId).onSkillRemoveEvent(event);
+        }
+
     }
 }

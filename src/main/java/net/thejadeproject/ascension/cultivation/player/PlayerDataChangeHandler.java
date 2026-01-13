@@ -14,6 +14,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
+import net.thejadeproject.ascension.data_attachments.attachments.PhysiqueAttachment;
 import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
@@ -27,64 +28,100 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class PlayerDataChangeHandler {
 
+    public static void rebirth(Player player){
+        // Get the old physique before resetting
+        ResourceLocation oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
+
+        // Remove all skills
+        PlayerSkillData skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
+
+
+        // Set the new physique
+        player.setData(ModAttachments.PHYSIQUE,new PhysiqueAttachment(player));
+
+
+        // Fire physique change event
+        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), player.getData(ModAttachments.PHYSIQUE).getPhysique().toString()));
+
+        // Reset skill data
+        player.setData(ModAttachments.PLAYER_SKILL_DATA, new PlayerSkillData(player));
+
+        //TODO update attributes
+
+        // Reset cultivation data for all paths
+        for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()) {
+            String oldTechnique = pathData.technique;
+            if(!pathData.technique.equals("ascension:none")){
+                AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':')).onRemoveTechnique(player);
+
+            }
+
+            // Send sync packet to reset client-side cultivation data
+            pathData.pathProgress = 0;
+            pathData.majorRealm = 0;
+            pathData.minorRealm = 0;
+            pathData.technique = "ascension:none";
+            pathData.techniqueData = null;
+            pathData.breakthroughData = null;
+            pathData.breakingThrough = false;
+            pathData.stabilityCultivationTicks = 0;
+
+            PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
+            NeoForge.EVENT_BUS.post(new TechniqueChangeEvent(player,pathData.pathId,oldTechnique,pathData.technique));
+
+        }
+        // Sync attack damage attribute
+        PacketDistributor.sendToPlayer((ServerPlayer) player,
+                new SyncAttackDamageAttribute(player.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        skillData.removeAllNonePermanentSkills();
+    }
+
     // Original method (for RebirthPill) - resets to empty_vessel
     public static void resetData(Player player) {
         resetData(player, "ascension:empty_vessel");
     }
 
     // New overloaded method that accepts target physique
+    //uses rebirth instead of the force remove
     public static void resetData(Player player, String targetPhysiqueId) {
         // Get the old physique before resetting
-        String oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString();
+        ResourceLocation oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
 
         // Remove all skills
         PlayerSkillData skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
-        skillData.removeAllSkills();
+
 
         // Set the new physique
         player.getData(ModAttachments.PHYSIQUE).setPhysique(targetPhysiqueId);
 
 
         // Fire physique change event
-        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique, targetPhysiqueId));
+        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), targetPhysiqueId));
 
         // Reset skill data
         player.setData(ModAttachments.PLAYER_SKILL_DATA, new PlayerSkillData(player));
 
-        // Reset player attributes to default values
-        player.setData(ModAttachments.MOVEMENT_SPEED, 0.1);
-        player.setData(ModAttachments.ATTACK_DAMAGE, 1.0);
-
-        // Reset Minecraft attributes to default
-        AttributeSupplier playerSupplier = Player.createAttributes().build();
-        for(Holder<Attribute> attributeHolder : player.getAttributes().attributes.keySet()) {
-            if(playerSupplier.hasAttribute(attributeHolder)) {
-                AttributeInstance instance = player.getAttributes().attributes.get(attributeHolder);
-                instance.setBaseValue(playerSupplier.getBaseValue(attributeHolder));
-                instance.removeModifiers();
-            } else {
-                AttributeInstance instance = player.getAttributes().attributes.get(attributeHolder);
-                instance.setBaseValue(attributeHolder.value().getDefaultValue());
-                instance.removeModifiers();
-            }
-        }
 
         // Reset cultivation data for all paths
         for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()) {
+
+            if(!pathData.technique.equals("ascension:none")){
+                AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':')).onRemoveTechnique(player);
+            }
+
             // Send sync packet to reset client-side cultivation data
-            PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPathDataPayload(
-                    pathData.pathId,
-                    0, // major realm
-                    0, // minor realm
-                    0, // path progress
-                    "ascension:none", // technique
-                    0 // stability cultivation ticks
-            ));
+            pathData.pathProgress = 0;
+            pathData.majorRealm = 0;
+            pathData.minorRealm = 0;
+            pathData.technique = "ascension:none";
+            pathData.techniqueData = null;
+            pathData.breakthroughData = null;
+            pathData.breakingThrough = false;
+            pathData.stabilityCultivationTicks = 0;
+
+            PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
+
         }
-
-        // Create new player data
-        player.setData(ModAttachments.PLAYER_DATA, new PlayerData(player));
-
         // Sync attack damage attribute
         PacketDistributor.sendToPlayer((ServerPlayer) player,
                 new SyncAttackDamageAttribute(player.getAttributeValue(Attributes.ATTACK_DAMAGE)));
@@ -98,7 +135,7 @@ public class PlayerDataChangeHandler {
 
         // Sync the new physique to client
         PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(targetPhysiqueId));
-
+        //TODO use different function for removing physique
         // Send feedback message to player
         if (player instanceof ServerPlayer serverPlayer) {
             Component physiqueName = Component.literal("Empty Vessel");

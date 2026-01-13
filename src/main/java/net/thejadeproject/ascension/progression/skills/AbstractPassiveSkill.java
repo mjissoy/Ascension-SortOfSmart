@@ -6,6 +6,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.constants.SkillType;
 import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
@@ -51,17 +52,7 @@ public abstract class AbstractPassiveSkill implements ISkill{
         return skillIcon;
     }
 
-    /******SKILL DATA STUFF*****/
 
-    @Override
-    public boolean isFixedSkill() {
-        //todo uses nbt
-        return false;
-    }
-    @Override
-    public void setFixedSkill(boolean fixedSkill) {
-       //todo uses nbt data.
-    }
 
     @Override
     public String getSkillPath() {
@@ -88,5 +79,10 @@ public abstract class AbstractPassiveSkill implements ISkill{
     @Override
     public IPersistentSkillData getPersistentDataInstance() {
         return null;
+    }
+
+    @Override
+    public SkillType getType() {
+        return SkillType.PASSIVE;
     }
 }

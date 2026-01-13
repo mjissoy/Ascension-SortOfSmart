@@ -14,8 +14,10 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerS
 import net.thejadeproject.ascension.cultivation.player.providers.PlayerDataProvider;
 import net.thejadeproject.ascension.cultivation.player.providers.PlayerSkillDataProvider;
 import net.thejadeproject.ascension.cultivation.player.sync_handler.PlayerSkillDataSyncHandler;
+import net.thejadeproject.ascension.data_attachments.attachments.AscensionAttributeWrapper;
 import net.thejadeproject.ascension.data_attachments.attachments.PhysiqueAttachment;
 import net.thejadeproject.ascension.data_attachments.attachments.PlayerInputStates;
+import net.thejadeproject.ascension.data_attachments.providers.AscensionAttributeWrapperProvider;
 import net.thejadeproject.ascension.data_attachments.providers.PhysiqueProvider;
 
 import java.util.function.Supplier;
@@ -39,6 +41,9 @@ public class ModAttachments {
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PhysiqueAttachment>> PHYSIQUE = ATTACHMENT_TYPES.register("physique",
             () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PhysiqueAttachment(player):null)
                     .serialize(new PhysiqueProvider()).copyOnDeath().build());
+    public static final DeferredHolder<AttachmentType<?>, AttachmentType<AscensionAttributeWrapper>> ATTRIBUTE_WRAPPER = ATTACHMENT_TYPES.register("attribute_wrapper",
+            () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new AscensionAttributeWrapper(player):null)
+                    .serialize(new AscensionAttributeWrapperProvider()).copyOnDeath().build());
 
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerSkillData>> PLAYER_SKILL_DATA = ATTACHMENT_TYPES.register("player_skill_data",
             () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerSkillData(player):null)

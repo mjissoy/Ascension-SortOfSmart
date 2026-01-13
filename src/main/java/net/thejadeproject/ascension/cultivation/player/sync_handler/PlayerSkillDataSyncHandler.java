@@ -24,6 +24,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         buf.writeInt(skillMetaData.skillId.length());
         buf.writeCharSequence(skillMetaData.skillId, Charset.defaultCharset());
         buf.writeBoolean(skillMetaData.fixed);
+        buf.writeBoolean(skillMetaData.permanent);
         if(skillMetaData.data == null) buf.writeBoolean(false);
         else{
             buf.writeBoolean(true);
@@ -34,11 +35,12 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         String skillId = (String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset());
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillId,':'));
         boolean fixed = buf.readBoolean();
+        boolean permanent = buf.readBoolean();
         IPersistentSkillData skillData= null;
         if(buf.readBoolean()){
             skillData = skill.getPersistentDataInstance(buf);
         }
-        return new PlayerSkillData.SkillMetaData(skillId,fixed,skillData);
+        return new PlayerSkillData.SkillMetaData(skillId,fixed,permanent,skillData);
     }
     @Override
     public void write(RegistryFriendlyByteBuf buf, PlayerSkillData attachment, boolean initialSync) {
@@ -180,7 +182,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 for(int i = 0;i<skills;i++){
                     boolean action = buf.readBoolean();
                     PlayerSkillData.SkillMetaData skillMetaData = decodeSkillMetaData(buf);
-                    if(action) previousValue.addActiveSkill(skillMetaData.skillId, skillMetaData.fixed, skillMetaData.data);
+                    if(action) previousValue.addActiveSkill(skillMetaData.skillId, skillMetaData.fixed,skillMetaData.permanent, skillMetaData.data);
                     else previousValue.removeActiveSkill(skillMetaData.skillId);
                 }
             }
@@ -194,7 +196,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                     boolean action = buf.readBoolean();
                     PlayerSkillData.SkillMetaData skillMetaData = decodeSkillMetaData(buf);
                     
-                    if(action) previousValue.addPassiveSkill(skillMetaData.skillId, skillMetaData.fixed, skillMetaData.data);
+                    if(action) previousValue.addPassiveSkill(skillMetaData.skillId, skillMetaData.fixed,skillMetaData.permanent, skillMetaData.data);
                     else previousValue.removePassiveSkill(skillMetaData.skillId);
                 }
             }

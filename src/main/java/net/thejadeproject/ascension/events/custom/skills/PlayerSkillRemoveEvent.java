@@ -1,21 +1,19 @@
 package net.thejadeproject.ascension.events.custom.skills;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
+import net.thejadeproject.ascension.constants.SkillRemoveSource;
 
 public class PlayerSkillRemoveEvent extends Event implements ICancellableEvent {
     public final Player player;
-    public final int majorRealm;
-    public final int minorRealm;
-    public final String path;
-    public final String skill;
+    public final ResourceLocation skill;
+    public final SkillRemoveSource skillRemoveType;
 
-    public PlayerSkillRemoveEvent(Player player, int majorRealm, int minorRealm, String path, String skill) {
+    public PlayerSkillRemoveEvent(Player player, ResourceLocation skill, SkillRemoveSource skillRemoveType) {
         this.player = player;
-        this.majorRealm = majorRealm;
-        this.minorRealm = minorRealm;
-        this.path = path;
         this.skill = skill;
+        this.skillRemoveType = skillRemoveType;
     }
 }

@@ -1,7 +1,6 @@
 package net.thejadeproject.ascension.progression.skills;
 
 import net.lucent.easygui.util.textures.TextureData;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -12,7 +11,6 @@ import net.thejadeproject.ascension.progression.skills.active_skills.Indestructi
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.DelayedFireLaunch;
 import net.thejadeproject.ascension.progression.skills.passive_skills.*;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.List;
