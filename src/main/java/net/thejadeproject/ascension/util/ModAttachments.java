@@ -16,6 +16,7 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerS
 import net.thejadeproject.ascension.cultivation.player.providers.PlayerDataProvider;
 import net.thejadeproject.ascension.cultivation.player.providers.PlayerSkillDataProvider;
 import net.thejadeproject.ascension.cultivation.player.sync_handler.PlayerSkillDataSyncHandler;
+import net.thejadeproject.ascension.events.karma.KarmaData;
 
 import java.util.function.Supplier;
 
@@ -53,6 +54,14 @@ public class ModAttachments {
                     .serialize(Codec.STRING)
                     .sync(ByteBufCodecs.STRING_UTF8)
                     .copyOnDeath().build()
+    );
+
+    public static final Supplier<AttachmentType<KarmaData>> PLAYER_KARMA = ATTACHMENT_TYPES.register(
+            "player_karma",
+            () -> AttachmentType.builder(() -> new KarmaData())
+                    .serialize(KarmaData.CODEC)
+                    .copyOnDeath()
+                    .build()
     );
 
 

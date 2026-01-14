@@ -29,6 +29,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.FROST_SILVER_INGOT);
                         output.accept(ModItems.FROST_SILVER_NUGGET);
                         output.accept(ModItems.SPIRITUAL_STONE);
+                        output.accept(ModItems.SPATIAL_STONE_TIER_1);
+                        output.accept(ModItems.SPATIAL_STONE_TIER_2);
                         output.accept(ModItems.JADE_NUGGET);
                         output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);
@@ -37,21 +39,19 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.JADE_SPATIAL_RING.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SPATIAL_RING.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_pills_tab"))
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.KARMIC_DEBT_LEDGER);
+
                         output.accept(ModItems.JADE_SLIP);
                         output.accept(ModItems.REPAIR_SLIP);
                         output.accept(ModItems.ENDER_POUCH);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HUMAN);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_EARTH);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HEAVEN);
-                        output.accept(ModItems.IRON_SPATIAL_RING);
-                        output.accept(ModItems.GOLD_SPATIAL_RING);
-                        output.accept(ModItems.DIAMOND_SPATIAL_RING);
-                        output.accept(ModItems.NETHERITE_SPATIAL_RING);
-                        output.accept(ModItems.JADE_SPATIAL_RING);
+                        output.accept(ModItems.SPATIAL_RING);
                         output.accept(ModItems.FIRE_GOURD);
 
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);
@@ -106,13 +106,10 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModBlocks.GOLDEN_PALM_LOG);
                         output.accept(ModBlocks.GOLDEN_PALM_WOOD);
-
                         output.accept(ModBlocks.STRIPPED_GOLDEN_PALM_LOG);
                         output.accept(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD);
-
                         output.accept(ModBlocks.GOLDEN_PALM_PLANKS);
                         output.accept(ModBlocks.GOLDEN_PALM_SAPLING);
-
                         output.accept(ModBlocks.GOLDEN_PALM_LEAVES);
                         output.accept(ModBlocks.GOLDEN_PALM_STAIRS);
                         output.accept(ModBlocks.GOLDEN_PALM_SLAB);
@@ -122,6 +119,22 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.GOLDEN_PALM_FENCE_GATE);
                         output.accept(ModBlocks.GOLDEN_PALM_DOOR);
                         output.accept(ModBlocks.GOLDEN_PALM_TRAPDOOR);
+
+                        output.accept(ModBlocks.IRONWOOD_LOG);
+                        output.accept(ModBlocks.IRONWOOD_WOOD);
+                        output.accept(ModBlocks.STRIPPED_IRONWOOD_LOG);
+                        output.accept(ModBlocks.STRIPPED_IRONWOOD_WOOD);
+                        output.accept(ModBlocks.IRONWOOD_PLANKS);
+                        output.accept(ModBlocks.IRONWOOD_SAPLING);
+                        output.accept(ModBlocks.IRONWOOD_LEAVES);
+                        output.accept(ModBlocks.IRONWOOD_STAIRS);
+                        output.accept(ModBlocks.IRONWOOD_SLABS);
+                        output.accept(ModBlocks.IRONWOOD_PRESSURE_PLATE);
+                        output.accept(ModBlocks.IRONWOOD_BUTTON);
+                        output.accept(ModBlocks.IRONWOOD_FENCE);
+                        output.accept(ModBlocks.IRONWOOD_FENCE_GATE);
+                        output.accept(ModBlocks.IRONWOOD_DOOR);
+                        output.accept(ModBlocks.IRONWOOD_TRAPDOOR);
 
                         /** Marble */
                         output.accept(ModBlocks.RAW_MARBLE);
@@ -386,7 +399,12 @@ public class ModCreativeModeTabs {
                         output.accept(ModTechniques.PURE_METAL_TECHNIQUE.manual);
                         output.accept(ModTechniques.PURE_EARTH_TECHNIQUE.manual);
                         output.accept(ModTechniques.PURE_WOOD_TECHNIQUE.manual);
-                        output.accept(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual);
+                        output.accept(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual); // Human Tier - New
+                        output.accept(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual); // Earth Tier
+                        output.accept(ModTechniques.THUNDER_HEART_TECHNIQUE.manual); //  Earth Tier - New
+                        output.accept(ModTechniques.VOID_WALKER_TECHNIQUE.manual); // Heaven Tier - New
+                        output.accept(ModTechniques.INFINITE_TIME_ESSENCE_TECHNIQUE.manual); // Ascension Tier - New
+                        output.accept(ModTechniques.COSMIC_CREATION_ESSENCE_TECHNIQUE.manual); // Ascension Tier - New
 
                         //Intent
                         output.accept(ModTechniques.PURE_SWORD_INTENT.manual);
@@ -394,7 +412,12 @@ public class ModCreativeModeTabs {
                         output.accept(ModTechniques.PURE_AXE_INTENT.manual);
                         output.accept(ModTechniques.PURE_BLADE_INTENT.manual);
                         output.accept(ModTechniques.PURE_SPEAR_INTENT.manual);
-                        output.accept(ModTechniques.FIST_KINGS_TECHNIQUE.manual);
+                        output.accept(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual); // Human Tier - New
+                        output.accept(ModTechniques.FIST_KINGS_TECHNIQUE.manual); // Earth Tier
+                        output.accept(ModTechniques.BLADE_DANCE_TECHNIQUE.manual); // Earth Tier - New
+                        output.accept(ModTechniques.SWORD_SAINT_TECHNIQUE.manual); // Heaven Tier - New
+                        output.accept(ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual); // Ascension Tier - New
+                        output.accept(ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual); // Ascension Tier - New
 
                         //Body
                         output.accept(ModTechniques.WOOD_ELEMENTAL_TECHNIQUE.manual);
@@ -402,7 +425,12 @@ public class ModCreativeModeTabs {
                         output.accept(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual);
                         output.accept(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual);
                         output.accept(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual);
-                        output.accept(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual);
+                        output.accept(ModTechniques.IRON_SKIN_TECHNIQUE.manual); // Human Tier - New
+                        output.accept(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual); // Earth Tier
+                        output.accept(ModTechniques.JADE_BONE_TECHNIQUE.manual); // Earth Tier - New
+                        output.accept(ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual); // Heaven Tier - New
+                        output.accept(ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual); // Ascension Tier - New
+                        output.accept(ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual); // Ascension Tier - New
 
 
                     })

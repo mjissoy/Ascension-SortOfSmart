@@ -16,8 +16,8 @@ public record OpenSpatialRingPacket() implements CustomPacketPayload {
     public static final Type<OpenSpatialRingPacket> TYPE = new Type<>(AscensionCraft.prefix("open_spatial_ring"));
 
     public static final StreamCodec<FriendlyByteBuf, OpenSpatialRingPacket> CODEC = StreamCodec.of(
-            (buf, packet) -> {}, // Write - no data to write
-            buf -> new OpenSpatialRingPacket() // Read
+            (buf, packet) -> {},
+            buf -> new OpenSpatialRingPacket()
     );
 
     @Override
@@ -31,22 +31,19 @@ public record OpenSpatialRingPacket() implements CustomPacketPayload {
                 ItemStack spatialRing = SpatialRingUtils.findSpatialringForHotkeys(serverPlayer, true);
 
                 if (!spatialRing.isEmpty() && spatialRing.getItem() instanceof SpatialRingItem spatialRingItem) {
-                    // Get the SpatialRingData directly
                     SpatialRingData data = SpatialRingItem.getData(spatialRing);
                     if (data != null) {
                         UUID uuid = data.getUuid();
 
-                        // Update access records
                         data.updateAccessRecords(serverPlayer.getName().getString(), System.currentTimeMillis());
 
-                        // Open the menu directly
                         serverPlayer.openMenu(new SimpleMenuProvider(
                                 (windowId, playerInventory, playerEntity) ->
-                                        new SRContainer(windowId, playerInventory, uuid, data.getTier(), data.getHandler()),
+                                        new SpatialRingStorageContainer(windowId, playerInventory, uuid, data.getHandler(), data.getTotalRows()),
                                 spatialRing.getHoverName()
                         ), (buffer -> {
                             buffer.writeUUID(uuid);
-                            buffer.writeInt(data.getTier().ordinal());
+                            buffer.writeInt(data.getExtraRows());
                         }));
                     }
                 }

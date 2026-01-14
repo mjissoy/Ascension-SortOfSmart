@@ -7,6 +7,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.entity.custom.shaders.RiftEntity;
 import net.thejadeproject.ascension.entity.custom.TreasureRatEntity;
 
 import java.util.function.Supplier;
@@ -33,6 +34,18 @@ public class ModEntities {
                             .updateInterval(10)
                             .build("poison_pill"));
 
+    public static final DeferredHolder<EntityType<?>, EntityType<RiftEntity>> RIFT =
+            ENTITY_TYPES.register("rift",
+                    () -> EntityType.Builder.of(
+                                    RiftEntity::new,
+                                    MobCategory.MISC
+                            )
+                            .sized(0.5f, 3.0f)
+                            .clientTrackingRange(64)
+                            .updateInterval(1)
+                            .build("rift")
+
+            );
 
 
     public static void register(IEventBus eventBus) {

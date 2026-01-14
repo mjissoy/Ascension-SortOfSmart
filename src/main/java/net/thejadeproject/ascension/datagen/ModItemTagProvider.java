@@ -52,7 +52,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.STRIPPED_GOLDEN_PALM_WOOD.get().asItem());
 
         this.tag(ItemTags.PLANKS)
-                .add(ModBlocks.GOLDEN_PALM_PLANKS.asItem());
+                .add(ModBlocks.GOLDEN_PALM_PLANKS.asItem())
+                .add(ModBlocks.IRONWOOD_PLANKS.asItem());
 
         tag(ModTags.Items.daoItemTags.get("ascension:sword_intent"))
                 .addTag(ItemTags.SWORDS);
@@ -143,11 +144,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
 
         this.tag(ModTags.Items.CURIOS_RING)
-                .add(ModItems.IRON_SPATIAL_RING.get())
-                .add(ModItems.GOLD_SPATIAL_RING.get())
-                .add(ModItems.DIAMOND_SPATIAL_RING.get())
-                .add(ModItems.NETHERITE_SPATIAL_RING.get())
-                .add(ModItems.JADE_SPATIAL_RING.get());
+                .add(ModItems.SPATIAL_RING.get());
 
     }
 }

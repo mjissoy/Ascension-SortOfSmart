@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -14,7 +13,6 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -29,9 +27,14 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.command.cultivation.SetCultivationCommand;
+import net.thejadeproject.ascension.command.karma.KarmaCommand;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.PlayerAttributeManager;
 import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.events.karma.KarmaEvents;
+import net.thejadeproject.ascension.events.karma.KarmaManager;
+import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
 import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
@@ -108,6 +111,7 @@ public class AscensionCraft {
         ModCreativeModeTabs.register(modEventBus);
         RealmRegistry.register(modEventBus);
 
+        ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
 
@@ -120,7 +124,7 @@ public class AscensionCraft {
         ModParticles.register(modEventBus);
         ModEntities.register(modEventBus);
 
-        ModItems.register(modEventBus);
+
         ModEffects.register(modEventBus);
 
         ModAttributes.register(modEventBus);
@@ -151,9 +155,14 @@ public class AscensionCraft {
         NeoForge.EVENT_BUS.register(new SectEventHandler());
         NeoForge.EVENT_BUS.register(new SectMissionEventHandler());
 
+        NeoForge.EVENT_BUS.register(new KarmicLedgerEvents());
+
+        NeoForge.EVENT_BUS.register(new KarmaEvents());
+
         register(modEventBus);
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.COMMON_SPEC, "ascension/Ascension-Common.toml");
@@ -194,6 +203,10 @@ public class AscensionCraft {
 
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = (Player) event.getEntity();
+        if (!player.level().isClientSide) {
+            KarmaManager.initializeKarma(player);
+        }
+
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
 
         if(!event.getEntity().level().isClientSide()){
@@ -262,6 +275,8 @@ public class AscensionCraft {
 
     private void registerCommands(RegisterCommandsEvent event) {
         SectCommand.register(event.getDispatcher());
+        KarmaCommand.register(event.getDispatcher());
+        SetCultivationCommand.register(event.getDispatcher());;
     }
 
 

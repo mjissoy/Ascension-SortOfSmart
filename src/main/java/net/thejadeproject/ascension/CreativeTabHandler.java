@@ -2,6 +2,7 @@ package net.thejadeproject.ascension;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
@@ -16,6 +17,7 @@ import java.util.List;
 public class CreativeTabHandler {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AscensionCraft.MOD_ID);
+
 
     public static void register(IEventBus eventBus) {
         CREATIVE_TABS.register(eventBus);
@@ -73,4 +75,6 @@ public class CreativeTabHandler {
             output.accept(fullStack);
         }
     }
+
+
 }

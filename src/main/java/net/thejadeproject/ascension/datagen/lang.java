@@ -12,17 +12,16 @@ public class lang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+        //Menus
+        add("container.ascension.spatial_stones", "§5Spatial Stones");
+        add("container.ascension.other_upgrades", "§6Upgrades");
 
 
-        //Commands
-        add("sect.info.power", "Power: %s/%s");
-        add("sect.info.total_deposited", "Total Deposited: %s");
-        add("sect.claim.insufficient_power", "Your sect doesn't have enough power to claim this chunk");
-        add("sect.claim.cannot_overclaim", "Cannot overclaim %s sect! You need more than %s power (you have %s)");
 
+        add("ascension.technique.path.essence", "§6[Essence]");
+        add("ascension.technique.path.intent", "§5[Intent]");
+        add("ascension.technique.path.body", "§c[Body]");
 
-        add("sect.deposit.opening", "Opening Deposit Vault");
-        add("container.sect_deposit", "Sect Deposit Vault");
 
 
         //Advancements
@@ -64,6 +63,8 @@ public class lang extends LanguageProvider {
 
         //Misc
         add("item.ascension.spiritual_stone", "Spiritual Stone");
+        add("item.ascension.spatial_stone_tier_1", "Spatial Stone I");
+        add("item.ascension.spatial_stone_tier_2", "Spatial Stone II");
         add("item.ascension.raw_black_iron", "Raw Black Iron");
         add("item.ascension.black_iron_ingot", "Black Iron Ingot");
         add("item.ascension.black_iron_nugget", "Black Iron Nugget");
@@ -203,6 +204,11 @@ public class lang extends LanguageProvider {
         add("item.ascension.pure_earth_technique","Pure Earth Technique");
         add("item.ascension.pure_metal_technique","Pure Metal Technique");
         add("item.ascension.void_swallowing_technique","Void Swallowing Technique");
+        add("item.ascension.swift_breeze_technique","Swift Breeze Technique");
+        add("item.ascension.thunder_heart_technique","Thunder Heart Technique");
+        add("item.ascension.void_walker_technique","Void Walker Technique");
+        add("item.ascension.cosmic_creation_essence_technique","Cosmic Creation Essence Technique");
+        add("item.ascension.infinite_time_essence_technique","Infinite Time Essence Technique");
 
         //Intent
         add("item.ascension.pure_sword_intent","Pure Sword Intent Technique");
@@ -211,6 +217,11 @@ public class lang extends LanguageProvider {
         add("item.ascension.pure_spear_intent","Pure Spear Intent Technique");
         add("item.ascension.pure_blade_intent","Pure Blade Intent Technique");
         add("item.ascension.fist_king_intent","Fist Kings Technique");
+        add("item.ascension.focused_strike_technique","Focused Strike Technique");
+        add("item.ascension.blade_dance_technique","Blade Dance Technique");
+        add("item.ascension.sword_saint_technique","Sword Saint Technique");
+        add("item.ascension.universe_devourer_intent_technique","Universe Devourer Intent Technique");
+        add("item.ascension.eternal_reincarnation_intent_technique","Eternal Reincarnation Intent Technique");
 
         //Body
 
@@ -220,6 +231,11 @@ public class lang extends LanguageProvider {
         add("item.ascension.metal_elemental_technique","Metal Elemental Technique");
         add("item.ascension.fire_elemental_technique","Fire Elemental Technique");
         add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique");
+        add("item.ascension.iron_skin_technique","Iron Skin Technique");
+        add("item.ascension.jade_bone_technique","Jade Bone Technique");
+        add("item.ascension.celestial_body_technique","Celestial Body Technique");
+        add("item.ascension.primordial_chaos_body_technique","Primordial Chaos Body Technique");
+        add("item.ascension.dragon_king_body_technique","Dragon King Body Technique");
 
 
         add("ascension.learnt_technique","You have learned the %s");
@@ -259,6 +275,21 @@ public class lang extends LanguageProvider {
         add("block.ascension.golden_palm_fence_gate", "Golden Palm Fence Gate");
         add("block.ascension.golden_palm_door", "Golden Palm Door");
         add("block.ascension.golden_palm_trapdoor", "Golden Palm Trapdoor");
+        add("block.ascension.ironwood_log", "Ironwood Log");
+        add("block.ascension.ironwood_wood", "Ironwood Wood");
+        add("block.ascension.stripped_ironwood_log", "Stripped Ironwood Log");
+        add("block.ascension.stripped_ironwood_wood", "Stripped Ironwood Wood");
+        add("block.ascension.ironwood_planks", "Ironwood Planks");
+        add("block.ascension.ironwood_leaves", "Ironwood Leaves");
+        add("block.ascension.ironwood_sapling", "Ironwood Sapling");
+        add("block.ascension.ironwood_slab", "Ironwood Slab");
+        add("block.ascension.ironwood_stairs", "Ironwood Stair");
+        add("block.ascension.ironwood_button", "Ironwood Button");
+        add("block.ascension.ironwood_pressure_plate", "Ironwood Pressure Plate");
+        add("block.ascension.ironwood_fence", "Ironwood Fence");
+        add("block.ascension.ironwood_fence_gate", "Ironwood Fence Gate");
+        add("block.ascension.ironwood_door", "Ironwood Door");
+        add("block.ascension.ironwood_trapdoor", "Ironwood Trapdoor");
 
         /** Marble */
         add("block.ascension.raw_marble", "Marble");
@@ -465,12 +496,8 @@ public class lang extends LanguageProvider {
 
 
         //Artifacts
-        add("item.ascension.iron_spatial_ring", "Iron Spatial Ring");
-        add("item.ascension.gold_spatial_ring", "Gold Spatial Ring");
-        add("item.ascension.diamond_spatial_ring", "Diamond Spatial Ring");
-        add("item.ascension.netherite_spatial_ring", "Netherite Spatial Ring");
-        add("item.ascension.jade_spatial_ring", "Jade Spatial Ring");
-        add("item.ascension.spiritual_stone_spatial_ring", "Spiritual Spatial Ring");
+        add("item.ascension.spatial_ring", "Spatial Ring");
+
         add("item.ascension.fire_gourd", "Gourd O Fire");
         add("item.ascension.spatial_rupture_talisman_t1", "Lesser Spatial Rupture Talisman");
         add("item.ascension.spatial_rupture_talisman_t2", "Standard Spatial Rupture Talisman");
@@ -624,6 +651,22 @@ public class lang extends LanguageProvider {
         add("ascension.physique.active.indestructible_vajra.desc6", "§e◆ §fRelease stored damage as shockwave");
         add("ascension.physique.active.indestructible_vajra.desc7", "§c◆ §fCost: 100 Qi");
         add("ascension.physique.active.indestructible_vajra.desc8", "§c◆ §fCooldown: 2 minutes");
+
+        add("ascension.skill.active.ore_sight", "Ore Sight");
+        add("ascension.skill.active.ore_sight.desc1", "What stone conceals, the Metal Dao reveals. The cultivator's qi illuminates what time and earth have hidden.");
+        add("ascension.skill.active.ore_sight.desc2", "Each ore sings with a different color—coal's dark hum, copper's warm glow, diamond's cold fire, emerald's verdant whisper.");
+        add("ascension.skill.active.ore_sight.desc3", "As the moon waxes with each night, so too does the cultivator's sight sharpen with each realm ascended.");
+        add("ascension.skill.active.ore_sight.desc4", "§c◆ §fCost: 15 Qi");
+        add("ascension.skill.active.ore_sight.desc5", "§c◆ §fCooldown: 1 minute");
+
+        add("ascension.skill.active.space_infusion", "Space Infusion");
+        add("ascension.skill.active.space_infusion.desc1", "§dSpace Infusion§r");
+        add("ascension.skill.active.space_infusion.desc2", "§7-------------------§r");
+        add("ascension.skill.active.space_infusion.desc3", "§bChannel the void energies of The End to transmute a Spiritual Stone.§r");
+        add("ascension.skill.active.space_infusion.desc4", "§8• Must be cast in The End dimension§r");
+        add("ascension.skill.active.space_infusion.desc5", "§8• 5-second infusion | 15s cooldown§r");
+
+
 
     }
 }

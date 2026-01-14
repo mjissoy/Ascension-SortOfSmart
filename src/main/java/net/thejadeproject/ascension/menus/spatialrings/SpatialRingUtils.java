@@ -20,10 +20,8 @@ import java.util.*;
 public class SpatialRingUtils {
     public static boolean curiosLoaded = false;
 
-    // Call this method during mod initialization
     public static void checkCuriosLoaded() {
         try {
-            // More reliable way to check if Curios is loaded
             curiosLoaded = net.neoforged.fml.ModList.get().isLoaded("curios");
         } catch (Exception e) {
             curiosLoaded = false;
@@ -35,7 +33,6 @@ public class SpatialRingUtils {
     }
 
     public static ItemStack findSpatialringForHotkeys(Player player, boolean includeHands) {
-        // First priority: Check Curios ring slot
         if (curiosLoaded) {
             var curiosInv = CuriosApi.getCuriosInventory(player);
             if (curiosInv.isPresent()) {
@@ -51,7 +48,6 @@ public class SpatialRingUtils {
             }
         }
 
-        // Second priority: Check hands if enabled
         if (includeHands) {
             if (player.getMainHandItem().getItem() instanceof SpatialRingItem) {
                 return player.getMainHandItem();
@@ -61,7 +57,6 @@ public class SpatialRingUtils {
             }
         }
 
-        // Third priority: Check inventory
         Inventory inventory = player.getInventory();
         for (int i = 0; i <= 35; i++) {
             ItemStack stack = inventory.getItem(i);
@@ -88,9 +83,7 @@ public class SpatialRingUtils {
     public static Set<String> getUUIDSuggestions(CommandContext<CommandSourceStack> commandSource) {
         SpatialRingManager backpacks = SpatialRingManager.get();
         Set<String> list = new HashSet<>();
-
         backpacks.getMap().forEach((uuid, backpackData) -> list.add(uuid.toString()));
-
         return list;
     }
 

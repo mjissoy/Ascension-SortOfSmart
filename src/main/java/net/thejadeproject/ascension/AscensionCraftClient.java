@@ -21,9 +21,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.ClientHooks;
-import net.neoforged.neoforge.client.event.RegisterClientTooltipComponentFactoriesEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -39,11 +37,17 @@ import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
-import net.thejadeproject.ascension.menus.spatialrings.SRScreen;
-import net.thejadeproject.ascension.network.ModPayloads;
+import net.thejadeproject.ascension.menus.spatialrings.SpatialRingStorageScreen;
+import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUpgradeContainer;
+import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUpgradeScreen;
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
+import net.thejadeproject.ascension.shaders.client.ModShaders;
+import net.thejadeproject.ascension.shaders.client.RiftRenderer;
+
 import net.thejadeproject.ascension.util.KeyBindHandler;
+
+import java.io.IOException;
 
 @Mod(value = AscensionCraft.MOD_ID,dist = Dist.CLIENT)
 public class AscensionCraftClient {
@@ -73,7 +77,8 @@ public class AscensionCraftClient {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
-            event.register(ModMenuTypes.SR_CONTAINER.get(), SRScreen::new);
+            event.register(ModMenuTypes.SPATIAL_RING_STORAGE.get(), SpatialRingStorageScreen::new);
+            event.register(ModMenuTypes.SPATIAL_RING_UPGRADE.get(), SpatialRingUpgradeScreen::new);
         }
 
         @SubscribeEvent
@@ -87,10 +92,21 @@ public class AscensionCraftClient {
         }
 
         @SubscribeEvent
+        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerEntityRenderer(ModEntities.RIFT.get(), RiftRenderer::new);
+        }
+
+        @SubscribeEvent
+        public static void registerShaders(RegisterShadersEvent event) throws IOException {
+            ModShaders.register(event);
+        }
+
+        @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
 
             EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
+
 
 
 

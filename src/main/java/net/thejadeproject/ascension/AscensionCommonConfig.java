@@ -5,6 +5,7 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import java.util.*;
 
 public class AscensionCommonConfig {
+    private final ModConfigSpec.ConfigValue<List<? extends String>> ORE_SIGHT_ORE_COLORS;
     // Pill Cauldron
     public final ModConfigSpec.ConfigValue<List<? extends String>> PILL_CAULDRON_HEAT_ITEMS;
     public final ModConfigSpec.IntValue PILL_CAULDRON_HEAT_LOSS_INTERVAL;
@@ -81,7 +82,78 @@ public class AscensionCommonConfig {
                 this::validateStarterKitEntry
         );
         builder.pop();
+
+
+        builder.push("OreSight");
+        builder.comment("Ore Sight skill configuration",
+                "Format: [\"modid:block_id,hex_color,enabled\", \"modid:block_id,hex_color,enabled\"]",
+                "Example: [\"minecraft:coal_ore,0x2F2F2F,true\", \"minecraft:diamond_ore,0x00FFFF,true\"]",
+                "Hex colors should be in 0xRRGGBB format");
+        ORE_SIGHT_ORE_COLORS = builder.defineList("ore_colors",
+                () -> new ArrayList<>(Arrays.asList(
+                        "minecraft:coal_ore,0x2F2F2F,true",
+                        "minecraft:deepslate_coal_ore,0x2F2F2F,true",
+                        "minecraft:iron_ore,0xD8D8D8,true",
+                        "minecraft:deepslate_iron_ore,0xD8D8D8,true",
+                        "minecraft:copper_ore,0xB87333,true",
+                        "minecraft:deepslate_copper_ore,0xB87333,true",
+                        "minecraft:gold_ore,0xFFD700,true",
+                        "minecraft:deepslate_gold_ore,0xFFD700,true",
+                        "minecraft:diamond_ore,0x00FFFF,true",
+                        "minecraft:deepslate_diamond_ore,0x00FFFF,true",
+                        "minecraft:emerald_ore,0x00FF00,true",
+                        "minecraft:deepslate_emerald_ore,0x00FF00,true",
+                        "minecraft:lapis_ore,0x0000FF,true",
+                        "minecraft:deepslate_lapis_ore,0x0000FF,true",
+                        "minecraft:redstone_ore,0xFF0000,true",
+                        "minecraft:deepslate_redstone_ore,0xFF0000,true",
+                        "minecraft:nether_quartz_ore,0xF0F0F0,true",
+                        "minecraft:ancient_debris,0x8B4513,true"
+                )),
+                this::validateOreColorEntry
+        );
+        builder.pop();
+
     }
+
+    // Add this validation method:
+    private boolean validateOreColorEntry(Object entry) {
+        if (!(entry instanceof String)) return false;
+        String entryStr = (String) entry;
+        String[] parts = entryStr.split(",");
+        if (parts.length != 3) return false;
+        try {
+            // Validate hex color
+            if (!parts[1].trim().startsWith("0x")) return false;
+            Integer.parseInt(parts[1].trim().substring(2), 16);
+            Boolean.parseBoolean(parts[2].trim());
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    // Add this method to parse ore color config:
+    public Map<String, OreColorConfig> getOreColorConfig() {
+        Map<String, OreColorConfig> configMap = new HashMap<>();
+        for (String entry : ORE_SIGHT_ORE_COLORS.get()) {
+            String[] parts = entry.split(",");
+            if (parts.length == 3) {
+                try {
+                    String blockId = parts[0].trim();
+                    int color = Integer.parseInt(parts[1].trim().substring(2), 16);
+                    boolean enabled = Boolean.parseBoolean(parts[2].trim());
+                    configMap.put(blockId, new OreColorConfig(color, enabled));
+                } catch (NumberFormatException e) {
+                    AscensionCraft.LOGGER.warn("Invalid ore color entry: {}", entry);
+                }
+            }
+        }
+        return configMap;
+    }
+
+    // Add this record at the class level:
+    public record OreColorConfig(int color, boolean enabled) {}
 
     private boolean validateHeatItemEntry(Object entry) {
         if (!(entry instanceof String)) return false;

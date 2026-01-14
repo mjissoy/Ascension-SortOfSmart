@@ -34,6 +34,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         buttonItem(ModBlocks.GOLDEN_PALM_BUTTON, ModBlocks.GOLDEN_PALM_PLANKS);
         fenceItem(ModBlocks.GOLDEN_PALM_FENCE, ModBlocks.GOLDEN_PALM_PLANKS);
         basicItem(ModBlocks.GOLDEN_PALM_DOOR.asItem());
+        buttonItem(ModBlocks.IRONWOOD_BUTTON, ModBlocks.IRONWOOD_PLANKS);
+        fenceItem(ModBlocks.IRONWOOD_FENCE, ModBlocks.IRONWOOD_PLANKS);
+        basicItem(ModBlocks.IRONWOOD_DOOR.asItem());
 
 
         /** Walls */
@@ -75,13 +78,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         //Artifacts
-        basicItem(ModItems.IRON_SPATIAL_RING.get());
-        basicItem(ModItems.GOLD_SPATIAL_RING.get());
-        basicItem(ModItems.DIAMOND_SPATIAL_RING.get());
-        basicItem(ModItems.NETHERITE_SPATIAL_RING.get());
-        basicItem(ModItems.JADE_SPATIAL_RING.get());
+        basicItem(ModItems.SPATIAL_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
+
+
+        basicItem(ModItems.KARMIC_DEBT_LEDGER.get());
 
         talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get());
         talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T2.get());
@@ -117,6 +119,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.JADE.get());
         basicItem(ModItems.JADE_NUGGET.get());
 
+
+        basicItem(ModItems.SPATIAL_STONE_TIER_1.get());
+        basicItem(ModItems.SPATIAL_STONE_TIER_2.get());
+
         basicItem(ModItems.RAW_BLACK_IRON.get());
         basicItem(ModItems.BLACK_IRON_INGOT.get());
         basicItem(ModItems.BLACK_IRON_NUGGET.get());
@@ -150,7 +156,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.PURE_METAL_TECHNIQUE.manual.get());
         manual(ModTechniques.PURE_EARTH_TECHNIQUE.manual.get());
         manual(ModTechniques.PURE_WOOD_TECHNIQUE.manual.get());
+        manual(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get()); // Human Tier - New
         manual(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get());
+        manual(ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get()); // Earth Tier - New
+        manual(ModTechniques.VOID_WALKER_TECHNIQUE.manual.get()); // Heaven Tier - New
+        manual(ModTechniques.COSMIC_CREATION_ESSENCE_TECHNIQUE.manual.get()); // Ascension Tier - New
+        manual(ModTechniques.INFINITE_TIME_ESSENCE_TECHNIQUE.manual.get()); // Ascension Tier - New
 
         //Intent
         manual(ModTechniques.PURE_SWORD_INTENT.manual.get());
@@ -158,7 +169,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.PURE_AXE_INTENT.manual.get());
         manual(ModTechniques.PURE_BLADE_INTENT.manual.get());
         manual(ModTechniques.PURE_SPEAR_INTENT.manual.get());
+        manual(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual.get()); // Human Tier - New
         manual(ModTechniques.FIST_KINGS_TECHNIQUE.manual.get());
+        manual(ModTechniques.BLADE_DANCE_TECHNIQUE.manual.get()); // Earth Tier - New
+        manual(ModTechniques.SWORD_SAINT_TECHNIQUE.manual.get()); // Heaven Tier - New
+        manual(ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual.get()); // Ascension Tier - New
+        manual(ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual.get()); // Ascension Tier - New
 
         //Body
         manual(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual.get());
@@ -166,7 +182,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         manual(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual.get());
         manual(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual.get());
         manual(ModTechniques.WOOD_ELEMENTAL_TECHNIQUE.manual.get());
+        manual(ModTechniques.IRON_SKIN_TECHNIQUE.manual.get()); // Human Tier - New
         manual(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get());
+        manual(ModTechniques.JADE_BONE_TECHNIQUE.manual.get()); // Earth Tier - New
+        manual(ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual.get()); // Heaven Tier - New
+        manual(ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual.get()); // Ascension Tier - New
+        manual(ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual.get()); // Ascension Tier - New
 
         //Tablet Of Destructions
         tablet(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get());
@@ -215,11 +236,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         herbs(ModItems.GOLDEN_SUN_LEAF.get());
         herbs(ModItems.JADE_BAMBOO_OF_SERENITY.get());
         herbs(ModItems.WHITE_JADE_ORCHID.get());
+
+        herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get());
-
-        //herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
-        basicItem(ModItems.HUNDRED_YEAR_GINSENG.get());
 
         herbs(ModItems.IRONWOOD_SPROUT.get());
 
@@ -233,6 +253,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Saplings
         saplingItem(ModBlocks.GOLDEN_PALM_SAPLING);
+        saplingItem(ModBlocks.IRONWOOD_SAPLING);
 
 
         //MobEggs
