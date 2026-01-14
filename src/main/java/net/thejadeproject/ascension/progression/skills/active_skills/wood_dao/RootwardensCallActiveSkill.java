@@ -36,9 +36,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.CastType;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -134,15 +133,6 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
         return 100; // 5 seconds (20 ticks per second * 5 = 100)
     }
 
-    @Override
-    public ISkillData getSkillData() {
-        return null;
-    }
-
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
-    }
 
     @Override
     public void cast(int castingTicksElapsed, Level level, Player player) {

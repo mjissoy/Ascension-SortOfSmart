@@ -392,16 +392,17 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.manuals"))
                     .displayItems((itemDisplayParameters, output) -> {
 
-
+                        //TODO add missing tech
                         //Essence
                         output.accept(ModTechniques.PURE_FIRE_TECHNIQUE.manual);
                         output.accept(ModTechniques.PURE_WATER_TECHNIQUE.manual);
                         output.accept(ModTechniques.PURE_METAL_TECHNIQUE.manual);
                         output.accept(ModTechniques.PURE_EARTH_TECHNIQUE.manual);
                         output.accept(ModTechniques.PURE_WOOD_TECHNIQUE.manual);
-                        output.accept(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual); // Human Tier - New
+                        //output.accept(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual); // Human Tier - New
                         output.accept(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual); // Earth Tier
-                        output.accept(ModTechniques.THUNDER_HEART_TECHNIQUE.manual); //  Earth Tier - New
+                        //TODO remove techniques
+                        //output.accept(ModTechniques.THUNDER_HEART_TECHNIQUE.manual); //  Earth Tier - New
                         output.accept(ModTechniques.VOID_WALKER_TECHNIQUE.manual); // Heaven Tier - New
                         output.accept(ModTechniques.INFINITE_TIME_ESSENCE_TECHNIQUE.manual); // Ascension Tier - New
                         output.accept(ModTechniques.COSMIC_CREATION_ESSENCE_TECHNIQUE.manual); // Ascension Tier - New
@@ -412,7 +413,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModTechniques.PURE_AXE_INTENT.manual);
                         output.accept(ModTechniques.PURE_BLADE_INTENT.manual);
                         output.accept(ModTechniques.PURE_SPEAR_INTENT.manual);
-                        output.accept(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual); // Human Tier - New
+                        //output.accept(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual); // Human Tier - New
                         output.accept(ModTechniques.FIST_KINGS_TECHNIQUE.manual); // Earth Tier
                         output.accept(ModTechniques.BLADE_DANCE_TECHNIQUE.manual); // Earth Tier - New
                         output.accept(ModTechniques.SWORD_SAINT_TECHNIQUE.manual); // Heaven Tier - New
@@ -425,8 +426,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual);
                         output.accept(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual);
                         output.accept(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual);
-                        output.accept(ModTechniques.IRON_SKIN_TECHNIQUE.manual); // Human Tier - New
-                        output.accept(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual); // Earth Tier
+                        //output.accept(ModTechniques.IRON_SKIN_TECHNIQUE.manual); // Human Tier - New
+                        //output.accept(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual); // Earth Tier
                         output.accept(ModTechniques.JADE_BONE_TECHNIQUE.manual); // Earth Tier - New
                         output.accept(ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual); // Heaven Tier - New
                         output.accept(ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual); // Ascension Tier - New

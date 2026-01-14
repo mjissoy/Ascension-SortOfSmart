@@ -31,15 +31,13 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:earth", 1.5);
                         put("ascension:metal", 1.0);
-                    }}, new StandardStatRealmChange(STONE_SKIN_MINOR_STATS, STONE_SKIN_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§7Human Tier - Common defensive physique"),
-                            Component.literal("§8Skin hardens like stone, providing natural armor"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Take heavy blows without breaking"),
-                            Component.literal("§e◆ §fPath: Endurance → Resilience → Immovability"),
-                            Component.literal("§e◆ §fWeakness: Slow movement, vulnerable to water-based techniques")
-                    ))
+                    }})
+                    .setDescription(Component.empty().append("§7Human Tier - Common defensive physique\n")
+                            .append("§8Skin hardens like stone, providing natural armor\n\n")
+                            .append("§e◆ §fGrowth: Take heavy blows without breaking\n")
+                            .append("§e◆ §fPath: Endurance → Resilience → Immovability\n")
+                            .append("§e◆ §fWeakness: Slow movement, vulnerable to water-based techniques")
+                    )
     );
 
     // 2. Swift Wind Physique (Human Tier) - Speed focused
@@ -53,15 +51,15 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:wind", 1.8);
                         put("ascension:yang", 1.2);
-                    }}, new StandardStatRealmChange(SWIFT_WIND_MINOR_STATS, SWIFT_WIND_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§7Human Tier - Common speed physique"),
-                            Component.literal("§8Body harmonizes with wind, granting incredible speed"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Move faster than the eye can see"),
-                            Component.literal("§e◆ §fPath: Speed → Precision → Afterimages"),
-                            Component.literal("§e◆ §fWeakness: Fragile body, low defense")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                                    .append("§7Human Tier - Common speed physique\n")
+                                    .append("§8Body harmonizes with wind, granting incredible speed\n\n")
+
+                                    .append("§e◆ §fGrowth: Move faster than the eye can see\n")
+                                    .append("§e◆ §fPath: Speed → Precision → Afterimages\n")
+                                    .append("§e◆ §fWeakness: Fragile body, low defense")
+                    )
     );
 
     // 3. Iron Marrow Physique (Human Tier) - Internal strength
@@ -75,15 +73,15 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:metal", 1.6);
                         put("ascension:earth", 1.0);
-                    }}, new StandardStatRealmChange(IRON_MARROW_MINOR_STATS, IRON_MARROW_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§7Human Tier - Internal strength physique"),
-                            Component.literal("§8Marrow turns to iron, strengthening bones from within"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Refine bone marrow through combat"),
-                            Component.literal("§e◆ §fPath: Endurance → Internal Strength → Unbreakable Bones"),
-                            Component.literal("§e◆ §fWeakness: Heavy, limited agility")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                                    .append("§7Human Tier - Internal strength physique\n")
+                                    .append("§8Marrow turns to iron, strengthening bones from within\n\n")
+
+                                    .append("§e◆ §fGrowth: Refine bone marrow through combat\n")
+                                    .append("§e◆ §fPath: Endurance → Internal Strength → Unbreakable Bones\n")
+                                   .append("§e◆ §fWeakness: Heavy, limited agility")
+                    )
     );
 
 // ========== EARTH TIER PHYSIQUES ==========
@@ -100,15 +98,14 @@ public class ModPhysiques {
                         put("ascension:earth", 1.8);
                         put("ascension:wood", 1.3);
                         put("ascension:life", 1.0);
-                    }}, new StandardStatRealmChange(JADE_BONE_MINOR_STATS, JADE_BONE_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Rare defensive physique"),
-                            Component.literal("§aBones transform into jade, radiating life energy"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Absorb earth essence to strengthen bones"),
-                            Component.literal("§e◆ §fPath: Defense → Regeneration → Jade Immortality"),
-                            Component.literal("§e◆ §fWeakness: Vulnerable to metal-based attacks")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Rare defensive physique\n")
+                            .append("§aBones transform into jade, radiating life energy\n\n")
+                            .append("§e◆ §fGrowth: Absorb earth essence to strengthen bones\n")
+                            .append("§e◆ §fPath: Defense → Regeneration → Jade Immortality\n")
+                            .append("§e◆ §fWeakness: Vulnerable to metal-based attacks\n")
+                    )
     );
 
     // 5. Crystal Meridian Physique (Earth Tier) - Pure essence channeling
@@ -123,14 +120,14 @@ public class ModPhysiques {
                         put("ascension:void", 1.5);
                         put("ascension:light", 1.2);
                         put("ascension:ice", 1.0);
-                    }}, new StandardStatRealmChange(CRYSTAL_MERIDIAN_MINOR_STATS, CRYSTAL_MERIDIAN_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Essence channeling physique"),
-                            Component.literal("§dMeridians crystallize, allowing pure essence flow"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Purify essence through meditation"),
-                            Component.literal("§e◆ §fPath: Clarity → Reflection → Crystalline Perfection"),
-                            Component.literal("§e◆ §fWeakness: Brittle, shatters under extreme force")
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Essence channeling physique\n")
+                            .append("§dMeridians crystallize, allowing pure essence flow\n\n")
+                   
+                            .append("§e◆ §fGrowth: Purify essence through meditation\n")
+                            .append("§e◆ §fPath: Clarity → Reflection → Crystalline Perfection\n")
+                            .append("§e◆ §fWeakness: Brittle, shatters under extreme force"
                     ))
     );
 
@@ -146,15 +143,15 @@ public class ModPhysiques {
                         put("ascension:lightning", 2.0);
                         put("ascension:storm", 1.5);
                         put("ascension:yang", 1.3);
-                    }}, new StandardStatRealmChange(THUNDERCLAP_MINOR_STATS, THUNDERCLAP_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Lightning affinity physique"),
-                            Component.literal("§eBody resonates with thunder, strikes with lightning speed"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate during thunderstorms"),
-                            Component.literal("§e◆ §fPath: Speed → Power → Lightning Embodiment"),
-                            Component.literal("§e◆ §fWeakness: Conducts electricity, weak to grounding")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Lightning affinity physique\n")
+                            .append("§eBody resonates with thunder, strikes with lightning speed\n\n")
+
+                            .append("§e◆ §fGrowth: Cultivate during thunderstorms\n")
+                            .append("§e◆ §fPath: Speed → Power → Lightning Embodiment\n")
+                            .append("§e◆ §fWeakness: Conducts electricity, weak to grounding")
+                    )
     );
 
     // 7. Blood Jade Physique (Earth Tier) - Life and vitality
@@ -169,14 +166,13 @@ public class ModPhysiques {
                         put("ascension:blood", 1.8);
                         put("ascension:life", 1.5);
                         put("ascension:fire", 1.2);
-                    }}, new StandardStatRealmChange(BLOOD_JADE_MINOR_STATS, BLOOD_JADE_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Vitality-based physique"),
-                            Component.literal("§cBlood contains jade particles, granting life force"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Consume life essence from foes"),
-                            Component.literal("§e◆ §fPath: Vitality → Absorption → Immortal Blood"),
-                            Component.literal("§e◆ §fWeakness: Bleeds easily, weak to purification")
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Vitality-based physique\n")
+                            .append("§cBlood contains jade particles, granting life force\n\n")
+                            .append("§e◆ §fGrowth: Consume life essence from foes\n")
+                            .append("§e◆ §fPath: Vitality → Absorption → Immortal Blood\n")
+                            .append("§e◆ §fWeakness: Bleeds easily, weak to purification"
                     ))
     );
 
@@ -195,16 +191,16 @@ public class ModPhysiques {
                         put("ascension:heaven", 2.0);
                         put("ascension:storm", 1.8);
                         put("ascension:yang", 1.5);
-                    }}, new StandardStatRealmChange(HEAVENLY_LIGHTNING_MINOR_STATS, HEAVENLY_LIGHTNING_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§bHeaven Tier - Divine lightning physique"),
-                            Component.literal("§6Born with the blessing of thunder gods"),
-                            Component.literal("§eCan call upon heavenly tribulation lightning"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Survive heavenly tribulations"),
-                            Component.literal("§e◆ §fPath: Thunder → Tribulation → Heavenly Wrath"),
-                            Component.literal("§e◆ §fWeakness: Water conducts own lightning back")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§bHeaven Tier - Divine lightning physique\n")
+                            .append("§6Born with the blessing of thunder gods\n")
+                            .append("§eCan call upon heavenly tribulation lightning\n\n")
+
+                            .append("§e◆ §fGrowth: Survive heavenly tribulations\n")
+                            .append("§e◆ §fPath: Thunder → Tribulation → Heavenly Wrath\n")
+                            .append("§e◆ §fWeakness: Water conducts own lightning back")
+                    )
     );
 
     // 9. Phoenix Nirvana Physique (Heaven Tier)
@@ -220,16 +216,16 @@ public class ModPhysiques {
                         put("ascension:reincarnation", 2.0);
                         put("ascension:life", 1.8);
                         put("ascension:yang", 1.5);
-                    }}, new StandardStatRealmChange(PHOENIX_NIRVANA_MINOR_STATS, PHOENIX_NIRVANA_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§bHeaven Tier - Rebirth physique"),
-                            Component.literal("§cCarries the bloodline of the immortal phoenix"),
-                            Component.literal("§6Can be reborn from ashes, stronger each time"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Die and be reborn through fire"),
-                            Component.literal("§e◆ §fPath: Fire → Rebirth → Phoenix God"),
-                            Component.literal("§e◆ §fWeakness: Extreme cold stops rebirth cycle")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§bHeaven Tier - Rebirth physique\n")
+                            .append("§cCarries the bloodline of the immortal phoenix\n")
+                            .append("§6Can be reborn from ashes, stronger each time\n\n")
+
+                            .append("§e◆ §fGrowth: Die and be reborn through fire\n")
+                            .append("§e◆ §fPath: Fire → Rebirth → Phoenix God\n")
+                            .append("§e◆ §fWeakness: Extreme cold stops rebirth cycle")
+                    )
     );
 
     // 10. Dragon Vein Physique (Heaven Tier)
@@ -245,16 +241,15 @@ public class ModPhysiques {
                         put("ascension:earth", 2.0);
                         put("ascension:fire", 1.8);
                         put("ascension:water", 1.8);
-                    }}, new StandardStatRealmChange(DRAGON_VEIN_MINOR_STATS, DRAGON_VEIN_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§bHeaven Tier - Draconic physique"),
-                            Component.literal("§5Possesses ancient dragon bloodline"),
-                            Component.literal("§dVeins pulse with primordial dragon energy"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Absorb essence of dragon remains"),
-                            Component.literal("§e◆ §fPath: Scale → Roar → Dragon God"),
-                            Component.literal("§e◆ §fWeakness: Dragon-slaying techniques")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§bHeaven Tier - Draconic physique\n")
+                            .append("§5Possesses ancient dragon bloodline\n")
+                            .append("§dVeins pulse with primordial dragon energy\n\n")
+                            .append("§e◆ §fGrowth: Absorb essence of dragon remains\n")
+                            .append("§e◆ §fPath: Scale → Roar → Dragon God\n")
+                            .append("§e◆ §fWeakness: Dragon-slaying techniques")
+                    )
     );
 
     // 11. Void Walker Physique (Heaven Tier)
@@ -270,16 +265,16 @@ public class ModPhysiques {
                         put("ascension:space", 2.2);
                         put("ascension:yin", 1.8);
                         put("ascension:darkness", 1.5);
-                    }}, new StandardStatRealmChange(VOID_WALKER_MINOR_STATS, VOID_WALKER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§bHeaven Tier - Spatial physique"),
-                            Component.literal("§8Born between realms, attuned to the void"),
-                            Component.literal("§7Can walk through space and vanish from existence"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Meditate in spatial rifts"),
-                            Component.literal("§e◆ §fPath: Teleport → Spatial Cut → Void God"),
-                            Component.literal("§e◆ §fWeakness: Light-based techniques disrupt void")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§bHeaven Tier - Spatial physique\n")
+                            .append("§8Born between realms, attuned to the void\n")
+                            .append("§7Can walk through space and vanish from existence\n\n")
+
+                            .append("§e◆ §fGrowth: Meditate in spatial rifts\n")
+                            .append("§e◆ §fPath: Teleport → Spatial Cut → Void God\n")
+                            .append("§e◆ §fWeakness: Light-based techniques disrupt void")
+                    )
     );
 
     // 12. Solar Flare Physique (Heaven Tier)
@@ -295,16 +290,16 @@ public class ModPhysiques {
                         put("ascension:fire", 2.1);
                         put("ascension:light", 2.0);
                         put("ascension:yang", 1.9);
-                    }}, new StandardStatRealmChange(SOLAR_FLARE_MINOR_STATS, SOLAR_FLARE_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§bHeaven Tier - Solar physique"),
-                            Component.literal("§eBody contains a miniature sun within dantian"),
-                            Component.literal("§6Can unleash solar flares of immense power"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Absorb sunlight at noon"),
-                            Component.literal("§e◆ §fPath: Heat → Light → Solar Deity"),
-                            Component.literal("§e◆ §fWeakness: Night weakens power, lunar attacks")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§bHeaven Tier - Solar physique\n")
+                            .append("§eBody contains a miniature sun within dantian\n")
+                            .append("§6Can unleash solar flares of immense power\n\n")
+
+                            .append("§e◆ §fGrowth: Absorb sunlight at noon\n")
+                            .append("§e◆ §fPath: Heat → Light → Solar Deity\n")
+                            .append("§e◆ §fWeakness: Night weakens power, lunar attacks")
+                    )
     );
 
     // 13. Lunar Shadow Physique (Heaven Tier)
@@ -320,16 +315,16 @@ public class ModPhysiques {
                         put("ascension:yin", 2.3);
                         put("ascension:shadow", 2.1);
                         put("ascension:ice", 1.8);
-                    }}, new StandardStatRealmChange(LUNAR_SHADOW_MINOR_STATS, LUNAR_SHADOW_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§bHeaven Tier - Lunar physique"),
-                            Component.literal("§bBlessed by the moon goddess"),
-                            Component.literal("§3Can manipulate shadows and moonlight"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate under full moon"),
-                            Component.literal("§e◆ §fPath: Shadow → Reflection → Lunar Deity"),
-                            Component.literal("§e◆ §fWeakness: Sunlight weakens abilities")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§bHeaven Tier - Lunar physique\n")
+                            .append("§bBlessed by the moon goddess\n")
+                            .append("§3Can manipulate shadows and moonlight\n\n")
+
+                            .append("§e◆ §fGrowth: Cultivate under full moon\n")
+                            .append("§e◆ §fPath: Shadow → Reflection → Lunar Deity\n")
+                            .append("§e◆ §fWeakness: Sunlight weakens abilities")
+                    )
     );
 
     // 14. Soul Anchor Physique (Heaven Tier)
@@ -345,16 +340,16 @@ public class ModPhysiques {
                         put("ascension:life", 2.1);
                         put("ascension:spirit", 2.0);
                         put("ascension:reincarnation", 1.8);
-                    }}, new StandardStatRealmChange(SOUL_ANCHOR_MINOR_STATS, SOUL_ANCHOR_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§bHeaven Tier - Soul-based physique"),
-                            Component.literal("§dSoul is anchored to multiple existences"),
-                            Component.literal("§5Can survive soul destruction and re-anchor"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Survive soul-damaging attacks"),
-                            Component.literal("§e◆ §fPath: Stability → Anchoring → Eternal Soul"),
-                            Component.literal("§e◆ §fWeakness: Soul-severing techniques")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§bHeaven Tier - Soul-based physique\n")
+                            .append("§dSoul is anchored to multiple existences\n")
+                            .append("§5Can survive soul destruction and re-anchor\n\n")
+
+                            .append("§e◆ §fGrowth: Survive soul-damaging attacks\n")
+                            .append("§e◆ §fPath: Stability → Anchoring → Eternal Soul\n")
+                            .append("§e◆ §fWeakness: Soul-severing techniques\n")
+                    )
     );
 
 // ========== ASCENSION TIER PHYSIQUES ==========
@@ -373,16 +368,16 @@ public class ModPhysiques {
                         put("ascension:blood", 2.3);
                         put("ascension:fire", 2.0);
                         put("ascension:defiance", 2.0);
-                    }}, new StandardStatRealmChange(HEAVENLY_DEMON_MINOR_STATS, HEAVENLY_DEMON_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§dAscension Tier - Demonic cultivation physique"),
-                            Component.literal("§4Born from the union of heavenly and demonic energies"),
-                            Component.literal("§cCan defy heaven itself, cultivating through slaughter"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Kill powerful beings and absorb their essence"),
-                            Component.literal("§e◆ §fPath: Slaughter → Demonic Energy → Heavenly Demon"),
-                            Component.literal("§e◆ §fWeakness: Heavenly tribulations are 10x stronger")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§dAscension Tier - Demonic cultivation physique\n")
+                            .append("§4Born from the union of heavenly and demonic energies\n")
+                            .append("§cCan defy heaven itself, cultivating through slaughter\n\n")
+
+                            .append("§e◆ §fGrowth: Kill powerful beings and absorb their essence\n")
+                            .append("§e◆ §fPath: Slaughter → Demonic Energy → Heavenly Demon\n")
+                            .append("§e◆ §fWeakness: Heavenly tribulations are 10x stronger")
+                    )
     );
 
     // 16. Cosmic Yin-Yang Physique (Ascension Tier)
@@ -399,16 +394,16 @@ public class ModPhysiques {
                         put("ascension:cosmos", 2.4);
                         put("ascension:balance", 2.3);
                         put("ascension:void", 2.0);
-                    }}, new StandardStatRealmChange(COSMIC_YINYANG_MINOR_STATS, COSMIC_YINYANG_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§dAscension Tier - Balance physique"),
-                            Component.literal("§fEmbodies the perfect balance of cosmic forces"),
-                            Component.literal("§7Can manipulate both creation and destruction"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Balance opposing forces within"),
-                            Component.literal("§e◆ §fPath: Harmony → Balance → Cosmic Unity"),
-                            Component.literal("§e◆ §fWeakness: Chaos disrupts the balance")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§dAscension Tier - Balance physique\n")
+                            .append("§fEmbodies the perfect balance of cosmic forces\n")
+                            .append("§7Can manipulate both creation and destruction\n\n")
+
+                            .append("§e◆ §fGrowth: Balance opposing forces within\n")
+                            .append("§e◆ §fPath: Harmony → Balance → Cosmic Unity\n")
+                            .append("§e◆ §fWeakness: Chaos disrupts the balance")
+                    )
     );
 
     // 17. Primordial Chaos Physique (Ascension Tier)
@@ -425,16 +420,16 @@ public class ModPhysiques {
                         put("ascension:void", 2.5);
                         put("ascension:creation", 2.0);
                         put("ascension:destruction", 2.0);
-                    }}, new StandardStatRealmChange(PRIMORDIAL_CHAOS_MINOR_STATS, PRIMORDIAL_CHAOS_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§dAscension Tier - Chaos origin physique"),
-                            Component.literal("§5Born from the primordial chaos before creation"),
-                            Component.literal("§dCan manipulate the fabric of reality itself"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Create and destroy worlds"),
-                            Component.literal("§e◆ §fPath: Chaos → Primordial → Reality Weaver"),
-                            Component.literal("§e◆ §fWeakness: Order-based divine techniques")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§dAscension Tier - Chaos origin physique\n")
+                            .append("§5Born from the primordial chaos before creation\n")
+                            .append("§dCan manipulate the fabric of reality itself\n\n")
+
+                            .append("§e◆ §fGrowth: Create and destroy worlds\n")
+                            .append("§e◆ §fPath: Chaos → Primordial → Reality Weaver\n")
+                            .append("§e◆ §fWeakness: Order-based divine techniques")
+                    )
     );
 
     // 18. Eternal Reincarnation Physique (Ascension Tier)
@@ -451,16 +446,16 @@ public class ModPhysiques {
                         put("ascension:soul", 2.5);
                         put("ascension:life", 2.3);
                         put("ascension:memory", 2.0);
-                    }}, new StandardStatRealmChange(ETERNAL_REINCARNATION_MINOR_STATS, ETERNAL_REINCARNATION_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§dAscension Tier - Reincarnation mastery"),
-                            Component.literal("§3Has lived through countless lifetimes"),
-                            Component.literal("§bRemembers all past lives and their skills"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Awaken past life memories"),
-                            Component.literal("§e◆ §fPath: Memory → Rebirth → Eternal Cycle"),
-                            Component.literal("§e◆ §fWeakness: Karma accumulates from past lives")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§dAscension Tier - Reincarnation mastery\n")
+                            .append("§3Has lived through countless lifetimes\n")
+                            .append("§bRemembers all past lives and their skills\n\n")
+
+                            .append("§e◆ §fGrowth: Awaken past life memories\n")
+                            .append("§e◆ §fPath: Memory → Rebirth → Eternal Cycle\n")
+                            .append("§e◆ §fWeakness: Karma accumulates from past lives")
+                    )
     );
 
     // 19. Sword Saint Physique (Ascension Tier)
@@ -477,16 +472,16 @@ public class ModPhysiques {
                         put("ascension:sharpness", 2.5);
                         put("ascension:cutting", 2.5);
                         put("ascension:metal", 2.0);
-                    }}, new StandardStatRealmChange(SWORD_SAINT_MINOR_STATS, SWORD_SAINT_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§dAscension Tier - Ultimate sword physique"),
-                            Component.literal("§8Every cell resonates with sword intent"),
-                            Component.literal("§7Can cut through space, time, and concepts"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Comprehend deeper sword laws"),
-                            Component.literal("§e◆ §fPath: Sword → Domain → Sword Saint"),
-                            Component.literal("§e◆ §fWeakness: Completely focused on sword, lacks versatility")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§dAscension Tier - Ultimate sword physique\n")
+                            .append("§8Every cell resonates with sword intent\n")
+                            .append("§7Can cut through space, time, and concepts\n\n")
+
+                            .append("§e◆ §fGrowth: Comprehend deeper sword laws\n")
+                            .append("§e◆ §fPath: Sword → Domain → Sword Saint\n")
+                            .append("§e◆ §fWeakness: Completely focused on sword, lacks versatility")
+                    )
     );
 
     // 20. Universe Devourer Physique (Ascension Tier)
@@ -503,16 +498,16 @@ public class ModPhysiques {
                         put("ascension:chaos", 2.8);
                         put("ascension:space", 2.6);
                         put("ascension:time", 2.5);
-                    }}, new StandardStatRealmChange(UNIVERSE_DEVOURER_MINOR_STATS, UNIVERSE_DEVOURER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§dAscension Tier - Ultimate devouring physique"),
-                            Component.literal("§0Can devour stars, worlds, and eventually universes"),
-                            Component.literal("§8Grows stronger by consuming everything"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Consume higher quality energy sources"),
-                            Component.literal("§e◆ §fPath: Consumption → Black Hole → Universe Devourer"),
-                            Component.literal("§e◆ §fWeakness: Divine seals and spatial locks")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§dAscension Tier - Ultimate devouring physique\n")
+                            .append("§0Can devour stars, worlds, and eventually universes\n")
+                            .append("§8Grows stronger by consuming everything\n\n")
+
+                            .append("§e◆ §fGrowth: Consume higher quality energy sources\n")
+                            .append("§e◆ §fPath: Consumption → Black Hole → Universe Devourer\n")
+                            .append("§e◆ §fWeakness: Divine seals and spatial locks")
+                    )
     );
 
     // ========== ORIGINAL PHYSIQUES UPDATED WITH TIERS ==========
@@ -708,15 +703,15 @@ public class ModPhysiques {
                     .setSkillList( List.of(
                             new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"iron_bones_passive_skill"),false,false)
                     ))
-                    .setDescription(List.of(
-                            Component.literal("§7Human Tier - Durable bone structure"),
-                            Component.literal("§8Bones strengthened with metal essence"),
-                            Component.literal("§7Resistant to breaking and fractures"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Strengthen bones through impact"),
-                            Component.literal("§e◆ §fPath: Durability → Resilience → Unbreakable Bones"),
-                            Component.literal("§e◆ §fWeakness: Heavy, less agile")
-                    ))
+                    .setDescription(Component.empty()
+                            .append("§7Human Tier - Durable bone structure\n")
+                            .append("§8Bones strengthened with metal essence\n")
+                            .append("§7Resistant to breaking and fractures\n\n")
+
+                            .append("§e◆ §fGrowth: Strengthen bones through impact\n")
+                            .append("§e◆ §fPath: Durability → Resilience → Unbreakable Bones\n")
+                            .append("§e◆ §fWeakness: Heavy, less agile")
+                    )
     );
 
     // Human Tier - Burning Skin Physique (updated)
@@ -729,16 +724,16 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:fire",1.2);
-                    }}))
-                    .setDescription(List.of(
-                            Component.literal("§7Human Tier - Fire-resistant skin"),
-                            Component.literal("§cSkin naturally resistant to heat and flames"),
-                            Component.literal("§7Can withstand high temperatures"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Expose skin to increasing heat"),
-                            Component.literal("§e◆ §fPath: Heat Resistance → Fire Immunity → Flame Body"),
-                            Component.literal("§e◆ §fWeakness: Vulnerable to cold")
-                    ))
+                    }})
+                    .setDescription(Component.empty()
+                            .append("§7Human Tier - Fire-resistant skin\n")
+                            .append("§cSkin naturally resistant to heat and flames\n")
+                            .append("§7Can withstand high temperatures\n\n")
+
+                            .append("§e◆ §fGrowth: Expose skin to increasing heat\n")
+                            .append("§e◆ §fPath: Heat Resistance → Fire Immunity → Flame Body\n")
+                            .append("§e◆ §fWeakness: Vulnerable to cold")
+                    )
     );
 
     // Earth Tier - Hundred Poison Physique (updated)

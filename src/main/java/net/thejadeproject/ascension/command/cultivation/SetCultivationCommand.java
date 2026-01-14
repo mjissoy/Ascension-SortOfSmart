@@ -20,7 +20,7 @@ import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class SetCultivationCommand {
 
@@ -164,7 +164,7 @@ public class SetCultivationCommand {
             boolean wasCultivating = pathData.cultivating;
             boolean wasBreakingThrough = pathData.breakingThrough;
 
-            RealmChangeEvent realmChangeEvent = new RealmChangeEvent(
+            RealmChangeEvent realmChangeEvent = new RealmChangeEvent.Pre(
                     player,
                     pathId,
                     oldMajorRealm,

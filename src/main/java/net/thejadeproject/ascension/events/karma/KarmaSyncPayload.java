@@ -7,7 +7,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import org.jetbrains.annotations.NotNull;
 
 public record KarmaSyncPayload(int karmaValue, String karmaRank) implements CustomPacketPayload {

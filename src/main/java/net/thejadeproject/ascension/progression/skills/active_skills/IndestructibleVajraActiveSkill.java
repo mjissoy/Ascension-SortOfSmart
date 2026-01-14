@@ -18,9 +18,9 @@ import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.progression.skills.data.CastType;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
-import net.thejadeproject.ascension.util.ModAttachments;
+
+
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import org.joml.Vector3f;
 
 import java.util.*;

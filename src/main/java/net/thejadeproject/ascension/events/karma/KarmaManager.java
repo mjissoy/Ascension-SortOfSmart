@@ -7,7 +7,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class KarmaManager {
 

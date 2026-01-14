@@ -15,8 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.CastType;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -71,15 +70,6 @@ public class SpaceInfusionActiveSkill extends AbstractActiveSkill {
         return 0;
     }
 
-    @Override
-    public ISkillData getSkillData() {
-        return null;
-    }
-
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
-    }
 
     @Override
     public void cast(int castingTicksElapsed, Level level, Player player) {

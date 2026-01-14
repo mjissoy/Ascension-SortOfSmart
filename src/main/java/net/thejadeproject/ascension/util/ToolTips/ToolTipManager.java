@@ -99,10 +99,11 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModTechniques.PURE_WOOD_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.essence"));
         ToolTipHandler.registerTooltip(ModTechniques.PURE_EARTH_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.essence"));
         ToolTipHandler.registerTooltip(ModTechniques.PURE_METAL_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.essence"));
-        ToolTipHandler.registerTooltip(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.essence"));
+        //TODO update mod technique
+        //ToolTipHandler.registerTooltip(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.essence"));
 
         ToolTipHandler.registerTooltip(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED), Component.translatable("ascension.technique.path.essence"));
-        ToolTipHandler.registerTooltip(ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED), Component.translatable("ascension.technique.path.essence"));
+        //ToolTipHandler.registerTooltip(ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED), Component.translatable("ascension.technique.path.essence"));
 
         ToolTipHandler.registerTooltip(ModTechniques.VOID_WALKER_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.LIGHT_PURPLE), Component.translatable("ascension.technique.path.essence"));
 
@@ -115,7 +116,7 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModTechniques.PURE_BLADE_INTENT.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.intent"));
         ToolTipHandler.registerTooltip(ModTechniques.PURE_SPEAR_INTENT.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.intent"));
         ToolTipHandler.registerTooltip(ModTechniques.PURE_FIST_INTENT.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.intent"));
-        ToolTipHandler.registerTooltip(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.intent"));
+        //ToolTipHandler.registerTooltip(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.intent"));
 
         ToolTipHandler.registerTooltip(ModTechniques.FIST_KINGS_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED), Component.translatable("ascension.technique.path.intent"));
         ToolTipHandler.registerTooltip(ModTechniques.BLADE_DANCE_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED), Component.translatable("ascension.technique.path.intent"));
@@ -132,9 +133,9 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.body"));
         ToolTipHandler.registerTooltip(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.body"));
         ToolTipHandler.registerTooltip(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.body"));
-        ToolTipHandler.registerTooltip(ModTechniques.IRON_SKIN_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.body"));
+        //ToolTipHandler.registerTooltip(ModTechniques.IRON_SKIN_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW), Component.translatable("ascension.technique.path.body"));
 
-        ToolTipHandler.registerTooltip(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED), Component.translatable("ascension.technique.path.body"));
+        //ToolTipHandler.registerTooltip(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED), Component.translatable("ascension.technique.path.body"));
         ToolTipHandler.registerTooltip(ModTechniques.JADE_BONE_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.RED), Component.translatable("ascension.technique.path.body"));
 
         ToolTipHandler.registerTooltip(ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual.get(), Component.literal("★★★★★").withStyle(ChatFormatting.LIGHT_PURPLE), Component.translatable("ascension.technique.path.body"));

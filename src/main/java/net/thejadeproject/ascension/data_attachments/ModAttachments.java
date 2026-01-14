@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.util;
+package net.thejadeproject.ascension.data_attachments;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.network.codec.ByteBufCodecs;

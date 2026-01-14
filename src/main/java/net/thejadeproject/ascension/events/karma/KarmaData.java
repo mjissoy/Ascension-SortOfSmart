@@ -3,7 +3,7 @@ package net.thejadeproject.ascension.events.karma;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class KarmaData {
     private int karmaValue = 0;

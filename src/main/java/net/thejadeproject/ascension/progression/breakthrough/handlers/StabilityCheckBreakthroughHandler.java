@@ -21,6 +21,12 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Supplier;
 
 public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
+    private static final int TRIBULATION_START_MAJOR_REALM = 3;
+    private static final float BASE_TRIBULATION_SURVIVAL_CHANCE = 0.7f;
+    private static final float TRIBULATION_CHANCE_DECREASE_PER_REALM = 0.05f;
+    private static final int BASE_LIGHTNING_COUNT = 3;
+    private static final int LIGHTNING_INCREASE_PER_REALM = 2;
+
     @Override
     public IBreakthroughData getBreakthroughData(CompoundTag tag) {
         return null;
@@ -30,7 +36,7 @@ public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
     public void attemptBreakthrough(Player player, String pathId, ITechnique technique) {
         if (player.level().isClientSide) return;
 
-        CultivationData.PathData pathData = player.getData(net.thejadeproject.ascension.util.ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
+        CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
         double stability = technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks);
         double random = ThreadLocalRandom.current().nextDouble(0, 1);
 
@@ -50,7 +56,7 @@ public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
     public void failBreakthrough(Player player, String pathId) {
         if (player.level().isClientSide) return;
 
-        CultivationData.PathData data = player.getData(net.thejadeproject.ascension.util.ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
+        CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
         data.pathProgress = 0;
         data.stabilityCultivationTicks = 0;
         data.breakingThrough = false;
@@ -68,6 +74,11 @@ public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
         if (player.level() instanceof ServerLevel serverLevel) {
             spawnBreakthroughParticles(serverLevel, player);
         }
+    }
+
+    @Override
+    public Supplier<IBreakthroughData> getBreakthroughDataInstance() {
+        return null;
     }
 
     private boolean shouldTriggerTribulation(CultivationData.PathData pathData) {
