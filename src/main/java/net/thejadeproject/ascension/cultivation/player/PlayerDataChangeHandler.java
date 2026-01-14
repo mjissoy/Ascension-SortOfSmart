@@ -14,6 +14,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
+import net.thejadeproject.ascension.data_attachments.attachments.AscensionAttributeWrapper;
+import net.thejadeproject.ascension.data_attachments.attachments.PhysiqueAttachment;
 import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
@@ -23,73 +25,109 @@ import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.progression.physiques.IPhysique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class PlayerDataChangeHandler {
+
+    public static void rebirth(Player player){
+        // Get the old physique before resetting
+
+        ResourceLocation oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
+
+        // Remove all skills
+        PlayerSkillData skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
+        AscensionAttributeWrapper attributeWrapper = player.getData(ModAttachments.ATTRIBUTE_WRAPPER);
+        System.out.println("attempting rebirth");
+        System.out.println("skills:");
+        skillData.printActiveSkills();
+        // Set the new physique
+        player.setData(ModAttachments.PHYSIQUE,new PhysiqueAttachment(player));
+
+
+        // Fire physique change event
+        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), player.getData(ModAttachments.PHYSIQUE).getPhysique().toString()));
+
+
+        //TODO update attributes
+
+        // Reset cultivation data for all paths
+        for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()) {
+
+            TechniqueChangeEvent.Pre techniqueChangeEvent = new TechniqueChangeEvent.Pre(player,pathData.pathId,pathData.technique,"ascension:none",pathData.techniqueData);
+            RealmChangeEvent.Pre realmChangeEvent = new RealmChangeEvent.Pre(player,pathData.pathId,pathData.majorRealm,-1,pathData.minorRealm,-1,0,null);
+            NeoForge.EVENT_BUS.post(techniqueChangeEvent);
+            NeoForge.EVENT_BUS.post(realmChangeEvent);
+
+            // Send sync packet to reset client-side cultivation data
+            pathData.pathProgress = 0;
+            pathData.majorRealm = 0;
+            pathData.minorRealm = 0;
+            pathData.breakthroughData = null;
+            pathData.breakingThrough = false;
+            pathData.stabilityCultivationTicks = 0;
+            NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(realmChangeEvent));
+            pathData.technique = "ascension:none";
+            pathData.techniqueData = null;
+            PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
+            NeoForge.EVENT_BUS.post(new TechniqueChangeEvent.Post(techniqueChangeEvent));
+
+
+        }
+        // Sync attack damage attribute
+        PacketDistributor.sendToPlayer((ServerPlayer) player,
+                new SyncAttackDamageAttribute(player.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        skillData.removeAllNonePermanentSkills();
+        attributeWrapper.removeAllNonPermanentModifiers();
+    }
 
     // Original method (for RebirthPill) - resets to empty_vessel
     public static void resetData(Player player) {
         resetData(player, "ascension:empty_vessel");
     }
-
+    //TODO redo
     // New overloaded method that accepts target physique
+    //uses rebirth instead of the force remove
     public static void resetData(Player player, String targetPhysiqueId) {
         // Get the old physique before resetting
-        String oldPhysique = player.getData(ModAttachments.PHYSIQUE);
+        ResourceLocation oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
 
         // Remove all skills
         PlayerSkillData skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
-        skillData.removeAllSkills();
+
 
         // Set the new physique
-        player.setData(ModAttachments.PHYSIQUE, targetPhysiqueId);
+        player.getData(ModAttachments.PHYSIQUE).setPhysique(targetPhysiqueId);
+
 
         // Fire physique change event
-        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique, targetPhysiqueId));
+        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), targetPhysiqueId));
 
         // Reset skill data
         player.setData(ModAttachments.PLAYER_SKILL_DATA, new PlayerSkillData(player));
 
-        // Reset player attributes to default values
-        player.setData(ModAttachments.MOVEMENT_SPEED, 0.1);
-        player.setData(ModAttachments.ATTACK_DAMAGE, 1.0);
-        player.setData(ModAttachments.JUMP_HEIGHT, 0.42);
-        player.setData(ModAttachments.MAX_HEALTH, 20.0);
-        player.setData(ModAttachments.SAFE_FALL_DISTANCE, 3.0);
-        player.setData(ModAttachments.ARMOR, 0.0);
-        player.setData(ModAttachments.OXYGEN_BONUS, 0.0);
-        player.setData(ModAttachments.WATER_MOVEMENT_EFFICIENCY, 0.0);
-
-        // Reset Minecraft attributes to default
-        AttributeSupplier playerSupplier = Player.createAttributes().build();
-        for(Holder<Attribute> attributeHolder : player.getAttributes().attributes.keySet()) {
-            if(playerSupplier.hasAttribute(attributeHolder)) {
-                AttributeInstance instance = player.getAttributes().attributes.get(attributeHolder);
-                instance.setBaseValue(playerSupplier.getBaseValue(attributeHolder));
-                instance.removeModifiers();
-            } else {
-                AttributeInstance instance = player.getAttributes().attributes.get(attributeHolder);
-                instance.setBaseValue(attributeHolder.value().getDefaultValue());
-                instance.removeModifiers();
-            }
-        }
 
         // Reset cultivation data for all paths
         for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()) {
+
+            TechniqueChangeEvent.Pre techniqueChangeEvent = new TechniqueChangeEvent.Pre(player,pathData.pathId,pathData.technique,"ascension:none",pathData.techniqueData);
+            RealmChangeEvent.Pre realmChangeEvent = new RealmChangeEvent.Pre(player,pathData.pathId,pathData.majorRealm,-1,pathData.minorRealm,-1,0,null);
+            NeoForge.EVENT_BUS.post(techniqueChangeEvent);
+            NeoForge.EVENT_BUS.post(realmChangeEvent);
+
             // Send sync packet to reset client-side cultivation data
-            PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPathDataPayload(
-                    pathData.pathId,
-                    0, // major realm
-                    0, // minor realm
-                    0, // path progress
-                    "ascension:none", // technique
-                    0 // stability cultivation ticks
-            ));
+            pathData.pathProgress = 0;
+            pathData.majorRealm = 0;
+            pathData.minorRealm = 0;
+            pathData.technique = "ascension:none";
+            pathData.techniqueData = null;
+            pathData.breakthroughData = null;
+            pathData.breakingThrough = false;
+            pathData.stabilityCultivationTicks = 0;
+
+            PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
+            NeoForge.EVENT_BUS.post(new TechniqueChangeEvent.Post(techniqueChangeEvent));
+            NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(realmChangeEvent));
         }
-
-        // Create new player data
-        player.setData(ModAttachments.PLAYER_DATA, new PlayerData(player));
-
         // Sync attack damage attribute
         PacketDistributor.sendToPlayer((ServerPlayer) player,
                 new SyncAttackDamageAttribute(player.getAttributeValue(Attributes.ATTACK_DAMAGE)));
@@ -103,7 +141,7 @@ public class PlayerDataChangeHandler {
 
         // Sync the new physique to client
         PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(targetPhysiqueId));
-
+        //TODO use different function for removing physique
         // Send feedback message to player
         if (player instanceof ServerPlayer serverPlayer) {
             Component physiqueName = Component.literal("Empty Vessel");
@@ -116,7 +154,7 @@ public class PlayerDataChangeHandler {
             true);
         }
     }
-
+    //TODO redo
     // Removes technique from a specific path without resetting everything
     public static void removeTechnique(Player player, String path) {
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);
@@ -130,12 +168,12 @@ public class PlayerDataChangeHandler {
         int minorRealm = pathData.minorRealm;
 
         // Create realm change event to trigger effects
-        RealmChangeEvent realmChangeEvent = new RealmChangeEvent(
+        RealmChangeEvent realmChangeEvent = new RealmChangeEvent.Pre(
                 player, path, majorRealm, 0, minorRealm, 0, 0, null);
 
         // Create technique change event
-        TechniqueChangeEvent techniqueChangeEvent = new TechniqueChangeEvent(
-                player, path, pathData.technique, "ascension:none");
+        TechniqueChangeEvent techniqueChangeEvent = new TechniqueChangeEvent.Pre(
+                player, path, pathData.technique, "ascension:none",pathData.techniqueData);
 
         // Fire events
         NeoForge.EVENT_BUS.post(realmChangeEvent);
@@ -183,7 +221,7 @@ public class PlayerDataChangeHandler {
             pathData.breakthroughData = null;
 
             // Create and post realm change event for negative change
-            RealmChangeEvent realmChangeEvent = new RealmChangeEvent(
+            RealmChangeEvent realmChangeEvent = new RealmChangeEvent.Post(
                     player, pathId, oldMajor, 0, oldMinor, 0, -oldMajor, null);
             NeoForge.EVENT_BUS.post(realmChangeEvent);
 

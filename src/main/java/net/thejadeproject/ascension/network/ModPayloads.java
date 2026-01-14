@@ -10,6 +10,7 @@ import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.packets.*;
 import net.thejadeproject.ascension.network.serverBound.*;
+import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 
 public class ModPayloads {
     public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
@@ -144,6 +145,12 @@ public class ModPayloads {
                 ServerCastSkillPayload.TYPE,
                 ServerCastSkillPayload.STREAM_CODEC,
                 ServerCastSkillPayload::handlePayload
+
+        );
+        registrar.playToServer(
+                ChangePlayerInputState.TYPE,
+                ChangePlayerInputState.STREAM_CODEC,
+                ChangePlayerInputState::handlePayload
 
         );
 

@@ -4,25 +4,33 @@ import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.constants.SkillRemoveSource;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
 import net.thejadeproject.ascension.events.custom.*;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
+import net.thejadeproject.ascension.events.custom.skills.PlayerSkillRemoveEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
+import net.thejadeproject.ascension.progression.physiques.data.IPhysiqueData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Supplier;
 
 
 //if you want some sort of extra progress data separate from standard use direct nbt write
@@ -35,23 +43,24 @@ public class GenericPhysique implements IPhysique{
     public Map<String,Double> otherBonuses;
     public final String title;
     public ITextureData textureData;
-    public SkillList skillList = new SkillList(List.of());
-     public Component description = Component.empty();
-    public IRealmChangeHandler realmChangeHandler;
 
+    public Component description = Component.empty();
 
-    public GenericPhysique(String title, Map<String,Double> pathBonuses, Map<String,Double> otherBonuses,IRealmChangeHandler realmChangeHandler){
+    private Supplier<IPhysiqueData> dataSupplier= ()-> null;;
+
+    private List<AcquirableSkillData> acquisitionSkills = new ArrayList<>();
+
+    public GenericPhysique(String title, Map<String, Double> pathBonuses, Map<String, Double> otherBonuses) {
         this.pathBonuses = pathBonuses;
         this.otherBonuses = otherBonuses;
         this.title = title;
-        this.realmChangeHandler = realmChangeHandler;
 
     }
 
     @Override
     public void onRealmChangeEvent(RealmChangeEvent event) {
         IPhysique.super.onRealmChangeEvent(event);
-        if(event.getMajorRealmsChanged() < 0 ||(event.getMajorRealmsChanged() == 0 && event.getTotalMinorRealmsChanged() <0) ) return;
+
         updatePlayerSkills(
                 event.player,
                 event.pathId,
@@ -61,7 +70,7 @@ public class GenericPhysique implements IPhysique{
     }
 
     public GenericPhysique setSkillList(List<AcquirableSkillData> skillList){
-        this.skillList = new SkillList(skillList);
+        this.acquisitionSkills = skillList;
         return this;
     }
     public GenericPhysique setPhysiqueCard(ITextureData textureData){
@@ -87,7 +96,7 @@ public class GenericPhysique implements IPhysique{
 
     @Override
     public IRealmChangeHandler getRealmChangeHandler() {
-        return realmChangeHandler;
+        return null;
     }
 
     @Override
@@ -105,10 +114,6 @@ public class GenericPhysique implements IPhysique{
         return textureData;
     }
 
-    @Override
-    public SkillList getSkillList() {
-        return skillList;
-    }
 
 
     //TODO replace String title with Component Title
@@ -163,34 +168,77 @@ public class GenericPhysique implements IPhysique{
 
 
     public void updatePlayerSkills(Player player, String path, int majorRealm, int minorRealm){
-        if(skillList == null) return;
-        List<Pair<String,Boolean>> newSkills = skillList.getSkillsOfPathAndRealm(path,majorRealm,minorRealm);
 
-        for(Pair<String,Boolean> skillData :newSkills){
-            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillData.getA(),':'));
-            String skillType = "Passive";
-            if(skill instanceof AbstractActiveSkill) skillType = "Active";
-            player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillData.getA(),skillType,skillData.getB(),skill.getSkillData());
-            skill.onSkillAdded(player);
-        }
 
     }
 
     public void removePlayerSkills(Player player){
-
+        for(AcquirableSkillData skillData : acquisitionSkills){
+            if(skillData.permanent() || skillData.fixed()) continue;
+            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillData.skillId());
+            PlayerSkillRemoveEvent removeEvent = new PlayerSkillRemoveEvent(player,skillData.skillId(), SkillRemoveSource.PHYSIQUE_CHANGE);
+            if(removeEvent.isCanceled()) return;
+            player.getData(ModAttachments.PLAYER_SKILL_DATA).removeSkill(skillData.skillId().toString());
+            skill.onSkillRemoved(player);
+        }
     }
     @Override
     public void onPhysiqueAcquisition(Player player) {
-        
-        IPhysique.super.onPhysiqueAcquisition(player);
+        for(AcquirableSkillData skillData : acquisitionSkills){
+            player.getData(ModAttachments.PLAYER_SKILL_DATA)
+                    .addSkill(skillData.skillId(),skillData.fixed(),skillData.permanent());
+        }
         for(String path : pathBonuses.keySet()){
             updatePlayerSkills(player,path,0,0);
+        }
+    }
+    @Override
+    public void onSkillRemoveEvent(PlayerSkillRemoveEvent event){
+        if(event.skillRemoveType == SkillRemoveSource.FORCE_REMOVE) return;
+        for(AcquirableSkillData skillData : acquisitionSkills){
+            if(event.skill.equals(skillData.skillId())){
+
+                if(event.skillRemoveType != SkillRemoveSource.PHYSIQUE_CHANGE){
+                    // skill removed was not from a physique but exists on this physique so cannot be removed
+                    event.setCanceled(true);
+                    return;
+                }
+                //permanent takes priority over fixed
+                if(skillData.permanent()) {
+                    event.setCanceled(true);
+                    return;
+                }
+                if(skillData.fixed()){
+                    event.setCanceled(true);
+                    return;
+                }
+
+            }
         }
     }
 
     @Override
     public void onRemovePhysique(Player player) {
-        IPhysique.super.onRemovePhysique(player);
+
         removePlayerSkills(player);
     }
+    @Override
+    public IPhysique setDataSupplier(Supplier<IPhysiqueData> dataSupplier) {
+        this.dataSupplier = dataSupplier;
+        return this;
+    }
+    @Override
+    public IPhysiqueData getPhysiqueDataInstance(CompoundTag tag){
+        IPhysiqueData data = dataSupplier.get();
+        data.readData(tag);
+        return data;
+    }
+    @Override
+    public IPhysiqueData getPhysiqueDataInstance(RegistryFriendlyByteBuf buf){
+        IPhysiqueData data = dataSupplier.get();
+        data.decode(buf);
+        return data;
+    }
+
+
 }

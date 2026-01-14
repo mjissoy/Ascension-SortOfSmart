@@ -6,11 +6,11 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
-import net.thejadeproject.ascension.progression.skills.data.CastType;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.constants.SkillType;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 
 import java.util.List;
-
+//TODO add an IActiveSkill as well
 public interface ISkill {
     default void onSkillAdded(Player player){
         
@@ -18,17 +18,16 @@ public interface ISkill {
     default void onSkillRemoved(Player player){};
 
     default String getSkillPath(){return "ascension:neutral";}
-    ISkillData getSkillData(CompoundTag tag);
-    ISkillData getSkillData();
 
     default List<MutableComponent> getSkillDescription(Player player){return List.of();}
     default ITextureData skillIcon(){return null;}
-    Component getSkillTitle();
-    //this skill will no be removed by physiques and techniques changing
-    default boolean isFixedSkill(){return false;}
+    default Component getSkillTitle(){
+        return Component.empty();
+    };
+    SkillType getType();
 
-    void setFixedSkill(boolean fixed);
-
-    ISkillData decode(RegistryFriendlyByteBuf buf);
+    IPersistentSkillData getPersistentDataInstance(CompoundTag tag);
+    IPersistentSkillData getPersistentDataInstance();
+    IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf);
 
 }

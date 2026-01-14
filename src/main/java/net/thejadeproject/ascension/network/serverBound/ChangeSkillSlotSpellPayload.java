@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 /**
  *
@@ -35,6 +35,6 @@ public record ChangeSkillSlotSpellPayload(int slot,String skillId,boolean slotSk
 
         PlayerSkillData playerSkillData = context.player().getData(ModAttachments.PLAYER_SKILL_DATA);
 
-        playerSkillData.modifySkillSlot(payload.slot, payload.skillId, payload.slotSkill);
+        playerSkillData.modifySkillSlot(payload.slot, ResourceLocation.bySeparator(payload.skillId,':'), payload.slotSkill);
     }
 }

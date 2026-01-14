@@ -8,8 +8,8 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.thejadeproject.ascension.entity.custom.AscensionSkillEntity;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.util.ModTags;
 //deals a bonus hit of sword_intent damage
 public class SwordIntent extends AbstractPassiveSkill {
@@ -56,8 +56,5 @@ public class SwordIntent extends AbstractPassiveSkill {
         super.onSkillAdded(player);
     }
 
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
-    }
+
 }

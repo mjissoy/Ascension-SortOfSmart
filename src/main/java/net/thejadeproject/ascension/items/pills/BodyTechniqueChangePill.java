@@ -9,7 +9,7 @@ import net.thejadeproject.ascension.cultivation.player.PlayerDataChangeHandler;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class BodyTechniqueChangePill extends PillCooldownItem {
     private static final String BODY_PATH_ID = "ascension:body";

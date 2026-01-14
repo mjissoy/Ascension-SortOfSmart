@@ -7,13 +7,17 @@ import net.lucent.easygui.interfaces.ContainerRenderable;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.properties.Positioning;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
+import net.thejadeproject.ascension.progression.skills.skill_lists.IAcquirableSkill;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 
@@ -93,11 +97,18 @@ public class TechniqueDataContainer extends DraggableDataContainer {
 
 
         MutableComponent skillListText = Component.empty();
-        List<AcquirableSkillData> skillList = technique.getSkillList().getSkillList();
-        for (AcquirableSkillData acquirableSkillData : skillList) {
+        List<IAcquirableSkill> skillList = technique.getSkillList().getSkillList();
+        CultivationData.PathData cultivationData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(technique.getPath());
+        for (IAcquirableSkill acquirableSkillData : skillList) {
             //TODO change text color if unlocked or locked
             //TODO replace aquirableSkillData
-            skillListText.append("\n").append(acquirableSkillData.asComponent());
+            skillListText.append("\n").append(acquirableSkillData.asComponent(
+                    ResourceLocation.bySeparator(techniqueId,':'),
+                    ResourceLocation.bySeparator(technique.getPath(),':'),
+                    cultivationData.majorRealm,
+                    cultivationData.minorRealm
+
+            ));
         }
         Label skillListLabel = new Label(easyGuiScreen,0, (int) (daoY+skillListTitleLabel.getHeight()*0.5+5),skillListText);
         skillListLabel.setWrap(true);

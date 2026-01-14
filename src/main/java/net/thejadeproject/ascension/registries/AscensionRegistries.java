@@ -10,6 +10,7 @@ import net.neoforged.neoforge.registries.RegistryBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.dao.IDao;
 import net.thejadeproject.ascension.progression.physiques.IPhysique;
+import net.thejadeproject.ascension.progression.paths.IPath;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 
@@ -54,13 +55,21 @@ public class AscensionRegistries {
 
 
     }
+    public static class Paths {
+        public static final ResourceKey<Registry<IPath>> PATHS_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation
+                .fromNamespaceAndPath(AscensionCraft.MOD_ID,"path"));
+        public static final Registry<IPath> PATHS_REGISTRY = new RegistryBuilder<>(PATHS_REGISTRY_KEY)
+                .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"none"))
+                .create();
 
+    }
     @SubscribeEvent // on the mod event bus
     public static void registerRegistries(NewRegistryEvent event) {
         event.register(Physiques.PHSIQUES_REGISTRY);
         event.register(Skills.SKILL_REGISTRY);
         event.register(Techniques.TECHNIQUES_REGISTRY);
         event.register(Dao.DAO_REGISTRY);
+        event.register(Paths.PATHS_REGISTRY);
 
     }
 }

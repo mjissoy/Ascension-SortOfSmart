@@ -3,9 +3,10 @@ package net.thejadeproject.ascension.progression.skills.data;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 
-public interface ISkillData {
+public interface IPersistentSkillData {
 
-    void writeData(CompoundTag tag);
+    CompoundTag writeData();
     void readData(CompoundTag tag);
     void encode(RegistryFriendlyByteBuf buf);
+    void decode(RegistryFriendlyByteBuf buf);
 }

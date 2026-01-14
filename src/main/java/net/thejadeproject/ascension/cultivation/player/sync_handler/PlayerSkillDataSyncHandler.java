@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension.cultivation.player.sync_handler;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -8,8 +7,10 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.attachment.AttachmentSyncHandler;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
+import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPreCastSkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import oshi.util.tuples.Pair;
 
@@ -23,6 +24,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         buf.writeInt(skillMetaData.skillId.length());
         buf.writeCharSequence(skillMetaData.skillId, Charset.defaultCharset());
         buf.writeBoolean(skillMetaData.fixed);
+        buf.writeBoolean(skillMetaData.permanent);
         if(skillMetaData.data == null) buf.writeBoolean(false);
         else{
             buf.writeBoolean(true);
@@ -33,11 +35,12 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
         String skillId = (String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset());
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillId,':'));
         boolean fixed = buf.readBoolean();
-        ISkillData skillData= null;
+        boolean permanent = buf.readBoolean();
+        IPersistentSkillData skillData= null;
         if(buf.readBoolean()){
-            skillData = skill.decode(buf);
+            skillData = skill.getPersistentDataInstance(buf);
         }
-        return new PlayerSkillData.SkillMetaData(skillId,fixed,skillData);
+        return new PlayerSkillData.SkillMetaData(skillId,fixed,permanent,skillData);
     }
     @Override
     public void write(RegistryFriendlyByteBuf buf, PlayerSkillData attachment, boolean initialSync) {
@@ -50,7 +53,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             
             List<PlayerSkillData.SkillMetaData> activeSkills = attachment.getActiveSkills();
             List<PlayerSkillData.SkillMetaData> passiveSkills = attachment.getPassiveSkills();
-            List<String> slottedSkills = attachment.activeSkillContainer.getSkillIdList();
+            List<PlayerSkillData.SkillSlot> slottedSkills = attachment.activeSkillContainer.getSkillIdList();
 
 
             //encode active skills
@@ -72,13 +75,23 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             
             
 
-            for (String slottedSkill : slottedSkills){
-                buf.writeInt(slottedSkill.length());
-                buf.writeCharSequence(slottedSkill,Charset.defaultCharset());
+            for (PlayerSkillData.SkillSlot slottedSkill : slottedSkills){
+                if(slottedSkill == PlayerSkillData.SkillSlot.EMPTY_SLOT){
+                    buf.writeBoolean(false);
+                    continue;
+                }
+                buf.writeBoolean(true);
+                buf.writeInt(slottedSkill.skillId.toString().length());
+                buf.writeCharSequence(slottedSkill.skillId.toString(),Charset.defaultCharset());
+                buf.writeBoolean(slottedSkill.preCastSkillData != null);
+                if(slottedSkill.preCastSkillData != null)slottedSkill.preCastSkillData.encode(buf);
             }
         }
         else{
-            
+            System.out.println("writing skill buffer to client");
+            attachment.printActiveSkills();
+            System.out.println(attachment.getActiveSkillBuffer().size());
+            System.out.println(attachment.getPassiveSkillBuffer().size());
             buf.writeBoolean(!attachment.getActiveSkillBuffer().isEmpty());
             if(!attachment.getActiveSkillBuffer().isEmpty()){
                 
@@ -102,9 +115,16 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
 
             
 
-            for (String slottedSkill : attachment.activeSkillContainer.getSkillIdList()){
-                buf.writeInt(slottedSkill.length());
-                buf.writeCharSequence(slottedSkill,Charset.defaultCharset());
+            for (PlayerSkillData.SkillSlot slottedSkill : attachment.activeSkillContainer.getSkillIdList()){
+                if(slottedSkill == PlayerSkillData.SkillSlot.EMPTY_SLOT){
+                    buf.writeBoolean(false);
+                    continue;
+                }
+                buf.writeBoolean(true);
+                buf.writeInt(slottedSkill.skillId.toString().length());
+                buf.writeCharSequence(slottedSkill.skillId.toString(),Charset.defaultCharset());
+                buf.writeBoolean(slottedSkill.preCastSkillData != null);
+                if(slottedSkill.preCastSkillData != null)slottedSkill.preCastSkillData.encode(buf);
             }
 
 
@@ -138,7 +158,22 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
 
             PlayerSkillData playerSkillData = new PlayerSkillData(previousValue.player,activeSkills,passiveSkills);
             for(int i = 0;i<playerSkillData.activeSkillContainer.MAX_SKILL_SLOTS;i++){
-                playerSkillData.activeSkillContainer.slotSkill((String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset()),i);
+
+                if(!buf.readBoolean()){
+                    //empty slot
+                    playerSkillData.activeSkillContainer.setSlotEmpty(i);
+                    continue;
+                }
+                String id = (String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset());
+                ResourceLocation skillId = ResourceLocation.bySeparator(id,':');
+                IPreCastSkillData preCastSkillData = null;
+                if(buf.readBoolean()){
+                    //has precastData
+                    if(AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof AbstractActiveSkill activeSkill){
+                        preCastSkillData = activeSkill.getPreCastDataInstance(buf);
+                    }
+                }
+                playerSkillData.activeSkillContainer.slotSkill(skillId,preCastSkillData,i);
             }
             return playerSkillData;
         }else {
@@ -150,7 +185,8 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 for(int i = 0;i<skills;i++){
                     boolean action = buf.readBoolean();
                     PlayerSkillData.SkillMetaData skillMetaData = decodeSkillMetaData(buf);
-                    if(action) previousValue.addActiveSkill(skillMetaData.skillId, skillMetaData.fixed, skillMetaData.data);
+                    System.out.println("trying to modify skill on the client");
+                    if(action) previousValue.addActiveSkill(skillMetaData.skillId, skillMetaData.fixed,skillMetaData.permanent, skillMetaData.data);
                     else previousValue.removeActiveSkill(skillMetaData.skillId);
                 }
             }
@@ -164,7 +200,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                     boolean action = buf.readBoolean();
                     PlayerSkillData.SkillMetaData skillMetaData = decodeSkillMetaData(buf);
                     
-                    if(action) previousValue.addPassiveSkill(skillMetaData.skillId, skillMetaData.fixed, skillMetaData.data);
+                    if(action) previousValue.addPassiveSkill(skillMetaData.skillId, skillMetaData.fixed,skillMetaData.permanent, skillMetaData.data);
                     else previousValue.removePassiveSkill(skillMetaData.skillId);
                 }
             }
@@ -173,11 +209,24 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             
 
             for(int i = 0;i<previousValue.activeSkillContainer.MAX_SKILL_SLOTS;i++){
-                previousValue.activeSkillContainer.slotSkill((String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset()),i);
-
+                if(!buf.readBoolean()){
+                    //empty slot
+                    previousValue.activeSkillContainer.setSlotEmpty(i);
+                    continue;
+                }
+                String id = (String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset());
+                ResourceLocation skillId = ResourceLocation.bySeparator(id,':');
+                IPreCastSkillData preCastSkillData = null;
+                if(buf.readBoolean()){
+                    //has precastData
+                    if(AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof AbstractActiveSkill activeSkill){
+                        preCastSkillData = activeSkill.getPreCastDataInstance(buf);
+                    }
+                }
+                previousValue.activeSkillContainer.slotSkill(skillId,preCastSkillData,i);
             }
 
-
+            previousValue.clearSkillBuffers();
             return previousValue;
         }
 

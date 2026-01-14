@@ -6,11 +6,14 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.constants.SkillType;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPreCastSkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.util.NBTUtil;
 import oshi.util.tuples.Pair;
 
 import java.util.ArrayList;
@@ -40,38 +43,76 @@ public class PlayerSkillData {
         return passiveSkillHashMap.containsKey(skill_id);
     }
     public ActiveSkillContainer activeSkillContainer = new ActiveSkillContainer();
+    public static class SkillSlot{
+        public ResourceLocation skillId;
+        public IPreCastSkillData preCastSkillData;
+        public static final SkillSlot EMPTY_SLOT = new SkillSlot(null,null);
+        public SkillSlot(ResourceLocation skillId){
+            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
+            if(skill instanceof  AbstractActiveSkill activeSkill){
+                preCastSkillData = activeSkill.getPreCastDataInstance();
+                this.skillId = skillId;
+            }
+        }
+        public SkillSlot(ResourceLocation skillId,IPreCastSkillData preCastSkillData){
+            this.skillId = skillId;
+            this.preCastSkillData = preCastSkillData;
+        }
 
+    }
     public static class ActiveSkillContainer{
-        public List<String> skillIdList = new ArrayList<>();
+        public List<SkillSlot> skillIdList = new ArrayList<>();
 
         public final int MAX_SKILL_SLOTS = 4;
         public ActiveSkillContainer(){
             for(int i = 0;i<MAX_SKILL_SLOTS; i++){
-                skillIdList.add("");
+                skillIdList.add(SkillSlot.EMPTY_SLOT);
             }
         }
-        public List<String> getSkillIdList() {
+        public List<SkillSlot> getSkillIdList() {
             return skillIdList;
         }
         public void unSlotSkill(int slot){
 
-            skillIdList.set(slot,"");
+            skillIdList.set(slot,SkillSlot.EMPTY_SLOT);
         }
-        public void unSlotSkill(String skillId){
+        public SkillSlot getSlot(int slot){
+            return skillIdList.get(slot);
+        }
+        public int getSlot(ResourceLocation skillId){
+            for(int i = 0; i<skillIdList.size();i++){
+                if(skillIdList.get(i).skillId == null) continue;
+                if(skillIdList.get(i).skillId.equals(skillId)){
+                    return i;
+                }
+            }
+            return -1;
+        }
+        public void unSlotSkill(ResourceLocation skillId){
 
-            skillIdList.set(skillIdList.indexOf(skillId),"");
+            skillIdList.set(getSlot(skillId),SkillSlot.EMPTY_SLOT);
         }
-        public void slotSkill(String skillId,int slot){
-            if(skillIdList.contains(skillId)){
+        public boolean hasSkill(ResourceLocation skillId){
+            return getSlot(skillId) != -1;
+        }
+        public void setSlotEmpty(int slot){
+            skillIdList.set(slot, SkillSlot.EMPTY_SLOT);
+        }
+        public void slotSkill(ResourceLocation skillId,int slot){
+            slotSkill(skillId,null,slot);
+
+        }
+        public void slotSkill(ResourceLocation skillId,IPreCastSkillData preCastSkillData,int slot){
+            if(hasSkill(skillId)){
                 unSlotSkill(skillId);
             }
-            skillIdList.set(slot,skillId);
+            skillIdList.set(slot,new SkillSlot(skillId,preCastSkillData));
 
         }
     }
 
 
-    public void modifySkillSlot(int slot,String skillId,boolean slotSkill){
+    public void modifySkillSlot(int slot,ResourceLocation skillId,boolean slotSkill){
         if(!slotSkill){
             activeSkillContainer.unSlotSkill(slot);
         }else{
@@ -84,43 +125,58 @@ public class PlayerSkillData {
 
         for(int i = 0;i<activeSkillContainer.MAX_SKILL_SLOTS; i++){
             
-
-            tag.add(i, StringTag.valueOf(activeSkillContainer.getSkillIdList().get(i)));
+            CompoundTag skillSlot = new CompoundTag();
+            ResourceLocation id = activeSkillContainer.getSkillIdList().get(i).skillId;
+            skillSlot.putString("skill_id",id == null? "":id.toString());
+            if(activeSkillContainer.getSkillIdList().get(i).preCastSkillData != null)skillSlot.put("pre_cast_data",activeSkillContainer.getSkillIdList().get(i).preCastSkillData.writeData());
+            tag.add(i, skillSlot);
         }
 
     }
     public void loadSkillContainerNBTData(ListTag skillList){
         for(int i = 0;i<skillList.size(); i++){
-            
-            activeSkillContainer.slotSkill(skillList.getString(i),i);
+            CompoundTag tag = skillList.getCompound(i);
+            String id = tag.getString("skill_id");
+            if(id.isEmpty()) activeSkillContainer.setSlotEmpty(i);
+            else activeSkillContainer.slotSkill(ResourceLocation.bySeparator(id,':'),i);
+
+            if(tag.hasUUID("pre_cast_data")){
+                ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(id,':'));
+                if(skill instanceof AbstractActiveSkill activeSkill){
+                    activeSkillContainer.getSlot(i).preCastSkillData = activeSkill.getPreCastDataInstance(tag.getCompound("pre_cast_data"));
+                }
+            }
         }
     }
     public static class SkillMetaData {
         public String skillId;
         public boolean fixed;
-        public ISkillData data;
+        public boolean permanent;
+        public IPersistentSkillData data;
         public SkillMetaData(){}
-        public SkillMetaData(String skillId, boolean fixed, ISkillData data){
+        public SkillMetaData(String skillId, boolean fixed,boolean permanent, IPersistentSkillData data){
             this.skillId = skillId;
             this.fixed = fixed;
             this.data = data;
+            this.permanent = permanent;
         }
         public CompoundTag writeSkillNBTData(){
             CompoundTag tag = new CompoundTag();
-            tag.putString("skill_id",skillId);;
+            tag.putString("skill_id",skillId);
             tag.putBoolean("fixed",fixed);
-            CompoundTag dataTag = new CompoundTag();
-            if(data != null) data.writeData(dataTag);
-            tag.put("data",dataTag);
+            tag.putBoolean("permanent",permanent);
+
+            if(data != null) tag.put("data",data.writeData());
             return tag;
 
         }
         public static SkillMetaData loadSkillNBTData(CompoundTag compound){
             SkillMetaData skillMetaData = new SkillMetaData();
             skillMetaData.skillId = compound.getString("skill_id");
-            skillMetaData.fixed = compound.getBoolean("fixed");
+            skillMetaData.fixed = NBTUtil.getBooleanWithDefault(compound,"fixed",false);
+            skillMetaData.permanent = NBTUtil.getBooleanWithDefault(compound,"permanent",false);
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillMetaData.skillId,':'));
-            skillMetaData.data = skill.getSkillData(compound.getCompound("data"));
+            if(compound.hasUUID("data")) skillMetaData.data = skill.getPersistentDataInstance(compound.getCompound("data"));
             return skillMetaData;
         }
     }
@@ -170,27 +226,55 @@ public class PlayerSkillData {
         data.addAll(getPassiveSkills());
         return data;
     }
-
-    public void addSkill(String skillId,String type,boolean fixed,ISkillData data){
+    public void addSkill(ResourceLocation skillId,boolean fixed, boolean permanent){
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
+        addSkill(skillId,fixed,permanent,skill.getPersistentDataInstance());
+    }
+    public void addSkill(ResourceLocation skillId,boolean fixed, boolean permanent,IPersistentSkillData data){
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
+        if(skill.getType() == SkillType.ACTIVE){
+            addActiveSkill(skillId.toString(),fixed,permanent,data);
+        }else{
+            addPassiveSkill(skillId.toString(),fixed,permanent,data);
+        }
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+    }
+    public void addSkill(String skillId, String type, boolean fixed, IPersistentSkillData data){
         if(type.equals("Active")) addActiveSkill(skillId,fixed,data);
         else addPassiveSkill(skillId,fixed,data);
         player.syncData(ModAttachments.PLAYER_SKILL_DATA);
     }
-    public void addActiveSkill(String skillId,boolean fixed,ISkillData data){
+    public void addActiveSkill(String skillId, boolean fixed,boolean permanent, IPersistentSkillData data){
         if(activeSkillHashMap.containsKey(skillId) && activeSkillHashMap.get(skillId).fixed) return;
         else if (activeSkillHashMap.containsKey(skillId))activeSkillHashMap.get(skillId).fixed = fixed;
-        else activeSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,data));
+        else activeSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,permanent,data));
         activeSkillBuffer.add(new Pair<>(true,activeSkillHashMap.get(skillId)));
+
     }
-    public void addPassiveSkill(String skillId,boolean fixed,ISkillData data){
+    public void addPassiveSkill(String skillId, boolean fixed,boolean permanent, IPersistentSkillData data){
         if(passiveSkillHashMap.containsKey(skillId) && passiveSkillHashMap.get(skillId).fixed) return;
         else if (passiveSkillHashMap.containsKey(skillId))passiveSkillHashMap.get(skillId).fixed = fixed;
-        else passiveSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,data));
+        else passiveSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,permanent,data));
         passiveSkillBuffer.add(new Pair<>(true,passiveSkillHashMap.get(skillId)));
-        
-        
+
+    }
+    @Deprecated
+    public void addActiveSkill(String skillId, boolean fixed, IPersistentSkillData data){
+        if(activeSkillHashMap.containsKey(skillId) && activeSkillHashMap.get(skillId).fixed) return;
+        else if (activeSkillHashMap.containsKey(skillId))activeSkillHashMap.get(skillId).fixed = fixed;
+        else activeSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,false,data));
+        activeSkillBuffer.add(new Pair<>(true,activeSkillHashMap.get(skillId)));
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+    }
+    @Deprecated
+    public void addPassiveSkill(String skillId, boolean fixed, IPersistentSkillData data){
+        if(passiveSkillHashMap.containsKey(skillId) && passiveSkillHashMap.get(skillId).fixed) return;
+        else if (passiveSkillHashMap.containsKey(skillId))passiveSkillHashMap.get(skillId).fixed = fixed;
+        else passiveSkillHashMap.put(skillId,new SkillMetaData(skillId,fixed,false,data));
+        passiveSkillBuffer.add(new Pair<>(true,passiveSkillHashMap.get(skillId)));
     }
     public void removeSkill(String skillId){
+        System.out.println("trying to remove skill on server");
         removePassiveSkill(skillId);
         removeActiveSkill(skillId);
         triggerSkillRemoval(skillId);
@@ -199,20 +283,29 @@ public class PlayerSkillData {
     //removes even if fixed so make sure to check
     public void removePassiveSkill(String skillId){
         if(!passiveSkillHashMap.containsKey(skillId)) return;
+        System.out.println("removing passive");
         passiveSkillBuffer.add(new Pair<>(false,passiveSkillHashMap.remove(skillId)));
     }
     //removes even if fixed so make sure to check
     public void removeActiveSkill(String skillId){
+        System.out.println("trying to remove active skill : "+skillId);
+        System.out.println("map has ("+activeSkillHashMap.keySet().toString()+") skills" );
         if(!activeSkillHashMap.containsKey(skillId)) return;
-
+        ResourceLocation skillResource = ResourceLocation.bySeparator(skillId,':');
+        System.out.println("removing active skill");
+        System.out.println(activeSkillBuffer.size());
         activeSkillBuffer.add(new Pair<>(false,activeSkillHashMap.remove(skillId)));
-        if(activeSkillContainer.skillIdList.contains(skillId)) activeSkillContainer.unSlotSkill(skillId);
+        System.out.println(activeSkillBuffer.size());
+        if(activeSkillContainer.hasSkill(skillResource)) activeSkillContainer.unSlotSkill(skillResource);
     }
     public void triggerSkillRemoval(String skillId){
         ResourceLocation id = ResourceLocation.bySeparator(skillId,':');
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(id);
         if(skill == null) return;
         skill.onSkillRemoved(player);
+    }
+    public void printActiveSkills(){
+        System.out.println("map has ("+activeSkillHashMap.keySet().toString()+") skills" );
     }
     public void removeAllSkills(){
         for(SkillMetaData data : getActiveSkills()){
@@ -225,6 +318,19 @@ public class PlayerSkillData {
         }
         player.syncData(ModAttachments.PLAYER_SKILL_DATA);
 
+    }
+    public void removeAllNonePermanentSkills(){
+        for(SkillMetaData data : getActiveSkills()){
+            if(data.permanent) continue;
+            removeActiveSkill(data.skillId);
+            triggerSkillRemoval(data.skillId);
+        }
+        for(SkillMetaData data : getPassiveSkills()){
+            if(data.permanent) continue;
+            removePassiveSkill(data.skillId);
+            triggerSkillRemoval(data.skillId);
+        }
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
     }
     public List<Pair<Boolean, SkillMetaData>> getPassiveSkillBuffer(){
         return passiveSkillBuffer;

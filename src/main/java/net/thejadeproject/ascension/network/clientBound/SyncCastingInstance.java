@@ -1,7 +1,6 @@
 package net.thejadeproject.ascension.network.clientBound;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -10,12 +9,9 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.CastingInstance;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
-import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public record SyncCastingInstance(CastingInstance primary, List<CastingInstance> castingInstances) implements CustomPacketPayload {

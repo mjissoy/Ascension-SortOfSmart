@@ -3,7 +3,6 @@ package net.thejadeproject.ascension.guis.easygui.elements.skill_menu.skill_slot
 import net.lucent.easygui.elements.controls.buttons.TextureButton;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
-import net.lucent.easygui.util.textures.TextureData;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +10,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.SelectedSkillInfoPanel;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
-import net.thejadeproject.ascension.progression.skills.data.SkillType;
+import net.thejadeproject.ascension.progression.skills.data.casting.SkillType;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 //10 px gap. 1 px from green on left

@@ -17,9 +17,11 @@ import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.buttons.BreakthroughButton;
+import net.thejadeproject.ascension.progression.paths.IPath;
+import net.thejadeproject.ascension.progression.paths.ModPaths;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -42,21 +44,23 @@ public class DisplayPathDataContainer extends EmptyContainer {
         setID("path_data_container");
         cultivationData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData();
         pathData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
-        String name = "Essence Path";
-        if(pathData.pathId.equals("ascension:body")) name = "Body Path";
-        if(pathData.pathId.equals("ascension:intent")) name = "Intent Path";
+        ResourceLocation pathResource = ResourceLocation.bySeparator(pathId,':');
+        ResourceLocation techniqueResource = ResourceLocation.bySeparator(pathData.technique,':');
 
-        Component nameComponent = Component.literal(name).withStyle(ChatFormatting.BOLD);
+        Component name = AscensionRegistries.Paths.PATHS_REGISTRY.get(pathResource).getPathDisplayName();
+
+
+
         Component majorRealmTitleComponent = Component.literal("Major Realm:").withStyle(ChatFormatting.BOLD);
         Component minorRealmTitleComponent = Component.literal("Minor Realm:").withStyle(ChatFormatting.BOLD);
         Component progressTitleComponent =Component.literal("Progress:").withStyle(ChatFormatting.BOLD);
         Component techniqueTitleComponent = Component.literal("Technique:").withStyle(ChatFormatting.BOLD);
         Font font = Minecraft.getInstance().font;
-        pathTitle = (new Label.Builder()).screen(easyGuiScreen).x(getWidth()/2).y(10).centered(true).text(nameComponent).customScaling(0.5).build();
+        pathTitle = (new Label.Builder()).screen(easyGuiScreen).x(getWidth()/2).y(10).centered(true).text(name).customScaling(0.5).build();
         pathTitle.setID("path_title");
 
         Label majorRealmTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(15).text(majorRealmTitleComponent).customScaling(0.5).build();
-        majorRealmData = (new Label.Builder()).screen(easyGuiScreen).x(0).y(20).text(Component.literal(CultivationSystem.getPathMajorRealmName(pathId,pathData.majorRealm))).customScaling(0.5).build();
+        majorRealmData = (new Label.Builder()).screen(easyGuiScreen).x(0).y(20).text(CultivationSystem.getMajorRealmName(techniqueResource,pathResource,pathData.majorRealm)).customScaling(0.5).build();
         majorRealmData.setID("major_realm_data");
 
         breakthroughButton = new BreakthroughButton(getScreen(), (int) (getScreen().getElementByID("major_realm_data").getWidth()*getScreen().getElementByID("major_realm_data").getCustomScale()), getScreen().getElementByID("major_realm_data").getY());
@@ -73,7 +77,7 @@ public class DisplayPathDataContainer extends EmptyContainer {
         progressData.setID("progress_data");
 
         Component techniqueName = Component.literal("none");
-        if(!pathData.technique.equals("ascension:none")) techniqueName = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':')).getDisplayTitle();
+        if(!pathData.technique.equals("ascension:none")) techniqueName = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(techniqueResource).getDisplayTitle();
         Label techniqueTitle = (new Label.Builder()).screen(easyGuiScreen).x(0).y(45).text(techniqueTitleComponent).customScaling(0.5).build();
         techniqueData = (new ClickableLabel.Builder()).screen(easyGuiScreen).x(0).y(50).text(techniqueName).customScaling(0.5).hoverColor(1686472069).build();
         techniqueData.clickAction = new Action(ModActions.CREATE_CONTAINER.get(),new Object[]{"technique_data"});
@@ -102,20 +106,29 @@ public class DisplayPathDataContainer extends EmptyContainer {
 
 
         ITechnique technique = null;
+        Component majorRealmName;
+        Component minorRealmName;
+        double maxQi = 0;
         if(!pathData.technique.equals("ascension:none")) {
             technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique, ':'));
-
+            majorRealmName = technique.getMajorRealmName(pathData.majorRealm);
+            minorRealmName = technique.getMinorRealmName(pathData.majorRealm,pathData.minorRealm);
+            maxQi = technique.getQiForRealm(pathData.majorRealm,pathData.minorRealm);
+        }else{
+            IPath path = ModPaths.getPath(pathData.pathId);
+            majorRealmName = path.getMajorRealmName(pathData.majorRealm);
+            minorRealmName = path.getMinorRealmName(pathData.majorRealm,pathData.minorRealm);
         }
 
 
         techniqueData.text =(technique == null) ?  Component.literal("none") : technique.getDisplayTitle();
         techniqueData.width = Minecraft.getInstance().font.width( techniqueData.text);
 
-        majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm));
+        majorRealmData.text = majorRealmName;
         majorRealmData.width = Minecraft.getInstance().font.width(majorRealmData.text);
 
         if(pathData.stabilityCultivationTicks > 0 && !pathData.breakingThrough){
-            majorRealmData.text = Component.literal(CultivationSystem.getPathMajorRealmName(pathData.pathId,pathData.majorRealm)+" ("+String.format("%.2f",technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks)*100)+"%)");
+            majorRealmData.text = Component.empty().append(majorRealmName).append(" ("+String.format("%.2f",technique.getStabilityHandler().getStability(pathData.stabilityCultivationTicks)*100)+"%)");
             majorRealmData.width = Minecraft.getInstance().font.width(majorRealmData.text);
             breakthroughButton.setActive(true);
 
@@ -124,10 +137,10 @@ public class DisplayPathDataContainer extends EmptyContainer {
         }else breakthroughButton.setActive(false);
 
 
-        minorRealmData.text =Component.literal(String.valueOf(pathData.minorRealm));
-        minorRealmData.width = Minecraft.getInstance().font.width(String.valueOf(pathData.minorRealm));
+        minorRealmData.text = minorRealmName;
+        minorRealmData.width = Minecraft.getInstance().font.width(minorRealmName);
         NumberFormat format = new DecimalFormat("#0.00");
-        progressData.text =Component.literal(format.format(pathData.pathProgress)+"/"+format.format(cultivationData.getMaxQiForRealm(pathData.pathId)));
+        progressData.text =Component.literal(format.format(pathData.pathProgress)+"/"+format.format(maxQi));
         progressData.width = Minecraft.getInstance().font.width(progressData.text);
 
 
@@ -136,13 +149,12 @@ public class DisplayPathDataContainer extends EmptyContainer {
 
     public void setPath(String pathId){
         //TODO if realm is at breakthrough make button visible in OuterPathData Container
-        pathData = Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(pathId);
 
-        String name = "Essence Path";
-        if(pathData.pathId.equals("ascension:body")) name = "Body Path";
-        if(pathData.pathId.equals("ascension:intent")) name = "Intent Path";
-        pathTitle.text = Component.literal(name).withStyle(ChatFormatting.BOLD);
-        pathTitle.width = Minecraft.getInstance().font.width(Component.literal(name).withStyle(ChatFormatting.BOLD));
+        IPath path = ModPaths.getPath(pathId);
+        Component name = path.getPathDisplayName();
+
+        pathTitle.text = name;
+        pathTitle.width = Minecraft.getInstance().font.width(name);
 
 
     }

@@ -5,6 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
+import net.thejadeproject.ascension.progression.techniques.data.ITechniqueData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.Collection;
@@ -23,6 +24,7 @@ public class CultivationData {
         public double pathProgress; //todo replace with big decimal
         public String technique;
         public double stabilityCultivationTicks;
+        public ITechniqueData techniqueData;
 
         public boolean breakingThrough;
         public IBreakthroughData breakthroughData;
@@ -42,6 +44,9 @@ public class CultivationData {
             this.technique = technique;
             this.stabilityCultivationTicks=stabilityCultivationTicks;
             this.breakingThrough = breakingThrough;
+            if(!technique.equals("ascension:none")){
+                this.techniqueData =  AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(technique,':')).getTechniqueDataInstance();
+            }
 
         }
         public PathData(){}
@@ -63,6 +68,7 @@ public class CultivationData {
             tag.putDouble("stability_cultivation_ticks",stabilityCultivationTicks);
             tag.putBoolean("breaking_through",breakingThrough);
             if(breakthroughData != null) tag.put("breakthrough_data",breakthroughData.writeBreakthroughData());
+            if(techniqueData != null) tag.put("technique_data",techniqueData.writeData());
             return tag;
 
         }
@@ -80,6 +86,12 @@ public class CultivationData {
                 if (compound.hasUUID("breakthrough_data"))
                     pathData.breakthroughData = techniqueManual.getBreakthroughHandler().getBreakthroughData(compound);
             }else pathData.breakthroughData = null;
+            if(compound.hasUUID("technique_data") && !pathData.pathId.equals("ascension:none")){
+                ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(
+                        ResourceLocation.bySeparator(pathData.technique,':')
+                );
+                pathData.techniqueData = technique.getTechniqueDataInstance(compound.getCompound("technique_data"));
+            }
             return pathData;
         }
 

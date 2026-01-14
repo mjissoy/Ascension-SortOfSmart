@@ -4,11 +4,10 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.thejadeproject.ascension.network.serverBound.ServerCastSkillPayload;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.ISkill;
-import net.thejadeproject.ascension.progression.skills.data.CastType;
-import net.thejadeproject.ascension.progression.skills.data.ICastData;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
+import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.nio.charset.Charset;

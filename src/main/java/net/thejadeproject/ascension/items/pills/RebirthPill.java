@@ -19,7 +19,7 @@ public class RebirthPill extends PillCooldownItem{
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
-            PlayerDataChangeHandler.resetData(player);
+            PlayerDataChangeHandler.rebirth(player);
 
         }
         // Call super to handle food effects (e.g., regeneration)

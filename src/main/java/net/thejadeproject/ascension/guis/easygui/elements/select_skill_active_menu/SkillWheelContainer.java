@@ -16,7 +16,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.util.math.CircleBoundChecker;
 import org.joml.Vector3f;
 
@@ -34,8 +34,8 @@ public class SkillWheelContainer extends EmptyContainer {
 
     private void createSkillIconAt(int slot,int x,int y){
         
-        if(activeSkillContainer.getSkillIdList().get(slot).isEmpty()) return;
-        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(activeSkillContainer.getSkillIdList().get(slot),':'));
+        if(activeSkillContainer.getSkillIdList().get(slot).equals(PlayerSkillData.SkillSlot.EMPTY_SLOT)) return;
+        ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(activeSkillContainer.getSkillIdList().get(slot).skillId);
         if(skill == null) return;
         Image skillIcon = new Image(getScreen(),skill.skillIcon(),x-skill.skillIcon().getWidth()/8,y-skill.skillIcon().getHeight()/8);
         skillIcon.setCustomScale(0.25);

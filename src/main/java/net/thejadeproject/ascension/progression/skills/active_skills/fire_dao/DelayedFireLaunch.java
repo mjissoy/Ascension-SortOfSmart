@@ -6,10 +6,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
-import net.thejadeproject.ascension.entity.custom.spell_entities.FireBallSkill;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
-import net.thejadeproject.ascension.progression.skills.data.CastType;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 
 public class DelayedFireLaunch extends AbstractActiveSkill {
 
@@ -37,15 +36,6 @@ public class DelayedFireLaunch extends AbstractActiveSkill {
         return 80;
     }
 
-    @Override
-    public ISkillData getSkillData() {
-        return null;
-    }
-
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
-    }
 
     @Override
     public void cast(int castingTicksElapsed, Level level, Player player) {

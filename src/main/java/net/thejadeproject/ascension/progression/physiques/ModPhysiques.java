@@ -1,16 +1,11 @@
 package net.thejadeproject.ascension.progression.physiques;
 
-import net.lucent.easygui.util.textures.TextureDataSubSection;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.StandardStatRealmChange;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSkillData;
 
@@ -527,7 +522,7 @@ public class ModPhysiques {
             ()-> new GenericPhysique("Heaven-Born Stone Monkey Physique",
                     new HashMap<>(){{
                         put("ascension:intent", 0.6);    // High intent for defiance
-                        put("ascension:body", 1.6);      // Very high body focus (primary)
+                        put("ascension:body", 1.5);      // Very high body focus (primary)
                         put("ascension:essence", 0.1);   // Lower essence focus
                     }},
                     new HashMap<>(){{
@@ -538,60 +533,25 @@ public class ModPhysiques {
                         put("ascension:fist_intent", 1.8);   // Prefers unarmed combat
                         put("ascension:earthshatter", 1.5);  // Breaking power
                         put("ascension:transformation", 1.0); // 72 Transformations
-                    }},
-                    new StandardStatRealmChange(STONE_MONKEY_MINOR_REALM_STATS, STONE_MONKEY_MAJOR_REALM_STATS))
+                    }})
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:body", 1, 0, "ascension:stonehide_passive", true),
-                            new AcquirableSkillData("ascension:body", 1, 0, "ascension:diamond_adamant_passive", true),
-                            new AcquirableSkillData("ascension:body", 1, 0, "ascension:indestructible_vajra_active", false)
+                            new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"stonehide_passive"),false,false),
+                            new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"diamond_adamant_passive"),false,false),
+                            new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"indestructible_vajra_active"),false,false)
                     ))
-                    .setDescription(List.of(
-                            Component.literal("§dAscension Tier - Primordial monkey king physique"),
-                            Component.literal("§6Born from chaos, defying heaven's will."),
-                            Component.literal("§7A physique that grows through conflict and rebellion."),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Survive what should break you"),
-                            Component.literal("§e◆ §fPath: Conflict → Resilience → Heaven's Defiance"),
-                            Component.literal("§e◆ §fWeakness: Susceptible to order-based attacks")
-                    ))
-
+                    .setDescription(
+                            Component.empty()
+                                            .append("§6Born from chaos, defying heaven's will.\n")
+                                            .append("§7A physique that grows through conflict and rebellion.\n\n")
+                                            .append("§e◆ §fGrowth: Survive what should break you\n")
+                                            .append("§e◆ §fPath: Conflict → Resilience → Defiance\n")
+                                            .append("§e◆ §fWeakness: Susceptible to order-based attacks")
+                     )
     );
 
-    // Ascension Tier - Nine-Tailed Kitsune (updated)
-    public static final DeferredHolder<IPhysique,GenericPhysique> NINE_TAILED_KITSUNE_PHYSIQUE = PHYSIQUES.register("nine_tailed_kitsune_physique",
-            ()-> new GenericPhysique("Nine-Tailed Kitsune Physique",
-                    new HashMap<>(){{
-                        put("ascension:intent", 0.7);    // High intent for illusions
-                        put("ascension:body", 0.6);      // Moderate body focus
-                        put("ascension:essence", 1.2);   // High essence focus (fox nature)
-                    }},
-                    new HashMap<>(){{
-                        put("ascension:yin", 3.0);           // Yin-aligned, moon affinity
-                        put("ascension:fire", 1.5);          // Foxfire/divine flames
-                        //put("ascension:illusion", 2.5);      // Illusion mastery
-                        //put("ascension:transformation", 2.0);// Shape-shifting ability
-                    }}, new StandardStatRealmChange(KITSUNE_BASE_MINOR_STATS, KITSUNE_BASE_MAJOR_STATS))
-                    .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:kitsune_illusion_basic", true),
-                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:foxfire_manipulation", false),
-                            new AcquirableSkillData("ascension:essence", 0, 0, "ascension:tail_multiplier_passive", true)
-                    ))
-                    .setDescription(List.of(
-                            Component.literal("§dAscension Tier - Divine fox spirit physique"),
-                            Component.literal("§dBorn under the celestial moon, blessed by ancient fox spirits."),
-                            Component.literal("§7A physique that grows through wisdom, age, and spiritual cultivation."),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Gain one tail per major realm starting from Realm 4"),
-                            Component.literal("§e◆ §fPath: Wisdom → Illusion → Celestial Transcendence"),
-                            Component.literal("§e◆ §fWeakness: Vulnerable to pure yang and purification techniques"),
-                            Component.literal(""),
-                            Component.literal("§5[Tail Progression]"),
-                            Component.literal("§7Realm 4-12: Gain +1 tail per realm (9 tails max)"),
-                            Component.literal("§7Each tail grants bonus stats and unlocks abilities")
-                    ))
-    );
 
-    // Human Tier - Empty Vessel
+
+
     public static final DeferredHolder<IPhysique,GenericPhysique> EMPTY_VESSEL = PHYSIQUES.register("empty_vessel",
             ()-> new GenericPhysique("Empty Vessel",
                     new HashMap<>(){{
@@ -599,16 +559,7 @@ public class ModPhysiques {
                         put("ascension:body",0.1);
                         put("ascension:essence",0.1);
                     }},
-                    new HashMap<>(), new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
-                    .setDescription(List.of(
-                            Component.literal("§7Human Tier - Blank slate physique"),
-                            Component.literal("§8No inherent advantages but no weaknesses either"),
-                            Component.literal("§7Can be shaped by any cultivation path"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Adapt to any cultivation method"),
-                            Component.literal("§e◆ §fPath: Blank Slate → Flexibility → Any Specialization"),
-                            Component.literal("§e◆ §fWeakness: No natural strengths, must work harder")
-                    ))
+                    new HashMap<>())
     );
 
     // Earth Tier - Pure Sword Body (updated)
@@ -621,19 +572,8 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:sword_intent",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Sword specialization physique"),
-                            Component.literal("§aBody resonates perfectly with sword intent"),
-                            Component.literal("§7Naturally drawn to sword cultivation techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Master sword techniques faster"),
-                            Component.literal("§e◆ §fPath: Sword Sense → Sword Intent → Sword Mastery"),
-                            Component.literal("§e◆ §fWeakness: Weak against blunt force attacks")
-                    ))
-    );
-
-    // Earth Tier - Pure Spear Body (updated)
+                    }})
+            );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_SPEAR_BODY = PHYSIQUES.register("pure_spear_body",
             ()-> new GenericPhysique("Pure Spear Body",
                     new HashMap<>(){{
@@ -643,16 +583,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:spear_intent",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Spear specialization physique"),
-                            Component.literal("§aBody resonates with spear techniques"),
-                            Component.literal("§7Excels at thrusting and piercing attacks"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Master spear techniques faster"),
-                            Component.literal("§e◆ §fPath: Piercing → Thrusting → Spear Mastery"),
-                            Component.literal("§e◆ §fWeakness: Vulnerable at close range")
-                    ))
+                    }})
     );
 
     // Earth Tier - Pure Axe Body (updated)
@@ -665,16 +596,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:axe_intent",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Axe specialization physique"),
-                            Component.literal("§aBody resonates with axe techniques"),
-                            Component.literal("§7Excels at powerful cleaving attacks"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Master axe techniques faster"),
-                            Component.literal("§e◆ §fPath: Cleaving → Chopping → Axe Mastery"),
-                            Component.literal("§e◆ §fWeakness: Slow attack speed")
-                    ))
+                    }})
     );
 
     // Earth Tier - Pure Blade Body (updated)
@@ -687,16 +609,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:blade_intent",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Blade specialization physique"),
-                            Component.literal("§aBody resonates with blade techniques"),
-                            Component.literal("§7Excels at slashing and cutting attacks"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Master blade techniques faster"),
-                            Component.literal("§e◆ §fPath: Slashing → Cutting → Blade Mastery"),
-                            Component.literal("§e◆ §fWeakness: Less effective against armor")
-                    ))
+                    }})
     );
 
     // Earth Tier - Pure Fist Body (updated)
@@ -709,22 +622,13 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:fist_intent",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
+                    }})
                     .setSkillList(List.of(
-                            new AcquirableSkillData("ascension:intent",0,0,"ascension:fist_aura_skill",true)
+                            new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"fist_aura_skill"),false,false)
                     ))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Unarmed specialization physique"),
-                            Component.literal("§aMy fist is my body and my body is my fist"),
-                            Component.literal("§7Body is a weapon, no need for external arms"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Strengthen fists through combat"),
-                            Component.literal("§e◆ §fPath: Fist → Body Weapon → Unarmed Mastery"),
-                            Component.literal("§e◆ §fWeakness: Limited range")
-                    ))
+                    .setDescription(Component.literal("my fist is my body and my body is my fist"))
     );
 
-    // Earth Tier - Pure Water Body (updated)
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_WATER_BODY = PHYSIQUES.register("pure_water_body",
             ()-> new GenericPhysique("Pure Water Body",
                     new HashMap<>(){{
@@ -734,27 +638,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:water",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setPhysiqueCard(new TextureDataSubSection(
-                            ResourceLocation.fromNamespaceAndPath(
-                                    AscensionCraft.MOD_ID,
-                                    "textures/physiques/root_cards.png"
-                            ),
-                            512,
-                            512,
-                            340,
-                            0,
-                            340+78,104
-                    ))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Water element physique"),
-                            Component.literal("§9Body harmonizes with water essence"),
-                            Component.literal("§7Excels at fluid, adaptive techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate near water sources"),
-                            Component.literal("§e◆ §fPath: Flow → Adaptation → Water Mastery"),
-                            Component.literal("§e◆ §fWeakness: Weak to earth-based techniques")
-                    ))
+                    }})
     );
 
     // Earth Tier - Pure Earth Body (updated)
@@ -767,27 +651,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:earth",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setPhysiqueCard(new TextureDataSubSection(
-                            ResourceLocation.fromNamespaceAndPath(
-                                    AscensionCraft.MOD_ID,
-                                    "textures/physiques/root_cards.png"
-                            ),
-                            512,
-                            512,
-                            0,
-                            0,
-                            78,104
-                    ))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Earth element physique"),
-                            Component.literal("§eBody harmonizes with earth essence"),
-                            Component.literal("§7Excels at defensive, stable techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate on solid ground"),
-                            Component.literal("§e◆ §fPath: Stability → Defense → Earth Mastery"),
-                            Component.literal("§e◆ §fWeakness: Weak to wood-based techniques")
-                    ))
+                    }})
     );
 
     // Earth Tier - Pure Fire Body (updated)
@@ -800,27 +664,8 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:fire",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setPhysiqueCard(new TextureDataSubSection(
-                            ResourceLocation.fromNamespaceAndPath(
-                                    AscensionCraft.MOD_ID,
-                                    "textures/physiques/root_cards.png"
-                            ),
-                            512,
-                            512,
-                            170,
-                            0,
-                            170+78,104
-                    ))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Fire element physique"),
-                            Component.literal("§cBody harmonizes with fire essence"),
-                            Component.literal("§7Excels at explosive, aggressive techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate in fiery environments"),
-                            Component.literal("§e◆ §fPath: Heat → Destruction → Fire Mastery"),
-                            Component.literal("§e◆ §fWeakness: Weak to water-based techniques")
-                    ))
+                    }})
+
     );
 
     // Earth Tier - Pure Wood Body (updated)
@@ -833,30 +678,9 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:wood",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setPhysiqueCard(new TextureDataSubSection(
-                            ResourceLocation.fromNamespaceAndPath(
-                                    AscensionCraft.MOD_ID,
-                                    "textures/physiques/root_cards.png"
-                            ),
-                            512,
-                            512,
-                            255,
-                            0,
-                            255+78,104
-                    ))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Wood element physique"),
-                            Component.literal("§aBody harmonizes with wood essence"),
-                            Component.literal("§7Excels at healing, growing techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate in forests"),
-                            Component.literal("§e◆ §fPath: Growth → Healing → Wood Mastery"),
-                            Component.literal("§e◆ §fWeakness: Weak to metal-based techniques")
-                    ))
-    );
+                    }})
 
-    // Earth Tier - Pure Metal Body (updated)
+    );
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_METAL_BODY = PHYSIQUES.register("pure_metal_body",
             ()-> new GenericPhysique("Pure Metal Body",
                     new HashMap<>(){{
@@ -866,27 +690,8 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:metal",3.0);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setPhysiqueCard(new TextureDataSubSection(
-                            ResourceLocation.fromNamespaceAndPath(
-                                    AscensionCraft.MOD_ID,
-                                    "textures/physiques/root_cards.png"
-                            ),
-                            512,
-                            512,
-                            85,
-                            0,
-                            85+78,104
-                    ))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Metal element physique"),
-                            Component.literal("§7Body harmonizes with metal essence"),
-                            Component.literal("§fExcels at sharp, precise techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate near metal deposits"),
-                            Component.literal("§e◆ §fPath: Sharpness → Precision → Metal Mastery"),
-                            Component.literal("§e◆ §fWeakness: Weak to fire-based techniques")
-                    ))
+                    }})
+
     );
 
     // Human Tier - Iron Bone Physique (updated)
@@ -899,9 +704,9 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:metal",1.2);
-                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    }})
                     .setSkillList( List.of(
-                            new AcquirableSkillData("ascension:body",0,0,"ascension:iron_bones_passive_skill",true)
+                            new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"iron_bones_passive_skill"),false,false)
                     ))
                     .setDescription(List.of(
                             Component.literal("§7Human Tier - Durable bone structure"),
@@ -924,7 +729,7 @@ public class ModPhysiques {
                     }},
                     new HashMap<>(){{
                         put("ascension:fire",1.2);
-                    }}, new StandardStatRealmChange(GENERIC_MINOR_REALM_STATS_1,GENERIC_MAJOR_REALM_STATS_1))
+                    }}))
                     .setDescription(List.of(
                             Component.literal("§7Human Tier - Fire-resistant skin"),
                             Component.literal("§cSkin naturally resistant to heat and flames"),
@@ -945,17 +750,8 @@ public class ModPhysiques {
                         put("ascension:essence",0.4);
                     }},
                     new HashMap<>(){{
-                        put("ascension:poison",1.8);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Poison affinity physique"),
-                            Component.literal("§5Body resistant to and capable of producing poisons"),
-                            Component.literal("§7Can cultivate poison-based techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Consume and resist various poisons"),
-                            Component.literal("§e◆ §fPath: Poison Resistance → Poison Creation → Poison Mastery"),
-                            Component.literal("§e◆ §fWeakness: Vulnerable to purification techniques")
-                    ))
+                        put("ascension:poison",1.2);
+                    }})
     );
 
     // Earth Tier - Sacred Sapling Physique (updated)
@@ -969,19 +765,9 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:wood",1.8);
                         put("ascension:life",1.5);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Nature affinity physique"),
-                            Component.literal("§aBody connected to plant life and growth"),
-                            Component.literal("§7Can cultivate nature-based techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate in natural environments"),
-                            Component.literal("§e◆ §fPath: Plant Connection → Growth → Nature Mastery"),
-                            Component.literal("§e◆ §fWeakness: Vulnerable to fire and metal")
-                    ))
+                    }})
     );
 
-    // Earth Tier - Suppressed Yin Physique (updated)
     public static final DeferredHolder<IPhysique,GenericPhysique> SUPPRESSED_YIN_PHYSIQUE = PHYSIQUES.register("suppressed_yin_physique",
             ()-> new GenericPhysique("Suppressed Yin Physique",
                     new HashMap<>(){{
@@ -992,16 +778,7 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:yin",1.8);
                         put("ascension:ice",1.5);
-                    }}, new StandardStatRealmChange(EARTH_TIER_MINOR_STATS, EARTH_TIER_MAJOR_STATS))
-                    .setDescription(List.of(
-                            Component.literal("§2Earth Tier - Yin-aligned physique"),
-                            Component.literal("§bBody resonates with yin and cold energies"),
-                            Component.literal("§7Excels at ice and shadow techniques"),
-                            Component.literal(""),
-                            Component.literal("§e◆ §fGrowth: Cultivate during night or in cold places"),
-                            Component.literal("§e◆ §fPath: Cold Resistance → Yin Mastery → Ice Control"),
-                            Component.literal("§e◆ §fWeakness: Vulnerable to yang and fire")
-                    ))
+                    }})
     );
 
     public static void register(IEventBus modEventBus){

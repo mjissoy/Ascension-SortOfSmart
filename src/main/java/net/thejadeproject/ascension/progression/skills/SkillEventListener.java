@@ -12,7 +12,7 @@ import net.thejadeproject.ascension.registries.AscensionRegistries;
 public class SkillEventListener{
 
     @SubscribeEvent
-    public static void onRealmChangeEvent(RealmChangeEvent event){
+    public static void onRealmChangeEvent(RealmChangeEvent.Post event){
         for(ISkill skill : AscensionRegistries.Skills.SKILL_REGISTRY.stream().toList()){
             if(skill instanceof AbstractPassiveSkill passiveSkill){
                 passiveSkill.onRealmChange(event);
@@ -21,7 +21,7 @@ public class SkillEventListener{
     }
 
     @SubscribeEvent
-    public static void onTechniqueChangeEvent(TechniqueChangeEvent event){
+    public static void onTechniqueChangeEvent(TechniqueChangeEvent.Post event){
         for(ISkill skill : AscensionRegistries.Skills.SKILL_REGISTRY.stream().toList()){
             if(skill instanceof AbstractPassiveSkill passiveSkill){
                 passiveSkill.onTechniqueChange(event);

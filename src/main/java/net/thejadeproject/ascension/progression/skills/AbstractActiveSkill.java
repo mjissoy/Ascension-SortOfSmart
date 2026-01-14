@@ -2,18 +2,23 @@ package net.thejadeproject.ascension.progression.skills;
 
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.common.NeoForge;
+import net.thejadeproject.ascension.constants.SkillType;
 import net.thejadeproject.ascension.events.custom.skills.SkillPreCastEvent;
-import net.thejadeproject.ascension.progression.skills.data.CastResult;
-import net.thejadeproject.ascension.progression.skills.data.CastSource;
-import net.thejadeproject.ascension.progression.skills.data.CastType;
-import net.thejadeproject.ascension.progression.skills.data.ISkillData;
+import net.thejadeproject.ascension.progression.skills.data.IPreCastSkillData;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastResult;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastSource;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,15 +71,7 @@ public abstract class AbstractActiveSkill implements ISkill{
         return path;
     }
 
-    @Override
-    public boolean isFixedSkill() {
-        //todo uses nbt
-        return false;
-    }
-    @Override
-    public void setFixedSkill(boolean fixedSkill) {
-        //todo uses nbt data.
-    }
+
 
 
     /**
@@ -90,10 +87,6 @@ public abstract class AbstractActiveSkill implements ISkill{
 
     public abstract boolean isPrimarySkill();
     public abstract CastType getCastType();
-    @Override
-    public ISkillData getSkillData(CompoundTag tag) {
-        return null;
-    }
 
     public int maxCastingTicks(){return 0;};
 
@@ -142,6 +135,52 @@ public abstract class AbstractActiveSkill implements ISkill{
         player.getData(ModAttachments.PLAYER_DATA).syncCastingData(); //syncs with player
         return true;
 
+    }
+
+
+    @OnlyIn(Dist.CLIENT)
+    public void initializeInputHandlers(){
+
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance() {
+        return null;
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
+        return null;
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf) {
+        return null;
+    }
+
+
+    public IPreCastSkillData getPreCastDataInstance() {
+        return null;
+    }
+
+
+    public IPreCastSkillData getPreCastDataInstance(CompoundTag tag) {
+        return null;
+    }
+
+
+    public IPreCastSkillData getPreCastDataInstance(RegistryFriendlyByteBuf buf) {
+        return null;
+    }
+
+    @Override
+    public SkillType getType() {
+        return SkillType.ACTIVE;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public boolean shouldRenderCastingBar(){
+        return true;
     }
 
 

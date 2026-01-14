@@ -13,7 +13,9 @@ import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+
+import java.util.function.Supplier;
 
 public interface IBreakthroughHandler {
 
@@ -37,7 +39,7 @@ public interface IBreakthroughHandler {
                 pathData.technique,
                 ':'
         ));
-        RealmChangeEvent event = new RealmChangeEvent(
+        RealmChangeEvent.Pre event = new RealmChangeEvent.Pre(
                 player,
                 pathId,
                 pathData.majorRealm,
@@ -48,9 +50,11 @@ public interface IBreakthroughHandler {
 
         );
 
-
+        NeoForge.EVENT_BUS.post(event);
         pathData.increaseMajorRealm();
         PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
-        NeoForge.EVENT_BUS.post(event);
+        NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(event));
     }
+
+    Supplier<IBreakthroughData> getBreakthroughDataInstance();
 }

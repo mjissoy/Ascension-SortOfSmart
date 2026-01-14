@@ -4,7 +4,6 @@ import com.google.gson.JsonPrimitive;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.ContainerRenderable;
-import net.lucent.easygui.interfaces.complex_events.Sticky;
 import net.lucent.easygui.interfaces.events.Clickable;
 import net.lucent.easygui.templating.actions.IAction;
 import net.lucent.easygui.templating.registry.EasyGuiRegistries;
@@ -19,12 +18,11 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.PhysiqueDataContainer;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.path_data.DisplayPathDataContainer;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.TechniqueDataContainer;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -69,7 +67,7 @@ public class ModActions {
                                 renderable.getRoot().addChild(new TechniqueDataContainer(renderable.getScreen(),0,0, ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique));
                             } else if (id.equals("physique_data")) {
 
-                                renderable.getRoot().addChild(new PhysiqueDataContainer(renderable.getScreen(),0,0,player.getData(ModAttachments.PHYSIQUE)));
+                                renderable.getRoot().addChild(new PhysiqueDataContainer(renderable.getScreen(),0,0,player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString()));
                             }
                             
                             //renderable.getRoot().addChild(new DraggableDataContainer(renderable.getScreen(),0,0));
@@ -125,7 +123,7 @@ public class ModActions {
                     else if(attribute.equals("Jump Strength")){
                         label.text =  Component.literal(formatter.format(player.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue()));
                     }else if(attribute.equals("Physique")){
-                        String physique = player.getData(ModAttachments.PHYSIQUE);
+                        String physique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString();
                         if(physique == null) label.text = Component.literal("ascension:empty_vessel");
                         else{
                             label.text =

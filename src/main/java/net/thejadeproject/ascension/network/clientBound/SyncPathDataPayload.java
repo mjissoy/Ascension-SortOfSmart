@@ -11,7 +11,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import net.thejadeproject.ascension.events.custom.client.PlayerCultivationChanged;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public record SyncPathDataPayload(String pathId,int majorRealm,int minorRealm,double progress,String technique,double stabilityTicks) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SyncPathDataPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sync_path_data"));

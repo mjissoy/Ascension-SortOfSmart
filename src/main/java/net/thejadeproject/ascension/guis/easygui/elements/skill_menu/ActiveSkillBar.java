@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.skill_slots.SkillBarSkillSlot;
-import net.thejadeproject.ascension.util.ModAttachments;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.List;
 
@@ -23,7 +23,8 @@ public class ActiveSkillBar extends Image {
     private final PlayerSkillData.ActiveSkillContainer activeSkillContainer;
 
     public String getSelectedSkillId(){
-        return activeSkillContainer.getSkillIdList().get(selectedSkill);
+        ResourceLocation id = activeSkillContainer.getSkillIdList().get(selectedSkill).skillId;
+        return id == null ? "":id.toString();
     }
 
     public ActiveSkillBar(IEasyGuiScreen easyGuiScreen,int x, int y){

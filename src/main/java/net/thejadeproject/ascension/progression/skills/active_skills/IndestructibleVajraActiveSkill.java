@@ -15,6 +15,9 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.progression.skills.data.CastType;
 import net.thejadeproject.ascension.progression.skills.data.ISkillData;
 import net.thejadeproject.ascension.util.ModAttachments;
@@ -68,15 +71,8 @@ public class IndestructibleVajraActiveSkill extends AbstractActiveSkill {
         return 0;
     }
 
-    @Override
-    public ISkillData getSkillData() {
-        return null;
-    }
 
-    @Override
-    public ISkillData decode(RegistryFriendlyByteBuf buf) {
-        return null;
-    }
+
 
     @Override
     public void cast(int castingTicksElapsed, Level level, Player player) {

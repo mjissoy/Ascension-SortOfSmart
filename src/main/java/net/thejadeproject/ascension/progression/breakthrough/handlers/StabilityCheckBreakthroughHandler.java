@@ -15,16 +15,12 @@ import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Supplier;
 
 public class StabilityCheckBreakthroughHandler implements IBreakthroughHandler {
-    private static final int TRIBULATION_START_MAJOR_REALM = 3;
-    private static final float BASE_TRIBULATION_SURVIVAL_CHANCE = 0.7f;
-    private static final float TRIBULATION_CHANCE_DECREASE_PER_REALM = 0.05f;
-    private static final int BASE_LIGHTNING_COUNT = 3;
-    private static final int LIGHTNING_INCREASE_PER_REALM = 2;
-
     @Override
     public IBreakthroughData getBreakthroughData(CompoundTag tag) {
         return null;

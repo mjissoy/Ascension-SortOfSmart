@@ -93,19 +93,7 @@ public class PhysiqueDataContainer extends DraggableDataContainer{
         textArea.addChild(skillListTitleLabel);
 
 
-        MutableComponent skillListText = Component.empty();
-        List<AcquirableSkillData> skillList = physique.getSkillList().getSkillList();
-        for (AcquirableSkillData acquirableSkillData : skillList) {
-            //TODO change text color if unlocked or locked
-            //TODO replace aquirableSkillData
-            skillListText.append("\n").append(acquirableSkillData.asComponent());
-        }
-        Label skillListLabel = new Label(easyGuiScreen,0, (int) (daoY+skillListTitleLabel.getHeight()*0.5+5),skillListText);
-        skillListLabel.setWrap(true);
-        skillListLabel.setWidth(textArea.getWidth()*2);
-        skillListLabel.useCustomScaling = true;
-        skillListLabel.setCustomScale(0.5);
-        textArea.addChild(skillListLabel);
+
 
     }
 }

@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -18,17 +17,19 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.NetworkHandler;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
-import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
 import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionEarth;
 import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionHeaven;
-import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionHuman;
 import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
 import net.thejadeproject.ascension.guis.easygui.screens.SelectSkillMenu;
 import net.thejadeproject.ascension.guis.easygui.screens.SkillMenuScreen;
 import net.thejadeproject.ascension.network.serverBound.ServerCastSkillPayload;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @OnlyIn(Dist.CLIENT)
 public class KeyBindHandler {
@@ -70,11 +71,15 @@ public class KeyBindHandler {
     public static void keyInputEvents(InputEvent.Key event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null && minecraft.getConnection() == null) return;
-
+        /*
         if (CAST_SKILL_KEY.consumeClick()) {
             PacketDistributor.sendToServer(new ServerCastSkillPayload());
         }
-        // a bit hacky
+
+
+         */
+
+        //a bit hacky
         if (event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 1) {
             // Open menu
             if (minecraft.screen == null) {
@@ -92,8 +97,10 @@ public class KeyBindHandler {
                 SelectSkillMenu.close();
             }
         }
-    }
 
+
+    }
+    public static Set<KeyMapping> state = new HashSet<>();
     public static void handleKeyInputEvent(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null && minecraft.getConnection() == null) return;

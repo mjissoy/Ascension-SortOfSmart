@@ -1,19 +1,15 @@
 package net.thejadeproject.ascension.events;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.MilkBucketItem;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import net.neoforged.neoforge.event.village.WandererTradesEvent;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -37,7 +33,7 @@ public class ModEvents {
             //Body Tech
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 32),
-                    new ItemStack(ModTechniques.FIRE_ELEMENTAL_TECHNIQUE.manual.get(), 1), 4, 10, 0.2f
+                    new ItemStack(  ModTechniques.FIRE_ELEMENTAL_TECHNIQUE.manual.get(), 1), 4, 10, 0.2f
             ));
             trades.get(5).add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE, 32),
