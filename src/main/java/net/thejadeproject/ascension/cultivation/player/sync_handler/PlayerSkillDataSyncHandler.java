@@ -88,7 +88,10 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
             }
         }
         else{
-            
+            System.out.println("writing skill buffer to client");
+            attachment.printActiveSkills();
+            System.out.println(attachment.getActiveSkillBuffer().size());
+            System.out.println(attachment.getPassiveSkillBuffer().size());
             buf.writeBoolean(!attachment.getActiveSkillBuffer().isEmpty());
             if(!attachment.getActiveSkillBuffer().isEmpty()){
                 
@@ -182,6 +185,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 for(int i = 0;i<skills;i++){
                     boolean action = buf.readBoolean();
                     PlayerSkillData.SkillMetaData skillMetaData = decodeSkillMetaData(buf);
+                    System.out.println("trying to modify skill on the client");
                     if(action) previousValue.addActiveSkill(skillMetaData.skillId, skillMetaData.fixed,skillMetaData.permanent, skillMetaData.data);
                     else previousValue.removeActiveSkill(skillMetaData.skillId);
                 }
@@ -222,7 +226,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 previousValue.activeSkillContainer.slotSkill(skillId,preCastSkillData,i);
             }
 
-
+            previousValue.clearSkillBuffers();
             return previousValue;
         }
 

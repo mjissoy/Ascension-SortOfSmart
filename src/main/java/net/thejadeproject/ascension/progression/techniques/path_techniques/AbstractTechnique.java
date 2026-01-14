@@ -144,22 +144,14 @@ public abstract class AbstractTechnique implements ITechnique {
     }
 
     @Override
-    public void onRemoveTechnique(Player player) {
-        CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getPath());
+    public void onRemoveTechnique(Player player,ITechniqueData data) {
 
-        RealmChangeEvent event = new RealmChangeEvent(
-                player,getPath(),
-                pathData.majorRealm,-1,pathData.minorRealm,-1,
-                0,null
-        );
-        //no need to call onRealmChange myself
-        NeoForge.EVENT_BUS.post(event);
     }
 
     //TODO add some sort of path registry and use that for this
     @Override
     public void onTechniqueAcquisition(Player player) {
-        RealmChangeEvent event = new RealmChangeEvent(player,getPath(),-1,0,-1,0,0,null);
+        RealmChangeEvent event = new RealmChangeEvent.Post(player,getPath(),-1,0,-1,0,0,null);
         updatePlayerSkills(event);
     }
 

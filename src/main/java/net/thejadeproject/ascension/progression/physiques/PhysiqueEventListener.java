@@ -25,7 +25,7 @@ public class PhysiqueEventListener{
         }
     }
     @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public static void onRealmChange(RealmChangeEvent event){
+    public static void onRealmChange(RealmChangeEvent.Post event){
         if(event.player.hasData(ModAttachments.PHYSIQUE)){
             IPhysique physique = event.player.getData(ModAttachments.PHYSIQUE).getPhysique();
             if(physique != null)  physique.onRealmChangeEvent(event);

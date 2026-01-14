@@ -56,7 +56,7 @@ public interface ITechnique {
     //run when a player acquires a Technique
     void onTechniqueAcquisition(Player player);
 
-    default void onRemoveTechnique(Player player){}
+    default void onRemoveTechnique(Player player,ITechniqueData data){}
 
     String getPath();
 

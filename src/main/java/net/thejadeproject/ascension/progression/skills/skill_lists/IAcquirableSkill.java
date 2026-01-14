@@ -17,6 +17,7 @@ public interface IAcquirableSkill {
             System.out.println("realm increased");
             onRealmIncrease(event);
         }else{
+            System.out.println("realm decreased");
             onRealmDecrease(event);
         }
     }

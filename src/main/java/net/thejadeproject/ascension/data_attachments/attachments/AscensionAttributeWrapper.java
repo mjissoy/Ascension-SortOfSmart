@@ -278,7 +278,7 @@ public class AscensionAttributeWrapper {
     public static Set<IAttributeModifier> intersect(Set<IAttributeModifier> set1,Set<IAttributeModifier> set2){
         return set1.stream().filter(set2::contains).collect(Collectors.toSet());
     }
-    public Set<IAttributeModifier> getAllModifiers(){
+    private Set<IAttributeModifier> getAllModifiers(){
         Set<IAttributeModifier> finalSet = new HashSet<>();
         for(HashSet<IAttributeModifier> set : stateGroupedAttributes.values()){
             finalSet = union(finalSet,set);
@@ -310,6 +310,19 @@ public class AscensionAttributeWrapper {
         attributeGroupedAttributes.get(modifier.getAttribute()).remove(modifier);
 
         if(!modifier.isDisabled()) modifier.remove(entity);
+    }
+    private void reset(){
+        stateGroupedAttributes = new HashMap<>();
+        idGroupedAttributes = new HashMap<>();
+        attributeGroupedAttributes = new HashMap<>();
+        groupGroupedAttributes = new HashMap<>();
+    }
+    public void removeAllNonPermanentModifiers(){
+        for(IAttributeModifier modifier:getAllModifiers()){
+            if(!modifier.isDisabled()) modifier.remove(entity);
+        }
+        reset();
+
     }
     public void loadNBTData(CompoundTag compoundTag, HolderLookup.Provider provider) {
         ListTag listTag = compoundTag.getList("modifiers",Tag.TAG_COMPOUND);

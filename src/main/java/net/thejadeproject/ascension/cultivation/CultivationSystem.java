@@ -118,10 +118,12 @@ public class CultivationSystem {
 
                 return false;
             }else{
-                NeoForge.EVENT_BUS.post(new RealmChangeEvent(
+                RealmChangeEvent.Pre pre = new RealmChangeEvent.Pre(
                         player,path, pathData.majorRealm,pathData.majorRealm,
-                        pathData.minorRealm,minorRealm,0,null));
+                        pathData.minorRealm,minorRealm,0,null);
+                NeoForge.EVENT_BUS.post(pre);
                 pathData.minorRealm = minorRealm;
+                NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(pre));
             }
         }
         pathData.pathProgress = progress;

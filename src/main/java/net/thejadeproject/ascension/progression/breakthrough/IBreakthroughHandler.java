@@ -39,7 +39,7 @@ public interface IBreakthroughHandler {
                 pathData.technique,
                 ':'
         ));
-        RealmChangeEvent event = new RealmChangeEvent(
+        RealmChangeEvent.Pre event = new RealmChangeEvent.Pre(
                 player,
                 pathId,
                 pathData.majorRealm,
@@ -50,10 +50,10 @@ public interface IBreakthroughHandler {
 
         );
 
-
+        NeoForge.EVENT_BUS.post(event);
         pathData.increaseMajorRealm();
         PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
-        NeoForge.EVENT_BUS.post(event);
+        NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(event));
     }
 
     Supplier<IBreakthroughData> getBreakthroughDataInstance();

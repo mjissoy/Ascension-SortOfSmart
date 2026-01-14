@@ -60,7 +60,7 @@ public class GenericPhysique implements IPhysique{
     @Override
     public void onRealmChangeEvent(RealmChangeEvent event) {
         IPhysique.super.onRealmChangeEvent(event);
-        if(event.getMajorRealmsChanged() < 0 ||(event.getMajorRealmsChanged() == 0 && event.getTotalMinorRealmsChanged() <0) ) return;
+
         updatePlayerSkills(
                 event.player,
                 event.pathId,

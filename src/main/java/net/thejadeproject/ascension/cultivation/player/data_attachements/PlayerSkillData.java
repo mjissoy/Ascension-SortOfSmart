@@ -274,6 +274,7 @@ public class PlayerSkillData {
         passiveSkillBuffer.add(new Pair<>(true,passiveSkillHashMap.get(skillId)));
     }
     public void removeSkill(String skillId){
+        System.out.println("trying to remove skill on server");
         removePassiveSkill(skillId);
         removeActiveSkill(skillId);
         triggerSkillRemoval(skillId);
@@ -282,13 +283,19 @@ public class PlayerSkillData {
     //removes even if fixed so make sure to check
     public void removePassiveSkill(String skillId){
         if(!passiveSkillHashMap.containsKey(skillId)) return;
+        System.out.println("removing passive");
         passiveSkillBuffer.add(new Pair<>(false,passiveSkillHashMap.remove(skillId)));
     }
     //removes even if fixed so make sure to check
     public void removeActiveSkill(String skillId){
+        System.out.println("trying to remove active skill : "+skillId);
+        System.out.println("map has ("+activeSkillHashMap.keySet().toString()+") skills" );
         if(!activeSkillHashMap.containsKey(skillId)) return;
         ResourceLocation skillResource = ResourceLocation.bySeparator(skillId,':');
+        System.out.println("removing active skill");
+        System.out.println(activeSkillBuffer.size());
         activeSkillBuffer.add(new Pair<>(false,activeSkillHashMap.remove(skillId)));
+        System.out.println(activeSkillBuffer.size());
         if(activeSkillContainer.hasSkill(skillResource)) activeSkillContainer.unSlotSkill(skillResource);
     }
     public void triggerSkillRemoval(String skillId){
@@ -296,6 +303,9 @@ public class PlayerSkillData {
         ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(id);
         if(skill == null) return;
         skill.onSkillRemoved(player);
+    }
+    public void printActiveSkills(){
+        System.out.println("map has ("+activeSkillHashMap.keySet().toString()+") skills" );
     }
     public void removeAllSkills(){
         for(SkillMetaData data : getActiveSkills()){

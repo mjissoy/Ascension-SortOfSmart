@@ -2,9 +2,11 @@ package net.thejadeproject.ascension.events.custom.cultivation;
 
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
+import net.neoforged.bus.api.ICancellableEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughData;
 
-public class RealmChangeEvent extends Event {
+public abstract class RealmChangeEvent extends Event {
     public  final Player player;
     public final String pathId;
     public final int oldMajorRealm;
@@ -26,14 +28,21 @@ public class RealmChangeEvent extends Event {
 
     }
 
+    public static class Pre extends RealmChangeEvent {
 
-    //TODO modify
-    public int getTotalMinorRealmsChanged(){
-        int totalOldMinorRealms = oldMajorRealm*9+oldMinorRealm;
-        int totalNewMinorRealms = newMajorRealm*9+newMinorRealm;
-        return totalNewMinorRealms-totalOldMinorRealms;
+        public Pre(Player player, String pathId, int oldMajorRealm, int newMajorRealm, int oldMinorRealm, int newMinorRealm, double stability, IBreakthroughData breakthroughData) {
+            super(player, pathId, oldMajorRealm, newMajorRealm, oldMinorRealm, newMinorRealm, stability, breakthroughData);
+        }
     }
-    public int getMajorRealmsChanged(){
-        return newMajorRealm-oldMajorRealm;
+    public static class Post extends RealmChangeEvent{
+
+        public Post(Player player, String pathId, int oldMajorRealm, int newMajorRealm, int oldMinorRealm, int newMinorRealm, double stability, IBreakthroughData breakthroughData) {
+            super(player, pathId, oldMajorRealm, newMajorRealm, oldMinorRealm, newMinorRealm, stability, breakthroughData);
+        }
+        public Post(RealmChangeEvent.Pre previousEvent){
+            super(previousEvent.player,previousEvent.pathId,previousEvent.oldMajorRealm,previousEvent.newMajorRealm,previousEvent.oldMinorRealm,previousEvent.newMinorRealm,previousEvent.stability,previousEvent.breakthroughData);
+        }
     }
+
+
 }
