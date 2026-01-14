@@ -12,8 +12,6 @@ import net.thejadeproject.ascension.progression.skills.skill_lists.AcquirableSki
 import java.util.HashMap;
 import java.util.List;
 
-import static net.thejadeproject.ascension.progression.physiques.CustomAttributesPhysiques.*;
-
 public class ModPhysiques {
 
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);
@@ -53,12 +51,11 @@ public class ModPhysiques {
                         put("ascension:yang", 1.2);
                     }})
                     .setDescription(Component.empty()
-                                    .append("§7Human Tier - Common speed physique\n")
-                                    .append("§8Body harmonizes with wind, granting incredible speed\n\n")
-
-                                    .append("§e◆ §fGrowth: Move faster than the eye can see\n")
-                                    .append("§e◆ §fPath: Speed → Precision → Afterimages\n")
-                                    .append("§e◆ §fWeakness: Fragile body, low defense")
+                            .append("§7Human Tier - Common speed physique\n")
+                            .append("§8Body harmonizes with wind, granting incredible speed\n\n")
+                            .append("§e◆ §fGrowth: Move faster than the eye can see\n")
+                            .append("§e◆ §fPath: Speed → Precision → Afterimages\n")
+                            .append("§e◆ §fWeakness: Fragile body, low defense")
                     )
     );
 
@@ -75,12 +72,11 @@ public class ModPhysiques {
                         put("ascension:earth", 1.0);
                     }})
                     .setDescription(Component.empty()
-                                    .append("§7Human Tier - Internal strength physique\n")
-                                    .append("§8Marrow turns to iron, strengthening bones from within\n\n")
-
-                                    .append("§e◆ §fGrowth: Refine bone marrow through combat\n")
-                                    .append("§e◆ §fPath: Endurance → Internal Strength → Unbreakable Bones\n")
-                                   .append("§e◆ §fWeakness: Heavy, limited agility")
+                            .append("§7Human Tier - Internal strength physique\n")
+                            .append("§8Marrow turns to iron, strengthening bones from within\n\n")
+                            .append("§e◆ §fGrowth: Refine bone marrow through combat\n")
+                            .append("§e◆ §fPath: Endurance → Internal Strength → Unbreakable Bones\n")
+                            .append("§e◆ §fWeakness: Heavy, limited agility")
                     )
     );
 
@@ -124,11 +120,10 @@ public class ModPhysiques {
                     .setDescription(Component.empty()
                             .append("§2Earth Tier - Essence channeling physique\n")
                             .append("§dMeridians crystallize, allowing pure essence flow\n\n")
-                   
                             .append("§e◆ §fGrowth: Purify essence through meditation\n")
                             .append("§e◆ §fPath: Clarity → Reflection → Crystalline Perfection\n")
                             .append("§e◆ §fWeakness: Brittle, shatters under extreme force"
-                    ))
+                            ))
     );
 
     // 6. Thunderclap Physique (Earth Tier) - Lightning speed and power
@@ -147,7 +142,6 @@ public class ModPhysiques {
                     .setDescription(Component.empty()
                             .append("§2Earth Tier - Lightning affinity physique\n")
                             .append("§eBody resonates with thunder, strikes with lightning speed\n\n")
-
                             .append("§e◆ §fGrowth: Cultivate during thunderstorms\n")
                             .append("§e◆ §fPath: Speed → Power → Lightning Embodiment\n")
                             .append("§e◆ §fWeakness: Conducts electricity, weak to grounding")
@@ -173,7 +167,7 @@ public class ModPhysiques {
                             .append("§e◆ §fGrowth: Consume life essence from foes\n")
                             .append("§e◆ §fPath: Vitality → Absorption → Immortal Blood\n")
                             .append("§e◆ §fWeakness: Bleeds easily, weak to purification"
-                    ))
+                            ))
     );
 
 // ========== HEAVEN TIER PHYSIQUES ==========
@@ -196,7 +190,6 @@ public class ModPhysiques {
                             .append("§bHeaven Tier - Divine lightning physique\n")
                             .append("§6Born with the blessing of thunder gods\n")
                             .append("§eCan call upon heavenly tribulation lightning\n\n")
-
                             .append("§e◆ §fGrowth: Survive heavenly tribulations\n")
                             .append("§e◆ §fPath: Thunder → Tribulation → Heavenly Wrath\n")
                             .append("§e◆ §fWeakness: Water conducts own lightning back")
@@ -221,7 +214,6 @@ public class ModPhysiques {
                             .append("§bHeaven Tier - Rebirth physique\n")
                             .append("§cCarries the bloodline of the immortal phoenix\n")
                             .append("§6Can be reborn from ashes, stronger each time\n\n")
-
                             .append("§e◆ §fGrowth: Die and be reborn through fire\n")
                             .append("§e◆ §fPath: Fire → Rebirth → Phoenix God\n")
                             .append("§e◆ §fWeakness: Extreme cold stops rebirth cycle")
@@ -270,7 +262,6 @@ public class ModPhysiques {
                             .append("§bHeaven Tier - Spatial physique\n")
                             .append("§8Born between realms, attuned to the void\n")
                             .append("§7Can walk through space and vanish from existence\n\n")
-
                             .append("§e◆ §fGrowth: Meditate in spatial rifts\n")
                             .append("§e◆ §fPath: Teleport → Spatial Cut → Void God\n")
                             .append("§e◆ §fWeakness: Light-based techniques disrupt void")
@@ -295,7 +286,6 @@ public class ModPhysiques {
                             .append("§bHeaven Tier - Solar physique\n")
                             .append("§eBody contains a miniature sun within dantian\n")
                             .append("§6Can unleash solar flares of immense power\n\n")
-
                             .append("§e◆ §fGrowth: Absorb sunlight at noon\n")
                             .append("§e◆ §fPath: Heat → Light → Solar Deity\n")
                             .append("§e◆ §fWeakness: Night weakens power, lunar attacks")
@@ -320,7 +310,6 @@ public class ModPhysiques {
                             .append("§bHeaven Tier - Lunar physique\n")
                             .append("§bBlessed by the moon goddess\n")
                             .append("§3Can manipulate shadows and moonlight\n\n")
-
                             .append("§e◆ §fGrowth: Cultivate under full moon\n")
                             .append("§e◆ §fPath: Shadow → Reflection → Lunar Deity\n")
                             .append("§e◆ §fWeakness: Sunlight weakens abilities")
@@ -345,10 +334,9 @@ public class ModPhysiques {
                             .append("§bHeaven Tier - Soul-based physique\n")
                             .append("§dSoul is anchored to multiple existences\n")
                             .append("§5Can survive soul destruction and re-anchor\n\n")
-
                             .append("§e◆ §fGrowth: Survive soul-damaging attacks\n")
                             .append("§e◆ §fPath: Stability → Anchoring → Eternal Soul\n")
-                            .append("§e◆ §fWeakness: Soul-severing techniques\n")
+                            .append("§e◆ §fWeakness: Soul-severing techniques")
                     )
     );
 
@@ -373,7 +361,6 @@ public class ModPhysiques {
                             .append("§dAscension Tier - Demonic cultivation physique\n")
                             .append("§4Born from the union of heavenly and demonic energies\n")
                             .append("§cCan defy heaven itself, cultivating through slaughter\n\n")
-
                             .append("§e◆ §fGrowth: Kill powerful beings and absorb their essence\n")
                             .append("§e◆ §fPath: Slaughter → Demonic Energy → Heavenly Demon\n")
                             .append("§e◆ §fWeakness: Heavenly tribulations are 10x stronger")
@@ -399,7 +386,6 @@ public class ModPhysiques {
                             .append("§dAscension Tier - Balance physique\n")
                             .append("§fEmbodies the perfect balance of cosmic forces\n")
                             .append("§7Can manipulate both creation and destruction\n\n")
-
                             .append("§e◆ §fGrowth: Balance opposing forces within\n")
                             .append("§e◆ §fPath: Harmony → Balance → Cosmic Unity\n")
                             .append("§e◆ §fWeakness: Chaos disrupts the balance")
@@ -425,7 +411,6 @@ public class ModPhysiques {
                             .append("§dAscension Tier - Chaos origin physique\n")
                             .append("§5Born from the primordial chaos before creation\n")
                             .append("§dCan manipulate the fabric of reality itself\n\n")
-
                             .append("§e◆ §fGrowth: Create and destroy worlds\n")
                             .append("§e◆ §fPath: Chaos → Primordial → Reality Weaver\n")
                             .append("§e◆ §fWeakness: Order-based divine techniques")
@@ -451,7 +436,6 @@ public class ModPhysiques {
                             .append("§dAscension Tier - Reincarnation mastery\n")
                             .append("§3Has lived through countless lifetimes\n")
                             .append("§bRemembers all past lives and their skills\n\n")
-
                             .append("§e◆ §fGrowth: Awaken past life memories\n")
                             .append("§e◆ §fPath: Memory → Rebirth → Eternal Cycle\n")
                             .append("§e◆ §fWeakness: Karma accumulates from past lives")
@@ -477,7 +461,6 @@ public class ModPhysiques {
                             .append("§dAscension Tier - Ultimate sword physique\n")
                             .append("§8Every cell resonates with sword intent\n")
                             .append("§7Can cut through space, time, and concepts\n\n")
-
                             .append("§e◆ §fGrowth: Comprehend deeper sword laws\n")
                             .append("§e◆ §fPath: Sword → Domain → Sword Saint\n")
                             .append("§e◆ §fWeakness: Completely focused on sword, lacks versatility")
@@ -503,7 +486,6 @@ public class ModPhysiques {
                             .append("§dAscension Tier - Ultimate devouring physique\n")
                             .append("§0Can devour stars, worlds, and eventually universes\n")
                             .append("§8Grows stronger by consuming everything\n\n")
-
                             .append("§e◆ §fGrowth: Consume higher quality energy sources\n")
                             .append("§e◆ §fPath: Consumption → Black Hole → Universe Devourer\n")
                             .append("§e◆ §fWeakness: Divine seals and spatial locks")
@@ -536,17 +518,45 @@ public class ModPhysiques {
                     ))
                     .setDescription(
                             Component.empty()
-                                            .append("§6Born from chaos, defying heaven's will.\n")
-                                            .append("§7A physique that grows through conflict and rebellion.\n\n")
-                                            .append("§e◆ §fGrowth: Survive what should break you\n")
-                                            .append("§e◆ §fPath: Conflict → Resilience → Defiance\n")
-                                            .append("§e◆ §fWeakness: Susceptible to order-based attacks")
-                     )
+                                    .append("§6Born from chaos, defying heaven's will.\n")
+                                    .append("§7A physique that grows through conflict and rebellion.\n\n")
+                                    .append("§e◆ §fGrowth: Survive what should break you\n")
+                                    .append("§e◆ §fPath: Conflict → Resilience → Defiance\n")
+                                    .append("§e◆ §fWeakness: Susceptible to order-based attacks")
+                    )
     );
 
+    // Ascension Tier - Nine-Tailed Kitsune
+    public static final DeferredHolder<IPhysique,GenericPhysique> NINE_TAILED_KITSUNE_PHYSIQUE = PHYSIQUES.register("nine_tailed_kitsune_physique",
+            ()-> new GenericPhysique("Nine-Tailed Kitsune Physique",
+                    new HashMap<>(){{
+                        put("ascension:intent", 0.7);    // High intent for illusions
+                        put("ascension:body", 0.6);      // Moderate body focus
+                        put("ascension:essence", 1.2);   // High essence focus (fox nature)
+                    }},
+                    new HashMap<>(){{
+                        put("ascension:yin", 3.0);           // Yin-aligned, moon affinity
+                        put("ascension:fire", 1.5);          // Foxfire/divine flames
+                    }})
+                    .setSkillList(List.of(
+                            new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"kitsune_illusion_basic"),false,false),
+                            new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"foxfire_manipulation"),false,false),
+                            new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"tail_multiplier_passive"),false,false)
+                    ))
+                    .setDescription(Component.empty()
+                            .append("§dAscension Tier - Divine fox spirit physique\n")
+                            .append("§dBorn under the celestial moon, blessed by ancient fox spirits.\n")
+                            .append("§7A physique that grows through wisdom, age, and spiritual cultivation.\n\n")
+                            .append("§e◆ §fGrowth: Gain one tail per major realm starting from Realm 4\n")
+                            .append("§e◆ §fPath: Wisdom → Illusion → Celestial Transcendence\n")
+                            .append("§e◆ §fWeakness: Vulnerable to pure yang and purification techniques\n\n")
+                            .append("§5[Tail Progression]\n")
+                            .append("§7Realm 4-12: Gain +1 tail per realm (9 tails max)\n")
+                            .append("§7Each tail grants bonus stats and unlocks abilities")
+                    )
+    );
 
-
-
+    // Human Tier - Empty Vessel
     public static final DeferredHolder<IPhysique,GenericPhysique> EMPTY_VESSEL = PHYSIQUES.register("empty_vessel",
             ()-> new GenericPhysique("Empty Vessel",
                     new HashMap<>(){{
@@ -555,6 +565,14 @@ public class ModPhysiques {
                         put("ascension:essence",0.1);
                     }},
                     new HashMap<>())
+                    .setDescription(Component.empty()
+                            .append("§7Human Tier - Blank slate physique\n")
+                            .append("§8No inherent advantages but no weaknesses either\n")
+                            .append("§7Can be shaped by any cultivation path\n\n")
+                            .append("§e◆ §fGrowth: Adapt to any cultivation method\n")
+                            .append("§e◆ §fPath: Blank Slate → Flexibility → Any Specialization\n")
+                            .append("§e◆ §fWeakness: No natural strengths, must work harder")
+                    )
     );
 
     // Earth Tier - Pure Sword Body (updated)
@@ -568,7 +586,17 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:sword_intent",3.0);
                     }})
-            );
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Sword specialization physique\n")
+                            .append("§aBody resonates perfectly with sword intent\n")
+                            .append("§7Naturally drawn to sword cultivation techniques\n\n")
+                            .append("§e◆ §fGrowth: Master sword techniques faster\n")
+                            .append("§e◆ §fPath: Sword Sense → Sword Intent → Sword Mastery\n")
+                            .append("§e◆ §fWeakness: Weak against blunt force attacks")
+                    )
+    );
+
+    // Earth Tier - Pure Spear Body (updated)
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_SPEAR_BODY = PHYSIQUES.register("pure_spear_body",
             ()-> new GenericPhysique("Pure Spear Body",
                     new HashMap<>(){{
@@ -579,6 +607,14 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:spear_intent",3.0);
                     }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Spear specialization physique\n")
+                            .append("§aBody resonates with spear techniques\n")
+                            .append("§7Excels at thrusting and piercing attacks\n\n")
+                            .append("§e◆ §fGrowth: Master spear techniques faster\n")
+                            .append("§e◆ §fPath: Piercing → Thrusting → Spear Mastery\n")
+                            .append("§e◆ §fWeakness: Vulnerable at close range")
+                    )
     );
 
     // Earth Tier - Pure Axe Body (updated)
@@ -592,6 +628,14 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:axe_intent",3.0);
                     }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Axe specialization physique\n")
+                            .append("§aBody resonates with axe techniques\n")
+                            .append("§7Excels at powerful cleaving attacks\n\n")
+                            .append("§e◆ §fGrowth: Master axe techniques faster\n")
+                            .append("§e◆ §fPath: Cleaving → Chopping → Axe Mastery\n")
+                            .append("§e◆ §fWeakness: Slow attack speed")
+                    )
     );
 
     // Earth Tier - Pure Blade Body (updated)
@@ -605,6 +649,14 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:blade_intent",3.0);
                     }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Blade specialization physique\n")
+                            .append("§aBody resonates with blade techniques\n")
+                            .append("§7Excels at slashing and cutting attacks\n\n")
+                            .append("§e◆ §fGrowth: Master blade techniques faster\n")
+                            .append("§e◆ §fPath: Slashing → Cutting → Blade Mastery\n")
+                            .append("§e◆ §fWeakness: Less effective against armor")
+                    )
     );
 
     // Earth Tier - Pure Fist Body (updated)
@@ -621,9 +673,17 @@ public class ModPhysiques {
                     .setSkillList(List.of(
                             new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"fist_aura_skill"),false,false)
                     ))
-                    .setDescription(Component.literal("my fist is my body and my body is my fist"))
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Unarmed specialization physique\n")
+                            .append("§aMy fist is my body and my body is my fist\n")
+                            .append("§7Body is a weapon, no need for external arms\n\n")
+                            .append("§e◆ §fGrowth: Strengthen fists through combat\n")
+                            .append("§e◆ §fPath: Fist → Body Weapon → Unarmed Mastery\n")
+                            .append("§e◆ §fWeakness: Limited range")
+                    )
     );
 
+    // Earth Tier - Pure Water Body (updated)
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_WATER_BODY = PHYSIQUES.register("pure_water_body",
             ()-> new GenericPhysique("Pure Water Body",
                     new HashMap<>(){{
@@ -634,6 +694,14 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:water",3.0);
                     }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Water element physique\n")
+                            .append("§9Body harmonizes with water essence\n")
+                            .append("§7Excels at fluid, adaptive techniques\n\n")
+                            .append("§e◆ §fGrowth: Cultivate near water sources\n")
+                            .append("§e◆ §fPath: Flow → Adaptation → Water Mastery\n")
+                            .append("§e◆ §fWeakness: Weak to earth-based techniques")
+                    )
     );
 
     // Earth Tier - Pure Earth Body (updated)
@@ -647,6 +715,14 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:earth",3.0);
                     }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Earth element physique\n")
+                            .append("§eBody harmonizes with earth essence\n")
+                            .append("§7Excels at defensive, stable techniques\n\n")
+                            .append("§e◆ §fGrowth: Cultivate on solid ground\n")
+                            .append("§e◆ §fPath: Stability → Defense → Earth Mastery\n")
+                            .append("§e◆ §fWeakness: Weak to wood-based techniques")
+                    )
     );
 
     // Earth Tier - Pure Fire Body (updated)
@@ -660,7 +736,14 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:fire",3.0);
                     }})
-
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Fire element physique\n")
+                            .append("§cBody harmonizes with fire essence\n")
+                            .append("§7Excels at explosive, aggressive techniques\n\n")
+                            .append("§e◆ §fGrowth: Cultivate in fiery environments\n")
+                            .append("§e◆ §fPath: Heat → Destruction → Fire Mastery\n")
+                            .append("§e◆ §fWeakness: Weak to water-based techniques")
+                    )
     );
 
     // Earth Tier - Pure Wood Body (updated)
@@ -674,8 +757,17 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:wood",3.0);
                     }})
-
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Wood element physique\n")
+                            .append("§aBody harmonizes with wood essence\n")
+                            .append("§7Excels at healing, growing techniques\n\n")
+                            .append("§e◆ §fGrowth: Cultivate in forests\n")
+                            .append("§e◆ §fPath: Growth → Healing → Wood Mastery\n")
+                            .append("§e◆ §fWeakness: Weak to metal-based techniques")
+                    )
     );
+
+    // Earth Tier - Pure Metal Body (updated)
     public static final DeferredHolder<IPhysique,GenericPhysique> PURE_METAL_BODY = PHYSIQUES.register("pure_metal_body",
             ()-> new GenericPhysique("Pure Metal Body",
                     new HashMap<>(){{
@@ -686,7 +778,14 @@ public class ModPhysiques {
                     new HashMap<>(){{
                         put("ascension:metal",3.0);
                     }})
-
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Metal element physique\n")
+                            .append("§7Body harmonizes with metal essence\n")
+                            .append("§fExcels at sharp, precise techniques\n\n")
+                            .append("§e◆ §fGrowth: Cultivate near metal deposits\n")
+                            .append("§e◆ §fPath: Sharpness → Precision → Metal Mastery\n")
+                            .append("§e◆ §fWeakness: Weak to fire-based techniques")
+                    )
     );
 
     // Human Tier - Iron Bone Physique (updated)
@@ -707,7 +806,6 @@ public class ModPhysiques {
                             .append("§7Human Tier - Durable bone structure\n")
                             .append("§8Bones strengthened with metal essence\n")
                             .append("§7Resistant to breaking and fractures\n\n")
-
                             .append("§e◆ §fGrowth: Strengthen bones through impact\n")
                             .append("§e◆ §fPath: Durability → Resilience → Unbreakable Bones\n")
                             .append("§e◆ §fWeakness: Heavy, less agile")
@@ -729,7 +827,6 @@ public class ModPhysiques {
                             .append("§7Human Tier - Fire-resistant skin\n")
                             .append("§cSkin naturally resistant to heat and flames\n")
                             .append("§7Can withstand high temperatures\n\n")
-
                             .append("§e◆ §fGrowth: Expose skin to increasing heat\n")
                             .append("§e◆ §fPath: Heat Resistance → Fire Immunity → Flame Body\n")
                             .append("§e◆ §fWeakness: Vulnerable to cold")
@@ -745,8 +842,16 @@ public class ModPhysiques {
                         put("ascension:essence",0.4);
                     }},
                     new HashMap<>(){{
-                        put("ascension:poison",1.2);
+                        put("ascension:poison",1.8);
                     }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Poison affinity physique\n")
+                            .append("§5Body resistant to and capable of producing poisons\n")
+                            .append("§7Can cultivate poison-based techniques\n\n")
+                            .append("§e◆ §fGrowth: Consume and resist various poisons\n")
+                            .append("§e◆ §fPath: Poison Resistance → Poison Creation → Poison Mastery\n")
+                            .append("§e◆ §fWeakness: Vulnerable to purification techniques")
+                    )
     );
 
     // Earth Tier - Sacred Sapling Physique (updated)
@@ -761,8 +866,17 @@ public class ModPhysiques {
                         put("ascension:wood",1.8);
                         put("ascension:life",1.5);
                     }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Nature affinity physique\n")
+                            .append("§aBody connected to plant life and growth\n")
+                            .append("§7Can cultivate nature-based techniques\n\n")
+                            .append("§e◆ §fGrowth: Cultivate in natural environments\n")
+                            .append("§e◆ §fPath: Plant Connection → Growth → Nature Mastery\n")
+                            .append("§e◆ §fWeakness: Vulnerable to fire and metal")
+                    )
     );
 
+    // Earth Tier - Suppressed Yin Physique (updated)
     public static final DeferredHolder<IPhysique,GenericPhysique> SUPPRESSED_YIN_PHYSIQUE = PHYSIQUES.register("suppressed_yin_physique",
             ()-> new GenericPhysique("Suppressed Yin Physique",
                     new HashMap<>(){{
@@ -774,6 +888,14 @@ public class ModPhysiques {
                         put("ascension:yin",1.8);
                         put("ascension:ice",1.5);
                     }})
+                    .setDescription(Component.empty()
+                            .append("§2Earth Tier - Yin-aligned physique\n")
+                            .append("§bBody resonates with yin and cold energies\n")
+                            .append("§7Excels at ice and shadow techniques\n\n")
+                            .append("§e◆ §fGrowth: Cultivate during night or in cold places\n")
+                            .append("§e◆ §fPath: Cold Resistance → Yin Mastery → Ice Control\n")
+                            .append("§e◆ §fWeakness: Vulnerable to yang and fire")
+                    )
     );
 
     public static void register(IEventBus modEventBus){

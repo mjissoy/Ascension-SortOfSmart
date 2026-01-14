@@ -426,7 +426,7 @@ public class NaturalPhenomenonPhysiqueEvents {
                     player.getDeltaMovement().x * player.getDeltaMovement().x +
                             player.getDeltaMovement().z * player.getDeltaMovement().z);
 
-            if (speed > 1.5) { // Very fast (sprinting with speed potion)
+            if (speed > 4) { // Very fast (sprinting with speed potion)
                 int highSpeedTime = player.getPersistentData().getInt("ascension_high_speed");
                 highSpeedTime++;
                 player.getPersistentData().putInt("ascension_high_speed", highSpeedTime);

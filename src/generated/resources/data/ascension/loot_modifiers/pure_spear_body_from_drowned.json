@@ -1,0 +1,15 @@
+{
+  "type": "ascension:add_physique_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:entities/drowned"
+    },
+    {
+      "chance": 0.16,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "physiqueId": "ascension:pure_spear_body",
+  "purity": 15
+}

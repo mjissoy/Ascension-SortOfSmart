@@ -127,6 +127,7 @@ public class AscensionCraft {
         ModEntities.register(modEventBus);
 
 
+
         ModEffects.register(modEventBus);
 
         ModAttributes.register(modEventBus);
@@ -304,18 +305,6 @@ public class AscensionCraft {
         public static void registerPayloads(RegisterPayloadHandlersEvent event) {
 
             ModPayloads.registerPayloads(event);
-        }
-
-        @SubscribeEvent
-        public static void registerLootModifierSerializers(final RegisterEvent event) {
-            if (event.getRegistryKey().equals(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS)) {
-                event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
-                    helper.register(
-                            ResourceLocation.fromNamespaceAndPath(MOD_ID, "add_physique_item"),
-                            AddPhysiqueItemModifier.CODEC
-                    );
-                });
-            }
         }
     }
 }

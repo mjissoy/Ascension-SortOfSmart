@@ -3,13 +3,13 @@
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:chests/end_city_treasure"
+      "loot_table_id": "minecraft:entities/creeper"
     },
     {
-      "chance": 0.2,
+      "chance": 0.05,
       "condition": "minecraft:random_chance"
     }
   ],
-  "physiqueId": "ascension:heavenborn_stone_monkey_physique",
-  "purity": 10
+  "physiqueId": "ascension:heavenly_lightning_physique",
+  "purity": 24
 }

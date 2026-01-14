@@ -3,13 +3,13 @@
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:chests/bastion_treasure"
+      "loot_table_id": "minecraft:chests/nether_bridge"
     },
     {
-      "chance": 0.3,
+      "chance": 0.11,
       "condition": "minecraft:random_chance"
     }
   ],
-  "physiqueId": "ascension:pure_sword_body",
-  "purity": 25
+  "physiqueId": "ascension:blood_jade_physique",
+  "purity": 20
 }
