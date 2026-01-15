@@ -87,7 +87,6 @@ public class ModTechniques {
                         put("ascension:earth", 0.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Body Path\n")
                             .append("§8Strengthens skin to iron-like durability\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Withstand repeated blows\n")
@@ -123,7 +122,6 @@ public class ModTechniques {
                         put("ascension:yang", 0.8);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Essence Path\n")
                             .append("§7Harnesses wind essence for speed and agility\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Move with the wind's flow\n")
@@ -157,7 +155,6 @@ public class ModTechniques {
                         put("ascension:cutting", 1.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Intent Path\n")
                             .append("§7Focuses intent into precise, powerful strikes\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Train concentration and precision\n")
@@ -201,7 +198,6 @@ public class ModTechniques {
                         put("ascension:fire", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Essence Path\n")
                             .append("§cBreathe in pure fire and purify ones essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate in fiery environments\n")
@@ -243,7 +239,6 @@ public class ModTechniques {
                         put("ascension:water", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Essence Path\n")
                             .append("§9Harmonizes with water essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate near water sources\n")
@@ -283,7 +278,6 @@ public class ModTechniques {
                         put("ascension:wood", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Essence Path\n")
                             .append("§aHarmonizes with wood essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate in forests\n")
@@ -321,7 +315,6 @@ public class ModTechniques {
                         put("ascension:earth", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Essence Path\n")
                             .append("§eHarmonizes with earth essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate on solid ground\n")
@@ -360,7 +353,6 @@ public class ModTechniques {
                         put("ascension:metal", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Essence Path\n")
                             .append("§7Harmonizes with metal essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate near metal deposits\n")
@@ -400,7 +392,6 @@ public class ModTechniques {
                         put("ascension:sword_intent", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Intent Path\n")
                             .append("§aBody resonates perfectly with sword intent\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Master sword techniques faster\n")
@@ -438,7 +429,6 @@ public class ModTechniques {
                         put("ascension:axe_intent", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Intent Path\n")
                             .append("§aBody resonates with axe techniques\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Master axe techniques faster\n")
@@ -476,7 +466,6 @@ public class ModTechniques {
                         put("ascension:blade_intent", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Intent Path\n")
                             .append("§aBody resonates with blade techniques\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Master blade techniques faster\n")
@@ -516,7 +505,6 @@ public class ModTechniques {
                         put("ascension:spear_intent", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Intent Path\n")
                             .append("§aBody resonates with spear techniques\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Master spear techniques faster\n")
@@ -557,7 +545,6 @@ public class ModTechniques {
                         put("ascension:fist_intent", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Intent Path\n")
                             .append("§aMy fist is my body and my body is my fist\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Strengthen fists through combat\n")
@@ -596,7 +583,6 @@ public class ModTechniques {
                         put("ascension:wood", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Body Path\n")
                             .append("§aBody harmonizes with wood essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate in forests\n")
@@ -634,7 +620,6 @@ public class ModTechniques {
                         put("ascension:fire", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Body Path\n")
                             .append("§cBody harmonizes with fire essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate in fiery environments\n")
@@ -671,7 +656,6 @@ public class ModTechniques {
                         put("ascension:earth", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Body Path\n")
                             .append("§eBody harmonizes with earth essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate on solid ground\n")
@@ -709,7 +693,6 @@ public class ModTechniques {
                         put("ascension:metal", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Body Path\n")
                             .append("§7Body harmonizes with metal essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate near metal deposits\n")
@@ -750,7 +733,6 @@ public class ModTechniques {
                         put("ascension:water", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Body Path\n")
                             .append("§9Body harmonizes with water essence\n")
                             .append("\n")
                             .append("§e◆ §fGrowth: Cultivate near water sources\n")
@@ -791,7 +773,6 @@ public class ModTechniques {
                         put("ascension:life", 0.8);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Body Path\n")
                             .append("§aTransforms bones into jade-like structures\n")
                             .append("§7Grants durability and life essence\n")
                             .append("\n")
@@ -829,7 +810,6 @@ public class ModTechniques {
                         put("ascension:cutting", 1.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Intent Path\n")
                             .append("§7Intent flows like a dancing blade\n")
                             .append("§fGraceful yet deadly movements\n")
                             .append("\n")
@@ -873,7 +853,6 @@ public class ModTechniques {
                         put("ascension:fist_intent", 4.8);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Intent Path\n")
                             .append("§8A technique that focuses the intent into the fists\n")
                             .append("§7Making them as hard as a king's weapon\n")
                             .append("\n")
@@ -914,7 +893,6 @@ public class ModTechniques {
                         put("ascension:void", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Essence Path\n")
                             .append("§8Swallows the void to strengthen one's essence\n")
                             .append("§7Can manipulate spatial energies\n")
                             .append("\n")
@@ -951,7 +929,6 @@ public class ModTechniques {
                         put("ascension:yang", 1.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Essence Path\n")
                             .append("§eHeart beats with thunderous energy\n")
                             .append("§7Channels lightning through meridians\n")
                             .append("\n")
@@ -990,7 +967,6 @@ public class ModTechniques {
                         put("ascension:phoenix_fire", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Body Path\n")
                             .append("§6Body infused with phoenix fire\n")
                             .append("§7Grants rebirth capabilities and divine flames\n")
                             .append("\n")
@@ -1035,7 +1011,6 @@ public class ModTechniques {
                         put("ascension:yang", 1.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Body Path\n")
                             .append("§6Body infused with celestial energy\n")
                             .append("§eRadiates divine light and authority\n")
                             .append("\n")
@@ -1078,7 +1053,6 @@ public class ModTechniques {
                         put("ascension:darkness", 1.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Essence Path\n")
                             .append("§8Born between realms, attuned to the void\n")
                             .append("§7Can walk through space and vanish from existence\n")
                             .append("\n")
@@ -1122,7 +1096,6 @@ public class ModTechniques {
                         put("ascension:metal", 2.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Intent Path\n")
                             .append("§8Every cell resonates with sword intent\n")
                             .append("§7Can cut through space, time, and concepts\n")
                             .append("\n")
@@ -1167,7 +1140,6 @@ public class ModTechniques {
                         put("ascension:heaven", 1.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Essence Path\n")
                             .append("§5Can create and destroy galaxies with a thought\n")
                             .append("§dMaster of cosmic energy and universal laws\n")
                             .append("\n")
@@ -1206,12 +1178,10 @@ public class ModTechniques {
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:time", 2.0);
                         put("ascension:space", 1.5);
-                        put("ascension:eternity", 1.2);
                         put("ascension:reincarnation", 0.8);
                         put("ascension:memory", 0.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Essence Path\n")
                             .append("§5Can manipulate the flow of time and see all possibilities\n")
                             .append("§dExists in all moments at once\n")
                             .append("\n")
@@ -1255,7 +1225,6 @@ public class ModTechniques {
                         put("ascension:creation", 2.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Body Path\n")
                             .append("§5Born from the primordial chaos before creation\n")
                             .append("§dCan manipulate the fabric of reality itself\n")
                             .append("\n")
@@ -1299,7 +1268,6 @@ public class ModTechniques {
                         put("ascension:primordial", 2.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Body Path\n")
                             .append("§5Possesses ancient dragon bloodline\n")
                             .append("§dVeins pulse with primordial dragon energy\n")
                             .append("\n")
@@ -1343,7 +1311,6 @@ public class ModTechniques {
                         put("ascension:time", 3.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Intent Path\n")
                             .append("§0Can devour stars, worlds, and eventually universes\n")
                             .append("§8Grows stronger by consuming everything\n")
                             .append("\n")
@@ -1387,7 +1354,6 @@ public class ModTechniques {
                         put("ascension:memory", 2.8);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Intent Path\n")
                             .append("§3Has lived through countless lifetimes\n")
                             .append("§bRemembers all past lives and their skills\n")
                             .append("\n")

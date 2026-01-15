@@ -30,7 +30,7 @@ public class ModPhysiques {
                         put("ascension:earth", 1.5);
                         put("ascension:metal", 1.0);
                     }})
-                    .setDescription(Component.empty().append("§7Human Tier - Common defensive physique\n")
+                    .setDescription(Component.empty()
                             .append("§8Skin hardens like stone, providing natural armor\n\n")
                             .append("§e◆ §fGrowth: Take heavy blows without breaking\n")
                             .append("§e◆ §fPath: Endurance → Resilience → Immovability\n")
@@ -51,7 +51,6 @@ public class ModPhysiques {
                         put("ascension:yang", 1.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Common speed physique\n")
                             .append("§8Body harmonizes with wind, granting incredible speed\n\n")
                             .append("§e◆ §fGrowth: Move faster than the eye can see\n")
                             .append("§e◆ §fPath: Speed → Precision → Afterimages\n")
@@ -72,7 +71,6 @@ public class ModPhysiques {
                         put("ascension:earth", 1.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Internal strength physique\n")
                             .append("§8Marrow turns to iron, strengthening bones from within\n\n")
                             .append("§e◆ §fGrowth: Refine bone marrow through combat\n")
                             .append("§e◆ §fPath: Endurance → Internal Strength → Unbreakable Bones\n")
@@ -96,7 +94,6 @@ public class ModPhysiques {
                         put("ascension:life", 1.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Rare defensive physique\n")
                             .append("§aBones transform into jade, radiating life energy\n\n")
                             .append("§e◆ §fGrowth: Absorb earth essence to strengthen bones\n")
                             .append("§e◆ §fPath: Defense → Regeneration → Jade Immortality\n")
@@ -118,7 +115,6 @@ public class ModPhysiques {
                         put("ascension:ice", 1.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Essence channeling physique\n")
                             .append("§dMeridians crystallize, allowing pure essence flow\n\n")
                             .append("§e◆ §fGrowth: Purify essence through meditation\n")
                             .append("§e◆ §fPath: Clarity → Reflection → Crystalline Perfection\n")
@@ -140,7 +136,6 @@ public class ModPhysiques {
                         put("ascension:yang", 1.3);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Lightning affinity physique\n")
                             .append("§eBody resonates with thunder, strikes with lightning speed\n\n")
                             .append("§e◆ §fGrowth: Cultivate during thunderstorms\n")
                             .append("§e◆ §fPath: Speed → Power → Lightning Embodiment\n")
@@ -162,7 +157,6 @@ public class ModPhysiques {
                         put("ascension:fire", 1.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Vitality-based physique\n")
                             .append("§cBlood contains jade particles, granting life force\n\n")
                             .append("§e◆ §fGrowth: Consume life essence from foes\n")
                             .append("§e◆ §fPath: Vitality → Absorption → Immortal Blood\n")
@@ -187,7 +181,6 @@ public class ModPhysiques {
                         put("ascension:yang", 1.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Divine lightning physique\n")
                             .append("§6Born with the blessing of thunder gods\n")
                             .append("§eCan call upon heavenly tribulation lightning\n\n")
                             .append("§e◆ §fGrowth: Survive heavenly tribulations\n")
@@ -211,7 +204,6 @@ public class ModPhysiques {
                         put("ascension:yang", 1.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Rebirth physique\n")
                             .append("§cCarries the bloodline of the immortal phoenix\n")
                             .append("§6Can be reborn from ashes, stronger each time\n\n")
                             .append("§e◆ §fGrowth: Die and be reborn through fire\n")
@@ -235,7 +227,6 @@ public class ModPhysiques {
                         put("ascension:water", 1.8);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Draconic physique\n")
                             .append("§5Possesses ancient dragon bloodline\n")
                             .append("§dVeins pulse with primordial dragon energy\n\n")
                             .append("§e◆ §fGrowth: Absorb essence of dragon remains\n")
@@ -259,7 +250,6 @@ public class ModPhysiques {
                         put("ascension:darkness", 1.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Spatial physique\n")
                             .append("§8Born between realms, attuned to the void\n")
                             .append("§7Can walk through space and vanish from existence\n\n")
                             .append("§e◆ §fGrowth: Meditate in spatial rifts\n")
@@ -283,7 +273,6 @@ public class ModPhysiques {
                         put("ascension:yang", 1.9);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Solar physique\n")
                             .append("§eBody contains a miniature sun within dantian\n")
                             .append("§6Can unleash solar flares of immense power\n\n")
                             .append("§e◆ §fGrowth: Absorb sunlight at noon\n")
@@ -307,7 +296,6 @@ public class ModPhysiques {
                         put("ascension:ice", 1.8);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Lunar physique\n")
                             .append("§bBlessed by the moon goddess\n")
                             .append("§3Can manipulate shadows and moonlight\n\n")
                             .append("§e◆ §fGrowth: Cultivate under full moon\n")
@@ -331,7 +319,6 @@ public class ModPhysiques {
                         put("ascension:reincarnation", 1.8);
                     }})
                     .setDescription(Component.empty()
-                            .append("§bHeaven Tier - Soul-based physique\n")
                             .append("§dSoul is anchored to multiple existences\n")
                             .append("§5Can survive soul destruction and re-anchor\n\n")
                             .append("§e◆ §fGrowth: Survive soul-damaging attacks\n")
@@ -358,7 +345,6 @@ public class ModPhysiques {
                         put("ascension:defiance", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Demonic cultivation physique\n")
                             .append("§4Born from the union of heavenly and demonic energies\n")
                             .append("§cCan defy heaven itself, cultivating through slaughter\n\n")
                             .append("§e◆ §fGrowth: Kill powerful beings and absorb their essence\n")
@@ -383,7 +369,6 @@ public class ModPhysiques {
                         put("ascension:void", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Balance physique\n")
                             .append("§fEmbodies the perfect balance of cosmic forces\n")
                             .append("§7Can manipulate both creation and destruction\n\n")
                             .append("§e◆ §fGrowth: Balance opposing forces within\n")
@@ -408,7 +393,6 @@ public class ModPhysiques {
                         put("ascension:destruction", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Chaos origin physique\n")
                             .append("§5Born from the primordial chaos before creation\n")
                             .append("§dCan manipulate the fabric of reality itself\n\n")
                             .append("§e◆ §fGrowth: Create and destroy worlds\n")
@@ -433,7 +417,6 @@ public class ModPhysiques {
                         put("ascension:memory", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Reincarnation mastery\n")
                             .append("§3Has lived through countless lifetimes\n")
                             .append("§bRemembers all past lives and their skills\n\n")
                             .append("§e◆ §fGrowth: Awaken past life memories\n")
@@ -458,7 +441,6 @@ public class ModPhysiques {
                         put("ascension:metal", 2.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Ultimate sword physique\n")
                             .append("§8Every cell resonates with sword intent\n")
                             .append("§7Can cut through space, time, and concepts\n\n")
                             .append("§e◆ §fGrowth: Comprehend deeper sword laws\n")
@@ -483,7 +465,6 @@ public class ModPhysiques {
                         put("ascension:time", 2.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Ultimate devouring physique\n")
                             .append("§0Can devour stars, worlds, and eventually universes\n")
                             .append("§8Grows stronger by consuming everything\n\n")
                             .append("§e◆ §fGrowth: Consume higher quality energy sources\n")
@@ -544,7 +525,6 @@ public class ModPhysiques {
                             new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"tail_multiplier_passive"),false,false)
                     ))
                     .setDescription(Component.empty()
-                            .append("§dAscension Tier - Divine fox spirit physique\n")
                             .append("§dBorn under the celestial moon, blessed by ancient fox spirits.\n")
                             .append("§7A physique that grows through wisdom, age, and spiritual cultivation.\n\n")
                             .append("§e◆ §fGrowth: Gain one tail per major realm starting from Realm 4\n")
@@ -566,7 +546,6 @@ public class ModPhysiques {
                     }},
                     new HashMap<>())
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Blank slate physique\n")
                             .append("§8No inherent advantages but no weaknesses either\n")
                             .append("§7Can be shaped by any cultivation path\n\n")
                             .append("§e◆ §fGrowth: Adapt to any cultivation method\n")
@@ -587,7 +566,6 @@ public class ModPhysiques {
                         put("ascension:sword_intent",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Sword specialization physique\n")
                             .append("§aBody resonates perfectly with sword intent\n")
                             .append("§7Naturally drawn to sword cultivation techniques\n\n")
                             .append("§e◆ §fGrowth: Master sword techniques faster\n")
@@ -608,7 +586,6 @@ public class ModPhysiques {
                         put("ascension:spear_intent",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Spear specialization physique\n")
                             .append("§aBody resonates with spear techniques\n")
                             .append("§7Excels at thrusting and piercing attacks\n\n")
                             .append("§e◆ §fGrowth: Master spear techniques faster\n")
@@ -629,7 +606,6 @@ public class ModPhysiques {
                         put("ascension:axe_intent",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Axe specialization physique\n")
                             .append("§aBody resonates with axe techniques\n")
                             .append("§7Excels at powerful cleaving attacks\n\n")
                             .append("§e◆ §fGrowth: Master axe techniques faster\n")
@@ -650,7 +626,6 @@ public class ModPhysiques {
                         put("ascension:blade_intent",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Blade specialization physique\n")
                             .append("§aBody resonates with blade techniques\n")
                             .append("§7Excels at slashing and cutting attacks\n\n")
                             .append("§e◆ §fGrowth: Master blade techniques faster\n")
@@ -674,7 +649,6 @@ public class ModPhysiques {
                             new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"fist_aura_skill"),false,false)
                     ))
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Unarmed specialization physique\n")
                             .append("§aMy fist is my body and my body is my fist\n")
                             .append("§7Body is a weapon, no need for external arms\n\n")
                             .append("§e◆ §fGrowth: Strengthen fists through combat\n")
@@ -695,7 +669,6 @@ public class ModPhysiques {
                         put("ascension:water",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Water element physique\n")
                             .append("§9Body harmonizes with water essence\n")
                             .append("§7Excels at fluid, adaptive techniques\n\n")
                             .append("§e◆ §fGrowth: Cultivate near water sources\n")
@@ -716,7 +689,6 @@ public class ModPhysiques {
                         put("ascension:earth",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Earth element physique\n")
                             .append("§eBody harmonizes with earth essence\n")
                             .append("§7Excels at defensive, stable techniques\n\n")
                             .append("§e◆ §fGrowth: Cultivate on solid ground\n")
@@ -737,7 +709,6 @@ public class ModPhysiques {
                         put("ascension:fire",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Fire element physique\n")
                             .append("§cBody harmonizes with fire essence\n")
                             .append("§7Excels at explosive, aggressive techniques\n\n")
                             .append("§e◆ §fGrowth: Cultivate in fiery environments\n")
@@ -758,7 +729,6 @@ public class ModPhysiques {
                         put("ascension:wood",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Wood element physique\n")
                             .append("§aBody harmonizes with wood essence\n")
                             .append("§7Excels at healing, growing techniques\n\n")
                             .append("§e◆ §fGrowth: Cultivate in forests\n")
@@ -779,7 +749,6 @@ public class ModPhysiques {
                         put("ascension:metal",3.0);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Metal element physique\n")
                             .append("§7Body harmonizes with metal essence\n")
                             .append("§fExcels at sharp, precise techniques\n\n")
                             .append("§e◆ §fGrowth: Cultivate near metal deposits\n")
@@ -803,7 +772,6 @@ public class ModPhysiques {
                             new AcquirableSkillData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"iron_bones_passive_skill"),false,false)
                     ))
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Durable bone structure\n")
                             .append("§8Bones strengthened with metal essence\n")
                             .append("§7Resistant to breaking and fractures\n\n")
                             .append("§e◆ §fGrowth: Strengthen bones through impact\n")
@@ -824,7 +792,6 @@ public class ModPhysiques {
                         put("ascension:fire",1.2);
                     }})
                     .setDescription(Component.empty()
-                            .append("§7Human Tier - Fire-resistant skin\n")
                             .append("§cSkin naturally resistant to heat and flames\n")
                             .append("§7Can withstand high temperatures\n\n")
                             .append("§e◆ §fGrowth: Expose skin to increasing heat\n")
@@ -845,7 +812,6 @@ public class ModPhysiques {
                         put("ascension:poison",1.8);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Poison affinity physique\n")
                             .append("§5Body resistant to and capable of producing poisons\n")
                             .append("§7Can cultivate poison-based techniques\n\n")
                             .append("§e◆ §fGrowth: Consume and resist various poisons\n")
@@ -867,7 +833,6 @@ public class ModPhysiques {
                         put("ascension:life",1.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Nature affinity physique\n")
                             .append("§aBody connected to plant life and growth\n")
                             .append("§7Can cultivate nature-based techniques\n\n")
                             .append("§e◆ §fGrowth: Cultivate in natural environments\n")
@@ -889,7 +854,6 @@ public class ModPhysiques {
                         put("ascension:ice",1.5);
                     }})
                     .setDescription(Component.empty()
-                            .append("§2Earth Tier - Yin-aligned physique\n")
                             .append("§bBody resonates with yin and cold energies\n")
                             .append("§7Excels at ice and shadow techniques\n\n")
                             .append("§e◆ §fGrowth: Cultivate during night or in cold places\n")
