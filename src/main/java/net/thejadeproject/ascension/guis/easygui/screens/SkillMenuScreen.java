@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.ActiveSkillBar;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.SelectedSkillInfoPanel;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.SkillListPanel;
+import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.MainSkillContainer;
 
 //if a skill slot is selected display skill in info panel. with button to unslot. if skill slot is selected and you select another skill
 //from skill list display skill info and have a slot button (also do not show button for passive skills)
@@ -20,19 +21,6 @@ public class SkillMenuScreen extends EasyGuiScreen {
         View view = new View(this);
         addView(view);
         view.setUseMinecraftScale(true);
-        //view.setCustomScale(4);
-        SkillListPanel skillList = new SkillListPanel(this,
-                view.getScaledWidth()/2-112, view.getScaledHeight()/2-40);
-        skillList.setID("skill_list_panel");
-        ActiveSkillBar activeSkillBar = new ActiveSkillBar(this,
-                view.getScaledWidth()/2-112,view.getScaledHeight()/2-120);
-        activeSkillBar.setID("active_skill_bar_container");
-        SelectedSkillInfoPanel selectedSkillInfoPanel = new SelectedSkillInfoPanel(this,
-                view.getScaledWidth()/2+120,view.getScaledHeight()/2-120);
-        selectedSkillInfoPanel.setID("selected_skill_info_panel");
-
-        view.addChild(skillList);
-        view.addChild(activeSkillBar);
-        view.addChild(selectedSkillInfoPanel);
+        view.addChild(new MainSkillContainer(this));
     }
 }

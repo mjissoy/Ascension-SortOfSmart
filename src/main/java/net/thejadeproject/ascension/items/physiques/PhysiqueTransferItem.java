@@ -58,23 +58,9 @@ public class PhysiqueTransferItem extends Item {
                 stack.shrink(1);
             }
 
-            String oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString();
+            PlayerDataChangeHandler.changePhysique(player, ResourceLocation.bySeparator(targetPhysiqueId,':'));
 
-            PlayerDataChangeHandler.resetData(player, targetPhysiqueId);
 
-            NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique, targetPhysiqueId));
-
-            ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
-            IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
-
-            if (newPhysique != null) {
-                newPhysique.onPhysiqueAcquisition(player);
-            }
-
-            // Sync to client
-            if (player instanceof ServerPlayer serverPlayer) {
-                PacketDistributor.sendToPlayer(serverPlayer, new SyncPlayerPhysique(targetPhysiqueId));
-            }
 
             // Send feedback message
             player.sendSystemMessage(

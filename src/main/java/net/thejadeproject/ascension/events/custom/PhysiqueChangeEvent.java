@@ -3,7 +3,9 @@ package net.thejadeproject.ascension.events.custom;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
 
-
+//TODO properly update to have Pre and Post
+//TODO setup to have data of old physique
+//TODO setup so physique listener calls on physique removed
 public class PhysiqueChangeEvent extends Event {
 
     public final Player player;

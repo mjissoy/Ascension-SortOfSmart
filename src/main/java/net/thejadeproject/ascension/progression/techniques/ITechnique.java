@@ -9,7 +9,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.constants.CultivationSource;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRealmChangeHandler;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
@@ -99,6 +101,7 @@ public interface ITechnique {
     }
     default int getMaxMinorRealm(int majorRealm){
         return ModPaths.getPath(getPath()).getMaxMinorRealm(majorRealm);
+
     }
     default Component getMinorRealmName(int majorRealm,int minorRealm){
         return ModPaths.getPath(getPath()).getMinorRealmName(majorRealm,minorRealm);
@@ -106,5 +109,13 @@ public interface ITechnique {
     double getQiForRealm(int majorRealm, int minorRealm);
     default int getTotalMinorRealmsTo(int majorRealm,int minorRealm){
         return ModPaths.getPath(getPath()).getTotalMinorRealmsTo(majorRealm,minorRealm);
+    }
+    default boolean canBreakthrough(Player player,int majorRealm,int minorRealm,double progress){
+        System.out.println("checking breakthrough condition");
+        System.out.println(progress+"/"+getQiForRealm(majorRealm,minorRealm));
+        System.out.println(minorRealm+"/"+getMaxMinorRealm(majorRealm));
+        CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getPath());
+         return  minorRealm == getMaxMinorRealm(majorRealm) && progress >= getQiForRealm(majorRealm,minorRealm) && !data.breakingThrough;
+
     }
 }

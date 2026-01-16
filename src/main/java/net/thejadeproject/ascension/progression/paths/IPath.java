@@ -18,4 +18,6 @@ public interface IPath {
     //which states path can be cultivated in
     //and if it does not have soul and player loses body they lose this path
     Set<String> getPathLivingEntityStates();
+
+
 }

@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
+import net.thejadeproject.ascension.guis.easygui.elements.introspection.MainContainer;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.MainMenuContainer;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
@@ -30,7 +31,9 @@ public class MainScreen extends EasyGuiScreen {
         View view = new View(this);
         addView(view);
         view.setUseMinecraftScale(false);
-        view.setCustomScale(3);
+        view.setCustomScale(4);
+        view.addChild(new MainContainer(this));
+        /*
         MainMenuContainer container = new MainMenuContainer(this,-71,-71);
         container.setXPositioning(Positioning.CENTER);
         container.setYPositioning(Positioning.CENTER);
@@ -38,5 +41,7 @@ public class MainScreen extends EasyGuiScreen {
         container.setSticky(false);
         container.setID("main_menu_container");
 
+
+         */
     }
 }

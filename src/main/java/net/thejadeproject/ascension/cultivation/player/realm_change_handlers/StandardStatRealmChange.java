@@ -30,7 +30,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
         for(int i = oldRealm+1;i<newRealm+1;i++){
             for(AscensionAttributeWrapper.IAttributeModifier modifier : minorRealmAttributeIncrease){
                 AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone();
-                newModifier.setGroupId(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"realm_"+i));
+                newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+i,':'));
                 wrapper.addAttributeModifier(newModifier);
             }
         }
@@ -42,7 +42,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
         for(int i = oldRealm+1;i<newRealm+1;i++){
             for(AscensionAttributeWrapper.IAttributeModifier modifier : majorRealmAttributeIncrease){
                 AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone();
-                newModifier.setGroupId(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"realm_"+technique.getTotalMinorRealmsTo(i,0)));
+                newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+technique.getTotalMinorRealmsTo(i,0),':'));
                 wrapper.addAttributeModifier(newModifier);
             }
         }
@@ -54,7 +54,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
         for(int i = oldRealm+1;i<newRealm+1;i++){
             for(AscensionAttributeWrapper.IAttributeModifier modifier : minorRealmAttributeIncrease){
                 AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone();
-                newModifier.setGroupId(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"realm_"+i));
+                newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+i,':'));
                 wrapper.removeAttributeModifier(newModifier);
             }
         }
@@ -66,7 +66,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
         for(int i = oldRealm+1;i<newRealm+1;i++){
             for(AscensionAttributeWrapper.IAttributeModifier modifier : majorRealmAttributeIncrease){
                 AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone();
-                newModifier.setGroupId(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"realm_"+technique.getTotalMinorRealmsTo(i,0)));
+                newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+technique.getTotalMinorRealmsTo(i,0),':'));
                 wrapper.removeAttributeModifier(newModifier);
             }
         }

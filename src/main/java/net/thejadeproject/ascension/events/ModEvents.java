@@ -223,9 +223,12 @@ public class ModEvents {
                 new ItemCost(ModItems.SPIRITUAL_STONE, 64),
                 new ItemStack(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get(), 1), 2, 25, 10.0f
         ));
+        /*
         rareTrades.add((entity, randomSource) -> new MerchantOffer(
                 new ItemCost(ModItems.SPIRITUAL_STONE, 64),
                 new ItemStack(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get(), 1), 2, 25, 10.0f
         ));
+
+         */
     }
 }

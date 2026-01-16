@@ -45,7 +45,7 @@ public class PlayerDataChangeHandler {
 
 
         // Fire physique change event
-        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), player.getData(ModAttachments.PHYSIQUE).getPhysique().toString()));
+        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString()));
 
 
         //TODO update attributes
@@ -80,6 +80,29 @@ public class PlayerDataChangeHandler {
         attributeWrapper.removeAllNonPermanentModifiers();
     }
 
+
+     public static void changePhysique(Player player,ResourceLocation targetPhysique){
+        System.out.println("changing physique");
+        ResourceLocation oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
+        IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(targetPhysique);
+        player.getData(ModAttachments.PHYSIQUE).setPhysique(targetPhysique);
+        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), targetPhysique.toString()));
+
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(targetPhysique.toString()));
+        //TODO use different function for removing physique
+        // Send feedback message to player
+        if (player instanceof ServerPlayer serverPlayer) {
+            Component physiqueName = Component.literal("Empty Vessel");
+            if (!targetPhysique.equals("ascension:empty_vessel") && newPhysique != null) {
+                physiqueName = newPhysique.getDisplayTitle();
+            }
+            serverPlayer.displayClientMessage(
+                    net.minecraft.network.chat.Component.literal("Your cultivation has been reset! New physique: ")
+                            .append(physiqueName),
+                    true);
+        }
+    }
+
     // Original method (for RebirthPill) - resets to empty_vessel
     public static void resetData(Player player) {
         resetData(player, "ascension:empty_vessel");
@@ -89,21 +112,14 @@ public class PlayerDataChangeHandler {
     //uses rebirth instead of the force remove
     public static void resetData(Player player, String targetPhysiqueId) {
         // Get the old physique before resetting
+        System.out.println("resetin");
         ResourceLocation oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
-
-        // Remove all skills
-        PlayerSkillData skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
 
 
         // Set the new physique
         player.getData(ModAttachments.PHYSIQUE).setPhysique(targetPhysiqueId);
 
 
-        // Fire physique change event
-        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), targetPhysiqueId));
-
-        // Reset skill data
-        player.setData(ModAttachments.PLAYER_SKILL_DATA, new PlayerSkillData(player));
 
 
         // Reset cultivation data for all paths
@@ -135,9 +151,10 @@ public class PlayerDataChangeHandler {
         // Trigger physique acquisition for the new physique
         ResourceLocation physiqueResource = ResourceLocation.bySeparator(targetPhysiqueId, ':');
         IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
-        if (newPhysique != null) {
-            newPhysique.onPhysiqueAcquisition(player);
-        }
+
+        // Fire physique change event
+        NeoForge.EVENT_BUS.post(new PhysiqueChangeEvent(player, oldPhysique.toString(), targetPhysiqueId));
+
 
         // Sync the new physique to client
         PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(targetPhysiqueId));

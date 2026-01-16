@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
@@ -164,7 +165,7 @@ public class SetCultivationCommand {
             boolean wasCultivating = pathData.cultivating;
             boolean wasBreakingThrough = pathData.breakingThrough;
 
-            RealmChangeEvent realmChangeEvent = new RealmChangeEvent.Pre(
+            RealmChangeEvent.Pre realmChangeEvent = new RealmChangeEvent.Pre(
                     player,
                     pathId,
                     oldMajorRealm,
@@ -191,15 +192,8 @@ public class SetCultivationCommand {
                 pathData.breakingThrough = false;
                 pathData.breakthroughData = null;
             }
+            NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(realmChangeEvent));
 
-            if (!technique.equals("ascension:none")) {
-                ResourceLocation techniqueResource = ResourceLocation.bySeparator(technique, ':');
-                ITechnique techniqueObj = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(techniqueResource);
-
-                if (techniqueObj != null) {
-                    techniqueObj.onTechniqueAcquisition(player);
-                }
-            }
 
             PacketDistributor.sendToPlayer(player, new SyncPathDataPayload(
                     pathId,
