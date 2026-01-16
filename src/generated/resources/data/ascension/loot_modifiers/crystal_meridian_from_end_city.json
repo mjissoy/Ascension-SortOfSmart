@@ -3,13 +3,13 @@
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:chests/nether_bridge"
+      "loot_table_id": "minecraft:chests/end_city_treasure"
     },
     {
-      "chance": 0.3,
+      "chance": 0.09,
       "condition": "minecraft:random_chance"
     }
   ],
-  "physiqueId": "ascension:pure_fire_body",
-  "purity": 25
+  "physiqueId": "ascension:crystal_meridian_physique",
+  "purity": 22
 }

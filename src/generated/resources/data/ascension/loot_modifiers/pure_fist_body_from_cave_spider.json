@@ -1,0 +1,15 @@
+{
+  "type": "ascension:add_physique_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:entities/cave_spider"
+    },
+    {
+      "chance": 0.19,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "physiqueId": "ascension:pure_fist_body",
+  "purity": 15
+}

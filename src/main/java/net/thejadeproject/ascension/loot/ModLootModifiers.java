@@ -16,6 +16,13 @@ public class ModLootModifiers {
     public static final Supplier<MapCodec<? extends IGlobalLootModifier>> ADD_ITEM =
             LOOT_MODIFIER_SERIALIZERS.register("add_item", () -> AddItemModifier.CODEC);
 
+    public static final Supplier<MapCodec<? extends IGlobalLootModifier>> ADD_PHYSIQUE_ITEM =
+            LOOT_MODIFIER_SERIALIZERS.register("add_physique_item", () -> AddPhysiqueItemModifier.CODEC);
+
+    public static final Supplier<MapCodec<? extends IGlobalLootModifier>> ADD_PHYSIQUE_RANDOM_PURITY =
+            LOOT_MODIFIER_SERIALIZERS.register("add_physique_random_purity",
+                    () -> AddPhysiqueRandomPurityModifier.CODEC);
+
     public static void register(IEventBus eventBus) {
         LOOT_MODIFIER_SERIALIZERS.register(eventBus);
     }

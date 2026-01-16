@@ -18,13 +18,13 @@ public class ModVillagers {
             DeferredRegister.create(BuiltInRegistries.VILLAGER_PROFESSION, AscensionCraft.MOD_ID);
 
 
-    public static final Holder<PoiType> HERBALIST_POI = POI_TYPES.register("herbalist_poi",
+    /*public static final Holder<PoiType> HERBALIST_POI = POI_TYPES.register("herbalist_poi",
             () -> new PoiType(ImmutableSet.copyOf(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get().getStateDefinition().getPossibleStates()), 1, 1));
 
     public static final Holder<VillagerProfession> HERBALIST = VILLAGER_PROFESSIONS.register("herbalist",
             () -> new VillagerProfession("herbalist", holder -> holder.value() == HERBALIST_POI.value(),
                     poiTypeHolder -> poiTypeHolder.value() == HERBALIST_POI.value(), ImmutableSet.of(), ImmutableSet.of(),
-                    SoundType.MOSS.getPlaceSound()));
+                    SoundType.MOSS.getPlaceSound()));*/
 
 
 

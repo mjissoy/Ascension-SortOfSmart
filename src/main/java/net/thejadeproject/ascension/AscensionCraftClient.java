@@ -28,6 +28,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
+import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.events.custom.OpenPhysiqueSelectScreenEvent;
 import net.thejadeproject.ascension.events.custom.PhysiqueGeneratedEvent;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
@@ -103,8 +104,11 @@ public class AscensionCraftClient {
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
 
+
+
+
+            EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
             EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
 
 
@@ -119,6 +123,21 @@ public class AscensionCraftClient {
                             if (count >= 16) return 2.0F;  // Medium stack
                             if (count >= 2) return 1.0F;   // Small stack
                             return 0.0F;                   // Single item
+                        });
+
+                ItemProperties.register(ModItems.BLOOD_ESSENCE.get(),
+                        ResourceLocation.fromNamespaceAndPath("ascension", "physique_variant"),
+                        (itemStack, clientLevel, livingEntity, seed) -> {
+                            String physiqueId = itemStack.get(ModDataComponents.PHYSIQUE_ID.get());
+
+                            if (physiqueId != null && !physiqueId.isEmpty()) {
+                                if (physiqueId.equals("ascension:jade_bone_physique")) {
+                                    return 1.0F; // Jade Bone gets custom texture
+                                }
+
+                            }
+
+                            return 0.0F;
                         });
             });
         }

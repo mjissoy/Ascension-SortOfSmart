@@ -1,0 +1,15 @@
+{
+  "type": "ascension:add_physique_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/abandoned_mineshaft"
+    },
+    {
+      "chance": 0.08,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "physiqueId": "ascension:stone_skin_physique",
+  "purity": 10
+}

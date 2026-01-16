@@ -1,0 +1,15 @@
+{
+  "type": "ascension:add_physique_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:entities/iron_golem"
+    },
+    {
+      "chance": 0.14,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "physiqueId": "ascension:iron_bone_physique",
+  "purity": 10
+}

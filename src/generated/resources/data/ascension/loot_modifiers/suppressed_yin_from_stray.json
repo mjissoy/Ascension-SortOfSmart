@@ -1,0 +1,15 @@
+{
+  "type": "ascension:add_physique_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:entities/stray"
+    },
+    {
+      "chance": 0.17,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "physiqueId": "ascension:suppressed_yin_physique",
+  "purity": 18
+}

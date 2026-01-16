@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-11T18:48:29.3408041	Item Models: ascension
+// 1.21.1	2026-01-14T19:57:30.6360754	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -6,7 +6,6 @@ b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_p
 34dabeb5a8be2b07546251a0b1b7bf79b4730464 assets/ascension/models/item/black_iron_ingot.json
 4797248d81db0dfdf041f22734e73e775b6dc54e assets/ascension/models/item/black_iron_nugget.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/blade_dance_technique.json
-6ecf4197ee1b5a263c85446f4e85236ed9a02a99 assets/ascension/models/item/blood_essence.json
 32f4bbe26cc08ecb5ff19b5e1440678cec5c9fb1 assets/ascension/models/item/blue_marble_brick_wall.json
 e9f72ff9db493ee0b67ddc88c25bb8fda1af1845 assets/ascension/models/item/blue_marble_tile_wall.json
 1d68593d3b5ec170584aaf4f54c6fc20cc8396a7 assets/ascension/models/item/body_amnesia_pill.json
