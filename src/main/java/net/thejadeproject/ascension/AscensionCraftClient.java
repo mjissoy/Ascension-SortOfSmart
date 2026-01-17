@@ -93,50 +93,40 @@ public class AscensionCraftClient {
         }
 
         @SubscribeEvent
-        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-            event.registerEntityRenderer(ModEntities.RIFT.get(), RiftRenderer::new);
-        }
-
-        @SubscribeEvent
-        public static void registerShaders(RegisterShadersEvent event) throws IOException {
-            ModShaders.register(event);
+        public static void registerShaders(RegisterShadersEvent event) {
+            try {
+                ModShaders.register(event);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to register Ascension shaders", e);
+            }
         }
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-
-
-
-
-            EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
-            EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
-
-
-
-
             event.enqueueWork(() -> {
+                // REGISTER RENDERERS - MUST BE IN enqueueWork
+                EntityRenderers.register(ModEntities.RIFT.get(), RiftRenderer::new);
+                EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
+                EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
+
+                // Register item properties
                 ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
                         ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),
                         (itemStack, clientLevel, livingEntity, seed) -> {
                             int count = itemStack.getCount();
-                            if (count >= 32) return 3.0F;  // Large stack
-                            if (count >= 16) return 2.0F;  // Medium stack
-                            if (count >= 2) return 1.0F;   // Small stack
-                            return 0.0F;                   // Single item
+                            if (count >= 32) return 3.0F;
+                            if (count >= 16) return 2.0F;
+                            if (count >= 2) return 1.0F;
+                            return 0.0F;
                         });
 
                 ItemProperties.register(ModItems.BLOOD_ESSENCE.get(),
                         ResourceLocation.fromNamespaceAndPath("ascension", "physique_variant"),
                         (itemStack, clientLevel, livingEntity, seed) -> {
                             String physiqueId = itemStack.get(ModDataComponents.PHYSIQUE_ID.get());
-
-                            if (physiqueId != null && !physiqueId.isEmpty()) {
-                                if (physiqueId.equals("ascension:jade_bone_physique")) {
-                                    return 1.0F; // Jade Bone gets custom texture
-                                }
-
+                            if (physiqueId != null && physiqueId.equals("ascension:jade_bone_physique")) {
+                                return 1.0F;
                             }
-
                             return 0.0F;
                         });
             });

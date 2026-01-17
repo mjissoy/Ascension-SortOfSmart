@@ -9,18 +9,20 @@ import net.thejadeproject.ascension.AscensionCraft;
 import java.io.IOException;
 
 public class ModShaders {
-    public static ShaderInstance RIFT_SHADER;
+    private static ShaderInstance riftShader;
+
+    public static ShaderInstance getRiftShader() {
+        return riftShader;
+    }
 
     public static void register(RegisterShadersEvent event) throws IOException {
         event.registerShader(
                 new ShaderInstance(
                         event.getResourceProvider(),
                         ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "rift"),
-                        DefaultVertexFormat.POSITION_TEX
+                        DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP
                 ),
-                shader -> {
-                    RIFT_SHADER = shader;
-                }
+                shader -> riftShader = shader
         );
     }
 }

@@ -1,22 +1,29 @@
 #version 150
 
-uniform sampler2D Sampler0;
-uniform float GameTime;
+in vec3 Position;
+in vec4 Color;
+in vec2 UV0;
+in vec2 UV1;
+in vec3 Normal;
+
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
-
-in vec3 Position;
-in vec2 UV0;
+uniform float GameTime;
 
 out vec2 texCoord;
+out vec4 vertexColor;
+out vec2 lightmapCoord;
+out float time;
 
 void main() {
     texCoord = UV0;
+    vertexColor = Color;
+    lightmapCoord = UV1;
+    time = GameTime;
 
-    // Use GameTime in vertex transformation to prevent optimization
-    // This creates a subtle pulsing effect
-    float timeOffset = sin(GameTime * 3.0) * 0.01;
-    vec3 pos = Position + vec3(timeOffset, timeOffset, 0.0);
+    vec3 pos = Position;
+    float distortion = sin(GameTime * 4.0 + pos.y * 8.0) * 0.03;
+    pos.x += distortion;
 
     gl_Position = ProjMat * ModelViewMat * vec4(pos, 1.0);
 }
