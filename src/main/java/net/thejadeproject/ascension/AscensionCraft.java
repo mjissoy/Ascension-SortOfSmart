@@ -33,6 +33,7 @@ import net.thejadeproject.ascension.command.karma.KarmaCommand;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.cultivation.player.EntityAttributeManager;
 import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.events.TeleportationEventHandler;
 import net.thejadeproject.ascension.events.karma.KarmaEvents;
 import net.thejadeproject.ascension.events.karma.KarmaManager;
 import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
@@ -138,6 +139,9 @@ public class AscensionCraft {
         ModDao.register(modEventBus);
         ModPaths.register(modEventBus);
 
+        // In your main mod class, in the constructor:
+        NeoForge.EVENT_BUS.register(TeleportationEventHandler.class);
+
         ModVillagers.VILLAGER_PROFESSIONS.register(modEventBus);
         ModVillagers.POI_TYPES.register(modEventBus);
 
@@ -177,6 +181,7 @@ public class AscensionCraft {
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogin);
         NeoForge.EVENT_BUS.addListener(this::onPlayerLogOut);
     }
+
 
     private void registerKeyBindings(RegisterKeyMappingsEvent event) {
         event.register(KeyBindHandler.OPEN_SPATIAL_RING_KEY);
@@ -303,6 +308,7 @@ public class AscensionCraft {
 
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event) {
+
 
             ModPayloads.registerPayloads(event);
         }

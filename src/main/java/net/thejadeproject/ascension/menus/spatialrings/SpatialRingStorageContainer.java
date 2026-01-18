@@ -14,6 +14,8 @@ import net.thejadeproject.ascension.items.artifacts.SpatialRingItem;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 import javax.annotation.Nonnull;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class SpatialRingStorageContainer extends AbstractContainerMenu {
@@ -25,6 +27,13 @@ public class SpatialRingStorageContainer extends AbstractContainerMenu {
     private static final int SLOTS_PER_ROW = 9;
     private Inventory playerInventory;
     private int playerSlotsStart = -1;
+
+    // Store last scroll offset per ring per player
+    private static final Map<UUID, Map<Player, Integer>> playerScrollOffsets = new HashMap<>();
+
+    public static Map<UUID, Map<Player, Integer>> getPlayerScrollOffsets() {
+        return playerScrollOffsets;
+    }
 
     public static SpatialRingStorageContainer fromNetwork(int windowId, final Inventory playerInventory, FriendlyByteBuf data) {
         UUID uuidIn = data.readUUID();
@@ -41,6 +50,18 @@ public class SpatialRingStorageContainer extends AbstractContainerMenu {
         this.totalRows = Math.max(totalRows, 3);
         this.handler = handler;
         this.playerInventory = playerInventory;
+
+        // Restore previous scroll offset for this player and ring
+        if (playerInventory.player != null) {
+            Map<Player, Integer> playerOffsets = playerScrollOffsets.get(uuidIn);
+            if (playerOffsets != null) {
+                Integer savedOffset = playerOffsets.get(playerInventory.player);
+                if (savedOffset != null) {
+                    this.scrollOffset = savedOffset;
+                }
+            }
+        }
+
         rebuildSlots();
     }
 
@@ -95,6 +116,12 @@ public class SpatialRingStorageContainer extends AbstractContainerMenu {
         if (newOffset != this.scrollOffset) {
             this.scrollOffset = newOffset;
             rebuildSlots();
+
+            // Save scroll offset for this player and ring
+            if (this.playerInventory.player != null) {
+                playerScrollOffsets.computeIfAbsent(this.uuid, k -> new HashMap<>())
+                        .put(this.playerInventory.player, this.scrollOffset);
+            }
         }
     }
 
@@ -112,6 +139,19 @@ public class SpatialRingStorageContainer extends AbstractContainerMenu {
 
     public int getVisibleStorageSlots() {
         return Math.min(this.totalRows, VISIBLE_ROWS) * SLOTS_PER_ROW;
+    }
+
+    // Remove player's saved scroll offset when container closes
+    @Override
+    public void removed(Player player) {
+        super.removed(player);
+        Map<Player, Integer> playerOffsets = playerScrollOffsets.get(this.uuid);
+        if (playerOffsets != null) {
+            playerOffsets.remove(player);
+            if (playerOffsets.isEmpty()) {
+                playerScrollOffsets.remove(this.uuid);
+            }
+        }
     }
 
     @Override

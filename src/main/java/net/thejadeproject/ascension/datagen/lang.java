@@ -140,35 +140,41 @@ public class lang extends LanguageProvider {
         add("ascension.tooltip.medicinal", "Medicinal");
         add("ascension.tooltip.cultivation", "Cultivation");
         add("ascension.tooltip.poisonous", "Poisonous");
+        add("ascension.tooltip.qdppill", "Qi Devouring Parasite Antidote");
+
+
+        // BaseTeleportTalisman messages
+        add("ascension.teleport.countdown", "§eTeleporting in %d seconds");
+        add("ascension.teleport.cancelled", "§cTeleport cancelled: %s");
+        add("ascension.teleport.cancel.movement", "§aMovement detected");
+        add("ascension.teleport.cancel.damage", "§cDamage taken");
+        add("ascension.teleport.cancel.no_item", "§aItem not found");
+        add("ascension.teleport.failed.no_safe_location", "§cNo safe teleport location found!");
+
+        add("ascension.soulsteadreturn.teleported", "§aTeleported to your spawn point!");
+        add("ascension.teleport.success.random", "§aTeleported to a random location!");
+        add("ascension.worldaxis.teleported", "§aTeleported to world spawn!");
+        add("ascension.voidmarking.teleported", "§aTeleported to saved location!");
+        add("item.ascension.soulstead_return_talisman.cooldown", "Soulstead Return Talisman §7(%dm %ds§7)");
+        add("item.ascension.void_marking_talisman.cooldown", "Void Marking Talisman §7(%dm %ds§7)");
+        add("item.ascension.world_axis_talisman.cooldown", "World Axis Talisman §7(%dm %ds§7)");
         add("ascension.tooltip.srtt1", "2.5k x 2.5k Range │ 60 min cooldown");
         add("ascension.tooltip.srtt2", "5k x 5k Range │ 40 min cooldown");
         add("ascension.tooltip.srtt3", "7.5k x 7.5k Range │ 20 min cooldown");
         add("ascension.tooltip.srt", "5 min cooldown");
         add("ascension.tooltip.wat", "5 min cooldown");
         add("ascension.tooltip.vmt", "30 sec cooldown");
-        add("ascension.tooltip.qdppill", "Qi Devouring Parasite Antidote");
-        add("item.ascension.soulstead_return_talisman.cooldown", "Soulstead Return Talisman §7(%dm %ds§7)");
-        add("item.ascension.void_marking_talisman.cooldown", "Void Marking Talisman §7(%dm %ds§7)");
-        add("item.ascension.world_axis_talisman.cooldown", "World Axis Talisman §7(%dm %ds§7)");
-        add("ascension.tooltip.teleporting_in_seconds", "§eTeleporting in %d seconds");
-        add("ascension.tooltip.teleported_to_spawn", "§aTeleported to your spawn point!");
-        add("ascension.tooltip.teleported_to_world_spawn", "§aTeleported to world spawn!");
-        add("ascension.tooltip.teleported_to_saved", "§aTeleported to saved location!");
-        add("ascension.tooltip.teleported_to_location", "§aTeleported to a random location!");
-        add("ascension.tooltip.teleport_cancelled", "§cTeleport cancelled: %s");
-        add("ascension.tooltip.damage_taken", "damage taken");
-        add("ascension.tooltip.movement_detected", "movement detected");
-        add("ascension.tooltip.location_saved", "§aLocation saved!");
-        add("ascension.tooltip.no_location_saved", "§cNo location saved! Shift-right-click to save current position.");
-        add("ascension.tooltip.failed_read_location", "§cFailed to read saved location!");
-        add("ascension.tooltip.cannot_teleport_dimension", "§cCannot teleport to saved dimension!");
-        add("ascension.tooltip.no_safe_location", "§cNo safe teleport location found!");
-        add("ascension.tooltip.saved_location", "§7Saved Location:");
-        add("ascension.tooltip.coordinates", "§7X: %s §7Y: %s §7Z: %s");
-        add("ascension.tooltip.dimension", "§7Dimension: %s");
         add("item.ascension.spatial_rupture_talisman_t1.cooldown", "Spatial Rupture Talisman §7(%dm %ds§7)");
         add("item.ascension.spatial_rupture_talisman_t2.cooldown", "Spatial Rupture Talisman §7(%dm %ds§7)");
         add("item.ascension.spatial_rupture_talisman_t3.cooldown", "Spatial Rupture Talisman §7(%dm %ds§7)");
+
+        add("ascension.voidmarking.location_saved", "§aLocation saved!");
+        add("ascension.voidmarking.no_location", "§cNo location saved! Shift-right-click to save current position.");
+        add("ascension.voidmarking.dimension_invalid", "§cCannot teleport to saved dimension!");
+        add("ascension.voidmarking.tooltip.saved", "§7Saved Location:");
+        add("ascension.voidmarking.tooltip.coords", "§7X: %s §7Y: %s §7Z: %s");
+        add("ascension.voidmarking.tooltip.dimension", "§7Dimension: %s");
+
         add("item.ascension.tablet_of_destruction_human.cooldown", "Ability is on cooldown!");
         add("item.ascension.tablet_of_destruction_heaven.cooldown", "Item is on cooldown!");
         add("item.ascension.tablet_of_destruction_heaven.drop_blocks", "Drop Blocks = ");
