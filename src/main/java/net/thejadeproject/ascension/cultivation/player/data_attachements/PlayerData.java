@@ -141,6 +141,23 @@ public class PlayerData {
 
     }
 
+
+    //Tribulation Stuff
+    private final java.util.HashMap<String, Integer> tribulationMarks = new java.util.HashMap<>();
+    public void addTribulationMark(int realmLevel) {
+        String markKey = "tribulation_" + realmLevel;
+        tribulationMarks.put(markKey, realmLevel);
+
+        // Optional: Send chat notification
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.displayClientMessage(
+                    Component.literal("§6Obtained Tribulation Mark: Realm " + realmLevel)
+                            .withStyle(ChatFormatting.GOLD),
+                    true
+            );
+        }
+    }
+
     //TODO do a QI check
     //TODO if cast type is instant, cast without creating thread. but only if thread is available
     //move this over to a server only thing? since it does need to be synced with the client
@@ -255,14 +272,27 @@ public class PlayerData {
     /********* SYSTEM *******************************************************/
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
         getCultivationData().loadNBTData(tag.getCompound("path_data"));
-
         currentQi = tag.getDouble("qi");
-    }
-    public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
-        tag.put("path_data",getCultivationData().writeNBTData());
-        tag.putDouble("qi",currentQi);
-    }
 
+        // Load tribulation marks
+        if (tag.contains("tribulation_marks")) {
+            CompoundTag marksTag = tag.getCompound("tribulation_marks");
+            for (String key : marksTag.getAllKeys()) {
+                tribulationMarks.put(key, marksTag.getInt(key));
+            }
+        }
+    }
+    public void saveNBTData(CompoundTag tag, HolderLookup.Provider provider){
+        tag.put("path_data", getCultivationData().writeNBTData());
+        tag.putDouble("qi", currentQi);
+
+        // Save tribulation marks
+        CompoundTag marksTag = new CompoundTag();
+        for (var entry : tribulationMarks.entrySet()) {
+            marksTag.putInt(entry.getKey(), entry.getValue());
+        }
+        tag.put("tribulation_marks", marksTag);
+    }
 
 
     public void onServerTick(ServerTickEvent.Post event){

@@ -11,4 +11,8 @@ public interface IBreakthroughData {
 
     void encode(RegistryFriendlyByteBuf buf);
     void decode(RegistryFriendlyByteBuf buf);
+
+    CompoundTag serialize();
+
+    void deserialize(CompoundTag tag);
 }

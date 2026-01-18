@@ -27,7 +27,11 @@ public enum SectRank {
     }
 
     public boolean canPromoteTo(SectRank targetRank) {
-        return targetRank.level > this.level && targetRank.level <= ELDER.level;
+        return this.level < targetRank.level && targetRank.level <= ELDER.level;
+    }
+
+    public boolean canDemoteFrom(SectRank targetRank) {
+        return this.level > targetRank.level && targetRank.level >= ELDER.level;
     }
 
     public SectRank getNextRank() {

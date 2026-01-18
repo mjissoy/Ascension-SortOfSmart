@@ -175,20 +175,22 @@ public class lang extends LanguageProvider {
         add("ascension.voidmarking.tooltip.coords", "§7X: %s §7Y: %s §7Z: %s");
         add("ascension.voidmarking.tooltip.dimension", "§7Dimension: %s");
 
-        add("item.ascension.tablet_of_destruction_human.cooldown", "Ability is on cooldown!");
-        add("item.ascension.tablet_of_destruction_heaven.cooldown", "Item is on cooldown!");
-        add("item.ascension.tablet_of_destruction_heaven.drop_blocks", "Drop Blocks = ");
-        add("ascension.tablet.drop_blocks", "Drop Blocks = ");
-        add("item.ascension.tablet_of_destruction_heaven.toggle_mode", "Press 'M' to toggle mode");
-        add("ascension.tablet.toggle_mode", "Press 'M' to toggle mode ");
-        add("item.ascension.tablet_of_destruction_heaven.link_instruction", "Shift+Right-Click chest/barrel to link");
-        add("item.ascension.tablet_of_destruction_heaven.unlinked", "Unlinked from chest or barrel.");
-        add("item.ascension.tablet_of_destruction_heaven.linked", "Linked to %s at (%d, %d, %d)");
-        add("item.ascension.tablet_of_destruction_heaven.linked_tooltip", "Linked to %s at %s");
-        add("item.ascension.tablet_of_destruction_heaven.chest", "chest");
-        add("item.ascension.tablet_of_destruction_heaven.barrel", "barrel");
-        add("item.ascension.tablet_of_destruction_heaven.container", "container");
+        add("ascension.tablet.cooldown", "§cTablet is on cooldown!");
+        add("ascension.tablet.human.cooldown", "§cHuman Tablet needs 20 seconds to recharge...");
+        add("item.ascension.tablet_of_destruction_heaven.cooldown", "§cHeaven Tablet needs 5 seconds to recharge...");
+        add("ascension.tablet.drop_blocks", "§7Drop Blocks: ");
+        add("item.ascension.tablet_of_destruction_heaven.drop_blocks", "§7Drop Blocks: ");
+        add("ascension.tablet.toggle_mode_info", "§8Press [M] to toggle mode");
+        add("item.ascension.tablet_of_destruction_heaven.link_info", "§8Shift+Right-Click container to link");
+        add("item.ascension.tablet.link_invalid", "§cInvalid container for linking!");
+        add("item.ascension.tablet.unlink_success", "§aUnlinked from container!");
+        add("item.ascension.tablet.link_success", "§aLinked to %s at [%d, %d, %d]");
+        add("item.ascension.tablet_of_destruction_heaven.linked_to", "§7Linked to §f%s §7at %s");
         add("ascension.tooltip.tablet.coordinates", "§7X: %s, Y: %s, Z: %s");
+        add("item.ascension.tablet_of_destruction_human", "Tablet of Destruction (Human Tier)");
+        add("item.ascension.tablet_of_destruction_earth", "Tablet of Destruction (Earth Tier)");
+        add("item.ascension.tablet_of_destruction_heaven", "Tablet of Destruction (Heaven Tier)");
+
         add("item.ascension.jade_slip.already_linked", "This Jade Slip is already linked to %s and cannot be re-linked!");
         add("item.ascension.jade_slip.linked", "Jade Slip linked to %s");
         add("item.ascension.jade_slip.tooltip.linked", "Linked to: %s");
@@ -564,6 +566,16 @@ public class lang extends LanguageProvider {
         add("key.ascension.skill_menu", "Open Skill Menu");
         add("key.ascension.skill_wheel", "Skill Wheel");
 
+
+
+        //Tribulations
+        add("tribulation.approaches", "§c☯ Heavenly Tribulation Approaches! ☯");
+        add("tribulation.inner_demons", "§5♠ Your Inner Demons manifest! ♠");
+        add("tribulation.success", "§a✦ You have survived the Heavenly Tribulation! ✦");
+        add("tribulation.failed", "§6⚝ You have failed the tribulation, but survived. Try again! ⚝");
+        add("tribulation.death", "§4☠ You have perished in the Heavenly Tribulation! ☠");
+        add("tribulation.perfect_clear", "§d✨ Perfect Tribulation! Bonus Dao Comprehension! ✨");
+        add("tribulation.broadcast_success", "§6A cultivator has successfully survived a Heavenly Tribulation!");
 
 
         //CONFIG
