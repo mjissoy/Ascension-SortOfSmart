@@ -5,10 +5,14 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.util.INBTSerializable;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
+import net.thejadeproject.ascension.network.spatialrings.SyncSpatialRingInventoryPayload;
+import net.thejadeproject.ascension.network.spatialrings.SyncSpatialRingUpgradesPayload;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -196,5 +200,60 @@ public class SpatialRingData {
                 }
             }
         }
+    }
+    public void syncToClient(ServerPlayer player) {
+        if (player.connection == null) return;
+
+        // Sync inventory
+        NonNullList<ItemStack> items = NonNullList.withSize(this.inventory.getSlots(), ItemStack.EMPTY);
+        for (int i = 0; i < this.inventory.getSlots(); i++) {
+            items.set(i, this.inventory.getStackInSlot(i));
+        }
+        player.connection.send(new SyncSpatialRingInventoryPayload(this.uuid, items, 0, getTotalRows()));
+
+        // Sync upgrades
+        player.connection.send(new SyncSpatialRingUpgradesPayload(this.uuid, this.meta.upgradeItems));
+    }
+
+    public void handleUpgradeDowngrade(NonNullList<ItemStack> upgradeItems, Player player) {
+        int extraRows = 0;
+        for (ItemStack stack : upgradeItems) {
+            if (stack.getItem() instanceof SpatialStoneItem stone) {
+                extraRows += stone.getRowsAdded();
+            }
+        }
+
+        int oldExtraRows = this.meta.extraRows;
+        this.meta.extraRows = Math.min(extraRows, 10);
+        this.meta.upgradeItems = upgradeItems;
+
+        int newSize = getTotalSlots();
+        int oldSize = 3 + oldExtraRows;
+
+        if (newSize != oldSize) {
+            // Handle inventory resize
+            NonNullList<ItemStack> oldStacks = NonNullList.withSize(this.inventory.getSlots(), ItemStack.EMPTY);
+            for (int i = 0; i < this.inventory.getSlots(); i++) {
+                oldStacks.set(i, this.inventory.getStackInSlot(i));
+            }
+
+            // Resize inventory
+            this.inventory.upgrade(newSize);
+
+            // If downgrading, handle items that no longer fit
+            if (newSize < oldSize) {
+                for (int i = newSize; i < oldSize; i++) {
+                    if (i < oldStacks.size() && !oldStacks.get(i).isEmpty()) {
+                        // Try to add to player inventory first
+                        if (!player.getInventory().add(oldStacks.get(i))) {
+                            // Drop on ground if no space
+                            player.drop(oldStacks.get(i), false);
+                        }
+                    }
+                }
+            }
+        }
+
+        SpatialRingManager.get().setDirty();
     }
 }

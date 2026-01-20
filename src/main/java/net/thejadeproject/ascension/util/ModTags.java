@@ -80,6 +80,9 @@ public class ModTags {
 
     public static class Blocks {
         public static final TagKey<Block> DESTRUCTIBLE_BLOCKS = createTag("blocks_destruction");
+        public static final TagKey<Block> LINKABLE_CONTAINERS = createTag("linkable_containers");
+
+
         public static final TagKey<Block> INCORRECT_FOR_JADE_TOOL = createTag("incorrect_for_jade_tool");
 
         public static final TagKey<Block> STORAGE_BLOCKS_BLACK_IRON = createCommonTag("storage_blocks/black_iron");

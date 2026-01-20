@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.util;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -27,6 +28,7 @@ import net.thejadeproject.ascension.guis.easygui.screens.SkillMenuScreen;
 import net.thejadeproject.ascension.network.serverBound.ServerCastSkillPayload;
 import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
 import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
+import net.thejadeproject.ascension.particle.ModParticles;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -47,9 +49,75 @@ public class KeyBindHandler {
                 NetworkHandler.sendCultivationStart(player.getUUID());
             }
             wasCultivating = isDown;
+
+            if (isDown) {
+                spawnCultivationParticles(player);
+            }
+
             return isDown;
         }
         return player.getPersistentData().getBoolean("isCultivating");
+    }
+
+    private static void spawnCultivationParticles(Player player) {
+        // Spawn particles less frequently
+        if (player.level().getGameTime() % 5 != 0) return;
+
+        double centerX = player.getX();
+        double centerY = player.getY() + 0.1; // At feet level
+        double centerZ = player.getZ();
+
+        // Fixed radius - choose one that works for you
+        double circleRadius = 2.0; // 2 blocks radius
+        double pentagramRadius = circleRadius * 0.6; // Smaller pentagram
+
+        // Reduced number of circle particles
+        int circlePoints = 8; // Only 8 points in the circle
+        for (int i = 0; i < circlePoints; i++) {
+            double angle = 2 * Math.PI * i / circlePoints;
+            double pointX = centerX + circleRadius * Math.cos(angle);
+            double pointZ = centerZ + circleRadius * Math.sin(angle);
+
+            // Spawn particle with ZERO upward motion
+            player.level().addParticle(
+                    ModParticles.CULTIVATION_PARTICLES.get(),
+                    pointX,
+                    centerY, // Same Y level
+                    pointZ,
+                    0.0, 0.0, 0.0 // No movement at all
+            );
+        }
+
+        // Pentagram vertices only (no connecting lines)
+        int pentagramPoints = 5;
+        double rotation = player.level().getGameTime() * 0.015; // Very slow rotation
+
+        // Only spawn pentagram vertices, not connecting lines
+        for (int i = 0; i < pentagramPoints; i++) {
+            double angle = (2 * Math.PI * i / pentagramPoints) - (Math.PI / 2) + rotation;
+            double pointX = centerX + pentagramRadius * Math.cos(angle);
+            double pointZ = centerZ + pentagramRadius * Math.sin(angle);
+
+            // Spawn vertex particle with minimal or no movement
+            player.level().addParticle(
+                    ModParticles.CULTIVATION_PARTICLES.get(),
+                    pointX,
+                    centerY + 0.02, // Slightly above circle for visibility
+                    pointZ,
+                    0.0, 0.0, 0.0 // No movement
+            );
+        }
+
+        // Optional: One simple central particle
+        if (player.level().getGameTime() % 10 == 0) {
+            player.level().addParticle(
+                    ModParticles.CULTIVATION_PARTICLES.get(),
+                    centerX,
+                    centerY + 0.01,
+                    centerZ,
+                    0.0, 0.0, 0.0
+            );
+        }
     }
 
     public static final KeyMapping OPEN_SPATIAL_RING_KEY = new KeyMapping("key.ascension.open_spatial_ring", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_B, CULTIVATION_CATEGORY);
@@ -155,8 +223,13 @@ public class KeyBindHandler {
             data.setCultivating(CULTIVATE_KEY.isDown());
 
             if (cultivating != data.isCultivating()) {
+
                 
                 PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence", data.isCultivating()));
+            }
+
+            if (data.isCultivating()) {
+                spawnCultivationParticles(player);
             }
         }
     }

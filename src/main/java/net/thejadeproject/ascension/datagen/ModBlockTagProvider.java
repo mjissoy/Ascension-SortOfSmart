@@ -227,6 +227,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.BASALT)
                 .add(ModBlocks.RAW_MARBLE.get());
 
+        tag(ModTags.Blocks.LINKABLE_CONTAINERS)
+                .add(Blocks.CHEST)
+                .add(Blocks.BARREL);
+
         tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.JADE_ORE.get())
                 .add(ModBlocks.SPIRITUAL_STONE_CLUSTER.get())

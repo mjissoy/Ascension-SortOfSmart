@@ -57,7 +57,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T2);
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T3);
-
                         output.accept(ModItems.SOULSTEAD_RETURN_TALISMAN);
                         output.accept(ModItems.WORLD_AXIS_TALISMAN);
                         output.accept(ModItems.VOID_MARKING_TALISMAN);

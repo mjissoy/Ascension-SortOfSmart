@@ -20,6 +20,10 @@ public class SectMission {
     final Map<UUID, MissionProgress> acceptedBy = new HashMap<>();
     private ItemStack rewardItem;
 
+    private boolean repeatable = false;
+    public boolean isRepeatable() { return repeatable; }
+    public void setRepeatable(boolean repeatable) { this.repeatable = repeatable; }
+
 
     public SectMission(String displayName, SectRank targetRank, List<MissionRequirement> requirements,
                        int rewardMerit, UUID createdBy) {
@@ -133,6 +137,7 @@ public class SectMission {
         tag.putInt("rewardMerit", rewardMerit);
         tag.putUUID("createdBy", createdBy);
         tag.putLong("createdTime", createdTime);
+        tag.putBoolean("repeatable", repeatable);
 
         if (expirationTime > 0) {
             tag.putLong("expirationTime", expirationTime);
@@ -193,6 +198,8 @@ public class SectMission {
             CompoundTag itemTag = tag.getCompound("rewardItem");
             mission.rewardItem = ItemStack.parse(registries, itemTag).orElse(ItemStack.EMPTY);
         }
+
+        if (tag.contains("repeatable")) mission.repeatable = tag.getBoolean("repeatable");
 
         return mission;
     }

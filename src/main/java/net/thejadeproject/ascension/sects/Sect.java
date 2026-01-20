@@ -18,14 +18,15 @@ public class Sect {
     private UUID ownerId;
     private final Map<UUID, SectMember> members;
     private final Set<String> allies;
-    private final Set<String> enemies; // NEW: Restored enemy system
+    private final Set<String> enemies;
     private boolean open;
     private final long createdTime;
     private String description;
-    private boolean friendlyFire = true;
+    private boolean friendlyFire = false; // FIXED: Default to false for Xianxia style
 
     private final Map<UUID, SectMission> missions = new HashMap<>();
-    private final Map<UUID, List<ItemStack>> missionSubmissions = new HashMap<>();
+    // NEW: Renamed to sectBank for clarity
+    private final Map<UUID, List<ItemStack>> sectBank = new HashMap<>();
     final Map<UUID, Integer> playerMerit = new HashMap<>();
     final Map<UUID, Set<UUID>> elderRecommendations = new HashMap<>();
 
@@ -34,11 +35,10 @@ public class Sect {
         this.ownerId = ownerId;
         this.members = new HashMap<>();
         this.allies = new HashSet<>();
-        this.enemies = new HashSet<>(); // NEW: Initialize enemies set
+        this.enemies = new HashSet<>();
         this.open = false;
         this.createdTime = System.currentTimeMillis();
         this.description = "A newly formed sect.";
-
         members.put(ownerId, new SectMember(ownerId, ownerName, SectRank.SECT_MASTER, ""));
     }
 
@@ -46,13 +46,12 @@ public class Sect {
     public UUID getOwnerId() { return ownerId; }
     public Map<UUID, SectMember> getMembers() { return members; }
     public Set<String> getAllies() { return allies; }
-    public Set<String> getEnemies() { return enemies; } // NEW: Getter for enemies
+    public Set<String> getEnemies() { return enemies; }
     public boolean isOpen() { return open; }
     public void setOpen(boolean open) { this.open = open; }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    // NEW: Enemy system methods (restored)
     public void addEnemy(String sectName) { enemies.add(sectName); }
     public void removeEnemy(String sectName) { enemies.remove(sectName); }
     public boolean isEnemy(String sectName) { return enemies.contains(sectName); }
@@ -71,6 +70,8 @@ public class Sect {
 
     public void removeMember(UUID playerId) {
         members.remove(playerId);
+        playerMerit.remove(playerId); // Clean up merit on leave
+        elderRecommendations.remove(playerId); // Clean up recommendations
     }
 
     public SectMember getMember(UUID playerId) {
@@ -102,7 +103,6 @@ public class Sect {
     public boolean hasPermission(UUID playerId, SectPermission permission) {
         SectMember member = members.get(playerId);
         if (member == null) return false;
-
         return member.getRank().hasPermission(permission);
     }
 
@@ -116,6 +116,7 @@ public class Sect {
 
     public void removeMission(UUID missionId) {
         missions.remove(missionId);
+        sectBank.remove(missionId); // Clean up associated bank items
     }
 
     public Collection<SectMission> getMissions() {
@@ -132,7 +133,6 @@ public class Sect {
                 .collect(Collectors.toList());
     }
 
-    // Merit point methods
     public int getPlayerMerit(UUID playerId) {
         return playerMerit.getOrDefault(playerId, 0);
     }
@@ -153,10 +153,10 @@ public class Sect {
         elderRecommendations.remove(playerId);
     }
 
+    // FIXED: Enhanced auto-promotion logic
     public void addPlayerMerit(UUID playerId, int merit) {
         int current = playerMerit.getOrDefault(playerId, 0);
         playerMerit.put(playerId, current + merit);
-
         // Auto-promotion check
         SectMember member = getMember(playerId);
         if (member != null) {
@@ -168,7 +168,7 @@ public class Sect {
                 int recommendationCount = getRecommendationCount(playerId);
                 if (recommendationCount >= 3) {
                     setMemberRank(playerId, SectRank.ELDER);
-                    clearRecommendations(playerId); // Clear recommendations after promotion
+                    clearRecommendations(playerId);
                     broadcastToSect(this, null, "§6" + member.getPlayerName() + " has been promoted to Elder for reaching 10000 merit points and receiving " + recommendationCount + " recommendations!");
                 }
                 // If not enough recommendations, they stay as Inner even with enough merit
@@ -176,41 +176,35 @@ public class Sect {
         }
     }
 
+    // NEW: Sect bank system (renamed from missionSubmissions)
     public void addMissionSubmission(UUID missionId, List<ItemStack> items) {
         List<ItemStack> nonEmptyItems = items.stream()
                 .filter(stack -> !stack.isEmpty())
                 .collect(Collectors.toList());
-
         if (!nonEmptyItems.isEmpty()) {
-            missionSubmissions.put(missionId, nonEmptyItems);
+            sectBank.computeIfAbsent(missionId, k -> new ArrayList<>()).addAll(nonEmptyItems);
         }
+    }
+
+    public Map<UUID, List<ItemStack>> getSectBankItems() {
+        return sectBank;
+    }
+
+    public List<ItemStack> removeMissionSubmission(UUID missionId) {
+        return sectBank.remove(missionId);
     }
 
     public void cleanupExpiredMissions() {
         List<UUID> missionsToRemove = new ArrayList<>();
-
         for (SectMission mission : missions.values()) {
             if (mission.isExpired()) {
                 missionsToRemove.add(mission.getMissionId());
             }
         }
-
         for (UUID missionId : missionsToRemove) {
             missions.remove(missionId);
-            missionSubmissions.remove(missionId);
+            sectBank.remove(missionId);
         }
-    }
-
-    public Map<UUID, List<ItemStack>> getMissionSubmissions() {
-        return missionSubmissions;
-    }
-
-    public List<ItemStack> removeMissionSubmission(UUID missionId) {
-        return missionSubmissions.remove(missionId);
-    }
-
-    public void clearAllSubmissions() {
-        missionSubmissions.clear();
     }
 
     public CompoundTag toNBT(HolderLookup.Provider registries) {
@@ -221,58 +215,44 @@ public class Sect {
         tag.putLong("createdTime", createdTime);
         tag.putString("description", description);
         tag.putBoolean("friendlyFire", friendlyFire);
-
-        // NEW: Save enemies
         ListTag enemiesList = new ListTag();
         for (String enemy : enemies) {
             enemiesList.add(StringTag.valueOf(enemy));
         }
         tag.put("enemies", enemiesList);
-
-        // Save members
         ListTag membersList = new ListTag();
         for (SectMember member : members.values()) {
             membersList.add(member.toNBT());
         }
         tag.put("members", membersList);
-
-        // Save allies
         ListTag alliesList = new ListTag();
         for (String ally : allies) {
             alliesList.add(StringTag.valueOf(ally));
         }
         tag.put("allies", alliesList);
-
-        // Save missions
         ListTag missionsList = new ListTag();
         for (SectMission mission : missions.values()) {
             missionsList.add(mission.toNBT(registries));
         }
         tag.put("missions", missionsList);
-
-        // Save merit points
         CompoundTag meritTag = new CompoundTag();
         for (Map.Entry<UUID, Integer> entry : playerMerit.entrySet()) {
             meritTag.putInt(entry.getKey().toString(), entry.getValue());
         }
         tag.put("playerMerit", meritTag);
-
-        // Save mission submissions
-        ListTag submissionsList = new ListTag();
-        for (Map.Entry<UUID, List<ItemStack>> entry : missionSubmissions.entrySet()) {
-            CompoundTag submissionTag = new CompoundTag();
-            submissionTag.putUUID("missionId", entry.getKey());
-
+        // NEW: Save sect bank
+        ListTag bankList = new ListTag();
+        for (Map.Entry<UUID, List<ItemStack>> entry : sectBank.entrySet()) {
+            CompoundTag bankEntry = new CompoundTag();
+            bankEntry.putUUID("missionId", entry.getKey());
             ListTag itemsList = new ListTag();
             for (ItemStack stack : entry.getValue()) {
                 itemsList.add(stack.save(registries, new CompoundTag()));
             }
-            submissionTag.put("items", itemsList);
-            submissionsList.add(submissionTag);
+            bankEntry.put("items", itemsList);
+            bankList.add(bankEntry);
         }
-        tag.put("missionSubmissions", submissionsList);
-
-        // Save recommendations
+        tag.put("sectBank", bankList);
         CompoundTag recommendationsTag = new CompoundTag();
         for (Map.Entry<UUID, Set<UUID>> entry : elderRecommendations.entrySet()) {
             ListTag recommenderList = new ListTag();
@@ -282,49 +262,36 @@ public class Sect {
             recommendationsTag.put(entry.getKey().toString(), recommenderList);
         }
         tag.put("elderRecommendations", recommendationsTag);
-
         return tag;
     }
 
     public static Sect fromNBT(CompoundTag tag, HolderLookup.Provider registries) {
         String name = tag.getString("name");
         UUID ownerId = tag.getUUID("ownerId");
-
         Sect sect = new Sect(name, ownerId, "Loading...");
         sect.open = tag.getBoolean("open");
-
-        // Load description
         if (tag.contains("description")) {
             sect.description = tag.getString("description");
         }
-
-        // Load friendly fire setting
         if (tag.contains("friendlyFire")) {
             sect.friendlyFire = tag.getBoolean("friendlyFire");
         }
-
-        // NEW: Load enemies
         if (tag.contains("enemies")) {
             ListTag enemiesList = tag.getList("enemies", Tag.TAG_STRING);
             for (int i = 0; i < enemiesList.size(); i++) {
                 sect.enemies.add(enemiesList.getString(i));
             }
         }
-
-        // Load members
         ListTag membersList = tag.getList("members", Tag.TAG_COMPOUND);
         for (int i = 0; i < membersList.size(); i++) {
             CompoundTag memberTag = membersList.getCompound(i);
             SectMember member = SectMember.fromNBT(memberTag);
             sect.members.put(member.getPlayerId(), member);
         }
-
-        // Load allies
         ListTag alliesList = tag.getList("allies", Tag.TAG_STRING);
         for (int i = 0; i < alliesList.size(); i++) {
             sect.allies.add(alliesList.getString(i));
         }
-
         if (tag.contains("missions")) {
             ListTag missionsList = tag.getList("missions", 10);
             for (int i = 0; i < missionsList.size(); i++) {
@@ -332,35 +299,29 @@ public class Sect {
                 sect.missions.put(mission.getMissionId(), mission);
             }
         }
-
-        // Load merit points
         if (tag.contains("playerMerit")) {
             CompoundTag meritTag = tag.getCompound("playerMerit");
             for (String playerIdStr : meritTag.getAllKeys()) {
                 sect.playerMerit.put(UUID.fromString(playerIdStr), meritTag.getInt(playerIdStr));
             }
         }
-
-        // Load mission submissions
-        if (tag.contains("missionSubmissions")) {
-            ListTag submissionsList = tag.getList("missionSubmissions", 10);
-            for (int i = 0; i < submissionsList.size(); i++) {
-                CompoundTag submissionTag = submissionsList.getCompound(i);
-                UUID missionId = submissionTag.getUUID("missionId");
-
+        // NEW: Load sect bank
+        if (tag.contains("sectBank")) {
+            ListTag bankList = tag.getList("sectBank", 10);
+            for (int i = 0; i < bankList.size(); i++) {
+                CompoundTag bankEntry = bankList.getCompound(i);
+                UUID missionId = bankEntry.getUUID("missionId");
                 List<ItemStack> items = new ArrayList<>();
-                ListTag itemsList = submissionTag.getList("items", 10);
+                ListTag itemsList = bankEntry.getList("items", 10);
                 for (int j = 0; j < itemsList.size(); j++) {
                     ItemStack stack = ItemStack.parse(registries, itemsList.getCompound(j)).orElse(ItemStack.EMPTY);
                     if (!stack.isEmpty()) {
                         items.add(stack);
                     }
                 }
-                sect.missionSubmissions.put(missionId, items);
+                sect.sectBank.put(missionId, items);
             }
         }
-
-        // Load recommendations
         if (tag.contains("elderRecommendations")) {
             CompoundTag recommendationsTag = tag.getCompound("elderRecommendations");
             for (String playerIdStr : recommendationsTag.getAllKeys()) {
@@ -373,7 +334,6 @@ public class Sect {
                 sect.elderRecommendations.put(playerId, recommenders);
             }
         }
-
         return sect;
     }
 
@@ -389,6 +349,7 @@ public class Sect {
     public void disband() {
         members.clear();
         allies.clear();
-        enemies.clear(); // NEW: Clear enemies when disbanding
+        enemies.clear();
+        sectBank.clear(); // Clean up bank on disband
     }
 }

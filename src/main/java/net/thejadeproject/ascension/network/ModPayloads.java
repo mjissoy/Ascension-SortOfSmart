@@ -11,6 +11,10 @@ import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.packets.*;
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
+import net.thejadeproject.ascension.network.spatialrings.RequestSpatialRingDataPayload;
+import net.thejadeproject.ascension.network.spatialrings.SyncSpatialRingInventoryPayload;
+import net.thejadeproject.ascension.network.spatialrings.SyncSpatialRingUpgradesPayload;
+
 
 public class ModPayloads {
     public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
@@ -99,6 +103,19 @@ public class ModPayloads {
                 KarmaSyncPayload::handle
         );
 
+        registrar.playToClient(
+                SyncSpatialRingInventoryPayload.TYPE,
+                SyncSpatialRingInventoryPayload.STREAM_CODEC,
+                SyncSpatialRingInventoryPayload::handle
+        );
+
+        registrar.playToClient(
+                SyncSpatialRingUpgradesPayload.TYPE,
+                SyncSpatialRingUpgradesPayload.STREAM_CODEC,
+                SyncSpatialRingUpgradesPayload::handle
+        );
+
+
         //===================================== SERVER ==================================
         registrar.playToServer(
                 TriggerGeneratePhysique.TYPE,
@@ -153,6 +170,25 @@ public class ModPayloads {
                 ChangePlayerInputState::handlePayload
 
         );
+
+        registrar.playToServer(
+                RequestSpatialRingDataPayload.TYPE,
+                RequestSpatialRingDataPayload.STREAM_CODEC,
+                RequestSpatialRingDataPayload::handle
+        );
+
+        registrar.playToClient(
+                ScreenShakePayload.TYPE,
+                ScreenShakePayload.STREAM_CODEC,
+                ScreenShakePayload::handlePayload
+        );
+
+        registrar.playToClient(
+                ShaderEffectPayload.TYPE,
+                ShaderEffectPayload.STREAM_CODEC,
+                ShaderEffectPayload::handlePayload
+        );
+
 
     }
 }

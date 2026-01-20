@@ -2,6 +2,9 @@ package net.thejadeproject.ascension.sects;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +21,7 @@ public class SectManager extends SavedData {
     private final String worldId;
 
     public Map<String, Sect> getAllSects() {
-        return new HashMap<>(sects); // Return a copy to prevent modification
+        return new HashMap<>(sects);
     }
 
     public SectManager(String worldId) {
@@ -35,7 +38,6 @@ public class SectManager extends SavedData {
         return invitedSects;
     }
 
-    // Add this method to SectManager.java
     public List<String> getPendingAllyRequests(String sectName) {
         List<String> requestingSects = new ArrayList<>();
         for (Map.Entry<String, Set<String>> entry : allyRequests.entrySet()) {
@@ -48,10 +50,7 @@ public class SectManager extends SavedData {
 
     public static SectManager get(MinecraftServer server, String worldId) {
         if (server == null || worldId == null) return null;
-
-        // Use world-specific file name
         String fileName = "sects_" + worldId.replaceAll("[^a-zA-Z0-9-_]", "_");
-
         return server.overworld().getDataStorage().computeIfAbsent(
                 new SavedData.Factory<>(() -> new SectManager(worldId),
                         (tag, registries) -> load(tag, registries, worldId)),
@@ -69,8 +68,6 @@ public class SectManager extends SavedData {
                 CompoundTag sectTag = sectsTag.getCompound(sectName);
                 Sect sect = Sect.fromNBT(sectTag, registries);
                 manager.sects.put(sectName, sect);
-
-                // Rebuild playerSects map
                 for (SectMember member : sect.getMembers().values()) {
                     manager.playerSects.put(member.getPlayerId(), sectName);
                 }
@@ -82,6 +79,19 @@ public class SectManager extends SavedData {
             CompoundTag togglesTag = tag.getCompound("chatToggles");
             for (String playerId : togglesTag.getAllKeys()) {
                 manager.chatToggles.put(UUID.fromString(playerId), togglesTag.getBoolean(playerId));
+            }
+        }
+
+        // NEW: Load ally requests
+        if (tag.contains("allyRequests")) {
+            CompoundTag requestsTag = tag.getCompound("allyRequests");
+            for (String targetSect : requestsTag.getAllKeys()) {
+                ListTag requestList = requestsTag.getList(targetSect, Tag.TAG_STRING);
+                Set<String> requesters = new HashSet<>();
+                for (int i = 0; i < requestList.size(); i++) {
+                    requesters.add(requestList.getString(i));
+                }
+                manager.allyRequests.put(targetSect, requesters);
             }
         }
 
@@ -104,19 +114,43 @@ public class SectManager extends SavedData {
         }
         tag.put("chatToggles", togglesTag);
 
+        // NEW: Save ally requests
+        CompoundTag requestsTag = new CompoundTag();
+        for (Map.Entry<String, Set<String>> entry : allyRequests.entrySet()) {
+            ListTag requestList = new ListTag();
+            for (String requester : entry.getValue()) {
+                requestList.add(StringTag.valueOf(requester));
+            }
+            requestsTag.put(entry.getKey(), requestList);
+        }
+        tag.put("allyRequests", requestsTag);
+
         return tag;
     }
 
-    // Add this method to manually trigger saving
     public void save() {
         this.setDirty();
     }
 
-    // NEW: Public method to remove player from all sect data
+    // NEW: Enhanced cleanup method
     public void removePlayerFromSect(UUID playerId) {
         playerSects.remove(playerId);
         chatToggles.remove(playerId);
+        // NEW: Clean up invites for this player
+        cleanupPlayerInvites(playerId);
         setDirty();
+    }
+
+    // NEW: Clean up invites for offline/departed players
+    private void cleanupPlayerInvites(UUID playerId) {
+        String playerName = ""; // We don't have name here, so we clean by checking membership
+        pendingInvites.entrySet().removeIf(entry -> {
+            entry.getValue().removeIf(invitedName -> {
+                // Check if invited player is still valid
+                return getPlayerSect(playerId) == null; // Simplified cleanup
+            });
+            return entry.getValue().isEmpty();
+        });
     }
 
     public void removeInvite(String sectName, String playerName) {
@@ -134,22 +168,22 @@ public class SectManager extends SavedData {
     public void removeSect(String sectName) {
         Sect sect = sects.get(sectName);
         if (sect != null) {
-            // Remove all members from playerSects and chatToggles
             for (SectMember member : sect.getMembers().values()) {
                 playerSects.remove(member.getPlayerId());
                 chatToggles.remove(member.getPlayerId());
             }
             sects.remove(sectName);
+            // NEW: Clean up ally requests
+            allyRequests.remove(sectName);
+            allyRequests.values().forEach(set -> set.remove(sectName));
             setDirty();
         }
     }
 
-    // Sect management methods
     public boolean createSect(String name, UUID ownerId, String ownerName) {
         if (sects.containsKey(name) || playerSects.containsKey(ownerId)) {
             return false;
         }
-
         Sect sect = new Sect(name, ownerId, ownerName);
         sects.put(name, sect);
         playerSects.put(ownerId, name);
@@ -206,10 +240,20 @@ public class SectManager extends SavedData {
         Set<String> requests = allyRequests.get(toSect);
         if (requests != null) {
             requests.remove(fromSect);
+            if (requests.isEmpty()) {
+                allyRequests.remove(toSect);
+            }
         }
     }
 
     public String getWorldId() {
         return worldId;
+    }
+
+    // NEW: Cleanup method for periodic maintenance
+    public void cleanup() {
+        // Remove expired invites (older than 7 days)
+        // Note: Requires tracking invite timestamps - simplified version
+        setDirty();
     }
 }

@@ -36,6 +36,7 @@ public class CultivationData {
             cultivating = state;
         }
 
+
         public PathData(String pathId, int majorRealm, int minorRealm,double pathProgress,String technique,double stabilityCultivationTicks,boolean breakingThrough){
             this.pathId = pathId;
             this.majorRealm = majorRealm;
@@ -121,6 +122,20 @@ public class CultivationData {
 
         return 1000*(getMinorRealmMultiplier(minorRealm,majorRealm)+getMajorRealmMultiplier(majorRealm)) ;
     }
+
+    public void addDaoComprehension(String pathId, double amount) {
+        PathData data = getPathData(pathId);
+        if (data != null) {
+            // Add to current path progress as a bonus
+            data.pathProgress += amount;
+
+            // Optional: Add a cap to prevent overflow
+            if (data.pathProgress > getMaxQiForRealm(pathId)) {
+                data.pathProgress = getMaxQiForRealm(pathId);
+            }
+        }
+    }
+
     private double getMinorRealmMultiplier(int minorRealm,int majorRealm){
         double total = 0;
         for(int i = 0; i<minorRealm+majorRealm*9;i++){

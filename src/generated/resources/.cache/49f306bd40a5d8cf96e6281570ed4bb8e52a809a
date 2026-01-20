@@ -1,5 +1,6 @@
-// 1.21.1	2025-12-11T13:43:38.8411187	Tags for minecraft:block mod id ascension
+// 1.21.1	2026-01-18T17:38:44.6989547	Tags for minecraft:block mod id ascension
 13ad6c630766c0b7c8460417f6a9362936a380d0 data/ascension/tags/block/blocks_destruction.json
+bb11ab5804a51ba471517098db1383e7a638605e data/ascension/tags/block/linkable_containers.json
 24a3e204ca7e883389c2e17edde85fce28d088de data/c/tags/block/storage_blocks/black_iron.json
 dbc3dfbe74784e1732fbd0c14877d131758f9af6 data/c/tags/block/storage_blocks/frost_silver.json
 7212399c7afcf534be35b7b90ba5c4575d6d7910 data/minecraft/tags/block/fences.json

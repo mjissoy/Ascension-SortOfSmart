@@ -50,7 +50,12 @@ public class SetCultivationCommand {
                                         })
                                         .then(Commands.argument("majorRealm", IntegerArgumentType.integer(0, 11))
                                                 .then(Commands.argument("minorRealm", IntegerArgumentType.integer(0, 9))
+                                                        // Branch without progress argument
                                                         .executes(SetCultivationCommand::setCultivationRealm)
+                                                        // Branch with optional progress percentage
+                                                        .then(Commands.argument("progress", IntegerArgumentType.integer(0, 100))
+                                                                .executes(SetCultivationCommand::setCultivationRealm)
+                                                        )
                                                 )
                                         )
                                 )
@@ -69,6 +74,21 @@ public class SetCultivationCommand {
         String inputPath = StringArgumentType.getString(context, "path");
         int majorRealm = IntegerArgumentType.getInteger(context, "majorRealm");
         int minorRealm = IntegerArgumentType.getInteger(context, "minorRealm");
+
+        // Extract optional progress argument (-1 means not provided)
+        int progressPercent = -1;
+        try {
+            progressPercent = IntegerArgumentType.getInteger(context, "progress");
+            // Validate progress range
+            if (progressPercent < 0 || progressPercent > 100) {
+                context.getSource().sendFailure(
+                        Component.literal("Progress must be between 0 and 100")
+                );
+                return 0;
+            }
+        } catch (IllegalArgumentException e) {
+            // Progress argument not provided - continue without it
+        }
 
         String normalizedPath = normalizePath(inputPath.toLowerCase());
 
@@ -97,7 +117,7 @@ public class SetCultivationCommand {
 
         int successCount = 0;
         for (ServerPlayer player : players) {
-            if (setPlayerCultivationRealm(player, normalizedPath, majorRealm, minorRealm, context.getSource())) {
+            if (setPlayerCultivationRealm(player, normalizedPath, majorRealm, minorRealm, progressPercent, context.getSource())) {
                 successCount++;
             }
         }
@@ -153,6 +173,7 @@ public class SetCultivationCommand {
 
     private static boolean setPlayerCultivationRealm(ServerPlayer player, String pathId,
                                                      int newMajorRealm, int newMinorRealm,
+                                                     int progressPercent,
                                                      CommandSourceStack source) {
         try {
             PlayerData playerData = player.getData(ModAttachments.PLAYER_DATA);
@@ -181,7 +202,17 @@ public class SetCultivationCommand {
             pathData.majorRealm = newMajorRealm;
             pathData.minorRealm = newMinorRealm;
 
-            if (oldMajorRealm != newMajorRealm || oldMinorRealm != newMinorRealm) {
+            // FIX: Convert percentage to absolute Qi value based on max Qi for the realm
+            if (progressPercent >= 0) {
+                double maxQi = cultivationData.getMaxQiForRealm(pathId);
+                pathData.pathProgress = (progressPercent / 100.0) * maxQi;
+
+                // Clamp to max Qi to prevent overflow
+                if (pathData.pathProgress > maxQi) {
+                    pathData.pathProgress = maxQi;
+                }
+            } else if (oldMajorRealm != newMajorRealm || oldMinorRealm != newMinorRealm) {
+                // Only reset progress if realm changed and no custom progress was set
                 pathData.pathProgress = 0.0;
             }
 
@@ -204,21 +235,27 @@ public class SetCultivationCommand {
                     (int) pathData.stabilityCultivationTicks
             ));
 
+            // Build feedback message with progress info if provided
+            String progressStr = (progressPercent >= 0) ? String.format(" with %d%% progress", progressPercent) : "";
             String feedbackToSource = String.format(
-                    "Set %s's %s cultivation to realm %d.%d (was %d.%d)",
+                    "Set %s's %s cultivation to realm %d.%d (was %d.%d)%s",
                     player.getName().getString(),
                     getSimplePathName(pathId),
                     newMajorRealm,
                     newMinorRealm,
                     oldMajorRealm,
-                    oldMinorRealm
+                    oldMinorRealm,
+                    progressStr
             );
 
             source.sendSuccess(() -> Component.literal(feedbackToSource), true);
             if (source.getPlayer() != player) {
                 String feedbackToPlayer = String.format(
-                        "Your %s cultivation has been set to realm %d.%d",
-                        getSimplePathName(pathId), newMajorRealm, newMinorRealm
+                        "Your %s cultivation has been set to realm %d.%d%s",
+                        getSimplePathName(pathId),
+                        newMajorRealm,
+                        newMinorRealm,
+                        progressStr
                 );
                 player.sendSystemMessage(Component.literal(feedbackToPlayer));
             }

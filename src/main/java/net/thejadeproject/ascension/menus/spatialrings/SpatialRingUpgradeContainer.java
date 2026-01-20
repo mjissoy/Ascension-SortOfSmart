@@ -100,6 +100,7 @@ public class SpatialRingUpgradeContainer extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(@Nonnull Player player) {
+        // No permission checking - containers remain open
         return true;
     }
 
