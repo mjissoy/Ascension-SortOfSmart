@@ -1133,6 +1133,9 @@ public class ModTechniques {
                                     modifier(ModAttributes.PLAYER_QI_INSTANCE, 1200.0)
                             )
                     ))
+                    .setSkillList(List.of(
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"qi_channeling"),6,4,false,false)
+                    ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:cosmos", 2.0);
                         put("ascension:creation", 1.8);

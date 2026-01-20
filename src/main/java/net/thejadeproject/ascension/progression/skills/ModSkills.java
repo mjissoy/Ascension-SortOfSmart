@@ -9,6 +9,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.skills.active_skills.IndestructibleVajraActiveSkill;
 import net.thejadeproject.ascension.progression.skills.active_skills.SpiritualSenseActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.crafting.QiChannelingSkill;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.BasicFireBall;
 import net.thejadeproject.ascension.progression.skills.active_skills.fire_dao.DelayedFireLaunch;
 import net.thejadeproject.ascension.progression.skills.active_skills.metal_dao.OreSightActiveSkill;
@@ -24,6 +25,28 @@ import java.util.List;
 
 public class ModSkills {
     public static final DeferredRegister<ISkill> SKILLS = DeferredRegister.create(AscensionRegistries.Skills.SKILL_REGISTRY, AscensionCraft.MOD_ID);
+
+
+
+
+
+
+
+    public static final DeferredHolder<ISkill, ? extends AbstractActiveSkill> QI_CHANNELING = SKILLS.register(
+            "qi_channeling",
+            () -> new QiChannelingSkill("Qi Channeling")
+                    .setSkillIcon(new TextureData(
+                            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/qi_channeling.png"),
+                            32, 32
+                    )).setSkillDescription(List.of(
+                            Component.translatable("ascension.skill.active.qi_channeling.desc1"),
+                            Component.translatable("ascension.skill.active.qi_channeling.desc2"),
+                            Component.translatable("ascension.skill.active.qi_channeling.desc3")
+                    ))
+    );
+
+
+
 
 
     public static final DeferredHolder<ISkill,  ? extends AbstractPassiveSkill> IRON_BONES = SKILLS.register("iron_bones_passive_skill",
