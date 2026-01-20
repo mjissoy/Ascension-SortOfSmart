@@ -563,11 +563,17 @@ public class lang extends LanguageProvider {
         //JEI
         add("jei.ascension.pill_cauldron_low_human", "Pill Crafting");
 
+
+        //effects
         add("effect.ascension.qi_enhanced_regeneration", "Qi Enhanced Regen");
         add("effect.ascension.cleansing", "Cleansing");
         add("effect.ascension.neutrality", "Neutrality");
         add("effect.ascension.qi_devouring_parasite", "Devouring Parasite");
+        add("effect.ascension.heart_demon", "Heart Demon");
+        add("effect.ascension.heart_demon.minor_realm_decrease", "§cHeart Demon corrodes your cultivation! Minor realm regressed to %s");
 
+
+        //controls
         add("category.ascension.cultivation", "Ascension");
         add("key.ascension.cultivate", "Cultivate");
         add("key.ascension.introspection", "Introspection");

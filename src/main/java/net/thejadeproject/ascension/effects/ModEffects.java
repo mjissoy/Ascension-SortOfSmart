@@ -24,6 +24,9 @@ public class ModEffects {
     public static final Holder<MobEffect> PARASITE = MOB_EFFECT.register("qi_devouring_parasite",
             () -> new QiDevouringParasiteEffect(MobEffectCategory.HARMFUL, 0x4a5c0a)); // Sickly green color
 
+    public static final Holder<MobEffect> HEART_DEMON = MOB_EFFECT.register("heart_demon",
+            () -> new HeartDemonEffect(MobEffectCategory.HARMFUL, 0x8B008B)); // Dark magenta
+
 
 
 

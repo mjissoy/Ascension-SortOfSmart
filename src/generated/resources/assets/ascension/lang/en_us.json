@@ -356,6 +356,8 @@
   "creativetab.ascension.tools": "Ascension Tools",
   "death.attack.pill_residue": "%1$s finally learned not to eat Pill Residue leftover in the Pill Cauldron",
   "effect.ascension.cleansing": "Cleansing",
+  "effect.ascension.heart_demon": "Heart Demon",
+  "effect.ascension.heart_demon.minor_realm_decrease": "§cHeart Demon corrodes your cultivation! Minor realm regressed to %s",
   "effect.ascension.neutrality": "Neutrality",
   "effect.ascension.qi_devouring_parasite": "Devouring Parasite",
   "effect.ascension.qi_enhanced_regeneration": "Qi Enhanced Regen",
