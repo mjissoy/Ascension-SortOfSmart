@@ -4,7 +4,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.network.chat.Component;
 import net.thejadeproject.ascension.events.api.SpatialRuptureAPI;
 import net.thejadeproject.ascension.items.artifacts.bases.BaseTeleportTalisman;
 
@@ -13,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
 public class SpatialRuptureTalismanT3 extends BaseTeleportTalisman {
     private static final int TELEPORT_RADIUS = 7500;
     private static final int COOLDOWN_TICKS = 20 * 60 * 20; // 20 minutes
+    private static final int RECHARGE_MAX_VALUE = 100;
 
     public SpatialRuptureTalismanT3(Properties properties) {
         super(properties.rarity(Rarity.RARE));
@@ -33,11 +33,14 @@ public class SpatialRuptureTalismanT3 extends BaseTeleportTalisman {
     @Override protected Rarity getTalismanRarity() { return Rarity.EPIC; }
     @Override protected String getDisplayNameKey() { return "item.ascension.spatial_rupture_talisman_t3"; }
 
+    // NEW: Permanent item methods
+    @Override protected int getRechargeMaxValue() { return RECHARGE_MAX_VALUE; }
+    @Override protected String getPermanentVariantId() { return "permanent_spatial_rupture_t3"; }
+
     @Override
     protected void performTeleport(ServerPlayer player, ItemStack usedStack, int usedSlot) {
         ServerLevel level = (ServerLevel) player.level();
 
-        // Async teleport
         CompletableFuture<Boolean> future = SpatialRuptureAPI.randomTeleport(player, level, TELEPORT_RADIUS);
 
         future.thenAccept(success -> {

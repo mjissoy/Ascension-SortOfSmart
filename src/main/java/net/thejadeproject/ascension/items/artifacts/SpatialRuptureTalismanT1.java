@@ -12,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
 public class SpatialRuptureTalismanT1 extends BaseTeleportTalisman {
     private static final int TELEPORT_RADIUS = 2500;
     private static final int COOLDOWN_TICKS = 60 * 60 * 20; // 60 minutes
+    private static final int RECHARGE_MAX_VALUE = 200;
 
     public SpatialRuptureTalismanT1(Properties properties) {
         super(properties.rarity(Rarity.UNCOMMON));
@@ -29,6 +30,10 @@ public class SpatialRuptureTalismanT1 extends BaseTeleportTalisman {
     @Override protected int getCountdownTicks() { return 5 * TICKS_PER_SECOND; }
     @Override protected Rarity getTalismanRarity() { return Rarity.UNCOMMON; }
     @Override protected String getDisplayNameKey() { return "item.ascension.spatial_rupture_talisman_t1"; }
+
+    // NEW: Permanent item methods
+    @Override protected int getRechargeMaxValue() { return RECHARGE_MAX_VALUE; }
+    @Override protected String getPermanentVariantId() { return "permanent_spatial_rupture_t1"; }
 
     @Override
     protected void performTeleport(ServerPlayer player, ItemStack usedStack, int usedSlot) {

@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.items.artifacts.bases;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -16,31 +17,37 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
+import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public abstract class BaseTeleportTalisman extends Item {
-    // Performance constants
     protected static final int TICKS_PER_SECOND = 20;
-    protected static final double MOVEMENT_THRESHOLD_SQ = 1.0 * 1.0; // Squared distance for performance
+    protected static final double MOVEMENT_THRESHOLD_SQ = 1.0 * 1.0;
     protected static final double Y_MOVEMENT_THRESHOLD = 0.5;
 
-    // Standardized translation keys (all talismans use these)
     public static final String TRANSLOC_COUNTDOWN = "ascension.teleport.countdown";
     public static final String TRANSLOC_CANCELLED = "ascension.teleport.cancelled";
     public static final String TRANSLOC_CANCEL_MOVE = "ascension.teleport.cancel.movement";
     public static final String TRANSLOC_CANCEL_DAMAGE = "ascension.teleport.cancel.damage";
     public static final String TRANSLOC_CANCEL_NO_ITEM = "ascension.teleport.cancel.no_item";
-
-    // Generic active teleport flag
     public static final String TELEPORT_ACTIVE = "TeleportActive";
+
+    // Generic tooltip key for all permanent talismans
+    private static final String PERM_RECHARGE_TOOLTIP_KEY = "item.ascension.permanent_talisman.recharging";
+    // Light blue color for the durability bar (RGB: 0x00AAFF)
+    private static final int BAR_COLOR_LIGHT_BLUE = 0x00AAFF;
 
     public BaseTeleportTalisman(Properties properties) {
         super(properties.stacksTo(16));
     }
 
-    // Abstract methods for unique NBT keys per subclass
     protected abstract String getCooldownTag();
     protected abstract String getCooldownTimeTag();
     protected abstract String getCountdownTag();
@@ -48,15 +55,35 @@ public abstract class BaseTeleportTalisman extends Item {
     protected abstract String getInitialHealthTag();
     protected abstract String getUsedHandTag();
     protected abstract String getUsedSlotTag();
-
-    // Abstract configuration
     protected abstract int getCooldownTicks();
     protected abstract int getCountdownTicks();
     protected abstract Rarity getTalismanRarity();
     protected abstract String getDisplayNameKey();
-
-    // Abstract teleport execution (subclass implements specific teleport logic)
     protected abstract void performTeleport(ServerPlayer player, ItemStack usedStack, int usedSlot);
+
+    protected abstract int getRechargeMaxValue();
+    protected abstract String getPermanentVariantId();
+
+    protected boolean isPermanent(ItemStack stack) {
+        return Boolean.TRUE.equals(stack.get(ModDataComponents.PERMANENT.get()));
+    }
+
+    protected PlayerData getPlayerData(ServerPlayer player) {
+        return player.getData(ModAttachments.PLAYER_DATA);
+    }
+
+    // PERFECT ISOLATION: Prefix with item type first, then variant
+    protected String getActualCountdownTag(ItemStack stack) {
+        return getCountdownTag() + (isPermanent(stack) ? "_PERM" : "_NORM");
+    }
+
+    protected String getActualCooldownTag(ItemStack stack) {
+        return getCooldownTag() + (isPermanent(stack) ? "_PERM" : "_NORM");
+    }
+
+    protected String getActualCooldownTimeTag(ItemStack stack) {
+        return getCooldownTimeTag() + (isPermanent(stack) ? "_PERM" : "_NORM");
+    }
 
     @Override
     public Component getName(ItemStack stack) {
@@ -69,18 +96,73 @@ public abstract class BaseTeleportTalisman extends Item {
                 return Component.translatable(getDisplayNameKey() + ".cooldown", minutes, seconds);
             }
         }
+
+        if (isPermanent(stack)) {
+            return Component.translatable(getDisplayNameKey() + ".permanent");
+        }
+
         return Component.translatable(getDisplayNameKey());
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+
+        // Show recharging status in tooltip for all permanent talismans
+        if (isPermanent(stack)) {
+            Integer progress = stack.get(ModDataComponents.RECHARGE_PROGRESS.get());
+            if (progress != null && progress > 0) {
+                int maxRecharge = getRechargeMaxValue();
+                tooltipComponents.add(Component.translatable(
+                        PERM_RECHARGE_TOOLTIP_KEY,
+                        progress, maxRecharge
+                ).withStyle(ChatFormatting.BLUE));
+            }
+        }
+    }
+
+    // Custom durability bar for recharge progress
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        // Only show bar for permanent talismans
+        return isPermanent(stack);
+    }
+
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        if (!isPermanent(stack)) {
+            return 0;
+        }
+
+        Integer progress = stack.get(ModDataComponents.RECHARGE_PROGRESS.get());
+        // If not recharging (ready to use) or progress is null, show full bar
+        if (progress == null || progress == 0) {
+            return 13; // Full bar (13 pixels)
+        }
+
+        int maxRecharge = getRechargeMaxValue();
+        if (progress >= maxRecharge) {
+            return 13; // Full bar when complete
+        }
+
+        // Calculate bar width based on recharge progress (0 to 13 pixels)
+        return (int)(13.0 * progress / maxRecharge);
+    }
+
+    @Override
+    public int getBarColor(ItemStack stack) {
+        // Return light blue color for all permanent talismans
+        return BAR_COLOR_LIGHT_BLUE;
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (isOnCooldown(player)) {
+        if (isItemOnCooldown(player, stack)) {
             return InteractionResultHolder.fail(stack);
         }
 
-        // Client side: just play sound
         if (level.isClientSide) {
             level.playSound(player, player.blockPosition(), SoundEvents.ENDERMAN_TELEPORT,
                     SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -88,23 +170,22 @@ public abstract class BaseTeleportTalisman extends Item {
         }
 
         ServerPlayer serverPlayer = (ServerPlayer) player;
-
-        // Track exact slot: main hand = current selected, offhand = 40
         int slot = (hand == InteractionHand.MAIN_HAND) ?
                 serverPlayer.getInventory().selected : 40;
 
-        startCountdown(serverPlayer, hand, slot);
+        startCountdown(serverPlayer, hand, slot, stack);
         playDepartureEffects(serverPlayer);
 
         return InteractionResultHolder.success(stack);
     }
 
-    protected void startCountdown(ServerPlayer player, InteractionHand hand, int slot) {
+    protected void startCountdown(ServerPlayer player, InteractionHand hand, int slot, ItemStack usedStack) {
+        String countdownTag = getActualCountdownTag(usedStack);
+
         CompoundTag data = player.getPersistentData();
-        data.putInt(getCountdownTag(), getCountdownTicks());
+        data.putInt(countdownTag, getCountdownTicks());
         data.putBoolean(TELEPORT_ACTIVE, true);
 
-        // Store position
         CompoundTag posTag = new CompoundTag();
         posTag.putDouble("x", player.getX());
         posTag.putDouble("y", player.getY());
@@ -112,14 +193,10 @@ public abstract class BaseTeleportTalisman extends Item {
         posTag.putBoolean("onGround", player.onGround());
         data.put(getInitialPosTag(), posTag);
 
-        // Store health
         data.putFloat(getInitialHealthTag(), player.getHealth());
-
-        // Store hand and slot for precise consumption
         data.putString(getUsedHandTag(), hand.name());
         data.putInt(getUsedSlotTag(), slot);
 
-        // Initial message
         player.displayClientMessage(
                 Component.translatable(TRANSLOC_COUNTDOWN, getCountdownTicks() / TICKS_PER_SECOND),
                 true
@@ -138,14 +215,87 @@ public abstract class BaseTeleportTalisman extends Item {
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         if (!level.isClientSide && entity instanceof ServerPlayer player) {
-            updateCooldownDisplay(stack, player);
-            handleCountdown(player);
+            handleCountdown(player, getActualCountdownTag(stack));
+
+            if (isPermanent(stack)) {
+                // Drain Qi every second
+                if (player.tickCount % TICKS_PER_SECOND == 0) {
+                    handleRechargeTick(player, stack);
+                }
+            } else {
+                updateCooldownDisplay(stack, player);
+            }
         }
         super.inventoryTick(stack, level, entity, slotId, isSelected);
     }
 
+    // FIXED: PERMANENT ITEMS USE RECHARGE ONLY
+    protected boolean isItemOnCooldown(Player player, ItemStack stack) {
+        if (isPermanent(stack)) {
+            Integer progress = stack.get(ModDataComponents.RECHARGE_PROGRESS.get());
+            return progress != null && progress > 0;
+        }
+
+        // Normal items: check their isolated cooldown
+        return player instanceof ServerPlayer serverPlayer &&
+                hasNormalCooldownActive(serverPlayer, stack);
+    }
+
+    // FIXED: ABSOLUTE SLOT CONSUMPTION - NO FALLBACK
+    protected void consumeItem(ServerPlayer player, ItemStack usedStack, int usedSlot) {
+        if (isPermanent(usedStack)) {
+            usedStack.set(ModDataComponents.RECHARGE_PROGRESS.get(), 1);
+            return;
+        }
+
+        if (player.getAbilities().instabuild) {
+            return;
+        }
+
+        // Get the exact slot that was stored at teleport start
+        ItemStack slotStack = player.getInventory().getItem(usedSlot);
+
+        // Verify it matches the expected item type AND permanent status
+        if (slotStack.getItem() == this && !isPermanent(slotStack)) {
+            slotStack.shrink(1);
+            return;
+        }
+
+        // If exact slot fails, search entire inventory for a matching normal item
+        // This is a safety net but should never trigger if slot tracking is correct
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack invStack = player.getInventory().getItem(i);
+            if (invStack.getItem() == this && !isPermanent(invStack)) {
+                invStack.shrink(1);
+                return;
+            }
+        }
+    }
+
+    protected void handleRechargeTick(ServerPlayer player, ItemStack stack) {
+        Integer progress = stack.get(ModDataComponents.RECHARGE_PROGRESS.get());
+        if (progress == null || progress == 0) {
+            return;
+        }
+
+        PlayerData playerData = getPlayerData(player);
+        if (playerData == null) return;
+
+        int maxRecharge = getRechargeMaxValue();
+
+        if (progress >= maxRecharge) {
+            stack.set(ModDataComponents.RECHARGE_PROGRESS.get(), 0);
+            return;
+        }
+
+        if (playerData.getCurrentQi() >= 1.0) {
+            playerData.tryConsumeQi(1.0);
+            stack.set(ModDataComponents.RECHARGE_PROGRESS.get(), progress + 1);
+        }
+    }
+
     protected void updateCooldownDisplay(ItemStack stack, ServerPlayer player) {
-        int remainingTicks = getRemainingCooldownTicks(player);
+        int remainingTicks = getRemainingCooldownTicks(player, stack);
         if (remainingTicks > 0) {
             int totalSeconds = remainingTicks / TICKS_PER_SECOND;
             int minutes = totalSeconds / 60;
@@ -155,13 +305,11 @@ public abstract class BaseTeleportTalisman extends Item {
             tag.putInt("CooldownMinutes", minutes);
             tag.putInt("CooldownSeconds", seconds);
 
-            // Let subclasses preserve extra data (like saved locations)
             preserveCustomData(stack, tag);
 
             stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
             player.getCooldowns().addCooldown(this, Math.min(remainingTicks, 200));
         } else {
-            // Only clear cooldown display, preserve other data
             clearCooldownDisplayOnly(stack);
 
             if (player.getCooldowns().isOnCooldown(this)) {
@@ -170,39 +318,32 @@ public abstract class BaseTeleportTalisman extends Item {
         }
     }
 
-    // Override in VoidMarkingTalisman to preserve saved location data
-    protected void preserveCustomData(ItemStack stack, CompoundTag cooldownTag) {
-        // Default: replace all data
-    }
+    protected void preserveCustomData(ItemStack stack, CompoundTag cooldownTag) {}
 
-    // Override in VoidMarkingTalisman
     protected void clearCooldownDisplayOnly(ItemStack stack) {
         stack.remove(DataComponents.CUSTOM_DATA);
     }
 
-    protected void handleCountdown(ServerPlayer player) {
+    protected void handleCountdown(ServerPlayer player, String countdownTag) {
         CompoundTag data = player.getPersistentData();
-        if (!data.contains(getCountdownTag())) {
+        if (!data.contains(countdownTag)) {
             return;
         }
 
-        int countdown = data.getInt(getCountdownTag());
+        int countdown = data.getInt(countdownTag);
         if (countdown <= 0) {
             return;
         }
 
-        // Check cancellation conditions
-        String cancelReason = getCancellationReason(player);
+        String cancelReason = getCancellationReason(player, countdownTag);
         if (cancelReason != null) {
-            cancelTeleport(player, cancelReason);
+            cancelTeleport(player, cancelReason, countdownTag);
             return;
         }
 
-        // Decrement counter
         countdown--;
-        data.putInt(getCountdownTag(), countdown);
+        data.putInt(countdownTag, countdown);
 
-        // Update message every second
         if (countdown % TICKS_PER_SECOND == 0) {
             int seconds = countdown / TICKS_PER_SECOND;
             player.displayClientMessage(
@@ -211,27 +352,23 @@ public abstract class BaseTeleportTalisman extends Item {
             );
         }
 
-        // Execute teleport when ready
         if (countdown == 0) {
-            executeTeleport(player);
+            executeTeleport(player, countdownTag);
         }
     }
 
     @Nullable
-    protected String getCancellationReason(ServerPlayer player) {
+    protected String getCancellationReason(ServerPlayer player, String countdownTag) {
         CompoundTag data = player.getPersistentData();
 
-        // Verify item is still in the correct slot/hand
-        if (!hasCorrectItemInSlot(player)) {
+        if (!hasCorrectItemInSlot(player, countdownTag)) {
             return TRANSLOC_CANCEL_NO_ITEM;
         }
 
-        // Check for significant movement
         if (hasSignificantMovement(player)) {
             return TRANSLOC_CANCEL_MOVE;
         }
 
-        // Check for health loss (damage)
         if (data.contains(getInitialHealthTag())) {
             float initialHealth = data.getFloat(getInitialHealthTag());
             if (player.getHealth() < initialHealth - 0.001F) {
@@ -242,7 +379,7 @@ public abstract class BaseTeleportTalisman extends Item {
         return null;
     }
 
-    protected boolean hasCorrectItemInSlot(ServerPlayer player) {
+    protected boolean hasCorrectItemInSlot(ServerPlayer player, String countdownTag) {
         CompoundTag data = player.getPersistentData();
         if (!data.contains(getUsedHandTag()) || !data.contains(getUsedSlotTag())) {
             return false;
@@ -254,17 +391,22 @@ public abstract class BaseTeleportTalisman extends Item {
         InteractionHand hand = InteractionHand.valueOf(handName);
         ItemStack itemInHand = player.getItemInHand(hand);
 
-        // Verify item type matches
         if (itemInHand.getItem() != this) {
             return false;
         }
 
-        // For main hand, verify slot hasn't changed
+        boolean isCountdownForPermanent = countdownTag.endsWith("_PERM");
+        boolean isItemPermanent = isPermanent(itemInHand);
+
+        if (isCountdownForPermanent != isItemPermanent) {
+            return false;
+        }
+
         if (hand == InteractionHand.MAIN_HAND) {
             return player.getInventory().selected == expectedSlot;
         }
 
-        return true; // Offhand doesn't use slot index
+        return true;
     }
 
     protected boolean hasSignificantMovement(ServerPlayer player) {
@@ -283,23 +425,20 @@ public abstract class BaseTeleportTalisman extends Item {
         double dy = player.getY() - y0;
         double dz = player.getZ() - z0;
 
-        // Horizontal movement check
         if (dx * dx + dz * dz > MOVEMENT_THRESHOLD_SQ) {
             return true;
         }
 
-        // Vertical check (allow small falls/jumps if on ground)
         if (Math.abs(dy) > Y_MOVEMENT_THRESHOLD) {
             if (!wasOnGround || Math.abs(dy) > 1.0) {
                 return true;
             }
         }
 
-        // Riding entities cancel teleport
         return player.getVehicle() != null;
     }
 
-    protected void executeTeleport(ServerPlayer player) {
+    protected void executeTeleport(ServerPlayer player, String countdownTag) {
         CompoundTag data = player.getPersistentData();
 
         String handName = data.getString(getUsedHandTag());
@@ -308,27 +447,31 @@ public abstract class BaseTeleportTalisman extends Item {
         InteractionHand hand = InteractionHand.valueOf(handName);
         ItemStack usedStack = player.getItemInHand(hand);
 
-        // Final validation
         if (usedStack.getItem() != this) {
-            cancelTeleport(player, TRANSLOC_CANCEL_NO_ITEM);
+            cancelTeleport(player, TRANSLOC_CANCEL_NO_ITEM, countdownTag);
             return;
         }
 
-        // Subclass implements actual teleport logic
+        boolean isCountdownForPermanent = countdownTag.endsWith("_PERM");
+        if (isPermanent(usedStack) != isCountdownForPermanent) {
+            cancelTeleport(player, TRANSLOC_CANCEL_NO_ITEM, countdownTag);
+            return;
+        }
+
         performTeleport(player, usedStack, slot);
     }
 
-    protected void cancelTeleport(ServerPlayer player, String reasonKey) {
+    protected void cancelTeleport(ServerPlayer player, String reasonKey, String countdownTag) {
         player.displayClientMessage(
                 Component.translatable(TRANSLOC_CANCELLED, Component.translatable(reasonKey)),
                 true
         );
-        clearCountdownData(player);
+        clearCountdownData(player, countdownTag);
     }
 
-    protected void clearCountdownData(ServerPlayer player) {
+    protected void clearCountdownData(ServerPlayer player, String countdownTag) {
         CompoundTag data = player.getPersistentData();
-        data.remove(getCountdownTag());
+        data.remove(countdownTag);
         data.remove(TELEPORT_ACTIVE);
         data.remove(getInitialPosTag());
         data.remove(getInitialHealthTag());
@@ -336,15 +479,56 @@ public abstract class BaseTeleportTalisman extends Item {
         data.remove(getUsedSlotTag());
     }
 
-    // Cooldown methods
-    protected boolean isOnCooldown(Player player) {
-        return getRemainingCooldownTicks(player) > 0;
+    private boolean hasNormalCooldownActive(ServerPlayer player, ItemStack stack) {
+        if (isPermanent(stack)) {
+            return false; // Extra guard
+        }
+
+        CompoundTag data = player.getPersistentData();
+        String cooldownTag = getActualCooldownTag(stack);
+        String timeTag = getActualCooldownTimeTag(stack);
+
+        if (!data.contains(cooldownTag) || !data.contains(timeTag)) {
+            return false;
+        }
+
+        int remaining = data.getInt(cooldownTag);
+        long lastUpdate = data.getLong(timeTag);
+        long elapsedTicks = (System.currentTimeMillis() - lastUpdate) / 50;
+
+        return Math.max(0, remaining - (int) elapsedTicks) > 0;
     }
 
-    protected int getRemainingCooldownTicks(Player player) {
+    protected boolean isOnCooldown(Player player, ItemStack stack) {
+        if (player.level().isClientSide || !(player instanceof ServerPlayer serverPlayer)) {
+            return false;
+        }
+
+        if (isPermanent(stack)) {
+            return false;
+        }
+
+        return hasNormalCooldownActive(serverPlayer, stack);
+    }
+
+    protected int getRemainingCooldownTicks(Player player, ItemStack stack) {
+        if (!(player instanceof ServerPlayer serverPlayer)) {
+            return 0;
+        }
+
+        if (isPermanent(stack)) {
+            return 0;
+        }
+
+        return getRemainingCooldownTime(serverPlayer, stack);
+    }
+
+    private int getRemainingCooldownTime(ServerPlayer player, ItemStack stack) {
+        if (isPermanent(stack)) return 0; // Triple guard
+
         CompoundTag data = player.getPersistentData();
-        String cooldownTag = getCooldownTag();
-        String timeTag = getCooldownTimeTag();
+        String cooldownTag = getActualCooldownTag(stack);
+        String timeTag = getActualCooldownTimeTag(stack);
 
         if (!data.contains(cooldownTag) || !data.contains(timeTag)) {
             return 0;
@@ -357,13 +541,20 @@ public abstract class BaseTeleportTalisman extends Item {
         return Math.max(0, remaining - (int) elapsedTicks);
     }
 
-    protected void startCooldown(ServerPlayer player) {
+    protected void startCooldown(ServerPlayer player, ItemStack stack) {
+        if (isPermanent(stack)) return; // Triple guard
+
         CompoundTag data = player.getPersistentData();
-        data.putInt(getCooldownTag(), getCooldownTicks());
-        data.putLong(getCooldownTimeTag(), System.currentTimeMillis());
+        data.putInt(getActualCooldownTag(stack), getCooldownTicks());
+        data.putLong(getActualCooldownTimeTag(stack), System.currentTimeMillis());
     }
 
-    // Helper methods for subclasses
+    protected void clearCooldown(ServerPlayer player) {
+        CompoundTag data = player.getPersistentData();
+        data.remove(getCooldownTag());
+        data.remove(getCooldownTimeTag());
+    }
+
     protected void playArrivalEffects(ServerPlayer player) {
         ServerLevel level = (ServerLevel) player.level();
         BlockPos pos = player.blockPosition();
@@ -374,60 +565,34 @@ public abstract class BaseTeleportTalisman extends Item {
                 50, 0.5, 1, 0.5, 0.1);
     }
 
-    protected void consumeItem(ServerPlayer player, ItemStack stack, int slot) {
-        if (player.getAbilities().instabuild) {
-            return;
-        }
-
-        // Try exact slot first (most reliable)
-        if (slot >= 0 && slot < player.getInventory().getContainerSize()) {
-            ItemStack inSlot = player.getInventory().getItem(slot);
-            if (inSlot.getItem() == this) {
-                inSlot.shrink(1);
-                return;
-            }
-        }
-
-        // Fallback to whichever hand currently holds this item
-        if (player.getMainHandItem().getItem() == this) {
-            player.getMainHandItem().shrink(1);
-        } else if (player.getOffhandItem().getItem() == this) {
-            player.getOffhandItem().shrink(1);
-        }
-    }
-
     protected boolean isPlayerValid(ServerPlayer player) {
         return player.isAlive() && !player.hasDisconnected() && player.getServer() != null;
     }
 
-    /**
-     * Finalizes teleport result for async operations (handles both success and failure)
-     * @param player The player
-     * @param usedStack The item stack used
-     * @param usedSlot The slot where the item was
-     * @param success Whether teleport succeeded
-     * @param consumeOnFailure Whether to consume item even on failure (true for SpatialRupture)
-     * @param successMessageKey Translation key for success message
-     */
     protected void finalizeTeleport(ServerPlayer player, ItemStack usedStack, int usedSlot,
                                     boolean success, boolean consumeOnFailure, String successMessageKey) {
         if (!isPlayerValid(player)) {
-            clearCountdownData(player);
+            clearCountdownData(player, getActualCountdownTag(usedStack));
             return;
         }
 
         if (success) {
             playArrivalEffects(player);
-            startCooldown(player);
+            if (!isPermanent(usedStack)) {
+                startCooldown(player, usedStack);
+            }
             consumeItem(player, usedStack, usedSlot);
             player.displayClientMessage(Component.translatable(successMessageKey), true);
         } else {
             if (consumeOnFailure) {
                 consumeItem(player, usedStack, usedSlot);
             }
-            player.displayClientMessage(Component.translatable("ascension.teleport.failed.no_safe_location"), true);
+            player.displayClientMessage(
+                    Component.translatable("ascension.teleport.failed.no_safe_location"),
+                    true
+            );
         }
 
-        clearCountdownData(player);
+        clearCountdownData(player, getActualCountdownTag(usedStack));
     }
 }

@@ -29,9 +29,8 @@ import java.util.stream.Collectors;
 
 public class VoidMarkingTalisman extends BaseTeleportTalisman {
     private static final int COOLDOWN_TICKS = 30 * 20; // 30 seconds
+    private static final int RECHARGE_MAX_VALUE = 25;
     private static final String SAVED_LOCATION_TAG = "SavedLocation";
-
-    // Location data keys (stored in ITEM NBT, not player data)
     private static final String SAVED_X = "saved_x";
     private static final String SAVED_Y = "saved_y";
     private static final String SAVED_Z = "saved_z";
@@ -41,7 +40,7 @@ public class VoidMarkingTalisman extends BaseTeleportTalisman {
         super(properties.rarity(Rarity.EPIC));
     }
 
-    // Player data NBT keys (standard)
+    // Player data NBT keys
     @Override protected String getCooldownTag() { return "VoidMarking_Cooldown"; }
     @Override protected String getCooldownTimeTag() { return "VoidMarking_CooldownTime"; }
     @Override protected String getCountdownTag() { return "VoidMarking_Countdown"; }
@@ -54,20 +53,20 @@ public class VoidMarkingTalisman extends BaseTeleportTalisman {
     @Override protected int getCountdownTicks() { return 5 * TICKS_PER_SECOND; }
     @Override protected Rarity getTalismanRarity() { return Rarity.RARE; }
     @Override protected String getDisplayNameKey() { return "item.ascension.void_marking_talisman"; }
+    @Override protected int getRechargeMaxValue() { return RECHARGE_MAX_VALUE; }
+    @Override protected String getPermanentVariantId() { return "permanent_void_marking"; }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
         if (player.isShiftKeyDown()) {
-            // SNEAK USE: Save current location
             if (level.isClientSide) {
                 level.playSound(player, player.blockPosition(), SoundEvents.ENDER_EYE_DEATH,
                         SoundSource.PLAYERS, 1.0F, 1.0F);
                 return InteractionResultHolder.consume(stack);
             }
 
-            // Save location to ITEM's NBT
             saveLocation(stack, player.blockPosition(), level.dimension());
             player.displayClientMessage(
                     Component.translatable("ascension.voidmarking.location_saved"),
@@ -80,7 +79,6 @@ public class VoidMarkingTalisman extends BaseTeleportTalisman {
 
             return InteractionResultHolder.success(stack);
         } else {
-            // NORMAL USE: Teleport to saved location
             if (!hasSavedLocation(stack)) {
                 if (!level.isClientSide) {
                     player.displayClientMessage(
@@ -103,7 +101,7 @@ public class VoidMarkingTalisman extends BaseTeleportTalisman {
                     Component.translatable("ascension.voidmarking.no_location"),
                     true
             );
-            clearCountdownData(player);
+            clearCountdownData(player, getActualCountdownTag(usedStack)); // FIXED
             return;
         }
 
@@ -116,17 +114,15 @@ public class VoidMarkingTalisman extends BaseTeleportTalisman {
                     Component.translatable("ascension.voidmarking.dimension_invalid"),
                     true
             );
-            clearCountdownData(player);
+            clearCountdownData(player, getActualCountdownTag(usedStack)); // FIXED
             return;
         }
 
-        // Teleport
         player.teleportTo(targetLevel, location.x(), location.y(), location.z(),
                 player.getYRot(), player.getXRot());
 
-        // Success
         playArrivalEffects(player);
-        startCooldown(player);
+        startCooldown(player, usedStack);
         consumeItem(player, usedStack, usedSlot);
 
         player.displayClientMessage(
@@ -134,12 +130,11 @@ public class VoidMarkingTalisman extends BaseTeleportTalisman {
                 true
         );
 
-        clearCountdownData(player);
+        clearCountdownData(player, getActualCountdownTag(usedStack)); // FIXED
     }
 
     @Override
     protected void preserveCustomData(ItemStack stack, CompoundTag cooldownTag) {
-        // Preserve saved location data when updating cooldown display
         CustomData existingData = stack.get(DataComponents.CUSTOM_DATA);
         if (existingData != null) {
             CompoundTag existingTag = existingData.copyTag();
@@ -159,8 +154,8 @@ public class VoidMarkingTalisman extends BaseTeleportTalisman {
             CompoundTag tag = existingData.copyTag();
             tag.remove("CooldownMinutes");
             tag.remove("CooldownSeconds");
+            tag.remove("RechargeStatus");
 
-            // Keep saved location if present
             if (!tag.isEmpty()) {
                 stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
             } else {

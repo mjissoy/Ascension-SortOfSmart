@@ -9,6 +9,7 @@ import net.thejadeproject.ascension.items.artifacts.bases.BaseTeleportTalisman;
 
 public class WorldAxisTalisman extends BaseTeleportTalisman {
     private static final int COOLDOWN_TICKS = 5 * 60 * 20; // 5 minutes
+    private static final int RECHARGE_MAX_VALUE = 50;
 
     public WorldAxisTalisman(Properties properties) {
         super(properties.rarity(Rarity.RARE));
@@ -27,12 +28,15 @@ public class WorldAxisTalisman extends BaseTeleportTalisman {
     @Override protected Rarity getTalismanRarity() { return Rarity.UNCOMMON; }
     @Override protected String getDisplayNameKey() { return "item.ascension.world_axis_talisman"; }
 
+    // NEW: Permanent item methods
+    @Override protected int getRechargeMaxValue() { return RECHARGE_MAX_VALUE; }
+    @Override protected String getPermanentVariantId() { return "permanent_world_axis"; }
+
     @Override
     protected void performTeleport(ServerPlayer player, ItemStack usedStack, int usedSlot) {
-        // Get overworld spawn point
         ServerLevel targetLevel = player.getServer().overworld();
         if (targetLevel == null) {
-            cancelTeleport(player, TRANSLOC_CANCEL_NO_ITEM);
+            cancelTeleport(player, TRANSLOC_CANCEL_NO_ITEM, getActualCountdownTag(usedStack)); // FIXED
             return;
         }
 

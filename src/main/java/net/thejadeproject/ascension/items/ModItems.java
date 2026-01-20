@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
+import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
 import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
@@ -156,7 +157,6 @@ public class ModItems {
             () -> new SpatialRuptureTalismanT2(new Item.Properties()));
     public static final DeferredItem<Item> SPATIAL_RUPTURE_TALISMAN_T3 = ITEMS.register("spatial_rupture_talisman_t3",
             () -> new SpatialRuptureTalismanT3(new Item.Properties()));
-
     public static final DeferredItem<Item> SOULSTEAD_RETURN_TALISMAN = ITEMS.register("soulstead_return_talisman",
             () -> new SoulsteadReturnTalisman(new Item.Properties()));
     public static final DeferredItem<Item> WORLD_AXIS_TALISMAN = ITEMS.register("world_axis_talisman",

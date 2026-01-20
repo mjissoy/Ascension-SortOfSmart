@@ -175,6 +175,17 @@ public class lang extends LanguageProvider {
         add("ascension.voidmarking.tooltip.coords", "§7X: %s §7Y: %s §7Z: %s");
         add("ascension.voidmarking.tooltip.dimension", "§7Dimension: %s");
 
+
+        add("item.ascension.spatial_rupture_talisman_t1.permanent", "Permanent Spatial Rupture Talisman Lesser");
+        add("item.ascension.spatial_rupture_talisman_t2.permanent", "Permanent Spatial Rupture Talisman Standard");
+        add("item.ascension.spatial_rupture_talisman_t3.permanent", "Permanent Spatial Rupture Talisman Greater");
+        add("item.ascension.soulstead_return_talisman.permanent", "Permanent Soulstead Return Talisman");
+        add("item.ascension.world_axis_talisman.permanent", "Permanent World Axis Talisman");
+        add("item.ascension.void_marking_talisman.permanent", "Permanent Void Marking Talisman");
+
+        add("item.ascension.permanent_talisman.recharging", "Recharging: %s%% (Draining Qi...)");
+        add("ascension.talisman.recharged", "%s is ready!");
+
         add("ascension.tablet.cooldown", "§cTablet is on cooldown!");
         add("ascension.tablet.human.cooldown", "§cHuman Tablet needs 20 seconds to recharge...");
         add("item.ascension.tablet_of_destruction_heaven.cooldown", "§cHeaven Tablet needs 5 seconds to recharge...");

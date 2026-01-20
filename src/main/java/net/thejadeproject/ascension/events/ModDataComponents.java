@@ -37,6 +37,22 @@ public class ModDataComponents {
                     .build()
     );
 
+    public static final Supplier<DataComponentType<Boolean>> PERMANENT = DATA_COMPONENTS.register(
+            "permanent",
+            () -> DataComponentType.<Boolean>builder()
+                    .persistent(Codec.BOOL)
+                    .networkSynchronized(ByteBufCodecs.BOOL)
+                    .build()
+    );
+
+    public static final Supplier<DataComponentType<Integer>> RECHARGE_PROGRESS = DATA_COMPONENTS.register(
+            "recharge_progress",
+            () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.VAR_INT)
+                    .build()
+    );
+
     public static final Supplier<DataComponentType<Integer>> KARMA_VALUE = DATA_COMPONENTS.register(
             "karma_value",
             () -> DataComponentType.<Integer>builder()
