@@ -11,7 +11,7 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class HeartDemonEffect extends MobEffect {
     private static final double BASE_DRAIN_RATE = 10.0;
-    private static final double DRAIN_RATE_PER_LEVEL = 12.5;
+    private static final double DRAIN_RATE_PER_LEVEL = 378.5;
 
     protected HeartDemonEffect(MobEffectCategory category, int color) {
         super(category, color);

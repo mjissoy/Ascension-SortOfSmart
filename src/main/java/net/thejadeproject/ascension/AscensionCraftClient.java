@@ -27,6 +27,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
 import net.thejadeproject.ascension.entity.ModEntities;
+import net.thejadeproject.ascension.entity.client.CushionRenderer;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.events.custom.OpenPhysiqueSelectScreenEvent;
@@ -108,7 +109,7 @@ public class AscensionCraftClient {
                 EntityRenderers.register(ModEntities.RIFT.get(), RiftRenderer::new);
                 EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
                 EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
-
+                EntityRenderers.register(ModEntities.CUSHION_ENTITY.get(), CushionRenderer::new);
                 // Register item properties
                 ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
                         ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),

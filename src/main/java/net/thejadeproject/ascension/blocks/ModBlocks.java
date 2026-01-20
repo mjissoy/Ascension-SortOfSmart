@@ -311,7 +311,9 @@ public class ModBlocks {
                 .strength(7.5f, 11.5f).requiresCorrectToolForDrops().sound(SoundType.METAL)));
 
 
-
+    //Decorational Blocks
+    public static final DeferredBlock<Block> CUSHION_RED = registerBlock("cushion_red",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
 
 
 

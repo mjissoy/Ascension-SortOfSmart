@@ -277,6 +277,11 @@ public class lang extends LanguageProvider {
         add("block.ascension.ironwood_sprout_crop", "Ironwood Sprout");
         add("block.ascension.white_jade_orchid_crop", "White Jade Orchid");
 
+
+        //Decorational Blocks
+        add("block.ascension.cushion_red", "Red Cushion");
+
+
         //Blocks
         add("block.ascension.pill_cauldron", "Pill Cauldron");
         add("block.ascension.golden_palm_log", "Golden Palm Log");

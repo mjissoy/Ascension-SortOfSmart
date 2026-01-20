@@ -91,6 +91,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
 
 
+                        output.accept(ModBlocks.CUSHION_RED);
 
                         output.accept(ModBlocks.BLACK_IRON_ORE);
                         output.accept(ModBlocks.BLACK_IRON_BLOCK);

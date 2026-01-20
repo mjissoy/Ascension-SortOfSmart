@@ -3,7 +3,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"1": "ascension:block/cushion/cushion"
+		"1": "ascension:block/cushion/cushion_red",
+		"particle": "ascension:block/cushion/cushion_red"
 	},
 	"elements": [
 		{
@@ -45,5 +46,41 @@
 				"down": {"uv": [12.5, 12, 8.5, 16], "texture": "#1"}
 			}
 		}
-	]
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [72.59, 38.19, -3.16],
+			"translation": [0.75, 2.75, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [72.59, 38.19, -3.16],
+			"translation": [0.75, 2.75, 0],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -50.5, 0],
+			"translation": [0, 0, -1],
+			"scale": [0.8, 0.8, 0.8]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -50.5, 0],
+			"translation": [0, 0, -1],
+			"scale": [0.8, 0.8, 0.8]
+		},
+		"ground": {
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"gui": {
+			"rotation": [24.28, 41.97, -3.08],
+			"scale": [0.5, 0.5, 0.5]
+		},
+		"head": {
+			"translation": [0, 12.25, 0]
+		},
+		"fixed": {
+			"rotation": [-90, 0, 0],
+			"translation": [0, 0, -3]
+		}
+	}
 }

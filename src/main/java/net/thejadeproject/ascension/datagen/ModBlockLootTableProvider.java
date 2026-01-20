@@ -37,6 +37,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BLACK_IRON_BLOCK.get());
         dropSelf(ModBlocks.FROST_SILVER_BLOCK.get());
         dropSelf(ModBlocks.SPIRITUAL_STONE_BLOCK.get());
+        dropSelf(ModBlocks.CUSHION_RED.get());
 
 
         /** Marble */

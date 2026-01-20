@@ -364,6 +364,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.STRIPPED_IRONWOOD_WOOD.get());
 
         this.tag(BlockTags.MINEABLE_WITH_AXE)
+                        .add(ModBlocks.CUSHION_RED.get())
                         .add(ModBlocks.GOLDEN_PALM_PLANKS.get())
                         .add(ModBlocks.IRONWOOD_PLANKS.get());
 
