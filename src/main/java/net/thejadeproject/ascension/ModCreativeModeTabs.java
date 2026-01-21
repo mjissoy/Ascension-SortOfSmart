@@ -91,7 +91,22 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
 
 
+                        output.accept(ModBlocks.CUSHION_WHITE);
+                        output.accept(ModBlocks.CUSHION_LIGHT_GRAY);
+                        output.accept(ModBlocks.CUSHION_GRAY);
+                        output.accept(ModBlocks.CUSHION_BLACK);
+                        output.accept(ModBlocks.CUSHION_BROWN);
                         output.accept(ModBlocks.CUSHION_RED);
+                        output.accept(ModBlocks.CUSHION_ORANGE);
+                        output.accept(ModBlocks.CUSHION_YELLOW);
+                        output.accept(ModBlocks.CUSHION_LIME);
+                        output.accept(ModBlocks.CUSHION_GREEN);
+                        output.accept(ModBlocks.CUSHION_CYAN);
+                        output.accept(ModBlocks.CUSHION_LIGHT_BLUE);
+                        output.accept(ModBlocks.CUSHION_BLUE);
+                        output.accept(ModBlocks.CUSHION_PURPLE);
+                        output.accept(ModBlocks.CUSHION_MAGENTA);
+                        output.accept(ModBlocks.CUSHION_PINK);
 
                         output.accept(ModBlocks.BLACK_IRON_ORE);
                         output.accept(ModBlocks.BLACK_IRON_BLOCK);

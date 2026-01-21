@@ -364,7 +364,22 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.STRIPPED_IRONWOOD_WOOD.get());
 
         this.tag(BlockTags.MINEABLE_WITH_AXE)
+                        .add(ModBlocks.CUSHION_WHITE.get())
+                        .add(ModBlocks.CUSHION_LIGHT_GRAY.get())
+                        .add(ModBlocks.CUSHION_GRAY.get())
+                        .add(ModBlocks.CUSHION_BLACK.get())
+                        .add(ModBlocks.CUSHION_BROWN.get())
                         .add(ModBlocks.CUSHION_RED.get())
+                        .add(ModBlocks.CUSHION_ORANGE.get())
+                        .add(ModBlocks.CUSHION_YELLOW.get())
+                        .add(ModBlocks.CUSHION_LIME.get())
+                        .add(ModBlocks.CUSHION_GREEN.get())
+                        .add(ModBlocks.CUSHION_CYAN.get())
+                        .add(ModBlocks.CUSHION_LIGHT_BLUE.get())
+                        .add(ModBlocks.CUSHION_BLUE.get())
+                        .add(ModBlocks.CUSHION_PURPLE.get())
+                        .add(ModBlocks.CUSHION_MAGENTA.get())
+                        .add(ModBlocks.CUSHION_PINK.get())
                         .add(ModBlocks.GOLDEN_PALM_PLANKS.get())
                         .add(ModBlocks.IRONWOOD_PLANKS.get());
 

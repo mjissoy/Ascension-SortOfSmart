@@ -37,7 +37,22 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BLACK_IRON_BLOCK.get());
         dropSelf(ModBlocks.FROST_SILVER_BLOCK.get());
         dropSelf(ModBlocks.SPIRITUAL_STONE_BLOCK.get());
+        dropSelf(ModBlocks.CUSHION_WHITE.get());
+        dropSelf(ModBlocks.CUSHION_LIGHT_GRAY.get());
+        dropSelf(ModBlocks.CUSHION_GRAY.get());
+        dropSelf(ModBlocks.CUSHION_BLACK.get());
+        dropSelf(ModBlocks.CUSHION_BROWN.get());
         dropSelf(ModBlocks.CUSHION_RED.get());
+        dropSelf(ModBlocks.CUSHION_ORANGE.get());
+        dropSelf(ModBlocks.CUSHION_YELLOW.get());
+        dropSelf(ModBlocks.CUSHION_LIME.get());
+        dropSelf(ModBlocks.CUSHION_GREEN.get());
+        dropSelf(ModBlocks.CUSHION_CYAN.get());
+        dropSelf(ModBlocks.CUSHION_LIGHT_BLUE.get());
+        dropSelf(ModBlocks.CUSHION_BLUE.get());
+        dropSelf(ModBlocks.CUSHION_PURPLE.get());
+        dropSelf(ModBlocks.CUSHION_MAGENTA.get());
+        dropSelf(ModBlocks.CUSHION_PINK.get());
 
 
         /** Marble */

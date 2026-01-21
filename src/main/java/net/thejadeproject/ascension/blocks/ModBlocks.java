@@ -312,7 +312,37 @@ public class ModBlocks {
 
 
     //Decorational Blocks
+    public static final DeferredBlock<Block> CUSHION_WHITE = registerBlock("cushion_white",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_ORANGE = registerBlock("cushion_orange",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_MAGENTA = registerBlock("cushion_magenta",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_LIGHT_BLUE = registerBlock("cushion_light_blue",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_YELLOW = registerBlock("cushion_yellow",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_LIME = registerBlock("cushion_lime",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_PINK = registerBlock("cushion_pink",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_GRAY = registerBlock("cushion_gray",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_LIGHT_GRAY = registerBlock("cushion_light_gray",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_CYAN = registerBlock("cushion_cyan",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_PURPLE = registerBlock("cushion_purple",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_BLUE = registerBlock("cushion_blue",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_BROWN = registerBlock("cushion_brown",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_GREEN = registerBlock("cushion_green",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
     public static final DeferredBlock<Block> CUSHION_RED = registerBlock("cushion_red",
+            () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
+    public static final DeferredBlock<Block> CUSHION_BLACK = registerBlock("cushion_black",
             () -> new CushionBlockBase(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS).noOcclusion()));
 
 

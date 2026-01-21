@@ -279,7 +279,22 @@ public class lang extends LanguageProvider {
 
 
         //Decorational Blocks
+        add("block.ascension.cushion_white", "White Cushion");
+        add("block.ascension.cushion_light_gray", "Light Gray Cushion");
+        add("block.ascension.cushion_gray", "Gray Cushion");
+        add("block.ascension.cushion_black", "Black Cushion");
+        add("block.ascension.cushion_brown", "Brown Cushion");
         add("block.ascension.cushion_red", "Red Cushion");
+        add("block.ascension.cushion_orange", "Orange Cushion");
+        add("block.ascension.cushion_yellow", "Yellow Cushion");
+        add("block.ascension.cushion_lime", "Lime Cushion");
+        add("block.ascension.cushion_green", "Green Cushion");
+        add("block.ascension.cushion_cyan", "Cyan Cushion");
+        add("block.ascension.cushion_light_blue", "Light Blue Cushion");
+        add("block.ascension.cushion_blue", "Blue Cushion");
+        add("block.ascension.cushion_purple", "Purple Cushion");
+        add("block.ascension.cushion_magenta", "Magenta Cushion");
+        add("block.ascension.cushion_pink", "Pink Cushion");
 
 
         //Blocks
