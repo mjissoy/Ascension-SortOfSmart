@@ -40,7 +40,19 @@ public class lang extends LanguageProvider {
 
 
         //Items
-        add("item.ascension.jade_slip", "Jade Slip");
+        add("item.ascension.formation_slip_acacia", "Formation Slip");
+        add("item.ascension.formation_slip_bamboo", "Formation Slip");
+        add("item.ascension.formation_slip_birch", "Formation Slip");
+        add("item.ascension.formation_slip_cherry", "Formation Slip");
+        add("item.ascension.formation_slip_crimson", "Formation Slip");
+        add("item.ascension.formation_slip_dark_oak", "Formation Slip");
+        add("item.ascension.formation_slip_golden_palm", "Formation Slip");
+        add("item.ascension.formation_slip_ironwood", "Formation Slip");
+        add("item.ascension.formation_slip_jungle", "Formation Slip");
+        add("item.ascension.formation_slip_mangrove", "Formation Slip");
+        add("item.ascension.formation_slip_oak", "Formation Slip");
+        add("item.ascension.formation_slip_spruce", "Formation Slip");
+        add("item.ascension.formation_slip_warped", "Formation Slip");
 
         //Tools and Swords and Armor
         add("item.ascension.wooden_blade", "Wooden Blade");
@@ -202,10 +214,10 @@ public class lang extends LanguageProvider {
         add("item.ascension.tablet_of_destruction_earth", "Tablet of Destruction (Earth Tier)");
         add("item.ascension.tablet_of_destruction_heaven", "Tablet of Destruction (Heaven Tier)");
 
-        add("item.ascension.jade_slip.already_linked", "This Jade Slip is already linked to %s and cannot be re-linked!");
-        add("item.ascension.jade_slip.linked", "Jade Slip linked to %s");
-        add("item.ascension.jade_slip.tooltip.linked", "Linked to: %s");
-        add("ascension.tooltip.rgb.jade_slip", "Sect Identification");
+        add("item.ascension.player_acess_token.already_linked", "This Formation Token is already linked to %s and cannot be re-linked!");
+        add("item.ascension.player_acess_token.linked", "Formation Token linked to %s");
+        add("item.ascension.player_acess_token.tooltip.linked", "Linked to: %s");
+        add("ascension.tooltip.rgb.jade_slip", "Formation Identification");
         add("ascension.tooltip.rgb.rebirth_warning", "Be Cautious This Pill Resets Everything!");
 
 

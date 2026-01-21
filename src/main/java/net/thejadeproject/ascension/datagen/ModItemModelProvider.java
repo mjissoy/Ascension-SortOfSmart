@@ -130,7 +130,22 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.FROST_SILVER_INGOT.get());
         basicItem(ModItems.FROST_SILVER_NUGGET.get());
 
-        basicItem(ModItems.JADE_SLIP.get());
+
+        //Formation Stuff
+        tokens(ModItems.FORMATION_SLIP_ACACIA.get());
+        tokens(ModItems.FORMATION_SLIP_BAMBOO.get());
+        tokens(ModItems.FORMATION_SLIP_BIRCH.get());
+        tokens(ModItems.FORMATION_SLIP_CHERRY.get());
+        tokens(ModItems.FORMATION_SLIP_CRIMSON.get());
+        tokens(ModItems.FORMATION_SLIP_DARK_OAK.get());
+        tokens(ModItems.FORMATION_SLIP_GOLDEN_PALM.get());
+        tokens(ModItems.FORMATION_SLIP_IRONWOOD.get());
+        tokens(ModItems.FORMATION_SLIP_JUNGLE.get());
+        tokens(ModItems.FORMATION_SLIP_MANGROVE.get());
+        tokens(ModItems.FORMATION_SLIP_OAK.get());
+        tokens(ModItems.FORMATION_SLIP_SPRUCE.get());
+        tokens(ModItems.FORMATION_SLIP_WARPED.get());
+
 
 
         //Drops
@@ -312,6 +327,15 @@ public class ModItemModelProvider extends ItemModelProvider {
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
         String itemName = itemId.getPath();
         ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "item/pills/" + itemName);
+
+        return getBuilder(itemName)
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", textureLoc);
+    }
+    public ItemModelBuilder tokens(Item item) {
+        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
+        String itemName = itemId.getPath();
+        ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "item/formation_slip/" + itemName);
 
         return getBuilder(itemName)
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))

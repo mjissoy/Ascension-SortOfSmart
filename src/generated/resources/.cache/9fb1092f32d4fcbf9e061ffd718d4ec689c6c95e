@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-04T14:31:57.5340737	Recipes
+// 1.21.1	2026-01-21T19:55:16.4059374	Recipes
 da9eaf334b8ff9d37b2fbb9fd8de6baf027edf64 data/ascension/advancement/recipes/building_blocks/blue_marble_bricks.json
 60ea0a8913cba8d6930aeb68209f704f9b030baa data/ascension/advancement/recipes/building_blocks/blue_marble_brick_slabs.json
 77e006eabd326806f054577716fc77a5e3b86b63 data/ascension/advancement/recipes/building_blocks/blue_marble_brick_stairs.json
@@ -207,7 +207,6 @@ f9bf8cbf49e905121ba9c840bf040c7f95f84dd1 data/ascension/advancement/recipes/misc
 08af23fdee3be85c1de891745f27f8c054337f56 data/ascension/advancement/recipes/misc/shaped/jade_blade.json
 214ddc91852dd730c274833aae8ffef37b2b3eeb data/ascension/advancement/recipes/misc/shaped/jade_block_from_jade.json
 ba4680a51b763773ea0e2bb81868c7d31300883a data/ascension/advancement/recipes/misc/shaped/jade_ingot_from_nugget.json
-7f3e7eb64547de22e540b89fdc5b103c2babded4 data/ascension/advancement/recipes/misc/shaped/jade_slip.json
 6802d28a464522226586ed9c21e41b409b87685c data/ascension/advancement/recipes/misc/shaped/jade_spear.json
 7ae4b8e9078e69c04a5b8957eca5ecfd4ed8fc31 data/ascension/advancement/recipes/misc/shaped/pill_cauldron_from_black_iron.json
 a3cf51d029f14912b370b248d0071d5f588ad7fc data/ascension/advancement/recipes/misc/shaped/repair_slip.json
@@ -459,7 +458,6 @@ d12bc743dfbfefd6eb010005ecc8a40ecbd6e508 data/ascension/recipe/shaped/iron_spear
 ade225bbc41705dc350399052335925de3bead1c data/ascension/recipe/shaped/jade_blade.json
 e3b9fd9c3541f8586e10c0275bd4d70a84e01d89 data/ascension/recipe/shaped/jade_block_from_jade.json
 4dad4220e97c018a0cb29e732ee1939c6764f87c data/ascension/recipe/shaped/jade_ingot_from_nugget.json
-a98e3765ad53064bf2b57c4d9f6625ce3611249f data/ascension/recipe/shaped/jade_slip.json
 342dce626c6b3ecca6f8883be251c6ca30404d52 data/ascension/recipe/shaped/jade_spear.json
 8b5dd5727aa07a883a21d2e0cd1ebdfb8f03756c data/ascension/recipe/shaped/pill_cauldron_from_black_iron.json
 321a9af4bd491261f52deb06563bb8b128d829e4 data/ascension/recipe/shaped/repair_slip.json

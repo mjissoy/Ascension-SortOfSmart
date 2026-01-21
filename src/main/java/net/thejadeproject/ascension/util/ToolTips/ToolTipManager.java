@@ -81,8 +81,8 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.ENDER_POUCH.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FIRE_GOURD.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.RED));
 
-        ToolTipHandler.registerTooltip(ModItems.JADE_SLIP.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerAnimatedTooltip(ModItems.JADE_SLIP.get(), Component.translatable("ascension.tooltip.rgb.jade_slip"), 0.001f);
+        ToolTipHandler.registerTooltip(ModItems.FORMATION_SLIP_ACACIA.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerAnimatedTooltip(ModItems.FORMATION_SLIP_ACACIA.get(), Component.translatable("ascension.tooltip.rgb.jade_slip"), 0.001f);
 
         ToolTipHandler.registerTooltip(ModItems.SPATIAL_RING.get(), Component.literal("★☆☆☆☆").withStyle(ChatFormatting.RED));
 

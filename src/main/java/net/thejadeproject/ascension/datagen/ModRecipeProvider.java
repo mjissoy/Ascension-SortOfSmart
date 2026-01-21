@@ -1,11 +1,8 @@
 package net.thejadeproject.ascension.datagen;
 
-import net.favouriteless.modopedia.common.init.MDataComponents;
-import net.favouriteless.modopedia.common.init.MItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
@@ -137,13 +134,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('L', Items.LEATHER)
                 .define('J', ModItems.JADE.get())
                 .unlockedBy("has_ender_chest", has(Items.ENDER_CHEST)).save(recipeOutput, "ascension:shaped/ender_pouch");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SLIP.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', ModItems.JADE.get())
-                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_slip");
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.REPAIR_SLIP.get())
                 .pattern(" SS")
                 .pattern("BB ")
@@ -154,6 +144,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
 
+        //Formation Stuff
+        /*ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_ACACIA.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', ModItems.JADE.get())
+                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_slip");*/
 
 
 

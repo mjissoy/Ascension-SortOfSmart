@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.items.artifacts;
+package net.thejadeproject.ascension.items.formations;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
@@ -16,9 +16,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class JadeSlip extends Item {
+public class PlayerAccessItemToken extends Item {
 
-    public JadeSlip(Item.Properties properties) {
+    public PlayerAccessItemToken(Item.Properties properties) {
         super(properties);
     }
 
@@ -31,14 +31,14 @@ public class JadeSlip extends Item {
                 // Check if already linked
                 if (isLinked(stack)) {
                     String currentOwner = getPlayerName(stack);
-                    player.sendSystemMessage(Component.translatable("item.ascension.jade_slip.already_linked", currentOwner).withStyle(ChatFormatting.RED));
+                    player.sendSystemMessage(Component.translatable("item.ascension.player_acess_token.already_linked", currentOwner).withStyle(ChatFormatting.RED));
                     return InteractionResultHolder.fail(stack);
                 }
 
                 // Store player information using custom data component
                 setPlayerData(stack, player);
 
-                player.sendSystemMessage(Component.translatable("item.ascension.jade_slip.linked", player.getGameProfile().getName()).withStyle(ChatFormatting.YELLOW));
+                player.sendSystemMessage(Component.translatable("item.ascension.player_acess_token.linked", player.getGameProfile().getName()).withStyle(ChatFormatting.YELLOW));
             }
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
         }
@@ -76,7 +76,7 @@ public class JadeSlip extends Item {
     }
 
     public static boolean isLinked(ItemStack stack) {
-        if (stack.isEmpty() || !(stack.getItem() instanceof JadeSlip)) return false;
+        if (stack.isEmpty() || !(stack.getItem() instanceof PlayerAccessItemToken)) return false;
         return getPlayerUUID(stack) != null;
     }
 
@@ -87,7 +87,7 @@ public class JadeSlip extends Item {
         // Only show tooltip if the item is linked
         if (isLinked(stack)) {
             String playerName = getPlayerName(stack);
-            tooltip.add(Component.translatable("item.ascension.jade_slip.tooltip.linked", playerName).withStyle(ChatFormatting.YELLOW));
+            tooltip.add(Component.translatable("item.ascension.player_acess_token.tooltip.linked", playerName).withStyle(ChatFormatting.YELLOW));
         }
     }
 

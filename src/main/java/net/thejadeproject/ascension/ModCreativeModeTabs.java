@@ -45,7 +45,7 @@ public class ModCreativeModeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.KARMIC_DEBT_LEDGER);
 
-                        output.accept(ModItems.JADE_SLIP);
+                        output.accept(ModItems.FORMATION_SLIP_ACACIA);
                         output.accept(ModItems.REPAIR_SLIP);
                         output.accept(ModItems.ENDER_POUCH);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HUMAN);

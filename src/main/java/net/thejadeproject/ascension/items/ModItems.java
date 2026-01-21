@@ -13,8 +13,8 @@ import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
-import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.items.artifacts.*;
+import net.thejadeproject.ascension.items.formations.PlayerAccessItemToken;
 import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
 import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
 import net.thejadeproject.ascension.items.herbs.PlantableHerb;
@@ -23,7 +23,6 @@ import net.thejadeproject.ascension.items.pills.*;
 import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
-import net.thejadeproject.ascension.items.upgrades.UpgradeItem;
 import net.thejadeproject.ascension.util.ItemUtil;
 
 import java.util.HashSet;
@@ -137,18 +136,47 @@ public class ModItems {
                   ));
 
 
+    //Formation Items
+
+    public static final DeferredItem<Item> FORMATION_SLIP_ACACIA = ITEMS.register("formation_slip_acacia",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_BAMBOO = ITEMS.register("formation_slip_bamboo",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_BIRCH = ITEMS.register("formation_slip_birch",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_CHERRY = ITEMS.register("formation_slip_cherry",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_CRIMSON = ITEMS.register("formation_slip_crimson",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_DARK_OAK = ITEMS.register("formation_slip_dark_oak",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_GOLDEN_PALM = ITEMS.register("formation_slip_golden_palm",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_IRONWOOD = ITEMS.register("formation_slip_ironwood",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_JUNGLE = ITEMS.register("formation_slip_jungle",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_MANGROVE = ITEMS.register("formation_slip_mangrove",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_OAK = ITEMS.register("formation_slip_oak",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_SPRUCE = ITEMS.register("formation_slip_spruce",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FORMATION_SLIP_WARPED = ITEMS.register("formation_slip_warped",
+            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
+
+
+
+
+
+
+
+
+
     //Artifacts
-
-    //public static final DeferredItem<Item> FORMATION_SLIP = ITEMS.register("jade_slip",
-            //() -> new FormationSlips(new Item.Properties().stacksTo(1)));
-
-
     public static final DeferredItem<Item> KARMIC_DEBT_LEDGER = ITEMS.register("karmic_debt_ledger",
             () -> new KarmicDebtLedgerItem());
 
-
-    public static final DeferredItem<Item> JADE_SLIP = ITEMS.register("jade_slip",
-            () -> new JadeSlip(new Item.Properties().stacksTo(1)));
 
 
     public static final DeferredItem<Item> SPATIAL_RUPTURE_TALISMAN_T1 = ITEMS.register("spatial_rupture_talisman_t1",

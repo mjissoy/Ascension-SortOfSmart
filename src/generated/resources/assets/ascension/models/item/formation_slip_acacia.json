@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ascension:item/formation_slip/formation_slip_acacia"
+  }
+}

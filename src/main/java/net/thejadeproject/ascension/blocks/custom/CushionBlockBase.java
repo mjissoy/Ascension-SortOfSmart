@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.thejadeproject.ascension.entity.ModEntities;
@@ -44,6 +45,30 @@ private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 7, 16);
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        // Reduce fall damage by 30% - adjust multiplier as needed:
+        // 0.7F = 30% reduction (slight cushion)
+        // 0.8F = 20% reduction (minimal cushion)
+        // 0.5F = 50% reduction (like Create's seat)
+        super.fallOn(level, state, pos, entity, fallDistance * 0.7F);
+    }
+
+    @Override
+    public void updateEntityAfterFallOn(BlockGetter reader, Entity entity) {
+        if (entity.isSuppressingBounce()) {
+            super.updateEntityAfterFallOn(reader, entity);
+            return;
+        }
+
+        Vec3 vec3 = entity.getDeltaMovement();
+        if (vec3.y < 0.0D) {
+            // Gentle bounce: 30% upward rebound
+            entity.setDeltaMovement(vec3.x, -vec3.y * 0.3D, vec3.z);
+        }
     }
 
     @Override
