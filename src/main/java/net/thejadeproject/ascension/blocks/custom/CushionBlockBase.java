@@ -50,10 +50,6 @@ private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 7, 16);
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        // Reduce fall damage by 30% - adjust multiplier as needed:
-        // 0.7F = 30% reduction (slight cushion)
-        // 0.8F = 20% reduction (minimal cushion)
-        // 0.5F = 50% reduction (like Create's seat)
         super.fallOn(level, state, pos, entity, fallDistance * 0.7F);
     }
 
