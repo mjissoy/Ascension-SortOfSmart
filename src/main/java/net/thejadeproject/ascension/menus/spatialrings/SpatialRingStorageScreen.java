@@ -305,6 +305,8 @@ public class SpatialRingStorageScreen extends AbstractContainerScreen<SpatialRin
         this.menu.setScrollOffset(newOffset);
     }
 
+
+
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);

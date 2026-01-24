@@ -28,10 +28,12 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.CushionRenderer;
+import net.thejadeproject.ascension.entity.client.DummyRenderer;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.events.custom.OpenPhysiqueSelectScreenEvent;
 import net.thejadeproject.ascension.events.custom.PhysiqueGeneratedEvent;
+import net.thejadeproject.ascension.formations.formation_renderers.ModFormationRenderers;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.ModOverlays;
 import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
@@ -57,7 +59,8 @@ public class AscensionCraftClient {
     {
         KeyBindHandler.register();
         ModActions.register(modEventBus);
-        ModOverlays.register();
+        ModFormationRenderers.register(modEventBus);
+        //ModOverlays.register();
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
     }
@@ -110,6 +113,7 @@ public class AscensionCraftClient {
                 EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
                 EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
                 EntityRenderers.register(ModEntities.CUSHION_ENTITY.get(), CushionRenderer::new);
+                EntityRenderers.register(ModEntities.DUMMY_ENTITY.get(), DummyRenderer::new);
                 // Register item properties
                 ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
                         ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),

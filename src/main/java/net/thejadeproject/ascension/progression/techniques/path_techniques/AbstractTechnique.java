@@ -4,6 +4,7 @@ import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -72,6 +73,7 @@ public abstract class AbstractTechnique implements ITechnique {
     public void tryCultivate(Player player, CultivationSource source) {
         if(player.level().isClientSide()) return;
         if(!CultivationSystem.cultivate(player,getPath(),baseRate,getCultivationAttributes(),source)) tryStabiliseRealm(player,source);
+  
     }
 
     @Override

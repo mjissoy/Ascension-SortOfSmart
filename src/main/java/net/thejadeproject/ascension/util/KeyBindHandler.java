@@ -134,6 +134,7 @@ public class KeyBindHandler {
         IEventBus eventBus = NeoForge.EVENT_BUS;
         eventBus.addListener(EventPriority.HIGH, KeyBindHandler::handleKeyInputEvent);
         eventBus.addListener(EventPriority.HIGHEST, KeyBindHandler::keyInputEvents);
+
     }
 
     public static void keyInputEvents(InputEvent.Key event) {

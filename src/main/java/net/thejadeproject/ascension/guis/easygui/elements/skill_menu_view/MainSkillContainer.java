@@ -7,6 +7,7 @@ import net.lucent.easygui.interfaces.events.MouseReleaseListener;
 import net.lucent.easygui.properties.Positioning;
 import net.lucent.easygui.util.math.BoundChecker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.passive_skill_container.PassiveSkillsContainer;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.slotted_skill_bar.SkillBarContainer;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.active_skill_container.ActiveSkillsContainer;
@@ -44,6 +45,9 @@ public class MainSkillContainer extends EmptyContainer implements MouseReleaseLi
         if(heldActiveSkill == null) return;
         ((SkillBarContainer) getChildren().get(2)).setSkillSlot(heldActiveSkill);
         heldActiveSkill = null;
+    }
+    public void createSkillInfoPanel(ResourceLocation skillId){
+        addChild(new SkillInfoPanel(getScreen(),-100,-20,skillId,this));
     }
 
     @Override

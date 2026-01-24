@@ -27,7 +27,9 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
 
+        //FORMATIONS
 
+        basicItem(ModItems.FORMATION_PLATE.get());
 
 
         //Block Items
@@ -37,7 +39,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         buttonItem(ModBlocks.IRONWOOD_BUTTON, ModBlocks.IRONWOOD_PLANKS);
         fenceItem(ModBlocks.IRONWOOD_FENCE, ModBlocks.IRONWOOD_PLANKS);
         basicItem(ModBlocks.IRONWOOD_DOOR.asItem());
-
 
         /** Walls */
         wallItem(ModBlocks.MARBLE_BRICK_WALLS, ModBlocks.MARBLE_BRICKS);

@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-21T19:55:16.4240061	Item Models: ascension
+// 1.21.1	2026-01-21T21:40:55.333067	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -39,6 +39,7 @@ a7a0cfdd0338bc05cdd2bcfd788629bc35994828 assets/ascension/models/item/fasting_pi
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/fist_king_intent.json
 ae6a5f2d5c0ca7e23de639f65104a8a1eb2607ff assets/ascension/models/item/flame.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/focused_strike_technique.json
+ac764ac6d7489375232aca77104d7350f871be7e assets/ascension/models/item/formation_plate.json
 b481e86fd377ad7ba73442d193d497665b06c78e assets/ascension/models/item/formation_slip_acacia.json
 12350753ffd9a452c7cb731d5282de5cc09a9bb3 assets/ascension/models/item/formation_slip_bamboo.json
 4325ed8dc4ee442dd6c59600173bdf3146d07c96 assets/ascension/models/item/formation_slip_birch.json

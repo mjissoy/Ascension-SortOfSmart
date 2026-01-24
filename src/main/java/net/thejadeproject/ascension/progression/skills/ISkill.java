@@ -19,7 +19,7 @@ public interface ISkill {
 
     default String getSkillPath(){return "ascension:neutral";}
 
-    default List<MutableComponent> getSkillDescription(Player player){return List.of();}
+    default Component getSkillDescription(Player player){return Component.empty();}
     default ITextureData skillIcon(){return null;}
     default Component getSkillTitle(){
         return Component.empty();

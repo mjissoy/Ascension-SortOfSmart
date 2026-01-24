@@ -123,6 +123,11 @@ public class ModPayloads {
                 TriggerGeneratePhysique::handlePayload
         );
         registrar.playToServer(
+                PlayerTryHitBarrier.TYPE,
+                PlayerTryHitBarrier.STREAM_CODEC,
+                PlayerTryHitBarrier::handlePayload
+        );
+        registrar.playToServer(
                 TriggerMajorRealmBreakthrough.TYPE,
                 TriggerMajorRealmBreakthrough.STREAM_CODEC,
                 TriggerMajorRealmBreakthrough::handlePayload

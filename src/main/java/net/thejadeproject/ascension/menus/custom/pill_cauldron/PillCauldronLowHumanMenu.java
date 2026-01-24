@@ -7,6 +7,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.PillCauldronLowHumanEntity;
@@ -25,6 +26,7 @@ public class PillCauldronLowHumanMenu extends AbstractContainerMenu {
 
     public PillCauldronLowHumanMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), pContainerId);
+        System.out.println("Menu Side : "+ entity.getLevel().isClientSide);
         this.blockEntity = ((PillCauldronLowHumanEntity) entity);
         this.level = inv.player.level();
         this.data = data;

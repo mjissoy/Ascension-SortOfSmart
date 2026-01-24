@@ -111,9 +111,7 @@ public interface ITechnique {
         return ModPaths.getPath(getPath()).getTotalMinorRealmsTo(majorRealm,minorRealm);
     }
     default boolean canBreakthrough(Player player,int majorRealm,int minorRealm,double progress){
-        System.out.println("checking breakthrough condition");
-        System.out.println(progress+"/"+getQiForRealm(majorRealm,minorRealm));
-        System.out.println(minorRealm+"/"+getMaxMinorRealm(majorRealm));
+
         CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getPath());
          return  minorRealm == getMaxMinorRealm(majorRealm) && progress >= getQiForRealm(majorRealm,minorRealm) && !data.breakingThrough;
 

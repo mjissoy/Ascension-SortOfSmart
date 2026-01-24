@@ -37,10 +37,12 @@ import net.thejadeproject.ascension.events.TeleportationEventHandler;
 import net.thejadeproject.ascension.events.karma.KarmaEvents;
 import net.thejadeproject.ascension.events.karma.KarmaManager;
 import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
+import net.thejadeproject.ascension.formations.ModFormations;
 import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
+import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.progression.dao.ModDao;
 import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
 import net.thejadeproject.ascension.effects.ModEffects;
@@ -138,7 +140,7 @@ public class AscensionCraft {
         ModTechniques.register(modEventBus);
         ModDao.register(modEventBus);
         ModPaths.register(modEventBus);
-
+        ModFormations.register(modEventBus);
         // In your main mod class, in the constructor:
         NeoForge.EVENT_BUS.register(TeleportationEventHandler.class);
 
@@ -225,7 +227,7 @@ public class AscensionCraft {
                 //open menu
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new OpenPickPhysiqueScreen(true));
             }else {
-                //PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE)));
+                PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE).getPhysiqueId()    .toString()));
             }
 
             for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){

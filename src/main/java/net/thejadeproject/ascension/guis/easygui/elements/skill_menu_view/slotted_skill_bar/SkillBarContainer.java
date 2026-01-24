@@ -4,6 +4,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.containers.EmptyContainer;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
+import net.lucent.easygui.interfaces.events.Clickable;
+import net.lucent.easygui.util.math.BoundChecker;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,6 +19,7 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.guis.easygui.elements.EmptyButton;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.ActiveSkillSlot;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.MainSkillContainer;
+import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.active_skill_container.ViewDetailsDropDown;
 import net.thejadeproject.ascension.network.serverBound.ChangeSkillSlotSpellPayload;
 import net.thejadeproject.ascension.progression.skills.ISkill;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
@@ -24,7 +27,7 @@ import net.thejadeproject.ascension.registries.AscensionRegistries;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SkillBarContainer extends EmptyContainer {
+public class SkillBarContainer extends EmptyContainer implements Clickable {
     private final TextureDataSubSection background =  new TextureDataSubSection(
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/screen/skill_stuff/skill_menu.png"),
             320,256,
@@ -33,6 +36,8 @@ public class SkillBarContainer extends EmptyContainer {
     public Label selectedSkillLabel;
     public List<ActiveSkillSlot> slots = new ArrayList<>();
     public ActiveSkillSlot hoveredSlot;
+    public ActiveSkillSlot selectedSlot;
+    public SkillBarDropDown dropDown;
     public SkillBarContainer(IEasyGuiScreen screen){
         super(screen,0,0,0,0);
         setWidth(192);
@@ -48,7 +53,7 @@ public class SkillBarContainer extends EmptyContainer {
             }
         };
         for(int i=0;i < 4; i++){
-            ActiveSkillSlot slot = new ActiveSkillSlot(screen,15+i*18,32,18,18){
+            ActiveSkillSlot slot = new ActiveSkillSlot(screen,16+i*18,33,18,18){
                 @Override
                 public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                     super.onClick(mouseX, mouseY, button, clicked);
@@ -68,6 +73,9 @@ public class SkillBarContainer extends EmptyContainer {
             };
             addChild(slot);
             slots.add(slot);
+            dropDown = new SkillBarDropDown(screen);
+            dropDown.setActive(false);
+            addChild(dropDown);
         }
         refresh();
         addChild(clearBtn);
@@ -83,8 +91,10 @@ public class SkillBarContainer extends EmptyContainer {
     public void selectSkill(ActiveSkillSlot slot,int button){
         if(slot.getSkill() == null){
             selectedSkillLabel.text = Component.empty();
+            selectedSlot = null;
         }else {
             selectedSkillLabel.text = slot.getSkill().getSkillTitle();
+            selectedSlot = slot;
             if(button == InputConstants.MOUSE_BUTTON_LEFT)((MainSkillContainer)getParent()).setHeldActiveSkill(slot.getSkill());
         }
     }
@@ -101,6 +111,14 @@ public class SkillBarContainer extends EmptyContainer {
             PacketDistributor.sendToServer(new ChangeSkillSlotSpellPayload(i,slots.get(i).getCurrentSkill().toString(),false));
             slots.get(i).setCurrentSkill(null);
         }
+    }
+    public void createSkillInfoPanel(){
+        ((MainSkillContainer) getParent()).createSkillInfoPanel(selectedSlot.getCurrentSkill());
+    }
+    public void removeSkill(){
+        PacketDistributor.sendToServer(new ChangeSkillSlotSpellPayload(slots.indexOf(selectedSlot),selectedSlot.getCurrentSkill().toString(),false));
+        selectedSlot.setCurrentSkill(null);
+        selectedSlot = null;
     }
     public void setSkillSlot(ISkill skill){
         if(hoveredSlot != null){
@@ -121,6 +139,17 @@ public class SkillBarContainer extends EmptyContainer {
         for(int i = 0; i<slots.size();i++){
             this.slots.get(i).setCurrentSkill(slots.get(i).skillId);
         }
+    }
+    public void openViewDetailsSelection(double mouseX,double mouseY){
+        BoundChecker.Vec2 pos = screenToLocalPoint(mouseX,mouseY);
+        dropDown.setActive(true);
+        dropDown.setX(pos.x+5);
+        dropDown.setY(pos.y+2);
+    }
+    public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
+        dropDown.setActive(false);
+        System.out.println(hoveredSlot == null ? "no hovered": (hoveredSlot.getCurrentSkill() == null ? "no hovered": hoveredSlot.getCurrentSkill().toString()));
+        if(button == InputConstants.MOUSE_BUTTON_RIGHT && hoveredSlot != null && hoveredSlot.getCurrentSkill() != null) openViewDetailsSelection(mouseX,mouseY);
     }
     @Override
     public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {

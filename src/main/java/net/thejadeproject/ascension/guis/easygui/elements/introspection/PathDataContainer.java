@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.guis.easygui.elements.introspection;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.containers.EmptyContainer;
 import net.lucent.easygui.elements.other.Label;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
@@ -93,8 +94,12 @@ public class PathDataContainer extends EmptyContainer {
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
-                if(clicked){
-                    container.createTechniqueContainer();
+                if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT){
+                    ResourceLocation technique = ResourceLocation.bySeparator(
+                            Minecraft.getInstance().player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(container.getSelectedPath().toString()).technique,
+                            ':'
+                    );
+                    container.createTechniqueContainer(technique);
                 }
             }
 

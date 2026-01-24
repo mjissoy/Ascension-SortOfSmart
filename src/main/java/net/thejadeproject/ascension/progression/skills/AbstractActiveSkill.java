@@ -28,7 +28,7 @@ public abstract class AbstractActiveSkill implements ISkill{
     public double qiCost;
     public Component title;
     public ITextureData skillIcon;
-    public List<MutableComponent> skillDescription = new ArrayList<>(); //for static descriptions
+    public Component skillDescription = Component.empty(); //for static descriptions
 
     public AbstractActiveSkill(Component title){
         this.title = title;
@@ -43,13 +43,13 @@ public abstract class AbstractActiveSkill implements ISkill{
 
 
     //used for static skills
-    public AbstractActiveSkill setSkillDescription(List<MutableComponent> components){
-        skillDescription = components;
+    public AbstractActiveSkill setSkillDescription(Component component){
+        skillDescription = component;
         return this;
     }
 
     @Override
-    public List<MutableComponent> getSkillDescription(Player player) {
+    public Component getSkillDescription(Player player) {
         return skillDescription;
     }
 

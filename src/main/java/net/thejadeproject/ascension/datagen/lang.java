@@ -690,16 +690,24 @@ public class lang extends LanguageProvider {
 
         //tags'
 
+        //skill title
+        add("ascension.skill.active.rootwardens_call","Rootwardens Call");
+        add("ascension.skill.active.spiritual_sense","Spiritual Sense");
 
+        //skill descriptions
+        add("ascension.physique.passive.kitsune_illusion.desc","");
+        add("ascension.physique.passive.stonehide.desc",
+                """
+                        §6Stone Monkey's Primitive Defense
+                        §7Your flesh hardens like unhewn stone.
+
+                        §e◆ §f+5% Damage Reduction
+                        §e◆ §f+100% Knockback Resistance
+                        §e◆ §fScales with Body Path cultivation""");
 
         //Skills
         add("ascension.physique.passive.stonehide", "Stonehide");
-        add("ascension.physique.passive.stonehide.desc1", "§6Stone Monkey's Primitive Defense");
-        add("ascension.physique.passive.stonehide.desc2", "§7Your flesh hardens like unhewn stone.");
-        add("ascension.physique.passive.stonehide.desc3", "");
-        add("ascension.physique.passive.stonehide.desc4", "§e◆ §f+5% Damage Reduction");
-        add("ascension.physique.passive.stonehide.desc5", "§e◆ §f+100% Knockback Resistance");
-        add("ascension.physique.passive.stonehide.desc6", "§e◆ §fScales with Body Path cultivation");
+
 
         add("ascension.physique.passive.diamond_adamant", "Diamond Adamant");
         add("ascension.physique.passive.diamond_adamant.desc1", "§6Heaven-Forged Resilience\"");

@@ -8,9 +8,7 @@ import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.ActiveSkillBar;
-import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.SelectedSkillInfoPanel;
-import net.thejadeproject.ascension.guis.easygui.elements.skill_menu.SkillListPanel;
+
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.MainSkillContainer;
 
 //if a skill slot is selected display skill in info panel. with button to unslot. if skill slot is selected and you select another skill

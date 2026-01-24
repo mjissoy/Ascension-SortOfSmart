@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.progression.skills.active_skills.fire_dao;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
@@ -68,7 +69,6 @@ public class BasicFireBall extends AbstractActiveSkill {
     public void createFireBall(Level level, Player player){
         Vec3 vec3 = player.getViewVector(0);
         FireBallSkill fireBallSkill = new FireBallSkill(level,player, vec3.normalize().scale(speed),baseDamage);
-
         fireBallSkill.setPos(fireBallSkill.getX(), player.getY()+ player.getEyeHeight() , fireBallSkill.getZ());
         level.addFreshEntity(fireBallSkill);
     }

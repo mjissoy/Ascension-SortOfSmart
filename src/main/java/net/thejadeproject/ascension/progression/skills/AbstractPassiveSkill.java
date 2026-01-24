@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.events.custom.TechniqueChangeEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public abstract class AbstractPassiveSkill implements ISkill{
     public String path;
     public Component title;
     public ITextureData skillIcon;
-    public List<MutableComponent> skillDescription = new ArrayList<>(); //for static descriptions
+    public Component skillDescription = Component.empty(); //for static descriptions
     public AbstractPassiveSkill(Component title){
         this.title = title;
     }
@@ -32,13 +33,13 @@ public abstract class AbstractPassiveSkill implements ISkill{
     }
 
     //used for static skills
-    public AbstractPassiveSkill setSkillDescription(List<MutableComponent> components){
-        skillDescription = components;
+    public AbstractPassiveSkill setSkillDescription(Component component){
+        skillDescription = component;
         return this;
     }
 
     @Override
-    public List<MutableComponent> getSkillDescription(Player player) {
+    public Component getSkillDescription(Player player) {
         return skillDescription;
     }
 

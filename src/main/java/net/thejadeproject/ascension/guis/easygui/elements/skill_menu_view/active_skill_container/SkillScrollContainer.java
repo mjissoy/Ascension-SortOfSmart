@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.ActiveSkillSlot;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.MainSkillContainer;
 import net.thejadeproject.ascension.progression.skills.ISkill;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class SkillScrollContainer extends EmptyContainer implements MouseScrollL
         for (int row = 0;row<rows;row++){
             skillSlots.add(new ArrayList<>());
             for(int column = 0;column < columns;column++){
-                skillSlots.get(row).add(new ActiveSkillSlot(screen,column*18,row*18,18,18){
+                skillSlots.get(row).add(new ActiveSkillSlot(screen,column*18+1,row*18,18,18){
                     @Override
                     public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                         super.onClick(mouseX, mouseY, button, clicked);
@@ -67,6 +68,7 @@ public class SkillScrollContainer extends EmptyContainer implements MouseScrollL
     }
     public void viewSkillDetails(){
         System.out.println("View details for skill: "+selectedSkill.getSkillTitle().toString());
+        ((MainSkillContainer) getParent().getParent()).createSkillInfoPanel(AscensionRegistries.Skills.SKILL_REGISTRY.getKey(selectedSkill));
     }
     public void openViewDetailsSelection(double mouseX,double mouseY){
         BoundChecker.Vec2 pos = screenToLocalPoint(mouseX,mouseY);

@@ -2,9 +2,11 @@ package net.thejadeproject.ascension.events;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.WaterFluid;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.AscensionCommonConfig;
 import net.minecraft.core.registries.BuiltInRegistries;

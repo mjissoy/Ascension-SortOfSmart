@@ -650,9 +650,14 @@ public class ModDao {
     public static final DeferredHolder<IDao,GenericDao> WOOD_DAO =createDao("wood",Component.literal("§2[Wood]"),
             new ArrayList<>(),
             Map.of(
-                    "ascension:earth",0.5D,
-                    "ascension:fire",2D
-            ));
+                    "ascension:water",2D
+            ),
+            Map.of("ascension:metal",2D),
+            Map.of("ascension:nature",0.5D)
+
+    );
+    public static final DeferredHolder<IDao,GenericDao> NATURE_DAO = createDao("nature",Component.literal("§2[Nature]"),
+            new ArrayList<>());
     public static final DeferredHolder<IDao,GenericDao> EARTH_DAO =createDao("earth",Component.literal("§e[Earth]"),
             new ArrayList<>(),
             Map.of(

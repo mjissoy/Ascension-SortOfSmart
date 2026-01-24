@@ -43,6 +43,9 @@ public class ActiveSkillSlot extends EmptyButton {
             skill.skillIcon().renderTexture(guiGraphics);
         }
         guiGraphics.pose().popPose();
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(-1,-1,0);
         super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
+        guiGraphics.pose().popPose();
     }
 }

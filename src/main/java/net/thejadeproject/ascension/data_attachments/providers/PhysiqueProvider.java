@@ -5,7 +5,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.data_attachments.attachments.PhysiqueAttachment;
+import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import org.jetbrains.annotations.Nullable;
 
 public class PhysiqueProvider implements IAttachmentSerializer<CompoundTag, PhysiqueAttachment> {
@@ -14,6 +16,7 @@ public class PhysiqueProvider implements IAttachmentSerializer<CompoundTag, Phys
         if(holder instanceof ServerPlayer player){
             PhysiqueAttachment physiqueAttachment = new PhysiqueAttachment(player);
             physiqueAttachment.loadNBTData(compoundTag,provider);
+
             return physiqueAttachment;
         }
         return null;

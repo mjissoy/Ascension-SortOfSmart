@@ -117,16 +117,17 @@ public class SingleSkillAcquirableData implements IAcquirableSkill{
         Component majorRealmName;
         Component minorRealmName;
         if(technique.equals(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"none"))){
-            majorRealmName = pathInstance.getMajorRealmName(majorRealm);
-            minorRealmName = pathInstance.getMinorRealmName(majorRealm,minorRealm);
+            majorRealmName = pathInstance.getMajorRealmName(this.majorRealm);
+            minorRealmName = pathInstance.getMinorRealmName(this.majorRealm,this.minorRealm);
         }else {
             ITechnique techniqueInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique);
-            majorRealmName = techniqueInstance.getMajorRealmName(majorRealm);
-            minorRealmName = techniqueInstance.getMinorRealmName(majorRealm,minorRealm);
+            majorRealmName = techniqueInstance.getMajorRealmName(this.majorRealm);
+            minorRealmName = techniqueInstance.getMinorRealmName(this.majorRealm,this.minorRealm);
         }
 
         return Component.empty()
                 .append(skillData.getSkillTitle())
+                .append(" : ")
                 .append(majorRealmName)
                 .append("(").append(minorRealmName).append(")");
     }

@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.rat.RatModel;
 import net.thejadeproject.ascension.entity.custom.TreasureRatEntity;
+import net.thejadeproject.ascension.entity.custom.formation.DummyEntity;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEventBusEvents {
@@ -24,6 +25,7 @@ public class ModEventBusEvents {
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.RAT.get(), TreasureRatEntity.createAttributes().build());
+        event.put(ModEntities.DUMMY_ENTITY.get(), DummyEntity.createAttributes().build());
     }
 
     @SubscribeEvent

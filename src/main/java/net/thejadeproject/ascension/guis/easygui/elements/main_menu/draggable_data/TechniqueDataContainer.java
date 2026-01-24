@@ -84,6 +84,7 @@ public class TechniqueDataContainer extends DraggableDataContainer {
             textArea.addChild(label);
             daoY += (int) (label.getHeight() * label.getCustomScale());
         }
+
         Component skillListTitle = Component.empty()
                 .append(Component.literal("Skill List").withStyle(ChatFormatting.BOLD));
 

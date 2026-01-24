@@ -89,7 +89,7 @@ public class ModTags {
         public static final TagKey<Block> STORAGE_BLOCKS_FROST_SILVER = createCommonTag("storage_blocks/frost_silver");
 
 
-
+        public static final TagKey<Block> HERB = createCommonTag("herb");
 
 
 

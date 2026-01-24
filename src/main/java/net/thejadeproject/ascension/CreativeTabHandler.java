@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension;
 
+import net.lucent.formation_arrays.api.registries.FormationRegistry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -47,6 +48,18 @@ public class CreativeTabHandler {
                     generatePhysiqueTransferItems(output);
                 })
                 .build());
+        CREATIVE_TABS.register("formation_plates",()->CreativeModeTab.builder()
+                .title(Component.literal("Ascension - Formations"))
+                .icon(()->new ItemStack(ModItems.FORMATION_PLATE.get()))
+                .displayItems(((itemDisplayParameters, output) -> generateFormationPlateItems(output))).build());
+    }
+
+    public static void generateFormationPlateItems(CreativeModeTab.Output output){
+        FormationRegistry.FORMATION_REGISTRY.keySet().forEach(resourceLocation ->{
+            ItemStack stack = new ItemStack(ModItems.FORMATION_PLATE.get());
+            stack.set(net.lucent.formation_arrays.data_components.ModDataComponents.FORMATION_PLATE_COMPONENT,resourceLocation.toString());
+            output.accept(stack);
+        });
     }
 
     private static void generatePhysiqueTransferItems(CreativeModeTab.Output output) {

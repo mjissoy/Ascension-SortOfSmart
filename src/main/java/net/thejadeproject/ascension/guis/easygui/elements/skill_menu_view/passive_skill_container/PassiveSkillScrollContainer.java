@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.MainSkillContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class PassiveSkillScrollContainer extends EmptyContainer implements Mouse
 
     public void selectSkill(PassiveSkillSlot slot,int button){
         //todo open View details
+        ((MainSkillContainer) getParent().getParent()).createSkillInfoPanel(slot.getCurrentSkill());
     }
     public void undoHoverSkill(PassiveSkillSlot slot){
         if(this.hovered == slot) slot = null;

@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.guis.easygui.elements.introspection;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.containers.EmptyContainer;
 import net.lucent.easygui.elements.other.Image;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
@@ -8,6 +9,9 @@ import net.lucent.easygui.properties.Positioning;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.guis.easygui.elements.EmptyButton;
+import net.thejadeproject.ascension.guis.easygui.elements.body_instrospection.PhysiqueInfoPanel;
+import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.PhysiqueDataContainer;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ public class MainContainer extends EmptyContainer {
     private TextureDataSubSection background = new TextureDataSubSection(
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/screen/screen_all.png"),
             356,256,
-            0,6,142,143
+            0,6,147,143
     );
     public HashMap<ResourceLocation, ITextureData> pathTextureData = new HashMap<>(){{
         put(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"),new TextureDataSubSection(
@@ -88,9 +92,16 @@ public class MainContainer extends EmptyContainer {
                 }
             }
         };
+        EmptyButton openPhysique = new EmptyButton(screen,141,22,6,7){
+            @Override
+            public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
+                super.onClick(mouseX, mouseY, button, clicked);
+                if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT) createPhysiqueContainer();
+            }
+        };
         addChild(leftButton);
         addChild(rightButton);
-
+        addChild(openPhysique);
         PathDataContainer pathDataContainer = new PathDataContainer(screen,3,37,136,97,this);
         addChild(pathDataContainer);
 
@@ -98,7 +109,11 @@ public class MainContainer extends EmptyContainer {
         addChild(realmProgressContainer);
 
     }
-    public void createTechniqueContainer(){//TODO
+    public void createPhysiqueContainer(){
+        addChild(new PhysiqueInfoPanel(getScreen(),100,-20,this));
+    }
+    public void createTechniqueContainer(ResourceLocation technique){//TODO
+            addChild(new TechniqueInfoPanel(getScreen(),-100,-20,technique,this));
         }
     public void startBreakthrough(){//TODO
          }
