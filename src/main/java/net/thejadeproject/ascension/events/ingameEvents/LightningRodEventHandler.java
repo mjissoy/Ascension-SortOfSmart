@@ -189,7 +189,7 @@ public class LightningRodEventHandler {
 
     private static void dropThunderclapPhysique(ServerLevel level, BlockPos rodPos) {
         // Create the ThunderClap physique item with 13% purity
-        ItemStack physiqueItem = new ItemStack(ModItems.BLOOD_ESSENCE.get());
+        ItemStack physiqueItem = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
         physiqueItem.set(ModDataComponents.PHYSIQUE_ID.get(),
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "thunderclap_physique").toString());
         physiqueItem.set(ModDataComponents.PURITY.get(), 13);

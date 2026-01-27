@@ -1,30 +1,21 @@
 package net.thejadeproject.ascension;
 
-import net.lucent.easygui.EasyGui;
-import net.lucent.easygui.elements.other.SquareRenderable;
-import net.lucent.easygui.interfaces.IEasyGuiScreen;
-import net.lucent.easygui.overlays.EasyGuiOverlayManager;
-import net.lucent.easygui.templating.registry.EasyGuiRegistries;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.ClientHooks;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.CushionRenderer;
@@ -40,7 +31,6 @@ import net.thejadeproject.ascension.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingStorageScreen;
-import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUpgradeContainer;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUpgradeScreen;
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
@@ -48,8 +38,6 @@ import net.thejadeproject.ascension.shaders.client.ModShaders;
 import net.thejadeproject.ascension.shaders.client.RiftRenderer;
 
 import net.thejadeproject.ascension.util.KeyBindHandler;
-
-import java.io.IOException;
 
 @Mod(value = AscensionCraft.MOD_ID,dist = Dist.CLIENT)
 public class AscensionCraftClient {
@@ -121,7 +109,7 @@ public class AscensionCraftClient {
                             return 0.0F;
                         });
 
-                ItemProperties.register(ModItems.BLOOD_ESSENCE.get(),
+                ItemProperties.register(ModItems.PHYSIQUE_ESSENCE.get(),
                         ResourceLocation.fromNamespaceAndPath("ascension", "physique_variant"),
                         (itemStack, clientLevel, livingEntity, seed) -> {
                             String physiqueId = itemStack.get(ModDataComponents.PHYSIQUE_ID.get());

@@ -2,7 +2,6 @@ package net.thejadeproject.ascension;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
@@ -24,10 +23,10 @@ public class CreativeTabHandler {
 
         // Register a creative tab for physique transfer items
         CREATIVE_TABS.register("physique_transfers", () -> CreativeModeTab.builder()
-                .title(Component.literal("Ascension - Physique Transfers"))
+                .title(Component.literal("Ascension - Physique Essences"))
                 .icon(() -> {
                     // Create a default item stack for the tab icon
-                    ItemStack stack = new ItemStack(ModItems.BLOOD_ESSENCE.get());
+                    ItemStack stack = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
                     // Set it to the first physique found (or empty vessel as fallback)
                     String firstPhysiqueId = "ascension:empty_vessel";
 
@@ -63,13 +62,13 @@ public class CreativeTabHandler {
 
         // Create an item stack for each physique with 1% purity
         for (String physiqueId : physiqueIds) {
-            ItemStack stack = new ItemStack(ModItems.BLOOD_ESSENCE.get());
+            ItemStack stack = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
             stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
             stack.set(ModDataComponents.PURITY.get(), 1); // Start with 1% purity
             output.accept(stack);
 
             // Also add a 100% purity version for testing
-            ItemStack fullStack = new ItemStack(ModItems.BLOOD_ESSENCE.get());
+            ItemStack fullStack = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
             fullStack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
             fullStack.set(ModDataComponents.PURITY.get(), 100);
             output.accept(fullStack);

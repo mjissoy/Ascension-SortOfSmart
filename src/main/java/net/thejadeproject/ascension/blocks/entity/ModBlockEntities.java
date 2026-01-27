@@ -21,6 +21,11 @@ public class ModBlockEntities {
                     PillCauldronLowHumanEntity::new, ModBlocks.PILL_CAULDRON_HUMAN_LOW.get()).build(null));
 
 
+    public static final Supplier<BlockEntityType<SpiritVeinBlockEntity>> SPIRIT_VEIN_BE =
+            BLOCK_ENTITIES.register("spirit_vein", () -> BlockEntityType.Builder.of(
+                    SpiritVeinBlockEntity::new, ModBlocks.SPIRIT_VEIN.get()).build(null));
+
+
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

@@ -36,7 +36,7 @@ public class AddPhysiqueRandomPurityModifier extends LootModifier {
 
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
-        ItemStack stack = new ItemStack(ModItems.BLOOD_ESSENCE.get());
+        ItemStack stack = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
         stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId.toString());
 
         int purity = minPurity + context.getRandom().nextInt(maxPurity - minPurity +1);

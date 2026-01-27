@@ -189,7 +189,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"basic_fire_ball"),4,0,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"large_fire_ball"),5,0,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"delayed_fire_launch"),3,0,false,false)
@@ -233,7 +232,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water", 2.0);
@@ -270,9 +268,7 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false),
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"rootwardens_call"),1,2,false,false),
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"spiritual_sense"),4,3,false,false)
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"rootwardens_call"),1,2,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:wood", 2.0);
@@ -309,7 +305,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth", 2.0);
@@ -346,7 +341,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"ore_sight_active"),2,3,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -385,7 +379,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"sword_intent_skill"),0,3,true,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -423,7 +416,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:axe_intent", 2.0);
@@ -460,7 +452,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:blade_intent", 2.0);
@@ -499,7 +490,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:spear_intent", 2.0);
@@ -538,7 +528,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"fist_aura_skill"),0,0,true,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -576,7 +565,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"rootwardens_call"),1,2,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -614,7 +602,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire", 2.0);
@@ -650,7 +637,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:earth", 2.0);
@@ -686,7 +672,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"ore_sight_active"),2,3,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -727,7 +712,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:water", 2.0);
@@ -847,7 +831,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,5,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fist_intent", 4.8);
@@ -886,7 +869,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),1,5,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"space_infusion"),6,3,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -961,7 +943,6 @@ public class ModTechniques {
                             )
                     ))
                     .setSkillList(List.of(
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_skill"),6,4,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:phoenix_fire", 2.0);
