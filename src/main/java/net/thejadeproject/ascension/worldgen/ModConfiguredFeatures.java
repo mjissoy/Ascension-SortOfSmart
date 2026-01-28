@@ -39,11 +39,6 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> GOLDEN_PALM_KEY = registerKey("golden_palm");
     public static final ResourceKey<ConfiguredFeature<?, ?>> IRONWOOD_KEY = registerKey("ironwood");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> IRONWOOD_SPROUT_KEY = registerKey("ironwood_sprout_crop");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> WHITE_JADE_ORCHID_KEY = registerKey("white_jade_orchid_crop");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> HUNDRED_YEAR_SNOW_GINSENG_KEY = registerKey("hundred_year_snow_ginseng_crop");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> HUNDRED_YEAR_FIRE_GINSENG_KEY = registerKey("hundred_year_fire_ginseng_crop");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> HUNDRED_YEAR_GINSENG_KEY = registerKey("hundred_year_ginseng_crop");
 
 
 
@@ -105,83 +100,6 @@ public class ModConfiguredFeatures {
                 ModFeatureRegistration.SPIRIT_VEIN_FEATURE.get(),
                 FeatureConfiguration.NONE);
 
-
-
-        //Herbs
-        register(context, WHITE_JADE_ORCHID_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                8, // Tries per patch (sparse clusters)
-                3, // xzSpread
-                2, // ySpread
-                PlacementUtils.filtered(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.WHITE_JADE_ORCHID_CROP.get().defaultBlockState())),
-                        BlockPredicate.allOf(
-                                BlockPredicate.replaceable(), // Position must be air/replaceable
-                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE) // Below must be cave floor
-                        )
-                )
-        ));
-
-
-
-        register(context, IRONWOOD_SPROUT_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                8, // Tries per patch (sparse clusters)
-                3, // xzSpread
-                2, // ySpread
-                PlacementUtils.filtered(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.IRONWOOD_SPROUT_CROP.get().defaultBlockState())),
-                        BlockPredicate.allOf(
-                                BlockPredicate.replaceable(), // Position must be air/replaceable
-                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.STONE, Blocks.DEEPSLATE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.TUFF, Blocks.CALCITE) // Below must be cave floor
-                        )
-                )
-        ));
-
-
-        register(context, HUNDRED_YEAR_SNOW_GINSENG_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                3   , // 4 tries per patch for moderate density (adjust as needed)
-                2, // xzSpread for natural spread
-                1, // ySpread for precise placement
-                PlacementUtils.filtered(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get().defaultBlockState())),
-                        BlockPredicate.allOf(
-                                BlockPredicate.replaceable(), // Must be air/replaceable above
-                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.GRASS_BLOCK, Blocks.SNOW_BLOCK) // Must be sand or red sand below
-                        )
-                )
-        ));
-
-
-        register(context, HUNDRED_YEAR_FIRE_GINSENG_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                3   , // 4 tries per patch for moderate density (adjust as needed)
-                2, // xzSpread for natural spread
-                1, // ySpread for precise placement
-                PlacementUtils.filtered(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get().defaultBlockState())),
-                        BlockPredicate.allOf(
-                                BlockPredicate.replaceable(), // Must be air/replaceable above
-                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.SAND, Blocks.RED_SAND) // Must be sand or red sand below
-                        )
-                )
-        ));
-
-
-        register(context, HUNDRED_YEAR_GINSENG_KEY, Feature.RANDOM_PATCH, new RandomPatchConfiguration(
-                3   , // 4 tries per patch for moderate density (adjust as needed)
-                2, // xzSpread for natural spread
-                1, // ySpread for precise placement
-                PlacementUtils.filtered(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(BlockStateProvider.simple(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get().defaultBlockState())),
-                        BlockPredicate.allOf(
-                                BlockPredicate.replaceable(), // Must be air/replaceable above
-                                BlockPredicate.matchesBlocks(new BlockPos(0, -1, 0), Blocks.GRASS_BLOCK)
-                        )
-                )
-        ));
 
     }
 

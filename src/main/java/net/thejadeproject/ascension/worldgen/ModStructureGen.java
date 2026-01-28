@@ -2,12 +2,14 @@ package net.thejadeproject.ascension.worldgen;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -74,7 +76,13 @@ public class ModStructureGen {
 
         context.register(SWORD_TOMB1, new JigsawStructure(
                 new Structure.StructureSettings(
-                        biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
+                        HolderSet.direct(
+                                biomes.getOrThrow(Biomes.SAVANNA),
+                                biomes.getOrThrow(Biomes.SAVANNA_PLATEAU),
+                                biomes.getOrThrow(Biomes.WINDSWEPT_SAVANNA),
+                                biomes.getOrThrow(Biomes.BADLANDS),
+                                biomes.getOrThrow(Biomes.ERODED_BADLANDS),
+                                biomes.getOrThrow(Biomes.WOODED_BADLANDS)),
                         Map.of(),
                         GenerationStep.Decoration.SURFACE_STRUCTURES,
                         TerrainAdjustment.BEARD_THIN
@@ -87,7 +95,14 @@ public class ModStructureGen {
         ));
         context.register(SWORD_TOMB2, new JigsawStructure(
                 new Structure.StructureSettings(
-                        biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
+                        HolderSet.direct(
+                                biomes.getOrThrow(Biomes.PLAINS),
+                                biomes.getOrThrow(Biomes.SNOWY_PLAINS),
+                                biomes.getOrThrow(Biomes.SUNFLOWER_PLAINS),
+                                biomes.getOrThrow(Biomes.CHERRY_GROVE),
+                                biomes.getOrThrow(Biomes.GROVE),
+                                biomes.getOrThrow(Biomes.FLOWER_FOREST),
+                                biomes.getOrThrow(Biomes.OLD_GROWTH_PINE_TAIGA)),
                         Map.of(),
                         GenerationStep.Decoration.SURFACE_STRUCTURES,
                         TerrainAdjustment.BEARD_THIN
@@ -100,7 +115,11 @@ public class ModStructureGen {
         ));
         context.register(SWORD_TOMB3, new JigsawStructure(
                 new Structure.StructureSettings(
-                        biomes.getOrThrow(BiomeTags.IS_MOUNTAIN),
+                        HolderSet.direct(
+                                biomes.getOrThrow(Biomes.WINDSWEPT_FOREST),
+                                biomes.getOrThrow(Biomes.WINDSWEPT_HILLS),
+                                biomes.getOrThrow(Biomes.WINDSWEPT_GRAVELLY_HILLS)
+                                ),
                         Map.of(),
                         GenerationStep.Decoration.SURFACE_STRUCTURES,
                         TerrainAdjustment.BEARD_THIN
@@ -148,15 +167,15 @@ public class ModStructureGen {
         HolderGetter<Structure> structures = context.lookup(Registries.STRUCTURE);
         context.register(SWORD_TOMB1_SET, new StructureSet(
                 structures.getOrThrow(SWORD_TOMB1),
-                new RandomSpreadStructurePlacement(12, 6, RandomSpreadType.LINEAR, 12244326) // salt +1
+                new RandomSpreadStructurePlacement(20, 12, RandomSpreadType.LINEAR, 12244326) // salt +1
         ));
         context.register(SWORD_TOMB2_SET, new StructureSet(
                 structures.getOrThrow(SWORD_TOMB2),
-                new RandomSpreadStructurePlacement(12, 6, RandomSpreadType.LINEAR, 12244327) // salt +2
+                new RandomSpreadStructurePlacement(20, 12, RandomSpreadType.LINEAR, 12244327) // salt +2
         ));
         context.register(SWORD_TOMB3_SET, new StructureSet(
                 structures.getOrThrow(SWORD_TOMB3),
-                new RandomSpreadStructurePlacement(12, 6, RandomSpreadType.LINEAR, 12244328) // salt +3
+                new RandomSpreadStructurePlacement(20, 12, RandomSpreadType.LINEAR, 12244328) // salt +3
         ));
 
 

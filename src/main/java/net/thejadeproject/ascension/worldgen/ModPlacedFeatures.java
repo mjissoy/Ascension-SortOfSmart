@@ -40,13 +40,6 @@ public class ModPlacedFeatures {
 
 
 
-    public static final ResourceKey<PlacedFeature> IRONWOOD_SPROUT_PLACED = registerKey("ironwood_sprout_crop_placed");
-    public static final ResourceKey<PlacedFeature> WHITE_JADE_ORCHID_PLACED = registerKey("white_jade_orchid_crop_placed");
-    public static final ResourceKey<PlacedFeature> HUNDRED_YEAR_SNOW_GINSENG_PLACED = registerKey("hundred_year_snow_ginseng_crop_placed");
-    public static final ResourceKey<PlacedFeature> HUNDRED_YEAR_FIRE_GINSENG_PLACED = registerKey("hundred_year_fire_ginseng_crop_placed");
-    public static final ResourceKey<PlacedFeature> HUNDRED_YEAR_GINSENG_PLACED = registerKey("hundred_year_ginseng_crop_placed");
-
-
 
 
     public static final ResourceKey<PlacedFeature> SPIRIT_VEIN_FEATURE_PLACED_KEY = registerKey("spirit_vein_feature_placed");
@@ -99,62 +92,6 @@ public class ModPlacedFeatures {
                                 BlockPredicate.ONLY_IN_AIR_PREDICATE,
                                 12
                         ),
-                        BiomeFilter.biome()
-                ));
-
-
-
-        //Herbs
-        register(context, WHITE_JADE_ORCHID_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.WHITE_JADE_ORCHID_KEY),
-                List.of(
-                        CountPlacement.of(2), // 3 attempts per chunk for testing (reduce to 1 for sparser)
-                        RarityFilter.onAverageOnceEvery(8), // Set to 1 for testing (every chunk); increase to 100+ later
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-58), VerticalAnchor.absolute(40)), // Focus on cave levels
-                        EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.hasSturdyFace(Direction.UP), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), // Scan to floor
-                        RandomOffsetPlacement.of(ConstantInt.of(0), ConstantInt.of(1)), // Place in air above floor
-                        BiomeFilter.biome()
-                ));
-
-
-        register(context, IRONWOOD_SPROUT_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.IRONWOOD_SPROUT_KEY),
-                List.of(
-                        CountPlacement.of(2), // 3 attempts per chunk for testing (reduce to 1 for sparser)
-                        RarityFilter.onAverageOnceEvery(4), // Set to 1 for testing (every chunk); increase to 100+ later
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(-58), VerticalAnchor.absolute(40)), // Focus on cave levels
-                        EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.hasSturdyFace(Direction.UP), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), // Scan to floor
-                        RandomOffsetPlacement.of(ConstantInt.of(0), ConstantInt.of(1)), // Place in air above floor
-                        BiomeFilter.biome()
-                ));
-
-
-
-        register(context, HUNDRED_YEAR_FIRE_GINSENG_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.HUNDRED_YEAR_FIRE_GINSENG_KEY),
-                List.of(
-                        CountPlacement.of(1), // 2 patches per chunk for testing (adjust to 1 or more)
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(60), VerticalAnchor.absolute(256)), // Surface focus (sand is common above Y=60)
-                        EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.matchesBlocks(Blocks.SAND, Blocks.RED_SAND), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), // Scan down to sand through air
-                        RandomOffsetPlacement.of(ConstantInt.of(0), ConstantInt.of(1)), // Place in air above sand
-                        BiomeFilter.biome()
-                ));
-        register(context, HUNDRED_YEAR_SNOW_GINSENG_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.HUNDRED_YEAR_SNOW_GINSENG_KEY),
-                List.of(
-                        CountPlacement.of(1), // 2 patches per chunk for testing (adjust to 1 or more)
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(60), VerticalAnchor.absolute(256)), // Surface focus (sand is common above Y=60)
-                        EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.matchesBlocks(Blocks.GRASS_BLOCK, Blocks.SNOW_BLOCK), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), // Scan down to sand through air
-                        RandomOffsetPlacement.of(ConstantInt.of(0), ConstantInt.of(1)), // Place in air above sand
-                        BiomeFilter.biome()
-                ));
-        register(context, HUNDRED_YEAR_GINSENG_PLACED, configuredFeatures.getOrThrow(ModConfiguredFeatures.HUNDRED_YEAR_GINSENG_KEY),
-                List.of(
-                        CountPlacement.of(1), // 2 patches per chunk for testing (adjust to 1 or more)
-                        InSquarePlacement.spread(),
-                        HeightRangePlacement.uniform(VerticalAnchor.absolute(60), VerticalAnchor.absolute(256)), // Surface focus (sand is common above Y=60)
-                        EnvironmentScanPlacement.scanningFor(Direction.DOWN, BlockPredicate.matchesBlocks(Blocks.GRASS_BLOCK), BlockPredicate.ONLY_IN_AIR_PREDICATE, 12), // Scan down to sand through air
-                        RandomOffsetPlacement.of(ConstantInt.of(0), ConstantInt.of(1)), // Place in air above sand
                         BiomeFilter.biome()
                 ));
 
