@@ -235,6 +235,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK)
                 .unlockedBy("has_spiritual_stone_block", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(
                         withFormationId(recipeOutput, "ascension:growth_formation"), "ascension:shaped/formation_plate_growth_formation");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', ItemTags.CANDLES)
+                .define('O', Items.NAME_TAG)
+                .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK)
+                .unlockedBy("has_spiritual_stone_block", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(
+                        withFormationId(recipeOutput, "ascension:mist_obfuscation_formation"), "ascension:shaped/formation_plate_mist_obfuscation_formation");
 
 
 
