@@ -46,6 +46,18 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.KARMIC_DEBT_LEDGER);
 
                         output.accept(ModItems.FORMATION_SLIP_ACACIA);
+                        output.accept(ModItems.FORMATION_SLIP_OAK);
+                        output.accept(ModItems.FORMATION_SLIP_DARK_OAK);
+                        output.accept(ModItems.FORMATION_SLIP_BIRCH);
+                        output.accept(ModItems.FORMATION_SLIP_BAMBOO);
+                        output.accept(ModItems.FORMATION_SLIP_CHERRY);
+                        output.accept(ModItems.FORMATION_SLIP_CRIMSON);
+                        output.accept(ModItems.FORMATION_SLIP_WARPED);
+                        output.accept(ModItems.FORMATION_SLIP_GOLDEN_PALM);
+                        output.accept(ModItems.FORMATION_SLIP_IRONWOOD);
+                        output.accept(ModItems.FORMATION_SLIP_JUNGLE);
+                        output.accept(ModItems.FORMATION_SLIP_SPRUCE);
+                        output.accept(ModItems.FORMATION_SLIP_MANGROVE);
                         output.accept(ModItems.REPAIR_SLIP);
                         output.accept(ModItems.ENDER_POUCH);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HUMAN);

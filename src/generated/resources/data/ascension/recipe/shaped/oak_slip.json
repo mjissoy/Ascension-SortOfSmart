@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "J": {
+      "item": "minecraft:oak_planks"
+    },
+    "S": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    " SS",
+    "JJ ",
+    "JJ "
+  ],
+  "result": {
+    "count": 1,
+    "id": "ascension:formation_slip_oak"
+  }
+}

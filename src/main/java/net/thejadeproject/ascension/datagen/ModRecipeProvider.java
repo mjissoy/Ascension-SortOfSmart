@@ -1,14 +1,19 @@
 package net.thejadeproject.ascension.datagen;
 
+import net.lucent.formation_arrays.data_components.ModDataComponents;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
@@ -18,6 +23,7 @@ import net.thejadeproject.ascension.util.ModTags;
 import net.thejadeproject.ascension.util.NoAdvRecipeOutput;
 import net.thejadeproject.ascension.util.RecipeInjector;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -145,14 +151,185 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
 
+
         //Formation Stuff
-        /*ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_ACACIA.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, net.lucent.formation_arrays.blocks.ModBlocks.TIER_1_FORMATION_CORE.get())
+                .pattern("FCF")
+                .pattern("ESE")
+                .pattern("FCF")
+                .define('F', ModBlocks.FROST_SILVER_BLOCK)
+                .define('S', ModBlocks.SPIRITUAL_STONE_BLOCK)
+                .define('C', ModItems.UNDEAD_CORE.get())
+                .define('E', ModItems.LIVING_CORE.get())
+                .unlockedBy("has_jade", has(ModItems.UNDEAD_CORE)).save(recipeOutput, "ascension:shaped/tier_1_formation_core");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', Blocks.SPONGE)
+                .define('O', ModItems.SPIRITUAL_STONE.get())
+                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .unlockedBy("has_sponge", has(Blocks.SPONGE)).save(
+                        withFormationId(recipeOutput, "ascension:water_bubble_formation"), "ascension:shaped/formation_plate_water_bubble");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', Blocks.AMETHYST_BLOCK)
+                .define('O', Blocks.TINTED_GLASS)
+                .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK.get())
+                .unlockedBy("has_amethyst", has(Blocks.AMETHYST_BLOCK)).save(
+                        withFormationId(recipeOutput, "ascension:barrier_formation"), "ascension:shaped/formation_plate_barrier");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', ModItems.ESSENCE_GATHERING_PILL_T3)
+                .define('O', ModBlocks.SPIRITUAL_STONE_BLOCK)
+                .define('B', ModItems.SPATIAL_STONE_TIER_1.get())
+                .unlockedBy("has_essence_gathering", has(ModItems.ESSENCE_GATHERING_PILL_T3)).save(
+                        withFormationId(recipeOutput, "ascension:qi_gathering_formation"), "ascension:shaped/formation_plate_qi_gathering");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', ModItems.SPIRIT_FOCUS_PILL_T3)
+                .define('O', ModBlocks.SPIRITUAL_STONE_BLOCK)
+                .define('B', ModItems.SPATIAL_STONE_TIER_1.get())
+                .unlockedBy("has_spirit_focus", has(ModItems.SPIRIT_FOCUS_PILL_T3)).save(
+                        withFormationId(recipeOutput, "ascension:enlightenment_formation"), "ascension:shaped/formation_plate_enlightenment");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', ModItems.INNER_REINFORCEMENT_PILL_T3)
+                .define('O', ModBlocks.SPIRITUAL_STONE_BLOCK)
+                .define('B', ModItems.SPATIAL_STONE_TIER_1.get())
+                .unlockedBy("has_inner_reinforcement", has(ModItems.INNER_REINFORCEMENT_PILL_T3)).save(
+                        withFormationId(recipeOutput, "ascension:body_reinforcement_formation"), "ascension:shaped/formation_plate_body_reinforcement");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', Blocks.CRYING_OBSIDIAN)
+                .define('O', Blocks.OBSIDIAN)
+                .define('B', ModItems.REBIRTH_PILL.get())
+                .unlockedBy("has_rebirth", has(ModItems.REBIRTH_PILL)).save(
+                        withFormationId(recipeOutput, "ascension:area_protection_formation"), "ascension:shaped/formation_plate_area_protection");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', Blocks.LIGHTNING_ROD)
+                .define('O', Blocks.SCULK_SHRIEKER)
+                .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK)
+                .unlockedBy("has_spiritual_stone_block", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(
+                        withFormationId(recipeOutput, "ascension:qi_absorption_formation"), "ascension:shaped/formation_plate_qi_absorption");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
+                .pattern("SOS")
+                .pattern("OBO")
+                .pattern("SOS")
+                .define('S', ModItems.SPATIAL_STONE_TIER_2)
+                .define('O', ItemTags.SAPLINGS)
+                .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK)
+                .unlockedBy("has_spiritual_stone_block", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(
+                        withFormationId(recipeOutput, "ascension:growth_formation"), "ascension:shaped/formation_plate_growth_formation");
+
+
+
+        //Formation Stuff
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_ACACIA.get())
                 .pattern(" SS")
                 .pattern("JJ ")
                 .pattern("JJ ")
                 .define('S', Items.STRING)
-                .define('J', ModItems.JADE.get())
-                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_slip");*/
+                .define('J', Items.ACACIA_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/acacia_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_OAK.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.OAK_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/oak_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_DARK_OAK.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.DARK_OAK_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/dark_oak_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_BIRCH.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.BIRCH_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/birch_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_BAMBOO.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.BAMBOO_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/bamboo_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_CHERRY.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.CHERRY_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/cherry_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_CRIMSON.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.CRIMSON_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/crimson_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_WARPED.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.WARPED_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/warped_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_GOLDEN_PALM.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', ModBlocks.GOLDEN_PALM_PLANKS.get())
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/golden_palm_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_IRONWOOD.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', ModBlocks.IRONWOOD_PLANKS.get())
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/ironwood_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_JUNGLE.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.JUNGLE_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/jungle_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_SPRUCE.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.SPRUCE_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/spruce_slip");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_MANGROVE.get())
+                .pattern(" SS")
+                .pattern("JJ ")
+                .pattern("JJ ")
+                .define('S', Items.STRING)
+                .define('J', Items.MANGROVE_PLANKS)
+                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/mangrove_slip");
 
 
 
@@ -671,6 +848,37 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_ironwood_planks", has(ModBlocks.IRONWOOD_PLANKS.get())).save(recipeOutput);
 
 
+    }
+
+
+    public static RecipeOutput withFormationId(RecipeOutput parent, String formationId) {
+        return new RecipeOutput() {
+
+            @Override
+            public void accept(ResourceLocation id, Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition... iConditions) {
+                if (recipe instanceof ShapedRecipe shaped) {
+                    ItemStack newResult = shaped.getResultItem(null).copy();
+                    newResult.set(ModDataComponents.FORMATION_PLATE_COMPONENT.get(), formationId);
+
+                    Recipe<?> modifiedRecipe = new ShapedRecipe(
+                            shaped.getGroup(),
+                            shaped.category(),
+                            shaped.pattern,
+                            newResult,
+                            shaped.showNotification()
+                    );
+                    parent.accept(id, modifiedRecipe, advancement);
+                } else {
+                    parent.accept(id, recipe, advancement);
+                }
+            }
+
+            @Override
+            public Advancement.Builder advancement() {
+                return parent.advancement()
+                        ;
+            }
+        };
     }
 
 

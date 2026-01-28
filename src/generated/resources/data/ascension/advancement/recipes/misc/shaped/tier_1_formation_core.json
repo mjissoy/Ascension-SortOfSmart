@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_jade": {
+      "conditions": {
+        "items": [
+          {
+            "items": "ascension:undead_core"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "ascension:shaped/tier_1_formation_core"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_jade"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "ascension:shaped/tier_1_formation_core"
+    ]
+  }
+}

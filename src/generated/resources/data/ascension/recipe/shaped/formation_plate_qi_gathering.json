@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "ascension:spatial_stone_tier_1"
+    },
+    "O": {
+      "item": "ascension:spiritual_stone_block"
+    },
+    "S": {
+      "item": "ascension:essence_gathering_pill_t3"
+    }
+  },
+  "pattern": [
+    "SOS",
+    "OBO",
+    "SOS"
+  ],
+  "result": {
+    "components": {
+      "formation_arrays:formation_id": "ascension:qi_gathering_formation"
+    },
+    "count": 1,
+    "id": "ascension:formation_plate"
+  }
+}

@@ -24,6 +24,14 @@ public class ModFormationRenderers {
     public static final DeferredHolder<IFormationRenderer, ? extends AmbientParticleFormationRenderer> GROWTH_FORMATION_RENDERER =
             FORMATION_RENDERERS.register("growth_formation_renderer",
                     ()->new AmbientParticleFormationRenderer(-15546045,0.4));
+
+
+    public static final DeferredHolder<IFormationRenderer, ? extends AmbientParticleFormationRenderer> MIST_RENDERER =
+            FORMATION_RENDERERS.register("mist_renderer",
+                    () -> new AmbientParticleFormationRenderer(0x88AAFF, 0.3));
+
+
+
     public static void register(IEventBus eventBus){
         FORMATION_RENDERERS.register(eventBus);
     }

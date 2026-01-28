@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "ascension:rebirth_pill"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "S": {
+      "item": "minecraft:crying_obsidian"
+    }
+  },
+  "pattern": [
+    "SOS",
+    "OBO",
+    "SOS"
+  ],
+  "result": {
+    "components": {
+      "formation_arrays:formation_id": "ascension:area_protection_formation"
+    },
+    "count": 1,
+    "id": "ascension:formation_plate"
+  }
+}

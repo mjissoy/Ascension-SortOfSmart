@@ -71,6 +71,9 @@ public class ModFormations {
                     ((formation, pos, formationId) ->
                             new GrowthFormation(formation,formationId,10,50,20,60,10)
                     )));
+    public static final DeferredHolder<IFormation, ? extends GenericFormation> OBFUSCATION_FORMATION = FORMATIONS.register("mist_obfuscation_formation",
+            () -> new GenericFormation(Component.literal("Mist Obfuscation Formation"), ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mist_renderer"),
+                    (formation, pos, uuid) -> new MistObfuscationFormation(formation, uuid, 15.0, 8)));
 
     public static void register(IEventBus eventBus){
         FORMATIONS.register(eventBus);
