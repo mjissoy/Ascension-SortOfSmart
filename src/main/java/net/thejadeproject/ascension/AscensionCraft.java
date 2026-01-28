@@ -22,8 +22,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import net.neoforged.neoforge.registries.RegisterEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
@@ -38,7 +36,6 @@ import net.thejadeproject.ascension.events.karma.KarmaEvents;
 import net.thejadeproject.ascension.events.karma.KarmaManager;
 import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
 import net.thejadeproject.ascension.formations.ModFormations;
-import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
@@ -310,7 +307,7 @@ public class AscensionCraft {
         @SubscribeEvent
         public static void onEntityAttributeModificationEvent(final EntityAttributeModificationEvent event) {
             event.add(EntityType.PLAYER, ModAttributes.MAX_CASTING_INSTANCES);
-            event.add(EntityType.PLAYER, ModAttributes.PLAYER_QI_INSTANCE);
+            event.add(EntityType.PLAYER, ModAttributes.PLAYER_MAX_QI);
             event.add(EntityType.PLAYER, ModAttributes.PLAYER_QI_REGEN_RATE);
         }
 

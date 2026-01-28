@@ -20,7 +20,7 @@ public class ModAttributes {
             // Min and max values.
             0,
             MAX_CASTING_INSTANCE_NUMBER).setSyncable(true));
-    public static final Holder<Attribute> PLAYER_QI_INSTANCE = ATTRIBUTES.register("player_qi", () -> new RangedAttribute(
+    public static final Holder<Attribute> PLAYER_MAX_QI = ATTRIBUTES.register("player_qi", () -> new RangedAttribute(
             // The translation key to use.
             "attributes.ascension.player_qi",
             // The default value.

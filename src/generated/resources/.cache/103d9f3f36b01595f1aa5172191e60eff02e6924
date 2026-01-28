@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-28T15:38:50.4221396	Registries
+// 1.21.1	2026-01-28T18:55:32.0990348	Registries
 644ab57e14fe71196d4f7c0a459d282bf0823bcc data/ascension/damage_type/dao.json
 c03ebb2aa71bd0b6a1b81295b7004f1f61b53a99 data/ascension/neoforge/biome_modifier/add_black_iron_ore.json
 854df35a4d9f1e2ce73ba76d772a918867b07141 data/ascension/neoforge/biome_modifier/add_frost_silver_ore.json
@@ -22,7 +22,7 @@ afa338254ba9adea2cb229cbceee27c8a5a69ccd data/ascension/worldgen/placed_feature/
 4305a2890964c35d23440a1837b5cfadc6f6b3f4 data/ascension/worldgen/placed_feature/jade_ore.json
 ae1a7cce7b1bf3b53c718eed3c0cba1b51830e55 data/ascension/worldgen/placed_feature/ore_marble_lower.json
 e6e3933e2c33ac3e53f80a5ebbfd82f16f1bf3cb data/ascension/worldgen/placed_feature/ore_marble_upper.json
-df2655ee7d41e2633a8f751d0698ac4fc8541b7e data/ascension/worldgen/placed_feature/spirit_vein_feature_placed.json
+a87c693747dd254b518310a1f0c07755987b1d73 data/ascension/worldgen/placed_feature/spirit_vein_feature_placed.json
 db8067628c762f82ab882382ccad63c66c996d2c data/ascension/worldgen/structure/crimson_lotus_structure.json
 265edf7f28a6df96c20aa7dc6e51ba7871a78d08 data/ascension/worldgen/structure/spiritual_cavern.json
 b115f10164d2321d4a3e11f933f8edea261a6b2f data/ascension/worldgen/structure/sword_tomb1.json

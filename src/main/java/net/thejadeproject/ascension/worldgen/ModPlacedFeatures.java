@@ -81,6 +81,7 @@ public class ModPlacedFeatures {
                 configuredFeatures.getOrThrow(ModConfiguredFeatures.SPIRIT_VEIN_FEATURE_KEY),
                 List.of(
                         CountPlacement.of(1),
+                        RarityFilter.onAverageOnceEvery(24),
                         InSquarePlacement.spread(),
                         HeightRangePlacement.uniform(
                                 VerticalAnchor.absolute(-32),
@@ -92,6 +93,7 @@ public class ModPlacedFeatures {
                                 BlockPredicate.ONLY_IN_AIR_PREDICATE,
                                 12
                         ),
+                        RandomOffsetPlacement.of(ConstantInt.of(0), ConstantInt.of(1)),
                         BiomeFilter.biome()
                 ));
 

@@ -44,7 +44,7 @@ public class PlayerData {
     private int ticksSinceRegen = 0;
     private final int TICKS_FOR_REGEN = 60;
     public void increaseQi(double qi){
-        double max = player.getAttribute(ModAttributes.PLAYER_QI_INSTANCE).getValue();
+        double max = player.getAttribute(ModAttributes.PLAYER_MAX_QI).getValue();
         setQi(Math.min(currentQi + qi,max));
     }
     public void setQiNoSync(double qi){
@@ -58,8 +58,8 @@ public class PlayerData {
         return  currentQi;
     }
     public double getPlayerMaxQi(){
-        if(player.getAttribute(ModAttributes.PLAYER_QI_INSTANCE) == null) return 0.0;
-        return player.getAttribute(ModAttributes.PLAYER_QI_INSTANCE).getValue();
+        if(player.getAttribute(ModAttributes.PLAYER_MAX_QI) == null) return 0.0;
+        return player.getAttribute(ModAttributes.PLAYER_MAX_QI).getValue();
     }
     public boolean tryConsumeQi(double amount){
         if(currentQi < amount) return false;

@@ -55,7 +55,7 @@ public class ModTechniques {
         );
     }
 
-    // ========== HUMAN TIER TECHNIQUES ==========
+    // ========== HUMAN TIER TECHNIQUES (Realms 1-3) ==========
 
     // Body Path - Human Tier
     public static final TechniqueHolder IRON_SKIN_TECHNIQUE = createTechnique("iron_skin_technique",
@@ -65,21 +65,23 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 15.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 1.5),
                                     modifier(Attributes.ARMOR, 1.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.05),
                                     modifier(Attributes.JUMP_STRENGTH, 0.01),
                                     modifier(Attributes.STEP_HEIGHT, 0.02),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 0.5),
-                                    modifier(Attributes.KNOCKBACK_RESISTANCE, 0.1)
+                                    modifier(Attributes.KNOCKBACK_RESISTANCE, 0.1),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.02),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 10.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 25.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.0),
                                     modifier(Attributes.ARMOR, 2.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.4),
                                     modifier(Attributes.JUMP_STRENGTH, 0.08),
                                     modifier(Attributes.STEP_HEIGHT, 0.5),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 1.0),
-                                    modifier(Attributes.KNOCKBACK_RESISTANCE, 0.3)
+                                    modifier(Attributes.KNOCKBACK_RESISTANCE, 0.3),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 25.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -101,20 +103,22 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 8.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 1.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.15),
                                     modifier(Attributes.ARMOR, 0.1),
                                     modifier(Attributes.JUMP_STRENGTH, 0.08),
                                     modifier(Attributes.STEP_HEIGHT, 0.05),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.8)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.8),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.03),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 12.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 16.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.5),
                                     modifier(Attributes.ARMOR, 0.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.6),
                                     modifier(Attributes.JUMP_STRENGTH, 0.25),
                                     modifier(Attributes.STEP_HEIGHT, 0.4),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.5)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.5),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.06),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 30.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -137,17 +141,19 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 9.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.0),
                                     modifier(Attributes.ATTACK_SPEED, 0.1),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.05),
                                     modifier(Attributes.JUMP_STRENGTH, 0.02),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.4)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.4),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.025),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 8.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 18.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 4.5),
                                     modifier(Attributes.ATTACK_SPEED, 0.3),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.1),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.8)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.8),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 20.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -172,20 +178,22 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 12.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.08),
                                     modifier(Attributes.ARMOR, 0.5),
                                     modifier(Attributes.JUMP_STRENGTH, 0.04),
                                     modifier(Attributes.STEP_HEIGHT, 0.08),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.03),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 10.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 21.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 7.5),
                                     modifier(Attributes.ARMOR, 1.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.8),
                                     modifier(Attributes.JUMP_STRENGTH, 0.9),
                                     modifier(Attributes.STEP_HEIGHT, 1.2),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.06),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 25.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -211,24 +219,26 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 9.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 1.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.2),
                                     modifier(Attributes.ARMOR, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.02),
                                     modifier(Attributes.STEP_HEIGHT, 0.02),
                                     modifier(Attributes.OXYGEN_BONUS, 0.1),
                                     modifier(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.08),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.025),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 9.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 18.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.5),
                                     modifier(Attributes.ARMOR, 1.1),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.6),
                                     modifier(Attributes.JUMP_STRENGTH, 0.8),
                                     modifier(Attributes.STEP_HEIGHT, 0.6),
                                     modifier(Attributes.OXYGEN_BONUS, 0.4),
                                     modifier(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.14),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 22.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -251,20 +261,22 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 7.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 1.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.9),
                                     modifier(Attributes.ARMOR, 0.2),
                                     modifier(Attributes.JUMP_STRENGTH, 0.09),
                                     modifier(Attributes.STEP_HEIGHT, 0.1),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.02),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 8.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 15.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 6.5),
                                     modifier(Attributes.ARMOR, 0.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.8),
                                     modifier(Attributes.JUMP_STRENGTH, 0.14),
                                     modifier(Attributes.STEP_HEIGHT, 1.0),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.04),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 20.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -288,20 +300,22 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 17.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.1),
                                     modifier(Attributes.ARMOR, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.01),
                                     modifier(Attributes.STEP_HEIGHT, 0.01),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.02),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 10.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 33.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 9.5),
                                     modifier(Attributes.ARMOR, 0.6),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.03),
                                     modifier(Attributes.STEP_HEIGHT, 0.5),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 25.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -325,19 +339,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 17.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.2),
                                     modifier(Attributes.ARMOR, 0.6),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.1),
                                     modifier(Attributes.JUMP_STRENGTH, 0.01),
                                     modifier(Attributes.STEP_HEIGHT, 0.01),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.025),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 11.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 33.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 9.5),
                                     modifier(Attributes.ARMOR, 1.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.03),
                                     modifier(Attributes.STEP_HEIGHT, 0.5),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 28.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -363,19 +379,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 7.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.3),
                                     modifier(Attributes.ARMOR, 0.1),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.03),
                                     modifier(Attributes.STEP_HEIGHT, 0.03),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.03),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 12.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 26.4),
                                     modifier(Attributes.ATTACK_DAMAGE, 7.4),
                                     modifier(Attributes.ARMOR, 0.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.9),
                                     modifier(Attributes.JUMP_STRENGTH, 0.06),
                                     modifier(Attributes.STEP_HEIGHT, 0.6),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.06),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 30.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -400,19 +418,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 6.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.3),
                                     modifier(Attributes.ARMOR, 0.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.2),
                                     modifier(Attributes.JUMP_STRENGTH, 0.04),
                                     modifier(Attributes.STEP_HEIGHT, 0.04),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.025),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 10.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 17.4),
                                     modifier(Attributes.ATTACK_DAMAGE, 8.4),
                                     modifier(Attributes.ARMOR, 0.6),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.8),
                                     modifier(Attributes.JUMP_STRENGTH, 0.09),
                                     modifier(Attributes.STEP_HEIGHT, 0.7),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 25.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -436,19 +456,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 8.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.3),
                                     modifier(Attributes.ARMOR, 0.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.5),
                                     modifier(Attributes.JUMP_STRENGTH, 0.07),
                                     modifier(Attributes.STEP_HEIGHT, 0.07),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.03),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 11.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 26.4),
                                     modifier(Attributes.ATTACK_DAMAGE, 7.8),
                                     modifier(Attributes.ARMOR, 1.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.1),
                                     modifier(Attributes.JUMP_STRENGTH, 0.14),
                                     modifier(Attributes.STEP_HEIGHT, 0.9),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.06),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 28.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -472,21 +494,23 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 11.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.0),
                                     modifier(Attributes.ARMOR, 0.3),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.04),
                                     modifier(Attributes.STEP_HEIGHT, 0.11),
                                     modifier(Attributes.ENTITY_INTERACTION_RANGE, 0.2),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.025),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 10.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 29.4),
                                     modifier(Attributes.ATTACK_DAMAGE, 4.8),
                                     modifier(Attributes.ARMOR, 0.8),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.7),
                                     modifier(Attributes.JUMP_STRENGTH, 0.08),
                                     modifier(Attributes.STEP_HEIGHT, 0.7),
                                     modifier(Attributes.ENTITY_INTERACTION_RANGE, 1.2),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 25.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -510,21 +534,23 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 12.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 4.0),
                                     modifier(Attributes.ARMOR, 0.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.5),
                                     modifier(Attributes.JUMP_STRENGTH, 0.02),
                                     modifier(Attributes.STEP_HEIGHT, 0.02),
                                     modifier(Attributes.ATTACK_KNOCKBACK, 0.2),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.03),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 12.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 29.4),
                                     modifier(Attributes.ATTACK_DAMAGE, 4.8),
                                     modifier(Attributes.ARMOR, 0.8),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.7),
                                     modifier(Attributes.JUMP_STRENGTH, 0.08),
                                     modifier(Attributes.STEP_HEIGHT, 0.7),
                                     modifier(Attributes.ATTACK_KNOCKBACK, 0.8),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.06),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 30.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -548,20 +574,22 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 12.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 4.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.1),
                                     modifier(Attributes.ARMOR, 0.8),
                                     modifier(Attributes.JUMP_STRENGTH, 0.07),
                                     modifier(Attributes.STEP_HEIGHT, 0.08),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.02),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 9.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 21.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 8.5),
                                     modifier(Attributes.ARMOR, 1.6),
-                                    modifier(Attributes.MOVEMENT_SPEED, 2.2),
                                     modifier(Attributes.JUMP_STRENGTH, 1.2),
                                     modifier(Attributes.STEP_HEIGHT, 1.2),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.04),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 22.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -585,20 +613,22 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 12.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.08),
                                     modifier(Attributes.ARMOR, 0.5),
                                     modifier(Attributes.JUMP_STRENGTH, 0.04),
                                     modifier(Attributes.STEP_HEIGHT, 0.08),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.03),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 10.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 21.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 7.5),
                                     modifier(Attributes.ARMOR, 1.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.8),
                                     modifier(Attributes.JUMP_STRENGTH, 0.9),
                                     modifier(Attributes.STEP_HEIGHT, 1.2),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.06),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 25.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -620,20 +650,22 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 17.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.1),
                                     modifier(Attributes.ARMOR, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.01),
                                     modifier(Attributes.STEP_HEIGHT, 0.01),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.02),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 10.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 33.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 9.5),
                                     modifier(Attributes.ARMOR, 0.6),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.03),
                                     modifier(Attributes.STEP_HEIGHT, 0.5),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 25.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -656,19 +688,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 17.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.2),
                                     modifier(Attributes.ARMOR, 0.6),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.1),
                                     modifier(Attributes.JUMP_STRENGTH, 0.01),
                                     modifier(Attributes.STEP_HEIGHT, 0.01),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.025),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 11.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 33.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 9.5),
                                     modifier(Attributes.ARMOR, 1.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.03),
                                     modifier(Attributes.STEP_HEIGHT, 0.5),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 28.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -691,24 +725,26 @@ public class ModTechniques {
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 9.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 1.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.2),
                                     modifier(Attributes.ARMOR, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.02),
                                     modifier(Attributes.STEP_HEIGHT, 0.02),
                                     modifier(Attributes.OXYGEN_BONUS, 0.1),
                                     modifier(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.08),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.025),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 9.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 18.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.5),
                                     modifier(Attributes.ARMOR, 1.1),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.6),
                                     modifier(Attributes.JUMP_STRENGTH, 0.8),
                                     modifier(Attributes.STEP_HEIGHT, 0.6),
                                     modifier(Attributes.OXYGEN_BONUS, 0.4),
                                     modifier(Attributes.WATER_MOVEMENT_EFFICIENCY, 0.14),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 22.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -724,7 +760,7 @@ public class ModTechniques {
                             .append("§e◆ §fWeakness: Weak to earth-based techniques")
                     ));
 
-    // ========== EARTH TIER TECHNIQUES ==========
+    // ========== EARTH TIER TECHNIQUES (Realms 4-6) ==========
 
     // Body Path - Earth Tier
     public static final TechniqueHolder JADE_BONE_TECHNIQUE = createTechnique("jade_bone_technique",
@@ -734,21 +770,23 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 20.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 2.5),
                                     modifier(Attributes.ARMOR, 1.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.08),
                                     modifier(Attributes.JUMP_STRENGTH, 0.04),
                                     modifier(Attributes.STEP_HEIGHT, 0.1),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 1.0),
-                                    modifier(Attributes.LUCK, 0.5)
+                                    modifier(Attributes.LUCK, 0.5),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.04),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 20.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 35.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 6.0),
                                     modifier(Attributes.ARMOR, 3.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.5),
                                     modifier(Attributes.JUMP_STRENGTH, 0.15),
                                     modifier(Attributes.STEP_HEIGHT, 0.6),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 2.0),
-                                    modifier(Attributes.LUCK, 1.0)
+                                    modifier(Attributes.LUCK, 1.0),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.08),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 45.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -773,19 +811,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 10.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.0),
                                     modifier(Attributes.ATTACK_SPEED, 0.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.15),
                                     modifier(Attributes.JUMP_STRENGTH, 0.05),
                                     modifier(Attributes.STEP_HEIGHT, 0.06),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 25.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 22.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 7.5),
                                     modifier(Attributes.ATTACK_SPEED, 0.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.6),
                                     modifier(Attributes.JUMP_STRENGTH, 0.2),
                                     modifier(Attributes.STEP_HEIGHT, 0.4),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.10),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 55.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -813,21 +853,23 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 15.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 5.0),
                                     modifier(Attributes.ARMOR, 0.1),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.5),
                                     modifier(Attributes.JUMP_STRENGTH, 0.02),
                                     modifier(Attributes.STEP_HEIGHT, 0.02),
                                     modifier(Attributes.ATTACK_KNOCKBACK, 0.6),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.05),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 28.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 34.4),
                                     modifier(Attributes.ATTACK_DAMAGE, 11.8),
                                     modifier(Attributes.ARMOR, 0.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.7),
                                     modifier(Attributes.JUMP_STRENGTH, 0.08),
                                     modifier(Attributes.STEP_HEIGHT, 0.7),
                                     modifier(Attributes.ATTACK_KNOCKBACK, 1.4),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.10),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 60.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -853,19 +895,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 13.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.2),
                                     modifier(Attributes.ARMOR, 0.3),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.03),
                                     modifier(Attributes.STEP_HEIGHT, 0.03),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.06),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 30.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 26.4),
                                     modifier(Attributes.ATTACK_DAMAGE, 11.4),
                                     modifier(Attributes.ARMOR, 1.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 2.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.06),
                                     modifier(Attributes.STEP_HEIGHT, 0.8),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.12),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 65.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -890,19 +934,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 12.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 3.5),
                                     modifier(Attributes.ATTACK_SPEED, 0.15),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.2),
                                     modifier(Attributes.JUMP_STRENGTH, 0.1),
                                     modifier(Attributes.STEP_HEIGHT, 0.08),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.7)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.7),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.06),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 32.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 25.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 8.0),
                                     modifier(Attributes.ATTACK_SPEED, 0.4),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.8),
                                     modifier(Attributes.JUMP_STRENGTH, 0.3),
                                     modifier(Attributes.STEP_HEIGHT, 0.5),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.5)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.5),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.12),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 70.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -927,19 +973,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 25.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 5.2),
                                     modifier(Attributes.ARMOR, 1.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.6),
                                     modifier(Attributes.JUMP_STRENGTH, 0.06),
                                     modifier(Attributes.STEP_HEIGHT, 0.06),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 0.6),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.07),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 35.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 45.5),
                                     modifier(Attributes.ATTACK_DAMAGE, 11.5),
                                     modifier(Attributes.ARMOR, 2.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.4),
                                     modifier(Attributes.JUMP_STRENGTH, 0.6),
                                     modifier(Attributes.STEP_HEIGHT, 0.5),
-                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2)
+                                    modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.14),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 75.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -956,7 +1004,7 @@ public class ModTechniques {
                             .append("§e◆ §fWeakness: Extreme cold")
                     ));
 
-    // ========== HEAVEN TIER TECHNIQUES ==========
+    // ========== HEAVEN TIER TECHNIQUES (Realms 7-9) ==========
 
     // Body Path - Heaven Tier
     public static final TechniqueHolder CELESTIAL_BODY_TECHNIQUE = createTechnique("celestial_body_technique",
@@ -966,23 +1014,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 25.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 4.0),
                                     modifier(Attributes.ARMOR, 2.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.25),
                                     modifier(Attributes.JUMP_STRENGTH, 0.15),
                                     modifier(Attributes.STEP_HEIGHT, 0.15),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 1.5),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.3),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 150.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.08),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 50.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 45.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 9.0),
                                     modifier(Attributes.ARMOR, 4.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.0),
                                     modifier(Attributes.JUMP_STRENGTH, 0.4),
                                     modifier(Attributes.STEP_HEIGHT, 0.8),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 3.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.6),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 300.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.16),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 110.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -1008,23 +1054,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 15.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 4.5),
                                     modifier(Attributes.ARMOR, 0.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.12),
                                     modifier(Attributes.STEP_HEIGHT, 0.1),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 1.2),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.4),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 200.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.10),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 60.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 30.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 10.0),
                                     modifier(Attributes.ARMOR, 1.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.2),
                                     modifier(Attributes.JUMP_STRENGTH, 0.35),
                                     modifier(Attributes.STEP_HEIGHT, 0.7),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 2.5),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.8),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 400.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.20),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 130.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -1050,23 +1094,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 16.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 6.0),
                                     modifier(Attributes.ARMOR, 0.3),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.1),
                                     modifier(Attributes.STEP_HEIGHT, 0.15),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 1.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.35),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 250.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.09),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 55.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 32.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 15.0),
                                     modifier(Attributes.ARMOR, 1.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.3),
                                     modifier(Attributes.JUMP_STRENGTH, 0.6),
                                     modifier(Attributes.STEP_HEIGHT, 1.0),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 3.5),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.7),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 500.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.18),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 120.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -1085,7 +1127,7 @@ public class ModTechniques {
                             .append("§e◆ §fWeakness: Completely focused on sword, lacks versatility")
                     ));
 
-    // ========== ASCENSION TIER TECHNIQUES ==========
+    // ========== ASCENSION TIER TECHNIQUES (Realms 10-12) ==========
 
     // Essence Path - Ascension Tier
     public static final TechniqueHolder COSMIC_CREATION_ESSENCE_TECHNIQUE = createTechnique("cosmic_creation_essence_technique",
@@ -1095,23 +1137,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 28.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 8.5),
                                     modifier(Attributes.ARMOR, 2.2),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.45),
                                     modifier(Attributes.JUMP_STRENGTH, 0.35),
                                     modifier(Attributes.STEP_HEIGHT, 0.3),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 3.5),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.75),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 600.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.12),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 100.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 55.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 22.0),
                                     modifier(Attributes.ARMOR, 4.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 2.2),
                                     modifier(Attributes.JUMP_STRENGTH, 1.8),
                                     modifier(Attributes.STEP_HEIGHT, 2.0),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 9.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 1.5),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 1200.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.24),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 220.0)
                             )
                     ))
                     .setSkillList(List.of(
@@ -1140,23 +1180,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 25.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 7.8),
                                     modifier(Attributes.ARMOR, 2.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.5),
                                     modifier(Attributes.JUMP_STRENGTH, 0.4),
                                     modifier(Attributes.STEP_HEIGHT, 0.35),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 4.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.8),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 650.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.13),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 110.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 50.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 20.0),
                                     modifier(Attributes.ARMOR, 4.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 2.5),
                                     modifier(Attributes.JUMP_STRENGTH, 2.0),
                                     modifier(Attributes.STEP_HEIGHT, 2.2),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 10.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 1.6),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 1300.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.26),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 240.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -1183,23 +1221,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 30.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 7.0),
                                     modifier(Attributes.ARMOR, 2.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.4),
                                     modifier(Attributes.JUMP_STRENGTH, 0.2),
                                     modifier(Attributes.STEP_HEIGHT, 0.2),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 2.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.6),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 400.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.11),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 90.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 60.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 18.0),
                                     modifier(Attributes.ARMOR, 5.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 2.0),
                                     modifier(Attributes.JUMP_STRENGTH, 1.0),
                                     modifier(Attributes.STEP_HEIGHT, 1.5),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 5.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 1.2),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 800.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.22),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 200.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -1225,23 +1261,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 35.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 8.0),
                                     modifier(Attributes.ARMOR, 3.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.35),
                                     modifier(Attributes.JUMP_STRENGTH, 0.25),
                                     modifier(Attributes.STEP_HEIGHT, 0.25),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 2.5),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.55),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 350.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.10),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 85.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 65.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 20.0),
                                     modifier(Attributes.ARMOR, 6.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.8),
                                     modifier(Attributes.JUMP_STRENGTH, 1.2),
                                     modifier(Attributes.STEP_HEIGHT, 1.8),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 6.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 1.1),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 700.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.20),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 190.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -1268,23 +1302,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 25.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 9.0),
                                     modifier(Attributes.ARMOR, 2.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.5),
                                     modifier(Attributes.JUMP_STRENGTH, 0.3),
                                     modifier(Attributes.STEP_HEIGHT, 0.3),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 3.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.7),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 500.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.12),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 95.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 50.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 25.0),
                                     modifier(Attributes.ARMOR, 4.0),
-                                    modifier(Attributes.MOVEMENT_SPEED, 2.5),
                                     modifier(Attributes.JUMP_STRENGTH, 1.5),
                                     modifier(Attributes.STEP_HEIGHT, 2.0),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 8.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 1.4),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 1000.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.24),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 210.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
@@ -1311,23 +1343,21 @@ public class ModTechniques {
                                     modifier(Attributes.MAX_HEALTH, 22.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 6.5),
                                     modifier(Attributes.ARMOR, 1.8),
-                                    modifier(Attributes.MOVEMENT_SPEED, 0.4),
                                     modifier(Attributes.JUMP_STRENGTH, 0.25),
                                     modifier(Attributes.STEP_HEIGHT, 0.25),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 2.8),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.65),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 450.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.11),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 90.0)
                             ),
                             List.of(
                                     modifier(Attributes.MAX_HEALTH, 45.0),
                                     modifier(Attributes.ATTACK_DAMAGE, 18.0),
                                     modifier(Attributes.ARMOR, 3.5),
-                                    modifier(Attributes.MOVEMENT_SPEED, 1.5),
                                     modifier(Attributes.JUMP_STRENGTH, 1.0),
                                     modifier(Attributes.STEP_HEIGHT, 1.2),
                                     modifier(Attributes.SAFE_FALL_DISTANCE, 7.0),
-                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 1.3),
-                                    modifier(ModAttributes.PLAYER_QI_INSTANCE, 900.0)
+                                    modifier(ModAttributes.PLAYER_QI_REGEN_RATE, 0.22),
+                                    modifier(ModAttributes.PLAYER_MAX_QI, 200.0)
                             )
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
