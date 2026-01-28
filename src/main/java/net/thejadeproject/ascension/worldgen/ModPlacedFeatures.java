@@ -93,6 +93,12 @@ public class ModPlacedFeatures {
                                 VerticalAnchor.absolute(-32),
                                 VerticalAnchor.absolute(40)
                         ),
+                        EnvironmentScanPlacement.scanningFor(
+                                Direction.DOWN,
+                                BlockPredicate.hasSturdyFace(Direction.UP),
+                                BlockPredicate.ONLY_IN_AIR_PREDICATE,
+                                12
+                        ),
                         BiomeFilter.biome()
                 ));
 
