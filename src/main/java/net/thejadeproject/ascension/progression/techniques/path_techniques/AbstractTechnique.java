@@ -137,10 +137,7 @@ public abstract class AbstractTechnique implements ITechnique {
 
     @Override
     public void onRealmChangeEvent(RealmChangeEvent event) {
-        System.out.println("Handler: " + System.identityHashCode(event));
-        System.out.println("realm changed");
-        System.out.println("major : "+event.oldMajorRealm +"->"+event.newMajorRealm);
-        System.out.println("minor : "+event.oldMinorRealm +"->"+event.newMinorRealm);
+
         updatePlayerSkills(event);
         ITechnique.super.onRealmChangeEvent(event);
     }
@@ -192,9 +189,7 @@ public abstract class AbstractTechnique implements ITechnique {
         return extraInfo;
     }
     public void updatePlayerSkills(RealmChangeEvent event){
-        System.out.println("trying to update player skills");
-        System.out.println("major : "+event.oldMajorRealm +"->"+event.newMajorRealm);
-        System.out.println("minor : "+event.oldMinorRealm +"->"+event.newMinorRealm);
+
         getSkillList().onRealmChange(event);
     }
 

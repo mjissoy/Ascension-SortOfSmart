@@ -185,7 +185,7 @@ public class GenericPhysique implements IPhysique{
     @Override
     public void onPhysiqueAcquisition(Player player) {
         for(AcquirableSkillData skillData : acquisitionSkills){
-            System.out.println("adding skills");
+
             player.getData(ModAttachments.PLAYER_SKILL_DATA)
                     .addSkill(skillData.skillId(),skillData.fixed(),skillData.permanent());
         }

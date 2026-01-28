@@ -24,13 +24,12 @@ public record UpdateSpeedSuppressorModifier(double value) implements CustomPacke
     public static void handlePayload(UpdateSpeedSuppressorModifier payload, IPayloadContext context) {
         context.enqueueWork(()->
                 {
-                    System.out.println("trying to modify speed suppressor");
+
                     context.player().getAttribute(Attributes.MOVEMENT_SPEED).addOrReplacePermanentModifier(
                             new AttributeModifier(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"suppression_modifier"),
                                     payload.value(), AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
                     );
-                    System.out.println(context.player().getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue());
-                    System.out.println(context.player().getAttribute(Attributes.MOVEMENT_SPEED).getValue());
+
                 }
                 );
     }

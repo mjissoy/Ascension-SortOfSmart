@@ -125,13 +125,10 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
         }
     }
     public void damageListener(LivingDamageEvent.Pre event){
-        if(event.getEntity() != null){
-            System.out.println("DETTECTED DAMAGE");
-            System.out.println(event.getEntity().getType());
-        }
+        //TODO IMPLEMENT
     }
     public void handlePlayerAttackAttempt(Player player){
-        System.out.println("PLAYER TRIED ATTACKING THE MF BARRIER BABY");
+        //TODO handle
     }
     //TODO UPDATE TO INCLUDE BLOCK DETECTION SO I DON'T ACCIDENTALY TARGET THROUGH BLOCKS
     //TODO UPDATE TO CHECK RANGE SO I DON'T TARGET THE BARRIER FROM INSIDE WITHOUT ACTUALY LOOKING AT IT
@@ -183,8 +180,8 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
         }
 
         if (doesOverlap){
-            System.out.println("PLAYER LOOKING AT ME!!!");
-            System.out.println(entityhitresult.getEntity().getType().toString());
+            //TODO
+            //player looking at barrier
         }
 
         //barrier is not the closes thing to the player
@@ -292,7 +289,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
                 if(token != null && token.hasPermission(player,controlToken)) continue;
                 if(checkFilters(player,filters)) continue;
             }
-            System.out.println("trying to block entity : "+ entity.getDisplayName().getString());
+
             blockEntityMotion(entity,pos.getCenter());
 
         }

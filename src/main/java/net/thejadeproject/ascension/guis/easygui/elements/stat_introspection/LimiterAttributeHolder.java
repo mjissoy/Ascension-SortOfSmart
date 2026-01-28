@@ -9,6 +9,7 @@ import net.lucent.easygui.properties.Positioning;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -54,7 +55,9 @@ public class LimiterAttributeHolder  extends AttributeHolder {
                 if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT){
                     double currentValue = getCurrentSuppressValue();
                     ResourceLocation id = attribute.getKey().location();
-                    PacketDistributor.sendToServer(new UpdateSuppressorValuePayload(id.toString(),currentValue-0.1));
+                    double change = Screen.hasShiftDown() ? 0.1 : 0.01;
+                    change = Screen.hasControlDown() ? 0.001 : change;
+                    PacketDistributor.sendToServer(new UpdateSuppressorValuePayload(id.toString(),currentValue-change));
 
                 }
             }
@@ -62,11 +65,12 @@ public class LimiterAttributeHolder  extends AttributeHolder {
         minusButton.setYPositioning(Positioning.CENTER);
         minusButton.setY(-minusButton.getHeight()/2);
         minusButton.setXPositioning(Positioning.END);
-        minusButton.setX(-30);
+        minusButton.setX(-32);
         plusButton = new EmptyButton(screen,18,0,6,6){
             @Override
             public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 plusTexture.renderTexture(guiGraphics);
+
                 super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
 
             }
@@ -77,7 +81,10 @@ public class LimiterAttributeHolder  extends AttributeHolder {
                 if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT){
                     double currentValue = getCurrentSuppressValue();
                     ResourceLocation id = attribute.getKey().location();
-                    PacketDistributor.sendToServer(new UpdateSuppressorValuePayload(id.toString(),currentValue+0.01));
+
+                    double change = Screen.hasShiftDown() ? 0.1 : 0.01;
+                    change = Screen.hasControlDown() ? 0.001 : change;
+                    PacketDistributor.sendToServer(new UpdateSuppressorValuePayload(id.toString(),currentValue+change));
 
                 }
             }
@@ -92,7 +99,7 @@ public class LimiterAttributeHolder  extends AttributeHolder {
         suppressValue = new Label(screen,12,0, Component.literal("100%"));
         suppressValue.setYPositioning(Positioning.CENTER);
         suppressValue.setXPositioning(Positioning.END);
-        suppressValue.setX(-18);
+        suppressValue.setX(-20);
         suppressValue.useCustomScaling = true;
         suppressValue.centered = true;
         suppressValue.setCustomScale(0.5);
@@ -110,11 +117,11 @@ public class LimiterAttributeHolder  extends AttributeHolder {
 
         return 1;
     }
-    public int getSuppressValue(){
+    public double getSuppressValue(){
         ResourceLocation suppressor = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"suppression_modifier");
         Player player = Minecraft.getInstance().player;
         if(player.getAttribute(attribute).hasModifier(suppressor)){
-            return (int)( (1+player.getAttribute(attribute).getModifier(suppressor).amount())*100);
+            return ( (double)(int)( (1+player.getAttribute(attribute).getModifier(suppressor).amount())*1000))/10;
         }
 
         return 100;

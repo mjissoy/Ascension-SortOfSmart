@@ -51,15 +51,14 @@ public class GrowthFormation extends FormationNode {
                     if(pos.distSqr(core) > RADIUS*RADIUS)return false;
                     if(!level.getBlockState(pos).isRandomlyTicking())return false;
                     Block block = level.getBlockState(pos).getBlock();
-                    //System.out.println("checking block :"+block.getName().getString() + " "+((block instanceof BonemealableBlock) || level.getBlockState(pos).is(ModTags.Blocks.HERB)) );
-                    return  (block instanceof BonemealableBlock) || level.getBlockState(pos).is(ModTags.Blocks.HERB) ;
+                     return  (block instanceof BonemealableBlock) || level.getBlockState(pos).is(ModTags.Blocks.HERB) ;
                 }).map(BlockPos::immutable).toList();
 
         if(tickableBlocks.isEmpty()) return;
         for(int i = 0; i<RANDOM_TICKS;i++){
-            System.out.println("RANDOM TICKING BLOCK");
+
             int tickedBlock = ThreadLocalRandom.current().nextInt(0,tickableBlocks.size());
-            System.out.println("ticking : "+level.getBlockState(tickableBlocks.get(tickedBlock)).getBlock().getName().getString());
+
             level.getBlockState(tickableBlocks.get(tickedBlock)).randomTick((ServerLevel) level,tickableBlocks.get(tickedBlock),level.random);
 
         }

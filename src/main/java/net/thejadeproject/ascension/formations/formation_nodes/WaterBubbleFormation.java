@@ -45,7 +45,7 @@ public class WaterBubbleFormation extends FormationNode {
 
     public void onBlockRemove(BlockEvent.BreakEvent event){
         if(!activeLastTick()) return;
-        System.out.println("destroyed block");
+
 
         if(qiMembrane.contains(event.getPos().getCenter())){
             replaceBuffer.add(event.getPos().getCenter());
@@ -117,7 +117,7 @@ public class WaterBubbleFormation extends FormationNode {
 
         if (state.hasProperty(BlockStateProperties.WATERLOGGED)
                 && state.getValue(BlockStateProperties.WATERLOGGED)) {
-            System.out.println("block was waterlogged");
+
             level.setBlock(
                     pos,
                     state.setValue(BlockStateProperties.WATERLOGGED, false),
@@ -126,7 +126,7 @@ public class WaterBubbleFormation extends FormationNode {
             return true;
         }
         else if (fluidState.is(Tags.Fluids.WATER)) {
-            System.out.println("block was water");
+
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_ALL);
             return true;
         }

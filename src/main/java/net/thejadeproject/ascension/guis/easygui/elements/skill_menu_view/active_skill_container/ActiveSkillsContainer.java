@@ -27,7 +27,7 @@ public class ActiveSkillsContainer extends EmptyContainer {
 
     public ActiveSkillsContainer(IEasyGuiScreen screen){
         super(screen,0,89,0,0);
-        System.out.println("creating active skill container");
+
         setWidth(192);
         setHeight(119);
         addChild(new SkillScrollContainer(screen,15,33,4,9));
