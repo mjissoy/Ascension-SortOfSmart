@@ -85,8 +85,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.GOLD_BLADE);
                         output.accept(ModItems.DIAMOND_BLADE);
                         output.accept(ModItems.NETHERITE_BLADE);
-                        output.accept(ModItems.JADE_BLADE);
-                        output.accept(ModItems.SEARING_BLADE);
 
                         output.accept(ModItems.WOODEN_SPEAR);
                         output.accept(ModItems.STONE_SPEAR);
@@ -94,7 +92,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.GOLD_SPEAR);
                         output.accept(ModItems.DIAMOND_SPEAR);
                         output.accept(ModItems.NETHERITE_SPEAR);
-                        output.accept(ModItems.JADE_SPEAR);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_BLOCKS_TAB = CREATIVE_MODE_TAB.register("ascension_blocks_tab",

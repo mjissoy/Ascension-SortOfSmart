@@ -392,23 +392,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_BLADE.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_BLADE.get()).unlocks(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT)).save(recipeOutput, "ascension:smithing/netherite_blade");
 
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_BLADE.get())
-                .pattern("JJ ")
-                .pattern(" J ")
-                .pattern(" S ")
-                .define('J', ModItems.JADE.get())
-                .define('S', Items.STICK)
-                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_blade");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SEARING_BLADE.get())
-                .pattern("CN ")
-                .pattern(" N ")
-                .pattern(" S ")
-                .define('C', ModItems.CRIMSON_LOTUS_FLAME.get())
-                .define('N', Items.NETHERITE_INGOT)
-                .define('S', Items.STICK)
-                .unlockedBy("has_crimson_lotus_flame", has(ModItems.CRIMSON_LOTUS_FLAME)).save(recipeOutput, "ascension:shaped/searing_blade");
-
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.WOODEN_SPEAR.get())
                 .pattern("  J")
                 .pattern(" J ")
@@ -445,15 +428,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', Items.STICK)
                 .unlockedBy("has_diamond", has(Items.DIAMOND)).save(recipeOutput, "ascension:shaped/diamond_spear");
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPEAR.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPEAR.get()).unlocks(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT)).save(recipeOutput, "ascension:smithing/netherite_spear");
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.JADE_SPEAR.get())
-                .pattern("  J")
-                .pattern(" J ")
-                .pattern("S  ")
-                .define('J', ModItems.JADE.get())
-                .define('S', Items.STICK)
-                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/jade_spear");
-
 
 
 

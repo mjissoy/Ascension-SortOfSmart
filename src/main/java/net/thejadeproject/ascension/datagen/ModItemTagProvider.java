@@ -88,9 +88,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.IRON_BLADE.get())
                 .add(ModItems.GOLD_BLADE.get())
                 .add(ModItems.DIAMOND_BLADE.get())
-                .add(ModItems.NETHERITE_BLADE.get())
-                .add(ModItems.SEARING_BLADE.get())
-                .add(ModItems.JADE_BLADE.get());
+                .add(ModItems.NETHERITE_BLADE.get());
 
 
         tag(ModTags.Items.WOOLABLE)
@@ -117,8 +115,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.IRON_SPEAR.get())
                 .add(ModItems.GOLD_SPEAR.get())
                 .add(ModItems.DIAMOND_SPEAR.get())
-                .add(ModItems.NETHERITE_SPEAR.get())
-                .add(ModItems.JADE_SPEAR.get());
+                .add(ModItems.NETHERITE_SPEAR.get());
 
 
         tag(ModTags.Items.SPEAR_ENCHANTABLE)
