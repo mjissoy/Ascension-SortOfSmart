@@ -18,9 +18,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.PhysiqueDataContainer;
-import net.thejadeproject.ascension.guis.easygui.elements.main_menu.path_data.DisplayPathDataContainer;
-import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.TechniqueDataContainer;
+
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
@@ -50,31 +48,6 @@ public class ModActions {
         }
     );
 
-    public static final DeferredHolder<IAction, Clickable.IClickAction> CREATE_CONTAINER = ACTIONS.register("create_container",
-            ()->
-                    new Clickable.IClickAction(){
-
-                        @Override
-                        public void run(ContainerRenderable renderable, double mouseX, double mouseY, int button, boolean clicked, Object[] args) {
-                            if(!clicked || button != InputConstants.MOUSE_BUTTON_LEFT) return;
-                            if(args.length != 1) return;
-                            Player player = Minecraft.getInstance().player;
-                            if(player == null) return;
-
-                            String id = args[0] instanceof JsonPrimitive ? ((JsonPrimitive) args[0]).getAsString() : (String) args[0];
-                            if(id.equals("technique_data")){
-                                if( ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique.equals("ascension:none")) return;
-                                renderable.getRoot().addChild(new TechniqueDataContainer(renderable.getScreen(),0,0, ((DisplayPathDataContainer) renderable.getScreen().getElementByID("path_data_container")).pathData.technique));
-                            } else if (id.equals("physique_data")) {
-
-                                renderable.getRoot().addChild(new PhysiqueDataContainer(renderable.getScreen(),0,0,player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString()));
-                            }
-                            
-                            //renderable.getRoot().addChild(new DraggableDataContainer(renderable.getScreen(),0,0));
-                            
-                        }
-                    }
-    );
 
     public static final DeferredHolder<IAction, Clickable.IClickAction> CHANGE_VISIBILITY = ACTIONS.register("change_visibility",
             ()->

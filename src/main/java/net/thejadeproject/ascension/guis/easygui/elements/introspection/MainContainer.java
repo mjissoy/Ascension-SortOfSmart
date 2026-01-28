@@ -3,15 +3,20 @@ package net.thejadeproject.ascension.guis.easygui.elements.introspection;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.containers.EmptyContainer;
 import net.lucent.easygui.elements.other.Image;
+import net.lucent.easygui.elements.tooltips.EasyTooltip;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
 import net.lucent.easygui.properties.Positioning;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.guis.easygui.elements.EmptyButton;
 import net.thejadeproject.ascension.guis.easygui.elements.body_instrospection.PhysiqueInfoPanel;
-import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.PhysiqueDataContainer;
+
 import net.thejadeproject.ascension.guis.easygui.elements.stat_introspection.StatViewPanel;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
@@ -46,6 +51,14 @@ public class MainContainer extends EmptyContainer {
     private final Image titleBar;
     public final List<ResourceLocation> paths = new ArrayList<>();
     private int selectedPath = 0;
+
+    public Component getNextPathName(int increment){
+        int temp = selectedPath + increment;
+        if(temp <0) temp = paths.size()+temp;
+        temp = Math.abs(temp) % paths.size();
+
+        return AscensionRegistries.Paths.PATHS_REGISTRY.get(paths.get(temp)).getPathDisplayName();
+    }
 
     public void changeSelectedPath(int increment){
         selectedPath += increment;
@@ -83,6 +96,14 @@ public class MainContainer extends EmptyContainer {
                     container.changeSelectedPath(-1);
                 }
             }
+
+            @Override
+            public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
+                if(isHovered()){
+                    getScreen().setTooltip(new EasyTooltip(mouseX,mouseY,List.of(getNextPathName(-1))));
+                }
+            }
         };
         MainContainerEmptyButton rightButton = new MainContainerEmptyButton(screen,125,10,7,7,this){
             @Override
@@ -92,6 +113,13 @@ public class MainContainer extends EmptyContainer {
                     container.changeSelectedPath(1);
                 }
             }
+            @Override
+            public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
+                if(isHovered()){
+                    getScreen().setTooltip(new EasyTooltip(mouseX,mouseY,List.of(getNextPathName(1))));
+                }
+            }
         };
         EmptyButton openPhysique = new EmptyButton(screen,141,22,6,7){
             @Override
@@ -99,12 +127,26 @@ public class MainContainer extends EmptyContainer {
                 super.onClick(mouseX, mouseY, button, clicked);
                 if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT) createPhysiqueContainer();
             }
+            @Override
+            public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
+                if(isHovered()){
+                    getScreen().setTooltip(new EasyTooltip(mouseX,mouseY,List.of(getPhysiqueDisplayName())));
+                }
+            }
         };
         EmptyButton openStats = new EmptyButton(screen,141,31,6,7){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
                 super.onClick(mouseX, mouseY, button, clicked);
                 if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT) createStatMenu();
+            }
+            @Override
+            public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
+                if(isHovered()){
+                    getScreen().setTooltip(new EasyTooltip(mouseX,mouseY,List.of(Component.literal("Stats"))));
+                }
             }
         };
         addChild(openStats);
@@ -120,6 +162,11 @@ public class MainContainer extends EmptyContainer {
     }
     public void createStatMenu(){
         addChild(new StatViewPanel(getScreen(),100,-20));
+    }
+    public Component getPhysiqueDisplayName(){
+        ResourceLocation id = Minecraft.getInstance().player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
+        if(id.toString().equals("ascension:none")) return Component.literal("?????");
+        return AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(id).getDisplayTitle();
     }
     public void createPhysiqueContainer(){
         addChild(new PhysiqueInfoPanel(getScreen(),100,-20,this));

@@ -58,8 +58,8 @@ public class SelectSkillMenu extends EasyGuiScreen {
         super(title);
         View view = new View(this);
         addView(view);
-        view.setUseMinecraftScale(false);
-        SkillWheelContainer container = new SkillWheelContainer(this,view.getScaledWidth()/2-32*7,view.getScaledHeight()/2-32*7);
+        view.setUseMinecraftScale(true);
+        SkillWheelContainer container = new SkillWheelContainer(this,0,0);
         view.addChild(container);
         container.setID("skill_wheel_container");
         container.setCustomScale(7);

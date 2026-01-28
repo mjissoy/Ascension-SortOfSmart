@@ -7,6 +7,7 @@ import net.lucent.easygui.elements.other.Image;
 import net.lucent.easygui.interfaces.ContainerRenderable;
 import net.lucent.easygui.interfaces.IEasyGuiScreen;
 import net.lucent.easygui.interfaces.ITextureData;
+import net.lucent.easygui.properties.Positioning;
 import net.lucent.easygui.util.textures.TextureData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,6 +44,11 @@ public class SkillWheelContainer extends EmptyContainer {
     }
     public SkillWheelContainer(IEasyGuiScreen screen,int x,int y){
         super(screen,x,y,64,64);
+        setYPositioning(Positioning.CENTER);
+        setXPositioning(Positioning.CENTER);
+        setX(-32*7);
+        setY(-32*7);
+
         activeSkillContainer =  Minecraft.getInstance().player.getData(ModAttachments.PLAYER_SKILL_DATA).activeSkillContainer;
         SkillWheelSegment FirstSkillSlot = new SkillWheelSegment(screen,0,0,0,0,0,null,0);
         createSkillIconAt(0,32,16);

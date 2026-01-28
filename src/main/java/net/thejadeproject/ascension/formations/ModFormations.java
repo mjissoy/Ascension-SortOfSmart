@@ -16,7 +16,7 @@ public class ModFormations {
     public static final DeferredRegister<IFormation> FORMATIONS = DeferredRegister.create(FormationRegistry.FORMATION_REGISTRY, AscensionCraft.MOD_ID);
 
     public static final DeferredHolder<IFormation,  ? extends GenericFormation> BARRIER_FORMATION = FORMATIONS.register("barrier_formation",
-            ()->new GenericFormation(Component.literal("Barrier Formation"),ModFormationRenderers.BARRIER_RENDERER.getId(),
+            ()->new GenericFormation(Component.literal("Barrier Formation"),ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"barrier_renderer"),
                     (formation, blockPos, uuid)->
                     new BarrierFormation(formation,uuid,
                         15,
@@ -39,19 +39,19 @@ public class ModFormations {
 
 
     public static final DeferredHolder<IFormation,? extends GenericFormation> QI_GATHERING_FORMATION = FORMATIONS.register("qi_gathering_formation",
-            ()->new GenericFormation(Component.literal("Qi Gathering Formation"), ModFormationRenderers.CULTIVATION_BONUS_RENDERER.getId(),
+            ()->new GenericFormation(Component.literal("Qi Gathering Formation"), ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_bonus_renderer"),
                     ((formation, pos, formationId) ->
                             new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"),0.2,10,5)
                     )));
 
     public static final DeferredHolder<IFormation,? extends GenericFormation> ENLIGHTENMENT_FORMATION = FORMATIONS.register("enlightenment_formation",
-            ()->new GenericFormation(Component.literal("Enlightenment Formation"), ModFormationRenderers.CULTIVATION_BONUS_RENDERER.getId(),
+            ()->new GenericFormation(Component.literal("Enlightenment Formation"), ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_bonus_renderer"),
                     ((formation, pos, formationId) ->
                             new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"intent"),0.2,10,5)
                     )));
 
     public static final DeferredHolder<IFormation,? extends GenericFormation> BODY_REINFORCEMENT_FORMATION = FORMATIONS.register("body_reinforcement_formation",
-            ()->new GenericFormation(Component.literal("Body Reinforcement Formation"), ModFormationRenderers.CULTIVATION_BONUS_RENDERER.getId(),
+            ()->new GenericFormation(Component.literal("Body Reinforcement Formation"), ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_bonus_renderer"),
                     ((formation, pos, formationId) ->
                             new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"),0.2,10,5)
                     )));
@@ -67,7 +67,7 @@ public class ModFormations {
                             new QiAbsorptionFormation(formation,formationId,10,5)
                     )));
     public static final DeferredHolder<IFormation,? extends GenericFormation> GROWTH_FORMATION = FORMATIONS.register("growth_formation",
-            ()->new GenericFormation(Component.literal("Natures Blessing Formation"),ModFormationRenderers.GROWTH_FORMATION_RENDERER.getId(),
+            ()->new GenericFormation(Component.literal("Natures Blessing Formation"),ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"growth_formation_renderer"),
                     ((formation, pos, formationId) ->
                             new GrowthFormation(formation,formationId,10,50,20,60,10)
                     )));

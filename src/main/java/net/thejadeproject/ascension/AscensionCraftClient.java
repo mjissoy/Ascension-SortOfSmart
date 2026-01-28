@@ -27,7 +27,6 @@ import net.thejadeproject.ascension.events.custom.PhysiqueGeneratedEvent;
 import net.thejadeproject.ascension.formations.formation_renderers.ModFormationRenderers;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.ModOverlays;
-import net.thejadeproject.ascension.guis.easygui.screens.GeneratePhysiqueScreen;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
@@ -56,17 +55,6 @@ public class AscensionCraftClient {
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID,value = Dist.CLIENT)
     static class ClientEvents{
 
-        @SubscribeEvent
-        public static void physiqueGenerateEvent(OpenPhysiqueSelectScreenEvent event){
-            Minecraft.getInstance().setScreen(new GeneratePhysiqueScreen(Component.literal("Select")));
-        }
-        @SubscribeEvent
-        public static void physiqueGenerateEvent(PhysiqueGeneratedEvent event){
-            
-           if(Minecraft.getInstance().screen instanceof GeneratePhysiqueScreen screen){
-               screen.updateGeneratedPhysiques(event.generatedPhysique,event.otherPhysiques);
-           }
-        }
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
