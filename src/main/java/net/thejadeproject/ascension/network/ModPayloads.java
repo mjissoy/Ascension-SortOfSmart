@@ -114,13 +114,27 @@ public class ModPayloads {
                 SyncSpatialRingUpgradesPayload.STREAM_CODEC,
                 SyncSpatialRingUpgradesPayload::handle
         );
-
+        registrar.playToClient(
+                UpdateAttackDamageSuppressorModifier.TYPE,
+                UpdateAttackDamageSuppressorModifier.STREAM_CODEC,
+                UpdateAttackDamageSuppressorModifier::handlePayload
+        );
+        registrar.playToClient(
+                UpdateSpeedSuppressorModifier.TYPE,
+                UpdateSpeedSuppressorModifier.STREAM_CODEC,
+                UpdateSpeedSuppressorModifier::handlePayload
+        );
 
         //===================================== SERVER ==================================
         registrar.playToServer(
                 TriggerGeneratePhysique.TYPE,
                 TriggerGeneratePhysique.STREAM_CODEC,
                 TriggerGeneratePhysique::handlePayload
+        );
+        registrar.playToServer(
+                UpdateSuppressorValuePayload.TYPE,
+                UpdateSuppressorValuePayload.STREAM_CODEC,
+                UpdateSuppressorValuePayload::handlePayload
         );
         registrar.playToServer(
                 PlayerTryHitBarrier.TYPE,

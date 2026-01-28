@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.formations.formation_nodes;
 
+import net.lucent.formation_arrays.api.cores.IFormationCore;
 import net.lucent.formation_arrays.api.formations.IFormation;
 import net.lucent.formation_arrays.blocks.block_entities.formation_cores.AbstractFormationCoreBlockEntity;
 import net.lucent.formation_arrays.formations.node.FormationNode;
@@ -35,8 +36,7 @@ public class WaterBubbleFormation extends FormationNode {
     private final Set<Vec3> replaceBuffer = new HashSet<>();
 
     public boolean hasDoneInitialClear;
-    AbstractFormationCoreBlockEntity currentBlockEntity;
-    public WaterBubbleFormation(IFormation formation, UUID uuid, double bubbleRadius) {
+     public WaterBubbleFormation(IFormation formation, UUID uuid, double bubbleRadius) {
         super(formation);
         BUBBLE_RADIUS = bubbleRadius;
         setFormationId(uuid);
@@ -54,9 +54,9 @@ public class WaterBubbleFormation extends FormationNode {
     }
 
     //there are ways to make this more efficient but i will not worry abt that for now
-    public void generateDryAir(AbstractFormationCoreBlockEntity blockEntity){
+    public void generateDryAir(Level level,BlockPos core){
         //get min x ,min y, min z
-        BlockPos core = blockEntity.getBlockPos();
+
         int minX = (int) (core.getX()-BUBBLE_RADIUS);
         int minY = (int) (core.getY()-BUBBLE_RADIUS);
         int minZ = (int) (core.getZ()-BUBBLE_RADIUS);
@@ -65,10 +65,10 @@ public class WaterBubbleFormation extends FormationNode {
                 .forEach(blockPos -> {
                     if(blockPos.distSqr(core)<BUBBLE_RADIUS*BUBBLE_RADIUS
                     && blockPos.distSqr(core)>BUBBLE_RADIUS*BUBBLE_RADIUS-27){
-                        boolean waterCleared = clearAtBlock(blockPos,currentBlockEntity.getLevel());
+                        boolean waterCleared = clearAtBlock(blockPos,level);
                         if(blockPos.distSqr(core)>BUBBLE_RADIUS*BUBBLE_RADIUS-27){
                             if(waterCleared){
-                                blockEntity.getLevel().setBlock(
+                                level.setBlock(
                                         blockPos,
                                         ModBlocks.QI_MEMBRANE.get().defaultBlockState(),
                                         Block.UPDATE_ALL
@@ -81,10 +81,9 @@ public class WaterBubbleFormation extends FormationNode {
 
 
     }
-    public void clearAllWaterInRange(AbstractFormationCoreBlockEntity blockEntity){
+    public void clearAllWaterInRange(Level level,BlockPos core){
         //get min x ,min y, min z
-        BlockPos core = blockEntity.getBlockPos();
-        Level level = blockEntity.getLevel();
+
         int minX = (int) (core.getX()-BUBBLE_RADIUS);
         int minY = (int) (core.getY()-BUBBLE_RADIUS);
         int minZ = (int) (core.getZ()-BUBBLE_RADIUS);
@@ -96,7 +95,7 @@ public class WaterBubbleFormation extends FormationNode {
                     boolean waterCleared = clearAtBlock(blockPos,level);
                     if(blockPos.distSqr(core)>BUBBLE_RADIUS*BUBBLE_RADIUS-27){
                         if(waterCleared){
-                            blockEntity.getLevel().setBlock(
+                            level.setBlock(
                                     blockPos,
                                     ModBlocks.QI_MEMBRANE.get().defaultBlockState(),
                                     Block.UPDATE_ALL
@@ -146,21 +145,21 @@ public class WaterBubbleFormation extends FormationNode {
     }
 
     @Override
-    public void tick(AbstractFormationCoreBlockEntity blockEntity, List<ItemStack> jadeSlips) {
-        super.tick(blockEntity, jadeSlips);
-        this.currentBlockEntity = blockEntity;
-        if(!hasDoneInitialClear)clearAllWaterInRange(blockEntity);
-        if(qiMembrane.isEmpty()) generateDryAir(blockEntity);
+    public void tick(Level level, BlockPos pos, IFormationCore core, List<ItemStack> jadeSlips) {
 
-        if(!replaceBuffer.isEmpty()) clearBuffer(blockEntity.getLevel());
+
+        if(!hasDoneInitialClear)clearAllWaterInRange(level,pos);
+        if(qiMembrane.isEmpty()) generateDryAir(level,pos);
+
+        if(!replaceBuffer.isEmpty()) clearBuffer(level);
     }
 
     @Override
-    public void deactivate(AbstractFormationCoreBlockEntity blockEntity) {
-        super.deactivate(blockEntity);
+    public void deactivate(Level level, BlockPos pos, IFormationCore core) {
+
         for(Vec3 blockPos : qiMembrane){
-            if(blockEntity.getLevel().getBlockState(BlockPos.containing(blockPos)).is(ModBlocks.QI_MEMBRANE)){
-                blockEntity.getLevel().setBlock(
+            if(level.getBlockState(BlockPos.containing(blockPos)).is(ModBlocks.QI_MEMBRANE)){
+                level.setBlock(
                         BlockPos.containing(blockPos),
                         Blocks.AIR.defaultBlockState(),
                         3

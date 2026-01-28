@@ -1,10 +1,13 @@
 package net.thejadeproject.ascension.formations.formation_nodes;
 
+import net.lucent.formation_arrays.api.cores.IFormationCore;
 import net.lucent.formation_arrays.api.formations.IFormation;
 import net.lucent.formation_arrays.blocks.block_entities.formation_cores.AbstractFormationCoreBlockEntity;
 import net.lucent.formation_arrays.formations.node.FormationNode;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.events.custom.cultivation.CultivateEvent;
@@ -19,7 +22,7 @@ public class CultivationBonusFormation extends FormationNode {
     public final double MULTIPLIER;
     public final double RADIUS;
     public final int QI_DRAIN;
-    public AbstractFormationCoreBlockEntity formationCore;
+    public BlockPos pos;
     public CultivationBonusFormation(IFormation formation, UUID uuid, ResourceLocation path, double multiplier, double radius, int qiDrain) {
         super(formation);
         setFormationId(uuid);
@@ -36,7 +39,7 @@ public class CultivationBonusFormation extends FormationNode {
         if(!activeLastTick()) return;
         if(event.path.equals(this.PATH.toString())){
             //range check
-            if(event.player.distanceToSqr(formationCore.getBlockPos().getCenter()) > RADIUS*RADIUS) return;
+            if(event.player.distanceToSqr(pos.getCenter()) > RADIUS*RADIUS) return;
 
             //adds a multiplier
             event.addMultiplier(MULTIPLIER);
@@ -44,9 +47,9 @@ public class CultivationBonusFormation extends FormationNode {
     }
 
     @Override
-    public void tick(AbstractFormationCoreBlockEntity blockEntity, List<ItemStack> jadeSlips) {
-        super.tick(blockEntity, jadeSlips);
-        formationCore = blockEntity;
+    public void tick(Level level, BlockPos pos, IFormationCore blockEntity, List<ItemStack> jadeSlips) {
+
+        this.pos = pos;
     }
 
     @Override

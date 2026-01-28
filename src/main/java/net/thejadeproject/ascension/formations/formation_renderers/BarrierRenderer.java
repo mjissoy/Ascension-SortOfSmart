@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
+import net.lucent.formation_arrays.api.cores.IFormationCore;
 import net.lucent.formation_arrays.api.formations.IFormationRenderer;
 import net.lucent.formation_arrays.api.formations.node.IFormationNode;
 import net.minecraft.client.Camera;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -140,6 +142,12 @@ public class BarrierRenderer implements IFormationRenderer {
         bufferSource.endBatch();
         poseStack.popPose();
     }
+
+    @Override
+    public void tick(Level level, BlockPos pos, IFormationCore core, IFormationNode node) {
+
+    }
+
     @OnlyIn(Dist.CLIENT)
     @Override
     public void render(RenderLevelStageEvent event, BlockPos core, IFormationNode node) {

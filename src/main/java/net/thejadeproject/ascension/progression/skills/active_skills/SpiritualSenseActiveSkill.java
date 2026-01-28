@@ -96,7 +96,7 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
 
     @Override
-    public void cast(int castingTicksElapsed, Level level, Player player) {
+    public void cast(int castingTicksElapsed, Level level, Player player, ICastData castData) {
         if (level.isClientSide()) return;
 
         UUID playerId = player.getUUID();

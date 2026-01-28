@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.guis.easygui.elements.EmptyButton;
 import net.thejadeproject.ascension.guis.easygui.elements.body_instrospection.PhysiqueInfoPanel;
 import net.thejadeproject.ascension.guis.easygui.elements.main_menu.draggable_data.PhysiqueDataContainer;
+import net.thejadeproject.ascension.guis.easygui.elements.stat_introspection.StatViewPanel;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 import java.util.ArrayList;
@@ -99,6 +100,14 @@ public class MainContainer extends EmptyContainer {
                 if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT) createPhysiqueContainer();
             }
         };
+        EmptyButton openStats = new EmptyButton(screen,141,31,6,7){
+            @Override
+            public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
+                super.onClick(mouseX, mouseY, button, clicked);
+                if(clicked && button == InputConstants.MOUSE_BUTTON_LEFT) createStatMenu();
+            }
+        };
+        addChild(openStats);
         addChild(leftButton);
         addChild(rightButton);
         addChild(openPhysique);
@@ -108,6 +117,9 @@ public class MainContainer extends EmptyContainer {
         RealmProgressContainer realmProgressContainer = new RealmProgressContainer(screen,3,3,136,32,this);
         addChild(realmProgressContainer);
 
+    }
+    public void createStatMenu(){
+        addChild(new StatViewPanel(getScreen(),100,-20));
     }
     public void createPhysiqueContainer(){
         addChild(new PhysiqueInfoPanel(getScreen(),100,-20,this));

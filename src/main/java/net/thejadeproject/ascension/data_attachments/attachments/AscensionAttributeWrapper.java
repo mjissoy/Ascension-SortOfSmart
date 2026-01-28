@@ -16,18 +16,20 @@ import net.thejadeproject.ascension.constants.LivingEntityState;
 import net.thejadeproject.ascension.cultivation.player.EntityAttributeManager;
 import net.thejadeproject.ascension.util.NBTUtil;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//TODO setup so when adding an attribute it checks state before adding the value
+
+//TODO remove and redo after i add my new ascension attribute system
 public class AscensionAttributeWrapper {
     public final LivingEntity entity;
 
     public HashMap<String, HashSet<IAttributeModifier>> stateGroupedAttributes = new HashMap<>();
-    public HashMap<ResourceLocation, HashSet<IAttributeModifier>> idGroupedAttributes = new HashMap<>();
+    public HashMap<ResourceLocation, IAttributeModifier> idAttributes = new HashMap<>();
     public HashMap<ResourceLocation, HashSet<IAttributeModifier>> groupGroupedAttributes = new HashMap<>();
     public HashMap<Holder<Attribute>, HashSet<IAttributeModifier>> attributeGroupedAttributes = new HashMap<>();
 
@@ -44,6 +46,7 @@ public class AscensionAttributeWrapper {
         void add(LivingEntity entity);
         void write(CompoundTag tag);
         IAttributeModifier clone();
+        IAttributeModifier clone(ResourceLocation id);
     }
     public static class AscensionAttributeModifier implements IAttributeModifier{
         private final String livingEntityState;
@@ -95,6 +98,13 @@ public class AscensionAttributeWrapper {
         @Override
         public IAttributeModifier clone() {
             IAttributeModifier modifier = new AscensionAttributeModifier(getLivingEntityState(),getModifierId(),getAttribute(),isPermanent(),getVal());
+            modifier.setGroupId(groupId);
+            return modifier;
+        }
+
+        @Override
+        public IAttributeModifier clone(ResourceLocation id) {
+            IAttributeModifier modifier = new AscensionAttributeModifier(getLivingEntityState(),id,getAttribute(),isPermanent(),getVal());
             modifier.setGroupId(groupId);
             return modifier;
         }
@@ -157,7 +167,7 @@ public class AscensionAttributeWrapper {
 
 
     }
-    public class MinecraftAttributeModifier implements IAttributeModifier{
+    public static class MinecraftAttributeModifier implements IAttributeModifier{
         private final String livingEntityState;
         private ResourceLocation groupId = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"none");
         private final Holder<Attribute> attribute;;
@@ -207,7 +217,19 @@ public class AscensionAttributeWrapper {
 
         @Override
         public IAttributeModifier clone() {
-            MinecraftAttributeModifier modifier = new MinecraftAttributeModifier(getLivingEntityState(),this.modifier,getAttribute(),isPermanent());
+            MinecraftAttributeModifier modifier = new MinecraftAttributeModifier(getLivingEntityState(), this.modifier, getAttribute(), isPermanent());
+            modifier.setGroupId(getGroupId());
+            return modifier;
+        }
+
+        @Override
+        public IAttributeModifier clone(ResourceLocation id) {
+            AttributeModifier mcModifier = new AttributeModifier(
+                    id,
+                    this.modifier.amount(),
+                    this.modifier.operation()
+            );
+            MinecraftAttributeModifier modifier = new MinecraftAttributeModifier(getLivingEntityState(),mcModifier, getAttribute(), isPermanent());
             modifier.setGroupId(getGroupId());
             return modifier;
         }
@@ -278,16 +300,12 @@ public class AscensionAttributeWrapper {
     public static Set<IAttributeModifier> intersect(Set<IAttributeModifier> set1,Set<IAttributeModifier> set2){
         return set1.stream().filter(set2::contains).collect(Collectors.toSet());
     }
-    private Set<IAttributeModifier> getAllModifiers(){
-        Set<IAttributeModifier> finalSet = new HashSet<>();
-        for(HashSet<IAttributeModifier> set : stateGroupedAttributes.values()){
-            finalSet = union(finalSet,set);
-        }
-        return finalSet;
+    private Collection<IAttributeModifier> getAllModifiers(){
+        return idAttributes.values();
     }
     public void validateGroups(IAttributeModifier modifier){
         stateGroupedAttributes.computeIfAbsent(modifier.getLivingEntityState(),(key)->new HashSet<>());
-        idGroupedAttributes.computeIfAbsent(modifier.getModifierId(),(key)->new HashSet<>());
+
         groupGroupedAttributes.computeIfAbsent(modifier.getGroupId(),(key)->new HashSet<>());
         attributeGroupedAttributes.computeIfAbsent(modifier.getAttribute(),(key)->new HashSet<>());
 
@@ -296,16 +314,31 @@ public class AscensionAttributeWrapper {
     public void addAttributeModifier(IAttributeModifier modifier){
         validateGroups(modifier);
         stateGroupedAttributes.get(modifier.getLivingEntityState()).add(modifier);
-        idGroupedAttributes.get(modifier.getModifierId()).add(modifier);
+        if(idAttributes.containsKey(modifier.getModifierId()) && !idAttributes.get(modifier.getModifierId()).isDisabled()) {
+            idAttributes.remove(modifier.getModifierId()).remove(entity);
+        }
+        idAttributes.put(modifier.getModifierId(),modifier);
         groupGroupedAttributes.get(modifier.getGroupId()).add(modifier);
         attributeGroupedAttributes.get(modifier.getAttribute()).add(modifier);
         if(!modifier.isDisabled())modifier.add(entity);
     }
 
+    public void removeAttributeOfId(ResourceLocation id){
+        if(!idAttributes.containsKey(id)) return;
+        IAttributeModifier modifier = idAttributes.remove(id);
+
+
+        stateGroupedAttributes.get(modifier.getLivingEntityState()).remove(modifier);
+        groupGroupedAttributes.get(modifier.getGroupId()).remove(modifier);
+        attributeGroupedAttributes.get(modifier.getAttribute()).remove(modifier);
+
+        if(!modifier.isDisabled()) modifier.remove(entity);
+    }
+
     public void removeAttributeModifier(IAttributeModifier modifier){
         validateGroups(modifier);
         stateGroupedAttributes.get(modifier.getLivingEntityState()).remove(modifier);
-        idGroupedAttributes.get(modifier.getModifierId()).remove(modifier);
+        if(idAttributes.containsKey(modifier.getModifierId()) && !idAttributes.get(modifier.getModifierId()).isDisabled()) idAttributes.remove(modifier.getModifierId());
         groupGroupedAttributes.get(modifier.getGroupId()).remove(modifier);
         attributeGroupedAttributes.get(modifier.getAttribute()).remove(modifier);
 
@@ -313,12 +346,14 @@ public class AscensionAttributeWrapper {
     }
     private void reset(){
         stateGroupedAttributes = new HashMap<>();
-        idGroupedAttributes = new HashMap<>();
+        idAttributes = new HashMap<>();
         attributeGroupedAttributes = new HashMap<>();
         groupGroupedAttributes = new HashMap<>();
     }
     public void removeAllNonPermanentModifiers(){
+
         for(IAttributeModifier modifier:getAllModifiers()){
+            System.out.println(modifier.getModifierId().toString());
             if(!modifier.isDisabled()) modifier.remove(entity);
         }
         reset();

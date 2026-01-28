@@ -16,6 +16,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
+import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 import org.joml.Vector3f;
 
 import java.util.HashMap;
@@ -72,7 +73,7 @@ public class SpaceInfusionActiveSkill extends AbstractActiveSkill {
 
 
     @Override
-    public void cast(int castingTicksElapsed, Level level, Player player) {
+    public void cast(int castingTicksElapsed, Level level, Player player,ICastData castData) {
         if (level.isClientSide()) return;
 
         UUID playerId = player.getUUID();

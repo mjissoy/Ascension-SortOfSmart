@@ -34,11 +34,11 @@ public class PhysiqueEventListener{
 
     @SubscribeEvent
     public static void onPhysiqueChange(PhysiqueChangeEvent event){
-        if(!event.newPhysique.equals("ascension:empty_vessel")){
+        if(!event.newPhysique.equals("ascension:none")){
             IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(event.newPhysique,':'));
             newPhysique.onPhysiqueAcquisition(event.player);
         }
-        if(!event.oldPhysique.equals("ascension:empty_vessel")){
+        if(!event.oldPhysique.equals("ascension:none")){
             IPhysique oldPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(ResourceLocation.bySeparator(event.oldPhysique,':'));
             oldPhysique.onRemovePhysique(event.player);
         }

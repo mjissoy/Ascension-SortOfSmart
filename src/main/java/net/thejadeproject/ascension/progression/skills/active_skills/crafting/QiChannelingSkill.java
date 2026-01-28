@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerD
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
+import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.recipe.QiChannelingRecipe;
 import net.thejadeproject.ascension.recipe.QiChannelingRecipeInput;
@@ -58,7 +59,7 @@ public class QiChannelingSkill extends AbstractActiveSkill {
     }
 
     @Override
-    public boolean continueCasting(int castingTicksElapsed, Level level, Player player) {
+    public boolean continueCasting(int castingTicksElapsed, Level level, Player player, ICastData castData) {
         System.out.println("CASTING SKILL");
         UUID playerId = player.getUUID();
 
@@ -69,7 +70,7 @@ public class QiChannelingSkill extends AbstractActiveSkill {
         ChannelingSession session = activeSessions.get(playerId);
 
         // Check if cast should be cancelled
-        if (!super.continueCasting(castingTicksElapsed, level, player)) {
+        if (!super.continueCasting(castingTicksElapsed, level, player,castData)) {
             cleanupSession(playerId);
             return false;
         }
@@ -112,7 +113,7 @@ public class QiChannelingSkill extends AbstractActiveSkill {
     }
 
     @Override
-    public void cast(int castingTicksElapsed, Level level, Player player) {
+    public void cast(int castingTicksElapsed, Level level, Player player, ICastData castData) {
         if (level.isClientSide()) return;
         if (castingTicksElapsed > 0) return; // Only handle initial cast
 

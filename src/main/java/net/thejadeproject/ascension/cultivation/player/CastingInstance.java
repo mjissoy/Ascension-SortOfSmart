@@ -41,7 +41,7 @@ public class CastingInstance {
     public boolean tick(Level level, Player player){
         AbstractActiveSkill activeSkill = (AbstractActiveSkill) AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
         if(activeSkill == null) return false;
-        boolean result = activeSkill.continueCasting(castTickElapsed,level,player);
+        boolean result = activeSkill.continueCasting(castTickElapsed,level,player,castData);
         castTickElapsed += 1;
         return result;
     }

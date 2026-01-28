@@ -2,12 +2,14 @@ package net.thejadeproject.ascension.formations.formation_nodes;
 
 import net.lucent.formation_arrays.api.capability.Capabilities;
 import net.lucent.formation_arrays.api.capability.IAccessControlToken;
+import net.lucent.formation_arrays.api.cores.IFormationCore;
 import net.lucent.formation_arrays.api.formations.IFormation;
 import net.lucent.formation_arrays.blocks.block_entities.formation_cores.AbstractFormationCoreBlockEntity;
 import net.lucent.formation_arrays.formations.node.FormationNode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
@@ -24,7 +26,8 @@ public class AreaProtectionFormation extends FormationNode {
 
     public final int QI_DRAIN_PER_PREVENTION;
     public final double RADIUS;
-    public AbstractFormationCoreBlockEntity core;
+    public BlockPos corePos;
+    public IFormationCore core;
     public AreaProtectionFormation(IFormation formation, UUID uuid, int qiDrainPerPrevention, double radius) {
         super(formation);
         QI_DRAIN_PER_PREVENTION = qiDrainPerPrevention;
@@ -43,7 +46,7 @@ public class AreaProtectionFormation extends FormationNode {
             if(filter != null) filters.add(new Pair<>(filter,stack));
         }
         //push all out for now
-        ItemStack controlToken =  core.getFormationItemStackHandler().getControlToken();
+        ItemStack controlToken =  ((AbstractFormationCoreBlockEntity) core).getFormationItemStackHandler().getControlToken();
         IAccessControlToken token = controlToken.getCapability(Capabilities.ACCESS_TOKEN_CAPABILITY);
         if(token != null && token.hasPermission(player,controlToken)) return true;
         for(Pair<IPlayerFilter,ItemStack> filter : filters){
@@ -54,7 +57,7 @@ public class AreaProtectionFormation extends FormationNode {
 
     public boolean tryProtectBlock(BlockPos pos){
         //first check if block is in range
-        if(pos.getCenter().distanceToSqr(core.getBlockPos().getCenter()) > RADIUS*RADIUS) return false;
+        if(pos.getCenter().distanceToSqr(corePos.getCenter()) > RADIUS*RADIUS) return false;
 
         //try burn qi to protect it
         return tryBurnEnergy(core,QI_DRAIN_PER_PREVENTION);
@@ -83,14 +86,15 @@ public class AreaProtectionFormation extends FormationNode {
     }
     public void onMobGrief(EntityMobGriefingEvent event){
         if(!activeLastTick()) return;
-        if(event.getEntity().position().distanceToSqr(core.getBlockPos().getCenter()) < RADIUS*RADIUS){
+        if(event.getEntity().position().distanceToSqr(corePos.getCenter()) < RADIUS*RADIUS){
             event.setCanGrief(false);
         }
     }
     @Override
-    public void tick(AbstractFormationCoreBlockEntity blockEntity, List<ItemStack> jadeSlips) {
-        super.tick(blockEntity, jadeSlips);
-        core = blockEntity;
+    public void tick(Level level,BlockPos pos, IFormationCore core, List<ItemStack> jadeSlips) {
+
+        corePos = pos;
+        this.core = core;
     }
 
     @Override

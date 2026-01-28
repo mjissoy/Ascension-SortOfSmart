@@ -195,7 +195,7 @@ public class PlayerData {
             }
             if(activeSkill.getCastType() == CastType.INSTANT){
                 
-                activeSkill.cast(0,player.level(),player);
+                activeSkill.cast(0,player.level(),player,null);
                 return;
             }
             

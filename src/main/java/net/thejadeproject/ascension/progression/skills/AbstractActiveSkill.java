@@ -17,6 +17,7 @@ import net.thejadeproject.ascension.progression.skills.data.casting.CastResult;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastSource;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
+import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
@@ -96,8 +97,8 @@ public abstract class AbstractActiveSkill implements ISkill{
      * @param castingTicksElapsed how many ticks have elapsed since initial cast
      * @return
      */
-    public boolean continueCasting(int castingTicksElapsed, Level level,Player player){
-        if(castingTicksElapsed >= maxCastingTicks()) cast(castingTicksElapsed,level,player);
+    public boolean continueCasting(int castingTicksElapsed, Level level, Player player, ICastData castData){
+        if(castingTicksElapsed >= maxCastingTicks()) cast(castingTicksElapsed,level,player,castData);
         return castingTicksElapsed <maxCastingTicks();
     }
 
@@ -105,7 +106,7 @@ public abstract class AbstractActiveSkill implements ISkill{
      *
      * @param castingTicksElapsed how many ticks since initial cast. mainly used for charge skills
      */
-    public abstract void cast(int castingTicksElapsed, Level level,Player player);
+    public abstract void cast(int castingTicksElapsed, Level level,Player player,ICastData castData);
     //for any server stuff like sound events etc
     public abstract void onPreCast();
     //TODO add some invalid cast conditions

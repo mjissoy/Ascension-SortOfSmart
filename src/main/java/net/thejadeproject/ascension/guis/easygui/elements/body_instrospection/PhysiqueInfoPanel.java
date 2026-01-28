@@ -40,7 +40,7 @@ public class PhysiqueInfoPanel extends EmptyDraggableContainer {
     public PhysiqueInfoPanel(IEasyGuiScreen screen,int x,int y,ContainerRenderable container){
         super(screen,x,y,142,137);
         ResourceLocation physiqueId = Minecraft.getInstance().player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
-        if(physiqueId.toString().equals("ascension:empty_vessel")){
+        if(physiqueId.toString().equals("ascension:none")){
             container.removeChild(this);
             return;
         }

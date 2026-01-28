@@ -73,9 +73,7 @@ public class PlayerDataChangeHandler {
 
 
         }
-        // Sync attack damage attribute
-        PacketDistributor.sendToPlayer((ServerPlayer) player,
-                new SyncAttackDamageAttribute(player.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        System.out.println("REMOVING EXTRA MODIFIERS");
         skillData.removeAllNonePermanentSkills();
         attributeWrapper.removeAllNonPermanentModifiers();
     }
@@ -92,8 +90,8 @@ public class PlayerDataChangeHandler {
         //TODO use different function for removing physique
         // Send feedback message to player
         if (player instanceof ServerPlayer serverPlayer) {
-            Component physiqueName = Component.literal("Empty Vessel");
-            if (!targetPhysique.equals("ascension:empty_vessel") && newPhysique != null) {
+            Component physiqueName = Component.literal("None");
+            if (!targetPhysique.equals("ascension:none") && newPhysique != null) {
                 physiqueName = newPhysique.getDisplayTitle();
             }
             serverPlayer.displayClientMessage(

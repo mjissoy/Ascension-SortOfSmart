@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.formations.formation_nodes;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.formation_arrays.api.capability.Capabilities;
 import net.lucent.formation_arrays.api.capability.IAccessControlToken;
+import net.lucent.formation_arrays.api.cores.IFormationCore;
 import net.lucent.formation_arrays.api.formations.IFormation;
 import net.lucent.formation_arrays.blocks.block_entities.formation_cores.AbstractFormationCoreBlockEntity;
 import net.lucent.formation_arrays.formations.node.FormationNode;
@@ -136,7 +137,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     //TODO UPDATE TO CHECK RANGE SO I DON'T TARGET THE BARRIER FROM INSIDE WITHOUT ACTUALY LOOKING AT IT
     //TODO TO MAKE MY LIFE EASIER IGNORE MOST RAYCAST SHIT, JUST CHECK IF THEY ARE LOOKING AT BARRIER THEN CEHCK
     //TODO IF hit != null
-    public void checkPlayerTargeting(AbstractFormationCoreBlockEntity blockEntity){
+    public void checkPlayerTargeting(BlockPos pos){
         if(!activeLastTick()) return;
         lookingAtEntity = false;
         Minecraft mc = Minecraft.getInstance();
@@ -161,15 +162,15 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
         EntityHitResult entityhitresult = ProjectileUtil.getEntityHitResult(
                 player, vec3, vec32, aabb, p_234237_ -> !p_234237_.isSpectator() && p_234237_.isPickable(), d1
         );
-        Vec3 newPoint = blockEntity.getBlockPos().getCenter().add(
-                vec3.subtract(blockEntity.getBlockPos().getCenter()).normalize().scale(BARRIER_RADIUS)
+        Vec3 newPoint = pos.getCenter().add(
+                vec3.subtract(pos.getCenter()).normalize().scale(BARRIER_RADIUS)
         );
-        if(newPoint.distanceToSqr(blockEntity.getBlockPos().getCenter()) < BARRIER_RADIUS*BARRIER_RADIUS - 27) return; // the point they are looking at is past the barrier and inside it
+        if(newPoint.distanceToSqr(pos.getCenter()) < BARRIER_RADIUS*BARRIER_RADIUS - 27) return; // the point they are looking at is past the barrier and inside it
 
-        boolean doesOverlap = BoundCheckHelpers.doesSphereOverlapBoundingBox(blockEntity.getBlockPos().getCenter(),BARRIER_RADIUS,aabb);
+        boolean doesOverlap = BoundCheckHelpers.doesSphereOverlapBoundingBox(pos.getCenter(),BARRIER_RADIUS,aabb);
         if(entityhitresult != null && doesOverlap){
            double distance1 =  entityhitresult.getLocation().distanceToSqr(player.position());
-           double distance2 = vec3.distanceToSqr(blockEntity.getBlockPos().getCenter())-(BARRIER_RADIUS*BARRIER_RADIUS);
+           double distance2 = vec3.distanceToSqr(pos.getCenter())-(BARRIER_RADIUS*BARRIER_RADIUS);
            if(distance2< distance1){
                entityhitresult = new EntityHitResult(dummyEntity,newPoint);
                dummyEntity.setPos(newPoint);
@@ -227,12 +228,12 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     }
 
     @Override
-    public void deactivate(AbstractFormationCoreBlockEntity blockEntity) {
-        super.deactivate(blockEntity);
+    public void deactivate(Level level, BlockPos pos, IFormationCore core) {
+        super.deactivate(level,pos,core);
         if(dummyEntity != null) dummyEntity.remove(Entity.RemovalReason.DISCARDED);
     }
 
-    public void tryRecover(AbstractFormationCoreBlockEntity blockEntity){
+    public void tryRecover(){
         currentBarrierHealth = Math.min(BARRIER_MAX_HEALTH,currentBarrierHealth + HEALTH_REGEN_RATE);
         respawnTicks -= 1;
         if(respawnTicks <= 0){
@@ -242,35 +243,34 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
 
 
     @Override
-    public void tick(AbstractFormationCoreBlockEntity blockEntity,List<ItemStack> jades) {
-        super.tick(blockEntity,jades);
-        if(blockEntity.getLevel().isClientSide()) checkPlayerTargeting(blockEntity);
+    public void tick(Level level,BlockPos pos,IFormationCore core,List<ItemStack> jades) {
+        if(level.isClientSide()) checkPlayerTargeting(pos);
         if(isDestroyed){
-            tryRecover(blockEntity);
+            tryRecover();
             return;
         }
-        currentLocation = blockEntity.getBlockPos();
-        collisionCheck(blockEntity,jades);
-        if(dummyEntity == null) spawnDummyEntity(blockEntity.getBlockPos(),blockEntity.getLevel());
+        currentLocation = pos;
+        collisionCheck(core,level,pos,jades);
+        if(dummyEntity == null) spawnDummyEntity(pos,level);
     }
 
 
-    public void collisionCheck(AbstractFormationCoreBlockEntity blockEntity,List<ItemStack> jades){
-        Level level = blockEntity.getLevel();
+    public void collisionCheck(IFormationCore core,Level level,BlockPos pos,List<ItemStack> jades){
+
         List<Projectile> projectiles = new ArrayList<>();
-        List<Entity> entities = level.getEntities((Entity) null,(new AABB(blockEntity.getBlockPos())).inflate(BARRIER_RADIUS), entity ->{
+        List<Entity> entities = level.getEntities((Entity) null,(new AABB(pos)).inflate(BARRIER_RADIUS), entity ->{
             if(entity instanceof Projectile projectile) {
                 //TODO perform early damage calculations for this entity
                 //TODO only perform calcs if coming from outside
                 projectiles.add(projectile);
 
             }
-            boolean result = BoundCheckHelpers.doesSphereOverlapBoundingBox(blockEntity.getBlockPos().getCenter(),BARRIER_RADIUS,entity.getBoundingBox());
+            boolean result = BoundCheckHelpers.doesSphereOverlapBoundingBox(pos.getCenter(),BARRIER_RADIUS,entity.getBoundingBox());
             if(result){
                 //It does overlap
-                Vec3 collisionCorner = BoundCheckHelpers.getSphereBoundingBoxCollisionCorner(blockEntity.getBlockPos().getCenter(),BARRIER_RADIUS,entity.getBoundingBox());
+                Vec3 collisionCorner = BoundCheckHelpers.getSphereBoundingBoxCollisionCorner(pos.getCenter(),BARRIER_RADIUS,entity.getBoundingBox());
 
-                return collisionCorner.distanceToSqr(blockEntity.getBlockPos().getCenter()) > BARRIER_RADIUS*BARRIER_RADIUS - 50;
+                return collisionCorner.distanceToSqr(pos.getCenter()) > BARRIER_RADIUS*BARRIER_RADIUS - 50;
                  //giving them some leeway
             }
             return false;
@@ -282,8 +282,9 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
             IPlayerFilter filter = stack.getCapability(AscensionCapabilities.PLAYER_FILTER_CAPABILITY);
             if(filter != null) filters.add(new Pair<>(filter,stack));
         }
+        //TODO go and change IFormationNode to have better methods for control token access
         //push all out for now
-        ItemStack controlToken =  blockEntity.getFormationItemStackHandler().getControlToken();
+        ItemStack controlToken =  ((AbstractFormationCoreBlockEntity)core).getFormationItemStackHandler().getControlToken();
         IAccessControlToken token = controlToken.getCapability(Capabilities.ACCESS_TOKEN_CAPABILITY);
         for(Entity entity : entities){
 
@@ -292,7 +293,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
                 if(checkFilters(player,filters)) continue;
             }
             System.out.println("trying to block entity : "+ entity.getDisplayName().getString());
-            blockEntityMotion(entity,blockEntity.getBlockPos().getCenter());
+            blockEntityMotion(entity,pos.getCenter());
 
         }
     }

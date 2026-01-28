@@ -29,7 +29,9 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
         AscensionAttributeWrapper wrapper = player.getData(ModAttachments.ATTRIBUTE_WRAPPER);
         for(int i = oldRealm+1;i<newRealm+1;i++){
             for(AscensionAttributeWrapper.IAttributeModifier modifier : minorRealmAttributeIncrease){
-                AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone();
+                ResourceLocation id = ResourceLocation.bySeparator(path+"_realm_"+i+"_"+modifier.getAttribute().getKey().location().getPath(),':');
+                AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone(id);
+
                 newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+i,':'));
                 wrapper.addAttributeModifier(newModifier);
             }
@@ -41,7 +43,9 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
         AscensionAttributeWrapper wrapper = player.getData(ModAttachments.ATTRIBUTE_WRAPPER);
         for(int i = oldRealm+1;i<newRealm+1;i++){
             for(AscensionAttributeWrapper.IAttributeModifier modifier : majorRealmAttributeIncrease){
-                AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone();
+                ResourceLocation id = ResourceLocation.bySeparator(path+"_realm_"+i+"_"+modifier.getAttribute().getKey().location().getPath(),':');
+                AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone(id);
+
                 newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+technique.getTotalMinorRealmsTo(i,0),':'));
                 wrapper.addAttributeModifier(newModifier);
             }
@@ -51,11 +55,11 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
     @Override
     public void onMinorRealmDecrease(Player player, ITechnique technique, String path, int oldRealm, int newRealm) {
         AscensionAttributeWrapper wrapper = player.getData(ModAttachments.ATTRIBUTE_WRAPPER);
-        for(int i = oldRealm+1;i<newRealm+1;i++){
+        for(int i = newRealm+1;i<oldRealm+1;i++){
             for(AscensionAttributeWrapper.IAttributeModifier modifier : minorRealmAttributeIncrease){
-                AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone();
-                newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+i,':'));
-                wrapper.removeAttributeModifier(newModifier);
+                ResourceLocation id = ResourceLocation.bySeparator(path+"_realm_"+i+"_"+modifier.getAttribute().getKey().location().getPath(),':');
+
+                wrapper.removeAttributeOfId(id);
             }
         }
     }
@@ -63,11 +67,13 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
     @Override
     public void onMajorRealmDecrease(Player player, ITechnique technique, String path, int oldRealm, int newRealm) {
         AscensionAttributeWrapper wrapper = player.getData(ModAttachments.ATTRIBUTE_WRAPPER);
-        for(int i = oldRealm+1;i<newRealm+1;i++){
+
+        for(int i = newRealm+1;i<oldRealm+1;i++){
+
             for(AscensionAttributeWrapper.IAttributeModifier modifier : majorRealmAttributeIncrease){
-                AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone();
-                newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+technique.getTotalMinorRealmsTo(i,0),':'));
-                wrapper.removeAttributeModifier(newModifier);
+                ResourceLocation id = ResourceLocation.bySeparator(path+"_realm_"+i+"_"+modifier.getAttribute().getKey().location().getPath(),':');
+
+                wrapper.removeAttributeOfId(id);
             }
         }
     }

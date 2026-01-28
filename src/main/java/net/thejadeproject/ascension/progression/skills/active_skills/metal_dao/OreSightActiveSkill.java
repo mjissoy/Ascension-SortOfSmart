@@ -39,6 +39,7 @@ import net.thejadeproject.ascension.network.packets.SyncOreSightPacket;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
@@ -142,7 +143,7 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
 
 
     @Override
-    public void cast(int castingTicksElapsed, Level level, Player player) {
+    public void cast(int castingTicksElapsed, Level level, Player player, ICastData castData) {
         if (level.isClientSide()) return;
 
         UUID playerId = player.getUUID();

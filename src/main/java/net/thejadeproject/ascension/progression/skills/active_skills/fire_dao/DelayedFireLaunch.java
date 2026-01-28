@@ -9,6 +9,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
+import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 
 public class DelayedFireLaunch extends AbstractActiveSkill {
 
@@ -38,7 +39,7 @@ public class DelayedFireLaunch extends AbstractActiveSkill {
 
 
     @Override
-    public void cast(int castingTicksElapsed, Level level, Player player) {
+    public void cast(int castingTicksElapsed, Level level, Player player, ICastData castData) {
         //TODO create fireball
         
         launchPlayer(level,player);

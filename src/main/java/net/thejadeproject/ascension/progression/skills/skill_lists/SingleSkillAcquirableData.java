@@ -34,9 +34,11 @@ public class SingleSkillAcquirableData implements IAcquirableSkill{
     @Override
     public void onRealmIncrease(RealmChangeEvent event) {
         if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill(skillId.toString())) return;
+
+
         boolean inMajorRealmRange = majorRealm>=event.oldMajorRealm && majorRealm <= event.newMajorRealm;
 
-        boolean inBetweenMajorRealms = inMajorRealmRange && minorRealm != event.oldMinorRealm && event.newMinorRealm != minorRealm;
+        boolean inBetweenMajorRealms = inMajorRealmRange && majorRealm != event.oldMajorRealm && event.newMajorRealm != majorRealm;
 
         boolean inLowerMajorAndGreaterOrEqualToMinor = inMajorRealmRange && majorRealm == event.oldMajorRealm && minorRealm>=event.oldMinorRealm;
 
@@ -57,16 +59,11 @@ public class SingleSkillAcquirableData implements IAcquirableSkill{
         //TODO something is wrong here
         //does not work for major : 0->-1 aka a 0,0 skill is in this range
         //                  minor : 0->-1
-        System.out.println("checking out if skill: "+skillId.toString() + " should be removed");
+
         boolean inMajorRealmRange = majorRealm>=event.newMinorRealm && majorRealm <= event.oldMajorRealm;
-        System.out.println(inMajorRealmRange);
-        boolean inBetweenMajorRealms = inMajorRealmRange && minorRealm != event.oldMinorRealm && event.newMinorRealm != minorRealm;
-        //TODO i think i need to flip these 2 conditions?
-        System.out.println(inBetweenMajorRealms);
+        boolean inBetweenMajorRealms = inMajorRealmRange && majorRealm != event.oldMajorRealm && event.newMajorRealm != majorRealm;
         boolean inLowerMajorAndGreaterOrEqualToMinor = inMajorRealmRange && majorRealm == event.newMajorRealm && minorRealm > event.newMinorRealm;
-        System.out.println(inLowerMajorAndGreaterOrEqualToMinor);
         boolean inHigherMajorAndLessOrEqualToMinor = inMajorRealmRange && majorRealm== event.oldMajorRealm && minorRealm <= event.oldMinorRealm;
-        System.out.println(inMajorRealmRange);
         if(inBetweenMajorRealms || inLowerMajorAndGreaterOrEqualToMinor || inHigherMajorAndLessOrEqualToMinor) {
             // try to remove skill
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);

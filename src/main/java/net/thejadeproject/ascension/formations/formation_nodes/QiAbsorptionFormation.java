@@ -7,6 +7,7 @@ import net.lucent.formation_arrays.blocks.block_entities.formation_cores.Abstrac
 import net.lucent.formation_arrays.formations.node.FormationNode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.thejadeproject.ascension.AscensionCraft;
 
@@ -26,15 +27,13 @@ public class QiAbsorptionFormation extends FormationNode {
     }
 
     @Override
-    public void tick(AbstractFormationCoreBlockEntity blockEntity, List<ItemStack> jadeSlips) {
-        super.tick(blockEntity, jadeSlips);
-        if(blockEntity.getLevel().isClientSide()) return;
+    public void tick(Level level, BlockPos pos, IFormationCore core, List<ItemStack> jadeSlips) {
+
+        if(level.isClientSide()) return;
         //TODO make sure to update next formation array update
-        System.out.println("trying to increase energy");
-        System.out.println(blockEntity.getEnergyContainer().getCurrentEnergy());
-        blockEntity.getEnergyContainer().increaseEnergy(QI_REGEN);
-        System.out.println(blockEntity.getEnergyContainer().getCurrentEnergy());
-        blockEntity.setChanged();
+
+        core.getEnergyContainer().increaseEnergy(QI_REGEN);
+
 
 
     }

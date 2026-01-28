@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.entity.custom.spell_entities.FireBallSkill;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
+import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 
 public class BasicFireBall extends AbstractActiveSkill {
     public final double speed;
@@ -48,15 +49,15 @@ public class BasicFireBall extends AbstractActiveSkill {
     }
 
     @Override
-    public boolean continueCasting(int castingTicksElapsed, Level level, Player player) {
-        boolean state  = super.continueCasting(castingTicksElapsed, level, player);
+    public boolean continueCasting(int castingTicksElapsed, Level level, Player player, ICastData castData) {
+        boolean state  = super.continueCasting(castingTicksElapsed, level, player,castData);
         if(!state) return false;
         if(castingTicksElapsed % 10 == 0) createFireBall(level,player);
         return player.getData(ModAttachments.INPUT_STATES).isHeld("cast_skill_input");
     }
 
     @Override
-    public void cast(int castingTicksElapsed, Level level,Player player) {
+    public void cast(int castingTicksElapsed, Level level,Player player, ICastData castData) {
         //TODO create fireball
         
         createFireBall(level,player);

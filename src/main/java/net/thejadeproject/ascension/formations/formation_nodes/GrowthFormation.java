@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.formations.formation_nodes;
 
+import net.lucent.formation_arrays.api.cores.IFormationCore;
 import net.lucent.formation_arrays.api.formations.IFormation;
 import net.lucent.formation_arrays.blocks.block_entities.formation_cores.AbstractFormationCoreBlockEntity;
 import net.lucent.formation_arrays.formations.node.FormationNode;
@@ -39,9 +40,7 @@ public class GrowthFormation extends FormationNode {
     }
 
 
-    public void randomTickNearbyBlocks(AbstractFormationCoreBlockEntity blockEntity){
-        BlockPos core = blockEntity.getBlockPos();
-        Level level = blockEntity.getLevel();
+    public void randomTickNearbyBlocks(Level level,BlockPos core){
         int minX = (int) (core.getX()-RADIUS);
         int minY = (int) (core.getY()-RADIUS);
         int minZ = (int) (core.getZ()-RADIUS);
@@ -72,11 +71,11 @@ public class GrowthFormation extends FormationNode {
     }
 
     @Override
-    public void tick(AbstractFormationCoreBlockEntity blockEntity, List<ItemStack> jadeSlips) {
-        super.tick(blockEntity, jadeSlips);
-        if(blockEntity.getLevel().isClientSide()) return;
+    public void tick(Level level, BlockPos pos, IFormationCore blockEntity, List<ItemStack> jadeSlips) {
+
+        if(level.isClientSide()) return;
         if(ticksLeft <= 0){
-            randomTickNearbyBlocks(blockEntity);
+            randomTickNearbyBlocks(level,pos);
             ticksLeft = ThreadLocalRandom.current().nextInt(MIN_INTERVAL,MAX_INTERVAL);
         }
         ticksLeft -= 1;
