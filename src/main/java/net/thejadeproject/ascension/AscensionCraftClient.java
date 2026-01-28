@@ -48,7 +48,7 @@ public class AscensionCraftClient {
         KeyBindHandler.register();
         ModActions.register(modEventBus);
         ModFormationRenderers.register(modEventBus);
-        //ModOverlays.register();
+        ModOverlays.register();
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
     }

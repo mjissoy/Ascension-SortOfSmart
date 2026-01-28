@@ -9,6 +9,7 @@ import net.lucent.easygui.overlays.EasyGuiOverlayManager;
 import net.lucent.easygui.templating.actions.Action;
 import net.lucent.easygui.util.textures.TextureDataSubSection;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -30,28 +31,40 @@ public class ModOverlays {
 
 
     public static EasyGuiOverlay HEALTH_BAR = new EasyGuiOverlay((eventHolder, overlay) ->{
-        View view = new View(overlay,0,0){};
+        View view = new View(overlay,0,0){
+            @Override
+            public void renderChildren(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                Minecraft.getInstance().gui.leftHeight += 10;
+                if(Minecraft.getInstance().options.hideGui ||
+                        (Minecraft.getInstance().gameMode != null &&
+                                !Minecraft.getInstance().gameMode.canHurtPlayer())) return;
+
+
+                super.renderChildren(guiGraphics, mouseX, mouseY, partialTick);
+
+            }
+        };
 
         overlay.addView(view);
         view.setUseMinecraftScale(true);
 
         TextureDataSubSection background = new TextureDataSubSection(
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/health_bar.png"),
-                81,
-                18,
-                0,
-                0,
-                81,
-                9
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/overlays_all.png"),
+                256,
+                256,
+                2,
+                125,
+                83,
+                133
         );
         TextureDataSubSection bar = new TextureDataSubSection(
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/health_bar.png"),
-                81,
-                18,
-                0,
-                9,
-                81,
-                18
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/overlays_all.png"),
+                256,
+                256,
+                2,
+                135,
+                83,
+                144
         );
 
         ProgressBar progressBar = new ProgressBar(
@@ -59,7 +72,7 @@ public class ModOverlays {
                 bar,
                 background,
                 view.getScaledWidth()/2-91,
-                view.getScaledHeight()-49 // Move it down to avoid armor bar
+                view.getScaledHeight()-39 // Move it down to avoid armor bar
         ){
             @Override
             public double getProgress() {
@@ -72,7 +85,7 @@ public class ModOverlays {
             public void recalculatePos(int oldWidth, int oldHeight) {
 
                 setX((getRoot()).getScaledWidth()/2-91);
-                setY((getRoot()).getScaledHeight() - 49); // Match the new Y position
+                setY((getRoot()).getScaledHeight() - 39); // Match the new Y position
             }
 
             @Override
@@ -82,14 +95,14 @@ public class ModOverlays {
                     NumberFormat formater = new DecimalFormat("#0.00");
                     double currentHealth = Minecraft.getInstance().player.getHealth();
                     double maxHealth = Minecraft.getInstance().player.getMaxHealth();
-                    Component text = Component.literal(formater.format(currentHealth)+"/"+formater.format(maxHealth));
+                    Component text = Component.literal(formater.format(currentHealth)+"/"+formater.format(maxHealth)).withStyle(ChatFormatting.BOLD);
                     int length = Minecraft.getInstance().font.width(text);
                     int height = Minecraft.getInstance().font.lineHeight;
                     guiGraphics.pose().pushPose();
-                    guiGraphics.pose().translate(40-length/4.0,4.5-height/4.0,0);
-                    guiGraphics.pose().scale(0.5F, 0.5F, 0.5F);
+                    guiGraphics.pose().translate(45-length/3.0,4-height/4.0,0);
+                    guiGraphics.pose().scale(0.6F, 0.6F, 1);
 
-
+                    //black = -16777216 white = -1
                     guiGraphics.drawString(Minecraft.getInstance().font,text,0,0,-1,false);
                     guiGraphics.pose().popPose();
                 }
@@ -100,19 +113,49 @@ public class ModOverlays {
     });
 
     public static EasyGuiOverlay SKILL_CAST_PROGRESS = new EasyGuiOverlay(((eventHolder, easyGuiOverlay) -> {
-        SkillCastProgressBarView view = new SkillCastProgressBarView(easyGuiOverlay);
+        SkillCastProgressBarView view = new SkillCastProgressBarView(easyGuiOverlay){
+            @Override
+            public void renderChildren(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                if(Minecraft.getInstance().options.hideGui ||
+                        (Minecraft.getInstance().gameMode != null &&
+                                !Minecraft.getInstance().gameMode.canHurtPlayer())) return;
+
+
+                super.renderChildren(guiGraphics, mouseX, mouseY, partialTick);
+            }
+        };
 
         easyGuiOverlay.addView(view);
 
     }));
     public static EasyGuiOverlay CULTIVATION_PROGRESS = new EasyGuiOverlay(((eventHolder, easyGuiOverlay) -> {
-        CultivationProgressBarsView view = new CultivationProgressBarsView(easyGuiOverlay,0,0);
+        CultivationProgressBarsView view = new CultivationProgressBarsView(easyGuiOverlay,0,0){
+            @Override
+            public void renderChildren(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                if(Minecraft.getInstance().options.hideGui ||
+                        (Minecraft.getInstance().gameMode != null &&
+                                !Minecraft.getInstance().gameMode.canHurtPlayer())) return;
+
+
+                super.renderChildren(guiGraphics, mouseX, mouseY, partialTick);
+            }
+        };
 
         easyGuiOverlay.addView(view);
 
     }));
     public static EasyGuiOverlay PLAYER_QI_BAR = new EasyGuiOverlay(((eventHolder, easyGuiOverlay) -> {
-        View view = new View(easyGuiOverlay,0,0);
+        View view = new View(easyGuiOverlay,0,0){
+            @Override
+            public void renderChildren(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                if(Minecraft.getInstance().options.hideGui ||
+                        (Minecraft.getInstance().gameMode != null &&
+                                !Minecraft.getInstance().gameMode.canHurtPlayer())) return;
+
+
+                super.renderChildren(guiGraphics, mouseX, mouseY, partialTick);
+            }
+        };
         view.setUseMinecraftScale(true);
         view.addChild(new QiBar(easyGuiOverlay,view.getScaledWidth(),view.getScaledHeight()));
         easyGuiOverlay.addView(view);

@@ -27,9 +27,8 @@ public class SkillList {
     }
 
     public void onRealmChange(RealmChangeEvent event){
-        System.out.println("looping through skills");
+
         for(IAcquirableSkill skill : skills){
-            System.out.println("trying skill");
             skill.onRealmChange(event);
         }
     }

@@ -54,12 +54,12 @@ public class PhysiqueAttachment {
 
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
         setPhysique(tag.getString("physique_id"));
-        System.out.println("loading physique : "+tag.getString("physique_id"));
+
         if(tag.hasUUID("physique_data")) setPhysiqueData(tag.getCompound("physique_data"));
     }
     public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
         tag.putString("physique_id",getPhysiqueId().toString());
-        System.out.println("saving physique: "+getPhysiqueId().toString());
+
         if(getPhysiqueData() != null) tag.put("physique_data",getPhysiqueData().writeData());
     }
 }

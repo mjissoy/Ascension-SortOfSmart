@@ -38,8 +38,8 @@ public record UpdateSuppressorValuePayload(String attribute, double value) imple
 
 
         context.enqueueWork(()->{
-            double value = Math.clamp(payload.value,0.01,1);
-            System.out.println("trying to update suppressor value to : "+payload.value);
+            double value = Math.clamp(payload.value,0.001,1);
+
             ResourceLocation id = ResourceLocation.bySeparator(payload.attribute,':');
             Holder<Attribute> attributeHolder = BuiltInRegistries.ATTRIBUTE.wrapAsHolder(BuiltInRegistries.ATTRIBUTE.get(id));
             context.player().getAttribute(attributeHolder).addOrReplacePermanentModifier(
@@ -48,11 +48,11 @@ public record UpdateSuppressorValuePayload(String attribute, double value) imple
             );
 
             if(attributeHolder.is(Attributes.ATTACK_DAMAGE.getKey())){
-                System.out.println("is attack attribute");
+
                 PacketDistributor.sendToPlayer((ServerPlayer) context.player(),new UpdateAttackDamageSuppressorModifier(value-1));
             }
             if(attributeHolder.is(Attributes.MOVEMENT_SPEED.getKey())){
-                System.out.println("is speed attribute");
+
                 PacketDistributor.sendToPlayer((ServerPlayer) context.player(),new UpdateSpeedSuppressorModifier(value-1));
             }
         });

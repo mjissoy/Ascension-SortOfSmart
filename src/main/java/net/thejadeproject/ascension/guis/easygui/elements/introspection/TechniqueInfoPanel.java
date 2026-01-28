@@ -52,7 +52,7 @@ public class TechniqueInfoPanel extends EmptyDraggableContainer {
         };
         addChild(closeButton);
         this.technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique);
-        System.out.println("drawing container");
+
         addChild(techniqueTitle());
         DynamicScrollBox textArea = contentArea();
         Label techniqueDescr = techniqueDescription(textArea);

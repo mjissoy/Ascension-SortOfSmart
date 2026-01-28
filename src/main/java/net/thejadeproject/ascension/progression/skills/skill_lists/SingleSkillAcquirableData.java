@@ -47,7 +47,7 @@ public class SingleSkillAcquirableData implements IAcquirableSkill{
         if(inBetweenMajorRealms || inLowerMajorAndGreaterOrEqualToMinor || inHigherMajorAndLessOrEqualToMinor) {
             // try to add a skill
             //TODO add an event for this
-            System.out.println("adding skill");
+
             event.player.getData(ModAttachments.PLAYER_SKILL_DATA).addSkill(skillId,fixed,permanent);
         }
     }

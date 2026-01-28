@@ -17,7 +17,7 @@ public class MainSkillContainer extends EmptyContainer implements MouseReleaseLi
     ISkill heldActiveSkill = null;
     public MainSkillContainer(IEasyGuiScreen screen){
         super(screen,0,0,0,0);
-        System.out.println("creating container");
+
         setXPositioning(Positioning.CENTER);
         setYPositioning(Positioning.CENTER);
         setWidth(320);

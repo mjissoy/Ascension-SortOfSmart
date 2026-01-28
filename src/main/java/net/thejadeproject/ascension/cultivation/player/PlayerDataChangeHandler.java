@@ -37,8 +37,7 @@ public class PlayerDataChangeHandler {
         // Remove all skills
         PlayerSkillData skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
         AscensionAttributeWrapper attributeWrapper = player.getData(ModAttachments.ATTRIBUTE_WRAPPER);
-        System.out.println("attempting rebirth");
-        System.out.println("skills:");
+
         skillData.printActiveSkills();
         // Set the new physique
         player.setData(ModAttachments.PHYSIQUE,new PhysiqueAttachment(player));
@@ -73,14 +72,14 @@ public class PlayerDataChangeHandler {
 
 
         }
-        System.out.println("REMOVING EXTRA MODIFIERS");
+
         skillData.removeAllNonePermanentSkills();
         attributeWrapper.removeAllNonPermanentModifiers();
     }
 
 
      public static void changePhysique(Player player,ResourceLocation targetPhysique){
-        System.out.println("changing physique");
+
         ResourceLocation oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
         IPhysique newPhysique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(targetPhysique);
         player.getData(ModAttachments.PHYSIQUE).setPhysique(targetPhysique);
@@ -110,7 +109,7 @@ public class PlayerDataChangeHandler {
     //uses rebirth instead of the force remove
     public static void resetData(Player player, String targetPhysiqueId) {
         // Get the old physique before resetting
-        System.out.println("resetin");
+
         ResourceLocation oldPhysique = player.getData(ModAttachments.PHYSIQUE).getPhysiqueId();
 
 

@@ -29,7 +29,7 @@ public class EntityAttributeManager {
 
     }
     public static void decreaseAttribute(LivingEntity entity, Double value, Holder<Attribute> attributeHolder){
-            System.out.println("DECREASING ATTRIBUTE");
+
             entity.getAttribute(attributeHolder).setBaseValue(entity.getAttributeBaseValue(attributeHolder) - value);
             if(!(entity instanceof  Player)) return;
             if(attributeHolder == Attributes.ATTACK_DAMAGE){

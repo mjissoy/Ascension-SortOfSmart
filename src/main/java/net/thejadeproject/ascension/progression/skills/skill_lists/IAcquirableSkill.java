@@ -14,10 +14,10 @@ public interface IAcquirableSkill {
 
 
         if(event.oldMajorRealm < event.newMajorRealm || (event.oldMajorRealm == event.newMajorRealm && event.oldMinorRealm<event.newMinorRealm)){
-            System.out.println("realm increased");
+
             onRealmIncrease(event);
         }else{
-            System.out.println("realm decreased");
+
             onRealmDecrease(event);
         }
     }

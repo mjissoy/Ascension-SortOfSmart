@@ -60,7 +60,7 @@ public class QiChannelingSkill extends AbstractActiveSkill {
 
     @Override
     public boolean continueCasting(int castingTicksElapsed, Level level, Player player, ICastData castData) {
-        System.out.println("CASTING SKILL");
+
         UUID playerId = player.getUUID();
 
         if (!activeSessions.containsKey(playerId)) {

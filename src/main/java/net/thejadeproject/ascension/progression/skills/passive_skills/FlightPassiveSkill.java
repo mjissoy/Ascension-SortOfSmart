@@ -44,7 +44,7 @@ public class FlightPassiveSkill extends AbstractPassiveSkill {
     }
 
     public void updateSkillData(Player player){
-        System.out.println("giving player flight");
+
         player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).addOrReplacePermanentModifier(new AttributeModifier(
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_boost"),
                 1.0,

@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.guis.easygui.elements.stat_introspection;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.elements.containers.EmptyContainer;
 import net.lucent.easygui.elements.containers.EmptyDraggableContainer;
 import net.lucent.easygui.elements.containers.scroll_boxes.DynamicScrollBox;
@@ -15,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.guis.easygui.elements.EmptyButton;
 import net.thejadeproject.ascension.guis.easygui.elements.ScrollBox;
 import org.w3c.dom.Attr;
 
@@ -82,6 +84,15 @@ public class StatViewPanel extends EmptyDraggableContainer {
         super(screen,x,y,115,113);
         ScrollBox contentArea = contentArea();
         addChild(contentArea);
+        addChild(new EmptyButton(screen,107,3,7,7) {
+            @Override
+            public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
+                super.onClick(mouseX, mouseY, button, clicked);
+                if(button == InputConstants.MOUSE_BUTTON_LEFT && clicked){
+                    getParent().getParent().removeChild(getParent());
+                }
+            }
+        });
         StatCategoryHolder defensiveStatCategoryHolder = new StatCategoryHolder(screen,0,4,109, Component.literal("Defensive"));
         contentArea.addChild(defensiveStatCategoryHolder);
         defensiveStatCategoryHolder.addChild(
@@ -110,10 +121,10 @@ public class StatViewPanel extends EmptyDraggableContainer {
                 new LimiterAttributeHolder(screen,15,109,movementSpeedIcon,Component.literal("SPD : ").withStyle(ChatFormatting.BOLD),Attributes.MOVEMENT_SPEED)
         );
         miscStatCategoryHolder.addChild(
-                new LimiterAttributeHolder(screen,25,109,jumpStrengthIcon,Component.literal("JMP STR : ").withStyle(ChatFormatting.BOLD),Attributes.JUMP_STRENGTH)
+                new LimiterAttributeHolder(screen,25,109,jumpStrengthIcon,Component.literal("JMP : ").withStyle(ChatFormatting.BOLD),Attributes.JUMP_STRENGTH)
         );
         miscStatCategoryHolder.addChild(
-                new LimiterAttributeHolder(screen,35,109,stepHeightIcon,Component.literal("STEP HEIGHT : ").withStyle(ChatFormatting.BOLD),Attributes.STEP_HEIGHT)
+                new LimiterAttributeHolder(screen,35,109,stepHeightIcon,Component.literal("STEP : ").withStyle(ChatFormatting.BOLD),Attributes.STEP_HEIGHT)
         );
         miscStatCategoryHolder.addChild(
                 new AttributeHolder(screen,45,109,miningSpeed,Component.literal("MINING SPD : ").withStyle(ChatFormatting.BOLD),Attributes.MINING_EFFICIENCY)

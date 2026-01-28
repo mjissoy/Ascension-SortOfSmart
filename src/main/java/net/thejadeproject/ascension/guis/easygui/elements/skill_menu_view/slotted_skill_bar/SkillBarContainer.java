@@ -42,7 +42,7 @@ public class SkillBarContainer extends EmptyContainer implements Clickable {
         super(screen,0,0,0,0);
         setWidth(192);
         setHeight(83);
-        System.out.println("creating skill bar container");
+
         EmptyButton clearBtn = new EmptyButton(screen,145,19,32,10){
             @Override
             public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
@@ -86,7 +86,7 @@ public class SkillBarContainer extends EmptyContainer implements Clickable {
         label.setCustomScale(0.5);
         addChild(label);
         selectedSkillLabel = label;
-        System.out.println("finished creating skill bar container");
+
     }
     public void selectSkill(ActiveSkillSlot slot,int button){
         if(slot.getSkill() == null){

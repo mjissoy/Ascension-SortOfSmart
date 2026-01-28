@@ -63,12 +63,12 @@ public class PassiveSkillScrollContainer extends EmptyContainer implements Mouse
         for(PassiveSkillSlot slot:slots){
             slot.setCurrentSkill(null);
         }
-        System.out.println("refreshing passive skill view");
+
         List<PlayerSkillData.SkillMetaData> skills = getPassiveSkills();
-        System.out.println(skills.size());
+
 
         for(int i = slotOffset;i<skills.size() && i<slots.size()+slotOffset;i++){
-            System.out.println("gave slot skill "+skills.get(i).skillId);
+
             slots.get(i-slotOffset).setCurrentSkill(ResourceLocation.bySeparator(skills.get(i).skillId,':'));
         }
     }

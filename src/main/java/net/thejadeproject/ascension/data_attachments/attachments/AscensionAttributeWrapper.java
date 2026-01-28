@@ -353,7 +353,7 @@ public class AscensionAttributeWrapper {
     public void removeAllNonPermanentModifiers(){
 
         for(IAttributeModifier modifier:getAllModifiers()){
-            System.out.println(modifier.getModifierId().toString());
+
             if(!modifier.isDisabled()) modifier.remove(entity);
         }
         reset();

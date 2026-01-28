@@ -26,7 +26,7 @@ public class PillCauldronLowHumanMenu extends AbstractContainerMenu {
 
     public PillCauldronLowHumanMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), pContainerId);
-        System.out.println("Menu Side : "+ entity.getLevel().isClientSide);
+
         this.blockEntity = ((PillCauldronLowHumanEntity) entity);
         this.level = inv.player.level();
         this.data = data;

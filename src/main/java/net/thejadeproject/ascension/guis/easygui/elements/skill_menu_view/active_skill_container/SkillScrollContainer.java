@@ -29,7 +29,6 @@ public class SkillScrollContainer extends EmptyContainer implements MouseScrollL
     public ISkill selectedSkill;
     public SkillScrollContainer(IEasyGuiScreen screen,int x,int y,int rows,int columns){
         super(screen,x,y,columns*18,rows*18);
-        System.out.println("creating skill scroll container");
         for (int row = 0;row<rows;row++){
             skillSlots.add(new ArrayList<>());
             for(int column = 0;column < columns;column++){
@@ -64,10 +63,10 @@ public class SkillScrollContainer extends EmptyContainer implements MouseScrollL
         };
         dropDown.setActive(false);
         addChild(dropDown);
-        System.out.println("finished creating skill scroll container");
+
     }
     public void viewSkillDetails(){
-        System.out.println("View details for skill: "+selectedSkill.getSkillTitle().toString());
+
         ((MainSkillContainer) getParent().getParent()).createSkillInfoPanel(AscensionRegistries.Skills.SKILL_REGISTRY.getKey(selectedSkill));
     }
     public void openViewDetailsSelection(double mouseX,double mouseY){
@@ -120,7 +119,6 @@ public class SkillScrollContainer extends EmptyContainer implements MouseScrollL
     @Override
     public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
         dropDown.setActive(false);
-        System.out.println(hovered == null ? "no hovered": (hovered.getCurrentSkill() == null ? "no hovered": hovered.getCurrentSkill().toString()));
-        if(button == InputConstants.MOUSE_BUTTON_RIGHT && hovered != null && hovered.getCurrentSkill() != null) openViewDetailsSelection(mouseX,mouseY);
+         if(button == InputConstants.MOUSE_BUTTON_RIGHT && hovered != null && hovered.getCurrentSkill() != null) openViewDetailsSelection(mouseX,mouseY);
     }
 }

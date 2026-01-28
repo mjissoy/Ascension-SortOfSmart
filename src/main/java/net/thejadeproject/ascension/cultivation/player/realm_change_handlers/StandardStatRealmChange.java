@@ -43,7 +43,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
         AscensionAttributeWrapper wrapper = player.getData(ModAttachments.ATTRIBUTE_WRAPPER);
         for(int i = oldRealm+1;i<newRealm+1;i++){
             for(AscensionAttributeWrapper.IAttributeModifier modifier : majorRealmAttributeIncrease){
-                ResourceLocation id = ResourceLocation.bySeparator(path+"_realm_"+i+"_"+modifier.getAttribute().getKey().location().getPath(),':');
+                ResourceLocation id = ResourceLocation.bySeparator(path+"_realm_"+technique.getTotalMinorRealmsTo(i,0)+"_"+modifier.getAttribute().getKey().location().getPath(),':');
                 AscensionAttributeWrapper.IAttributeModifier newModifier = modifier.clone(id);
 
                 newModifier.setGroupId(ResourceLocation.bySeparator(path+"_realm_"+technique.getTotalMinorRealmsTo(i,0),':'));
@@ -74,6 +74,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
                 ResourceLocation id = ResourceLocation.bySeparator(path+"_realm_"+i+"_"+modifier.getAttribute().getKey().location().getPath(),':');
 
                 wrapper.removeAttributeOfId(id);
+                System.out.println("temp");
             }
         }
     }
