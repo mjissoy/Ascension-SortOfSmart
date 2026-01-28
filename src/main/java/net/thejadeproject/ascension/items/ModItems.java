@@ -347,7 +347,7 @@ public class ModItems {
     //Phys Stuff
     //Todo
     //Change it into a Blood Essence texture and also make it so blood essence drop then you can combine blood essences to make the purity 100% and when its 100% only then can you use it.
-    public static final DeferredItem<Item> BLOOD_ESSENCE = ITEMS.register("blood_essence",
+    public static final DeferredItem<Item> PHYSIQUE_ESSENCE = ITEMS.register("physique_essence",
             () -> new PhysiqueTransferItem(new Item.Properties().stacksTo(1)));
 
 

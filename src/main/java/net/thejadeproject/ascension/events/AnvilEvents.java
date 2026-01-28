@@ -16,8 +16,8 @@ public class AnvilEvents {
         ItemStack left = event.getLeft();
         ItemStack right = event.getRight();
 
-        if (left.getItem() == ModItems.BLOOD_ESSENCE.get() &&
-                right.getItem() == ModItems.BLOOD_ESSENCE.get()) {
+        if (left.getItem() == ModItems.PHYSIQUE_ESSENCE.get() &&
+                right.getItem() == ModItems.PHYSIQUE_ESSENCE.get()) {
 
             if (PhysiqueTransferItem.canCombine(left, right)) {
                 int combinedPurity = PhysiqueTransferItem.getCombinedPurity(left, right);

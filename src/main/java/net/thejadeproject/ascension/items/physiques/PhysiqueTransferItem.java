@@ -3,7 +3,6 @@ package net.thejadeproject.ascension.items.physiques;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -11,16 +10,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.cultivation.player.PlayerDataChangeHandler;
 import net.thejadeproject.ascension.events.ModDataComponents;
-import net.thejadeproject.ascension.events.custom.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.progression.physiques.IPhysique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 import java.util.List;
 
@@ -84,7 +78,7 @@ public class PhysiqueTransferItem extends Item {
             ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
             IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
             if (physique != null) {
-                Component baseName = Component.empty().append(physique.getDisplayTitle()).append(" Blood Essence");
+                Component baseName = Component.empty().append(physique.getDisplayTitle()).append(" Essence");
 
                 // Add purity to name if not 100%
                 if (purity != null && purity < 100) {
@@ -96,7 +90,7 @@ public class PhysiqueTransferItem extends Item {
                 return baseName;
             }
         }
-        return Component.literal("Blood Essence");
+        return Component.literal("Essence");
     }
 
     @Override
@@ -148,7 +142,7 @@ public class PhysiqueTransferItem extends Item {
     }
 
     public static ItemStack createWithPhysique(String physiqueId, int purity) {
-        ItemStack stack = new ItemStack(ModItems.BLOOD_ESSENCE.get());
+        ItemStack stack = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
         stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
         stack.set(ModDataComponents.PURITY.get(), Math.min(purity, 100));
         return stack;

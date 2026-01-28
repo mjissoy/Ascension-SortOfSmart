@@ -8,7 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -456,7 +455,7 @@ public class NaturalPhenomenonPhysiqueEvents {
 
     // ========== HELPER METHOD ==========
     private static void spawnPhysiqueItem(ServerLevel level, Player player, String physiqueId, int purity) {
-        ItemStack item = new ItemStack(ModItems.BLOOD_ESSENCE.get());
+        ItemStack item = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
         item.set(ModDataComponents.PHYSIQUE_ID.get(),
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, physiqueId).toString());
         item.set(ModDataComponents.PURITY.get(), purity);

@@ -49,6 +49,11 @@ public class ModPlacedFeatures {
 
 
 
+    public static final ResourceKey<PlacedFeature> SPIRIT_VEIN_FEATURE_PLACED_KEY = registerKey("spirit_vein_feature_placed");
+
+
+
+
 
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
@@ -76,6 +81,21 @@ public class ModPlacedFeatures {
         register(context, IRONWOOD_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.IRONWOOD_KEY),
                 VegetationPlacements.treePlacement(PlacementUtils.countExtra(0, 0.1f, 1),
                         ModBlocks.IRONWOOD_SAPLING.get()));
+
+
+        //Spirit Vein
+        register(context, SPIRIT_VEIN_FEATURE_PLACED_KEY,
+                configuredFeatures.getOrThrow(ModConfiguredFeatures.SPIRIT_VEIN_FEATURE_KEY),
+                List.of(
+                        CountPlacement.of(1),
+                        InSquarePlacement.spread(),
+                        HeightRangePlacement.uniform(
+                                VerticalAnchor.absolute(-32),
+                                VerticalAnchor.absolute(40)
+                        ),
+                        BiomeFilter.biome()
+                ));
+
 
 
         //Herbs

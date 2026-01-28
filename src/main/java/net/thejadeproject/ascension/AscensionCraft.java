@@ -68,6 +68,7 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.util.ModAttributes;
 import net.thejadeproject.ascension.util.ToolTips.ToolTipManager;
 import net.thejadeproject.ascension.villager.ModVillagers;
+import net.thejadeproject.ascension.worldgen.ModFeatureRegistration;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -151,6 +152,8 @@ public class AscensionCraft {
 
         ModDataComponents.register(modEventBus);
         CreativeTabHandler.register(modEventBus);
+
+        ModFeatureRegistration.register(modEventBus);
 
     }
 

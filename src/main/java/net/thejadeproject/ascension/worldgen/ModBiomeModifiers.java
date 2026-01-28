@@ -35,6 +35,11 @@ public class ModBiomeModifiers {
 
 
 
+
+    public static final ResourceKey<BiomeModifier> ADD_SPIRIT_VEIN_FEATURE = registerKey("add_spirit_vein_feature");
+
+
+
     public static final ResourceKey<BiomeModifier> SPAWN_RAT = registerKey("spawn_rat");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
@@ -73,6 +78,14 @@ public class ModBiomeModifiers {
         context.register(SPAWN_RAT, new BiomeModifiers.AddSpawnsBiomeModifier(
                 HolderSet.direct(biomes.getOrThrow(Biomes.FOREST), biomes.getOrThrow(Biomes.BIRCH_FOREST)),
                         List.of(new MobSpawnSettings.SpawnerData(ModEntities.RAT.get(), 10, 2, 4))));
+
+        //Spirit Vein
+        context.register(ADD_SPIRIT_VEIN_FEATURE, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_OVERWORLD),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SPIRIT_VEIN_FEATURE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_STRUCTURES
+        ));
+
 
 
         //Herbs

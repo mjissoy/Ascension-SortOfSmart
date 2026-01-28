@@ -352,6 +352,11 @@ public class ModBlocks {
     public static final DeferredBlock<Block> PILL_CAULDRON_HUMAN_LOW = registerBlock("pill_cauldron_low_human",
             () -> new PillCauldronLowHumanBlock(BlockBehaviour.Properties.of().noOcclusion()));
 
+    //Spirit Vein
+    public static final DeferredBlock<Block> SPIRIT_VEIN = registerBlock("spirit_vein",
+            () -> new SpiritVeinBlock(BlockBehaviour.Properties.of()));
+
+
 
     //Wood
     public static final DeferredBlock<Block> GOLDEN_PALM_LOG = registerBlock("golden_palm_log",

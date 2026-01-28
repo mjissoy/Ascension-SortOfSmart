@@ -7,6 +7,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -151,6 +152,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createSingleItemTable(ModItems.IRONWOOD_SPROUT.get()));
         add(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
                 block -> createSingleItemTable(ModItems.WHITE_JADE_ORCHID.get()));
+        add(ModBlocks.SPIRIT_VEIN.get(),
+                block -> createSingleItemTable(Blocks.AIR));
 
 
         //add(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),

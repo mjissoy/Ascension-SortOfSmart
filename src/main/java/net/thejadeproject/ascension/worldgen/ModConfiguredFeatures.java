@@ -26,6 +26,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.blocks.custom.SpiritVeinBlock;
 
 import java.util.List;
 
@@ -43,6 +44,12 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> HUNDRED_YEAR_SNOW_GINSENG_KEY = registerKey("hundred_year_snow_ginseng_crop");
     public static final ResourceKey<ConfiguredFeature<?, ?>> HUNDRED_YEAR_FIRE_GINSENG_KEY = registerKey("hundred_year_fire_ginseng_crop");
     public static final ResourceKey<ConfiguredFeature<?, ?>> HUNDRED_YEAR_GINSENG_KEY = registerKey("hundred_year_ginseng_crop");
+
+
+
+
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> SPIRIT_VEIN_FEATURE_KEY = registerKey("spirit_vein_feature");
 
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
@@ -90,6 +97,13 @@ public class ModConfiguredFeatures {
                 .ignoreVines()
                 .dirt(BlockStateProvider.simple(Blocks.GRASS_BLOCK))
                 .build());
+
+
+
+        //Spirit Veins
+        register(context, SPIRIT_VEIN_FEATURE_KEY,
+                ModFeatureRegistration.SPIRIT_VEIN_FEATURE.get(),
+                FeatureConfiguration.NONE);
 
 
 
