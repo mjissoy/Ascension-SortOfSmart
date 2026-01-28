@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.AddItemModifier;
 import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.loot.AddPhysiqueRandomPurityModifier;
+import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -23,7 +24,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
     protected void start() {
 
 
-        //Dragon Vein Phys
+        //Physiques
         add("dragon_vein_from_ender_dragon", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/ender_dragon")).build(),
@@ -32,8 +33,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "dragon_vein_physique"),
                 20
         ));
-
-        //Heavenly Demon Phys
         add("heavenly_demon_from_wither", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/wither")).build(),
@@ -42,8 +41,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "heavenly_demon_physique"),
                 15
         ));
-
-        //Soul Anchor Phys
         add("soul_anchor_from_ancient_city", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/ancient_city")).build(),
@@ -52,8 +49,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "soul_anchor_physique"),
                 15
         ));
-
-        //Eternal Reincarnation Physique
         add("eternal_reincarnation_range", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/trial_chambers/vault")).build(),
@@ -63,8 +58,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 5,
                 25
         ));
-
-        //HundredPoison Phys
         add("hundred_poison_from_witch", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/witch")).build(),
@@ -92,8 +85,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 3,
                 10
         ));
-
-        // Stone Skin Physique (Human Tier) - Common defensive
         add("stone_skin_from_mineshaft", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/abandoned_mineshaft")).build(),
@@ -102,8 +93,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "stone_skin_physique"),
                 10
         ));
-
-// Iron Marrow Physique (Human Tier) - Internal strength
         add("iron_marrow_from_iron_golem", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/iron_golem")).build(),
@@ -112,8 +101,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "iron_marrow_physique"),
                 12
         ));
-
-// Jade Bone Physique (Earth Tier) - Defensive with luck
         add("jade_bone_from_jungle_temple", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/jungle_temple")).build(),
@@ -122,8 +109,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "jade_bone_physique"),
                 18
         ));
-
-// Crystal Meridian Physique (Earth Tier) - Essence channeling
         add("crystal_meridian_from_end_city", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/end_city_treasure")).build(),
@@ -132,8 +117,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "crystal_meridian_physique"),
                 22
         ));
-
-// Blood Jade Physique (Earth Tier) - Life and vitality
         add("blood_jade_from_nether_fortress", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/nether_bridge")).build(),
@@ -142,8 +125,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "blood_jade_physique"),
                 20
         ));
-
-// Heavenly Lightning Physique (Heaven Tier) - Divine lightning
         add("heavenly_lightning_from_charged_creeper", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/creeper")).build(),
@@ -152,8 +133,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "heavenly_lightning_physique"),
                 24
         ));
-
-// Phoenix Nirvana Physique (Heaven Tier) - Rebirth
         add("phoenix_nirvana_from_nether_fortress", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/nether_bridge")).build(),
@@ -162,8 +141,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "phoenix_nirvana_physique"),
                 13
         ));
-
-// Primordial Chaos Physique (Ascension Tier) - Chaos origin
         add("primordial_chaos_from_end_city", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/end_city_treasure")).build(),
@@ -173,8 +150,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 1,
                 21
         ));
-
-// Sword Saint Physique (Ascension Tier) - Ultimate sword
         add("sword_saint_from_bastion_treasure", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/bastion_treasure")).build(),
@@ -184,8 +159,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 1,
                 23
         ));
-
-// Universe Devourer Physique (Ascension Tier) - Ultimate devouring
         add("universe_devourer_from_end_city", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/end_city_treasure")).build(),
@@ -195,8 +168,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 2,
                 27
         ));
-
-// Nine-Tailed Kitsune Physique (Ascension Tier) - Divine fox spirit
         add("nine_tailed_kitsune_from_fox", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/fox")).build(),
@@ -207,7 +178,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 26
         ));
 
-// Empty Vessel (Human Tier) - Blank slate
         add("empty_vessel_from_village", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_plains_house")).build(),
@@ -217,7 +187,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 5
         ));
 
-// Pure Sword Body (Earth Tier) - Sword specialization
         add("pure_sword_body_from_pillager", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/pillager")).build(),
@@ -226,8 +195,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_sword_body"),
                 15
         ));
-
-// Pure Spear Body (Earth Tier) - Spear specialization
         add("pure_spear_body_from_drowned", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/drowned")).build(),
@@ -236,8 +203,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_spear_body"),
                 15
         ));
-
-// Pure Axe Body (Earth Tier) - Axe specialization
         add("pure_axe_body_from_vindicator", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/vindicator")).build(),
@@ -246,8 +211,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_axe_body"),
                 15
         ));
-
-// Pure Blade Body (Earth Tier) - Blade specialization
         add("pure_blade_body_from_pillager", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/pillager")).build(),
@@ -256,8 +219,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_blade_body"),
                 15
         ));
-
-// Pure Fist Body (Earth Tier) - Unarmed specialization
         add("pure_fist_body_from_cave_spider", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/cave_spider")).build(),
@@ -266,8 +227,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_fist_body"),
                 15
         ));
-
-// Iron Bone Physique (Human Tier) - Durable bone structure
         add("iron_bone_from_iron_golem", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/iron_golem")).build(),
@@ -276,8 +235,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "iron_bone_physique"),
                 10
         ));
-
-// Burning Skin Physique (Human Tier) - Fire-resistant skin
         add("burning_skin_from_blaze", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/blaze")).build(),
@@ -286,8 +243,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "burning_skin_physique"),
                 10
         ));
-
-// Sacred Sapling Physique (Earth Tier) - Nature affinity
         add("sacred_sapling_from_jungle_temple", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/jungle_temple")).build(),
@@ -296,8 +251,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sacred_sapling_physique"),
                 18
         ));
-
-// Suppressed Yin Physique (Earth Tier) - Yin-aligned
         add("suppressed_yin_from_stray", new AddPhysiqueItemModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/stray")).build(),
@@ -308,12 +261,164 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         ));
 
 
+        //Techniques
+        this.add("iron_skin_from_dungeon", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/simple_dungeon")).build(),
+                LootItemRandomChanceCondition.randomChance(0.05F).build()
+        }, ModTechniques.IRON_SKIN_TECHNIQUE.manual.get()));
+        this.add("iron_skin_from_mineshaft", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/abandoned_mineshaft")).build(),
+                LootItemRandomChanceCondition.randomChance(0.05F).build()
+        }, ModTechniques.IRON_SKIN_TECHNIQUE.manual.get()));
+
+        this.add("swift_breeze_from_stronghold", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
+                LootItemRandomChanceCondition.randomChance(0.05F).build()
+        }, ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get()));
+        this.add("swift_breeze_from_mansion", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/woodland_mansion")).build(),
+                LootItemRandomChanceCondition.randomChance(0.05F).build()
+        }, ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get()));
+
+        this.add("void_swallowing_from_end_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.03F).build()
+        }, ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get()));
+        this.add("void_swallowing_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
+                LootItemRandomChanceCondition.randomChance(0.03F).build()
+        }, ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get()));
+
+        this.add("thunder_heart_from_bastion", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/bastion_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.03F).build()
+        }, ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get()));
+        this.add("thunder_heart_from_fortress", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/nether_bridge")).build(),
+                LootItemRandomChanceCondition.randomChance(0.03F).build()
+        }, ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get()));
+
+        this.add("divine_phoenix_from_desert", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/desert_pyramid")).build(),
+                LootItemRandomChanceCondition.randomChance(0.03F).build()
+        }, ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get()));
+        this.add("divine_phoenix_from_jungle", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/jungle_temple")).build(),
+                LootItemRandomChanceCondition.randomChance(0.03F).build()
+        }, ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get()));
+
+        this.add("jade_bone_from_mineshaft", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/abandoned_mineshaft")).build(),
+                LootItemRandomChanceCondition.randomChance(0.03F).build()
+        }, ModTechniques.JADE_BONE_TECHNIQUE.manual.get()));
+        this.add("jade_bone_from_buried_treasure", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/buried_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.03F).build()
+        }, ModTechniques.JADE_BONE_TECHNIQUE.manual.get()));
+
+        this.add("celestial_body_from_end_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.02F).build()
+        }, ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual.get()));
+        this.add("celestial_body_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
+                LootItemRandomChanceCondition.randomChance(0.02F).build()
+        }, ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual.get()));
+
+        this.add("void_walker_from_end_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.02F).build()
+        }, ModTechniques.VOID_WALKER_TECHNIQUE.manual.get()));
+        this.add("void_walker_from_stronghold_library", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
+                LootItemRandomChanceCondition.randomChance(0.02F).build()
+        }, ModTechniques.VOID_WALKER_TECHNIQUE.manual.get()));
+
+        this.add("cosmic_creation_from_end_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.COSMIC_CREATION_ESSENCE_TECHNIQUE.manual.get()));
+
+        this.add("infinite_time_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.INFINITE_TIME_ESSENCE_TECHNIQUE.manual.get()));
+
+        this.add("primordial_chaos_from_mansion", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/woodland_mansion")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual.get()));
+        this.add("primordial_chaos_from_bastion", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/bastion_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual.get()));
+
+        this.add("dragon_king_from_mansion", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/woodland_mansion")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual.get()));
+        this.add("dragon_king_from_stronghold", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual.get()));
+
+        this.add("universe_devourer_from_end_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual.get()));
+        this.add("universe_devourer_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual.get()));
+
+        this.add("eternal_reincarnation_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual.get()));
+        this.add("eternal_reincarnation_from_stronghold", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
+                LootItemRandomChanceCondition.randomChance(0.01F).build()
+        }, ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual.get()));
 
 
 
 
 
 
+        //Herbs
+
+        this.add("hundred_year_ginseng_from_village", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/village/village_plains_house")).build(),
+                LootItemRandomChanceCondition.randomChance(0.12F).build()
+        }, ModItems.HUNDRED_YEAR_GINSENG.get()));
+        this.add("hundred_year_ginseng_from_dungeon", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/simple_dungeon")).build(),
+                LootItemRandomChanceCondition.randomChance(0.15F).build()
+        }, ModItems.HUNDRED_YEAR_GINSENG.get()));
+        this.add("hundred_year_snow_ginseng_from_igloo", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/igloo_chest")).build(),
+                LootItemRandomChanceCondition.randomChance(0.14F).build()
+        }, ModItems.HUNDRED_YEAR_SNOW_GINSENG.get()));
+        this.add("hundred_year_snow_ginseng_from_snowy_village", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/village/village_snowy_house")).build(),
+                LootItemRandomChanceCondition.randomChance(0.15F).build()
+        }, ModItems.HUNDRED_YEAR_SNOW_GINSENG.get()));
+        this.add("hundred_year_fire_ginseng_from_desert_temple", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/desert_pyramid")).build(),
+                LootItemRandomChanceCondition.randomChance(0.1F).build()
+        }, ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()));
+        this.add("hundred_year_fire_ginseng_from_bastion", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/bastion_treasure")).build(),
+                LootItemRandomChanceCondition.randomChance(0.15F).build()
+        }, ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()));
+        this.add("white_jade_orchid_from_mineshaft", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/abandoned_mineshaft")).build(),
+                LootItemRandomChanceCondition.randomChance(0.16F).build()
+        }, ModItems.WHITE_JADE_ORCHID.get()));
+        this.add("white_jade_orchid_from_stronghold", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_corridor")).build(),
+                LootItemRandomChanceCondition.randomChance(0.14F).build()
+        }, ModItems.WHITE_JADE_ORCHID.get()));
 
 
 

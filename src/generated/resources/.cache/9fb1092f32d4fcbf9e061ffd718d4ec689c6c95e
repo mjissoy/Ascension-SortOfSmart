@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-21T19:55:16.4059374	Recipes
+// 1.21.1	2026-01-28T13:41:10.7110238	Recipes
 da9eaf334b8ff9d37b2fbb9fd8de6baf027edf64 data/ascension/advancement/recipes/building_blocks/blue_marble_bricks.json
 60ea0a8913cba8d6930aeb68209f704f9b030baa data/ascension/advancement/recipes/building_blocks/blue_marble_brick_slabs.json
 77e006eabd326806f054577716fc77a5e3b86b63 data/ascension/advancement/recipes/building_blocks/blue_marble_brick_stairs.json
@@ -202,7 +202,6 @@ b0ad29a21b6c862d2a567419bfc4b2cec1744490 data/ascension/advancement/recipes/misc
 1fd888eec47cd25313ce78411204f85d8bde588e data/ascension/advancement/recipes/misc/shaped/gold_blade.json
 124017505e7ada587e4d973eef09023208bdce55 data/ascension/advancement/recipes/misc/shaped/gold_spear.json
 b175b60ac09678c6dc4014ab303b143585542e14 data/ascension/advancement/recipes/misc/shaped/iron_blade.json
-f9bf8cbf49e905121ba9c840bf040c7f95f84dd1 data/ascension/advancement/recipes/misc/shaped/iron_spatial_ring.json
 82d2be366d0672f026ba94f593c02e857c981b56 data/ascension/advancement/recipes/misc/shaped/iron_spear.json
 08af23fdee3be85c1de891745f27f8c054337f56 data/ascension/advancement/recipes/misc/shaped/jade_blade.json
 214ddc91852dd730c274833aae8ffef37b2b3eeb data/ascension/advancement/recipes/misc/shaped/jade_block_from_jade.json
@@ -453,7 +452,6 @@ af86a6b09b1d1634fb7285c72db485da0f81e2c5 data/ascension/recipe/shaped/fire_gourd
 5134fd9f6ca7304cbd7a0ac1031dbca55cc215c2 data/ascension/recipe/shaped/gold_blade.json
 4c9b925ffa8b06f7bff7afab2bbdb961317012cb data/ascension/recipe/shaped/gold_spear.json
 578e07d73aa59b7c661d8759f31339873de01da7 data/ascension/recipe/shaped/iron_blade.json
-c20f3d3877ef61545ae185de79fe23789d63b8fb data/ascension/recipe/shaped/iron_spatial_ring.json
 d12bc743dfbfefd6eb010005ecc8a40ecbd6e508 data/ascension/recipe/shaped/iron_spear.json
 ade225bbc41705dc350399052335925de3bead1c data/ascension/recipe/shaped/jade_blade.json
 e3b9fd9c3541f8586e10c0275bd4d70a84e01d89 data/ascension/recipe/shaped/jade_block_from_jade.json

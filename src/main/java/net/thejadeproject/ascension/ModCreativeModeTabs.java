@@ -114,6 +114,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.FROST_SILVER_BLOCK);
                         output.accept(ModBlocks.JADE_ORE);
                         output.accept(ModBlocks.JADE_BLOCK);
+                        output.accept(ModBlocks.SPIRIT_VEIN);
                         output.accept(ModBlocks.SPIRITUAL_STONE_CLUSTER);
                         output.accept(ModBlocks.SPIRITUAL_STONE_BLOCK);
                         output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);

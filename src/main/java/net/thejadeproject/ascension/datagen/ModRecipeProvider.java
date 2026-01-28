@@ -93,7 +93,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('F', ModItems.HUNDRED_YEAR_FIRE_GINSENG.get())
                 .define('M', ModBlocks.RAW_MARBLE.get())
                 .unlockedBy("has_marble", has(ModBlocks.RAW_MARBLE)).save(recipeOutput, "ascension:shaped/fire_gourd");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPATIAL_RING.get())
+        /*ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPATIAL_RING.get()) //Todo Fix Spatial Ring (Disabled for now)
                 .pattern("FIF")
                 .pattern("BCB")
                 .pattern("FBF")
@@ -102,6 +102,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('F', ModItems.FROST_SILVER_INGOT.get())
                 .define('B', ModItems.BLACK_IRON_INGOT.get())
                 .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shaped/iron_spatial_ring");
+         */
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), 2)

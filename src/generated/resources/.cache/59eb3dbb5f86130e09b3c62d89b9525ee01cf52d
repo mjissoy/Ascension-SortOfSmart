@@ -1,4 +1,7 @@
-// 1.21.1	2026-01-27T10:20:11.7266722	Loot Tables
+// 1.21.1	2026-01-28T13:41:10.7055074	Loot Tables
+19d300b2514a4cd55546fd98680ca38ee76f3206 data/ascension/loot_table/barrels/sword_tomb1.json
+9f5123e2ce7c53ec263c5709569959a0997174f7 data/ascension/loot_table/barrels/sword_tomb2.json
+99c7a5997557f35791255d630a43cd1268da8aec data/ascension/loot_table/barrels/sword_tomb3.json
 4e350a86b42d1ae1ba4f4fbeb663b3ef86261196 data/ascension/loot_table/blocks/black_iron_block.json
 38f47b8a49c39deb26be96306d89c92e4f616193 data/ascension/loot_table/blocks/black_iron_ore.json
 8fa1f6d0faab7897bb4c5b07978d69be87825eae data/ascension/loot_table/blocks/blue_marble.json

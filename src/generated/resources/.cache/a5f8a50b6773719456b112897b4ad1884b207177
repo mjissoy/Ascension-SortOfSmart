@@ -1,4 +1,4 @@
-// 1.21.1	2025-12-11T13:38:26.746327	Block States: ascension
+// 1.21.1	2026-01-28T13:41:10.6805119	Block States: ascension
 6cfba71b0143561a942dcb47bee32d4a758a1e0d assets/ascension/blockstates/black_iron_block.json
 b36d54bccb1a1d76cba5d869c9ab4ed0cad16c2b assets/ascension/blockstates/black_iron_ore.json
 c3d44c985fc6d2f52a667da2fb73360ea070b8f7 assets/ascension/blockstates/blue_marble.json
@@ -201,6 +201,7 @@ b38c48b9acb1d40b35ede37eab5ed44d2f650142 assets/ascension/blockstates/red_marble
 638822f1457afa3e06f125897727cc628e7db2d9 assets/ascension/blockstates/red_marble_tile_wall.json
 7a2bace520ccc2d788236a870a642fe9850e6181 assets/ascension/blockstates/red_polished_marble.json
 06257c4700787b0b09461958552dd03956ea5169 assets/ascension/blockstates/spiritual_stone_block.json
+1e31fdfb3fe4127f1fa93eaf81d7df85451742c5 assets/ascension/blockstates/spirit_vein.json
 b6b017a28b194dfc940cc57876f304694e1d4f25 assets/ascension/blockstates/stripped_golden_palm_log.json
 d1c80a83462022835082b73e1e3a320664d805f6 assets/ascension/blockstates/stripped_golden_palm_wood.json
 a154f2524965c72b9195f9e5716eece7ce98b89d assets/ascension/blockstates/stripped_ironwood_log.json
@@ -618,6 +619,7 @@ f562684e7edb8dd6ef63b47b784f938b87359aa2 assets/ascension/models/block/red_marbl
 68fcc64755e8bead49273ce36bb04e44615eb0ee assets/ascension/models/block/red_marble_tile_wall_side_tall.json
 860ccf494121acba5ed28d5a5e2fe7deb68796a9 assets/ascension/models/block/red_polished_marble.json
 b851850e5a5b81d5d8c3f37659b23247b8231f9b assets/ascension/models/block/spiritual_stone_block.json
+7a315ea3c1ca09e71b172280b1b5ea4b83c53973 assets/ascension/models/block/spirit_vein.json
 f4c81fb800512c6253ccb1e90d23bc0bfa07f2ad assets/ascension/models/block/stripped_golden_palm_log.json
 8e18af7a4207560e8123ae18996a4c6e1702c878 assets/ascension/models/block/stripped_golden_palm_log_horizontal.json
 2560bc216f6a4421158bfe247c93b4029b1dbf62 assets/ascension/models/block/stripped_golden_palm_wood.json
@@ -811,6 +813,7 @@ cf866da9763a36f60a5e4d0cfc94188f6267ce93 assets/ascension/models/item/red_marble
 4962a80b16396eae889078a274b578bd70dc4b7a assets/ascension/models/item/red_marble_tile_stairs.json
 e889a3eb079d5edbdef8ee64896c96dae3083d42 assets/ascension/models/item/red_polished_marble.json
 a5ef3ef2c626ada8141defeaa8a7576df0f9f62f assets/ascension/models/item/spiritual_stone_block.json
+7a3bb3e71ac805c4a9d39835ab6bd9fddf4c4082 assets/ascension/models/item/spirit_vein.json
 cb08c28ca86558118455d73f36e91de3e36f133e assets/ascension/models/item/stripped_golden_palm_log.json
 a6a337d594c4f33ce3649ed2fef014c61dc53a64 assets/ascension/models/item/stripped_golden_palm_wood.json
 0407e4b3f4ba12aefd848026ff8c7dc2d42866f8 assets/ascension/models/item/stripped_ironwood_log.json
