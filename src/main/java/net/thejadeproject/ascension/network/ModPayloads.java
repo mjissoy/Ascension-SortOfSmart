@@ -26,17 +26,7 @@ public class ModPayloads {
                 SyncAttackDamageAttribute.STREAM_CODEC,
                 SyncAttackDamageAttribute::handlePayload
         );
-        registrar.playToClient(
-                OpenPickPhysiqueScreen.TYPE,
-                OpenPickPhysiqueScreen.STREAM_CODEC,
-                OpenPickPhysiqueScreen::handlePayload
-        );
 
-        registrar.playToClient(
-                SyncGeneratedPhysique.TYPE,
-                SyncGeneratedPhysique.STREAM_CODEC,
-                SyncGeneratedPhysique::handlePayload
-        );
         registrar.playToClient(
                 SyncPathDataPayload.TYPE,
                 SyncPathDataPayload.STREAM_CODEC,
@@ -126,11 +116,7 @@ public class ModPayloads {
         );
 
         //===================================== SERVER ==================================
-        registrar.playToServer(
-                TriggerGeneratePhysique.TYPE,
-                TriggerGeneratePhysique.STREAM_CODEC,
-                TriggerGeneratePhysique::handlePayload
-        );
+
         registrar.playToServer(
                 UpdateSuppressorValuePayload.TYPE,
                 UpdateSuppressorValuePayload.STREAM_CODEC,

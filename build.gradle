@@ -139,8 +139,8 @@ dependencies {
 
     implementation "maven.modrinth:jade:${project.jade_version}"
 
-    implementation 'com.github.OliverHesse:EasyGui:464b51e773'
-    implementation 'com.github.OliverHesse:Formation-Arrays:7551097a5f'
+    implementation 'com.github.OliverHesse:EasyGui:72df33a76d'
+    implementation 'com.github.OliverHesse:Formation-Arrays:c738110f58'
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
@@ -184,6 +184,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_description        : mod_description,
             modopedia_version        : modopedia_version,
             easy_gui_version       : easy_gui_version,
+            formation_arrays_version       : formation_arrays_version,
             jei_version        : jei_version,
             jade_version        : jade_version,
             curios_version        : curios_version

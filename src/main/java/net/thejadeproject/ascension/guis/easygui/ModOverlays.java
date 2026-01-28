@@ -55,7 +55,7 @@ public class ModOverlays {
                 2,
                 125,
                 83,
-                133
+                134
         );
         TextureDataSubSection bar = new TextureDataSubSection(
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/overlays_all.png"),

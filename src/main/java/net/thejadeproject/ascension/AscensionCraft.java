@@ -22,8 +22,6 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import net.neoforged.neoforge.registries.RegisterEvent;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
@@ -38,9 +36,7 @@ import net.thejadeproject.ascension.events.karma.KarmaEvents;
 import net.thejadeproject.ascension.events.karma.KarmaManager;
 import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
 import net.thejadeproject.ascension.formations.ModFormations;
-import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
-import net.thejadeproject.ascension.network.clientBound.OpenPickPhysiqueScreen;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.progression.dao.ModDao;
@@ -226,13 +222,7 @@ public class AscensionCraft {
         if(!event.getEntity().level().isClientSide()){
             PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
 
-            if(player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString().equals("ascension:empty_vessel")){
-                //open menu
-                PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new OpenPickPhysiqueScreen(true));
-            }else {
-                PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE).getPhysiqueId()    .toString()));
-            }
-
+            PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString()));
             for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
                 PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPathDataPayload(
                         path.pathId,

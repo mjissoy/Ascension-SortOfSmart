@@ -45,7 +45,7 @@ public class LimiterAttributeHolder  extends AttributeHolder {
             @Override
             public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 minusTexture.renderTexture(guiGraphics);
-                super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
+
 
             }
 
@@ -71,7 +71,7 @@ public class LimiterAttributeHolder  extends AttributeHolder {
             public void renderSelf(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 plusTexture.renderTexture(guiGraphics);
 
-                super.renderSelf(guiGraphics, mouseX, mouseY, partialTick);
+
 
             }
 

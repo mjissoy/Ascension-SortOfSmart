@@ -31,6 +31,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
@@ -134,6 +137,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     //TODO UPDATE TO CHECK RANGE SO I DON'T TARGET THE BARRIER FROM INSIDE WITHOUT ACTUALY LOOKING AT IT
     //TODO TO MAKE MY LIFE EASIER IGNORE MOST RAYCAST SHIT, JUST CHECK IF THEY ARE LOOKING AT BARRIER THEN CEHCK
     //TODO IF hit != null
+    @OnlyIn(Dist.CLIENT)
     public void checkPlayerTargeting(BlockPos pos){
         if(!activeLastTick()) return;
         lookingAtEntity = false;
@@ -241,7 +245,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
 
     @Override
     public void tick(Level level,BlockPos pos,IFormationCore core,List<ItemStack> jades) {
-        if(level.isClientSide()) checkPlayerTargeting(pos);
+        if(level.isClientSide() && FMLLoader.getDist() == Dist.CLIENT) checkPlayerTargeting(pos);
         if(isDestroyed){
             tryRecover();
             return;
