@@ -22,6 +22,7 @@ public class DummyEntity extends LivingEntity {
         this.node = node;
     }
 
+
     @Override
     public boolean shouldRender(double x, double y, double z) {
         return false;
@@ -51,6 +52,10 @@ public class DummyEntity extends LivingEntity {
     }
 
 
+    @Override
+    protected void actuallyHurt(DamageSource damageSource, float damageAmount) {
+
+    }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {

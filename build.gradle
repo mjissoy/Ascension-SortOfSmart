@@ -140,7 +140,7 @@ dependencies {
     implementation "maven.modrinth:jade:${project.jade_version}"
 
     implementation 'com.github.OliverHesse:EasyGui:72df33a76d'
-    implementation 'com.github.OliverHesse:Formation-Arrays:c738110f58'
+    implementation 'com.github.OliverHesse:Formation-Arrays:c8ffd92699'
     implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 

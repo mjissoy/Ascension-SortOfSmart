@@ -148,7 +148,6 @@ public class SkillBarContainer extends EmptyContainer implements Clickable {
     }
     public void onClick(double mouseX, double mouseY, int button, boolean clicked) {
         dropDown.setActive(false);
-        System.out.println(hoveredSlot == null ? "no hovered": (hoveredSlot.getCurrentSkill() == null ? "no hovered": hoveredSlot.getCurrentSkill().toString()));
         if(button == InputConstants.MOUSE_BUTTON_RIGHT && hoveredSlot != null && hoveredSlot.getCurrentSkill() != null) openViewDetailsSelection(mouseX,mouseY);
     }
     @Override

@@ -32,12 +32,14 @@ public record TriggerMajorRealmBreakthrough(String path_id) implements CustomPac
         PlayerData data = context.player().getData(ModAttachments.PLAYER_DATA);
         CultivationData cultivationData = data.getCultivationData();
         CultivationData.PathData pathData = cultivationData.getPathData(payload.path_id());
+        if(pathData.technique.equals("ascension:none")) return;
+        ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique,':'));
         //TODO add verification. aka make sure they are at the correct minor realm. and roll the chance for now don't bother
-        if(pathData.majorRealm >= CultivationSystem.getRealmNumber(payload.path_id())) return;
-        ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
-                pathData.technique,
-                ':'
-        ));
+
+        if(pathData.majorRealm >= technique.getMaxMajorRealm()) return;
+        if(pathData.minorRealm < technique.getMaxMinorRealm(pathData.majorRealm)) return;
+        if(pathData.pathProgress < technique.getQiForRealm(pathData.majorRealm,pathData.minorRealm)) return;
+
         technique.getBreakthroughHandler().attemptBreakthrough(context.player(), payload.path_id(), technique);
 
     }

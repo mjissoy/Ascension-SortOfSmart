@@ -13,6 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
@@ -22,6 +23,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -35,9 +37,12 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.entity.EntityMobGriefingEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.ExplosionEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -58,7 +63,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
 
     public final int BARRIER_RADIUS;
     public final double BARRIER_MAX_HEALTH;
-    public final int TICKS_TO_RESPAWN;
+
     public final double HEALTH_REGEN_RATE;
     public final int BASE_QI_DRAIN;
     public final int HEALING_QI_DRAIN;
@@ -70,13 +75,13 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
 
     public BlockPos currentLocation;
     public LivingEntity dummyEntity;
+    public boolean dirty = false;
     boolean lookingAtEntity; //clientThing
-    public BarrierFormation(IFormation formation, UUID uuid, int barrierRadius, double barrierMaxHealth, int ticksToRespawn, double healthRegenRate, int baseQiDrain, int healingQiDrain) {
+    public BarrierFormation(IFormation formation, UUID uuid, int barrierRadius, double barrierMaxHealth, double healthRegenRate, int baseQiDrain, int healingQiDrain) {
         super(formation);
         setFormationId(uuid);
         BARRIER_RADIUS = barrierRadius;
         BARRIER_MAX_HEALTH = barrierMaxHealth;
-        TICKS_TO_RESPAWN = ticksToRespawn;
         HEALTH_REGEN_RATE = healthRegenRate;
         BASE_QI_DRAIN = baseQiDrain;
         HEALING_QI_DRAIN = healingQiDrain;
@@ -85,14 +90,14 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
         NeoForge.EVENT_BUS.addListener(this::onDetonation);
         NeoForge.EVENT_BUS.addListener(this::onBlockBreak);
         NeoForge.EVENT_BUS.addListener(this::onInput);
-        NeoForge.EVENT_BUS.addListener(this::damageListener);
+
         NeoForge.EVENT_BUS.addListener(this::onMobGrief);
     }
 
     //TODO modify all 3 so it checks if the player has permission
 
     public void onDetonation(ExplosionEvent.Detonate event){
-        if(!activeLastTick()) return;
+        if(!activeLastTick()|| currentLocation == null) return;
         if(event.getExplosion().center().distanceToSqr(currentLocation.getCenter()) < BARRIER_RADIUS*BARRIER_RADIUS) return;
         event.getAffectedBlocks().removeIf(pos -> pos.getCenter().distanceToSqr(currentLocation.getCenter()) < BARRIER_RADIUS * BARRIER_RADIUS);
         event.getAffectedEntities().removeIf(entity -> entity.position().distanceToSqr(currentLocation.getCenter()) < BARRIER_RADIUS * BARRIER_RADIUS);
@@ -100,7 +105,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
         //TODO process explosion damage on barrier
     }
     public void onBlockBreak(BlockEvent.BreakEvent event){
-        if(!activeLastTick()) return; // barrier is off
+        if(!activeLastTick() || currentLocation == null) return; // barrier is off
         if(event.getPos().distSqr(currentLocation) > BARRIER_RADIUS*BARRIER_RADIUS) return;
         boolean placedInside = event.getPos().distSqr(currentLocation) < BARRIER_RADIUS*BARRIER_RADIUS;
         boolean result = BoundCheckHelpers.doesSphereOverlapBoundingBox(currentLocation.getCenter(),BARRIER_RADIUS,event.getPlayer().getBoundingBox());
@@ -113,7 +118,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
 
     }
     public void onMobGrief(EntityMobGriefingEvent event){
-        if(!activeLastTick()) return;
+        if(!activeLastTick() || currentLocation == null) return;
         if(event.getEntity().position().distanceToSqr(currentLocation.getCenter()) < BARRIER_RADIUS*BARRIER_RADIUS){
             event.setCanGrief(false);
         }
@@ -121,16 +126,17 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     public void onInput(InputEvent.InteractionKeyMappingTriggered event){
         if(event.isAttack()){
             if(lookingAtEntity){
-
-                    PacketDistributor.sendToServer(new PlayerTryHitBarrier(getFormationId().toString(),currentLocation));
+                PacketDistributor.sendToServer(new PlayerTryHitBarrier(getFormationId().toString(),currentLocation));
 
             }
         }
     }
-    public void damageListener(LivingDamageEvent.Pre event){
-        //TODO IMPLEMENT
-    }
+
     public void handlePlayerAttackAttempt(Player player){
+        if(isDestroyed) return;
+        float cooldown = player.getAttackStrengthScale(0.5F); // partialTicks
+        float damage = (float) (player.getAttributeValue(Attributes.ATTACK_DAMAGE) * (0.2F + cooldown * cooldown * 0.8F));
+        onHurt(player.damageSources().playerAttack(player),damage);
         //TODO handle
     }
     //TODO UPDATE TO INCLUDE BLOCK DETECTION SO I DON'T ACCIDENTALY TARGET THROUGH BLOCKS
@@ -140,6 +146,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     @OnlyIn(Dist.CLIENT)
     public void checkPlayerTargeting(BlockPos pos){
         if(!activeLastTick()) return;
+
         lookingAtEntity = false;
         Minecraft mc = Minecraft.getInstance();
         mc.getProfiler().push("pick");
@@ -163,13 +170,14 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
         EntityHitResult entityhitresult = ProjectileUtil.getEntityHitResult(
                 player, vec3, vec32, aabb, p_234237_ -> !p_234237_.isSpectator() && p_234237_.isPickable(), d1
         );
-        Vec3 newPoint = pos.getCenter().add(
-                vec3.subtract(pos.getCenter()).normalize().scale(BARRIER_RADIUS)
-        );
+        Vec3 newPoint = vec3.add(pos.getCenter().subtract(vec3)).scale(range);
+
+        if(player.position().distanceToSqr(pos.getCenter()) <BARRIER_RADIUS*BARRIER_RADIUS) return;
         if(newPoint.distanceToSqr(pos.getCenter()) < BARRIER_RADIUS*BARRIER_RADIUS - 27) return; // the point they are looking at is past the barrier and inside it
 
         boolean doesOverlap = BoundCheckHelpers.doesSphereOverlapBoundingBox(pos.getCenter(),BARRIER_RADIUS,aabb);
         if(entityhitresult != null && doesOverlap){
+
            double distance1 =  entityhitresult.getLocation().distanceToSqr(player.position());
            double distance2 = vec3.distanceToSqr(pos.getCenter())-(BARRIER_RADIUS*BARRIER_RADIUS);
            if(distance2< distance1){
@@ -178,15 +186,12 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
                lookingAtEntity = true;
            }
         }else if(doesOverlap) {
+
             entityhitresult = new EntityHitResult(dummyEntity,newPoint);
             dummyEntity.setPos(newPoint);
             lookingAtEntity = true;
         }
 
-        if (doesOverlap){
-            //TODO
-            //player looking at barrier
-        }
 
         //barrier is not the closes thing to the player
         if(mc.hitResult != null && vec3.distanceToSqr(mc.hitResult.getLocation()) < vec3.distanceToSqr(newPoint)) return;
@@ -231,30 +236,47 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     @Override
     public void deactivate(Level level, BlockPos pos, IFormationCore core) {
         super.deactivate(level,pos,core);
-        if(dummyEntity != null) dummyEntity.remove(Entity.RemovalReason.DISCARDED);
+        if(dummyEntity != null){
+            dummyEntity.remove(Entity.RemovalReason.DISCARDED);
+            dummyEntity = null;
+        }
     }
 
     public void tryRecover(){
         currentBarrierHealth = Math.min(BARRIER_MAX_HEALTH,currentBarrierHealth + HEALTH_REGEN_RATE);
-        respawnTicks -= 1;
-        if(respawnTicks <= 0){
+
+        if(BARRIER_MAX_HEALTH <= currentBarrierHealth){
             isDestroyed=false;
+            dirty = true;
         }
     }
 
 
     @Override
     public void tick(Level level,BlockPos pos,IFormationCore core,List<ItemStack> jades) {
+        if(!level.isClientSide() && dirty){
+            dirty = false;
+            if(core instanceof AbstractFormationCoreBlockEntity abstractFormationCoreBlockEntity){
+                abstractFormationCoreBlockEntity.sendSyncPacket();
+            }
+        }
+        if(dummyEntity == null) spawnDummyEntity(pos,level);
         if(level.isClientSide() && FMLLoader.getDist() == Dist.CLIENT) checkPlayerTargeting(pos);
-        if(isDestroyed){
+        currentLocation = pos;
+        if(isDestroyed && !level.isClientSide()){
             tryRecover();
             return;
         }
-        currentLocation = pos;
-        collisionCheck(core,level,pos,jades);
-        if(dummyEntity == null) spawnDummyEntity(pos,level);
-    }
 
+        if(!isDestroyed){
+            collisionCheck(core,level,pos,jades);
+            passiveRegen(core);
+        }
+    }
+    public void passiveRegen(IFormationCore core){
+        if(!core.getEnergyContainer().tryDecreaseEnergy(HEALING_QI_DRAIN)) return;
+        currentBarrierHealth = Math.min(BARRIER_MAX_HEALTH,currentBarrierHealth+HEALTH_REGEN_RATE);
+    }
 
     public void collisionCheck(IFormationCore core,Level level,BlockPos pos,List<ItemStack> jades){
 
@@ -326,13 +348,35 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
 
     public void barrierDestroyed(){
         this.isDestroyed = true;
-        this.respawnTicks = this.TICKS_TO_RESPAWN;
+
+        this.dirty = true;
     }
+
 
     @Override
     public void onHurt(DamageSource source, float amount) {
-        this.currentBarrierHealth = Math.max(this.currentBarrierHealth,this.currentBarrierHealth-amount);
+
+        if(CommonHooks.onEntityIncomingDamage(dummyEntity,new DamageContainer(source,amount))) return;
+
+        LivingDamageEvent.Pre event = new LivingDamageEvent.Pre(dummyEntity,new DamageContainer(source,amount));
+        NeoForge.EVENT_BUS.post(event);
+        this.currentBarrierHealth = Math.max(0,this.currentBarrierHealth-event.getNewDamage());
         if(currentBarrierHealth == 0) barrierDestroyed();
+
+
+        NeoForge.EVENT_BUS.post(new LivingDamageEvent.Post(dummyEntity,event.getContainer()));
+    }
+
+    @Override
+    public void encode(RegistryFriendlyByteBuf buf) {
+        super.encode(buf);
+        buf.writeBoolean(isDestroyed);
+    }
+
+    @Override
+    public void decode(RegistryFriendlyByteBuf buf) {
+        super.decode(buf);
+        isDestroyed = buf.readBoolean();
     }
 
     @Override

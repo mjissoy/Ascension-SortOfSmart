@@ -74,7 +74,7 @@ public class StandardStatRealmChange implements IRealmChangeHandler{
                 ResourceLocation id = ResourceLocation.bySeparator(path+"_realm_"+i+"_"+modifier.getAttribute().getKey().location().getPath(),':');
 
                 wrapper.removeAttributeOfId(id);
-                System.out.println("temp");
+
             }
         }
     }

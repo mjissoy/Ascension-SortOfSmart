@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.blocks;
 
+import net.lucent.formation_arrays.blocks.blocks.BaseFormationCoreEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -15,6 +16,7 @@ import net.thejadeproject.ascension.blocks.custom.air.QiMembrane;
 import net.thejadeproject.ascension.blocks.custom.crops.GenericSlowCropBlock;
 import net.thejadeproject.ascension.blocks.custom.crops.StemSlowCropBlock;
 import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
+import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -47,7 +49,6 @@ public class ModBlocks {
     private static WallBlock makeWallFrom() {
         return new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ANDESITE_WALL));
     }
-
 
     /** Marble Blocks */
     public static final DeferredBlock<Block> RAW_MARBLE = registerBlock("raw_marble", () -> makeBlockFrom(Blocks.ANDESITE));

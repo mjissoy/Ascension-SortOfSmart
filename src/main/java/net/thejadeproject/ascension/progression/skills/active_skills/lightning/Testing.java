@@ -59,16 +59,14 @@ public class Testing {
             dir = dir.yRot( ThreadLocalRandom.current().nextFloat(-35,35)* Mth.DEG_TO_RAD);
             dir = dir.zRot(ThreadLocalRandom.current().nextFloat(-35,35 )* Mth.DEG_TO_RAD);
             dir = dir.scale(ThreadLocalRandom.current().nextDouble(1.5,2));
-            System.out.println(dir.toString());
+
             Vec3 newPoint = points.getLast().add(dir);
             points.add(newPoint);
 
             dir = p2.subtract(newPoint).normalize();
         }
         points.add(p2);
-        for(Vec3 point : points){
-            System.out.println(point.toString());
-        }
+
         return points;
 
     }

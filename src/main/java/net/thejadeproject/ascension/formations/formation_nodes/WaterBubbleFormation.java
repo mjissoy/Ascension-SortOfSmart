@@ -135,7 +135,7 @@ public class WaterBubbleFormation extends FormationNode {
 
     public void clearBuffer(Level level){
         for(Vec3 pos : replaceBuffer){
-            System.out.println("replacing destroyed block");
+
             level.setBlock(
                     BlockPos.containing(pos),
                     ModBlocks.QI_MEMBRANE.get().defaultBlockState(),

@@ -29,6 +29,8 @@ public class ModMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<SpatialRingUpgradeContainer>> SPATIAL_RING_UPGRADE =
             registerMenuType("spatial_ring_upgrade", SpatialRingUpgradeContainer::fromNetwork);
 
+
+
     private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IMenuTypeExtension.create(factory));
     }
