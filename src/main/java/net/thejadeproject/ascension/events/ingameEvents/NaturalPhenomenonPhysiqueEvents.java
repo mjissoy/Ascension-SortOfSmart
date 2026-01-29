@@ -45,7 +45,7 @@ public class NaturalPhenomenonPhysiqueEvents {
 
                 if (isDesert && !level.isRaining() && level.canSeeSky(player.blockPosition())) {
                     // 1% chance per minute at noon in desert
-                    if (level.random.nextDouble() < 0.00017) { // ~0.01 per minute
+                    if (level.random.nextDouble() < 0.08) { // ~0.01 per minute
                         spawnPhysiqueItem((ServerLevel) level, player, "solar_flare_physique", 10);
 
                         // Sun beam particle effect
@@ -75,7 +75,7 @@ public class NaturalPhenomenonPhysiqueEvents {
 
             if (isFullMoon && isNight && level.canSeeSky(player.blockPosition())) {
                 // 5% chance per kill during full moon night
-                if (level.random.nextDouble() < 0.05) {
+                if (level.random.nextDouble() < 0.08) {
                     spawnPhysiqueItem((ServerLevel) level, player, "lunar_shadow_physique", 12);
 
                     // Moonlight particle effect
@@ -113,7 +113,7 @@ public class NaturalPhenomenonPhysiqueEvents {
 
             // After 30 seconds (600 ticks), chance to drop physique
             if (fireTime >= 600) {
-                if (level.random.nextDouble() < 0.01) {
+                if (level.random.nextDouble() < 0.1) {
                     spawnPhysiqueItem((ServerLevel) level, player, "pure_fire_body", 15);
 
                     // Fire explosion effect
@@ -193,7 +193,7 @@ public class NaturalPhenomenonPhysiqueEvents {
 
             if (isMountain && player.onGround() && !player.isInWater()) {
                 // Small chance during thunderstorm in mountains
-                if (level.random.nextDouble() < 0.0001) { // Very rare
+                if (level.random.nextDouble() < 0.25) { // Very rare
                     spawnPhysiqueItem((ServerLevel) level, player, "pure_earth_body", 15);
 
                     // Earthquake particle effect - using dust particles instead of BLOCK_MARKER
@@ -232,7 +232,7 @@ public class NaturalPhenomenonPhysiqueEvents {
 
             if (isAncientForest && level.canSeeSky(player.blockPosition())) {
                 // Chance during rain in ancient forest
-                if (level.random.nextDouble() < 0.0002) {
+                if (level.random.nextDouble() < 0.25) {
                     spawnPhysiqueItem((ServerLevel) level, player, "pure_wood_body", 15);
 
                     // Forest growth particle effect
@@ -272,7 +272,7 @@ public class NaturalPhenomenonPhysiqueEvents {
             }
 
             if (metalCount >= 10) { // At least 10 metal blocks nearby
-                if (level.random.nextDouble() < 0.0003) {
+                if (level.random.nextDouble() < 0.25) {
                     spawnPhysiqueItem((ServerLevel) level, player, "pure_metal_body", 15);
 
                     // Metal spark particle effect
@@ -361,8 +361,8 @@ public class NaturalPhenomenonPhysiqueEvents {
             if (player.getY() < -64 && player.getY() > -80 && player.isAlive()) {
                 // Check if they're moving upward (escaping)
                 if (player.getDeltaMovement().y > 0.1) {
-                    if (level.random.nextDouble() < 0.001) { // Rare chance when escaping void
-                        spawnPhysiqueItem((ServerLevel) level, player, "void_walker_physique", 8);
+                    if (level.random.nextDouble() < 0.01) { // Rare chance when escaping void
+                        spawnPhysiqueItem((ServerLevel) level, player, "void_walker_physique", 46);
 
                         // Void portal particle effect
                         for (int i = 0; i < 30; i++) {
@@ -396,7 +396,7 @@ public class NaturalPhenomenonPhysiqueEvents {
 
             // If they have enough breaks, chance to drop physique
             if (stoneBreaks >= 50) {
-                if (level.random.nextDouble() < 0.001) {
+                if (level.random.nextDouble() < 0.08) {
                     spawnPhysiqueItem((ServerLevel) level, player, "heavenborn_stone_monkey_physique", 10);
 
                     // Stone cracking particle effect
@@ -441,7 +441,7 @@ public class NaturalPhenomenonPhysiqueEvents {
 
                 // After 10 seconds of high speed, chance to drop
                 if (highSpeedTime >= 200) { // 10 seconds at 20 ticks/sec
-                    if (level.random.nextDouble() < 0.05) {
+                    if (level.random.nextDouble() < 0.1) {
                         spawnPhysiqueItem((ServerLevel) level, player, "swift_wind_physique", 25);
                         player.getPersistentData().remove("ascension_high_speed");
                     }

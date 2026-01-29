@@ -22,7 +22,7 @@ public class ModVillagerTrades {
 
     @SubscribeEvent
     public static void addCustomTrades(VillagerTradesEvent event) {
-        if (event.getType() == VillagerProfession.FARMER) {
+        if (event.getType() == VillagerProfession.LIBRARIAN) {
             Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
 
             trades.get(4).add((entity, randomSource) -> new MerchantOffer(

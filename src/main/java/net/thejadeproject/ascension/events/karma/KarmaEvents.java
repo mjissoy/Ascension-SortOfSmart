@@ -38,23 +38,23 @@ public class KarmaEvents {
 
                 // Send feedback message
                 if (karmaChange > 0) {
-                    killer.sendSystemMessage(Component.literal(
+                    killer.displayClientMessage(Component.literal(
                             "§a+" + karmaChange + " karma (§7" + oldKarma + " → " + newKarma + "§a)"
-                    ));
+                    ), true);
                 } else {
-                    killer.sendSystemMessage(Component.literal(
+                    killer.displayClientMessage(Component.literal(
                             "§c" + karmaChange + " karma (§7" + oldKarma + " → " + newKarma + "§c)"
-                    ));
+                    ), true);
                 }
 
                 // Special messages for significant events
                 if (victim instanceof Villager) {
-                    killer.sendSystemMessage(Component.literal("§4Your sins weigh heavily upon you..."));
+                    killer.displayClientMessage(Component.literal("§4Your sins weigh heavily upon you..."), true);
                 } else if (victim instanceof Player victimPlayer &&
                         KarmaManager.getKarmaRank(victimPlayer) == KarmaRank.SAINT) {
-                    killer.sendSystemMessage(Component.literal("§4You have committed a grave sin!"));
+                    killer.displayClientMessage(Component.literal("§4You have committed a grave sin!"), true);
                 } else if (victim instanceof Monster) {
-                    killer.sendSystemMessage(Component.literal("§aYou have purified evil energy."));
+                    killer.displayClientMessage(Component.literal("§aYou have purified evil energy."), true);
                 }
 
                 // Sync to client

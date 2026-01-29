@@ -3,8 +3,11 @@ package net.thejadeproject.ascension.events.ingameEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.BlockEvent;
+import net.thejadeproject.ascension.AscensionCraft;
 
+@EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class BlockBreakEvents {
 
     @SubscribeEvent
