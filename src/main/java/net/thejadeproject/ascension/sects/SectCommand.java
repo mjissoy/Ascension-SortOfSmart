@@ -30,141 +30,146 @@ public class SectCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("sect")
-                .then(Commands.literal("create")
-                        .then(Commands.argument("name", StringArgumentType.string())
-                                .executes(SectCommand::createSect)))
-                .then(Commands.literal("join")
-                        .then(Commands.argument("sectname", StringArgumentType.string())
-                                .executes(SectCommand::joinSect)))
-                .then(Commands.literal("promote")
-                        .then(Commands.argument("playername", StringArgumentType.string())
-                                .suggests((context, builder) -> suggestSectMembers(context, builder, false))
-                                .executes(SectCommand::promotePlayer)))
-                .then(Commands.literal("demote")
-                        .then(Commands.argument("playername", StringArgumentType.string())
-                                .suggests((context, builder) -> suggestSectMembers(context, builder, false))
-                                .executes(SectCommand::demotePlayer)))
-                .then(Commands.literal("title")
-                        .then(Commands.argument("playername", StringArgumentType.string())
-                                .suggests((context, builder) -> suggestSectMembers(context, builder, true))
-                                .then(Commands.argument("title", StringArgumentType.greedyString())
-                                        .executes(SectCommand::setTitle))))
-                .then(Commands.literal("invite")
-                        .then(Commands.argument("playername", StringArgumentType.string())
-                                .suggests((context, builder) -> {
-                                    ServerPlayer player = context.getSource().getPlayer();
-                                    if (player != null) {
-                                        SectManager manager = AscensionCraft.getSectManager(context.getSource().getServer());
-                                        if (manager != null) {
-                                            Sect sect = manager.getPlayerSect(player.getUUID());
-                                            if (sect != null && sect.hasPermission(player.getUUID(), SectPermission.INVITE)) {
-                                                Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
-                                                for (ServerPlayer onlinePlayer : onlinePlayers) {
-                                                    if (onlinePlayer != player && manager.getPlayerSect(onlinePlayer.getUUID()) == null) {
-                                                        builder.suggest(onlinePlayer.getGameProfile().getName());
+                        .then(Commands.literal("create")
+                                .then(Commands.argument("name", StringArgumentType.string())
+                                        .executes(SectCommand::createSect)))
+                        .then(Commands.literal("join")
+                                .then(Commands.argument("sectname", StringArgumentType.string())
+                                        .executes(SectCommand::joinSect)))
+                        .then(Commands.literal("promote")
+                                .then(Commands.argument("playername", StringArgumentType.string())
+                                        .suggests((context, builder) -> suggestSectMembers(context, builder, false))
+                                        .executes(SectCommand::promotePlayer)))
+                        .then(Commands.literal("demote")
+                                .then(Commands.argument("playername", StringArgumentType.string())
+                                        .suggests((context, builder) -> suggestSectMembers(context, builder, false))
+                                        .executes(SectCommand::demotePlayer)))
+                        .then(Commands.literal("title")
+                                .then(Commands.argument("playername", StringArgumentType.string())
+                                        .suggests((context, builder) -> suggestSectMembers(context, builder, true))
+                                        .then(Commands.argument("title", StringArgumentType.greedyString())
+                                                .executes(SectCommand::setTitle))))
+                        .then(Commands.literal("invite")
+                                .then(Commands.argument("playername", StringArgumentType.string())
+                                        .suggests((context, builder) -> {
+                                            ServerPlayer player = context.getSource().getPlayer();
+                                            if (player != null) {
+                                                SectManager manager = AscensionCraft.getSectManager(context.getSource().getServer());
+                                                if (manager != null) {
+                                                    Sect sect = manager.getPlayerSect(player.getUUID());
+                                                    if (sect != null && sect.hasPermission(player.getUUID(), SectPermission.INVITE)) {
+                                                        Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
+                                                        for (ServerPlayer onlinePlayer : onlinePlayers) {
+                                                            if (onlinePlayer != player && manager.getPlayerSect(onlinePlayer.getUUID()) == null) {
+                                                                builder.suggest(onlinePlayer.getGameProfile().getName());
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
-                                    }
-                                    return builder.buildFuture();
-                                })
-                                .executes(SectCommand::invitePlayer)))
-                .then(Commands.literal("merit")
-                        .executes(SectCommand::showMerit))
-                .then(Commands.literal("rename")
-                        .then(Commands.argument("new_name", StringArgumentType.string())
-                                .executes(SectCommand::renameSect)))
-                .then(Commands.literal("recommend")
-                        .then(Commands.argument("playername", StringArgumentType.string())
-                                .suggests((context, builder) -> suggestInnerMembers(context, builder))
-                                .executes(SectCommand::recommendPlayer)))
-                .then(Commands.literal("open")
-                        .executes(SectCommand::openSect))
-                .then(Commands.literal("chat")
-                        .then(Commands.argument("msg", StringArgumentType.greedyString())
-                                .executes(SectCommand::sectChat)))
-                .then(Commands.literal("togglechat")
-                        .executes(SectCommand::toggleChat))
-                .then(Commands.literal("ally")
-                        .then(Commands.argument("sectname", StringArgumentType.string())
-                                .suggests(SectCommand::suggestSectNames)
-                                .executes(SectCommand::allySect))
-                        .then(Commands.literal("accept")
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(SectCommand::invitePlayer)))
+                        .then(Commands.literal("merit")
+                                .executes(SectCommand::showMerit))
+                        .then(Commands.literal("rename")
+                                .then(Commands.argument("new_name", StringArgumentType.string())
+                                        .executes(SectCommand::renameSect)))
+                        .then(Commands.literal("recommend")
+                                .then(Commands.argument("playername", StringArgumentType.string())
+                                        .suggests((context, builder) -> suggestInnerMembers(context, builder))
+                                        .executes(SectCommand::recommendPlayer)))
+                        .then(Commands.literal("open")
+                                .executes(SectCommand::openSect))
+                        .then(Commands.literal("chat")
+                                .then(Commands.argument("msg", StringArgumentType.greedyString())
+                                        .executes(SectCommand::sectChat)))
+                        .then(Commands.literal("togglechat")
+                                .executes(SectCommand::toggleChat))
+                        .then(Commands.literal("ally")
                                 .then(Commands.argument("sectname", StringArgumentType.string())
                                         .suggests(SectCommand::suggestSectNames)
-                                        .executes(SectCommand::acceptAlly)))
-                        .then(Commands.literal("decline")
-                                .then(Commands.argument("sectname", StringArgumentType.string())
-                                        .suggests(SectCommand::suggestSectNames)
-                                        .executes(SectCommand::declineAlly)))
-                        .then(Commands.literal("requests")
-                                .executes(SectCommand::listAllyRequests)))
-                .then(Commands.literal("info")
-                        .executes(SectCommand::sectInfo)
-                        .then(Commands.argument("target", StringArgumentType.string())
-                                .suggests((context, builder) -> {
-                                    ServerPlayer player = context.getSource().getPlayer();
-                                    if (player != null) {
-                                        SectManager manager = getManager(context);
-                                        if (manager != null) {
-                                            for (String sectName : manager.getAllSects().keySet()) {
-                                                builder.suggest(sectName);
+                                        .executes(SectCommand::allySect))
+                                .then(Commands.literal("accept")
+                                        .then(Commands.argument("sectname", StringArgumentType.string())
+                                                .suggests(SectCommand::suggestSectNames)
+                                                .executes(SectCommand::acceptAlly)))
+                                .then(Commands.literal("decline")
+                                        .then(Commands.argument("sectname", StringArgumentType.string())
+                                                .suggests(SectCommand::suggestSectNames)
+                                                .executes(SectCommand::declineAlly)))
+                                .then(Commands.literal("requests")
+                                        .executes(SectCommand::listAllyRequests)))
+                        .then(Commands.literal("info")
+                                .executes(SectCommand::sectInfo)
+                                .then(Commands.argument("target", StringArgumentType.string())
+                                        .suggests((context, builder) -> {
+                                            ServerPlayer player = context.getSource().getPlayer();
+                                            if (player != null) {
+                                                SectManager manager = getManager(context);
+                                                if (manager != null) {
+                                                    for (String sectName : manager.getAllSects().keySet()) {
+                                                        builder.suggest(sectName);
+                                                    }
+                                                }
+                                                Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
+                                                for (ServerPlayer onlinePlayer : onlinePlayers) {
+                                                    builder.suggest(onlinePlayer.getGameProfile().getName());
+                                                }
                                             }
-                                        }
-                                        Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
-                                        for (ServerPlayer onlinePlayer : onlinePlayers) {
-                                            builder.suggest(onlinePlayer.getGameProfile().getName());
-                                        }
-                                    }
-                                    return builder.buildFuture();
-                                })
-                                .executes(SectCommand::sectInfoTarget)))
-                .then(Commands.literal("disband")
-                        .executes(SectCommand::disbandSect))
-                .then(Commands.literal("leave")
-                        .executes(SectCommand::leaveSect))
-                .then(Commands.literal("master")
-                        .then(Commands.argument("playername", StringArgumentType.string())
-                                .suggests((context, builder) -> suggestSectMembers(context, builder, false))
-                                .executes(SectCommand::transferMaster)))
-                .then(Commands.literal("kick")
-                        .then(Commands.argument("playername", StringArgumentType.string())
-                                .suggests((context, builder) -> suggestSectMembers(context, builder, false))
-                                .executes(SectCommand::kickPlayer)))
-                .then(Commands.literal("desc")
-                        .then(Commands.argument("description", StringArgumentType.greedyString())
-                                .executes(SectCommand::setDescription)))
-                .then(Commands.literal("list")
-                        .executes(SectCommand::listSects))
-                .then(Commands.literal("missions")
-                        .executes(SectCommand::listMissions))
-                .then(Commands.literal("mission")
-                        .then(Commands.literal("accept")
-                                .then(Commands.argument("missionId", StringArgumentType.string())
-                                        .executes(SectCommand::acceptMission)))
-                        .then(Commands.literal("claim")
-                                .then(Commands.literal("submissions")
-                                        .executes(SectCommand::claimMissionSubmissions)))
-                        .then(Commands.literal("complete")
-                                .then(Commands.argument("missionId", StringArgumentType.string())
-                                        .executes(SectCommand::completeMission)))
-                        .then(Commands.literal("create")
-                                .then(Commands.argument("displayName", StringArgumentType.string())
-                                        .then(Commands.argument("targetRank", StringArgumentType.word())
-                                                .then(Commands.argument("meritReward", IntegerArgumentType.integer(1))
-                                                        .then(Commands.argument("duration", StringArgumentType.string())
-                                                                .then(Commands.argument("useHandItem", BoolArgumentType.bool())
-                                                                        .then(Commands.argument("requirements", StringArgumentType.greedyString())
-                                                                                .executes(SectCommand::createMissionAdvanced)))))))))
+                                            return builder.buildFuture();
+                                        })
+                                        .executes(SectCommand::sectInfoTarget)))
+                        .then(Commands.literal("disband")
+                                .executes(SectCommand::disbandSect))
+                        .then(Commands.literal("leave")
+                                .executes(SectCommand::leaveSect))
+                        .then(Commands.literal("master")
+                                .then(Commands.argument("playername", StringArgumentType.string())
+                                        .suggests((context, builder) -> suggestSectMembers(context, builder, false))
+                                        .executes(SectCommand::transferMaster)))
+                        .then(Commands.literal("kick")
+                                .then(Commands.argument("playername", StringArgumentType.string())
+                                        .suggests((context, builder) -> suggestSectMembers(context, builder, false))
+                                        .executes(SectCommand::kickPlayer)))
+                        .then(Commands.literal("desc")
+                                .then(Commands.argument("description", StringArgumentType.greedyString())
+                                        .executes(SectCommand::setDescription)))
+                        .then(Commands.literal("list")
+                                .executes(SectCommand::listSects))
+                        .then(Commands.literal("missions")
+                                .executes(SectCommand::listMissions))
+                        .then(Commands.literal("mission")
+                                .then(Commands.literal("accept")
+                                        .then(Commands.argument("missionId", StringArgumentType.string())
+                                                .executes(SectCommand::acceptMission)))
+                                .then(Commands.literal("claim")
+                                        .then(Commands.literal("submissions")
+                                                .executes(SectCommand::claimMissionSubmissions)))
+                                .then(Commands.literal("complete")
+                                        .then(Commands.argument("missionId", StringArgumentType.string())
+                                                .executes(SectCommand::completeMission)))
+                                .then(Commands.literal("create")
+                                        .then(Commands.argument("displayName", StringArgumentType.string())
+                                                .then(Commands.argument("targetRank", StringArgumentType.word())
+                                                        .then(Commands.argument("meritReward", IntegerArgumentType.integer(1))
+                                                                .then(Commands.argument("duration", StringArgumentType.string())
+                                                                        .then(Commands.argument("useHandItem", BoolArgumentType.bool())
+                                                                                .then(Commands.argument("requirements", StringArgumentType.greedyString())
+                                                                                        .executes(SectCommand::createMissionAdvanced)))))))))
                 .then(Commands.literal("enemy")
                         .then(Commands.argument("sectname", StringArgumentType.string())
                                 .suggests(SectCommand::suggestSectNames)
                                 .executes(SectCommand::setEnemy))
-                        .then(Commands.literal("remove") // NEW: Remove enemy command
+                        .then(Commands.literal("remove")
                                 .then(Commands.argument("sectname", StringArgumentType.string())
                                         .suggests(SectCommand::suggestEnemySectNames)
                                         .executes(SectCommand::removeEnemy))))
+                // NEW: Settings command for friendly fire
+                .then(Commands.literal("settings")
+                        .then(Commands.literal("friendlyfire")
+                                .then(Commands.argument("enabled", BoolArgumentType.bool())
+                                        .executes(SectCommand::setFriendlyFire))))
                 .then(Commands.literal("help")
                         .executes(SectCommand::help))
         );
@@ -172,6 +177,35 @@ public class SectCommand {
 
     private static SectManager getManager(CommandContext<CommandSourceStack> context) {
         return AscensionCraft.getSectManager(context.getSource().getServer());
+    }
+
+    // NEW: Friendly fire toggle command
+    private static int setFriendlyFire(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        boolean enabled = BoolArgumentType.getBool(context, "enabled");
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+        SectMember member = sect.getMember(player.getUUID());
+        if (member == null || (member.getRank() != SectRank.ELDER && member.getRank() != SectRank.SECT_MASTER)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can change sect settings!"));
+            return 0;
+        }
+
+        sect.setFriendlyFire(enabled);
+        manager.setDirty();
+        String status = enabled ? "§aenabled" : "§cdisabled";
+        context.getSource().sendSuccess(() -> Component.literal("§eFriendly fire has been " + status + "§e!"), true);
+        broadcastToSect(sect, context.getSource().getServer(),
+                "§e" + player.getScoreboardName() + " has " + (enabled ? "§aenabled" : "§cdisabled") + " §efriendly fire!");
+        return 1;
     }
 
     private static int setDescription(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -353,14 +387,14 @@ public class SectCommand {
             return 0;
         }
 
-        // NEW: Validate Elder promotion requirements
+        // MODIFIED: Bypass recommendations - only check merit for Elder promotion
         if (newRank == SectRank.ELDER) {
             int merit = sect.getPlayerMerit(targetPlayer.getUUID());
-            int recommendations = sect.getRecommendationCount(targetPlayer.getUUID());
-            if (merit < 10000 || recommendations < 3) {
-                context.getSource().sendFailure(Component.literal("§cPlayer must have 10000 merit and 3 recommendations to become Elder!"));
+            if (merit < 10000) {
+                context.getSource().sendFailure(Component.literal("§cPlayer must have 10000 merit to become Elder!"));
                 return 0;
             }
+            // Recommendations check removed - manual promotion bypasses recommendation requirement
         }
 
         sect.setMemberRank(targetPlayer.getUUID(), newRank);
@@ -384,7 +418,6 @@ public class SectCommand {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
         }
-        // FIXED: Use DEMOTE permission
         if (!sect.hasPermission(player.getUUID(), SectPermission.DEMOTE)) {
             context.getSource().sendFailure(Component.literal("§cYou don't have permission to demote players!"));
             return 0;
@@ -999,6 +1032,9 @@ public class SectCommand {
         context.getSource().sendSuccess(() -> Component.literal("§eDescription: §7" + finalSect2.getDescription()), false);
         String openStatus = sect.isOpen() ? "§aOpen" : "§cClosed";
         context.getSource().sendSuccess(() -> Component.literal("§eStatus: " + openStatus), false);
+        // NEW: Show friendly fire status
+        String ffStatus = sect.isFriendlyFire() ? "§aEnabled" : "§cDisabled";
+        context.getSource().sendSuccess(() -> Component.literal("§eFriendly Fire: " + ffStatus), false);
         StringBuilder allies = new StringBuilder("§eAllies: §f");
         if (sect.getAllies().isEmpty()) {
             allies.append("None");
@@ -1465,7 +1501,7 @@ public class SectCommand {
         context.getSource().sendSuccess(() -> Component.literal("§aYou have recommended " + targetName + " for Elder promotion! (§e" + totalRecommendations + "§a/§6" + neededRecommendations + "§a recommendations)"), true);
         targetPlayer.sendSystemMessage(Component.literal("§6" + player.getScoreboardName() + " has recommended you for Elder promotion! (§e" + totalRecommendations + "§6/§e" + neededRecommendations + "§6 recommendations)"));
 
-        // FIXED: Check promotion immediately when recommendations are added
+        // Check promotion immediately when recommendations are added (auto-promotion still requires recommendations)
         if (totalRecommendations >= neededRecommendations && sect.getPlayerMerit(targetPlayer.getUUID()) >= 10000) {
             sect.setMemberRank(targetPlayer.getUUID(), SectRank.ELDER);
             sect.clearRecommendations(targetPlayer.getUUID());
@@ -1494,8 +1530,9 @@ public class SectCommand {
             showFancyProgressBar(context, currentMerit, 10000, "Elder", "§6", "§e", "§8");
             int recommendationCount = sect.getRecommendationCount(player.getUUID());
             int neededRecommendations = 3;
-            context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §6Elder §7(§610000§7 merit + §6" + neededRecommendations + "§7 recommendations)"), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §6Elder §7(§610000§7 merit + §6" + neededRecommendations + "§7 recommendations for auto-promotion)"), false);
             context.getSource().sendSuccess(() -> Component.literal("§7Elder Recommendations: §e" + recommendationCount + "§7/§6" + neededRecommendations), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7(§e/sect promote§7 can bypass recommendations with 10000 merit)"), false);
             Set<UUID> recommenderIds = sect.getRecommendations(player.getUUID());
             if (!recommenderIds.isEmpty()) {
                 List<String> recommenderNames = new ArrayList<>();
@@ -1651,6 +1688,7 @@ public class SectCommand {
                     .append(Component.literal("§cSect Master: §f" + ownerName + "\n"))
                     .append(Component.literal("§bMembers: §e" + memberCount + "\n"))
                     .append(Component.literal("§eStatus: " + statusColor + (sect.isOpen() ? "Open to Join" : "Invite Only") + "\n"))
+                    .append(Component.literal("§aFriendly Fire: " + (sect.isFriendlyFire() ? "§aEnabled" : "§cDisabled") + "\n"))
                     .append(Component.literal("§aAllies: §f" + (sect.getAllies().isEmpty() ? "None" : String.join(", ", sect.getAllies())) + "\n"))
                     .append(Component.literal("§cEnemies: §f" + (sect.getEnemies().isEmpty() ? "None" : String.join(", ", sect.getEnemies())) + "\n"))
                     .append(Component.literal("§aDescription: §f" + sect.getDescription() + "\n\n"))
@@ -1695,7 +1733,7 @@ public class SectCommand {
         }
         String oldName = oldSect.getName();
         Set<String> allies = new HashSet<>(oldSect.getAllies());
-        Set<String> enemies = new HashSet<>(oldSect.getEnemies()); // FIXED: Copy enemies
+        Set<String> enemies = new HashSet<>(oldSect.getEnemies());
         Sect newSect = new Sect(newName, oldSect.getOwnerId(), "Transfer");
         copySectData(oldSect, newSect);
         for (String allyName : allies) {
@@ -1707,7 +1745,6 @@ public class SectCommand {
                         "§eYour ally §b" + oldName + "§e has been renamed to §b" + newName + "§e!");
             }
         }
-        // FIXED: Update enemy references
         for (String enemyName : enemies) {
             Sect enemySect = manager.getSect(enemyName);
             if (enemySect != null) {
@@ -1750,7 +1787,6 @@ public class SectCommand {
         for (String ally : source.getAllies()) {
             destination.addAlly(ally);
         }
-        // FIXED: Copy enemies
         for (String enemy : source.getEnemies()) {
             destination.addEnemy(enemy);
         }
@@ -1763,7 +1799,6 @@ public class SectCommand {
         for (Map.Entry<UUID, Set<UUID>> entry : source.elderRecommendations.entrySet()) {
             destination.elderRecommendations.put(entry.getKey(), new HashSet<>(entry.getValue()));
         }
-        // FIXED: Copy sect bank
         for (Map.Entry<UUID, List<ItemStack>> entry : source.getSectBankItems().entrySet()) {
             destination.getSectBankItems().put(entry.getKey(), new ArrayList<>(entry.getValue()));
         }
@@ -1779,7 +1814,6 @@ public class SectCommand {
         return builder.buildFuture();
     }
 
-    // NEW: Suggest only enemy sects for removal
     private static CompletableFuture<Suggestions> suggestEnemySectNames(CommandContext<CommandSourceStack> context, SuggestionsBuilder builder) {
         ServerPlayer player = context.getSource().getPlayer();
         if (player != null) {
@@ -1837,7 +1871,6 @@ public class SectCommand {
         return 1;
     }
 
-    // NEW: Remove enemy command
     private static int removeEnemy(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
         String enemySectName = StringArgumentType.getString(context, "sectname");
@@ -1943,6 +1976,11 @@ public class SectCommand {
                 "Toggle whether anyone can join without an invite",
                 "Usage: /sect open\nToggles between open and invite-only",
                 "Rank: §cElder§7+");
+        // NEW: Settings command help
+        sendHelpEntry(player, "/sect settings friendlyfire <true/false>",
+                "Enable or disable friendly fire between sect members",
+                "Usage: /sect settings friendlyfire <true|false>\nDefault: false (disabled)\nWhen disabled, sect members cannot hurt each other",
+                "Rank: §cElder§7+\n§6Note: Can bypass recommendations with 10000 merit");
         sendHelpEntry(player, "/sect enemy <sect>",
                 "Mark another sect as an enemy",
                 "Usage: /sect enemy <sectName>\nMark a sect as hostile (for roleplay purposes)",
@@ -1993,8 +2031,8 @@ public class SectCommand {
                 "Rank: §6Sect Master");
         sendHelpEntry(player, "/sect promote <player>",
                 "Promote a member to higher rank",
-                "Usage: /sect promote <playerName>\nRanks: Outer → Inner → Elder\n§cElder requires 10000 merit + 3 recommendations",
-                "Rank: §6Sect Master");
+                "Usage: /sect promote <playerName>\nRanks: Outer → Inner → Elder\n§cElder requires 10000 merit (recommendations bypassed by manual command)",
+                "Rank: §6Sect Master\n§6Note: Bypasses recommendation requirement!");
         sendHelpEntry(player, "/sect demote <player>",
                 "Demote a member to lower rank",
                 "Usage: /sect demote <playerName>\nRanks: Elder → Inner → Outer\n§cCannot demote yourself",
@@ -2017,7 +2055,7 @@ public class SectCommand {
         player.sendSystemMessage(Component.literal("§7Separate multiple requirements with spaces"));
         player.sendSystemMessage(Component.literal("\n§b§lMerit & Auto-Promotion:§r").withStyle(ChatFormatting.AQUA, ChatFormatting.BOLD));
         player.sendSystemMessage(Component.literal("§7- §aOuter §7→ §bInner: §62500 merit points"));
-        player.sendSystemMessage(Component.literal("§7- §bInner §7→ §cElder: §610000 merit points, and 3 Recommendations from 3 elders and above"));
+        player.sendSystemMessage(Component.literal("§7- §bInner §7→ §cElder: §610000 merit points (manual bypass), or auto with 3 recommendations"));
         player.sendSystemMessage(Component.literal("§7- Earn merit by completing missions"));
         player.sendSystemMessage(Component.literal("§7- Promotions to §6Sect Master §7must be done manually"));
         player.sendSystemMessage(Component.literal("\n§7Hover over commands for detailed information"));
@@ -2041,12 +2079,10 @@ public class SectCommand {
         player.sendSystemMessage(message);
     }
 
-    // NEW: Normalize sect name handling
     private static String normalizeSectName(String input) {
         return input.replace('_', ' ').trim();
     }
 
-    // NEW: Validate sect name
     private static boolean isValidSectName(String name, CommandContext<CommandSourceStack> context) {
         if (name.length() > 40) {
             context.getSource().sendFailure(Component.literal("§cSect name too long! Maximum 40 characters."));
