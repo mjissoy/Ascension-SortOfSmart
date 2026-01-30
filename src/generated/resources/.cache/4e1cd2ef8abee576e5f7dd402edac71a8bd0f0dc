@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-28T22:38:39.9129216	Tags for minecraft:item mod id ascension
+// 1.21.1	2026-01-30T13:38:41.0315422	Tags for minecraft:item mod id ascension
 ba9125aa546790a0582445879c658b228dbb763c data/ascension/tags/item/axe_intent.json
 1c23acb988c2f229b5a9ca028c56c8490c2ec903 data/ascension/tags/item/blade.json
 08248a73df114f60d1ffa79665c61e1a2a320e58 data/ascension/tags/item/blade_intent.json
@@ -21,8 +21,12 @@ c0d4c2183f79d35c93b5c9971b7e2f9f7e31bed9 data/c/tags/item/nuggets/black_iron.jso
 941490a5df0d2875b0087f8e9f003b524e8c0f0a data/c/tags/item/raw_materials/frost_silver.json
 a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/c/tags/item/tools.json
 32076fbeb4304861b38bb6fc5d9935caaf080c15 data/formation_arrays/tags/item/jade_slip.json
+1cca2a302933dc5af82402303797dad46495e2d6 data/minecraft/tags/item/axes.json
 a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/minecraft/tags/item/breaks_decorated_pots.json
 6216bc7fa4d371cf45c8b7056111fe820ede09c7 data/minecraft/tags/item/enchantable/fire_aspect.json
 a461d4aa46f3ae7d27d3b899ec2ef96f26286225 data/minecraft/tags/item/enchantable/sharp_weapon.json
+d462ea6f3aa217cd5723e6ec14427ebbda30fd27 data/minecraft/tags/item/hoes.json
 83eacd83689146e557ef948eab4bfdd0e856d564 data/minecraft/tags/item/logs_that_burn.json
+0cf314b9e5bf87533892084d0664270a54f4c760 data/minecraft/tags/item/pickaxes.json
 5845b32b04a1eb1ca74c0d4cadb8dac789db6363 data/minecraft/tags/item/planks.json
+df82cb09b7788268ebd13e55aed7e441f513b4ff data/minecraft/tags/item/shovels.json

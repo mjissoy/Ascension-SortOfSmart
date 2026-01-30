@@ -82,6 +82,17 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
 
 
+        tag(ItemTags.PICKAXES)
+                .add(ModItems.SPIRITUAL_STONE_PICKAXE.get());
+        tag(ItemTags.AXES)
+                .add(ModItems.SPIRITUAL_STONE_AXE.get());
+        tag(ItemTags.SHOVELS)
+                .add(ModItems.SPIRITUAL_STONE_SHOVEL.get());
+        tag(ItemTags.HOES)
+                .add(ModItems.SPIRITUAL_STONE_HOE.get());
+
+
+
         tag(ModTags.Items.BLADE)
                 .add(ModItems.WOODEN_BLADE.get())
                 .add(ModItems.STONE_BLADE.get())

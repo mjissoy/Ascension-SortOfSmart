@@ -85,6 +85,9 @@ public class ModTags {
 
         public static final TagKey<Block> INCORRECT_FOR_JADE_TOOL = createTag("incorrect_for_jade_tool");
 
+        public static final TagKey<Block> INCORRECT_FOR_SPIRITUAL_STONE_TOOL = createTag("incorrect_for_spiritual_stone_tool");
+        public static final TagKey<Block> NEEDS_SPIRITUAL_STONE_TOOL = createTag("need_for_spiritual_stone_tool");
+
         public static final TagKey<Block> STORAGE_BLOCKS_BLACK_IRON = createCommonTag("storage_blocks/black_iron");
         public static final TagKey<Block> STORAGE_BLOCKS_FROST_SILVER = createCommonTag("storage_blocks/frost_silver");
 

@@ -26,6 +26,7 @@ import net.thejadeproject.ascension.items.pills.*;
 import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
+import net.thejadeproject.ascension.items.tools.SpiritualStoneTools;
 import net.thejadeproject.ascension.util.ItemUtil;
 
 import java.util.HashSet;
@@ -137,6 +138,25 @@ public class ModItems {
             () -> new SpearItem(Tiers.DIAMOND, new Item.Properties().durability(1461).attributes(ItemUtil.createAscensionItemAttributes(Tiers.DIAMOND, 3, -2.4f,2))));
     public static final DeferredItem<SpearItem> NETHERITE_SPEAR = ITEMS.register("netherite_spear",
             () -> new SpearItem(Tiers.NETHERITE, new Item.Properties().durability(1931).attributes(ItemUtil.createAscensionItemAttributes(Tiers.NETHERITE, 3, -2.4f,2))));
+
+
+    //Custom Tools
+    public static final DeferredItem<Item> SPIRITUAL_STONE_PICKAXE = ITEMS.register("spiritual_stone_pickaxe",
+            () -> new SpiritualStoneTools.Pickaxe(ModToolTiers.SPIRITUAL_STONE,
+                    new Item.Properties().attributes(PickaxeItem.createAttributes(ModToolTiers.SPIRITUAL_STONE, 1.0F, -2.8F))));
+
+    public static final DeferredItem<Item> SPIRITUAL_STONE_AXE = ITEMS.register("spiritual_stone_axe",
+            () -> new SpiritualStoneTools.Axe(ModToolTiers.SPIRITUAL_STONE,
+                    new Item.Properties().attributes(AxeItem.createAttributes(ModToolTiers.SPIRITUAL_STONE, 6.0F, -3.1F))));
+
+    public static final DeferredItem<Item> SPIRITUAL_STONE_SHOVEL = ITEMS.register("spiritual_stone_shovel",
+            () -> new SpiritualStoneTools.Shovel(ModToolTiers.SPIRITUAL_STONE,
+                    new Item.Properties().attributes(ShovelItem.createAttributes(ModToolTiers.SPIRITUAL_STONE, 1.5F, -3.0F))));
+
+    public static final DeferredItem<Item> SPIRITUAL_STONE_HOE = ITEMS.register("spiritual_stone_hoe",
+            () -> new SpiritualStoneTools.Hoe(ModToolTiers.SPIRITUAL_STONE,
+                    new Item.Properties().attributes(HoeItem.createAttributes(ModToolTiers.SPIRITUAL_STONE, -2.0F, -1.0F))));
+
 
 
     //Formation Items

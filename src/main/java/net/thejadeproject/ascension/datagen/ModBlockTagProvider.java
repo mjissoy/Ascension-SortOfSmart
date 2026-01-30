@@ -21,6 +21,13 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
 
+
+        tag(ModTags.Blocks.NEEDS_SPIRITUAL_STONE_TOOL)
+                .addTag(BlockTags.NEEDS_DIAMOND_TOOL);
+        tag(ModTags.Blocks.INCORRECT_FOR_SPIRITUAL_STONE_TOOL)
+                .addTag(BlockTags.INCORRECT_FOR_IRON_TOOL)
+                .remove(ModTags.Blocks.NEEDS_SPIRITUAL_STONE_TOOL);
+
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.JADE_BLOCK.get())
                 .add(ModBlocks.JADE_ORE.get())
@@ -29,6 +36,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.FROST_SILVER_ORE.get())
                 .add(ModBlocks.FROST_SILVER_BLOCK.get())
                 .add(ModBlocks.SPIRITUAL_STONE_CLUSTER.get())
+                .add(ModBlocks.SPIRITUAL_STONE_BLOCK.get())
 
                 .add(ModBlocks.RAW_MARBLE.get())
                 .add(ModBlocks.POLISHED_MARBLE.get())
