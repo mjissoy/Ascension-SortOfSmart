@@ -76,8 +76,6 @@ public class PlayerEventHandler {
             //gather attributes
 
 
-
-
             if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:intent").technique.equals("ascension:none")) return;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
                     player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:intent").technique,

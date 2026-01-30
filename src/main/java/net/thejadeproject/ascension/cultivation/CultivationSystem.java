@@ -82,6 +82,7 @@ public class CultivationSystem {
 
     //returns false if realm is not increased
     public static boolean cultivate(Player player, String path, Double baseRate, Set<String> attributes, CultivationSource source){
+
         //TODO change to use technique for base rate
         //TODO fire is temp
         CultivationData.PathData pathData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(path);

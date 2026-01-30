@@ -165,7 +165,7 @@ public class ModOverlays {
         //EasyGuiOverlayManager.addLayer( ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),QI_TRACKER);
         EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH,HEALTH_BAR);
         EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_cast_progress"),SKILL_CAST_PROGRESS);
-        EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_progress"),CULTIVATION_PROGRESS);
+        //EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_progress"),CULTIVATION_PROGRESS);
         EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"qi_bar"),PLAYER_QI_BAR);
 
     }

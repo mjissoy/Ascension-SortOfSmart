@@ -9,8 +9,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
@@ -18,6 +20,7 @@ import net.thejadeproject.ascension.cultivation.player.realm_change_handlers.IRe
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
 import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
+import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.skills.skill_lists.IAcquirableSkill;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
@@ -73,7 +76,7 @@ public abstract class AbstractTechnique implements ITechnique {
     public void tryCultivate(Player player, CultivationSource source) {
         if(player.level().isClientSide()) return;
         if(!CultivationSystem.cultivate(player,getPath(),baseRate,getCultivationAttributes(),source)) tryStabiliseRealm(player,source);
-  
+        PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(getPath())));
     }
 
     @Override
