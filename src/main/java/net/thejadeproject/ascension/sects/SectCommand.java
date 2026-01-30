@@ -57,11 +57,15 @@ public class SectCommand {
                                                 SectManager manager = AscensionCraft.getSectManager(context.getSource().getServer());
                                                 if (manager != null) {
                                                     Sect sect = manager.getPlayerSect(player.getUUID());
-                                                    if (sect != null && sect.hasPermission(player.getUUID(), SectPermission.INVITE)) {
-                                                        Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
-                                                        for (ServerPlayer onlinePlayer : onlinePlayers) {
-                                                            if (onlinePlayer != player && manager.getPlayerSect(onlinePlayer.getUUID()) == null) {
-                                                                builder.suggest(onlinePlayer.getGameProfile().getName());
+                                                    if (sect != null) {
+                                                        boolean canInvite = sect.hasPermission(player.getUUID(), SectPermission.INVITE) ||
+                                                                (sect.isAllowOuterInvite() && sect.getMember(player.getUUID()) != null);
+                                                        if (canInvite) {
+                                                            Collection<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
+                                                            for (ServerPlayer onlinePlayer : onlinePlayers) {
+                                                                if (onlinePlayer != player && manager.getPlayerSect(onlinePlayer.getUUID()) == null) {
+                                                                    builder.suggest(onlinePlayer.getGameProfile().getName());
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -165,11 +169,22 @@ public class SectCommand {
                                 .then(Commands.argument("sectname", StringArgumentType.string())
                                         .suggests(SectCommand::suggestEnemySectNames)
                                         .executes(SectCommand::removeEnemy))))
-                // NEW: Settings command for friendly fire
                 .then(Commands.literal("settings")
                         .then(Commands.literal("friendlyfire")
                                 .then(Commands.argument("enabled", BoolArgumentType.bool())
-                                        .executes(SectCommand::setFriendlyFire))))
+                                        .executes(SectCommand::setFriendlyFire)))
+                        // NEW: announcePromotions setting
+                        .then(Commands.literal("announcepromotions")
+                                .then(Commands.argument("enabled", BoolArgumentType.bool())
+                                        .executes(SectCommand::setAnnouncePromotions)))
+                        // NEW: allowOuterInvite setting
+                        .then(Commands.literal("allowouterinvite")
+                                .then(Commands.argument("enabled", BoolArgumentType.bool())
+                                        .executes(SectCommand::setAllowOuterInvite)))
+                        // NEW: maxMembers setting
+                        .then(Commands.literal("maxmembers")
+                                .then(Commands.argument("limit", IntegerArgumentType.integer(0, 100))
+                                        .executes(SectCommand::setMaxMembers))))
                 .then(Commands.literal("help")
                         .executes(SectCommand::help))
         );
@@ -183,6 +198,36 @@ public class SectCommand {
     private static int setFriendlyFire(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = context.getSource().getPlayerOrException();
         boolean enabled = BoolArgumentType.getBool(context, "enabled");
+        return setSetting(context, player, "friendlyfire", enabled, (sect, value) -> {
+            sect.setFriendlyFire(value);
+            return "Friendly fire has been " + (value ? "§aenabled" : "§cdisabled") + "§e!";
+        });
+    }
+
+    // NEW: Announce promotions toggle
+    private static int setAnnouncePromotions(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        boolean enabled = BoolArgumentType.getBool(context, "enabled");
+        return setSetting(context, player, "announcepromotions", enabled, (sect, value) -> {
+            sect.setAnnouncePromotions(value);
+            return "Promotion announcements " + (value ? "§aenabled" : "§cdisabled") + "§e!";
+        });
+    }
+
+    // NEW: Allow outer invite toggle
+    private static int setAllowOuterInvite(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        boolean enabled = BoolArgumentType.getBool(context, "enabled");
+        return setSetting(context, player, "allowouterinvite", enabled, (sect, value) -> {
+            sect.setAllowOuterInvite(value);
+            return "Outer members can now " + (value ? "§ainvite new recruits" : "§cno longer invite new recruits") + "§e!";
+        });
+    }
+
+    // NEW: Max members setter
+    private static int setMaxMembers(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        ServerPlayer player = context.getSource().getPlayerOrException();
+        int limit = IntegerArgumentType.getInteger(context, "limit");
         SectManager manager = getManager(context);
         if (manager == null) {
             context.getSource().sendFailure(Component.literal("§cSect system not available!"));
@@ -199,13 +244,48 @@ public class SectCommand {
             return 0;
         }
 
-        sect.setFriendlyFire(enabled);
+        // Prevent setting below current member count
+        if (limit > 0 && limit < sect.getMembers().size()) {
+            context.getSource().sendFailure(Component.literal("§cCannot set max members below current member count (" + sect.getMembers().size() + ")!"));
+            return 0;
+        }
+
+        sect.setMaxMembers(limit);
         manager.setDirty();
-        String status = enabled ? "§aenabled" : "§cdisabled";
-        context.getSource().sendSuccess(() -> Component.literal("§eFriendly fire has been " + status + "§e!"), true);
+        String limitText = limit == 0 ? "§aunlimited" : "§e" + limit;
+        context.getSource().sendSuccess(() -> Component.literal("§eMember limit set to: " + limitText), true);
         broadcastToSect(sect, context.getSource().getServer(),
-                "§e" + player.getScoreboardName() + " has " + (enabled ? "§aenabled" : "§cdisabled") + " §efriendly fire!");
+                "§e" + player.getScoreboardName() + " changed the member limit to " + limitText + "§e!");
         return 1;
+    }
+
+    // Helper method for boolean settings
+    private static int setSetting(CommandContext<CommandSourceStack> context, ServerPlayer player, String settingName, boolean value, SettingApplier applier) throws CommandSyntaxException {
+        SectManager manager = getManager(context);
+        if (manager == null) {
+            context.getSource().sendFailure(Component.literal("§cSect system not available!"));
+            return 0;
+        }
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        if (sect == null) {
+            context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
+            return 0;
+        }
+        SectMember member = sect.getMember(player.getUUID());
+        if (member == null || (member.getRank() != SectRank.ELDER && member.getRank() != SectRank.SECT_MASTER)) {
+            context.getSource().sendFailure(Component.literal("§cOnly Elders and Sect Masters can change sect settings!"));
+            return 0;
+        }
+
+        String message = applier.apply(sect, value);
+        manager.setDirty();
+        context.getSource().sendSuccess(() -> Component.literal("§e" + message), true);
+        return 1;
+    }
+
+    @FunctionalInterface
+    interface SettingApplier {
+        String apply(Sect sect, boolean value);
     }
 
     private static int setDescription(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
@@ -233,8 +313,10 @@ public class SectCommand {
         sect.setDescription(description);
         manager.setDirty();
         context.getSource().sendSuccess(() -> Component.literal("§aSect description updated!"), true);
-        broadcastToSect(sect, context.getSource().getServer(),
-                "§e" + player.getScoreboardName() + " updated the sect description!");
+        if (sect.isAnnouncePromotions()) {
+            broadcastToSect(sect, context.getSource().getServer(),
+                    "§e" + player.getScoreboardName() + " updated the sect description!");
+        }
         return 1;
     }
 
@@ -269,10 +351,16 @@ public class SectCommand {
             context.getSource().sendFailure(Component.literal("§cYou are not in a sect!"));
             return 0;
         }
-        if (!sect.hasPermission(player.getUUID(), SectPermission.INVITE)) {
+
+        // MODIFIED: Check allowOuterInvite setting
+        boolean hasInvitePermission = sect.hasPermission(player.getUUID(), SectPermission.INVITE);
+        boolean isOuterCanInvite = sect.isAllowOuterInvite() && sect.getMember(player.getUUID()) != null;
+
+        if (!hasInvitePermission && !isOuterCanInvite) {
             context.getSource().sendFailure(Component.literal("§cYou don't have permission to invite players!"));
             return 0;
         }
+
         ServerPlayer targetPlayer = context.getSource().getServer().getPlayerList().getPlayerByName(targetName);
         if (targetPlayer == null) {
             context.getSource().sendFailure(Component.literal("§cPlayer '" + targetName + "' is not online!"));
@@ -286,6 +374,13 @@ public class SectCommand {
             context.getSource().sendFailure(Component.literal("§cYou cannot invite yourself!"));
             return 0;
         }
+
+        // NEW: Check max members limit before inviting
+        if (sect.isFull()) {
+            context.getSource().sendFailure(Component.literal("§cYour sect has reached the maximum member limit (" + sect.getMaxMembers() + ")!"));
+            return 0;
+        }
+
         manager.addInvite(sect.getName(), targetName);
         context.getSource().sendSuccess(() -> Component.literal("§aInvited " + targetName + " to join your sect!"), false);
         sendEnhancedInvitationMessage(targetPlayer, sect, player);
@@ -387,20 +482,27 @@ public class SectCommand {
             return 0;
         }
 
-        // MODIFIED: Bypass recommendations - only check merit for Elder promotion
         if (newRank == SectRank.ELDER) {
             int merit = sect.getPlayerMerit(targetPlayer.getUUID());
             if (merit < 10000) {
                 context.getSource().sendFailure(Component.literal("§cPlayer must have 10000 merit to become Elder!"));
                 return 0;
             }
-            // Recommendations check removed - manual promotion bypasses recommendation requirement
         }
 
         sect.setMemberRank(targetPlayer.getUUID(), newRank);
-        context.getSource().sendSuccess(() -> Component.literal("§aPromoted " + targetName + " to " + newRank.getDisplayName() + "!"), true);
-        if (targetPlayer.isAlive()) {
-            targetPlayer.sendSystemMessage(Component.literal("§aYou have been promoted to " + newRank.getDisplayName() + " in " + sect.getName() + "!"));
+
+        // MODIFIED: Check announcePromotions setting
+        if (sect.isAnnouncePromotions()) {
+            context.getSource().sendSuccess(() -> Component.literal("§aPromoted " + targetName + " to " + newRank.getDisplayName() + "!"), true);
+            if (targetPlayer.isAlive()) {
+                targetPlayer.sendSystemMessage(Component.literal("§aYou have been promoted to " + newRank.getDisplayName() + " in " + sect.getName() + "!"));
+            }
+        } else {
+            context.getSource().sendSuccess(() -> Component.literal("§aPromoted " + targetName + " to " + newRank.getDisplayName() + "!"), false);
+            if (targetPlayer.isAlive()) {
+                targetPlayer.sendSystemMessage(Component.literal("§aYou have been promoted to " + newRank.getDisplayName() + " in " + sect.getName() + "!"));
+            }
         }
         return 1;
     }
@@ -448,12 +550,21 @@ public class SectCommand {
             return 0;
         }
         sect.setMemberRank(targetPlayer.getUUID(), newRank);
-        context.getSource().sendSuccess(() -> Component.literal("§aDemoted " + targetName + " to " + newRank.getDisplayName() + "!"), true);
-        if (targetPlayer.isAlive()) {
-            targetPlayer.sendSystemMessage(Component.literal("§cYou have been demoted to " + newRank.getDisplayName() + " in " + sect.getName() + "!"));
+
+        // MODIFIED: Check announcePromotions setting
+        if (sect.isAnnouncePromotions()) {
+            context.getSource().sendSuccess(() -> Component.literal("§aDemoted " + targetName + " to " + newRank.getDisplayName() + "!"), true);
+            if (targetPlayer.isAlive()) {
+                targetPlayer.sendSystemMessage(Component.literal("§cYou have been demoted to " + newRank.getDisplayName() + " in " + sect.getName() + "!"));
+            }
+            broadcastToSect(sect, context.getSource().getServer(),
+                    "§c" + targetName + " has been demoted to " + newRank.getDisplayName() + " by " + player.getScoreboardName() + "!");
+        } else {
+            context.getSource().sendSuccess(() -> Component.literal("§aDemoted " + targetName + " to " + newRank.getDisplayName() + "!"), false);
+            if (targetPlayer.isAlive()) {
+                targetPlayer.sendSystemMessage(Component.literal("§cYou have been demoted to " + newRank.getDisplayName() + " in " + sect.getName() + "!"));
+            }
         }
-        broadcastToSect(sect, context.getSource().getServer(),
-                "§c" + targetName + " has been demoted to " + newRank.getDisplayName() + " by " + player.getScoreboardName() + "!");
         return 1;
     }
 
@@ -513,11 +624,20 @@ public class SectCommand {
             context.getSource().sendFailure(Component.literal("§cYou are already in a sect!"));
             return 0;
         }
+
+        // NEW: Check max members limit before joining
+        if (sect.isFull()) {
+            context.getSource().sendFailure(Component.literal("§cThis sect has reached its maximum member limit (" + sect.getMaxMembers() + ") and is no longer accepting new members!"));
+            return 0;
+        }
+
         if (sect.isOpen() || manager.hasInvite(sect.getName(), player.getScoreboardName())) {
             manager.addPlayerToSect(player.getUUID(), player.getScoreboardName(), sect.getName());
             Sect finalSect = sect;
             context.getSource().sendSuccess(() -> Component.literal("§aJoined sect '" + finalSect.getName() + "'!"), false);
-            broadcastToSect(sect, context.getSource().getServer(), "§e" + player.getScoreboardName() + " has joined the sect!");
+            if (sect.isAnnouncePromotions()) {
+                broadcastToSect(sect, context.getSource().getServer(), "§e" + player.getScoreboardName() + " has joined the sect!");
+            }
             return 1;
         } else {
             context.getSource().sendFailure(Component.literal("§cYou are not invited to this sect and it's not open!"));
@@ -556,7 +676,9 @@ public class SectCommand {
         String message = sect.isOpen() ?
                 "§eThe sect is now open for public joining!" :
                 "§eThe sect is now closed to public joining!";
-        broadcastToSect(sect, context.getSource().getServer(), message);
+        if (sect.isAnnouncePromotions()) {
+            broadcastToSect(sect, context.getSource().getServer(), message);
+        }
         return 1;
     }
 
@@ -625,8 +747,12 @@ public class SectCommand {
             playerSect.addAlly(targetSectName);
             targetSect.addAlly(playerSect.getName());
             manager.removeAllyRequest(targetSectName, playerSect.getName());
-            broadcastToSect(playerSect, context.getSource().getServer(), "§aAlliance formed with " + targetSectName + "!");
-            broadcastToSect(targetSect, context.getSource().getServer(), "§aAlliance formed with " + playerSect.getName() + "!");
+            if (playerSect.isAnnouncePromotions()) {
+                broadcastToSect(playerSect, context.getSource().getServer(), "§aAlliance formed with " + targetSectName + "!");
+            }
+            if (targetSect.isAnnouncePromotions()) {
+                broadcastToSect(targetSect, context.getSource().getServer(), "§aAlliance formed with " + playerSect.getName() + "!");
+            }
             context.getSource().sendSuccess(() -> Component.literal("§aAlliance formed with " + targetSectName + "!"), false);
         } else {
             manager.addAllyRequest(playerSect.getName(), targetSectName);
@@ -704,8 +830,12 @@ public class SectCommand {
         manager.removeAllyRequest(requestingSectName, playerSect.getName());
         String allianceMessage1 = "§aAlliance formed with " + requestingSectName + "!";
         String allianceMessage2 = "§aAlliance formed with " + playerSect.getName() + "!";
-        broadcastToSect(playerSect, context.getSource().getServer(), allianceMessage1);
-        broadcastToSect(requestingSect, context.getSource().getServer(), allianceMessage2);
+        if (playerSect.isAnnouncePromotions()) {
+            broadcastToSect(playerSect, context.getSource().getServer(), allianceMessage1);
+        }
+        if (requestingSect.isAnnouncePromotions()) {
+            broadcastToSect(requestingSect, context.getSource().getServer(), allianceMessage2);
+        }
         context.getSource().sendSuccess(() -> Component.literal("§aAlliance formed with " + requestingSectName + "!"), true);
         return 1;
     }
@@ -738,8 +868,10 @@ public class SectCommand {
         }
         manager.removeAllyRequest(requestingSectName, playerSect.getName());
         context.getSource().sendSuccess(() -> Component.literal("§eYou have declined the alliance request from §b" + requestingSectName + "§e."), true);
-        broadcastToSect(requestingSect, context.getSource().getServer(),
-                "§e" + playerSect.getName() + " has declined your alliance request.");
+        if (requestingSect.isAnnouncePromotions()) {
+            broadcastToSect(requestingSect, context.getSource().getServer(),
+                    "§e" + playerSect.getName() + " has declined your alliance request.");
+        }
         return 1;
     }
 
@@ -814,8 +946,10 @@ public class SectCommand {
             Sect allySect = manager.getSect(allyName);
             if (allySect != null) {
                 allySect.removeAlly(sectName);
-                broadcastToSect(allySect, context.getSource().getServer(),
-                        "§cYour alliance with §e" + sectName + "§c has been dissolved because they disbanded.");
+                if (allySect.isAnnouncePromotions()) {
+                    broadcastToSect(allySect, context.getSource().getServer(),
+                            "§cYour alliance with §e" + sectName + "§c has been dissolved because they disbanded.");
+                }
             }
         }
         for (String targetSectName : new ArrayList<>(manager.allyRequests.keySet())) {
@@ -857,7 +991,9 @@ public class SectCommand {
         String playerName = player.getScoreboardName();
         sect.removeMember(player.getUUID());
         manager.removePlayerFromSect(player.getUUID());
-        broadcastToSect(sect, context.getSource().getServer(), "§e" + playerName + " has left the sect!");
+        if (sect.isAnnouncePromotions()) {
+            broadcastToSect(sect, context.getSource().getServer(), "§e" + playerName + " has left the sect!");
+        }
         context.getSource().sendSuccess(() -> Component.literal("§aYou have left the sect '" + sectName + "'!"), false);
         return 1;
     }
@@ -901,8 +1037,10 @@ public class SectCommand {
         manager.setDirty();
         context.getSource().sendSuccess(() -> Component.literal("§aOwnership transferred to " + targetName + "!"), false);
         targetPlayer.sendSystemMessage(Component.literal("§aYou are now the owner of the sect '" + sectName + "'!"));
-        broadcastToSect(sect, context.getSource().getServer(),
-                "§6" + oldOwnerName + " has transferred sect ownership to " + targetName + "!");
+        if (sect.isAnnouncePromotions()) {
+            broadcastToSect(sect, context.getSource().getServer(),
+                    "§6" + oldOwnerName + " has transferred sect ownership to " + targetName + "!");
+        }
         return 1;
     }
 
@@ -951,7 +1089,9 @@ public class SectCommand {
         sect.removeMember(targetPlayer.getUUID());
         manager.removePlayerFromSect(targetPlayer.getUUID());
         targetPlayer.sendSystemMessage(Component.literal("§cYou have been kicked from the sect '" + sectName + "' by " + player.getScoreboardName() + "!"));
-        broadcastToSect(sect, context.getSource().getServer(), "§c" + targetPlayerName + " has been kicked from the sect by " + player.getScoreboardName() + "!");
+        if (sect.isAnnouncePromotions()) {
+            broadcastToSect(sect, context.getSource().getServer(), "§c" + targetPlayerName + " has been kicked from the sect by " + player.getScoreboardName() + "!");
+        }
         context.getSource().sendSuccess(() -> Component.literal("§aKicked " + targetPlayerName + " from the sect!"), false);
         return 1;
     }
@@ -977,7 +1117,7 @@ public class SectCommand {
     }
 
     private static void sendSectChatMessage(Sect sect, ServerPlayer sender, String message, net.minecraft.server.MinecraftServer server) {
-        String formattedMessage = "§3[§b" + sect.getName() + "§3] §e" + sender.getScoreboardName() + "§7: §f" + message;
+        String formattedMessage = "§3[§b" + sect.getName() + "§3] §e" + sender.getScoreboardName() + " §8➣§f " + message;
         Component chatMessage = Component.literal(formattedMessage);
         for (SectMember member : sect.getMembers().values()) {
             ServerPlayer onlinePlayer = server.getPlayerList().getPlayer(member.getPlayerId());
@@ -1032,9 +1172,21 @@ public class SectCommand {
         context.getSource().sendSuccess(() -> Component.literal("§eDescription: §7" + finalSect2.getDescription()), false);
         String openStatus = sect.isOpen() ? "§aOpen" : "§cClosed";
         context.getSource().sendSuccess(() -> Component.literal("§eStatus: " + openStatus), false);
-        // NEW: Show friendly fire status
+
+        // NEW: Show settings
         String ffStatus = sect.isFriendlyFire() ? "§aEnabled" : "§cDisabled";
         context.getSource().sendSuccess(() -> Component.literal("§eFriendly Fire: " + ffStatus), false);
+
+        String announceStatus = sect.isAnnouncePromotions() ? "§aOn" : "§cOff";
+        context.getSource().sendSuccess(() -> Component.literal("§eAnnounce Promotions: " + announceStatus), false);
+
+        String outerInviteStatus = sect.isAllowOuterInvite() ? "§aYes" : "§cNo";
+        context.getSource().sendSuccess(() -> Component.literal("§eOuter Members Can Invite: " + outerInviteStatus), false);
+
+        String maxMembersText = sect.getMaxMembers() == 0 ? "§aUnlimited" : "§e" + sect.getMaxMembers();
+        String currentMembers = "§e(" + sect.getMembers().size() + " current)";
+        context.getSource().sendSuccess(() -> Component.literal("§eMax Members: " + maxMembersText + " §7" + currentMembers), false);
+
         StringBuilder allies = new StringBuilder("§eAllies: §f");
         if (sect.getAllies().isEmpty()) {
             allies.append("None");
@@ -1501,12 +1653,13 @@ public class SectCommand {
         context.getSource().sendSuccess(() -> Component.literal("§aYou have recommended " + targetName + " for Elder promotion! (§e" + totalRecommendations + "§a/§6" + neededRecommendations + "§a recommendations)"), true);
         targetPlayer.sendSystemMessage(Component.literal("§6" + player.getScoreboardName() + " has recommended you for Elder promotion! (§e" + totalRecommendations + "§6/§e" + neededRecommendations + "§6 recommendations)"));
 
-        // Check promotion immediately when recommendations are added (auto-promotion still requires recommendations)
         if (totalRecommendations >= neededRecommendations && sect.getPlayerMerit(targetPlayer.getUUID()) >= 10000) {
             sect.setMemberRank(targetPlayer.getUUID(), SectRank.ELDER);
             sect.clearRecommendations(targetPlayer.getUUID());
-            broadcastToSect(sect, context.getSource().getServer(),
-                    "§6" + targetName + " has been promoted to Elder for reaching 10000 merit points and receiving " + totalRecommendations + " recommendations!");
+            if (sect.isAnnouncePromotions()) {
+                broadcastToSect(sect, context.getSource().getServer(),
+                        "§6" + targetName + " has been promoted to Elder for reaching 10000 merit points and receiving " + totalRecommendations + " recommendations!");
+            }
         }
         return 1;
     }
@@ -1530,9 +1683,8 @@ public class SectCommand {
             showFancyProgressBar(context, currentMerit, 10000, "Elder", "§6", "§e", "§8");
             int recommendationCount = sect.getRecommendationCount(player.getUUID());
             int neededRecommendations = 3;
-            context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §6Elder §7(§610000§7 merit + §6" + neededRecommendations + "§7 recommendations for auto-promotion)"), false);
+            context.getSource().sendSuccess(() -> Component.literal("§7Next Rank: §6Elder §7(§610000§7 merit + §6" + neededRecommendations + "§7 recommendations)"), false);
             context.getSource().sendSuccess(() -> Component.literal("§7Elder Recommendations: §e" + recommendationCount + "§7/§6" + neededRecommendations), false);
-            context.getSource().sendSuccess(() -> Component.literal("§7(§e/sect promote§7 can bypass recommendations with 10000 merit)"), false);
             Set<UUID> recommenderIds = sect.getRecommendations(player.getUUID());
             if (!recommenderIds.isEmpty()) {
                 List<String> recommenderNames = new ArrayList<>();
@@ -1682,13 +1834,18 @@ public class SectCommand {
             int memberCount = sect.getMembers().size();
             String openStatus = sect.isOpen() ? "§aOpen" : "§cClosed";
             String statusColor = sect.isOpen() ? "§a" : "§c";
+
+            // NEW: Show member limit in list
+            String memberLimit = sect.getMaxMembers() == 0 ? "" : "/§e" + sect.getMaxMembers();
+
             MutableComponent sectLine = Component.literal("§e- " + sectName)
-                    .append(Component.literal(" §7(Members: §e" + memberCount + "§7, Status: " + statusColor + (sect.isOpen() ? "Open" : "Closed") + "§7)"));
+                    .append(Component.literal(" §7(Members: §e" + memberCount + memberLimit + "§7, Status: " + statusColor + (sect.isOpen() ? "Open" : "Closed") + "§7)"));
             MutableComponent hoverText = Component.literal("§6" + sectName + "\n")
                     .append(Component.literal("§cSect Master: §f" + ownerName + "\n"))
-                    .append(Component.literal("§bMembers: §e" + memberCount + "\n"))
+                    .append(Component.literal("§bMembers: §e" + memberCount + (sect.isFull() ? " §c[FULL]" : "") + "\n"))
                     .append(Component.literal("§eStatus: " + statusColor + (sect.isOpen() ? "Open to Join" : "Invite Only") + "\n"))
-                    .append(Component.literal("§aFriendly Fire: " + (sect.isFriendlyFire() ? "§aEnabled" : "§cDisabled") + "\n"))
+                    .append(Component.literal("§aFriendly Fire: §f" + (sect.isFriendlyFire() ? "Enabled" : "Disabled") + "\n"))
+                    .append(Component.literal("§aMax Members: §f" + (sect.getMaxMembers() == 0 ? "Unlimited" : sect.getMaxMembers()) + "\n"))
                     .append(Component.literal("§aAllies: §f" + (sect.getAllies().isEmpty() ? "None" : String.join(", ", sect.getAllies())) + "\n"))
                     .append(Component.literal("§cEnemies: §f" + (sect.getEnemies().isEmpty() ? "None" : String.join(", ", sect.getEnemies())) + "\n"))
                     .append(Component.literal("§aDescription: §f" + sect.getDescription() + "\n\n"))
@@ -1778,6 +1935,11 @@ public class SectCommand {
         destination.setOpen(source.isOpen());
         destination.setDescription(source.getDescription());
         destination.setFriendlyFire(source.isFriendlyFire());
+        // NEW: Copy settings
+        destination.setAnnouncePromotions(source.isAnnouncePromotions());
+        destination.setAllowOuterInvite(source.isAllowOuterInvite());
+        destination.setMaxMembers(source.getMaxMembers());
+
         for (SectMember member : source.getMembers().values()) {
             destination.addMember(member.getPlayerId(), member.getPlayerName(), member.getRank());
             if (!member.getTitle().isEmpty()) {
@@ -1960,10 +2122,11 @@ public class SectCommand {
                 "Usage: /sect merit\nShows current merit and progress to next rank",
                 "Rank: §aOuter§7+");
         player.sendSystemMessage(Component.literal("\n§c§lElder Commands:§r").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
+        // MODIFIED: Include new invite permission info
         sendHelpEntry(player, "/sect invite <player>",
                 "Invite a player to join your sect",
-                "Usage: /sect invite <playerName>\nPlayer must be online and not in a sect",
-                "Rank: §cElder§7+");
+                "Usage: /sect invite <playerName>\nPlayer must be online and not in a sect\n§6Note: Can be enabled for Outer members via /sect settings allowouterinvite",
+                "Rank: §cElder§7+ (or §aOuter§7+ if setting enabled)");
         sendHelpEntry(player, "/sect kick <player>",
                 "Remove a player from your sect",
                 "Usage: /sect kick <playerName>\n§cCannot kick Sect Master or other Elders",
@@ -1976,11 +2139,23 @@ public class SectCommand {
                 "Toggle whether anyone can join without an invite",
                 "Usage: /sect open\nToggles between open and invite-only",
                 "Rank: §cElder§7+");
-        // NEW: Settings command help
+        // NEW: Settings commands help
         sendHelpEntry(player, "/sect settings friendlyfire <true/false>",
                 "Enable or disable friendly fire between sect members",
-                "Usage: /sect settings friendlyfire <true|false>\nDefault: false (disabled)\nWhen disabled, sect members cannot hurt each other",
-                "Rank: §cElder§7+\n§6Note: Can bypass recommendations with 10000 merit");
+                "Usage: /sect settings friendlyfire <true|false>\nDefault: false\nWhen disabled, sect members cannot hurt each other",
+                "Rank: §cElder§7+");
+        sendHelpEntry(player, "/sect settings announcepromotions <true/false>",
+                "Toggle promotion announcements in sect chat",
+                "Usage: /sect settings announcepromotions <true|false>\nDefault: true\nDisable to quietly promote/demote members",
+                "Rank: §cElder§7+");
+        sendHelpEntry(player, "/sect settings allowouterinvite <true/false>",
+                "Allow Outer members to invite new recruits",
+                "Usage: /sect settings allowouterinvite <true|false>\nDefault: false\nWhen enabled, all members can invite new players",
+                "Rank: §cElder§7+");
+        sendHelpEntry(player, "/sect settings maxmembers <0-100>",
+                "Set maximum member limit (0 = unlimited)",
+                "Usage: /sect settings maxmembers <limit>\nDefault: 0 (unlimited)\nPrevents new joins when limit reached",
+                "Rank: §cElder§7+");
         sendHelpEntry(player, "/sect enemy <sect>",
                 "Mark another sect as an enemy",
                 "Usage: /sect enemy <sectName>\nMark a sect as hostile (for roleplay purposes)",
@@ -2032,7 +2207,7 @@ public class SectCommand {
         sendHelpEntry(player, "/sect promote <player>",
                 "Promote a member to higher rank",
                 "Usage: /sect promote <playerName>\nRanks: Outer → Inner → Elder\n§cElder requires 10000 merit (recommendations bypassed by manual command)",
-                "Rank: §6Sect Master\n§6Note: Bypasses recommendation requirement!");
+                "Rank: §6Sect Master");
         sendHelpEntry(player, "/sect demote <player>",
                 "Demote a member to lower rank",
                 "Usage: /sect demote <playerName>\nRanks: Elder → Inner → Outer\n§cCannot demote yourself",
