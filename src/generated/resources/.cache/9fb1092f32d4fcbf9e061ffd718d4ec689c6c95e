@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-30T14:12:32.7561681	Recipes
+// 1.21.1	2026-01-30T20:43:01.0367771	Recipes
 da9eaf334b8ff9d37b2fbb9fd8de6baf027edf64 data/ascension/advancement/recipes/building_blocks/blue_marble_bricks.json
 60ea0a8913cba8d6930aeb68209f704f9b030baa data/ascension/advancement/recipes/building_blocks/blue_marble_brick_slabs.json
 77e006eabd326806f054577716fc77a5e3b86b63 data/ascension/advancement/recipes/building_blocks/blue_marble_brick_stairs.json
@@ -245,6 +245,10 @@ f2daf69f67c4ff2d583cb3143038545d7e11b3e0 data/ascension/advancement/recipes/misc
 0fbf0d91830173258e436bf406164e73cbc5ef4c data/ascension/advancement/recipes/misc/shaped/spatial_rupture_talisman_t1.json
 462a6dffb499e526e4be000cf39b6f23311891bd data/ascension/advancement/recipes/misc/shaped/spatial_rupture_talisman_t2.json
 ae02d8bf7f9ad2865a94c4ddff92a1ed3c7706f5 data/ascension/advancement/recipes/misc/shaped/spatial_rupture_talisman_t3.json
+a0639c986eabd2af530c027c77307468527c22d1 data/ascension/advancement/recipes/misc/shaped/spiritual_stone_axe.json
+df392ddbc942a6a47789f85d0c7e757720d031e8 data/ascension/advancement/recipes/misc/shaped/spiritual_stone_hoe.json
+d600b65f7f14260982930c0b5993c83f2af0645f data/ascension/advancement/recipes/misc/shaped/spiritual_stone_pickaxe.json
+5d0f3ca8ad74bed03bf48ddb8d7e6cb0bcbd4972 data/ascension/advancement/recipes/misc/shaped/spiritual_stone_shovel.json
 16d52c031a33927b647456853d2a296e47af08fe data/ascension/advancement/recipes/misc/shaped/spruce_slip.json
 ed2da78f493828b9a449a27a849fbc76cb15a289 data/ascension/advancement/recipes/misc/shaped/ssb_from_spiritual_stone.json
 48cedf3532cc533ff02a9dcb02ea6054ecfeb255 data/ascension/advancement/recipes/misc/shaped/stone_spear.json
@@ -531,6 +535,10 @@ fde8096d8faf06a788ba89137ada088f1518d390 data/ascension/recipe/shaped/soulstead_
 e1d1bef98509bd720a11b5c5860269b60ee7fdca data/ascension/recipe/shaped/spatial_rupture_talisman_t1.json
 fa387c955dfe7ebc692fcb2a55ed08646b6770e6 data/ascension/recipe/shaped/spatial_rupture_talisman_t2.json
 e433fb11b03996d2a072d62227bdc4e047ea86a1 data/ascension/recipe/shaped/spatial_rupture_talisman_t3.json
+e9ef95788497675a076ee08263a915aa29ecea91 data/ascension/recipe/shaped/spiritual_stone_axe.json
+b8a27eca5d5ff42c03eaccdd6129be8f86fdabfd data/ascension/recipe/shaped/spiritual_stone_hoe.json
+ed18ec096b874018e8663a18aa701e1e322846f4 data/ascension/recipe/shaped/spiritual_stone_pickaxe.json
+fc05f2dac7f606d703d58bf1fb2b864a9bc15241 data/ascension/recipe/shaped/spiritual_stone_shovel.json
 a4c5ef4afec36624489e8df23af9aff9b712d11b data/ascension/recipe/shaped/spruce_slip.json
 c0a77ab914168488fecc66aac2c9cc89668dab7f data/ascension/recipe/shaped/ssb_from_spiritual_stone.json
 61caade8d1e65b3231817990a8ade4dceaafef74 data/ascension/recipe/shaped/stone_spear.json

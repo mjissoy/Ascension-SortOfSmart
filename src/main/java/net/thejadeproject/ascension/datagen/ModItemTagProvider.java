@@ -92,6 +92,15 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.SPIRITUAL_STONE_HOE.get());
 
 
+        tag(ModTags.Items.REPAIR_BLACKLIST)
+                .add(ModItems.SOULSTEAD_RETURN_TALISMAN.get())
+                .add(ModItems.WORLD_AXIS_TALISMAN.get())
+                .add(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get())
+                .add(ModItems.SPATIAL_RUPTURE_TALISMAN_T2.get())
+                .add(ModItems.SPATIAL_RUPTURE_TALISMAN_T3.get())
+                .add(ModItems.VOID_MARKING_TALISMAN.get());
+
+
 
         tag(ModTags.Items.BLADE)
                 .add(ModItems.WOODEN_BLADE.get())

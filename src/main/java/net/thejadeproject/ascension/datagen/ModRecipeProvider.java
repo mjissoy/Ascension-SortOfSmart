@@ -80,7 +80,34 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
 
-
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_PICKAXE.get())
+                .pattern("SSS")
+                .pattern(" T ")
+                .pattern(" T ")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('T', Items.STICK)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_pickaxe");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_HOE.get())
+                .pattern("SS ")
+                .pattern(" T ")
+                .pattern(" T ")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('T', Items.STICK)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_hoe");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_AXE.get())
+                .pattern("SS ")
+                .pattern("ST ")
+                .pattern(" T ")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('T', Items.STICK)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_axe");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_SHOVEL.get())
+                .pattern(" S ")
+                .pattern(" T ")
+                .pattern(" T ")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('T', Items.STICK)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_shovel");
 
 
 

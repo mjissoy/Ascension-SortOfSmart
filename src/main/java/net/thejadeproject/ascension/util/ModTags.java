@@ -56,6 +56,11 @@ public class ModTags {
         public static final TagKey<Item> INGOTS_FROST_SILVER = createCommonTag("ingots/frost_silver");
         public static final TagKey<Item> NUGGETS_FROST_SILVER = createCommonTag("nuggets/frost_silver");
 
+
+
+
+        public static final TagKey<Item> REPAIR_BLACKLIST = createTag("repair_slip_blacklist");
+
         public static final TagKey<Item> WOOLABLE = createTag("crafting/woolable");
 
 

@@ -1,15 +1,16 @@
 {
-  "type": "ascension:add_physique_item",
+  "type": "ascension:add_physique_random_purity",
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",
       "loot_table_id": "minecraft:chests/end_city_treasure"
     },
     {
-      "chance": 0.09,
+      "chance": 0.15,
       "condition": "minecraft:random_chance"
     }
   ],
-  "physiqueId": "ascension:crystal_meridian_physique",
-  "purity": 22
+  "maxPurity": 27,
+  "minPurity": 17,
+  "physiqueId": "ascension:crystal_meridian_physique"
 }
