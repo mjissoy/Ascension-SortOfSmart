@@ -69,7 +69,7 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public static void postDamageListener(LivingDamageEvent.Post event){
         if(event.getSource().getEntity() != null && event.getSource().getEntity() instanceof Player player) {
-            if (event.getOriginalDamage() < 10f) return;
+            if (event.getNewDamage() < 10f) return;
 
 
 
@@ -87,7 +87,7 @@ public class PlayerEventHandler {
 
         if(event.getEntity() instanceof Player player){
             //cultivate body
-            if (event.getOriginalDamage() < 2f) return;
+            if (event.getNewDamage() < 2f) return;
 
             if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique.equals("ascension:none")) return;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(
