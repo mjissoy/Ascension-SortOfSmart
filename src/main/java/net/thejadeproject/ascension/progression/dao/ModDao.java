@@ -60,7 +60,22 @@ public class ModDao {
                     "ascension:death", 1.5
             )
     );
+    // Creation Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> DEATH_DAO = createDao("death",
+            Component.literal("§a[Death]").withColor(0x32CD32),
+            List.of(
+                    Component.literal("The force anti to life... or it's precursor?"),
+                    Component.literal("Opposite of life yet it's bringer")
+            ),
+            Map.of(
+                    "ascension:life", 1.8
 
+            ),
+            Map.of(
+                    "ascension:life", 1.8
+
+            )
+    );
     // Destruction Dao (from physique references)
     public static final DeferredHolder<IDao,GenericDao> DESTRUCTION_DAO = createDao("destruction",
             Component.literal("§4[Destruction]").withColor(0x8B0000),
@@ -269,7 +284,22 @@ public class ModDao {
                     "ascension:earth", 1.8  // Earth grounds spirits
             )
     );
-
+    public static final DeferredHolder<IDao,GenericDao> BODY_DAO = createDao("body",
+            Component.literal("§d[Body]").withColor(0xDA70D6),
+            List.of(
+                    Component.literal("Physical and pulsing with power"),
+                    Component.literal("Connection to the earth")
+            ),
+            Map.of(
+                    "ascension:earth", 1.8,
+                    "ascension:life", 1.5,
+                    "ascension:heaven", 1.0
+            ),
+            Map.of(
+                    "ascension:spirit", 2.0,  // Spirit vs Physical
+                    "ascension:soul", 1.8  // Earth grounds spirits
+            )
+    );
     // Demonic Dao (from physique references)
     public static final DeferredHolder<IDao,GenericDao> DEMONIC_DAO = createDao("demonic",
             Component.literal("§4[Demonic]").withColor(0x8B0000),
@@ -288,6 +318,21 @@ public class ModDao {
                     "ascension:light", 1.8,
                     "ascension:order", 1.5,
                     "ascension:purity", 2.0
+            )
+    );
+
+    public static final DeferredHolder<IDao,GenericDao> PURITY_DAO = createDao("purity",
+            Component.literal("§4[Demonic]").withColor(0x8B0000),
+            List.of(
+                    Component.literal("The absence of darkness, evil and chaos")
+            ),
+            Map.of(
+                    "ascension:heaven", 2.0,
+                    "ascension:light", 1.8,
+                    "ascension:order", 1.5
+            ),
+            Map.of(
+
             )
     );
 
