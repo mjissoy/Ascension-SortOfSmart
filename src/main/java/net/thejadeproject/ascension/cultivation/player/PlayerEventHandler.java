@@ -87,7 +87,7 @@ public class PlayerEventHandler {
 
         if(event.getEntity() instanceof Player player){
             //cultivate body
-            if (event.getOriginalDamage() < 12f) return;
+            if (event.getOriginalDamage() < 2f) return;
 
             if(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").technique.equals("ascension:none")) return;
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(

@@ -33,31 +33,31 @@ public class ModFormations {
     public static final DeferredHolder<IFormation,? extends GenericFormation> WATER_BUBBLE_FORMATION = FORMATIONS.register("water_bubble_formation",
             ()->new GenericFormation(Component.literal("Water Barrier Formation"),null,
                     ((formation, pos, formationId) ->
-                            new WaterBubbleFormation(formation,formationId,10)
+                            new WaterBubbleFormation(formation,formationId,1)
                             )));
 
 
     public static final DeferredHolder<IFormation,? extends GenericFormation> QI_GATHERING_FORMATION = FORMATIONS.register("qi_gathering_formation",
             ()->new GenericFormation(Component.literal("Qi Gathering Formation"), ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_bonus_renderer"),
                     ((formation, pos, formationId) ->
-                            new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"),0.2,10,5)
+                            new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"),0.2,10,2)
                     )));
 
     public static final DeferredHolder<IFormation,? extends GenericFormation> ENLIGHTENMENT_FORMATION = FORMATIONS.register("enlightenment_formation",
             ()->new GenericFormation(Component.literal("Enlightenment Formation"), ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_bonus_renderer"),
                     ((formation, pos, formationId) ->
-                            new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"intent"),0.2,10,5)
+                            new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"intent"),0.2,10,2)
                     )));
 
     public static final DeferredHolder<IFormation,? extends GenericFormation> BODY_REINFORCEMENT_FORMATION = FORMATIONS.register("body_reinforcement_formation",
             ()->new GenericFormation(Component.literal("Body Reinforcement Formation"), ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_bonus_renderer"),
                     ((formation, pos, formationId) ->
-                            new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"),0.2,10,5)
+                            new CultivationBonusFormation(formation, formationId, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"),0.2,10,2)
                     )));
     public static final DeferredHolder<IFormation,? extends GenericFormation> AREA_PROTECTION_FORMATION = FORMATIONS.register("area_protection_formation",
             ()->new GenericFormation(Component.literal("Gaia's Grace Formation"),null,
                     ((formation, pos, formationId) ->
-                            new AreaProtectionFormation(formation,formationId,10,10)
+                            new AreaProtectionFormation(formation,formationId,1,10)
                     )));
 
     public static final DeferredHolder<IFormation,? extends GenericFormation> QI_ABSORPTION_FORMATION = FORMATIONS.register("qi_absorption_formation",
@@ -68,7 +68,7 @@ public class ModFormations {
     public static final DeferredHolder<IFormation,? extends GenericFormation> GROWTH_FORMATION = FORMATIONS.register("growth_formation",
             ()->new GenericFormation(Component.literal("Natures Blessing Formation"),ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"growth_formation_renderer"),
                     ((formation, pos, formationId) ->
-                            new GrowthFormation(formation,formationId,10,50,20,60,10)
+                            new GrowthFormation(formation,formationId,10,50,20,60,2)
                     )));
     public static final DeferredHolder<IFormation, ? extends GenericFormation> OBFUSCATION_FORMATION = FORMATIONS.register("mist_obfuscation_formation",
             () -> new GenericFormation(Component.literal("Mist Obfuscation Formation"), ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mist_renderer"),

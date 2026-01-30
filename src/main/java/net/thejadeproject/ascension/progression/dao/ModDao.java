@@ -363,6 +363,22 @@ public class ModDao {
                     "ascension:water", 1.3    // Water erodes sharpness
             )
     );
+    // precision Dao (from physique references)
+    public static final DeferredHolder<IDao,GenericDao> PRECISION_DAO = createDao("precision",
+            Component.literal("§7[Sharpness]").withColor(0xC0C0C0),
+            List.of(
+                    Component.literal("under your dao no one can escape")
+            ),
+            Map.of(
+                    "ascension:metal", 1.8,
+                    "ascension:bow_intent", 1.5,
+                    "ascension:spear_intent", 1.3
+            ),
+            Map.of(
+                    "ascension:earth", 1.5,   // Earth dulls edges
+                    "ascension:water", 1.3    // Water erodes sharpness
+            )
+    );
 
     // Cutting Dao (from physique references)
     public static final DeferredHolder<IDao,GenericDao> CUTTING_DAO = createDao("cutting",

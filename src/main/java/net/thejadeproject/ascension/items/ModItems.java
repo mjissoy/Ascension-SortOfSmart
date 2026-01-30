@@ -95,7 +95,7 @@ public class ModItems {
     public static final DeferredItem<Item> JADE_NUGGET = ITEMS.register("jade_nugget",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> SPIRITUAL_STONE = ITEMS.register("spiritual_stone",
-            () -> new Item(new Item.Properties().rarity(Rarity.EPIC).component(ModDataComponents.FORMATION_FUEL,100)));
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC).component(ModDataComponents.FORMATION_FUEL,1000)));
 
     public static final DeferredItem<Item> FORMATION_PLATE = ITEMS.register("formation_plate",
             () -> new Item(new Item.Properties()){
