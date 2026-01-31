@@ -127,9 +127,6 @@ public class PhysiqueTransferItem extends Item {
             tooltip.add(Component.literal("Requires 100% purity to use")
                     .withStyle(ChatFormatting.RED));
         }
-
-        tooltip.add(Component.literal("Warning: Resets all cultivation progress!")
-                .withStyle(ChatFormatting.DARK_RED));
     }
 
     private Component getPhysiqueDisplayName(String targetPhysiqueId) {
