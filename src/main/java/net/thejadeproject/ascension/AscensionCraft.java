@@ -302,6 +302,7 @@ public class AscensionCraft {
             event.add(EntityType.PLAYER, ModAttributes.MAX_CASTING_INSTANCES);
             event.add(EntityType.PLAYER, ModAttributes.PLAYER_MAX_QI);
             event.add(EntityType.PLAYER, ModAttributes.PLAYER_QI_REGEN_RATE);
+            event.add(EntityType.PLAYER, ModAttributes.SKILL_DAMAGE_MULTIPLIER);
         }
 
         @SubscribeEvent

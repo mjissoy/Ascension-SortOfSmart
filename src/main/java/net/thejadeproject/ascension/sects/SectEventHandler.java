@@ -21,33 +21,47 @@ public class SectEventHandler {
         if (manager == null) return;
 
         if (manager.isChatToggled(player.getUUID())) {
-            // Cancel normal chat and send as command instead
             event.setCanceled(true);
-
             Sect sect = manager.getPlayerSect(player.getUUID());
+
             if (sect != null) {
                 String message = event.getRawText();
-                // SANITIZED: Prevent command injection
                 if (message.startsWith("/")) {
                     player.sendSystemMessage(Component.literal("§cCannot send commands in sect chat toggle mode!"));
                     manager.setChatToggle(player.getUUID(), false);
                     return;
                 }
-                String command = "sect chat " + message;
-                player.getServer().getCommands().performPrefixedCommand(player.createCommandSourceStack(), command);
+                sendSectChatMessage(sect, player, message, player.getServer());
             } else {
                 player.sendSystemMessage(Component.literal("§cYou are not in a sect! Switching back to global chat."));
                 manager.setChatToggle(player.getUUID(), false);
             }
+            return;
+        }
+        event.setCanceled(true);
+
+        Sect sect = manager.getPlayerSect(player.getUUID());
+        String playerName = player.getScoreboardName();
+        String messageText = event.getRawText();
+
+        MutableComponent formattedMessage;
+
+        if (sect != null) {
+            formattedMessage = Component.literal("")
+                    .append(Component.literal("§e[" + sect.getName() + "] §r"))
+                    .append(Component.literal(playerName))
+                    .append(Component.literal(" §e➣§r "))
+                    .append(Component.literal(messageText));
         } else {
-            // Add yellow sect prefix to global chat
-            Sect sect = manager.getPlayerSect(player.getUUID());
-            if (sect != null) {
-                MutableComponent newMessage = Component.literal("")
-                        .append(Component.literal("§e[" + sect.getName() + "] "))
-                        .append(Component.literal(event.getRawText()));
-                event.setMessage(newMessage);
-            }
+            formattedMessage = Component.literal("")
+                    .append(Component.literal(playerName))
+                    .append(Component.literal(" §e➣§r "))
+                    .append(Component.literal(messageText));
+        }
+
+        // Manually broadcast to all players (including sender)
+        for (ServerPlayer onlinePlayer : player.getServer().getPlayerList().getPlayers()) {
+            onlinePlayer.sendSystemMessage(formattedMessage);
         }
     }
 
@@ -77,14 +91,16 @@ public class SectEventHandler {
     }
 
     private void sendSectChatMessage(Sect sect, ServerPlayer sender, String message, net.minecraft.server.MinecraftServer server) {
-        String formattedMessage = "§3[§b" + sect.getName() + "§3] §e" + sender.getScoreboardName() + "§7: §f" + message;
+        String formattedMessage = "§3[§b" + sect.getName() + "§3] §e" + sender.getScoreboardName() + " §e➣§f " + message;
         Component chatMessage = Component.literal(formattedMessage);
+
         for (SectMember member : sect.getMembers().values()) {
             ServerPlayer onlinePlayer = server.getPlayerList().getPlayer(member.getPlayerId());
             if (onlinePlayer != null) {
                 onlinePlayer.sendSystemMessage(chatMessage);
             }
         }
+
     }
 
     @SubscribeEvent
@@ -103,8 +119,7 @@ public class SectEventHandler {
 
         if (targetSect != null && targetSect == attackerSect) {
             if (!targetSect.isFriendlyFire()) {
-                // FIXED: Actually cancel the damage
-                event.setNewDamage(0); // CRITICAL FIX
+                event.setNewDamage(0);
                 attackerPlayer.displayClientMessage(
                         Component.literal("§cFriendly fire is disabled in your sect!"),
                         true

@@ -43,6 +43,74 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_BLADE.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_BLADE.get());
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPEAR.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPEAR.get());
 
+
+
+        record CushionRecipeData(String color, Supplier<Block> cushion, Block wool) {}
+
+        List<CushionRecipeData> cushions = List.of(
+                new CushionRecipeData("white", ModBlocks.CUSHION_WHITE::get, Blocks.WHITE_WOOL),
+                new CushionRecipeData("light_gray", ModBlocks.CUSHION_LIGHT_GRAY::get, Blocks.LIGHT_GRAY_WOOL),
+                new CushionRecipeData("gray", ModBlocks.CUSHION_GRAY::get, Blocks.GRAY_WOOL),
+                new CushionRecipeData("black", ModBlocks.CUSHION_BLACK::get, Blocks.BLACK_WOOL),
+                new CushionRecipeData("brown", ModBlocks.CUSHION_BROWN::get, Blocks.BROWN_WOOL),
+                new CushionRecipeData("red", ModBlocks.CUSHION_RED::get, Blocks.RED_WOOL),
+                new CushionRecipeData("orange", ModBlocks.CUSHION_ORANGE::get, Blocks.ORANGE_WOOL),
+                new CushionRecipeData("yellow", ModBlocks.CUSHION_YELLOW::get, Blocks.YELLOW_WOOL),
+                new CushionRecipeData("lime", ModBlocks.CUSHION_LIME::get, Blocks.LIME_WOOL),
+                new CushionRecipeData("green", ModBlocks.CUSHION_GREEN::get, Blocks.GREEN_WOOL),
+                new CushionRecipeData("cyan", ModBlocks.CUSHION_CYAN::get, Blocks.CYAN_WOOL),
+                new CushionRecipeData("light_blue", ModBlocks.CUSHION_LIGHT_BLUE::get, Blocks.LIGHT_BLUE_WOOL),
+                new CushionRecipeData("blue", ModBlocks.CUSHION_BLUE::get, Blocks.BLUE_WOOL),
+                new CushionRecipeData("purple", ModBlocks.CUSHION_PURPLE::get, Blocks.PURPLE_WOOL),
+                new CushionRecipeData("magenta", ModBlocks.CUSHION_MAGENTA::get, Blocks.MAGENTA_WOOL),
+                new CushionRecipeData("pink", ModBlocks.CUSHION_PINK::get, Blocks.PINK_WOOL)
+        );
+
+        for (CushionRecipeData data : cushions) {
+            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, data.cushion().get())
+                    .pattern("   ")
+                    .pattern("EEE")
+                    .pattern("EWE")
+                    .define('W', ItemTags.PLANKS)
+                    .define('E', data.wool())
+                    .unlockedBy("has_" + data.color() + "_wool", has(data.wool()))
+                    .save(recipeOutput, "ascension:shaped/" + data.color() + "_cushion");
+        }
+
+
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_PICKAXE.get())
+                .pattern("SSS")
+                .pattern(" T ")
+                .pattern(" T ")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('T', Items.STICK)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_pickaxe");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_HOE.get())
+                .pattern("SS ")
+                .pattern(" T ")
+                .pattern(" T ")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('T', Items.STICK)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_hoe");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_AXE.get())
+                .pattern("SS ")
+                .pattern("ST ")
+                .pattern(" T ")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('T', Items.STICK)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_axe");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_SHOVEL.get())
+                .pattern(" S ")
+                .pattern(" T ")
+                .pattern(" T ")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('T', Items.STICK)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_shovel");
+
+
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SOULSTEAD_RETURN_TALISMAN.get())
                 .pattern("DED")
                 .pattern("ETE")

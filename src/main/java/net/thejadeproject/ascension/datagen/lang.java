@@ -61,8 +61,6 @@ public class lang extends LanguageProvider {
         add("item.ascension.gold_blade", "Gold Blade");
         add("item.ascension.diamond_blade", "Diamond Blade");
         add("item.ascension.netherite_blade", "Netherite Blade");
-        add("item.ascension.jade_blade", "Jade Blade");
-        add("item.ascension.searing_blade", "Searing Blade");
 
         add("item.ascension.wooden_spear", "Wooden Spear");
         add("item.ascension.stone_spear", "Stone Spear");
@@ -70,7 +68,12 @@ public class lang extends LanguageProvider {
         add("item.ascension.gold_spear", "Gold Spear");
         add("item.ascension.diamond_spear", "Diamond Spear");
         add("item.ascension.netherite_spear", "Netherite Spear");
-        add("item.ascension.jade_spear", "Jade Spear");
+
+        add("item.ascension.spiritual_stone_pickaxe", "Spiritual Stone Pickaxe");
+        add("item.ascension.spiritual_stone_axe", "Spiritual Stone Axe");
+        add("item.ascension.spiritual_stone_shovel", "Spiritual Stone Shovel");
+        add("item.ascension.spiritual_stone_hoe", "Spiritual Stone Hoe");
+
 
 
         //Misc

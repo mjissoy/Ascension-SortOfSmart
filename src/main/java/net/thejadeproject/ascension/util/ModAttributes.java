@@ -37,6 +37,14 @@ public class ModAttributes {
             0,
             1000000).setSyncable(true));
 
+    public static final Holder<Attribute> SKILL_DAMAGE_MULTIPLIER = ATTRIBUTES.register("skill_damage_multiplier", () -> new RangedAttribute(
+            // The translation key to use
+            "attributes.ascension.skill_damage_multiplier",
+            1.0,
+            0.0,
+            1000.0)
+            .setSyncable(true));
+
     public static void register(IEventBus modEventBus){
         ATTRIBUTES.register(modEventBus);
 

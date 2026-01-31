@@ -115,6 +115,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.NETHERITE_SPEAR.get());
 
 
+        handheldItem(ModItems.SPIRITUAL_STONE_AXE.get());
+        handheldItem(ModItems.SPIRITUAL_STONE_PICKAXE.get());
+        handheldItem(ModItems.SPIRITUAL_STONE_HOE.get());
+        handheldItem(ModItems.SPIRITUAL_STONE_SHOVEL.get());
+
 
         //Items
         basicItem(ModItems.JADE.get());

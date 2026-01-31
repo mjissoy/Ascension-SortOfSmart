@@ -1,7 +1,7 @@
 package net.thejadeproject.ascension.progression.skills.active_skills.physique_skills.kitsune_skills;
 
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -13,34 +13,67 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
-import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
-import org.joml.Vector3f;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.util.ModAttributes;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
 
-    private static final Map<UUID, FoxfireData> activeFoxfirePlayers = new HashMap<>();
+    private static final String SKILL_ID = "ascension:foxfire_manipulation";
 
-    private static final DustParticleOptions FOXFIRE_BLUE = new DustParticleOptions(new Vector3f(0.3f, 0.4f, 1.0f), 1.0f);
-    private static final DustParticleOptions FOXFIRE_PURPLE = new DustParticleOptions(new Vector3f(0.6f, 0.2f, 1.0f), 1.0f);
-    private static final DustParticleOptions FOXFIRE_WHITE = new DustParticleOptions(new Vector3f(0.9f, 0.9f, 1.0f), 1.0f);
+    private static final Map<UUID, ActiveState> ACTIVE_STATES = new HashMap<>();
 
-    private static class FoxfireData {
-        List<FoxfireOrb> orbs = new ArrayList<>();
+    private static class ActiveState {
         int remainingTicks = 0;
         int maxOrbs = 3;
         double orbitRadius = 2.0;
         double orbitSpeed = 0.1;
+        List<FoxfireOrb> orbs = new ArrayList<>();
     }
 
     private static class FoxfireOrb {
         double angle = 0;
         double heightOffset = 0;
         int attackCooldown = 0;
-        boolean isActive = true;
+        float damageMultiplier = 1.0f; // Random damage multiplier per orb
+    }
+
+    public static class FoxfireData implements IPersistentSkillData {
+        private int cooldownTicks = 0;
+
+        @Override
+        public CompoundTag writeData() {
+            CompoundTag tag = new CompoundTag();
+            tag.putInt("Cooldown", cooldownTicks);
+            return tag;
+        }
+
+        @Override
+        public void readData(CompoundTag tag) {
+            this.cooldownTicks = tag.getInt("Cooldown");
+        }
+
+        @Override
+        public void encode(RegistryFriendlyByteBuf buf) {
+            buf.writeInt(cooldownTicks);
+        }
+
+        @Override
+        public void decode(RegistryFriendlyByteBuf buf) {
+            this.cooldownTicks = buf.readInt();
+        }
+
+        public int getCooldown() { return cooldownTicks; }
+        public void setCooldown(int cd) { this.cooldownTicks = cd; }
+        public void decrementCooldown() { if (cooldownTicks > 0) cooldownTicks--; }
     }
 
     public FoxfireManipulationActiveSkill() {
@@ -49,6 +82,38 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
         this.qiCost = 15.0;
 
         NeoForge.EVENT_BUS.addListener(this::onPlayerTick);
+    }
+
+    private FoxfireData getData(Player player) {
+        var skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
+        var metaData = skillData.getActiveSkill(SKILL_ID);
+        if (metaData != null && metaData.data instanceof FoxfireData data) {
+            return data;
+        }
+        return null;
+    }
+
+    /**
+     * Calculates the final skill damage multiplier based on:
+     * - Base attribute value (SKILL_DAMAGE_MULTIPLIER)
+     * - +0.8 per major realm
+     * - +0.2 per minor realm
+     */
+    private double getSkillDamageMultiplier(Player player) {
+        // Get base multiplier from attribute (default is 1.0)
+        double baseMult = player.getAttributeValue(ModAttributes.SKILL_DAMAGE_MULTIPLIER);
+        if (baseMult <= 0) baseMult = 1.0; // Safety check
+
+        // Get realm data
+        var cultivationData = player.getData(ModAttachments.PLAYER_DATA).getCultivationData();
+        var pathData = cultivationData.getPathData(this.path);
+        int majorRealm = pathData.majorRealm;
+        int minorRealm = pathData.minorRealm; // Assumes minorRealm field exists in PathData
+
+        // Calculate realm bonuses: Major = +0.8, Minor = +0.2
+        double realmBonus = (majorRealm * 0.8) + (minorRealm * 0.2);
+
+        return baseMult + realmBonus;
     }
 
     @Override
@@ -71,76 +136,97 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
         return 0;
     }
 
-
     @Override
     public void cast(int castingTicksElapsed, Level level, Player player, ICastData castData) {
         if (level.isClientSide()) return;
 
-        UUID playerId = player.getUUID();
-        FoxfireData data = new FoxfireData();
-
-        int essenceRealm = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(this.path).majorRealm;
-
-        data.remainingTicks = 20 * (30 + (essenceRealm * 5));
-
-        data.maxOrbs = 3 + (essenceRealm / 2);
-
-        for (int i = 0; i < data.maxOrbs; i++) {
-            FoxfireOrb orb = new FoxfireOrb();
-            orb.angle = (2 * Math.PI * i) / data.maxOrbs;
-            orb.heightOffset = (level.random.nextDouble() - 0.5) * 1.0;
-            data.orbs.add(orb);
+        FoxfireData data = getData(player);
+        if (data == null) {
+            player.displayClientMessage(Component.literal("§cError: Skill data not found!"), true);
+            return;
         }
 
-        activeFoxfirePlayers.put(playerId, data);
+        if (data.getCooldown() > 0) {
+            int seconds = (data.getCooldown() + 19) / 20;
+            player.displayClientMessage(Component.literal("Foxfire on cooldown: " + seconds + "s"), true);
+            return;
+        }
 
-        spawnInitialFoxfire(level, player.position(), data.maxOrbs);
+        // Get realm data for initial scaling
+        var pathData = player.getData(ModAttachments.PLAYER_DATA)
+                .getCultivationData().getPathData(this.path);
+        int majorRealm = pathData.majorRealm;
+        int minorRealm = pathData.minorRealm;
+
+        // Show damage multiplier info to player for feedback
+        double currentMult = getSkillDamageMultiplier(player);
+        player.displayClientMessage(Component.literal(
+                String.format("§dFoxfire Damage Multiplier: %.1fx§r", currentMult)), true);
+
+        ActiveState state = new ActiveState();
+        state.remainingTicks = 20 * (30 + (majorRealm * 5));
+        state.maxOrbs = 3 + (majorRealm / 2);
+
+        for (int i = 0; i < state.maxOrbs; i++) {
+            FoxfireOrb orb = new FoxfireOrb();
+            orb.angle = (2 * Math.PI * i) / state.maxOrbs;
+            orb.heightOffset = (level.random.nextDouble() - 0.5) * 1.0;
+            // Randomize damage multiplier between 0.7 and 1.3
+            orb.damageMultiplier = 0.7f + (level.random.nextFloat() * 0.6f);
+            state.orbs.add(orb);
+        }
+
+        ACTIVE_STATES.put(player.getUUID(), state);
+
+        data.setCooldown(getCooldown());
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+
+        spawnInitialFoxfire(level, player.position(), state.maxOrbs);
     }
 
     @Override
-    public void onPreCast() {
-    }
+    public void onPreCast() {}
 
     public void onPlayerTick(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
         if (player.level().isClientSide()) return;
 
-        UUID playerId = player.getUUID();
-        FoxfireData data = activeFoxfirePlayers.get(playerId);
-
-        if (data != null) {
-            data.remainingTicks--;
-
-            updateFoxfireOrbs(player, data);
-
-            attackNearbyEnemies(player, data);
-
-            spawnOrbitParticles(player.level(), player.position(), data);
-
-            if (data.remainingTicks <= 0) {
-                spawnFadeOutParticles(player.level(), player.position(), data.maxOrbs);
-                activeFoxfirePlayers.remove(playerId);
+        FoxfireData data = getData(player);
+        if (data != null && data.getCooldown() > 0) {
+            data.decrementCooldown();
+            if (data.getCooldown() == 0) {
+                player.syncData(ModAttachments.PLAYER_SKILL_DATA);
             }
+        }
+
+        ActiveState state = ACTIVE_STATES.get(player.getUUID());
+        if (state == null) return;
+
+        state.remainingTicks--;
+        updateFoxfireOrbs(player, state);
+        attackNearbyEnemies(player, state);
+        spawnOrbitParticles(player.level(), player.position(), state);
+
+        if (state.remainingTicks <= 0) {
+            spawnFadeOutParticles(player.level(), player.position(), state.maxOrbs);
+            ACTIVE_STATES.remove(player.getUUID());
         }
     }
 
-    private void updateFoxfireOrbs(Player player, FoxfireData data) {
+    private void updateFoxfireOrbs(Player player, ActiveState state) {
         double time = player.level().getGameTime() * 0.05;
 
-        for (int i = 0; i < data.orbs.size(); i++) {
-            FoxfireOrb orb = data.orbs.get(i);
-
-            orb.angle += data.orbitSpeed;
+        for (int i = 0; i < state.orbs.size(); i++) {
+            FoxfireOrb orb = state.orbs.get(i);
+            orb.angle += state.orbitSpeed;
             if (orb.angle > 2 * Math.PI) orb.angle -= 2 * Math.PI;
-
             orb.heightOffset = Math.sin(time + i) * 0.5;
-
             if (orb.attackCooldown > 0) orb.attackCooldown--;
         }
     }
 
-    private void attackNearbyEnemies(Player player, FoxfireData data) {
-        if (player.level().isClientSide() || !(player.level() instanceof ServerLevel serverLevel)) return;
+    private void attackNearbyEnemies(Player player, ActiveState state) {
+        if (!(player.level() instanceof ServerLevel serverLevel)) return;
 
         AABB searchArea = player.getBoundingBox().inflate(10.0);
         List<LivingEntity> nearbyEnemies = player.level().getEntitiesOfClass(
@@ -151,31 +237,20 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
 
         if (nearbyEnemies.isEmpty()) return;
 
-        for (FoxfireOrb orb : data.orbs) {
-            if (orb.attackCooldown <= 0 && orb.isActive) {
-                LivingEntity target = null;
-                double closestDistance = Double.MAX_VALUE;
-
-                for (LivingEntity enemy : nearbyEnemies) {
-                    double distance = enemy.distanceToSqr(player);
-                    if (distance < closestDistance && distance < 100.0) {
-                        closestDistance = distance;
-                        target = enemy;
-                    }
-                }
-
-                if (target != null) {
-                    shootFoxfire(serverLevel, player, target, orb, data);
-                    orb.attackCooldown = 20;
-                }
+        for (FoxfireOrb orb : state.orbs) {
+            if (orb.attackCooldown <= 0 && !nearbyEnemies.isEmpty()) {
+                // Randomly select a target from nearby enemies
+                LivingEntity target = nearbyEnemies.get(serverLevel.random.nextInt(nearbyEnemies.size()));
+                shootFoxfire(serverLevel, player, target, orb, state);
+                orb.attackCooldown = 20;
             }
         }
     }
 
-    private void shootFoxfire(ServerLevel serverLevel, Player player, LivingEntity target, FoxfireOrb orb, FoxfireData data) {
-        double x = player.getX() + data.orbitRadius * Math.cos(orb.angle);
+    private void shootFoxfire(ServerLevel serverLevel, Player player, LivingEntity target, FoxfireOrb orb, ActiveState state) {
+        double x = player.getX() + state.orbitRadius * Math.cos(orb.angle);
         double y = player.getY() + 1.5 + orb.heightOffset;
-        double z = player.getZ() + data.orbitRadius * Math.sin(orb.angle);
+        double z = player.getZ() + state.orbitRadius * Math.sin(orb.angle);
 
         double dx = target.getX() - x;
         double dy = (target.getY() + target.getEyeHeight() / 2) - y;
@@ -194,24 +269,35 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
             double trailY = y + dy * distance * progress;
             double trailZ = z + dz * distance * progress;
 
-            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME,
-                    trailX, trailY, trailZ,
+            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, trailX, trailY, trailZ,
                     1, 0, 0, 0, 0.05);
-
-            if (i % 3 == 0) {
-                DustParticleOptions color = serverLevel.random.nextBoolean() ? FOXFIRE_BLUE : FOXFIRE_PURPLE;
-                serverLevel.sendParticles(color,
-                        trailX, trailY, trailZ,
-                        1, 0.02, 0.02, 0.02, 0.01);
-            }
         }
 
-        int essenceRealm = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(this.path).majorRealm;
-        float damage = 2.0f + (essenceRealm * 0.5f);
+        // DAMAGE CALCULATION WITH ORB MULTIPLIER
+        var pathData = player.getData(ModAttachments.PLAYER_DATA)
+                .getCultivationData().getPathData(this.path);
+        int majorRealm = pathData.majorRealm;
+        int minorRealm = pathData.minorRealm;
 
-        target.hurt(player.damageSources().magic(), damage);
+        // Base damage scales with major realm
+        float baseDamage = 2.0f + (majorRealm * 0.5f);
 
+        // Apply skill damage multiplier (includes attribute + realm bonuses)
+        double damageMult = getSkillDamageMultiplier(player);
+
+        // Apply orb-specific damage multiplier
+        float finalDamage = (float)(baseDamage * damageMult * orb.damageMultiplier);
+
+        // Ensure minimum damage of 1.0
+        if (finalDamage < 1.0f) finalDamage = 1.0f;
+
+        target.hurt(player.damageSources().magic(), finalDamage);
         target.setRemainingFireTicks(100);
+
+        // Show damage with orb multiplier info
+        player.displayClientMessage(Component.literal(
+                String.format("§d⚡ Foxfire hit for %.1f damage! (x%.1f)",
+                        finalDamage, orb.damageMultiplier)), true);
 
         for (int i = 0; i < 15; i++) {
             double offsetX = (serverLevel.random.nextDouble() - 0.5) * 0.8;
@@ -224,38 +310,28 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
         }
     }
 
-    private void spawnOrbitParticles(Level level, Vec3 position, FoxfireData data) {
-        if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) return;
+    private void spawnOrbitParticles(Level level, Vec3 position, ActiveState state) {
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
-        for (FoxfireOrb orb : data.orbs) {
-            double x = position.x + data.orbitRadius * Math.cos(orb.angle);
+        for (FoxfireOrb orb : state.orbs) {
+            double x = position.x + state.orbitRadius * Math.cos(orb.angle);
             double y = position.y + 1.5 + orb.heightOffset;
-            double z = position.z + data.orbitRadius * Math.sin(orb.angle);
+            double z = position.z + state.orbitRadius * Math.sin(orb.angle);
 
-            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME,
-                    x, y, z,
-                    1, 0, 0, 0, 0);
+            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x, y, z, 1, 0, 0, 0, 0);
 
-            if (level.random.nextInt(3) == 0) {
-                DustParticleOptions color = FOXFIRE_PURPLE;
-                serverLevel.sendParticles(color,
-                        x, y, z,
-                        1, 0.1, 0.1, 0.1, 0.05);
-            }
-
+            // Trail particles
             double trailAngle = orb.angle - 0.2;
-            double trailX = position.x + data.orbitRadius * Math.cos(trailAngle);
+            double trailX = position.x + state.orbitRadius * Math.cos(trailAngle);
             double trailY = position.y + 1.5 + orb.heightOffset;
-            double trailZ = position.z + data.orbitRadius * Math.sin(trailAngle);
+            double trailZ = position.z + state.orbitRadius * Math.sin(trailAngle);
 
-            serverLevel.sendParticles(ParticleTypes.ENCHANT,
-                    trailX, trailY, trailZ,
-                    1, 0, 0, 0, 0.02);
+            serverLevel.sendParticles(ParticleTypes.ENCHANT, trailX, trailY, trailZ, 1, 0, 0, 0, 0.02);
         }
     }
 
     private void spawnInitialFoxfire(Level level, Vec3 position, int orbCount) {
-        if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) return;
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
         for (int i = 0; i < 50; i++) {
             double angle = level.random.nextDouble() * Math.PI * 2;
@@ -264,15 +340,7 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
             double z = position.z + radius * Math.sin(angle);
             double y = position.y + level.random.nextDouble() * 2.0;
 
-            DustParticleOptions color;
-            double rand = level.random.nextDouble();
-            if (rand < 0.33) color = FOXFIRE_BLUE;
-            else if (rand < 0.66) color = FOXFIRE_PURPLE;
-            else color = FOXFIRE_WHITE;
-
-            serverLevel.sendParticles(color,
-                    x, y, z,
-                    1, 0, 0.1, 0, 0.1);
+            serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x, y, z, 1, 0, 0.1, 0, 0.1);
         }
 
         for (int i = 0; i < 360; i += 10) {
@@ -281,14 +349,13 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
             double x = position.x + radius * Math.cos(angle);
             double z = position.z + radius * Math.sin(angle);
 
-            serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
-                    x, position.y + 1.0, z,
+            serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT, x, position.y + 1.0, z,
                     1, 0, 0.2, 0, 0.05);
         }
     }
 
     private void spawnFadeOutParticles(Level level, Vec3 position, int orbCount) {
-        if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) return;
+        if (!(level instanceof ServerLevel serverLevel)) return;
 
         for (int i = 0; i < 30; i++) {
             double angle = level.random.nextDouble() * Math.PI * 2;
@@ -297,14 +364,10 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
             double z = position.z + radius * Math.sin(angle);
             double y = position.y + level.random.nextDouble() * 2.0;
 
-            serverLevel.sendParticles(ParticleTypes.CLOUD,
-                    x, y, z,
-                    1, 0, 0.05, 0, 0.05);
+            serverLevel.sendParticles(ParticleTypes.CLOUD, x, y, z, 1, 0, 0.05, 0, 0.05);
 
             if (i % 3 == 0) {
-                serverLevel.sendParticles(ParticleTypes.WITCH,
-                        x, y, z,
-                        1, 0, 0, 0, 0.1);
+                serverLevel.sendParticles(ParticleTypes.WITCH, x, y, z, 1, 0, 0, 0, 0.1);
             }
         }
     }
@@ -312,10 +375,18 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
     @Override
     public void onSkillRemoved(Player player) {
         super.onSkillRemoved(player);
-        activeFoxfirePlayers.remove(player.getUUID());
+        ACTIVE_STATES.remove(player.getUUID());
     }
 
-    public static void clearPlayerFoxfire(UUID playerId) {
-        activeFoxfirePlayers.remove(playerId);
+    @Override
+    public IPersistentSkillData getPersistentDataInstance() {
+        return new FoxfireData();
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
+        FoxfireData data = new FoxfireData();
+        data.readData(tag);
+        return data;
     }
 }

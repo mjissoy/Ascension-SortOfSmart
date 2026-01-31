@@ -25,34 +25,37 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
 
         //Physiques
-        add("dragon_vein_from_ender_dragon", new AddPhysiqueItemModifier(
+        add("dragon_vein_from_ender_dragon", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/ender_dragon")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.09f).build()
+                        LootItemRandomChanceCondition.randomChance(0.13f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "dragon_vein_physique"),
-                20
+                15,
+                25
         ));
-        add("heavenly_demon_from_wither", new AddPhysiqueItemModifier(
+        add("heavenly_demon_from_wither", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/wither")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.07f).build()
+                        LootItemRandomChanceCondition.randomChance(0.11f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "heavenly_demon_physique"),
-                15
+                10,
+                20
         ));
-        add("soul_anchor_from_ancient_city", new AddPhysiqueItemModifier(
+        add("soul_anchor_from_ancient_city", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/ancient_city")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.12f).build()
+                        LootItemRandomChanceCondition.randomChance(0.15f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "soul_anchor_physique"),
-                15
+                10,
+                20
         ));
         add("eternal_reincarnation_range", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/trial_chambers/vault")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.08f).build()
+                        LootItemRandomChanceCondition.randomChance(0.14f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "eternal_reincarnation_physique"),
                 5,
@@ -61,7 +64,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("hundred_poison_from_witch", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/witch")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.21f).build()
+                        LootItemRandomChanceCondition.randomChance(0.23f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "hundred_poison_physique"),
                 7,
@@ -70,7 +73,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("hundred_poison_from_cave_spider", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/cave_spider")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.15f).build()
+                        LootItemRandomChanceCondition.randomChance(0.17f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "hundred_poison_physique"),
                 2,
@@ -79,72 +82,70 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("hundred_poison_from_pufferfish", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/pufferfish")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.15f).build()
+                        LootItemRandomChanceCondition.randomChance(0.17f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "hundred_poison_physique"),
                 3,
                 10
         ));
-        add("stone_skin_from_mineshaft", new AddPhysiqueItemModifier(
+        add("stone_skin_from_mineshaft", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
-                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/abandoned_mineshaft")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.08f).build()
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/mineshaft")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.21f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "stone_skin_physique"),
-                10
+                5,
+                15
         ));
-        add("iron_marrow_from_iron_golem", new AddPhysiqueItemModifier(
+        add("iron_marrow_from_iron_golem", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/iron_golem")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.12f).build()
+                        LootItemRandomChanceCondition.randomChance(0.14f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "iron_marrow_physique"),
-                12
+                7,
+                17
         ));
-        add("jade_bone_from_jungle_temple", new AddPhysiqueItemModifier(
+        add("jade_bone_from_jungle_temple", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/jungle_temple")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.07f).build()
+                        LootItemRandomChanceCondition.randomChance(0.15f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "jade_bone_physique"),
-                18
+                13,
+                23
         ));
-        add("crystal_meridian_from_end_city", new AddPhysiqueItemModifier(
+        add("crystal_meridian_from_end_city", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/end_city_treasure")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.09f).build()
+                        LootItemRandomChanceCondition.randomChance(0.15f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "crystal_meridian_physique"),
-                22
+                17,
+                27
         ));
-        add("blood_jade_from_nether_fortress", new AddPhysiqueItemModifier(
+        add("blood_jade_from_nether_fortress", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/nether_bridge")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.11f).build()
+                        LootItemRandomChanceCondition.randomChance(0.16f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "blood_jade_physique"),
-                20
+                15,
+                25
         ));
-        add("heavenly_lightning_from_charged_creeper", new AddPhysiqueItemModifier(
-                new LootItemCondition[] {
-                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/creeper")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.05f).build()
-                },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "heavenly_lightning_physique"),
-                24
-        ));
-        add("phoenix_nirvana_from_nether_fortress", new AddPhysiqueItemModifier(
+        add("phoenix_nirvana_from_nether_fortress", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/nether_bridge")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.06f).build()
+                        LootItemRandomChanceCondition.randomChance(0.13f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "phoenix_nirvana_physique"),
-                13
+                8,
+                18
         ));
         add("primordial_chaos_from_end_city", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/end_city_treasure")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.08f).build()
+                        LootItemRandomChanceCondition.randomChance(0.13f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "primordial_chaos_physique"),
                 1,
@@ -153,7 +154,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("sword_saint_from_bastion_treasure", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/bastion_treasure")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.08f).build()
+                        LootItemRandomChanceCondition.randomChance(0.13f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sword_saint_physique"),
                 1,
@@ -162,7 +163,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("universe_devourer_from_end_city", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/end_city_treasure")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.08f).build()
+                        LootItemRandomChanceCondition.randomChance(0.13f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "universe_devourer_physique"),
                 2,
@@ -171,216 +172,224 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("nine_tailed_kitsune_from_fox", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/fox")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.09f).build()
+                        LootItemRandomChanceCondition.randomChance(0.11f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "nine_tailed_kitsune_physique"),
                 1,
                 26
         ));
 
-        add("empty_vessel_from_village", new AddPhysiqueItemModifier(
+        add("empty_vessel_from_village", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_plains_house")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.25f).build()
+                        LootItemRandomChanceCondition.randomChance(0.27f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "empty_vessel"),
-                5
+                1,
+                10
         ));
 
-        add("pure_sword_body_from_pillager", new AddPhysiqueItemModifier(
+        add("pure_sword_body_from_pillager", new AddPhysiqueRandomPurityModifier(
+                new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/pillager")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.20f).build()
+                },
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_sword_body"),
+                10,
+                20
+        ));
+        add("pure_spear_body_from_drowned", new AddPhysiqueRandomPurityModifier(
+                new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/drowned")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.18f).build()
+                },
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_spear_body"),
+                10,
+                20
+        ));
+        add("pure_axe_body_from_vindicator", new AddPhysiqueRandomPurityModifier(
+                new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/vindicator")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.19f).build()
+                },
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_axe_body"),
+                10,
+                20
+        ));
+        add("pure_blade_body_from_pillager", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/pillager")).build(),
                         LootItemRandomChanceCondition.randomChance(0.18f).build()
                 },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_sword_body"),
-                15
-        ));
-        add("pure_spear_body_from_drowned", new AddPhysiqueItemModifier(
-                new LootItemCondition[] {
-                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/drowned")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.16f).build()
-                },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_spear_body"),
-                15
-        ));
-        add("pure_axe_body_from_vindicator", new AddPhysiqueItemModifier(
-                new LootItemCondition[] {
-                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/vindicator")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.17f).build()
-                },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_axe_body"),
-                15
-        ));
-        add("pure_blade_body_from_pillager", new AddPhysiqueItemModifier(
-                new LootItemCondition[] {
-                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/pillager")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.16f).build()
-                },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_blade_body"),
-                15
+                10,
+                20
         ));
-        add("pure_fist_body_from_cave_spider", new AddPhysiqueItemModifier(
+        add("pure_fist_body_from_cave_spider", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/cave_spider")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.19f).build()
+                        LootItemRandomChanceCondition.randomChance(0.21f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pure_fist_body"),
-                15
+                10,
+                20
         ));
-        add("iron_bone_from_iron_golem", new AddPhysiqueItemModifier(
+        add("iron_bone_from_iron_golem", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/iron_golem")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.14f).build()
-                },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "iron_bone_physique"),
-                10
-        ));
-        add("burning_skin_from_blaze", new AddPhysiqueItemModifier(
-                new LootItemCondition[] {
-                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/blaze")).build(),
                         LootItemRandomChanceCondition.randomChance(0.16f).build()
                 },
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "burning_skin_physique"),
-                10
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "iron_bone_physique"),
+                5,
+                15
         ));
-        add("sacred_sapling_from_jungle_temple", new AddPhysiqueItemModifier(
+        add("burning_skin_from_blaze", new AddPhysiqueRandomPurityModifier(
+                new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/blaze")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.18f).build()
+                },
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "burning_skin_physique"),
+                5,
+                15
+        ));
+        add("sacred_sapling_from_jungle_temple", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/jungle_temple")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.09f).build()
+                        LootItemRandomChanceCondition.randomChance(0.11f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sacred_sapling_physique"),
-                18
+                13,
+                23
         ));
-        add("suppressed_yin_from_stray", new AddPhysiqueItemModifier(
+        add("suppressed_yin_from_stray", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:entities/stray")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.17f).build()
+                        LootItemRandomChanceCondition.randomChance(0.19f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "suppressed_yin_physique"),
-                18
+                13,
+                23
         ));
 
 
         //Techniques
         this.add("iron_skin_from_dungeon", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/simple_dungeon")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()
+                LootItemRandomChanceCondition.randomChance(0.13F).build()
         }, ModTechniques.IRON_SKIN_TECHNIQUE.manual.get()));
         this.add("iron_skin_from_mineshaft", new AddItemModifier(new LootItemCondition[] {
-                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/abandoned_mineshaft")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/mineshaft")).build(),
+                LootItemRandomChanceCondition.randomChance(0.13F).build()
         }, ModTechniques.IRON_SKIN_TECHNIQUE.manual.get()));
 
         this.add("swift_breeze_from_stronghold", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()
+                LootItemRandomChanceCondition.randomChance(0.13F).build()
         }, ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get()));
         this.add("swift_breeze_from_mansion", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/woodland_mansion")).build(),
-                LootItemRandomChanceCondition.randomChance(0.05F).build()
+                LootItemRandomChanceCondition.randomChance(0.13F).build()
         }, ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get()));
 
         this.add("void_swallowing_from_end_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
-                LootItemRandomChanceCondition.randomChance(0.03F).build()
+                LootItemRandomChanceCondition.randomChance(0.11F).build()
         }, ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get()));
         this.add("void_swallowing_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
-                LootItemRandomChanceCondition.randomChance(0.03F).build()
+                LootItemRandomChanceCondition.randomChance(0.11F).build()
         }, ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get()));
 
         this.add("thunder_heart_from_bastion", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/bastion_treasure")).build(),
-                LootItemRandomChanceCondition.randomChance(0.03F).build()
+                LootItemRandomChanceCondition.randomChance(0.11F).build()
         }, ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get()));
         this.add("thunder_heart_from_fortress", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/nether_bridge")).build(),
-                LootItemRandomChanceCondition.randomChance(0.03F).build()
+                LootItemRandomChanceCondition.randomChance(0.11F).build()
         }, ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get()));
 
         this.add("divine_phoenix_from_desert", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/desert_pyramid")).build(),
-                LootItemRandomChanceCondition.randomChance(0.03F).build()
+                LootItemRandomChanceCondition.randomChance(0.11F).build()
         }, ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get()));
         this.add("divine_phoenix_from_jungle", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/jungle_temple")).build(),
-                LootItemRandomChanceCondition.randomChance(0.03F).build()
+                LootItemRandomChanceCondition.randomChance(0.11F).build()
         }, ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get()));
 
         this.add("jade_bone_from_mineshaft", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/abandoned_mineshaft")).build(),
-                LootItemRandomChanceCondition.randomChance(0.03F).build()
+                LootItemRandomChanceCondition.randomChance(0.11F).build()
         }, ModTechniques.JADE_BONE_TECHNIQUE.manual.get()));
         this.add("jade_bone_from_buried_treasure", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/buried_treasure")).build(),
-                LootItemRandomChanceCondition.randomChance(0.03F).build()
+                LootItemRandomChanceCondition.randomChance(0.11F).build()
         }, ModTechniques.JADE_BONE_TECHNIQUE.manual.get()));
 
         this.add("celestial_body_from_end_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
-                LootItemRandomChanceCondition.randomChance(0.02F).build()
+                LootItemRandomChanceCondition.randomChance(0.10F).build()
         }, ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual.get()));
         this.add("celestial_body_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
-                LootItemRandomChanceCondition.randomChance(0.02F).build()
+                LootItemRandomChanceCondition.randomChance(0.10F).build()
         }, ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual.get()));
 
         this.add("void_walker_from_end_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
-                LootItemRandomChanceCondition.randomChance(0.02F).build()
+                LootItemRandomChanceCondition.randomChance(0.10F).build()
         }, ModTechniques.VOID_WALKER_TECHNIQUE.manual.get()));
         this.add("void_walker_from_stronghold_library", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
-                LootItemRandomChanceCondition.randomChance(0.02F).build()
+                LootItemRandomChanceCondition.randomChance(0.10F).build()
         }, ModTechniques.VOID_WALKER_TECHNIQUE.manual.get()));
 
         this.add("cosmic_creation_from_end_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.COSMIC_CREATION_ESSENCE_TECHNIQUE.manual.get()));
 
         this.add("infinite_time_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.INFINITE_TIME_ESSENCE_TECHNIQUE.manual.get()));
 
         this.add("primordial_chaos_from_mansion", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/woodland_mansion")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual.get()));
         this.add("primordial_chaos_from_bastion", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/bastion_treasure")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual.get()));
 
         this.add("dragon_king_from_mansion", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/woodland_mansion")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual.get()));
         this.add("dragon_king_from_stronghold", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual.get()));
 
         this.add("universe_devourer_from_end_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/end_city_treasure")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual.get()));
         this.add("universe_devourer_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual.get()));
 
         this.add("eternal_reincarnation_from_ancient_city", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/ancient_city")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual.get()));
         this.add("eternal_reincarnation_from_stronghold", new AddItemModifier(new LootItemCondition[] {
                 LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("chests/stronghold_library")).build(),
-                LootItemRandomChanceCondition.randomChance(0.01F).build()
+                LootItemRandomChanceCondition.randomChance(0.09F).build()
         }, ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual.get()));
-
-
 
 
 
