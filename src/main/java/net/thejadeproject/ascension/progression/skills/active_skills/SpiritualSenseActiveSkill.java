@@ -9,11 +9,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -36,9 +35,10 @@ import net.thejadeproject.ascension.network.packets.ClearSpiritualSensePacket;
 import net.thejadeproject.ascension.network.packets.SyncSpiritualSenseEntitiesPacket;
 import net.thejadeproject.ascension.network.packets.SyncSpiritualSensePacket;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
-import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -47,163 +47,91 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
-    // Store sense data per player - separate maps for client and server
-    private static final Map<UUID, SenseData> playerSenseData = new ConcurrentHashMap<>();
+    private static final String SKILL_ID = "ascension:spiritual_sense";
 
-    // Store detected entities for each player (key: player UUID, value: map of entity ID to entity info)
-    private static final Map<UUID, Map<Integer, EntityInfo>> playerDetectedEntities = new ConcurrentHashMap<>();
+    // Client-side rendering data (not persisted)
+    private static final Map<UUID, SenseData> CLIENT_SENSE_DATA = new ConcurrentHashMap<>();
+    private static final Map<UUID, PlayerSenseInfo> CLIENT_SENSE_INFO = new ConcurrentHashMap<>();
+    private static final Map<UUID, Set<Integer>> CLIENT_GLOWING_ENTITIES = new ConcurrentHashMap<>();
 
-    // Store player information for display
-    private static final Map<UUID, PlayerSenseInfo> playerSenseInfo = new ConcurrentHashMap<>();
+    // Server-side transient active sessions (not persisted)
+    private static final Map<UUID, SenseSession> ACTIVE_SESSIONS = new ConcurrentHashMap<>();
 
-    // Store currently glowing entities to clear them later
-    private static final Map<UUID, Set<Integer>> playerGlowingEntities = new ConcurrentHashMap<>();
+    // Persistent data class
+    public static class SpiritualSenseData implements IPersistentSkillData {
+        private int cooldownTicks = 0;
 
-    public SpiritualSenseActiveSkill() {
-        super(Component.translatable("ascension.skill.active.spiritual_sense"));
-        this.path = "ascension:essence";
-        this.qiCost = 20.0;
-    }
-
-    // Add getters for client-side access
-    public static Map<UUID, SenseData> getPlayerSenseDataMap() {
-        return playerSenseData;
-    }
-
-    public static Map<UUID, PlayerSenseInfo> getPlayerSenseInfoMap() {
-        return playerSenseInfo;
-    }
-
-    @Override
-    public boolean isPrimarySkill() {
-        return true;
-    }
-
-    @Override
-    public CastType getCastType() {
-        return CastType.INSTANT;
-    }
-
-    @Override
-    public int getCooldown() {
-        return 20 * 60; // 1 minute cooldown
-    }
-
-    @Override
-    public int maxCastingTicks() {
-        return 0;
-    }
-
-
-    @Override
-    public void cast(int castingTicksElapsed, Level level, Player player, ICastData castData) {
-        if (level.isClientSide()) return;
-
-        UUID playerId = player.getUUID();
-
-        // Clear previous sense data
-        clearPlayerSenseData(level, playerId);
-
-        playerSenseData.remove(playerId);
-        playerDetectedEntities.remove(playerId);
-        playerSenseInfo.remove(playerId);
-        playerGlowingEntities.remove(playerId);
-
-        // Get player's cultivation level
-        int majorRealm = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(this.path).majorRealm;
-
-        // Calculate radius: base 16 + 8 per realm
-        float maxRadius = 16.0f + (majorRealm * 8.0f);
-
-        // Calculate duration: 2 seconds for expansion
-        long startTime = System.currentTimeMillis();
-        long expansionDuration = 2000; // 2 seconds in milliseconds
-
-        // Calculate active duration: base 5 seconds + 3 seconds per realm
-        long activeDuration = 8000 + (majorRealm * 4000);
-        long expansionEndTime = startTime + expansionDuration;
-
-        // Create sense data
-        SenseData senseData = new SenseData(
-                player.position(),
-                maxRadius,
-                startTime,
-                expansionEndTime,
-                expansionDuration,
-                activeDuration,
-                majorRealm
-        );
-
-        playerSenseData.put(playerId, senseData);
-        playerGlowingEntities.put(playerId, new HashSet<>());
-
-        // Send packet to client to sync sense data
-        if (player instanceof ServerPlayer serverPlayer) {
-            SyncSpiritualSensePacket packet = new SyncSpiritualSensePacket(
-                    playerId,
-                    player.position(),
-                    maxRadius,
-                    startTime,
-                    expansionEndTime,
-                    expansionDuration,
-                    activeDuration,
-                    majorRealm
-            );
-            serverPlayer.connection.send(packet);
+        @Override
+        public CompoundTag writeData() {
+            CompoundTag tag = new CompoundTag();
+            tag.putInt("Cooldown", cooldownTicks);
+            return tag;
         }
 
-        // Play sound effect
-        level.playSound(null, player.blockPosition(), SoundEvents.ENDER_EYE_DEATH,
-                SoundSource.PLAYERS, 1.0F, 1.2F);
-    }
-
-    @Override
-    public void onPreCast() {
-        // Nothing needed here
-    }
-
-    @Override
-    public void onSkillRemoved(Player player) {
-        super.onSkillRemoved(player);
-        UUID playerId = player.getUUID();
-        clearPlayerSenseData(player.level(), playerId);
-
-        playerSenseData.remove(playerId);
-        playerDetectedEntities.remove(playerId);
-        playerSenseInfo.remove(playerId);
-        playerGlowingEntities.remove(playerId);
-
-        // Send packet to client to clear sense data
-        if (player instanceof ServerPlayer serverPlayer) {
-            ClearSpiritualSensePacket packet = new ClearSpiritualSensePacket(playerId);
-            serverPlayer.connection.send(packet);
-        }
-    }
-
-    private static void clearPlayerSenseData(Level level, UUID playerId) {
-        // Clear glowing effects
-        Set<Integer> glowingEntities = playerGlowingEntities.get(playerId);
-        if (glowingEntities != null) {
-            for (int entityId : glowingEntities) {
-                Entity entity = level.getEntity(entityId);
-                if (entity != null) {
-                    entity.setGlowingTag(false);
-                }
-            }
+        @Override
+        public void readData(CompoundTag tag) {
+            this.cooldownTicks = tag.getInt("Cooldown");
         }
 
-        if (playerGlowingEntities.containsKey(playerId)) {
-            playerGlowingEntities.get(playerId).clear();
+        @Override
+        public void encode(RegistryFriendlyByteBuf buf) {
+            buf.writeInt(cooldownTicks);
         }
+
+        @Override
+        public void decode(RegistryFriendlyByteBuf buf) {
+            this.cooldownTicks = buf.readInt();
+        }
+
+        public int getCooldown() { return cooldownTicks; }
+        public void setCooldown(int cd) { this.cooldownTicks = cd; }
+        public void decrementCooldown() { if (cooldownTicks > 0) cooldownTicks--; }
     }
 
-    public static class SenseData {
-        public Vec3 center; // Changed to public for packet access
+    // Server-side session data (transient)
+    public static class SenseSession {
+        public Vec3 center;
         public final float maxRadius;
         public final long startTime;
         public final long expansionEndTime;
         public final long expansionDuration;
-        public final long activeDuration; // Added for realm-based duration
+        public final long activeDuration;
+        public final int playerRealm;
+        public boolean expansionComplete = false;
+        public final Map<Integer, EntityInfo> detectedEntities = new HashMap<>();
+        public final Set<Integer> glowingEntities = new HashSet<>();
+
+        public SenseSession(Vec3 center, float maxRadius, long startTime, long expansionEndTime,
+                            long expansionDuration, long activeDuration, int playerRealm) {
+            this.center = center;
+            this.maxRadius = maxRadius;
+            this.startTime = startTime;
+            this.expansionEndTime = expansionEndTime;
+            this.expansionDuration = expansionDuration;
+            this.activeDuration = activeDuration;
+            this.playerRealm = playerRealm;
+        }
+
+        public float getCurrentRadius(long currentTime) {
+            if (expansionComplete) return maxRadius;
+            float progress = Math.min(1.0f, (float)(currentTime - startTime) / expansionDuration);
+            if (progress >= 1.0f) expansionComplete = true;
+            return maxRadius * progress;
+        }
+
+        public boolean isActive(long currentTime) {
+            return currentTime < expansionEndTime + activeDuration;
+        }
+    }
+
+    // Client-side data class
+    public static class SenseData {
+        public Vec3 center;
+        public final float maxRadius;
+        public final long startTime;
+        public final long expansionEndTime;
+        public final long expansionDuration;
+        public final long activeDuration;
         public final int playerRealm;
         public boolean expansionComplete = false;
 
@@ -219,14 +147,9 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
         }
 
         public float getCurrentRadius(long currentTime) {
-            if (expansionComplete) {
-                return maxRadius;
-            }
-
+            if (expansionComplete) return maxRadius;
             float progress = Math.min(1.0f, (float)(currentTime - startTime) / expansionDuration);
-            if (progress >= 1.0f) {
-                expansionComplete = true;
-            }
+            if (progress >= 1.0f) expansionComplete = true;
             return maxRadius * progress;
         }
 
@@ -236,21 +159,19 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
     }
 
     public static class EntityInfo {
-        final int entityId;
-        final UUID entityUuid;
-        final String name;
-        final int essenceRealm;
-        final int bodyRealm;
-        final int intentRealm;
-        final float health;
-        final float maxHealth;
-        final boolean isPlayer;
-        final long detectionTime;
-        final EntityType<?> entityType; // Added for grouping
-        final int count; // Added for grouped entities
-        final boolean canSeeDetails; // Added for realm-based obscurity
+        public final int entityId;
+        public final UUID entityUuid;
+        public final String name;
+        public final int essenceRealm;
+        public final int bodyRealm;
+        public final int intentRealm;
+        public final float health;
+        public final float maxHealth;
+        public final boolean isPlayer;
+        public final EntityType<?> entityType;
+        public final int count;
+        public final boolean canSeeDetails;
 
-        // Constructor for single entity
         public EntityInfo(int entityId, UUID entityUuid, String name, int essenceRealm, int bodyRealm,
                           int intentRealm, float health, float maxHealth, boolean isPlayer,
                           EntityType<?> entityType, boolean canSeeDetails) {
@@ -263,51 +184,44 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
             this.health = health;
             this.maxHealth = maxHealth;
             this.isPlayer = isPlayer;
-            this.detectionTime = System.currentTimeMillis();
             this.entityType = entityType;
             this.count = 1;
             this.canSeeDetails = canSeeDetails;
         }
 
-        // Constructor for grouped entities
         public EntityInfo(String name, EntityType<?> entityType, int count, float totalHealth, float totalMaxHealth) {
-            this.entityId = -1; // No specific entity ID for groups
-            this.entityUuid = UUID.randomUUID(); // Generate a random UUID for the group
+            this.entityId = -1;
+            this.entityUuid = UUID.randomUUID();
             this.name = name;
             this.essenceRealm = 0;
             this.bodyRealm = 0;
             this.intentRealm = 0;
-            this.health = totalHealth / count; // Average health
-            this.maxHealth = totalMaxHealth / count; // Average max health
+            this.health = totalHealth / count;
+            this.maxHealth = totalMaxHealth / count;
             this.isPlayer = false;
-            this.detectionTime = System.currentTimeMillis();
             this.entityType = entityType;
             this.count = count;
-            this.canSeeDetails = true; // Mobs always show details
+            this.canSeeDetails = true;
         }
 
-        String getDisplayName() {
-            if (count > 1) {
-                return name + " x" + count;
-            }
-            return name;
+        public String getDisplayName() {
+            return count > 1 ? name + " x" + count : name;
         }
 
-        boolean isGrouped() {
+        public boolean isGrouped() {
             return count > 1;
         }
 
-        // Helper method to get highest realm for comparison
-        int getHighestRealm() {
+        public int getHighestRealm() {
             return Math.max(Math.max(essenceRealm, bodyRealm), intentRealm);
         }
     }
 
     public static class PlayerSenseInfo {
-        final List<EntityInfo> entities;
-        final int totalEntities;
-        final int totalGroups; // Total number of groups/individual entities displayed
-        final long updateTime;
+        public final List<EntityInfo> entities;
+        public final int totalEntities;
+        public final int totalGroups;
+        public final long updateTime;
 
         public PlayerSenseInfo(List<EntityInfo> entities, int totalEntities, int totalGroups) {
             this.entities = entities;
@@ -317,69 +231,168 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
         }
     }
 
+    public SpiritualSenseActiveSkill() {
+        super(Component.translatable("ascension.skill.active.spiritual_sense"));
+        this.path = "ascension:essence";
+        this.qiCost = 20.0;
+    }
+
+    private static SpiritualSenseData getData(Player player) {
+        var skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
+        var metaData = skillData.getActiveSkill(SKILL_ID);
+        if (metaData != null && metaData.data instanceof SpiritualSenseData data) {
+            return data;
+        }
+        return null;
+    }
+
+    public static Map<UUID, SenseData> getPlayerSenseDataMap() {
+        return CLIENT_SENSE_DATA;
+    }
+
+    public static Map<UUID, PlayerSenseInfo> getPlayerSenseInfoMap() {
+        return CLIENT_SENSE_INFO;
+    }
+
+    @Override
+    public boolean isPrimarySkill() {
+        return true;
+    }
+
+    @Override
+    public CastType getCastType() {
+        return CastType.INSTANT;
+    }
+
+    @Override
+    public int getCooldown() {
+        return 20 * 60;
+    }
+
+    @Override
+    public int maxCastingTicks() {
+        return 0;
+    }
+
+    @Override
+    public void cast(int castingTicksElapsed, Level level, Player player, ICastData castData) {
+        if (level.isClientSide()) return;
+
+        SpiritualSenseData data = getData(player);
+        if (data == null) {
+            // Debug line - remove after fixing
+            AscensionCraft.LOGGER.warn("Spiritual Sense cast failed: data is null for player {}", player.getName().getString());
+            player.displayClientMessage(Component.literal("§cSkill data not initialized. Try relogging."), true);
+            return;
+        }
+
+        UUID playerId = player.getUUID();
+        clearPlayerSenseData(level, playerId);
+        ACTIVE_SESSIONS.remove(playerId);
+
+        int majorRealm = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(this.path).majorRealm;
+        float maxRadius = 16.0f + (majorRealm * 8.0f);
+        long startTime = System.currentTimeMillis();
+        long expansionDuration = 2000;
+        long activeDuration = 8000 + (majorRealm * 4000);
+        long expansionEndTime = startTime + expansionDuration;
+
+        SenseSession session = new SenseSession(
+                player.position(), maxRadius, startTime, expansionEndTime,
+                expansionDuration, activeDuration, majorRealm
+        );
+
+        ACTIVE_SESSIONS.put(playerId, session);
+
+        data.setCooldown(getCooldown());
+        player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            SyncSpiritualSensePacket packet = new SyncSpiritualSensePacket(
+                    playerId, player.position(), maxRadius, startTime, expansionEndTime,
+                    expansionDuration, activeDuration, majorRealm
+            );
+            serverPlayer.connection.send(packet);
+        }
+
+        level.playSound(null, player.blockPosition(), SoundEvents.ENDER_EYE_DEATH,
+                SoundSource.PLAYERS, 1.0F, 1.2F);
+    }
+
+    @Override
+    public void onPreCast() {}
+
+    @Override
+    public void onSkillRemoved(Player player) {
+        super.onSkillRemoved(player);
+        UUID playerId = player.getUUID();
+        clearPlayerSenseData(player.level(), playerId);
+        ACTIVE_SESSIONS.remove(playerId);
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            ClearSpiritualSensePacket packet = new ClearSpiritualSensePacket(playerId);
+            serverPlayer.connection.send(packet);
+        }
+    }
+
+    private static void clearPlayerSenseData(Level level, UUID playerId) {
+        SenseSession session = ACTIVE_SESSIONS.get(playerId);
+        if (session != null && session.glowingEntities != null) {
+            for (int entityId : session.glowingEntities) {
+                Entity entity = level.getEntity(entityId);
+                if (entity != null) entity.setGlowingTag(false);
+            }
+            session.glowingEntities.clear();
+        }
+    }
+
     public static void updateDetectedEntities(Level level, Player player) {
         if (level.isClientSide()) return;
 
         UUID playerId = player.getUUID();
-        SenseData senseData = playerSenseData.get(playerId);
-        if (senseData == null) return;
+        SenseSession session = ACTIVE_SESSIONS.get(playerId);
+        if (session == null) return;
+
+        SpiritualSenseData data = getData(player);
+        if (data != null && data.getCooldown() > 0) {
+            data.decrementCooldown();
+            if (data.getCooldown() == 0 || data.getCooldown() % 20 == 0) {
+                player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+            }
+        }
 
         long currentTime = System.currentTimeMillis();
-
-        // Check if sense is still active
-        if (!senseData.isActive(currentTime)) {
+        if (!session.isActive(currentTime)) {
             clearPlayerSenseData(level, playerId);
-            playerSenseData.remove(playerId);
-            playerDetectedEntities.remove(playerId);
-            playerSenseInfo.remove(playerId);
-            playerGlowingEntities.remove(playerId);
+            ACTIVE_SESSIONS.remove(playerId);
 
-            // Send packet to client to clear sense data
             if (player instanceof ServerPlayer serverPlayer) {
-                ClearSpiritualSensePacket packet = new ClearSpiritualSensePacket(playerId);
-                serverPlayer.connection.send(packet);
+                serverPlayer.connection.send(new ClearSpiritualSensePacket(playerId));
             }
             return;
         }
 
-        // Update the center to follow the player
-        senseData.center = player.position();
+        session.center = player.position();
+        float currentRadius = session.getCurrentRadius(currentTime);
 
-        float currentRadius = senseData.getCurrentRadius(currentTime);
-
-        // Create AABB for detection
         AABB detectionBox = new AABB(
-                senseData.center.x - currentRadius,
-                senseData.center.y - currentRadius,
-                senseData.center.z - currentRadius,
-                senseData.center.x + currentRadius,
-                senseData.center.y + currentRadius,
-                senseData.center.z + currentRadius
+                session.center.x - currentRadius, session.center.y - currentRadius, session.center.z - currentRadius,
+                session.center.x + currentRadius, session.center.y + currentRadius, session.center.z + currentRadius
         );
 
-        // Get all entities in the detection area
         List<Entity> entities = level.getEntities(null, detectionBox);
         Map<Integer, EntityInfo> detectedEntities = new HashMap<>();
-        Set<Integer> currentGlowingEntities = new HashSet<>();
-
-        // Group non-player entities by type
-        Map<EntityType<?>, List<Entity>> entityGroups = new HashMap<>();
+        Set<Integer> currentGlowing = new HashSet<>();
         List<EntityInfo> playerEntities = new ArrayList<>();
+        Map<EntityType<?>, List<Entity>> entityGroups = new HashMap<>();
 
         for (Entity entity : entities) {
-            if (entity == player) continue; // Skip the player themselves
-
+            if (entity == player) continue;
             int entityId = entity.getId();
-            currentGlowingEntities.add(entityId);
-
-            // Set glowing effect
+            currentGlowing.add(entityId);
             entity.setGlowingTag(true);
 
-            boolean isPlayer = entity instanceof Player;
-
-            if (isPlayer) {
-                // Players are handled individually, not grouped
-                Player targetPlayer = (Player) entity;
+            if (entity instanceof Player targetPlayer) {
                 int essenceRealm = targetPlayer.getData(ModAttachments.PLAYER_DATA)
                         .getCultivationData().getPathData("ascension:essence").majorRealm;
                 int bodyRealm = targetPlayer.getData(ModAttachments.PLAYER_DATA)
@@ -389,102 +402,61 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
                 float health = targetPlayer.getHealth();
                 float maxHealth = targetPlayer.getMaxHealth();
-
-                // Check if user can see target's details (user's realm must be >= target's highest realm)
-                boolean canSeeDetails = true;
                 int targetHighestRealm = Math.max(Math.max(essenceRealm, bodyRealm), intentRealm);
-                if (senseData.playerRealm < targetHighestRealm) {
-                    // User cannot see details, show default MC values
-                    canSeeDetails = false;
-                    // Show health as 20 (default MC health) but capped at actual health if lower
+                boolean canSeeDetails = session.playerRealm >= targetHighestRealm;
+
+                if (!canSeeDetails) {
                     health = Math.min(health, 20.0f);
                     maxHealth = 20.0f;
-                    // Don't show actual realm values (they will be hidden in display)
                 }
 
-                EntityInfo entityInfo = new EntityInfo(
-                        entityId, entity.getUUID(), entity.getName().getString(),
-                        essenceRealm, bodyRealm, intentRealm,
-                        health, maxHealth, true, EntityType.PLAYER, canSeeDetails
-                );
-
-                playerEntities.add(entityInfo);
-                detectedEntities.put(entityId, entityInfo);
+                playerEntities.add(new EntityInfo(entityId, entity.getUUID(), entity.getName().getString(),
+                        essenceRealm, bodyRealm, intentRealm, health, maxHealth, true, EntityType.PLAYER, canSeeDetails));
             } else {
-                // Group non-player entities by type
-                EntityType<?> entityType = entity.getType();
-                entityGroups.computeIfAbsent(entityType, k -> new ArrayList<>()).add(entity);
+                entityGroups.computeIfAbsent(entity.getType(), k -> new ArrayList<>()).add(entity);
             }
         }
 
-        // Process grouped entities
-        for (Map.Entry<EntityType<?>, List<Entity>> entry : entityGroups.entrySet()) {
-            EntityType<?> entityType = entry.getKey();
-            List<Entity> groupEntities = entry.getValue();
+        for (var entry : entityGroups.entrySet()) {
+            EntityType<?> type = entry.getKey();
+            List<Entity> group = entry.getValue();
 
-            if (groupEntities.size() == 1) {
-                // Single entity, don't group
-                Entity entity = groupEntities.get(0);
-                float health = 0;
-                float maxHealth = 0;
-                if (entity instanceof LivingEntity livingEntity) {
-                    health = livingEntity.getHealth();
-                    maxHealth = livingEntity.getMaxHealth();
+            if (group.size() == 1) {
+                Entity e = group.get(0);
+                float health = 0, maxHealth = 0;
+                if (e instanceof LivingEntity le) {
+                    health = le.getHealth();
+                    maxHealth = le.getMaxHealth();
                 }
-
-                EntityInfo entityInfo = new EntityInfo(
-                        entity.getId(), entity.getUUID(), entity.getName().getString(),
-                        0, 0, 0, health, maxHealth, false, entityType, true
-                );
-
-                detectedEntities.put(entity.getId(), entityInfo);
+                detectedEntities.put(e.getId(), new EntityInfo(e.getId(), e.getUUID(), e.getName().getString(),
+                        0, 0, 0, health, maxHealth, false, type, true));
             } else {
-                // Group multiple entities of same type
-                float totalHealth = 0;
-                float totalMaxHealth = 0;
-
-                for (Entity entity : groupEntities) {
-                    if (entity instanceof LivingEntity livingEntity) {
-                        totalHealth += livingEntity.getHealth();
-                        totalMaxHealth += livingEntity.getMaxHealth();
+                float totalHealth = 0, totalMaxHealth = 0;
+                for (Entity e : group) {
+                    if (e instanceof LivingEntity le) {
+                        totalHealth += le.getHealth();
+                        totalMaxHealth += le.getMaxHealth();
                     }
                 }
-
-                String entityName = groupEntities.get(0).getName().getString();
-                EntityInfo groupInfo = new EntityInfo(
-                        entityName, entityType, groupEntities.size(), totalHealth, totalMaxHealth
-                );
-
-                // Use the first entity's ID for the group
-                detectedEntities.put(groupEntities.get(0).getId(), groupInfo);
+                String name = group.get(0).getName().getString();
+                detectedEntities.put(group.get(0).getId(), new EntityInfo(name, type, group.size(), totalHealth, totalMaxHealth));
             }
         }
 
-        // Add player entities to detectedEntities
-        for (EntityInfo playerInfo : playerEntities) {
-            detectedEntities.put(playerInfo.entityId, playerInfo);
-        }
+        playerEntities.forEach(e -> detectedEntities.put(e.entityId, e));
 
-        // Clear glowing for entities that are no longer detected
-        Set<Integer> previousGlowing = playerGlowingEntities.get(playerId);
-        if (previousGlowing != null) {
-            for (int entityId : previousGlowing) {
-                if (!currentGlowingEntities.contains(entityId)) {
-                    Entity entity = level.getEntity(entityId);
-                    if (entity != null) {
-                        entity.setGlowingTag(false);
-                    }
-                }
+        Set<Integer> previousGlowing = session.glowingEntities;
+        for (int id : previousGlowing) {
+            if (!currentGlowing.contains(id)) {
+                Entity e = level.getEntity(id);
+                if (e != null) e.setGlowingTag(false);
             }
         }
+        session.glowingEntities.clear();
+        session.glowingEntities.addAll(currentGlowing);
 
-        playerDetectedEntities.put(playerId, detectedEntities);
-        playerGlowingEntities.put(playerId, currentGlowingEntities);
-
-        // Create player sense info for display
         List<EntityInfo> entityList = new ArrayList<>(detectedEntities.values());
         entityList.sort((a, b) -> {
-            // Players first, then grouped entities, then by name
             if (a.isPlayer && !b.isPlayer) return -1;
             if (!a.isPlayer && b.isPlayer) return 1;
             if (a.isGrouped() && !b.isGrouped()) return -1;
@@ -492,52 +464,46 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
             return a.name.compareToIgnoreCase(b.name);
         });
 
-        int totalGroups = entityList.size();
-        PlayerSenseInfo senseInfo = new PlayerSenseInfo(entityList, entities.size() - 1, totalGroups); // -1 for player themselves
-        playerSenseInfo.put(playerId, senseInfo);
+        PlayerSenseInfo senseInfo = new PlayerSenseInfo(entityList, entities.size() - 1, entityList.size());
 
-        // Send packet to client to sync detected entities
         if (player instanceof ServerPlayer serverPlayer) {
-            // Convert EntityInfo list to EntityData list for packet
             List<SyncSpiritualSenseEntitiesPacket.EntityData> entityDataList = new ArrayList<>();
-            for (EntityInfo entityInfo : entityList) {
+            for (EntityInfo info : entityList) {
                 entityDataList.add(new SyncSpiritualSenseEntitiesPacket.EntityData(
-                        entityInfo.entityId,
-                        entityInfo.entityUuid,
-                        entityInfo.name,
-                        entityInfo.essenceRealm,
-                        entityInfo.bodyRealm,
-                        entityInfo.intentRealm,
-                        entityInfo.health,
-                        entityInfo.maxHealth,
-                        entityInfo.isPlayer,
-                        entityInfo.canSeeDetails,
-                        entityInfo.count,
-                        entityInfo.isGrouped()
+                        info.entityId, info.entityUuid, info.name, info.essenceRealm, info.bodyRealm,
+                        info.intentRealm, info.health, info.maxHealth, info.isPlayer, info.canSeeDetails,
+                        info.count, info.isGrouped()
                 ));
             }
 
             SyncSpiritualSenseEntitiesPacket packet = new SyncSpiritualSenseEntitiesPacket(
-                    playerId,
-                    entityDataList,
-                    entities.size() - 1,
-                    totalGroups
+                    playerId, entityDataList, entities.size() - 1, entityList.size()
             );
             serverPlayer.connection.send(packet);
         }
     }
 
     public static boolean hasActiveSense(Player player) {
-        SenseData data = playerSenseData.get(player.getUUID());
-        return data != null && data.isActive(System.currentTimeMillis());
+        if (player.level().isClientSide()) {
+            return CLIENT_SENSE_DATA.containsKey(player.getUUID());
+        }
+        SenseSession session = ACTIVE_SESSIONS.get(player.getUUID());
+        return session != null && session.isActive(System.currentTimeMillis());
     }
 
-    public static PlayerSenseInfo getPlayerSenseInfo(Player player) {
-        return playerSenseInfo.get(player.getUUID());
+    @Override
+    public IPersistentSkillData getPersistentDataInstance() {
+        return new SpiritualSenseData();
     }
 
-    // Server tick handler for updating detected entities
-    @EventBusSubscriber(modid = AscensionCraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME)
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
+        SpiritualSenseData data = new SpiritualSenseData();
+        data.readData(tag);
+        return data;
+    }
+
+    @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
     public static class ServerTickHandler {
         @SubscribeEvent
         public static void onPlayerTick(PlayerTickEvent.Pre event) {
@@ -547,14 +513,13 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
         }
     }
 
-    // Client-side rendering
-    @EventBusSubscriber(modid = AscensionCraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = AscensionCraft.MOD_ID, value = Dist.CLIENT)
     public static class SpiritualSenseRenderer {
 
         private static final int SPHERE_SEGMENTS = 64;
         private static final int SPHERE_RINGS = 32;
         private static final float SPHERE_OPACITY = 0.6f;
-        private static final int SPHERE_COLOR = 0x3366FF; // Blue color
+        private static final int SPHERE_COLOR = 0x3366FF;
 
         @SubscribeEvent
         public static void onRenderLevel(RenderLevelStageEvent event) {
@@ -568,16 +533,15 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
             }
 
             UUID playerId = mc.player.getUUID();
-            SenseData senseData = playerSenseData.get(playerId);
+            SenseData senseData = CLIENT_SENSE_DATA.get(playerId);
             if (senseData == null) {
                 return;
             }
 
             long currentTime = System.currentTimeMillis();
             if (!senseData.isActive(currentTime)) {
-                // Clear glow effects when sense ends
-                playerSenseData.remove(playerId);
-                playerSenseInfo.remove(playerId);
+                CLIENT_SENSE_DATA.remove(playerId);
+                CLIENT_SENSE_INFO.remove(playerId);
                 return;
             }
 
@@ -586,29 +550,24 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
             float currentRadius = senseData.getCurrentRadius(currentTime);
 
-            // Update the sphere center to follow the player
             Vec3 playerPosition = mc.player.position();
-            senseData.center = playerPosition; // Update center to player's current position
+            senseData.center = playerPosition;
 
             PoseStack poseStack = event.getPoseStack();
             MultiBufferSource.BufferSource buffers = mc.renderBuffers().bufferSource();
 
-            // Save OpenGL state
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
             RenderSystem.disableCull();
 
-            // Use proper shader
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-            // Render the expanding sphere
             renderSphere(poseStack, buffers, senseData.center, currentRadius, cameraPos);
 
             buffers.endBatch();
 
-            // Restore OpenGL state
             RenderSystem.depthMask(true);
             RenderSystem.enableDepthTest();
             RenderSystem.enableCull();
@@ -620,7 +579,6 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
             poseStack.pushPose();
             poseStack.translate(center.x - cameraPos.x, center.y - cameraPos.y, center.z - cameraPos.z);
 
-            // Create a custom render type for position-only rendering
             VertexConsumer consumer = buffers.getBuffer(RenderType.debugQuads());
             PoseStack.Pose pose = poseStack.last();
             Matrix4f matrix = pose.pose();
@@ -631,8 +589,6 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
             int b = color & 0xFF;
             int a = (int)(SPHERE_OPACITY * 255);
 
-            // Draw a simple wireframe sphere using position-only vertices
-            // We'll draw rings and meridians separately for clarity
             drawWireframeSphere(consumer, matrix, radius, r, g, b, a);
 
             poseStack.popPose();
@@ -640,7 +596,6 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
         private static void drawWireframeSphere(VertexConsumer consumer, Matrix4f matrix, float radius,
                                                 int r, int g, int b, int a) {
-            // Draw latitude rings
             for (int i = 0; i <= SPHERE_RINGS; i++) {
                 float theta = (float) i / SPHERE_RINGS * (float) Math.PI;
                 float y = radius * (float) Math.cos(theta);
@@ -649,7 +604,6 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
                 drawRing(consumer, matrix, ringRadius, y, r, g, b, a);
             }
 
-            // Draw longitude lines
             for (int i = 0; i < SPHERE_SEGMENTS; i++) {
                 float phi = (float) i / SPHERE_SEGMENTS * 2.0f * (float) Math.PI;
                 drawMeridian(consumer, matrix, radius, phi, r, g, b, a);
@@ -666,7 +620,6 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
                 float x = ringRadius * (float) Math.cos(angle);
                 float z = ringRadius * (float) Math.sin(angle);
 
-                // Draw line from previous point to current point
                 consumer.addVertex(matrix, prevX, y, prevZ).setColor(r, g, b, a);
                 consumer.addVertex(matrix, x, y, z).setColor(r, g, b, a);
 
@@ -677,47 +630,39 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
         private static void drawMeridian(VertexConsumer consumer, Matrix4f matrix, float radius, float phi,
                                          int r, int g, int b, int a) {
-            float prevX = radius * (float) Math.sin(0) * (float) Math.cos(phi);
-            float prevY = radius * (float) Math.cos(0);
-            float prevZ = radius * (float) Math.sin(0) * (float) Math.sin(phi);
-
-            for (int i = 1; i <= SPHERE_RINGS; i++) {
+            for (int i = 0; i < SPHERE_RINGS; i++) {
                 float theta = (float) i / SPHERE_RINGS * (float) Math.PI;
-                float x = radius * (float) Math.sin(theta) * (float) Math.cos(phi);
-                float y = radius * (float) Math.cos(theta);
-                float z = radius * (float) Math.sin(theta) * (float) Math.sin(phi);
+                float y1 = radius * (float) Math.cos(theta);
+                float y2 = radius * (float) Math.cos((float)(i + 1) / SPHERE_RINGS * Math.PI);
 
-                // Draw line from previous point to current point
-                consumer.addVertex(matrix, prevX, prevY, prevZ).setColor(r, g, b, a);
-                consumer.addVertex(matrix, x, y, z).setColor(r, g, b, a);
+                float x1 = radius * (float) Math.sin(theta) * (float) Math.cos(phi);
+                float z1 = radius * (float) Math.sin(theta) * (float) Math.sin(phi);
 
-                prevX = x;
-                prevY = y;
-                prevZ = z;
+                float x2 = radius * (float) Math.sin((float)(i + 1) / SPHERE_RINGS * Math.PI) * (float) Math.cos(phi);
+                float z2 = radius * (float) Math.sin((float)(i + 1) / SPHERE_RINGS * Math.PI) * (float) Math.sin(phi);
+
+                consumer.addVertex(matrix, x1, y1, z1).setColor(r, g, b, a);
+                consumer.addVertex(matrix, x2, y2, z2).setColor(r, g, b, a);
             }
         }
     }
 
-    // GUI overlay for displaying entity information
-    @EventBusSubscriber(modid = AscensionCraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = AscensionCraft.MOD_ID, value = Dist.CLIENT)
     public static class SpiritualSenseOverlay {
 
-        private static final long DISPLAY_DURATION = 7000; // 7 seconds
-        private static final int ENTITIES_PER_PAGE = 5; // Number of entities to show at once
-        private static final long SCROLL_INTERVAL = 1500; // 1.5 seconds per entity/page
+        private static final long DISPLAY_DURATION = 7000;
+        private static final int ENTITIES_PER_PAGE = 5;
+        private static final long SCROLL_INTERVAL = 1500;
 
-        // Store scroll state per player
         private static final Map<UUID, ScrollState> playerScrollStates = new ConcurrentHashMap<>();
 
         private static class ScrollState {
             long lastScrollTime;
-            int currentOffset; // How many entities we've scrolled past
-            int entitiesShown; // How many entities were in the last scan
+            int currentOffset;
 
             ScrollState() {
                 this.lastScrollTime = System.currentTimeMillis();
                 this.currentOffset = 0;
-                this.entitiesShown = 0;
             }
         }
 
@@ -728,19 +673,18 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
                 return;
             }
 
-            // Check if player has active spiritual sense
             if (!hasActiveSense(mc.player)) {
                 playerScrollStates.remove(mc.player.getUUID());
                 return;
             }
 
-            PlayerSenseInfo senseInfo = getPlayerSenseInfo(mc.player);
+            PlayerSenseInfo senseInfo = CLIENT_SENSE_INFO.get(mc.player.getUUID());
             if (senseInfo == null || senseInfo.entities.isEmpty()) {
                 return;
             }
 
-            // Check if we should still display
-            if (System.currentTimeMillis() - senseInfo.updateTime > DISPLAY_DURATION) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - senseInfo.updateTime > DISPLAY_DURATION) {
                 playerScrollStates.remove(mc.player.getUUID());
                 return;
             }
@@ -753,67 +697,55 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
             int screenWidth = mc.getWindow().getGuiScaledWidth();
             int screenHeight = mc.getWindow().getGuiScaledHeight();
 
-            // Position on right side of screen - reduced size
             int rightMargin = 15;
             int topMargin = 40;
-            int maxWidth = 220; // Reduced from 300 for smaller overlay
+            int maxWidth = 220;
 
-            // Calculate total height needed (fixed height for cycling display)
-            int lineHeight = font.lineHeight + 1; // Reduced spacing
-            int headerLines = 2; // Title + separator
-            int totalHeight = (headerLines + ENTITIES_PER_PAGE) * lineHeight + 15; // Reduced padding
+            int lineHeight = font.lineHeight + 1;
+            int headerLines = 2;
+            int totalHeight = (headerLines + ENTITIES_PER_PAGE) * lineHeight + 15;
 
             int startX = screenWidth - maxWidth - rightMargin;
             int startY = topMargin;
 
-            // Draw background
-            int bgColor = 0x80000000; // Semi-transparent black
+            int bgColor = 0x80000000;
             guiGraphics.fill(startX - 5, startY - 5,
                     screenWidth - rightMargin + 5, startY + totalHeight,
                     bgColor);
 
-            // Draw border
-            int borderColor = 0x803366FF; // Blue border
-            guiGraphics.fill(startX - 5, startY - 5, startX - 4, startY + totalHeight, borderColor); // Left
-            guiGraphics.fill(startX - 5, startY - 5, screenWidth - rightMargin + 5, startY - 4, borderColor); // Top
+            int borderColor = 0x803366FF;
+            guiGraphics.fill(startX - 5, startY - 5, startX - 4, startY + totalHeight, borderColor);
+            guiGraphics.fill(startX - 5, startY - 5, screenWidth - rightMargin + 5, startY - 4, borderColor);
             guiGraphics.fill(screenWidth - rightMargin + 4, startY - 5,
-                    screenWidth - rightMargin + 5, startY + totalHeight, borderColor); // Right
+                    screenWidth - rightMargin + 5, startY + totalHeight, borderColor);
             guiGraphics.fill(startX - 5, startY + totalHeight - 1,
-                    screenWidth - rightMargin + 5, startY + totalHeight, borderColor); // Bottom
+                    screenWidth - rightMargin + 5, startY + totalHeight, borderColor);
 
-            // Draw title with pagination info
             UUID playerId = mc.player.getUUID();
             ScrollState scrollState = playerScrollStates.computeIfAbsent(playerId, k -> new ScrollState());
 
-            // Update scroll offset if enough time has passed
             long currentTime = System.currentTimeMillis();
             if (currentTime - scrollState.lastScrollTime > SCROLL_INTERVAL) {
                 scrollState.lastScrollTime = currentTime;
                 scrollState.currentOffset += ENTITIES_PER_PAGE;
 
-                // If we've scrolled past all entities, reset to start
                 if (scrollState.currentOffset >= senseInfo.entities.size()) {
                     scrollState.currentOffset = 0;
                 }
             }
 
-            scrollState.entitiesShown = senseInfo.entities.size();
-
-            // Calculate current page info
             int totalPages = (int) Math.ceil((double) senseInfo.entities.size() / ENTITIES_PER_PAGE);
             int currentPage = totalPages > 0 ? (scrollState.currentOffset / ENTITIES_PER_PAGE) + 1 : 1;
 
-            MutableComponent title = Component.literal("§9Sense §7(" + senseInfo.totalEntities + ")"); // Simplified title
+            MutableComponent title = Component.literal("§9Sense §7(" + senseInfo.totalEntities + ")");
             if (totalPages > 1) {
                 title.append(Component.literal(" §8[" + currentPage + "/" + totalPages + "]"));
             }
 
             guiGraphics.drawString(font, title, startX, startY, 0xFFFFFF, false);
 
-            // Draw separator
             guiGraphics.fill(startX, startY + lineHeight, startX + maxWidth, startY + lineHeight + 1, 0x803366FF);
 
-            // Draw entity information for current page
             int yOffset = startY + lineHeight * 2;
             int entitiesDrawn = 0;
 
@@ -824,19 +756,15 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
                 EntityInfo entity = senseInfo.entities.get(i);
 
                 if (entity.isPlayer) {
-                    // Player info with realms and health
                     renderPlayerInfo(guiGraphics, font, entity, startX, yOffset, maxWidth);
                 } else {
-                    // Entity info - use getDisplayName() which includes count for groups
                     renderEntityInfo(guiGraphics, font, entity, startX, yOffset, maxWidth);
                 }
 
                 yOffset += lineHeight;
             }
 
-            // If we didn't fill all slots, show a "scanning..." message
             if (entitiesDrawn < ENTITIES_PER_PAGE && scrollState.currentOffset == 0) {
-                // This is the first page and we have less than a full page
                 for (int i = entitiesDrawn; i < ENTITIES_PER_PAGE; i++) {
                     if (i == entitiesDrawn) {
                         Component scanningText = Component.literal("§8... scanning ...");
@@ -845,12 +773,10 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
                     yOffset += lineHeight;
                 }
             } else if (entitiesDrawn < ENTITIES_PER_PAGE) {
-                // We've reached the end, show end indicator
                 Component endText = Component.literal("§8... end ...");
                 guiGraphics.drawString(font, endText, startX, yOffset, 0xAAAAAA, false);
                 yOffset += lineHeight;
 
-                // Calculate when next scan will start (based on scroll interval)
                 long timeSinceLastScroll = currentTime - scrollState.lastScrollTime;
                 long timeUntilNextCycle = SCROLL_INTERVAL - timeSinceLastScroll;
                 int seconds = (int) Math.ceil(timeUntilNextCycle / 1000.0);
@@ -861,7 +787,6 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
                 }
             }
 
-            // Draw scroll indicator at bottom
             yOffset = startY + totalHeight - lineHeight + 2;
             Component scrollIndicator = Component.literal("§7↕ " + (scrollState.currentOffset + 1) + "-" +
                     Math.min(scrollState.currentOffset + ENTITIES_PER_PAGE, senseInfo.entities.size()));
@@ -870,31 +795,25 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
         private static void renderPlayerInfo(GuiGraphics guiGraphics, Font font, EntityInfo player,
                                              int x, int y, int maxWidth) {
-            // Player name with player icon
-            String namePrefix = "§b☻ "; // Player icon
+            String namePrefix = "§b☻ ";
             String nameText = namePrefix + player.name;
 
-            // Health bar
             float healthPercent = player.maxHealth > 0 ? player.health / player.maxHealth : 1.0f;
             int healthColor = getHealthColor(healthPercent);
             String healthText = String.format(" §c♥ %.1f/%.1f", player.health, player.maxHealth);
 
-            // Realms - using the three cultivation paths
             String realmsText;
             if (player.canSeeDetails) {
                 realmsText = String.format(" §7[§eE%s §6B%s §dI%s§7]",
                         player.essenceRealm, player.bodyRealm, player.intentRealm);
             } else {
-                realmsText = " §7[§8???§7]"; // Hidden realms for higher realm players
+                realmsText = " §7[§8???§7]";
             }
 
-            // Combine all parts
             String fullText = nameText + healthText + realmsText;
 
-            // Check if text fits
             int textWidth = font.width(fullText);
             if (textWidth > maxWidth) {
-                // Truncate name if needed
                 int availableWidth = maxWidth - font.width(healthText + realmsText) - 10;
                 String truncatedName = truncateText(font, player.name, availableWidth);
                 fullText = namePrefix + truncatedName + healthText + realmsText;
@@ -902,26 +821,22 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
             guiGraphics.drawString(font, fullText, x, y, 0xFFFFFF, false);
 
-            // Draw health bar background (smaller)
-            int barWidth = 60; // Reduced from 80
-            int barHeight = 2; // Reduced from 3
+            int barWidth = 60;
+            int barHeight = 2;
             int barX = x;
             int barY = y + font.lineHeight - 2;
 
             guiGraphics.fill(barX, barY, barX + barWidth, barY + barHeight, 0x80000000);
 
-            // Draw health bar
             int healthWidth = (int)(barWidth * healthPercent);
             guiGraphics.fill(barX, barY, barX + healthWidth, barY + barHeight, healthColor);
         }
 
         private static void renderEntityInfo(GuiGraphics guiGraphics, Font font, EntityInfo entity,
                                              int x, int y, int maxWidth) {
-            // Entity name with appropriate icon - use getDisplayName() to show count for groups
-            String icon = "§8⚲ "; // Generic entity icon
-            String entityName = entity.getDisplayName(); // This includes "xN" for groups
+            String icon = "§8⚲ ";
+            String entityName = entity.getDisplayName();
 
-            // Apply special icons for common mob types
             String lowerName = entityName.toLowerCase();
             if (lowerName.contains("zombie")) icon = "§2☠ ";
             else if (lowerName.contains("skeleton")) icon = "§7☠ ";
@@ -931,7 +846,6 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
             String nameText = icon + entityName;
 
-            // Health if available
             String healthText = "";
             if (entity.maxHealth > 0) {
                 float healthPercent = entity.health / entity.maxHealth;
@@ -942,12 +856,11 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
 
             guiGraphics.drawString(font, fullText, x, y, 0xFFFFFF, false);
 
-            // Draw health bar if entity has health (smaller)
             if (entity.maxHealth > 0) {
                 float healthPercent = entity.health / entity.maxHealth;
                 int healthColor = getHealthColor(healthPercent);
 
-                int barWidth = 45; // Reduced from 60
+                int barWidth = 45;
                 int barHeight = 2;
                 int barX = x;
                 int barY = y + font.lineHeight - 2;
@@ -960,9 +873,9 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
         }
 
         private static int getHealthColor(float healthPercent) {
-            if (healthPercent > 0.7f) return 0x8000FF00; // Green
-            if (healthPercent > 0.3f) return 0x80FFFF00; // Yellow
-            return 0x80FF0000; // Red
+            if (healthPercent > 0.7f) return 0x8000FF00;
+            if (healthPercent > 0.3f) return 0x80FFFF00;
+            return 0x80FF0000;
         }
 
         private static String truncateText(Font font, String text, int maxWidth) {

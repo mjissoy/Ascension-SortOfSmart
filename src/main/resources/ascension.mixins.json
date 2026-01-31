@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "net.thejadeproject.ascension.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "MilkBucketEffectMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

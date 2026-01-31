@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.progression.skills.passive_skills;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -11,14 +12,10 @@ import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 public class DiamondAdamantPassiveSkill extends AbstractPassiveSkill {
 
-    private static final Map<UUID, Long> lastSurvivalTime = new HashMap<>();
     private static final long COOLDOWN_TICKS = 20 * 60 * 5;
+    private static final String SKILL_ID = "ascension:diamond_adamant_passive";
 
     public DiamondAdamantPassiveSkill(){
         super(Component.translatable("ascension.physique.passive.diamond_adamant"));
@@ -27,9 +24,52 @@ public class DiamondAdamantPassiveSkill extends AbstractPassiveSkill {
         NeoForge.EVENT_BUS.addListener(this::onLivingDeathEvent);
     }
 
+    public static class DiamondAdamantData implements IPersistentSkillData {
+        private long lastSurvivalTime = 0L;
+
+        @Override
+        public CompoundTag writeData() {
+            CompoundTag tag = new CompoundTag();
+            tag.putLong("LastSurvivalTime", lastSurvivalTime);
+            return tag;
+        }
+
+        @Override
+        public void readData(CompoundTag tag) {
+            this.lastSurvivalTime = tag.getLong("LastSurvivalTime");
+        }
+
+        @Override
+        public void encode(RegistryFriendlyByteBuf buf) {
+            buf.writeLong(lastSurvivalTime);
+        }
+
+        @Override
+        public void decode(RegistryFriendlyByteBuf buf) {
+            this.lastSurvivalTime = buf.readLong();
+        }
+
+        public boolean isOnCooldown(long currentTime) {
+            return (currentTime - lastSurvivalTime) < COOLDOWN_TICKS;
+        }
+
+        public void setLastSurvivalTime(long time) {
+            this.lastSurvivalTime = time;
+        }
+    }
+
+    private DiamondAdamantData getData(Player player) {
+        var skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
+        var metaData = skillData.getPassiveSkill(SKILL_ID);
+        if (metaData != null && metaData.data instanceof DiamondAdamantData data) {
+            return data;
+        }
+        return null;
+    }
+
     public void onLivingDamage(LivingDamageEvent.Pre event) {
         if (event.getEntity() instanceof Player player) {
-            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill("ascension:diamond_adamant_passive"))
+            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill(SKILL_ID))
                 return;
 
             if (event.getSource().getDirectEntity() instanceof AbstractArrow arrow && arrow.isCritArrow()) {
@@ -43,16 +83,13 @@ public class DiamondAdamantPassiveSkill extends AbstractPassiveSkill {
                 return;
             }
 
-            // Alternative: Check if damage is insanely high (could be critical)
-            // This is a fallback method
             float playerMaxHealth = player.getMaxHealth();
             float incomingDamage = event.getNewDamage();
 
-            // If damage > 40% of max health it might be a critical
             if (incomingDamage > playerMaxHealth * 0.4f) {
-                // might be a critical reduce by 30% to be safe
                 event.setNewDamage(incomingDamage * 0.7f);
             }
+
             if (event.getSource().getMsgId().contains("headshot") ||
                     event.getSource().getMsgId().contains("backstab")) {
                 event.setNewDamage(incomingDamage * 0.5f);
@@ -62,13 +99,14 @@ public class DiamondAdamantPassiveSkill extends AbstractPassiveSkill {
 
     public void onLivingDeathEvent(LivingDeathEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill("ascension:diamond_adamant_passive")) return;
+            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill(SKILL_ID)) return;
 
-            UUID playerId = player.getUUID();
+            DiamondAdamantData data = getData(player);
+            if (data == null) return;
+
             long currentTime = player.level().getGameTime();
-            Long lastTrigger = lastSurvivalTime.get(playerId);
 
-            if (lastTrigger != null && (currentTime - lastTrigger) < COOLDOWN_TICKS) {
+            if (data.isOnCooldown(currentTime)) {
                 return;
             }
 
@@ -80,28 +118,31 @@ public class DiamondAdamantPassiveSkill extends AbstractPassiveSkill {
                 player.setHealth(1.0F);
                 player.clearFire();
 
-                // Add visual/sound effects (Future)
-                // player.level().playSound(null, player.blockPosition(), SoundEvents.ANVIL_LAND, ...);
-
-                lastSurvivalTime.put(playerId, currentTime);
+                data.setLastSurvivalTime(currentTime);
+                player.syncData(ModAttachments.PLAYER_SKILL_DATA);
             }
         }
     }
 
     @Override
+    public IPersistentSkillData getPersistentDataInstance() {
+        return new DiamondAdamantData();
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
+        DiamondAdamantData data = new DiamondAdamantData();
+        data.readData(tag);
+        return data;
+    }
+
+    @Override
     public void onSkillAdded(Player player) {
         super.onSkillAdded(player);
-        lastSurvivalTime.putIfAbsent(player.getUUID(), 0L);
     }
 
     @Override
     public void onSkillRemoved(Player player) {
         super.onSkillRemoved(player);
-        lastSurvivalTime.remove(player.getUUID());
-    }
-
-
-    public static void clearPlayerCooldown(UUID playerId) {
-        lastSurvivalTime.remove(playerId);
     }
 }

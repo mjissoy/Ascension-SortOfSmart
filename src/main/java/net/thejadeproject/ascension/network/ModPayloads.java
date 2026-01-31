@@ -182,17 +182,6 @@ public class ModPayloads {
                 RequestSpatialRingDataPayload::handle
         );
 
-        registrar.playToClient(
-                ScreenShakePayload.TYPE,
-                ScreenShakePayload.STREAM_CODEC,
-                ScreenShakePayload::handlePayload
-        );
-
-        registrar.playToClient(
-                ShaderEffectPayload.TYPE,
-                ShaderEffectPayload.STREAM_CODEC,
-                ShaderEffectPayload::handlePayload
-        );
 
 
     }

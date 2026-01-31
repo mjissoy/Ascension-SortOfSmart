@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.progression.skills.passive_skills.physique_skills.kitsune_skills;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -9,15 +10,12 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.thejadeproject.ascension.progression.skills.AbstractPassiveSkill;
+import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class TailMultiplierPassiveSkill extends AbstractPassiveSkill {
 
-    private static final Map<UUID, Integer> lastTailCount = new HashMap<>();
+    private static final String SKILL_ID = "ascension:tail_multiplier_passive";
 
     public TailMultiplierPassiveSkill() {
         super(Component.translatable("ascension.physique.passive.tail_multiplier"));
@@ -26,36 +24,81 @@ public class TailMultiplierPassiveSkill extends AbstractPassiveSkill {
         NeoForge.EVENT_BUS.addListener(this::onLivingHeal);
     }
 
+    public static class TailData implements IPersistentSkillData {
+        private int cachedTailCount = 0;
+
+        @Override
+        public CompoundTag writeData() {
+            CompoundTag tag = new CompoundTag();
+            tag.putInt("CachedTails", cachedTailCount);
+            return tag;
+        }
+
+        @Override
+        public void readData(CompoundTag tag) {
+            this.cachedTailCount = tag.getInt("CachedTails");
+        }
+
+        @Override
+        public void encode(RegistryFriendlyByteBuf buf) {
+            buf.writeInt(cachedTailCount);
+        }
+
+        @Override
+        public void decode(RegistryFriendlyByteBuf buf) {
+            this.cachedTailCount = buf.readInt();
+        }
+
+        public int getCachedTailCount() { return cachedTailCount; }
+        public void setCachedTailCount(int count) { this.cachedTailCount = count; }
+    }
+
+    private TailData getData(Player player) {
+        var skillData = player.getData(ModAttachments.PLAYER_SKILL_DATA);
+        var metaData = skillData.getPassiveSkill(SKILL_ID);
+        if (metaData != null && metaData.data instanceof TailData data) {
+            return data;
+        }
+        return null;
+    }
+
+    private int calculateTailCount(Player player) {
+        int illusionRealm = player.getData(ModAttachments.PLAYER_DATA)
+                .getCultivationData().getPathData(this.path).majorRealm;
+        if (illusionRealm >= 4) {
+            return Math.min(9, illusionRealm - 3);
+        }
+        return 0;
+    }
+
     public void onLivingIncomingDamage(LivingIncomingDamageEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill("ascension:tail_multiplier_passive"))
+            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill(SKILL_ID))
                 return;
 
-            int tailCount = getTailCount(player);
+            int tailCount = calculateTailCount(player);
             if (tailCount <= 0) return;
 
             float damageReduction = event.getOriginalAmount() * (tailCount * 0.02f);
             float newDamage = event.getOriginalAmount() - damageReduction;
-
             event.setAmount(newDamage);
 
             if (damageReduction > 0.5f && player.level() instanceof ServerLevel serverLevel) {
-                spawnTailProtectionParticles(serverLevel, player);
+                spawnTailProtectionParticles(serverLevel, player, tailCount);
             }
         }
     }
 
     public void onLivingHeal(LivingHealEvent event) {
         if (event.getEntity() instanceof Player player) {
-            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill("ascension:tail_multiplier_passive"))
+            if (!player.getData(ModAttachments.PLAYER_SKILL_DATA).hasPassiveSkill(SKILL_ID))
                 return;
 
-            int tailCount = getTailCount(player);
+            int tailCount = calculateTailCount(player);
             if (tailCount <= 0) return;
 
             float healMultiplier = 1.0f + (tailCount * 0.05f);
             float newHealAmount = event.getAmount() * healMultiplier;
-
             event.setAmount(newHealAmount);
 
             if (tailCount >= 3 && player.level() instanceof ServerLevel serverLevel) {
@@ -64,18 +107,7 @@ public class TailMultiplierPassiveSkill extends AbstractPassiveSkill {
         }
     }
 
-    private int getTailCount(Player player) {
-        int illusionRealm = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData(this.path).majorRealm;
-
-        if (illusionRealm >= 4) {
-            return Math.min(9, illusionRealm - 3);
-        }
-        return 0;
-    }
-
-    private void spawnTailProtectionParticles(ServerLevel serverLevel, Player player) {
-        int tailCount = getTailCount(player);
-
+    private void spawnTailProtectionParticles(ServerLevel serverLevel, Player player, int tailCount) {
         for (int tail = 0; tail < tailCount; tail++) {
             double angle = (2 * Math.PI * tail) / tailCount;
             double radius = 1.0 + (tail * 0.1);
@@ -87,13 +119,11 @@ public class TailMultiplierPassiveSkill extends AbstractPassiveSkill {
                 double y = player.getY() + 0.5 + player.level().random.nextDouble() * 1.5;
 
                 serverLevel.sendParticles(ParticleTypes.ENCHANT,
-                        x, y, z,
-                        1, 0, 0.05, 0, 0.05);
+                        x, y, z, 1, 0, 0.05, 0, 0.05);
 
                 if (player.level().random.nextInt(3) == 0) {
                     serverLevel.sendParticles(ParticleTypes.GLOW,
-                            x, y, z,
-                            1, 0.02, 0.02, 0.02, 0.01);
+                            x, y, z, 1, 0.02, 0.02, 0.02, 0.01);
                 }
             }
         }
@@ -115,13 +145,11 @@ public class TailMultiplierPassiveSkill extends AbstractPassiveSkill {
                 double particleZ = tailZ + (player.getZ() - tailZ) * progress;
 
                 serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER,
-                        particleX, particleY, particleZ,
-                        1, 0, 0, 0, 0.05);
+                        particleX, particleY, particleZ, 1, 0, 0, 0, 0.05);
 
                 if (i % 2 == 0) {
                     serverLevel.sendParticles(ParticleTypes.ELECTRIC_SPARK,
-                            particleX, particleY, particleZ,
-                            1, 0.01, 0.01, 0.01, 0.02);
+                            particleX, particleY, particleZ, 1, 0.01, 0.01, 0.01, 0.02);
                 }
             }
         }
@@ -138,19 +166,29 @@ public class TailMultiplierPassiveSkill extends AbstractPassiveSkill {
     }
 
     @Override
+    public IPersistentSkillData getPersistentDataInstance() {
+        return new TailData();
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
+        TailData data = new TailData();
+        data.readData(tag);
+        return data;
+    }
+
+    @Override
     public void onSkillAdded(Player player) {
         super.onSkillAdded(player);
-        lastTailCount.put(player.getUUID(), getTailCount(player));
+        TailData data = getData(player);
+        if (data != null) {
+            data.setCachedTailCount(calculateTailCount(player));
+            player.syncData(ModAttachments.PLAYER_SKILL_DATA);
+        }
     }
 
     @Override
     public void onSkillRemoved(Player player) {
         super.onSkillRemoved(player);
-        lastTailCount.remove(player.getUUID());
-    }
-
-
-    public static void clearPlayerData(UUID playerId) {
-        lastTailCount.remove(playerId);
     }
 }
