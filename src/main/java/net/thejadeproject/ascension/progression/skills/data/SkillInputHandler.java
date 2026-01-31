@@ -91,15 +91,18 @@ public class SkillInputHandler {
     }
     @SubscribeEvent
     public static void mouseInputEvent(InputEvent.MouseButton.Pre event){
+        if (Minecraft.getInstance().player == null) return;
         handleInput(event.getButton(),event.getAction(),event.getModifiers());
     }
     @SubscribeEvent
     public static void keyInputEvent(InputEvent.Key event) {
+        if (Minecraft.getInstance().player == null) return;
         handleInput(event.getKey(),event.getAction(),event.getModifiers());
     }
 
     public static void handleInput(int button, int action,int modifiers){
         Minecraft minecraft = Minecraft.getInstance();
+
         if(CAST_SKILL_KEY.getKey().getValue() == button && action == GLFW.GLFW_PRESS){
 
             state.add(CAST_SKILL_KEY);

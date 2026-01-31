@@ -27,21 +27,6 @@ public class FlightPassiveSkill extends AbstractPassiveSkill {
         this.path = "ascension:body";
         
     }
-    @Override
-    public void onPhysiqueChange(PhysiqueChangeEvent event){
-        if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill( "ascension:flight_passive_skill","Passive")) updateSkillData(event.player);
-        
-    }
-    @Override
-    public void onTechniqueChange(TechniqueChangeEvent event){
-        if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill("ascension:flight_passive_skill","Passive")) updateSkillData(event.player);
-        
-    }
-    @Override
-    public void onRealmChange(RealmChangeEvent event){
-        if(event.player.getData(ModAttachments.PLAYER_SKILL_DATA).hasSkill("ascension:flight_passive_skill","Passive")) updateSkillData(event.player);
-        
-    }
 
     public void updateSkillData(Player player){
 

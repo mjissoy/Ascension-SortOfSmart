@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class SpaceInfusionActiveSkill extends AbstractActiveSkill {
+public class    SpaceInfusionActiveSkill extends AbstractActiveSkill {
 
     private static final DustParticleOptions PURPLE_DUST =
             new DustParticleOptions(new Vector3f(0.5f, 0.0f, 0.8f), 1.0f);
