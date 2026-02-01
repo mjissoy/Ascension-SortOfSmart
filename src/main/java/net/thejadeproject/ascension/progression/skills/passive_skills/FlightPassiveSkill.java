@@ -28,26 +28,17 @@ public class FlightPassiveSkill extends AbstractPassiveSkill {
         
     }
 
-    public void updateSkillData(Player player){
-
-        player.getAttribute(NeoForgeMod.CREATIVE_FLIGHT).addOrReplacePermanentModifier(new AttributeModifier(
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"flight_passive_boost"),
-                1.0,
-                AttributeModifier.Operation.ADD_MULTIPLIED_BASE
-
-        ));
-        
-    }
     //TODO have it update on realm change and technique change and physique change
     @Override
     public void onSkillAdded(Player player) {
         super.onSkillAdded(player);
-        updateSkillData(player);
+
         EntityAttributeManager.increaseAttribute(
                 player,
                 1.0,
                 NeoForgeMod.CREATIVE_FLIGHT
         );
+
     }
 
     @Override

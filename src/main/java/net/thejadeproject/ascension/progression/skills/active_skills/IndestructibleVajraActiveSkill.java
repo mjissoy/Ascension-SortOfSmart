@@ -448,4 +448,11 @@ public class IndestructibleVajraActiveSkill extends AbstractActiveSkill {
         data.readData(tag);
         return data;
     }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf) {
+        VajraData data = new VajraData();
+        data.decode(buf);
+        return data;
+    }
 }

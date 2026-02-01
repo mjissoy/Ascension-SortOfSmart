@@ -84,10 +84,10 @@ public class CultivationData {
             pathData.breakingThrough = compound.getBoolean("breaking_through");
             if(!pathData.technique.equals("ascension:none")) {
                 ITechnique techniqueManual = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(pathData.technique, ':'));
-                if (compound.hasUUID("breakthrough_data"))
+                if (compound.contains("breakthrough_data"))
                     pathData.breakthroughData = techniqueManual.getBreakthroughHandler().getBreakthroughData(compound);
             }else pathData.breakthroughData = null;
-            if(compound.hasUUID("technique_data") && !pathData.pathId.equals("ascension:none")){
+            if(compound.contains("technique_data") && !pathData.pathId.equals("ascension:none")){
                 ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(
                         ResourceLocation.bySeparator(pathData.technique,':')
                 );

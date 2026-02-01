@@ -322,7 +322,17 @@ public class AscensionAttributeWrapper {
         attributeGroupedAttributes.get(modifier.getAttribute()).add(modifier);
         if(!modifier.isDisabled())modifier.add(entity);
     }
+    public void addExistingAttributeModifier(IAttributeModifier modifier){
+        validateGroups(modifier);
+        stateGroupedAttributes.get(modifier.getLivingEntityState()).add(modifier);
+        if(idAttributes.containsKey(modifier.getModifierId()) && !idAttributes.get(modifier.getModifierId()).isDisabled()) {
+            idAttributes.remove(modifier.getModifierId()).remove(entity);
+        }
+        idAttributes.put(modifier.getModifierId(),modifier);
+        groupGroupedAttributes.get(modifier.getGroupId()).add(modifier);
+        attributeGroupedAttributes.get(modifier.getAttribute()).add(modifier);
 
+    }
     public void removeAttributeOfId(ResourceLocation id){
         if(!idAttributes.containsKey(id)) return;
         IAttributeModifier modifier = idAttributes.remove(id);
@@ -331,7 +341,6 @@ public class AscensionAttributeWrapper {
         stateGroupedAttributes.get(modifier.getLivingEntityState()).remove(modifier);
         groupGroupedAttributes.get(modifier.getGroupId()).remove(modifier);
         attributeGroupedAttributes.get(modifier.getAttribute()).remove(modifier);
-
         if(!modifier.isDisabled()) modifier.remove(entity);
     }
 
@@ -364,9 +373,10 @@ public class AscensionAttributeWrapper {
         for(int i = 0; i < listTag.size();i++){
             CompoundTag modifierTag = listTag.getCompound(i);
             if(modifierTag.getString("type").equals("minecraft_attribute")){
-                addAttributeModifier(new MinecraftAttributeModifier(modifierTag));
+                addExistingAttributeModifier(new MinecraftAttributeModifier(modifierTag));
             }else {
-                addAttributeModifier(new AscensionAttributeModifier(modifierTag));
+
+                addExistingAttributeModifier(new AscensionAttributeModifier(modifierTag));
             }
         }
     }
@@ -376,6 +386,7 @@ public class AscensionAttributeWrapper {
 
         ListTag listTag = new ListTag();
         for(IAttributeModifier modifier : getAllModifiers()){
+
             CompoundTag modifierTag = new CompoundTag();
             modifier.write(modifierTag);
             listTag.add(modifierTag);

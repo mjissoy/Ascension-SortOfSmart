@@ -18,6 +18,7 @@ import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.wood_dao.RootwardensCallActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
@@ -354,6 +355,12 @@ public class    SpaceInfusionActiveSkill extends AbstractActiveSkill {
     public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
         SpaceInfusionData data = new SpaceInfusionData();
         data.readData(tag);
+        return data;
+    }
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf) {
+        SpaceInfusionData data = new SpaceInfusionData();
+        data.decode(buf);
         return data;
     }
 }

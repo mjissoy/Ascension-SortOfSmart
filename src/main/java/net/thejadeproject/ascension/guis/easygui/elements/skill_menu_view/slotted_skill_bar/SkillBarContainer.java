@@ -137,6 +137,7 @@ public class SkillBarContainer extends EmptyContainer implements Clickable {
         Player player = Minecraft.getInstance().player;
         List<PlayerSkillData.SkillSlot> slots =player.getData(ModAttachments.PLAYER_SKILL_DATA).activeSkillContainer.getSkillIdList();
         for(int i = 0; i<slots.size();i++){
+
             this.slots.get(i).setCurrentSkill(slots.get(i).skillId);
         }
     }

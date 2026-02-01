@@ -508,6 +508,13 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
         return data;
     }
 
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf) {
+        SpiritualSenseData data = new SpiritualSenseData();
+        data.decode(buf);
+        return data;
+    }
+
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
     public static class ServerTickHandler {
         @SubscribeEvent

@@ -124,9 +124,10 @@ public class PlayerSkillData {
     public void writeSkillContainerNBTData(ListTag tag){
 
         for(int i = 0;i<activeSkillContainer.MAX_SKILL_SLOTS; i++){
-            
+
             CompoundTag skillSlot = new CompoundTag();
             ResourceLocation id = activeSkillContainer.getSkillIdList().get(i).skillId;
+
             skillSlot.putString("skill_id",id == null? "":id.toString());
             if(activeSkillContainer.getSkillIdList().get(i).preCastSkillData != null)skillSlot.put("pre_cast_data",activeSkillContainer.getSkillIdList().get(i).preCastSkillData.writeData());
             tag.add(i, skillSlot);
@@ -140,7 +141,7 @@ public class PlayerSkillData {
             if(id.isEmpty()) activeSkillContainer.setSlotEmpty(i);
             else activeSkillContainer.slotSkill(ResourceLocation.bySeparator(id,':'),i);
 
-            if(tag.hasUUID("pre_cast_data")){
+            if(tag.contains("pre_cast_data")){
                 ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(id,':'));
                 if(skill instanceof AbstractActiveSkill activeSkill){
                     activeSkillContainer.getSlot(i).preCastSkillData = activeSkill.getPreCastDataInstance(tag.getCompound("pre_cast_data"));
@@ -176,7 +177,7 @@ public class PlayerSkillData {
             skillMetaData.fixed = NBTUtil.getBooleanWithDefault(compound,"fixed",false);
             skillMetaData.permanent = NBTUtil.getBooleanWithDefault(compound,"permanent",false);
             ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(ResourceLocation.bySeparator(skillMetaData.skillId,':'));
-            if(compound.hasUUID("data")) skillMetaData.data = skill.getPersistentDataInstance(compound.getCompound("data"));
+            if(compound.contains("data")) skillMetaData.data = skill.getPersistentDataInstance(compound.getCompound("data"));
             return skillMetaData;
         }
     }
@@ -237,6 +238,7 @@ public class PlayerSkillData {
         }else{
             addPassiveSkill(skillId.toString(),fixed,permanent,data);
         }
+        skill.onSkillAdded(player);
         player.syncData(ModAttachments.PLAYER_SKILL_DATA);
     }
     public void addSkill(String skillId, String type, boolean fixed, IPersistentSkillData data){
@@ -350,6 +352,7 @@ public class PlayerSkillData {
         }
         CompoundTag tag2 = new CompoundTag();
         for(SkillMetaData dataEntry : passiveSkillHashMap.values()){
+
             tag2.put(dataEntry.skillId,dataEntry.writeSkillNBTData());
         }
         skillTag.put("Active",tag);
@@ -360,6 +363,7 @@ public class PlayerSkillData {
             activeSkillHashMap.put(key, SkillMetaData.loadSkillNBTData(compound.getCompound("Active").getCompound(key)));
         }
         for(String key:compound.getCompound("Passive").getAllKeys()){
+
             passiveSkillHashMap.put(key, SkillMetaData.loadSkillNBTData(compound.getCompound("Passive").getCompound(key)));
         }
     }
@@ -367,6 +371,7 @@ public class PlayerSkillData {
 
         loadSkillNBTData(tag.getCompound("skill_data"));
         loadSkillContainerNBTData((ListTag) tag.get("equip_skill_list"));
+
     }
     public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
         

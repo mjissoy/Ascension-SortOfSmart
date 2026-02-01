@@ -39,6 +39,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.network.packets.ClearOreSightPacket;
 import net.thejadeproject.ascension.network.packets.SyncOreSightPacket;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.physique_skills.kitsune_skills.FoxfireManipulationActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
@@ -358,6 +359,12 @@ public class OreSightActiveSkill extends AbstractActiveSkill {
     public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
         OreSightData data = new OreSightData();
         data.readData(tag);
+        return data;
+    }
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf) {
+        OreSightData data = new OreSightData();
+        data.decode(buf);
         return data;
     }
 

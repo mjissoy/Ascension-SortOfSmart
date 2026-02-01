@@ -13,6 +13,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.space_dao.SpaceInfusionActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
@@ -387,6 +388,12 @@ public class FoxfireManipulationActiveSkill extends AbstractActiveSkill {
     public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
         FoxfireData data = new FoxfireData();
         data.readData(tag);
+        return data;
+    }
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf) {
+        FoxfireData data = new FoxfireData();
+        data.decode(buf);
         return data;
     }
 }

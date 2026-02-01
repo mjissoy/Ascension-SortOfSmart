@@ -46,7 +46,8 @@ public class PassiveSkillSlot extends EmptyButton  {
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(2,2,0);
             guiGraphics.pose().scale(0.5f,0.5f,1);
-            skill.skillIcon().renderTexture(guiGraphics);
+
+            if(skill.skillIcon() != null) skill.skillIcon().renderTexture(guiGraphics);
             guiGraphics.pose().popPose();
             guiGraphics.pose().pushPose();;
             guiGraphics.pose().translate(60,8,0);

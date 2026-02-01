@@ -189,6 +189,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                     else previousValue.removeActiveSkill(skillMetaData.skillId);
                 }
             }
+
             if(buf.readBoolean()){
                 //passive skills
                 
@@ -216,6 +217,7 @@ public class PlayerSkillDataSyncHandler implements AttachmentSyncHandler<PlayerS
                 String id = (String) buf.readCharSequence(buf.readInt(),Charset.defaultCharset());
                 ResourceLocation skillId = ResourceLocation.bySeparator(id,':');
                 IPreCastSkillData preCastSkillData = null;
+
                 if(buf.readBoolean()){
                     //has precastData
                     if(AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof AbstractActiveSkill activeSkill){

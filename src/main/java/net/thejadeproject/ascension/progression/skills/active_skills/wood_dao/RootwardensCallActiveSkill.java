@@ -27,6 +27,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.skills.AbstractActiveSkill;
+import net.thejadeproject.ascension.progression.skills.active_skills.IndestructibleVajraActiveSkill;
 import net.thejadeproject.ascension.progression.skills.data.IPersistentSkillData;
 import net.thejadeproject.ascension.progression.skills.data.casting.CastType;
 import net.thejadeproject.ascension.progression.skills.data.casting.ICastData;
@@ -380,6 +381,13 @@ public class RootwardensCallActiveSkill extends AbstractActiveSkill {
     public IPersistentSkillData getPersistentDataInstance(CompoundTag tag) {
         RootwardenData data = new RootwardenData();
         data.readData(tag);
+        return data;
+    }
+
+    @Override
+    public IPersistentSkillData getPersistentDataInstance(RegistryFriendlyByteBuf buf) {
+        RootwardenData data = new RootwardenData();
+        data.decode(buf);
         return data;
     }
 }

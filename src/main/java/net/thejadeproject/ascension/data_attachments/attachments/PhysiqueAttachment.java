@@ -55,7 +55,7 @@ public class PhysiqueAttachment {
     public void loadNBTData(CompoundTag tag, HolderLookup.Provider provider){
         setPhysique(tag.getString("physique_id"));
 
-        if(tag.hasUUID("physique_data")) setPhysiqueData(tag.getCompound("physique_data"));
+        if(tag.contains("physique_data")) setPhysiqueData(tag.getCompound("physique_data"));
     }
     public void saveNBTData(CompoundTag tag,HolderLookup.Provider provider){
         tag.putString("physique_id",getPhysiqueId().toString());
