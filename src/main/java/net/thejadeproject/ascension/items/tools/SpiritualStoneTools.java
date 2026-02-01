@@ -22,7 +22,7 @@ public class SpiritualStoneTools {
 
             int damage = stack.getDamageValue();
             int maxRepair = Math.min(damage, 4);
-            double qiCost = maxRepair / 2.0;
+            double qiCost = maxRepair / 5.0;
 
             if (playerData.tryConsumeQi(qiCost)) {
                 stack.setDamageValue(damage - maxRepair);

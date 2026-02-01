@@ -737,7 +737,7 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
             int totalPages = (int) Math.ceil((double) senseInfo.entities.size() / ENTITIES_PER_PAGE);
             int currentPage = totalPages > 0 ? (scrollState.currentOffset / ENTITIES_PER_PAGE) + 1 : 1;
 
-            MutableComponent title = Component.literal("§9Sense §7(" + senseInfo.totalEntities + ")");
+            MutableComponent title = Component.literal("§9Spiritual Sense §7(" + senseInfo.totalEntities + ")");
             if (totalPages > 1) {
                 title.append(Component.literal(" §8[" + currentPage + "/" + totalPages + "]"));
             }
