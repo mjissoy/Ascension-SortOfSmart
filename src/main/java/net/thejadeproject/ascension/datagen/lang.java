@@ -539,6 +539,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.frost_silver_block", "Frost Silver Block");
 
         add("block.ascension.jade_ore", "Jade Ore");
+        add("block.ascension.spirit_vein", "Spirit Vein");
         add("block.ascension.spiritual_stone_cluster", "Spiritual Stone Cluster");
         add("block.ascension.jade_block", "Jade Block");
         add("block.ascension.spiritual_stone_block", "Spiritual Stone Block");

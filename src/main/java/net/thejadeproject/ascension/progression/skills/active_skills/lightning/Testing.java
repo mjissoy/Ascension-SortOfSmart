@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-@EventBusSubscriber(modid = AscensionCraft.MOD_ID, bus = EventBusSubscriber.Bus.GAME, value = Dist.CLIENT)
+@EventBusSubscriber(modid = AscensionCraft.MOD_ID, value = Dist.CLIENT)
 public class Testing {
     public static List<Vec3> points = new ArrayList<>();
     @SubscribeEvent
