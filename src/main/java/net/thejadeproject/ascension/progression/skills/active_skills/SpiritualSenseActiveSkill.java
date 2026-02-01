@@ -274,6 +274,10 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
         return 0;
     }
 
+    public void initializePersistentData(Player player){
+        SpiritualSenseData newData = new SpiritualSenseData();
+    }
+
     @Override
     public void cast(int castingTicksElapsed, Level level, Player player, ICastData castData) {
         if (level.isClientSide()) return;
@@ -282,7 +286,8 @@ public class SpiritualSenseActiveSkill extends AbstractActiveSkill {
         if (data == null) {
             // Debug line - remove after fixing
             AscensionCraft.LOGGER.warn("Spiritual Sense cast failed: data is null for player {}", player.getName().getString());
-            player.displayClientMessage(Component.literal("§cSkill data not initialized. Try relogging."), true);
+
+            //player.displayClientMessage(Component.literal("§cSkill data not initialized. Try relogging."), true);
             return;
         }
 

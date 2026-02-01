@@ -67,9 +67,10 @@ public class PlayerDataChangeHandler {
             NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(realmChangeEvent));
             pathData.technique = "ascension:none";
             pathData.techniqueData = null;
-            PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
-            NeoForge.EVENT_BUS.post(new TechniqueChangeEvent.Post(techniqueChangeEvent));
 
+            NeoForge.EVENT_BUS.post(new TechniqueChangeEvent.Post(techniqueChangeEvent));
+            NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(realmChangeEvent));
+            PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(pathData));
 
         }
 

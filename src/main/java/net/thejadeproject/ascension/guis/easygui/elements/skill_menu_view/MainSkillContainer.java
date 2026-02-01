@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.passiv
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.slotted_skill_bar.SkillBarContainer;
 import net.thejadeproject.ascension.guis.easygui.elements.skill_menu_view.active_skill_container.ActiveSkillsContainer;
 import net.thejadeproject.ascension.progression.skills.ISkill;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
 
 public class MainSkillContainer extends EmptyContainer implements MouseReleaseListener {
     ISkill heldActiveSkill = null;
@@ -47,6 +48,8 @@ public class MainSkillContainer extends EmptyContainer implements MouseReleaseLi
         heldActiveSkill = null;
     }
     public void createSkillInfoPanel(ResourceLocation skillId){
+        if(skillId == null) return;
+        if(!AscensionRegistries.Skills.SKILL_REGISTRY.containsKey(skillId)) return;
         addChild(new SkillInfoPanel(getScreen(),-100,-20,skillId,this));
     }
 
