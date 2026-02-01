@@ -166,6 +166,21 @@ public class lang extends LanguageProvider {
         add("ascension.teleport.cancel.no_item", "§aItem not found");
         add("ascension.teleport.failed.no_safe_location", "§cNo safe teleport location found!");
 
+
+        add("item.ascension.death_recall_talisman.permanent", "Death Recall Talisman (Eternal)");
+        add("item.ascension.death_recall_talisman.cooldown", "Death Recall Talisman [%s:%s]");
+        add("ascension.deathrecall.no_location", "§cNo death location bound to this talisman");
+        add("ascension.deathrecall.dimension_invalid", "§cThe death dimension is no longer accessible");
+        add("ascension.deathrecall.success", "§aReturned to the site of your demise");
+        add("ascension.deathrecall.tooltip.bound", "§4§oBound to Death Location");
+        add("ascension.deathrecall.tooltip.unbound", "§7Will bind to death location automatically");
+        add("ascension.deathrecall.tooltip.coords", "§cCoords: §7%s, %s, %s");
+        add("ascension.deathrecall.tooltip.dimension", "§cDimension: §7%s");
+        add("ascension.deathrecall.bind_message", "§5§oThe talisman absorbs the essence of your death...");
+        add("ascension.deathrecall.bound_on_respawn", "§5Death Recall Talisman has bound to your demise...");
+
+
+
         add("ascension.soulsteadreturn.teleported", "§aTeleported to your spawn point!");
         add("ascension.teleport.success.random", "§aTeleported to a random location!");
         add("ascension.worldaxis.teleported", "§aTeleported to world spawn!");
@@ -560,6 +575,7 @@ public class lang extends LanguageProvider {
         add("item.ascension.soulstead_return_talisman", "Soulstead Return Talisman");
         add("item.ascension.world_axis_talisman", "World Axis Talisman");
         add("item.ascension.void_marking_talisman", "Void-Marking Talisman");
+        add("item.ascension.death_recall_talisman", "Death Recall Talisman");
         add("item.ascension.todh", "Tablet Of Destruction");
         add("item.ascension.tode", "Tablet Of Destruction");
         add("item.ascension.todhe", "Tablet Of Destruction");

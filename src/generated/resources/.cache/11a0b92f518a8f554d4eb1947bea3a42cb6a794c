@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-30T13:29:42.2531437	Item Models: ascension
+// 1.21.1	2026-02-01T14:52:10.9996145	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -22,6 +22,7 @@ c57766879bb22d1cbcccacb3f39c724691ad72cb assets/ascension/models/item/burned_mar
 dfefb51f0ff77daee52a2c66462925ccbe5afed2 assets/ascension/models/item/crimson_lotus_flame.json
 784fd9542ee83749eb65f1203d3a6fa19c260a4e assets/ascension/models/item/cyan_marble_brick_wall.json
 f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marble_tile_wall.json
+5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/death_recall_talisman.json
 38b8fb051abd7c420998ca4844201a12eb285794 assets/ascension/models/item/diamond_blade.json
 314b298cf5460ebda41e529f392dcf27672e467e assets/ascension/models/item/diamond_spear.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/divine_phoenix_technique.json

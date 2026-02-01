@@ -1,8 +1,13 @@
 package net.thejadeproject.ascension;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
@@ -10,11 +15,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
@@ -36,6 +44,7 @@ import net.thejadeproject.ascension.events.karma.KarmaEvents;
 import net.thejadeproject.ascension.events.karma.KarmaManager;
 import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
 import net.thejadeproject.ascension.formations.ModFormations;
+import net.thejadeproject.ascension.items.artifacts.DeathRecallTalisman;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
@@ -193,6 +202,85 @@ public class AscensionCraft {
         event.register(KeyBindHandler.CULTIVATE_KEY);
         event.register(KeyBindHandler.CAST_SKILL_KEY);
 
+    }
+
+    @SubscribeEvent
+    public void onPlayerDeath(LivingDeathEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+
+        // Store talismans in the player's persistent data before they get removed
+        CompoundTag playerData = player.getPersistentData();
+        ListTag talismansList = new ListTag();
+
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (stack.getItem() instanceof DeathRecallTalisman talisman) {
+                // Bind the death location
+                talisman.onPlayerDeath(player, stack);
+
+                // Save the stack NBT to restore on respawn
+                CompoundTag itemTag = new CompoundTag();
+                itemTag.putInt("Slot", i);
+                itemTag.put("Item", stack.save(player.registryAccess()));
+                talismansList.add(itemTag);
+
+                // Remove from inventory so it doesn't get dropped
+                player.getInventory().setItem(i, ItemStack.EMPTY);
+            }
+        }
+
+        if (!talismansList.isEmpty()) {
+            playerData.put("DeathRecallTalismans", talismansList);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerClone(PlayerEvent.Clone event) {
+        if (!event.isWasDeath()) return;
+
+        ServerPlayer newPlayer = (ServerPlayer) event.getEntity();
+        ServerPlayer oldPlayer = (ServerPlayer) event.getOriginal();
+
+        CompoundTag oldData = oldPlayer.getPersistentData();
+
+        if (oldData.contains("DeathRecallTalismans")) {
+            ListTag talismansList = oldData.getList("DeathRecallTalismans", Tag.TAG_COMPOUND);
+            RegistryAccess registryAccess = newPlayer.registryAccess();
+
+            for (int i = 0; i < talismansList.size(); i++) {
+                CompoundTag itemTag = talismansList.getCompound(i);
+                int preferredSlot = itemTag.getInt("Slot");
+                ItemStack stack = ItemStack.parse(registryAccess, itemTag.getCompound("Item")).orElse(ItemStack.EMPTY);
+
+                if (!stack.isEmpty()) {
+                    // Try to put back in original slot first, otherwise find empty slot
+                    if (newPlayer.getInventory().getItem(preferredSlot).isEmpty()) {
+                        newPlayer.getInventory().setItem(preferredSlot, stack);
+                    } else {
+                        newPlayer.getInventory().add(stack);
+                    }
+
+                    // Notify player
+                    newPlayer.displayClientMessage(
+                            Component.translatable("ascension.deathrecall.bound_on_respawn"),
+                            true
+                    );
+                }
+            }
+
+            // Clean up old data
+            oldData.remove("DeathRecallTalismans");
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerDrops(LivingDropsEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer)) return;
+
+        // Remove any talismans from drops (backup safety check)
+        event.getDrops().removeIf(itemEntity ->
+                itemEntity.getItem().getItem() instanceof DeathRecallTalisman
+        );
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {

@@ -26,6 +26,7 @@ import net.thejadeproject.ascension.items.pills.*;
 import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
+import net.thejadeproject.ascension.items.tools.SpiritualPaxelItem;
 import net.thejadeproject.ascension.items.tools.SpiritualStoneTools;
 import net.thejadeproject.ascension.util.ItemUtil;
 
@@ -157,6 +158,15 @@ public class ModItems {
             () -> new SpiritualStoneTools.Hoe(ModToolTiers.SPIRITUAL_STONE,
                     new Item.Properties().attributes(HoeItem.createAttributes(ModToolTiers.SPIRITUAL_STONE, -2.0F, -1.0F))));
 
+    public static final DeferredItem<Item> SPIRITUAL_STONE_PAXEL = ITEMS.register("spiritual_stone_paxel",
+            () -> new SpiritualPaxelItem(ModToolTiers.SPIRITUAL_STONE,
+                    new Item.Properties()
+                            .attributes(SpiritualPaxelItem.createPaxelAttributes(
+                                    ModToolTiers.SPIRITUAL_STONE,
+                                    5.0F,  // Attack damage
+                                    -3.0F  // Attack speed
+                            ))));
+
 
 
     //Formation Items
@@ -214,6 +224,9 @@ public class ModItems {
             () -> new WorldAxisTalisman(new Item.Properties()));
     public static final DeferredItem<Item> VOID_MARKING_TALISMAN = ITEMS.register("void_marking_talisman",
             () -> new VoidMarkingTalisman(new Item.Properties()));
+
+    public static final DeferredItem<Item> DEATH_RECALL_TALISMAN = ITEMS.register("death_recall_talisman",
+            () -> new DeathRecallTalisman(new Item.Properties()));
 
 
     public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HUMAN = ITEMS.register("todh",

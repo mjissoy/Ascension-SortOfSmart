@@ -41,20 +41,18 @@ public class SectEventHandler {
         event.setCanceled(true);
 
         Sect sect = manager.getPlayerSect(player.getUUID());
-        String playerName = player.getScoreboardName();
         String messageText = event.getRawText();
 
-        MutableComponent formattedMessage;
+        // FIX: Use getDisplayName() instead of getScoreboardName()
+        MutableComponent formattedMessage = Component.literal("");
 
         if (sect != null) {
-            formattedMessage = Component.literal("")
-                    .append(Component.literal("§e[" + sect.getName() + "] §r"))
-                    .append(Component.literal(playerName))
+            formattedMessage.append(Component.literal("§e[" + sect.getName() + "] §r"))
+                    .append(player.getDisplayName())  // Respects nickname mods
                     .append(Component.literal(" §e➣§r "))
                     .append(Component.literal(messageText));
         } else {
-            formattedMessage = Component.literal("")
-                    .append(Component.literal(playerName))
+            formattedMessage.append(player.getDisplayName())  // Respects nickname mods
                     .append(Component.literal(" §e➣§r "))
                     .append(Component.literal(messageText));
         }
@@ -80,27 +78,33 @@ public class SectEventHandler {
             SectMember member = sect.getMember(player.getUUID());
             if (member != null) {
                 String title = member.getTitle().isEmpty() ? "" : " §7" + member.getTitle();
-                Component displayName = Component.literal("§3[§b" + sect.getName() + "§3] §e" + player.getScoreboardName() + title);
-                player.setCustomName(displayName);
-                player.setCustomNameVisible(true);
-                return;
+                Component currentName = player.getCustomName();
+                if (currentName == null || currentName.getString().equals(player.getScoreboardName())) {
+                    Component displayName = Component.literal("§3[§b" + sect.getName() + "§3] §e" + player.getScoreboardName() + title);
+                    player.setCustomName(displayName);
+                    player.setCustomNameVisible(true);
+                }
+            }
+        } else {
+            Component currentName = player.getCustomName();
+            if (currentName != null && currentName.getString().contains("[") && currentName.getString().contains("]")) {
+                player.setCustomName(Component.literal(player.getScoreboardName()));
+                player.setCustomNameVisible(false);
             }
         }
-        player.setCustomName(Component.literal(player.getScoreboardName()));
-        player.setCustomNameVisible(false);
     }
 
     private void sendSectChatMessage(Sect sect, ServerPlayer sender, String message, net.minecraft.server.MinecraftServer server) {
-        String formattedMessage = "§3[§b" + sect.getName() + "§3] §e" + sender.getScoreboardName() + " §e➣§f " + message;
-        Component chatMessage = Component.literal(formattedMessage);
+        MutableComponent formattedMessage = Component.literal("§3[§b" + sect.getName() + "§3] §e")
+                .append(sender.getScoreboardName())
+                .append(Component.literal(" §e➣§f " + message));
 
         for (SectMember member : sect.getMembers().values()) {
             ServerPlayer onlinePlayer = server.getPlayerList().getPlayer(member.getPlayerId());
             if (onlinePlayer != null) {
-                onlinePlayer.sendSystemMessage(chatMessage);
+                onlinePlayer.sendSystemMessage(formattedMessage);
             }
         }
-
     }
 
     @SubscribeEvent
