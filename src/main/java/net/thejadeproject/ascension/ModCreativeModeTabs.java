@@ -72,6 +72,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SOULSTEAD_RETURN_TALISMAN);
                         output.accept(ModItems.WORLD_AXIS_TALISMAN);
                         output.accept(ModItems.VOID_MARKING_TALISMAN);
+                        output.accept(ModItems.DEATH_RECALL_TALISMAN);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_TOOLS_TAB = CREATIVE_MODE_TAB.register("ascension_tools_tab",

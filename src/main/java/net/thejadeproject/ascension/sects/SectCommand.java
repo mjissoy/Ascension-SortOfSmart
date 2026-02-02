@@ -483,13 +483,8 @@ public class SectCommand {
         }
 
         if (newRank == SectRank.ELDER) {
-            int merit = sect.getPlayerMerit(targetPlayer.getUUID());
-            if (merit < 10000) {
-                context.getSource().sendFailure(Component.literal("§cPlayer must have 10000 merit to become Elder!"));
-                return 0;
-            }
+            sect.clearRecommendations(targetPlayer.getUUID());
         }
-
         sect.setMemberRank(targetPlayer.getUUID(), newRank);
 
         // MODIFIED: Check announcePromotions setting

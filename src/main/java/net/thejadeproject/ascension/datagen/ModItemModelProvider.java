@@ -93,6 +93,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         talisman(ModItems.SOULSTEAD_RETURN_TALISMAN.get());
         talisman(ModItems.WORLD_AXIS_TALISMAN.get());
         talisman(ModItems.VOID_MARKING_TALISMAN.get());
+        talisman(ModItems.DEATH_RECALL_TALISMAN.get());
 
 
         //Crafting Ingredients

@@ -215,6 +215,9 @@ public class ModItems {
     public static final DeferredItem<Item> VOID_MARKING_TALISMAN = ITEMS.register("void_marking_talisman",
             () -> new VoidMarkingTalisman(new Item.Properties()));
 
+    public static final DeferredItem<Item> DEATH_RECALL_TALISMAN = ITEMS.register("death_recall_talisman",
+            () -> new DeathRecallTalisman(new Item.Properties()));
+
 
     public static final DeferredItem<Item> TABLET_OF_DESTRUCTION_HUMAN = ITEMS.register("todh",
             () -> new TabletOfDestructionHuman(new Item.Properties()));
