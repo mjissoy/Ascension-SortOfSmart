@@ -26,7 +26,6 @@ import net.thejadeproject.ascension.items.pills.*;
 import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
-import net.thejadeproject.ascension.items.tools.SpiritualPaxelItem;
 import net.thejadeproject.ascension.items.tools.SpiritualStoneTools;
 import net.thejadeproject.ascension.util.ItemUtil;
 
@@ -157,15 +156,6 @@ public class ModItems {
     public static final DeferredItem<Item> SPIRITUAL_STONE_HOE = ITEMS.register("spiritual_stone_hoe",
             () -> new SpiritualStoneTools.Hoe(ModToolTiers.SPIRITUAL_STONE,
                     new Item.Properties().attributes(HoeItem.createAttributes(ModToolTiers.SPIRITUAL_STONE, -2.0F, -1.0F))));
-
-    public static final DeferredItem<Item> SPIRITUAL_STONE_PAXEL = ITEMS.register("spiritual_stone_paxel",
-            () -> new SpiritualPaxelItem(ModToolTiers.SPIRITUAL_STONE,
-                    new Item.Properties()
-                            .attributes(SpiritualPaxelItem.createPaxelAttributes(
-                                    ModToolTiers.SPIRITUAL_STONE,
-                                    5.0F,  // Attack damage
-                                    -3.0F  // Attack speed
-                            ))));
 
 
 
