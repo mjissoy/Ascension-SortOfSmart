@@ -15,6 +15,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.constants.CultivationSource;
+import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
 import net.thejadeproject.ascension.entity.custom.AscensionSkillEntity;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
@@ -104,12 +105,23 @@ public class PlayerEventHandler {
             player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body").stabilityCultivationTicks=0;
         }
     }
+    @SubscribeEvent
+    public static void onDimensionChange( PlayerEvent.PlayerChangedDimensionEvent event){
+        var player = event.getEntity();
+        for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
+            PacketDistributor.sendToPlayer((ServerPlayer) player,SyncPathDataPayload.fromPathData(pathData));
+        }
+
+    }
 
     @SubscribeEvent
     public static void respawnEvent(PlayerEvent.PlayerRespawnEvent event) {
         var player = event.getEntity();
-        PacketDistributor.sendToPlayer((ServerPlayer) player, SyncPathDataPayload.fromPathData(player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:body")));
+        for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
+            PacketDistributor.sendToPlayer((ServerPlayer) player,SyncPathDataPayload.fromPathData(pathData));
         }
+
     }
+}
 
 
