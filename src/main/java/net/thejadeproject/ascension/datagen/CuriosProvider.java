@@ -18,7 +18,6 @@ public class CuriosProvider extends CuriosDataProvider {
     public void generate(HolderLookup.Provider provider, ExistingFileHelper existingFileHelper) {
 
         createEntities("player").addEntities(EntityType.PLAYER).addSlots("ring");
-        createEntities("player").addEntities(EntityType.PLAYER).addSlots("talisman");
 
     }
 }
