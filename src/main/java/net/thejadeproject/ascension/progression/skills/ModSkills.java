@@ -32,6 +32,18 @@ public class ModSkills {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     public static final DeferredHolder<ISkill, ? extends AbstractActiveSkill> QI_CHANNELING = SKILLS.register(
             "qi_channeling",
             () -> new QiChannelingSkill("Qi Channeling")
@@ -64,7 +76,7 @@ public class ModSkills {
                     .setSkillIcon(new TextureData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/fist_aura.png"),32,32)
                     ).setSkillDescription(
                             Component.empty().append("Enhance your §8Fist with pure intent\n Increasing damage of any §8Fist intent attacks")));
-    public static final DeferredHolder<ISkill,  ? extends AbstractPassiveSkill > SWORD_INTENT = SKILLS.register("sword_intent_skill",
+    public static final DeferredHolder<ISkill,  ? extends AbstractPassiveSkill > SWORDS_INTENT = SKILLS.register("sword_intent_skill",
             SwordIntent::new);
     public static final DeferredHolder<ISkill,  ? extends AbstractActiveSkill > BASIC_FIRE_BALL = SKILLS.register("basic_fire_ball",
             ()->new BasicFireBall(1,5,"Basic Fire Ball",10,60)
