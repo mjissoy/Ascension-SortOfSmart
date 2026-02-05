@@ -103,7 +103,9 @@ public class GenericPhysique implements IPhysique{
     public void onGatherEfficiencyModifiers(GatherEfficiencyModifiersEvent event) {
 
         if(event.pathID != null && pathBonuses.containsKey(event.pathID)) event.addPathMultiplier(pathBonuses.get(event.pathID));
+
         for(String techniqueAttributeId : otherBonuses.keySet()){
+
             event.tryAddDao(techniqueAttributeId,otherBonuses.get(techniqueAttributeId));
         }
 

@@ -11,7 +11,7 @@ public class CultivationProgressBarsView extends View {
         super(screen,x,y);
         setUseMinecraftScale(true);
 
-        //addChild(new PathProgressBarContainer(screen,getScaledWidth(),getScaledHeight()));
+        addChild(new PathProgressBarContainer(screen,getScaledWidth(),getScaledHeight()));
 
     }
 }

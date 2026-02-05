@@ -28,16 +28,17 @@ public class GatherEfficiencyModifiersEvent extends Event {
         this.player = player;
         this.pathID = pathID;
         for(String key: ascensionAttributeID){
-            daoMultipliers.put(key,0.01);//0.01 is the base dao bonus
+            daoMultipliers.put(key,0.0);//0.01 is the base dao bonus
         }
     }
 
     public void addDaoMultiplier(String attribute,Double mul){
-        daoMultipliers.put(attribute,mul);
+        daoMultipliers.put(attribute,daoMultipliers.get(attribute)+mul);
     }
     public Double getTotalDaoEfficiencyMultiplier(){
         Double total = 0.0;
         for(Double multiplier : daoMultipliers.values()){
+
             total += multiplier;
         }
         return total;
@@ -90,7 +91,9 @@ public class GatherEfficiencyModifiersEvent extends Event {
     }
 
     public void tryAddDao(String daoId,Double mul){
+
         if(ascensionAttributeID.contains(daoId)){
+
             addDaoMultiplier(daoId,mul);
             return;
         }
