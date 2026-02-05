@@ -506,6 +506,7 @@
   "item.ascension.spirit_focus_pill_t1": "Spirit Focus Pill",
   "item.ascension.spirit_focus_pill_t2": "Spirit Focus Pill",
   "item.ascension.spirit_focus_pill_t3": "Spirit Focus Pill",
+  "item.ascension.spirit_sealing_ring": "Spirit Sealing Ring",
   "item.ascension.spiritual_stone": "Spiritual Stone",
   "item.ascension.spiritual_stone_axe": "Spiritual Stone Axe",
   "item.ascension.spiritual_stone_hoe": "Spiritual Stone Hoe",
@@ -559,12 +560,5 @@
   "tooltip.ascension.inputs": "Inputs:",
   "tooltip.ascension.output": "Output: %s",
   "tooltip.ascension.progress": "Progress: %s%%",
-  "tooltip.ascension.time_remaining": "Time remaining: %ss",
-  "tribulation.approaches": "§c☯ Heavenly Tribulation Approaches! ☯",
-  "tribulation.broadcast_success": "§6A cultivator has successfully survived a Heavenly Tribulation!",
-  "tribulation.death": "§4☠ You have perished in the Heavenly Tribulation! ☠",
-  "tribulation.failed": "§6⚝ You have failed the tribulation, but survived. Try again! ⚝",
-  "tribulation.inner_demons": "§5♠ Your Inner Demons manifest! ♠",
-  "tribulation.perfect_clear": "§d✨ Perfect Tribulation! Bonus Dao Comprehension! ✨",
-  "tribulation.success": "§a✦ You have survived the Heavenly Tribulation! ✦"
+  "tooltip.ascension.time_remaining": "Time remaining: %ss"
 }

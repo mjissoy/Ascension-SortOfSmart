@@ -199,7 +199,8 @@ public class ModTechniques {
                     .setSkillList(List.of(
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"basic_fire_ball"),4,0,false,false),
                             new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"large_fire_ball"),5,0,false,false),
-                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"delayed_fire_launch"),3,0,false,false)
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"delayed_fire_launch"),3,0,false,false),
+                            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"spiritual_sense"),1,0,false,false)
                     ))
                     .setEfficiencyAttributes(new HashMap<>(){{
                         put("ascension:fire", 2.0);

@@ -31,21 +31,19 @@ public class ToolTipHandler {
     private static class AnimatedTooltip {
         private final Component text;
         private final float speed;
-        private float time = 0;
+        private final long startTime;
 
         public AnimatedTooltip(Component text, float speed) {
             this.text = text;
             this.speed = speed;
+            this.startTime = System.currentTimeMillis();
         }
 
         public MutableComponent getComponent() {
-            time += speed;
-            if (time > 1.0f) time = 0;
-            // Use the string representation of the component (whether literal or translated)
+            float time = ((System.currentTimeMillis() - startTime) * speed * 0.1f) % 1.0f;
             return ToolTipsGradient.RGBEachLetter(time, text.getString(), 0.01f);
         }
     }
-
     private static final Map<Item, List<Component>> ITEM_TOOLTIPS = new HashMap<>();
 
     /**

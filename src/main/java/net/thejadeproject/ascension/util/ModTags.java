@@ -7,10 +7,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.*;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
@@ -107,6 +109,33 @@ public class ModTags {
 
         private static TagKey<Block> createTag(String name) {
             return BlockTags.create(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, name));
+        }
+    }
+
+    // NEW: Entity Type Tags
+    public static class EntityTypes {
+        // Spirit Sealing Ring blacklist - mobs that cannot be captured
+        public static final TagKey<EntityType<?>> SEALING_BLACKLIST = createTag("sealing_blacklist");
+
+        // Bosses that cannot be captured
+        public static final TagKey<EntityType<?>> BOSS = createTag("boss");
+
+        // Spirits that can be captured (optional whitelist approach)
+        public static final TagKey<EntityType<?>> CAPTURABLE = createTag("capturable");
+
+        // Utility method to check if an entity matches the tag
+        public static boolean is(Entity entity, TagKey<EntityType<?>> tag) {
+            return entity.getType().is(tag);
+        }
+
+        private static TagKey<EntityType<?>> createTag(String name) {
+            return TagKey.create(Registries.ENTITY_TYPE,
+                    ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, name));
+        }
+
+        private static TagKey<EntityType<?>> createCommonTag(String path) {
+            return TagKey.create(Registries.ENTITY_TYPE,
+                    ResourceLocation.fromNamespaceAndPath("c", path));
         }
     }
 }

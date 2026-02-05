@@ -1,4 +1,4 @@
-// 1.21.1	2026-02-01T14:52:10.9996145	Item Models: ascension
+// 1.21.1	2026-02-05T10:38:51.0719223	Item Models: ascension
 0da3d9a11be72ce9883abee3f38e1c72858d7ae7 assets/ascension/models/item/antidote_pill_qdppill.json
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
@@ -148,6 +148,7 @@ b765b564f10d5d25e405cb7a9a0b4071980c3ced assets/ascension/models/item/spiritual_
 c707f86ce5008f1c2a96c9ca40ee5b5b2b1502fa assets/ascension/models/item/spirit_focus_pill_t1.json
 2ecc14f50d0b8ba2c3dec0f1a1b9d7f19fec3b1a assets/ascension/models/item/spirit_focus_pill_t2.json
 b60f7bee708913d9cae6e49b15bdbf0649ceefbb assets/ascension/models/item/spirit_focus_pill_t3.json
+f6d8b4d372f8ba1e408dac571f5e98cbb1cb8b38 assets/ascension/models/item/spirit_sealing_ring.json
 8dbc1b2966d37340bf272dfccb2dfd6b59aa9249 assets/ascension/models/item/stone_blade.json
 7768d1dcf40a98c2e67896252be4d1085fc27473 assets/ascension/models/item/stone_spear.json
 7129f8e71e68613b579402e42cf86972f0c0e08b assets/ascension/models/item/swift_breeze_technique.json

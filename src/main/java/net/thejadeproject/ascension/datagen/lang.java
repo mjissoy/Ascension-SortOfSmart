@@ -567,6 +567,7 @@ public class lang extends LanguageProvider {
 
         //Artifacts
         add("item.ascension.spatial_ring", "Spatial Ring");
+        add("item.ascension.spirit_sealing_ring", "Spirit Sealing Ring");
 
         add("item.ascension.fire_gourd", "Gourd O Fire");
         add("item.ascension.spatial_rupture_talisman_t1", "Lesser Spatial Rupture Talisman");
@@ -634,18 +635,6 @@ public class lang extends LanguageProvider {
         add("key.ascension.cast_skill", "Cast Skill");
         add("key.ascension.skill_menu", "Open Skill Menu");
         add("key.ascension.skill_wheel", "Skill Wheel");
-
-
-
-        //Tribulations
-        add("tribulation.approaches", "§c☯ Heavenly Tribulation Approaches! ☯");
-        add("tribulation.inner_demons", "§5♠ Your Inner Demons manifest! ♠");
-        add("tribulation.success", "§a✦ You have survived the Heavenly Tribulation! ✦");
-        add("tribulation.failed", "§6⚝ You have failed the tribulation, but survived. Try again! ⚝");
-        add("tribulation.death", "§4☠ You have perished in the Heavenly Tribulation! ☠");
-        add("tribulation.perfect_clear", "§d✨ Perfect Tribulation! Bonus Dao Comprehension! ✨");
-        add("tribulation.broadcast_success", "§6A cultivator has successfully survived a Heavenly Tribulation!");
-
 
         //CONFIG
         add("ascension.configuration.Multipliers", "Stats Multipliers");
