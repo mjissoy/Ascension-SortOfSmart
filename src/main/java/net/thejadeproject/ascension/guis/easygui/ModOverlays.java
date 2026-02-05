@@ -12,8 +12,11 @@ import net.lucent.easygui.util.textures.TextureDataSubSection;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.multiplayer.MultiPlayerGameMode;
+import net.minecraft.client.telemetry.TelemetryProperty;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.GameType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
@@ -134,7 +137,7 @@ public class ModOverlays {
             public void renderChildren(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 if(Minecraft.getInstance().options.hideGui ||
                         (Minecraft.getInstance().gameMode != null &&
-                                !Minecraft.getInstance().gameMode.canHurtPlayer())) return;
+                                Minecraft.getInstance().gameMode.getPlayerMode() == GameType.SPECTATOR)) return;
 
 
                 super.renderChildren(guiGraphics, mouseX, mouseY, partialTick);
@@ -165,7 +168,7 @@ public class ModOverlays {
         //EasyGuiOverlayManager.addLayer( ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"progress_layer"),QI_TRACKER);
         EasyGuiOverlayManager.registerVanillaOverlayOverride(VanillaGuiLayers.PLAYER_HEALTH,HEALTH_BAR);
         EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_cast_progress"),SKILL_CAST_PROGRESS);
-        //EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_progress"),CULTIVATION_PROGRESS);
+        EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"cultivation_progress"),CULTIVATION_PROGRESS);
         EasyGuiOverlayManager.addLayer(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"qi_bar"),PLAYER_QI_BAR);
 
     }

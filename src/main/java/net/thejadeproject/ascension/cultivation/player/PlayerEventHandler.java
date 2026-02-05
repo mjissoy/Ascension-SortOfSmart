@@ -19,6 +19,7 @@ import net.thejadeproject.ascension.cultivation.player.data_attachements.Cultiva
 import net.thejadeproject.ascension.entity.custom.AscensionSkillEntity;
 import net.thejadeproject.ascension.events.custom.GatherEfficiencyModifiersEvent;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
+import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
 import net.thejadeproject.ascension.registries.AscensionRegistries;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.util.ModTags;
@@ -59,9 +60,7 @@ public class PlayerEventHandler {
         NeoForge.EVENT_BUS.post(effEvent);
         
         
-        
-        
-        
+
         
         event.setNewDamage((float) (event.getNewDamage()*effEvent.getTotalEfficiencyMultiplier()));
         
@@ -108,6 +107,7 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public static void onDimensionChange( PlayerEvent.PlayerChangedDimensionEvent event){
         var player = event.getEntity();
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString()));
         for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
             PacketDistributor.sendToPlayer((ServerPlayer) player,SyncPathDataPayload.fromPathData(pathData));
         }
@@ -117,6 +117,8 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public static void respawnEvent(PlayerEvent.PlayerRespawnEvent event) {
         var player = event.getEntity();
+
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString()));
         for(CultivationData.PathData pathData : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
             PacketDistributor.sendToPlayer((ServerPlayer) player,SyncPathDataPayload.fromPathData(pathData));
         }

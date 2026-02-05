@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.cultivation.CultivationSystem;
 import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
@@ -23,6 +24,7 @@ import net.thejadeproject.ascension.guis.easygui.elements.HoverableLabel;
 import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
 import net.thejadeproject.ascension.progression.breakthrough.IBreakthroughHandler;
 import net.thejadeproject.ascension.progression.skills.skill_lists.IAcquirableSkill;
+import net.thejadeproject.ascension.progression.skills.skill_lists.SingleSkillAcquirableData;
 import net.thejadeproject.ascension.progression.skills.skill_lists.SkillList;
 import net.thejadeproject.ascension.progression.techniques.ITechnique;
 import net.thejadeproject.ascension.progression.techniques.data.ITechniqueData;
@@ -40,7 +42,10 @@ public abstract class AbstractTechnique implements ITechnique {
 
     public Map<String,Double> daoBonuses = new HashMap<>();
     public String path;
-    public SkillList skillList = new SkillList(List.of());
+    public SkillList skillList = new SkillList(List.of(
+            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "spiritual_sense"), 2, 5, true, false),
+            new SingleSkillAcquirableData(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "flight_passive_skill"), 4, 0, true, false)
+    ));
     public ITextureData techniqueImage;
     public Component description = Component.empty();
     public StabilityHandler stabilityHandler;

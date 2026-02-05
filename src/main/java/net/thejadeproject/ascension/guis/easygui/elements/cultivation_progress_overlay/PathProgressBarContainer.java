@@ -7,30 +7,31 @@ import net.minecraft.client.Minecraft;
 import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.events.custom.client.PlayerCultivationChanged;
 import net.thejadeproject.ascension.events.custom.cultivation.CultivateEvent;
+import net.thejadeproject.ascension.registries.AscensionRegistries;
+
+import java.awt.desktop.SystemSleepEvent;
 
 public class PathProgressBarContainer extends EmptyContainer implements Sticky {
 
     public PathProgressBarContainer(IEasyGuiScreen screen,int scaledWidth,int scaledHeight){
-        super(screen,scaledWidth-(80),scaledHeight-(21+2)*3,67,(21+2)*3);
+        super(screen,scaledWidth-(80),scaledHeight-(21+2)*3,67,(21+2)* AscensionRegistries.Paths.PATHS_REGISTRY.size());
+        for (int i = 0; i<AscensionRegistries.Paths.PATHS_REGISTRY.size();i++){
+            addChild(new PathProgressBar(screen,0,(21+2)*i));
+        }
 
-        PathProgressBar bar1 = new PathProgressBar(screen,0,0);
-        PathProgressBar bar2 = new PathProgressBar(screen,0,21+2);
-        PathProgressBar bar3 = new PathProgressBar(screen,0,42+2);
-
-        addChild(bar1);
-
-        addChild(bar2);
-
-        addChild(bar3);
         NeoForge.EVENT_BUS.addListener(this::onPlayerCultivate);
     }
 
+
     public void tryDisplayBar(String path){
+        if(getChildren().isEmpty()) return;
         PathProgressBar selectedBar = null;
-        for(int i = 2;i>=0;i--){
+
+        for(int i = AscensionRegistries.Paths.PATHS_REGISTRY.size()-1;i>=0;i--){
             if(((PathProgressBar) getChildren().get(i)).getCurrentPath() == null){
-                if(selectedBar == null) selectedBar = (PathProgressBar) getChildren().get(i);
-            }else if(((PathProgressBar) getChildren().get(i)).getCurrentPath().equals(path)) return;
+                if(selectedBar == null)selectedBar = (PathProgressBar) getChildren().get(i);
+            }
+            else if(((PathProgressBar) getChildren().get(i)).getCurrentPath().equals(path)) return;
 
         }
         if(selectedBar != null) selectedBar.setCurrentPath(path);
