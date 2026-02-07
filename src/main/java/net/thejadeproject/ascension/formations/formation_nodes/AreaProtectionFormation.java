@@ -45,7 +45,7 @@ public class AreaProtectionFormation extends FormationNode {
             IPlayerFilter filter = stack.getCapability(AscensionCapabilities.PLAYER_FILTER_CAPABILITY);
             if(filter != null) filters.add(new Pair<>(filter,stack));
         }
-        //push all out for now
+
         ItemStack controlToken =  ((AbstractFormationCoreBlockEntity) core).getFormationItemStackHandler().getControlToken();
         IAccessControlToken token = controlToken.getCapability(Capabilities.ACCESS_TOKEN_CAPABILITY);
         if(token != null && token.hasPermission(player,controlToken)) return true;
@@ -68,24 +68,26 @@ public class AreaProtectionFormation extends FormationNode {
 
         event.getAffectedBlocks().removeIf(this::tryProtectBlock);
 
-
     }
+
     public void onBlockBreak(BlockEvent.BreakEvent event){
-        if(!activeLastTick()) return; // barrier is off
-        if(!doesPlayerHavePerms(event.getPlayer())) return;
+        if(!activeLastTick()) return;
+        if(doesPlayerHavePerms(event.getPlayer())) return;
         if(!tryProtectBlock(event.getPos())) return;
         event.setCanceled(true);
     }
+
     public void onBlockPlace(BlockEvent.EntityPlaceEvent event){
         if(!activeLastTick()) return; // barrier is off
         if(event.getEntity() == null) return;
         if(!(event.getEntity() instanceof Player player)) return;
-        if(!doesPlayerHavePerms(player)) return;
+        if(doesPlayerHavePerms(player)) return;
         if(!tryProtectBlock(event.getPos())) return;
         event.setCanceled(true);
     }
     public void onMobGrief(EntityMobGriefingEvent event){
         if(!activeLastTick()) return;
+        if(event.getEntity() instanceof Player player && doesPlayerHavePerms(player)) return;
         if(event.getEntity().position().distanceToSqr(corePos.getCenter()) < RADIUS*RADIUS){
             event.setCanGrief(false);
         }
