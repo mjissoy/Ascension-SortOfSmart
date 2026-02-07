@@ -3,12 +3,12 @@
   "conditions": [
     {
       "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:entities/husk"
+      "loot_table_id": "minecraft:chests/end_city_treasure"
     },
     {
-      "chance": 0.15,
+      "chance": 0.13,
       "condition": "minecraft:random_chance"
     }
   ],
-  "item": "ascension:undead_core"
+  "item": "ascension:universe_devourer_intent_technique"
 }

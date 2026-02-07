@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SpiritVeinBlockEntity extends BlockEntity {
     private int cycleTimer = 0;
-    private static final int FULL_CYCLE = 24000;
+    private static final int FULL_CYCLE = 200; // 5 minutes = 6000 ticks
     private static final int VEIN_INTERVAL = FULL_CYCLE / SpiritVeinBlock.MAX_VEIN;
     private boolean hasAnnounced = false;
     private static final int ANNOUNCE_RANGE = 10;
@@ -145,8 +145,9 @@ public class SpiritVeinBlockEntity extends BlockEntity {
         boolean hasSpawned = false;
         RandomSource random = level.random;
 
-        for (Direction direction : SpiritVeinBlock.SPREAD_DIRECTIONS) {
-            if (random.nextFloat() <= 0.25f) {
+        // 50% chance per side (all 6 directions now)
+        for (Direction direction : Direction.values()) {
+            if (random.nextFloat() <= 0.50f) { // 50% chance
                 BlockPos targetPos = pos.relative(direction);
 
                 if (canSpawnClusterAt(level, targetPos)) {
@@ -188,32 +189,7 @@ public class SpiritVeinBlockEntity extends BlockEntity {
 
     private boolean canSpawnClusterAt(ServerLevel level, BlockPos pos) {
         BlockState targetState = level.getBlockState(pos);
-
-        if (!targetState.canBeReplaced()) {
-            return false;
-        }
-
-        BlockPos belowPos = pos.below();
-        if (!level.getBlockState(belowPos).isFaceSturdy(level, belowPos, Direction.UP)) {
-            return false;
-        }
-
-        int nearbyClusters = 0;
-        for (int x = -2; x <= 2; x++) {
-            for (int z = -2; z <= 2; z++) {
-                if (x == 0 && z == 0) continue;
-
-                BlockPos checkPos = pos.offset(x, 0, z);
-                if (level.getBlockState(checkPos).is(ModBlocks.SPIRITUAL_STONE_CLUSTER.get())) {
-                    nearbyClusters++;
-                    if (nearbyClusters >= 4) {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        return true;
+        return targetState.canBeReplaced();
     }
 
     private void spawnClusterEffect(ServerLevel level, BlockPos source, BlockPos target) {

@@ -31,9 +31,8 @@ public class SpiritVeinBlock extends Block implements EntityBlock {
     public SpiritVeinBlock(Properties properties) {
         super(properties
                 .mapColor(MapColor.COLOR_PURPLE)
-                .strength(3.0f, 10.0f)
+                .strength(-1.0f, 3600000.0f)
                 .sound(SoundType.DEEPSLATE)
-                .requiresCorrectToolForDrops()
         );
 
         this.registerDefaultState(this.stateDefinition.any()

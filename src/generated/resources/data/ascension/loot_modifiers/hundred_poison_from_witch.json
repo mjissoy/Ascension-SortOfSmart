@@ -6,7 +6,7 @@
       "loot_table_id": "minecraft:entities/witch"
     },
     {
-      "chance": 0.23,
+      "chance": 0.27,
       "condition": "minecraft:random_chance"
     }
   ],

@@ -6,7 +6,7 @@
       "loot_table_id": "minecraft:entities/allay"
     },
     {
-      "chance": 0.11,
+      "chance": 0.15,
       "condition": "minecraft:random_chance"
     }
   ],

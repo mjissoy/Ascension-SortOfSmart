@@ -6,7 +6,7 @@
       "loot_table_id": "minecraft:entities/cave_spider"
     },
     {
-      "chance": 0.21,
+      "chance": 0.25,
       "condition": "minecraft:random_chance"
     }
   ],

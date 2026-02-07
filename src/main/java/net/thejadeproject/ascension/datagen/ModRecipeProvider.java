@@ -111,6 +111,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DEATH_RECALL_TALISMAN.get())
+                .pattern("TUY")
+                .pattern("TET")
+                .pattern("TTT")
+                .define('T', ModItems.TALISMAN_PAPER.get())
+                .define('E', Items.ENDER_EYE)
+                .define('U', Items.TOTEM_OF_UNDYING)
+                .unlockedBy("has_talisman_paper", has(ModItems.TALISMAN_PAPER)).save(recipeOutput, "ascension:shaped/death_recall_talisman");
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SOULSTEAD_RETURN_TALISMAN.get())
                 .pattern("DED")
                 .pattern("ETE")
@@ -177,6 +185,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', ModItems.BLACK_IRON_INGOT.get())
                 .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shaped/iron_spatial_ring");
          */
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRIT_SEALING_RING.get())
+                .pattern("BSB")
+                .pattern("BEB")
+                .pattern("BBB")
+                .define('E', Items.EGG)
+                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .define('S', ModItems.SPATIAL_STONE_TIER_2.get())
+                .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/spirit_sealing_ring");
+
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TABLET_OF_DESTRUCTION_HUMAN.get(), 2)
