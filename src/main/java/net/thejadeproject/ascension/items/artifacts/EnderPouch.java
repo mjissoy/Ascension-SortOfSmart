@@ -75,9 +75,6 @@ public class EnderPouch extends Item {
         return activeUsers.contains(player.getUUID());
     }
 
-    /**
-     * Custom menu that prevents the Ender Pouch from being moved while GUI is open
-     */
     public static class LockedEnderChestMenu extends ChestMenu {
         private final EnderPouch enderPouchItem;
 
@@ -88,14 +85,12 @@ public class EnderPouch extends Item {
 
         @Override
         public ItemStack quickMoveStack(Player player, int index) {
-            // If trying to quick-move the Ender Pouch, prevent it
             Slot slot = this.slots.get(index);
             if (slot != null && slot.hasItem()) {
                 ItemStack stack = slot.getItem();
                 if (stack.getItem() == enderPouchItem) {
-                    // Check if this player is using the Ender Pouch GUI
                     if (isPlayerUsingEnderPouch(player)) {
-                        return ItemStack.EMPTY; // Prevent the quick move
+                        return ItemStack.EMPTY;
                     }
                 }
             }
@@ -105,13 +100,12 @@ public class EnderPouch extends Item {
 
         @Override
         public void clicked(int slotId, int button, ClickType clickType, Player player) {
-            // Prevent any interaction with the Ender Pouch slot
             if (slotId >= 0 && slotId < this.slots.size()) {
                 Slot slot = this.slots.get(slotId);
                 if (slot != null && slot.hasItem()) {
                     ItemStack stack = slot.getItem();
                     if (stack.getItem() == enderPouchItem && isPlayerUsingEnderPouch(player)) {
-                        return; // Cancel the click entirely
+                        return;
                     }
                 }
             }
