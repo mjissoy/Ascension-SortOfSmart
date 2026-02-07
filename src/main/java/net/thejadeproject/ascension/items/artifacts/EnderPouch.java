@@ -6,11 +6,14 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -22,11 +25,13 @@ import net.neoforged.bus.api.EventPriority;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.UUID;
+import java.util.Set;
+import java.util.HashSet;
 
 public class EnderPouch extends Item {
 
-    // Track which hand holds the active Ender Pouch for each player
-    private static final Map<UUID, InteractionHand> activeUsers = new WeakHashMap<>();
+    // Track which players have the Ender Pouch GUI open
+    private static final Set<UUID> activeUsers = new HashSet<>();
 
     public EnderPouch(Properties properties) {
         super(properties.stacksTo(1));
@@ -42,10 +47,11 @@ public class EnderPouch extends Item {
         }
 
         if (!level.isClientSide) {
-            activeUsers.put(player.getUUID(), hand);
+            activeUsers.add(player.getUUID());
 
             player.openMenu(new SimpleMenuProvider(
-                    (containerId, playerInventory, playerEntity) -> ChestMenu.threeRows(containerId, playerInventory, player.getEnderChestInventory()),
+                    (containerId, playerInventory, playerEntity) ->
+                            new LockedEnderChestMenu(containerId, playerInventory, player.getEnderChestInventory(), this),
                     Component.translatable("item.ascension.ender_pouch_gui")
             ));
 
@@ -59,49 +65,57 @@ public class EnderPouch extends Item {
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
     }
 
-    /**
-     * Prevent the Ender Pouch from being moved while its GUI is open.
-     * This method is called when the item is being picked up by the cursor.
-     */
-    @Override
-    public boolean overrideOtherStackedOnMe(ItemStack stack, ItemStack other,
-                                            Slot slot, ClickAction action,
-                                            Player player, SlotAccess access) {
-        // If this player has the Ender Pouch GUI open, prevent picking up the Ender Pouch
-        if (activeUsers.containsKey(player.getUUID()) && stack.is(this)) {
-            InteractionHand hand = activeUsers.get(player.getUUID());
-
-            // Check if this is the slot containing our Ender Pouch
-            int expectedSlot = (hand == InteractionHand.MAIN_HAND) ?
-                    player.getInventory().selected : 40; // 40 = offhand
-
-            if (slot.getContainerSlot() == expectedSlot) {
-                // Return true to cancel the default behavior (prevent moving)
-                return true;
-            }
-        }
-        return super.overrideOtherStackedOnMe(stack, other, slot, action, player, access);
-    }
-
-    /**
-     * Also prevent the Ender Pouch from being swapped with another item
-     */
-    @Override
-    public boolean overrideStackedOnOther(ItemStack stack, net.minecraft.world.inventory.Slot slot,
-                                          net.minecraft.world.inventory.ClickAction action, Player player) {
-        if (activeUsers.containsKey(player.getUUID()) && stack.is(this)) {
-            // Prevent the Ender Pouch from being placed into other slots
-            return true;
-        }
-        return super.overrideStackedOnOther(stack, slot, action, player);
-    }
-
-    /**
-     * Clean up when the container closes
-     */
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onContainerClose(PlayerContainerEvent.Close event) {
         Player player = event.getEntity();
         activeUsers.remove(player.getUUID());
+    }
+
+    public static boolean isPlayerUsingEnderPouch(Player player) {
+        return activeUsers.contains(player.getUUID());
+    }
+
+    /**
+     * Custom menu that prevents the Ender Pouch from being moved while GUI is open
+     */
+    public static class LockedEnderChestMenu extends ChestMenu {
+        private final EnderPouch enderPouchItem;
+
+        public LockedEnderChestMenu(int containerId, Inventory playerInventory, Container enderChestInventory, EnderPouch enderPouchItem) {
+            super(MenuType.GENERIC_9x3, containerId, playerInventory, enderChestInventory, 3);
+            this.enderPouchItem = enderPouchItem;
+        }
+
+        @Override
+        public ItemStack quickMoveStack(Player player, int index) {
+            // If trying to quick-move the Ender Pouch, prevent it
+            Slot slot = this.slots.get(index);
+            if (slot != null && slot.hasItem()) {
+                ItemStack stack = slot.getItem();
+                if (stack.getItem() == enderPouchItem) {
+                    // Check if this player is using the Ender Pouch GUI
+                    if (isPlayerUsingEnderPouch(player)) {
+                        return ItemStack.EMPTY; // Prevent the quick move
+                    }
+                }
+            }
+
+            return super.quickMoveStack(player, index);
+        }
+
+        @Override
+        public void clicked(int slotId, int button, ClickType clickType, Player player) {
+            // Prevent any interaction with the Ender Pouch slot
+            if (slotId >= 0 && slotId < this.slots.size()) {
+                Slot slot = this.slots.get(slotId);
+                if (slot != null && slot.hasItem()) {
+                    ItemStack stack = slot.getItem();
+                    if (stack.getItem() == enderPouchItem && isPlayerUsingEnderPouch(player)) {
+                        return; // Cancel the click entirely
+                    }
+                }
+            }
+            super.clicked(slotId, button, clickType, player);
+        }
     }
 }
