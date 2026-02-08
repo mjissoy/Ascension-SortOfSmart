@@ -40,6 +40,10 @@ public class ModItems {
             () -> new ShaderSummonerItem(new Item.Properties()));
 
 
+    public static final DeferredItem<Item> SPIRIT_SEALING_RING = ITEMS.register("spirit_sealing_ring",
+            () -> new SpiritSealingRingItem(new Item.Properties()));
+
+
     //Spatial Ring Stuff
 
     public static final DeferredItem<Item> SPATIAL_STONE_TIER_1 = ITEMS.register("spatial_stone_tier_1",

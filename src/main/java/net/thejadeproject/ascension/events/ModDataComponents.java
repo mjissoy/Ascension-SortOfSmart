@@ -78,6 +78,15 @@ public class ModDataComponents {
     );
 
 
+    //Spirit Sealing Ring - Stores captured entity data
+    public static final Supplier<DataComponentType<SealedEntityData>> SEALED_ENTITY = DATA_COMPONENTS.register(
+            "sealed_entity",
+            () -> DataComponentType.<SealedEntityData>builder()
+                    .persistent(SealedEntityData.CODEC)
+                    .networkSynchronized(SealedEntityData.STREAM_CODEC)
+                    .cacheEncoding()
+                    .build()
+    );
 
 
 
