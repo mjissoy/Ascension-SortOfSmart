@@ -27,6 +27,7 @@ import net.thejadeproject.ascension.events.custom.PhysiqueGeneratedEvent;
 import net.thejadeproject.ascension.formations.formation_renderers.ModFormationRenderers;
 import net.thejadeproject.ascension.guis.easygui.ModActions;
 import net.thejadeproject.ascension.guis.easygui.ModOverlays;
+import net.thejadeproject.ascension.guis.easygui.screens.SpatialRingItemContainerScreen;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
@@ -58,7 +59,7 @@ public class AscensionCraftClient {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
-            event.register(ModMenuTypes.SPATIAL_RING_STORAGE.get(), SpatialRingStorageScreen::new);
+            event.register(ModMenuTypes.SPATIAL_RING_STORAGE.get(), SpatialRingItemContainerScreen::new);
             event.register(ModMenuTypes.SPATIAL_RING_UPGRADE.get(), SpatialRingUpgradeScreen::new);
         }
 
