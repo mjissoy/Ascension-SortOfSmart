@@ -119,6 +119,10 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     }
     public void onMobGrief(EntityMobGriefingEvent event){
         if(!activeLastTick() || currentLocation == null) return;
+
+        if(event.getEntity() instanceof  Player player && event.getEntity().level().getBlockEntity(currentLocation) instanceof AbstractFormationCoreBlockEntity coreBlockEntity){
+            if(doesPlayerHavePerms(player,coreBlockEntity)) return;
+        }
         if(event.getEntity().position().distanceToSqr(currentLocation.getCenter()) < BARRIER_RADIUS*BARRIER_RADIUS){
             event.setCanGrief(false);
         }
@@ -250,7 +254,21 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
             dirty = true;
         }
     }
+    public boolean doesPlayerHavePerms(Player player,AbstractFormationCoreBlockEntity coreBlockEntity){
+        List<Pair<IPlayerFilter,ItemStack>> filters = new ArrayList<>();
+        for(ItemStack stack :  coreBlockEntity.getFormationJadeSlips(getFormationId())){
+            IPlayerFilter filter = stack.getCapability(AscensionCapabilities.PLAYER_FILTER_CAPABILITY);
+            if(filter != null) filters.add(new Pair<>(filter,stack));
+        }
 
+        ItemStack controlToken =  coreBlockEntity.getFormationItemStackHandler().getControlToken();
+        IAccessControlToken token = controlToken.getCapability(Capabilities.ACCESS_TOKEN_CAPABILITY);
+        if(token != null && token.hasPermission(player,controlToken)) return true;
+        for(Pair<IPlayerFilter,ItemStack> filter : filters){
+            if(filter.getA().filterPlayer(player,filter.getB())) return true;
+        }
+        return false;
+    }
 
     @Override
     public void tick(Level level,BlockPos pos,IFormationCore core,List<ItemStack> jades) {
@@ -274,6 +292,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
         }
     }
     public void passiveRegen(IFormationCore core){
+        if(currentBarrierHealth >= BARRIER_MAX_HEALTH) return;
         if(!core.getEnergyContainer().tryDecreaseEnergy(HEALING_QI_DRAIN)) return;
         currentBarrierHealth = Math.min(BARRIER_MAX_HEALTH,currentBarrierHealth+HEALTH_REGEN_RATE);
     }
@@ -343,6 +362,8 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     }
     @Override
     public int getEnergyCost() {
+        int amount = BASE_QI_DRAIN + (isDestroyed ? HEALING_QI_DRAIN : 0);
+        System.out.println("draining : "+ amount);
         return BASE_QI_DRAIN + (isDestroyed ? HEALING_QI_DRAIN : 0);
     }
 

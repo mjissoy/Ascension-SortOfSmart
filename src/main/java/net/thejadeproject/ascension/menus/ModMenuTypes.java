@@ -9,6 +9,7 @@ import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.guis.menu.SpatialRingItemContainerMenu;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingStorageContainer;
 import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUpgradeContainer;
@@ -24,8 +25,8 @@ public class ModMenuTypes {
             registerMenuType("pill_cauldron_low_human_menu", PillCauldronLowHumanMenu::new);
 
 
-    public static final DeferredHolder<MenuType<?>, MenuType<SpatialRingStorageContainer>> SPATIAL_RING_STORAGE =
-            registerMenuType("spatial_ring_storage", SpatialRingStorageContainer::fromNetwork);
+    public static final DeferredHolder<MenuType<?>, MenuType<SpatialRingItemContainerMenu>> SPATIAL_RING_STORAGE =
+            registerMenuType("spatial_ring_storage", SpatialRingItemContainerMenu::fromNetwork);
     public static final DeferredHolder<MenuType<?>, MenuType<SpatialRingUpgradeContainer>> SPATIAL_RING_UPGRADE =
             registerMenuType("spatial_ring_upgrade", SpatialRingUpgradeContainer::fromNetwork);
 
