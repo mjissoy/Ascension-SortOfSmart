@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-30T20:43:01.0367771	Recipes
+// 1.21.1	2026-02-09T10:55:23.1995683	Recipes
 da9eaf334b8ff9d37b2fbb9fd8de6baf027edf64 data/ascension/advancement/recipes/building_blocks/blue_marble_bricks.json
 60ea0a8913cba8d6930aeb68209f704f9b030baa data/ascension/advancement/recipes/building_blocks/blue_marble_brick_slabs.json
 77e006eabd326806f054577716fc77a5e3b86b63 data/ascension/advancement/recipes/building_blocks/blue_marble_brick_stairs.json
@@ -203,6 +203,7 @@ b5f594d402848612371976fb602b79fea3e92581 data/ascension/advancement/recipes/misc
 b5f48b580dbb8c047fb0021c31a3bfc0844b11f3 data/ascension/advancement/recipes/misc/shaped/crimson_slip.json
 c19315d9bfecfea24b8653d6c1705c7d253c3dda data/ascension/advancement/recipes/misc/shaped/cyan_cushion.json
 54a28f36d7cc3fbbce095850b4acd5ff1777b15a data/ascension/advancement/recipes/misc/shaped/dark_oak_slip.json
+1672ed8dfc4a80de034d2831d4204038e7781c3c data/ascension/advancement/recipes/misc/shaped/death_recall_talisman.json
 6b6b48f2f3a42465f002fdbd86f9e35ac469df75 data/ascension/advancement/recipes/misc/shaped/diamond_blade.json
 c7979b478f478746dc1fb7ebe210ae3794e71b62 data/ascension/advancement/recipes/misc/shaped/diamond_spear.json
 6341ae574b4996961457c18d1ae50c59ddada7a4 data/ascension/advancement/recipes/misc/shaped/ender_pouch.json
@@ -238,6 +239,7 @@ d4a253de4305fafcca933655e92be0fde53fbef9 data/ascension/advancement/recipes/misc
 1617d87e32dae83c80e406793af3c652b01ca3d2 data/ascension/advancement/recipes/misc/shaped/orange_cushion.json
 7ae4b8e9078e69c04a5b8957eca5ecfd4ed8fc31 data/ascension/advancement/recipes/misc/shaped/pill_cauldron_from_black_iron.json
 d527b16baba2813b36f3aa853ccc1a9b8f201641 data/ascension/advancement/recipes/misc/shaped/pink_cushion.json
+fc724c1745c097abd704d7a0f30a99b2138abd8e data/ascension/advancement/recipes/misc/shaped/player_access_token.json
 afa843dd7927344619f1330c8480ffe86b021bdb data/ascension/advancement/recipes/misc/shaped/purple_cushion.json
 fcee912a67c3b6eba3de2e7f0f4e3bd15b2dcf68 data/ascension/advancement/recipes/misc/shaped/red_cushion.json
 a3cf51d029f14912b370b248d0071d5f588ad7fc data/ascension/advancement/recipes/misc/shaped/repair_slip.json
@@ -249,6 +251,7 @@ a0639c986eabd2af530c027c77307468527c22d1 data/ascension/advancement/recipes/misc
 df392ddbc942a6a47789f85d0c7e757720d031e8 data/ascension/advancement/recipes/misc/shaped/spiritual_stone_hoe.json
 d600b65f7f14260982930c0b5993c83f2af0645f data/ascension/advancement/recipes/misc/shaped/spiritual_stone_pickaxe.json
 5d0f3ca8ad74bed03bf48ddb8d7e6cb0bcbd4972 data/ascension/advancement/recipes/misc/shaped/spiritual_stone_shovel.json
+86ab357d7afce1ee219dd6db1d6c3da04ce1ab70 data/ascension/advancement/recipes/misc/shaped/spirit_sealing_ring.json
 16d52c031a33927b647456853d2a296e47af08fe data/ascension/advancement/recipes/misc/shaped/spruce_slip.json
 ed2da78f493828b9a449a27a849fbc76cb15a289 data/ascension/advancement/recipes/misc/shaped/ssb_from_spiritual_stone.json
 48cedf3532cc533ff02a9dcb02ea6054ecfeb255 data/ascension/advancement/recipes/misc/shaped/stone_spear.json
@@ -257,6 +260,7 @@ f97f3c2a1cb4854351e9d0771cab3df3923042bf data/ascension/advancement/recipes/misc
 3db908785c006def2b50a3a68d8983102e82fc09 data/ascension/advancement/recipes/misc/shaped/tablet_of_destruction_human.json
 8bd89de31bc356aeeba5b6021af7f2f5b30042f0 data/ascension/advancement/recipes/misc/shaped/talisman_paper.json
 96e617b70c7d1b3d4d1496526ed3c8d61d9f3ece data/ascension/advancement/recipes/misc/shaped/tier_1_formation_core.json
+9a1fb16ef382537d030ca4880461d35e1cbe2c25 data/ascension/advancement/recipes/misc/shaped/tier_2_formation_core.json
 7865b25272a626942c516634b0f14f936252be03 data/ascension/advancement/recipes/misc/shaped/void_marking_talisman.json
 081ddaa1e1fedc8f5f3567c55a8e8d037fa1e2bb data/ascension/advancement/recipes/misc/shaped/warped_slip.json
 4b57d56b89fe056e83c72b7688ac246fd21d5889 data/ascension/advancement/recipes/misc/shaped/white_cushion.json
@@ -493,6 +497,7 @@ ba1461990875182b4e7d6f4cb5afd1c4ef90e878 data/ascension/recipe/shaped/brown_cush
 d6d6745182d04ffdd6c25551e69c0189e87753f1 data/ascension/recipe/shaped/crimson_slip.json
 7e1298b2901a817b6e1ab6894cda7919b8f828ee data/ascension/recipe/shaped/cyan_cushion.json
 7118336e8a21cb5e8e379e0aa3e69c30af12a531 data/ascension/recipe/shaped/dark_oak_slip.json
+624fc6cc9040d461d64d64a51283739a8ec68d78 data/ascension/recipe/shaped/death_recall_talisman.json
 4409af64bc61156e07c5488e129e7efcf7e133fe data/ascension/recipe/shaped/diamond_blade.json
 91fd9e2ace164263c0a33a0003f3ce954e31395f data/ascension/recipe/shaped/diamond_spear.json
 084ae4442ca8dd0db67a25dbdf0c4f871927df06 data/ascension/recipe/shaped/ender_pouch.json
@@ -528,6 +533,7 @@ d720120c6c82f7d46dc46d8824c5c09860bfc4be data/ascension/recipe/shaped/magenta_cu
 5cbef816cbb1ef9f35baaa047d5d818200b24966 data/ascension/recipe/shaped/orange_cushion.json
 8b5dd5727aa07a883a21d2e0cd1ebdfb8f03756c data/ascension/recipe/shaped/pill_cauldron_from_black_iron.json
 af3d716f6dc610bc25052e4ec9cfb242dafe414e data/ascension/recipe/shaped/pink_cushion.json
+6d95d6daf3076b9f6840cb80b56e1ecea9173beb data/ascension/recipe/shaped/player_access_token.json
 93096940efe0461c52e4dfc0bc83b5dc91f8769b data/ascension/recipe/shaped/purple_cushion.json
 0167fc4af916cb10d55c5f810fda3a503cbfd259 data/ascension/recipe/shaped/red_cushion.json
 321a9af4bd491261f52deb06563bb8b128d829e4 data/ascension/recipe/shaped/repair_slip.json
@@ -539,6 +545,7 @@ e9ef95788497675a076ee08263a915aa29ecea91 data/ascension/recipe/shaped/spiritual_
 b8a27eca5d5ff42c03eaccdd6129be8f86fdabfd data/ascension/recipe/shaped/spiritual_stone_hoe.json
 ed18ec096b874018e8663a18aa701e1e322846f4 data/ascension/recipe/shaped/spiritual_stone_pickaxe.json
 fc05f2dac7f606d703d58bf1fb2b864a9bc15241 data/ascension/recipe/shaped/spiritual_stone_shovel.json
+b39a886a88a701a4e5031e897cc627b581395098 data/ascension/recipe/shaped/spirit_sealing_ring.json
 a4c5ef4afec36624489e8df23af9aff9b712d11b data/ascension/recipe/shaped/spruce_slip.json
 c0a77ab914168488fecc66aac2c9cc89668dab7f data/ascension/recipe/shaped/ssb_from_spiritual_stone.json
 61caade8d1e65b3231817990a8ade4dceaafef74 data/ascension/recipe/shaped/stone_spear.json
@@ -547,6 +554,7 @@ c0a77ab914168488fecc66aac2c9cc89668dab7f data/ascension/recipe/shaped/ssb_from_s
 72ce1e261430609dc8fa99ae854c752bd69ff7d1 data/ascension/recipe/shaped/tablet_of_destruction_human.json
 96ceeca153e370643e45627b90f6aedd8bd93843 data/ascension/recipe/shaped/talisman_paper.json
 6b0b204a01e1e0d15b627add65dbf48ea7b43612 data/ascension/recipe/shaped/tier_1_formation_core.json
+d342338d4f5dccf9f44fc26cafa84e09a69c5f17 data/ascension/recipe/shaped/tier_2_formation_core.json
 a6a22742a99e32439b17b56570d2b878ce7ced06 data/ascension/recipe/shaped/void_marking_talisman.json
 9ee7f366c9694a5bdbf4d9382425aec3fa2dcf75 data/ascension/recipe/shaped/warped_slip.json
 f24c7416da536eefb3bf0db218e1f53b32365654 data/ascension/recipe/shaped/white_cushion.json

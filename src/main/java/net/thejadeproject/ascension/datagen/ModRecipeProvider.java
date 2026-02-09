@@ -112,7 +112,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DEATH_RECALL_TALISMAN.get())
-                .pattern("TUY")
+                .pattern("TUT")
                 .pattern("TET")
                 .pattern("TTT")
                 .define('T', ModItems.TALISMAN_PAPER.get())
@@ -247,6 +247,22 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('C', ModItems.UNDEAD_CORE.get())
                 .define('E', ModItems.LIVING_CORE.get())
                 .unlockedBy("has_jade", has(ModItems.UNDEAD_CORE)).save(recipeOutput, "ascension:shaped/tier_1_formation_core");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, net.lucent.formation_arrays.blocks.ModBlocks.TIER_2_FORMATION_CORE.get())
+                .pattern("FFF")
+                .pattern("FSF")
+                .pattern("FFF")
+                .define('S', net.lucent.formation_arrays.blocks.ModBlocks.TIER_1_FORMATION_CORE)
+                .define('F', ModBlocks.JADE_BLOCK)
+                .unlockedBy("has_jade", has(ModBlocks.JADE_BLOCK)).save(recipeOutput, "ascension:shaped/tier_2_formation_core");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, net.lucent.formation_arrays.items.ModItems.PLAYER_ACCESS_CONTROL_TOKEN.get())
+                .pattern("GSG")
+                .pattern("GVG")
+                .pattern("GGG")
+                .define('S', ModItems.SPIRITUAL_STONE.get())
+                .define('V', ModItems.FROST_SILVER_INGOT.get())
+                .define('G', ModItems.JADE.get())
+                .unlockedBy("has_jade", has(ModItems.JADE)).save(recipeOutput, "ascension:shaped/player_access_token");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
                 .pattern("SOS")

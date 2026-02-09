@@ -29,6 +29,16 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .remove(ModTags.Blocks.NEEDS_SPIRITUAL_STONE_TOOL);
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                //FormationsArrays
+                .add(net.lucent.formation_arrays.blocks.ModBlocks.TIER_1_FORMATION_CORE.get())
+                .add(net.lucent.formation_arrays.blocks.ModBlocks.TIER_2_FORMATION_CORE.get())
+
+
+
+
+
+
+
                 .add(ModBlocks.JADE_BLOCK.get())
                 .add(ModBlocks.JADE_ORE.get())
                 .add(ModBlocks.BLACK_IRON_ORE.get())

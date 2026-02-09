@@ -363,7 +363,6 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     @Override
     public int getEnergyCost() {
         int amount = BASE_QI_DRAIN + (isDestroyed ? HEALING_QI_DRAIN : 0);
-        System.out.println("draining : "+ amount);
         return BASE_QI_DRAIN + (isDestroyed ? HEALING_QI_DRAIN : 0);
     }
 

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "ascension:jade_block"
+    },
+    "S": {
+      "item": "formation_arrays:tier_1_formation_core"
+    }
+  },
+  "pattern": [
+    "FFF",
+    "FSF",
+    "FFF"
+  ],
+  "result": {
+    "count": 1,
+    "id": "formation_arrays:tier_2_formation_core"
+  }
+}

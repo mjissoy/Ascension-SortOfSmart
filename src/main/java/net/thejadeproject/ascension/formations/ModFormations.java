@@ -63,7 +63,7 @@ public class ModFormations {
     public static final DeferredHolder<IFormation,? extends GenericFormation> QI_ABSORPTION_FORMATION = FORMATIONS.register("qi_absorption_formation",
             ()->new GenericFormation(Component.literal("Qi Absorption Formation"),null,
                     ((formation, pos, formationId) ->
-                            new QiAbsorptionFormation(formation,formationId,10,10)
+                            new QiAbsorptionFormation(formation,formationId,10,1)
                     )));
     public static final DeferredHolder<IFormation,? extends GenericFormation> GROWTH_FORMATION = FORMATIONS.register("growth_formation",
             ()->new GenericFormation(Component.literal("Natures Blessing Formation"),ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"growth_formation_renderer"),
