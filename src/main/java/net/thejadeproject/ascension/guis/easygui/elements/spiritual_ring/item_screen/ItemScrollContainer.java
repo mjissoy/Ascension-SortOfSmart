@@ -42,17 +42,13 @@ public class ItemScrollContainer extends EmptyContainer implements MouseScrollLi
 
     public void updateChildVisibility(){
         int yOffset = -slotOffset*18;
-        System.out.println("number of rows");
-        System.out.println(getChildren().size()/9);
+
         for(int i= 0;i<getChildren().size(); i++) {
             ContainerRenderable renderable = getChildren().get(i);
             renderable.setVisible(!(renderable.getY() + renderable.getHeight() < 0 || renderable.getY() >= getVisibleRows() * 18));
 
             if (Math.floor(i / 9) > 5) {
-                System.out.println("this is slot " + Math.floor(i / 9));
-                System.out.println("y:" + (getChildren().get(i).getY()+yOffset));
-                System.out.println("should be visible " + (renderable.getY()+yOffset < getVisibleRows()*18));
-                System.out.println("is visible: "+ (renderable.isVisible()));
+
             }
 
         }

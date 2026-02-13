@@ -33,7 +33,10 @@ public class AreaProtectionFormation extends FormationNode {
         QI_DRAIN_PER_PREVENTION = qiDrainPerPrevention;
         this.RADIUS = radius;
         setFormationId(uuid);
-        NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.addListener(this::onBlockBreak);
+        NeoForge.EVENT_BUS.addListener(this::onMobGrief);
+        NeoForge.EVENT_BUS.addListener(this::onBlockPlace);
+        NeoForge.EVENT_BUS.addListener(this::onDetonation);
     }
 
     public boolean doesPlayerHavePerms(Player player){

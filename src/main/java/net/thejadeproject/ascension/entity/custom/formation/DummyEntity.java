@@ -52,10 +52,6 @@ public class DummyEntity extends LivingEntity {
     }
 
 
-    @Override
-    protected void actuallyHurt(DamageSource damageSource, float damageAmount) {
-
-    }
 
     @Override
     public boolean hurt(DamageSource source, float amount) {

@@ -102,7 +102,7 @@ public class ModOverlays {
                     int length = Minecraft.getInstance().font.width(text);
                     int height = Minecraft.getInstance().font.lineHeight;
                     guiGraphics.pose().pushPose();
-                    guiGraphics.pose().translate(45-length/3.0,4-height/4.0,0);
+                    guiGraphics.pose().translate(45-39/3.0,4-height/4.0,0);
                     guiGraphics.pose().scale(0.6F, 0.6F, 1);
 
                     //black = -16777216 white = -1

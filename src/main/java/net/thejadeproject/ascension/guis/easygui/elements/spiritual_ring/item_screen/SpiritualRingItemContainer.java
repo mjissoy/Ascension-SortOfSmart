@@ -85,7 +85,7 @@ public class SpiritualRingItemContainer extends EmptyContainer {
 
             }
         }
-        System.out.println("create a total of : "+ totalRows +" rows");
+
         addChild(scrollContainer);
     }
     @Override

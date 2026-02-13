@@ -186,13 +186,13 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
            double distance2 = vec3.distanceToSqr(pos.getCenter())-(BARRIER_RADIUS*BARRIER_RADIUS);
            if(distance2< distance1){
                entityhitresult = new EntityHitResult(dummyEntity,newPoint);
-               dummyEntity.setPos(newPoint);
+
                lookingAtEntity = true;
            }
         }else if(doesOverlap) {
 
             entityhitresult = new EntityHitResult(dummyEntity,newPoint);
-            dummyEntity.setPos(newPoint);
+
             lookingAtEntity = true;
         }
 
@@ -272,29 +272,33 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
 
     @Override
     public void tick(Level level,BlockPos pos,IFormationCore core,List<ItemStack> jades) {
-        if(!level.isClientSide() && dirty){
-            dirty = false;
-            if(core instanceof AbstractFormationCoreBlockEntity abstractFormationCoreBlockEntity){
-                abstractFormationCoreBlockEntity.sendSyncPacket();
-            }
-        }
-        if(dummyEntity == null) spawnDummyEntity(pos,level);
-        if(level.isClientSide() && FMLLoader.getDist() == Dist.CLIENT) checkPlayerTargeting(pos);
         currentLocation = pos;
-        if(isDestroyed && !level.isClientSide()){
-            tryRecover();
-            return;
+        if(!level.isClientSide()){
+            if(dirty){
+                dirty = false;
+                if(core instanceof AbstractFormationCoreBlockEntity abstractFormationCoreBlockEntity){
+                    abstractFormationCoreBlockEntity.sendSyncPacket();
+                }
+            }
+            if(dummyEntity == null) spawnDummyEntity(pos,level);
+
+            if(isDestroyed) tryRecover();
+            else passiveRegen(core);
+        }else{
+            if(FMLLoader.getDist() == Dist.CLIENT) checkPlayerTargeting(pos);
         }
 
         if(!isDestroyed){
             collisionCheck(core,level,pos,jades);
-            passiveRegen(core);
         }
+
+
     }
     public void passiveRegen(IFormationCore core){
         if(currentBarrierHealth >= BARRIER_MAX_HEALTH) return;
         if(!core.getEnergyContainer().tryDecreaseEnergy(HEALING_QI_DRAIN)) return;
         currentBarrierHealth = Math.min(BARRIER_MAX_HEALTH,currentBarrierHealth+HEALTH_REGEN_RATE);
+        dirty = true;
     }
 
     public void collisionCheck(IFormationCore core,Level level,BlockPos pos,List<ItemStack> jades){
@@ -363,7 +367,7 @@ public class BarrierFormation extends FormationNode implements IDummyListenerNod
     @Override
     public int getEnergyCost() {
         int amount = BASE_QI_DRAIN + (isDestroyed ? HEALING_QI_DRAIN : 0);
-        System.out.println("draining : "+ amount);
+
         return BASE_QI_DRAIN + (isDestroyed ? HEALING_QI_DRAIN : 0);
     }
 
