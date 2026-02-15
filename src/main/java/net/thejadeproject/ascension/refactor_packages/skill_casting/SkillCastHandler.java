@@ -61,4 +61,8 @@ public class SkillCastHandler {
         return persistentCastingInstances;
     }
 
+    public boolean isCasting(){
+        return castingInstance.isCasting();
+    }
+
 }

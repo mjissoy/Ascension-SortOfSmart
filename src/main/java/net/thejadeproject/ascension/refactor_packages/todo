@@ -1,0 +1,13 @@
+create some sort of attribute container on the playerData that stores things like currentHealth,currentQi etc
+call it resourceContainer or something
+
+
+the max health will be calculated using a percentage of VIT by default(can be modified by skills)
+
+
+now, i can eiter send out an event EVERY TIME i want to do something like move to get movement speed
+or i create some sort of "ascension attribute handler" which handles which stats get used in what amounts for each stat
+this would contain a container for each applied stat. with a percentage of said stat.and a flat bonus + multiplier to that bonus
+(some skills might want to lets say give +10 agility to movement speed) so it can only be applied for movement
+
+this fully removes the need of events
