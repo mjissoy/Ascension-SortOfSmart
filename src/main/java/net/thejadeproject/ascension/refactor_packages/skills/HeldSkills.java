@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.skills;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -85,14 +86,29 @@ public class HeldSkills {
 
     }
 
+    public boolean hasSkill(ResourceLocation skillKey){
+        return skills.containsKey(skillKey);
+    }
+
     private void clearBuffers(){
         additionSyncBuffer.clear();
         modifiedSyncBuffer.clear();
         removalSyncBuffer.clear();
     }
 
-    public CompoundTag write(){return null;}
-    public void read(CompoundTag tag){}
+    public ListTag write(){
+        ListTag skills = new ListTag();
+        for (HeldSkill heldSkill :this.skills.values()){
+            skills.add(heldSkill.write());
+        }
+        return skills;
+    }
+    public void read(ListTag tag){
+        for(int i =0;i<tag.size();i++){
+            HeldSkill heldSkill = HeldSkill.read(tag.getCompound(i));
+            skills.put(heldSkill.getKey(),heldSkill);
+        }
+    }
 
 
     //============================== NETWORK =================================

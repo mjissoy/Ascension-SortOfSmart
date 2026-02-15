@@ -6,7 +6,7 @@ import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 public class ToolTipManager {
-    public static void registerAllTooltips() {
+      public static void registerAllTooltips() {
         // Example tooltip registrations
         /*ToolTipHandler.registerTooltip(
                 ModItems.EXAMPLE_ITEM.get(),

@@ -15,7 +15,7 @@ public class PathData {
     private int majorRealm;
     private int minorRealm;
     private double currentRealmProgress;
-    private boolean isCultivating;
+    private boolean cultivating;
 
 
     /*

@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.player_data;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 
 import java.util.HashMap;
@@ -26,4 +27,16 @@ public class PlayerData {
 
 
 
+    //checks all locations
+    public boolean hasSkill(ResourceLocation skill){
+        for (IEntityFormData entityFormData : formData.values()){
+            if(entityFormData.getHeldSkills().hasSkill(skill)) return true;
+        }
+        return false;
+    }
+
+
+    public static PlayerData getPlayerData(Player player){
+        return null;//TODO
+    }
 }
