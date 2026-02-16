@@ -7,6 +7,9 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 
+import java.util.Collection;
+import java.util.HashMap;
+
 public class AscensionModifier implements IDataInstance {
 
     private final Operator operator;
@@ -38,6 +41,42 @@ public class AscensionModifier implements IDataInstance {
     }
     public double getValue(){return value;}
 
+    public static double calculateBaseValue(Collection<AscensionModifier> modifiers,double base){
+        double flatBase = 0;
+        for(AscensionModifier modifier : modifiers) {
+            if (modifier.getOperator() == AscensionModifier.Operator.TRUE_ADD_BASE) flatBase += modifier.getValue();
+        }
+        return base+flatBase;
+    }
+
+    public static double calculateValue(Collection<AscensionModifier> modifiers,double baseVal){
+
+        double flatBase = 0;
+        HashMap<ResourceLocation,Double> groupedBaseMultipliers = new HashMap<>();
+        HashMap<ResourceLocation,Double> groupedFinalMultipliers = new HashMap<>();
+        double flatTrueBase = 0;
+
+        for(AscensionModifier modifier : modifiers){
+            if(modifier.getOperator() == AscensionModifier.Operator.ADD_BASE) flatBase += modifier.getValue();
+            else if(modifier.getOperator() == AscensionModifier.Operator.TRUE_ADD_BASE) flatTrueBase += modifier.getValue();
+            else if(modifier.getOperator() == AscensionModifier.Operator.MULTIPLY_BASE){
+                groupedBaseMultipliers.put(modifier.getGroupId(),modifier.getValue());
+            } else if (modifier.getOperator() == AscensionModifier.Operator.MULTIPLY_FINAL) {
+                groupedFinalMultipliers.put(modifier.getGroupId(),modifier.getValue());
+            }
+        }
+        double val = baseVal+flatTrueBase;
+        double totalBaseMultiplier = 1;
+        for(Double mul : groupedBaseMultipliers.values()){
+            totalBaseMultiplier *= (1+mul);
+        }
+        double totalFinalMultiplier = 1;
+        for(Double mul : groupedFinalMultipliers.values()){
+            totalFinalMultiplier *= (1+mul);
+        }
+        return  (val*totalBaseMultiplier+flatBase)*totalFinalMultiplier;
+
+    }
 
     @Override
     public CompoundTag write() {

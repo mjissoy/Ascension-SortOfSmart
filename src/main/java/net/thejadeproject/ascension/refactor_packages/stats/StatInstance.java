@@ -25,35 +25,13 @@ public class StatInstance implements IDataInstance {
         this.cachedValue = baseValue;
     }
     private void calculateCachedValue(){
-
-        double flatBase = 0;
-        HashMap<ResourceLocation,Double> groupedBaseMultipliers = new HashMap<>();
-        HashMap<ResourceLocation,Double> groupedFinalMultipliers = new HashMap<>();
-        double flatTrueBase = 0;
-
-        for(AscensionModifier modifier : modifiers.values()){
-            if(modifier.getOperator() == AscensionModifier.Operator.ADD_BASE) flatBase += modifier.getValue();
-            else if(modifier.getOperator() == AscensionModifier.Operator.TRUE_ADD_BASE) flatTrueBase += modifier.getValue();
-            else if(modifier.getOperator() == AscensionModifier.Operator.MULTIPLY_BASE){
-                groupedBaseMultipliers.put(modifier.getGroupId(),modifier.getValue());
-            } else if (modifier.getOperator() == AscensionModifier.Operator.MULTIPLY_FINAL) {
-                groupedFinalMultipliers.put(modifier.getGroupId(),modifier.getValue());
-            }
-        }
-        double val = baseValue+flatTrueBase;
-        cachedBaseValue = (int) Math.clamp(val,getStat().getMinValue(),getStat().getMaxValue());
-        double totalBaseMultiplier = 1;
-        for(Double mul : groupedBaseMultipliers.values()){
-            totalBaseMultiplier *= (1+mul);
-        }
-        double totalFinalMultiplier = 1;
-        for(Double mul : groupedFinalMultipliers.values()){
-            totalFinalMultiplier *= (1+mul);
-        }
-        val = (val*totalBaseMultiplier+flatBase)*totalFinalMultiplier;
+        double val = AscensionModifier.calculateValue(modifiers.values(),baseValue);
         cachedValue = (int)  Math.clamp(val,getStat().getMinValue(),getStat().getMaxValue());
     }
-
+    private void calculateCachedBaseValue(){
+        double val = AscensionModifier.calculateBaseValue(modifiers.values(),baseValue);
+        cachedBaseValue = (int)  Math.clamp(val,getStat().getMinValue(),getStat().getMaxValue());
+    }
     public int getValue(){
         return cachedValue;
     }
@@ -65,6 +43,7 @@ public class StatInstance implements IDataInstance {
 
     public void addModifier(AscensionModifier modifier){
         modifiers.put(modifier.getModifierId(),modifier);
+        if(modifier.getOperator() == AscensionModifier.Operator.TRUE_ADD_BASE) calculateCachedBaseValue();
         calculateCachedValue();
     }
 

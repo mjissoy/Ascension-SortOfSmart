@@ -10,6 +10,7 @@ import java.util.HashMap;
 /*
     Registry object
     allows me to link an attribute to the ascension equivalent for easier access
+    TODO add min max val
  */
 public record AscensionAttribute(Holder<Attribute> attribute, Component displayName, Component description) {
     public static AscensionAttribute MAX_HEALTH = new AscensionAttribute(Attributes.MAX_HEALTH,Component.literal("Max HP"),Component.literal("the max amount of hp an entity has"));
