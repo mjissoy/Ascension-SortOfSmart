@@ -11,3 +11,9 @@ this would contain a container for each applied stat. with a percentage of said 
 (some skills might want to lets say give +10 agility to movement speed) so it can only be applied for movement
 
 this fully removes the need of events
+
+
+
+
+Think about creating an entity controller, when changing forms prompt the form for an entity controller
+the default one does nothing,

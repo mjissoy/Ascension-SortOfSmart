@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.refactor_packages.forms;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributesContainer;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
@@ -33,6 +34,8 @@ public interface IEntityFormData extends IDataInstance {
     IBloodlineData getBloodlineData();
     void setBloodlineData(IBloodlineData data);
 
+
+    AscensionAttributesContainer getAttributeContainer();
 
     StatSheet getStatSheet();
 
