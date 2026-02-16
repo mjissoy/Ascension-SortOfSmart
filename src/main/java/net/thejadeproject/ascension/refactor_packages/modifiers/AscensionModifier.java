@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.refactor_packages.stats;
+package net.thejadeproject.ascension.refactor_packages.modifiers;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -6,21 +6,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
-import org.checkerframework.checker.units.qual.C;
 
-public class StatModifier implements IDataInstance {
+public class AscensionModifier implements IDataInstance {
 
     private final Operator operator;
     private final ResourceLocation modifierId;
     private final ResourceLocation groupId;
-    private double value;
-    public StatModifier(Operator operator,ResourceLocation modifierId,double value){
+    private final double value;
+    public AscensionModifier(Operator operator, ResourceLocation modifierId, double value){
         this(operator,modifierId,ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"default"),value);
     }
-    public StatModifier(Operator operator, ResourceLocation modifierId,ResourceLocation groupId,double value){
+    public AscensionModifier(Operator operator, ResourceLocation modifierId, ResourceLocation groupId, double value){
         this.operator = operator;
         this.modifierId = modifierId;
         this.groupId = groupId;
+        this.value = value;
     }
 
 
@@ -57,18 +57,18 @@ public class StatModifier implements IDataInstance {
         buf.writeDouble(getValue());
     }
 
-    public static StatModifier read(CompoundTag tag){
+    public static AscensionModifier read(CompoundTag tag){
         ResourceLocation id = ResourceLocation.bySeparator(tag.getString("id"),':');
         ResourceLocation groupId = ResourceLocation.bySeparator(tag.getString("groupId"),':');
         Operator operator = Operator.valueOf(tag.getString("operator"));
         double val = tag.getDouble("value");
-        return new StatModifier(operator,id,groupId,val);
+        return new AscensionModifier(operator,id,groupId,val);
     }
-    public static StatModifier decode(RegistryFriendlyByteBuf buf){
+    public static AscensionModifier decode(RegistryFriendlyByteBuf buf){
         ResourceLocation id = ByteBufHelper.readResourceLocation(buf);
         ResourceLocation groupId = ByteBufHelper.readResourceLocation(buf);
         Operator operator = Operator.valueOf(ByteBufHelper.readString(buf));
         double val = buf.readDouble();
-        return new StatModifier(operator,id,groupId,val);
+        return new AscensionModifier(operator,id,groupId,val);
     }
 }

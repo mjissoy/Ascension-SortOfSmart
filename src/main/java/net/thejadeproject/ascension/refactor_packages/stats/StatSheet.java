@@ -16,8 +16,7 @@ public class StatSheet implements IDataInstance {
 
 
     public StatInstance getStatInstance(Stat stat){
-        //TODO
-        return null;
+        return sheetStats.get(stat);
     }
 
 

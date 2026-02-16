@@ -5,16 +5,16 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.modifiers.AscensionModifier;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class StatInstance implements IDataInstance {
     private final ResourceLocation statId;
-    private final HashMap<ResourceLocation,StatModifier> modifiers = new HashMap<>();
+    private final HashMap<ResourceLocation, AscensionModifier> modifiers = new HashMap<>();
     private final int baseValue;
     private int cachedValue;
     private int cachedBaseValue;
@@ -24,19 +24,19 @@ public class StatInstance implements IDataInstance {
         this.cachedBaseValue = baseValue;
         this.cachedValue = baseValue;
     }
-    public void calculateCachedValue(){
+    private void calculateCachedValue(){
 
         double flatBase = 0;
         HashMap<ResourceLocation,Double> groupedBaseMultipliers = new HashMap<>();
         HashMap<ResourceLocation,Double> groupedFinalMultipliers = new HashMap<>();
         double flatTrueBase = 0;
 
-        for(StatModifier modifier : modifiers.values()){
-            if(modifier.getOperator() == StatModifier.Operator.ADD_BASE) flatBase += modifier.getValue();
-            else if(modifier.getOperator() == StatModifier.Operator.TRUE_ADD_BASE) flatTrueBase += modifier.getValue();
-            else if(modifier.getOperator() == StatModifier.Operator.MULTIPLY_BASE){
+        for(AscensionModifier modifier : modifiers.values()){
+            if(modifier.getOperator() == AscensionModifier.Operator.ADD_BASE) flatBase += modifier.getValue();
+            else if(modifier.getOperator() == AscensionModifier.Operator.TRUE_ADD_BASE) flatTrueBase += modifier.getValue();
+            else if(modifier.getOperator() == AscensionModifier.Operator.MULTIPLY_BASE){
                 groupedBaseMultipliers.put(modifier.getGroupId(),modifier.getValue());
-            } else if (modifier.getOperator() == StatModifier.Operator.MULTIPLY_FINAL) {
+            } else if (modifier.getOperator() == AscensionModifier.Operator.MULTIPLY_FINAL) {
                 groupedFinalMultipliers.put(modifier.getGroupId(),modifier.getValue());
             }
         }
@@ -61,8 +61,12 @@ public class StatInstance implements IDataInstance {
         return cachedBaseValue;
     }
     public ResourceLocation getStatId(){return statId;}
-    public Stat getStat(){return null;}
+    public Stat getStat(){return AscensionRegistries.Stats.STATS_REGISTRY.get(statId);}
 
+    public void addModifier(AscensionModifier modifier){
+        modifiers.put(modifier.getModifierId(),modifier);
+        calculateCachedValue();
+    }
 
     @Override
     public CompoundTag write() {
@@ -72,7 +76,7 @@ public class StatInstance implements IDataInstance {
         tag.putInt("cached_base_value",cachedBaseValue);
         tag.putInt("cached_value",cachedValue);
         ListTag modifierTag = new ListTag();
-        for(StatModifier modifier : modifiers.values()){
+        for(AscensionModifier modifier : modifiers.values()){
             modifierTag.add(modifier.write());
         }
         tag.put("modifiers",modifierTag);
@@ -86,7 +90,7 @@ public class StatInstance implements IDataInstance {
         buf.writeInt(cachedBaseValue);
         buf.writeInt(cachedValue);
         buf.writeInt(modifiers.size());
-        for(StatModifier modifier:modifiers.values()){
+        for(AscensionModifier modifier:modifiers.values()){
             modifier.encode(buf);
         }
     }
@@ -100,7 +104,7 @@ public class StatInstance implements IDataInstance {
         instance.cachedValue = tag.getInt("cached_value");
         ListTag modifiers = tag.getList("modifiers", Tag.TAG_COMPOUND);
         for(int i = 0;i<modifiers.size();i++){
-            StatModifier modifier = StatModifier.read(modifiers.getCompound(i));
+            AscensionModifier modifier = AscensionModifier.read(modifiers.getCompound(i));
             instance.modifiers.put(modifier.getModifierId(),modifier);
         }
         return instance;
@@ -113,7 +117,7 @@ public class StatInstance implements IDataInstance {
         instance.cachedBaseValue = buf.readInt();
         instance.cachedValue = buf.readInt();
         for(int i=0;i<buf.readInt();i++){
-            StatModifier modifier = StatModifier.decode(buf);
+            AscensionModifier modifier = AscensionModifier.decode(buf);
             instance.modifiers.put(modifier.getModifierId(),modifier);
         }
         return instance;

@@ -3,14 +3,14 @@ package net.thejadeproject.ascension.refactor_packages.player_data;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.stats.Stat;
+import net.thejadeproject.ascension.refactor_packages.stats.StatInstance;
 
 import java.util.HashMap;
 
-public class PlayerData {
+public class PlayerData extends EntityData{
 
-    private ResourceLocation activeForm;
-
-    private final HashMap<ResourceLocation,IEntityFormData> formData = new HashMap<>();
 
     /*
         despite each form being able to store data for them
@@ -27,13 +27,6 @@ public class PlayerData {
 
 
 
-    //checks all locations
-    public boolean hasSkill(ResourceLocation skill){
-        for (IEntityFormData entityFormData : formData.values()){
-            if(entityFormData.getHeldSkills().hasSkill(skill)) return true;
-        }
-        return false;
-    }
 
 
     public static PlayerData getPlayerData(Player player){

@@ -1,8 +1,2 @@
 this will hold all events related to stats
 
-mainly get gatherUsedStats (will rename) where we gather stats and their percentage usage for specific attributes/events like:
-    - movement
-    - jumping
-    - flying
-    - damage
-    - health
