@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttribute;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributeInstance;
+import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
@@ -30,17 +31,49 @@ public class EntityData {
     public IEntityFormData removeEntityForm(ResourceLocation form){
         return formData.remove(form);
     }
-    public void addEntityForm(ResourceLocation form){
+    public IEntityFormData getEntityFormData(ResourceLocation form){
+        return formData.get(form);
+    }
+    public IEntityFormData getEntityFormData(IEntityForm form){
+        return formData.get(AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.getKey(form));
+    }
+
+    public void addNewEntityForm(ResourceLocation form){
         if(formData.containsKey(form)) return;
         formData.put(form,
-        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form).freshEntityFormData());
+        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form).freshEntityFormData(entity));
+    }
+    public void addExistingEntityForm(ResourceLocation form,IEntityFormData data){
+        if(formData.containsKey(form)) return; //for now we need to remove it first
+
+        //pre
+        //TODO make an event here
+        for(ResourceLocation entityForm : formData.keySet()){
+            AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(entityForm).newFormAddedPre(
+                    entity,
+                    form,
+                    data
+            );
+        }
+        //TODO update bloodline and physique on this entity data
+        formData.put(form,data);
+        data.setAttachedEntity(entity);
+        //post
+        //TODO make an event here
+        for(ResourceLocation entityForm : formData.keySet()){
+            AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(entityForm).newFormAddedPost(
+                    entity,
+                    form
+            );
+        }
     }
     public void changeFormTo(ResourceLocation form){
         if(form.equals(activeForm)) return;
-        ResourceLocation previousForm = activeForm;
+        IEntityFormData previousFormData = getActiveFormData();
         activeForm = form;
-        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form).enterForm(entity,previousForm);
-        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(previousForm).leaveForm(entity);
+        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(previousFormData.getEntityFormId()).leaveForm(entity);
+        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form).enterForm(entity,previousFormData);
+
     }
 
 
@@ -70,7 +103,7 @@ public class EntityData {
         }
         return false;
     }
-    public EntityData getEntityData(LivingEntity livingEntity){
+    public static EntityData getEntityData(LivingEntity livingEntity){
         return null;
     }
 }

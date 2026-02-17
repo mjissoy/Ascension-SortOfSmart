@@ -7,11 +7,12 @@ import net.minecraft.world.entity.LivingEntity;
 
 public interface IEntityForm {
 
-    void enterForm(LivingEntity entity, ResourceLocation previousForm);
+    void enterForm(LivingEntity entity, IEntityFormData previousFormData);
     void leaveForm(LivingEntity entity);
 
-
-    IEntityFormData freshEntityFormData();
-    IEntityFormData fromCompound(CompoundTag tag);
-    IEntityFormData fromNetwork(RegistryFriendlyByteBuf buf);
+    void newFormAddedPre(LivingEntity entity,ResourceLocation entityForm,IEntityFormData entityFormData);
+    void newFormAddedPost(LivingEntity entity,ResourceLocation entityForm);
+    IEntityFormData freshEntityFormData(LivingEntity entity);
+    IEntityFormData fromCompound(CompoundTag tag,LivingEntity entity);
+    IEntityFormData fromNetwork(RegistryFriendlyByteBuf buf,LivingEntity entity);
 }

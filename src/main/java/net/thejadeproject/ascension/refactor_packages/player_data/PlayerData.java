@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.player_data;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
@@ -25,8 +26,9 @@ public class PlayerData extends EntityData{
 
     private final HashMap<ResourceLocation,ResourceLocation> techniques = new HashMap<>(); //Path -> current technique
 
-
-
+    public PlayerData(LivingEntity entity) {
+        super(entity);
+    }
 
 
     public static PlayerData getPlayerData(Player player){

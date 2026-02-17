@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class HeldSkills {
 
-    private final LivingEntity attachedEntity;
+    private LivingEntity attachedEntity;
 
     private final HashMap<ResourceLocation,HeldSkill> skills = new HashMap<>();
 
@@ -26,7 +26,12 @@ public class HeldSkills {
     public HeldSkills(LivingEntity attachedEntity){
         this.attachedEntity = attachedEntity;
     }
-
+    public LivingEntity getAttachedEntity(){
+        return attachedEntity;
+    }
+    public void setAttachedEntity(LivingEntity entity){
+        this.attachedEntity = entity;
+    }
     public void addSkill(ISkill skill,boolean fixed,boolean permanent){
         //TODO IMPLEMENT
     }

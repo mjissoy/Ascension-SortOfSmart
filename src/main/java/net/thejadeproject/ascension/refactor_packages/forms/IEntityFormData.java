@@ -16,7 +16,8 @@ import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 public interface IEntityFormData extends IDataInstance {
 
     LivingEntity getAttachedEntity();
-
+    void setAttachedEntity(LivingEntity entity);
+    ResourceLocation getEntityFormId();
     IEntityForm getEntityForm();
 
     void changeFormTo(IEntityForm form);
@@ -25,6 +26,8 @@ public interface IEntityFormData extends IDataInstance {
 
 
     PathData getPathData(ResourceLocation path);
+    boolean hasPathData(ResourceLocation path);
+
     HeldSkills getHeldSkills();
 
 
