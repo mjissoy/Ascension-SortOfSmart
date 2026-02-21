@@ -17,6 +17,15 @@ public class GenericEntityData implements IEntityData{
     private final HashMap<ResourceLocation, IEntityFormData> heldFormData = new HashMap<>();
     private final HashMap<ResourceLocation, UUID> tetheredFormData = new HashMap<>();
 
+    private ResourceLocation physique;
+    private ResourceLocation bloodline;
+
+    private ResourceLocation physiqueForm; //the form holding the data of the physique
+    private ResourceLocation bloodlineForm;//almost always body (but might have some rare circumstances where it is not)
+
+    private final HashMap<ResourceLocation,ResourceLocation> techniques = new HashMap<>(); //Path -> current technique
+
+
     @Override
     public UUID getAttachedEntity() {
         return attachedEntity;
@@ -63,8 +72,13 @@ public class GenericEntityData implements IEntityData{
     }
 
     @Override
-    public void moveFormToTetheredEntity(UUID entityId) {
+    public void moveFormToTetheredEntity(UUID entityId,ResourceLocation form) {
         //TODO
+    }
+
+    @Override
+    public void moveFormOffTetheredEntity(ResourceLocation form) {
+
     }
 
     @Override

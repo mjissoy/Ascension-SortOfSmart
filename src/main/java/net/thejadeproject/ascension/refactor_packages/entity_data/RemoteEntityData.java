@@ -53,7 +53,12 @@ public class RemoteEntityData implements IEntityData{
     }
 
     @Override
-    public void moveFormToTetheredEntity(UUID entityId) {
+    public void moveFormToTetheredEntity(UUID entityId,ResourceLocation form) {
+
+    }
+
+    @Override
+    public void moveFormOffTetheredEntity(ResourceLocation form) {
 
     }
 

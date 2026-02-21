@@ -13,7 +13,7 @@ this would contain a container for each applied stat. with a percentage of said 
 this fully removes the need of events
 
 
-
+look into moving dao and dao bonuses over to a similar system
 
 Think about creating an entity controller, when changing forms prompt the form for an entity controller
 the default one does nothing,
