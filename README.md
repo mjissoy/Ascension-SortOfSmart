@@ -2,7 +2,7 @@
 
 ![](https://cf.way2muchnoise.eu/versions/1286770.svg) ![](https://img.shields.io/badge/NeoForge-lime?style=plastic&amp;link=https%3A%2F%2Fneoforged.net%2F)
 
-A bunch of Magic-Tech and fun-made gadgets
+A Xianxia Styled Mod that lets you cultivate to immortality/god hood
 
 Download Link : [src](https://legacy.curseforge.com/minecraft/mc-mods/perfect-ascension)
 
