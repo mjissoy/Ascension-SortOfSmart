@@ -1,4 +1,4 @@
-# aSCENSION
+# Ascension
 
 ![](https://cf.way2muchnoise.eu/versions/1286770.svg) ![](https://img.shields.io/badge/NeoForge-lime?style=plastic&amp;link=https%3A%2F%2Fneoforged.net%2F)
 
