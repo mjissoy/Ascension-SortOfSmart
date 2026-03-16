@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SpiritVeinBlockEntity extends BlockEntity {
     private int cycleTimer = 0;
-    private static final int FULL_CYCLE = 200; // 5 minutes = 6000 ticks
+    private static final int FULL_CYCLE = 6000; // 5 minutes = 6000 ticks
     private static final int VEIN_INTERVAL = FULL_CYCLE / SpiritVeinBlock.MAX_VEIN;
     private boolean hasAnnounced = false;
     private static final int ANNOUNCE_RANGE = 10;
