@@ -11,19 +11,24 @@ import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public interface IEntityData {
     UUID getAttachedEntity();
+    boolean isAttachedEntityLoaded(); //in scenarios where data is stored separately from the entity itself
+    void setAttachedEntityLoaded(boolean loaded); //useful for implementations that rely on a manager(mine)
+    void unTetherEntity(UUID entity);
 
     IEntityFormData getActiveFormData();
     //calls all on removed stuff,so should not be used for tethered entities
     IEntityFormData removeEntityForm(ResourceLocation form);
-
     IEntityFormData getEntityFormData(ResourceLocation form);
     IEntityFormData getEntityFormData(IEntityForm form);
 
-
+    List<IEntityFormData> getFormData();
+    List<IEntityFormData> getHeldFormData();
+    List<IEntityFormData> getFormData(Set<UUID> excludedTetheredEntities);
     void addNewEntityForm(ResourceLocation form);
     void addExistingEntityForm(ResourceLocation form, IEntityFormData data);
     void changeActiveFormTo(ResourceLocation form);

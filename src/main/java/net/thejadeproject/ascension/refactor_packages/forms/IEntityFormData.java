@@ -13,6 +13,8 @@ import net.thejadeproject.ascension.refactor_packages.stats.Stat;
 import net.thejadeproject.ascension.refactor_packages.stats.StatSheet;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 
+import java.util.List;
+
 public interface IEntityFormData extends IDataInstance {
 
     LivingEntity getAttachedEntity();
@@ -26,6 +28,8 @@ public interface IEntityFormData extends IDataInstance {
 
 
     PathData getPathData(ResourceLocation path);
+    List<PathData> getAllPathData();
+
     boolean hasPathData(ResourceLocation path);
 
     HeldSkills getHeldSkills();

@@ -1,19 +1,24 @@
 package net.thejadeproject.ascension.refactor_packages.skills;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLLoader;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class HeldSkills {
 
-    private LivingEntity attachedEntity;
+    private IEntityData attachedEntityData;
 
     private final HashMap<ResourceLocation,HeldSkill> skills = new HashMap<>();
 
@@ -23,14 +28,14 @@ public class HeldSkills {
     private final ArrayList<HeldSkill> removalSyncBuffer = new ArrayList<>();
 
 
-    public HeldSkills(LivingEntity attachedEntity){
-        this.attachedEntity = attachedEntity;
+    public HeldSkills(IEntityData attachedEntityData){
+        this.attachedEntityData = attachedEntityData;
     }
-    public LivingEntity getAttachedEntity(){
-        return attachedEntity;
+    public IEntityData getAttachedEntity(){
+        return attachedEntityData;
     }
-    public void setAttachedEntity(LivingEntity entity){
-        this.attachedEntity = entity;
+    public void setAttachedEntity(IEntityData entityData){
+        this.attachedEntityData = entityData;
     }
     public void addSkill(ISkill skill,boolean fixed,boolean permanent){
         //TODO IMPLEMENT
@@ -52,7 +57,7 @@ public class HeldSkills {
             if(source != null) heldSkill.addSource(source);
             skills.put(skillKey,heldSkill);
             additionSyncBuffer.add(heldSkill);
-            if(attachedEntity instanceof Player player) heldSkill.getSkill().onAdded(player);
+            heldSkill.getSkill().onAdded(attachedEntityData);
         }
     }
 
@@ -86,9 +91,17 @@ public class HeldSkills {
     public void removeSkill(ResourceLocation skillKey){
         if(!skills.containsKey(skillKey))return;
         HeldSkill heldSkill = skills.remove(skillKey);
-        if(attachedEntity instanceof Player player) heldSkill.getSkill().onRemoved(player,heldSkill.getPersistentData());
+        heldSkill.getSkill().onRemoved(attachedEntityData,heldSkill.getPersistentData());
         removalSyncBuffer.add(heldSkill);
 
+    }
+    /*
+        used when skill data is stored on a different tethered entity data and they are unlinked
+     */
+    public void removeAllSkillsFromEntityData(IEntityData targetEntityData){
+        for(HeldSkill heldSkill : skills.values()){
+            heldSkill.getSkill().removeForTetheredEntity(attachedEntityData,targetEntityData,heldSkill.getPersistentData());
+        }
     }
 
     public boolean hasSkill(ResourceLocation skillKey){
@@ -147,7 +160,7 @@ public class HeldSkills {
         }
 
 
-        if(attachedEntity.level().isClientSide()) clearBuffers(); //should prevent accidental memory leak
+        if(FMLLoader.getDist() != Dist.CLIENT) clearBuffers(); //should prevent accidental memory leak
     }
 
 

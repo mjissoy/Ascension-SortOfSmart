@@ -1,20 +1,18 @@
-package net.thejadeproject.ascension.refactor_packages.physiques;
+package net.thejadeproject.ascension.refactor_packages.bloodlines;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 
 import java.util.UUID;
 
-public interface IPhysique {
-
-
-    IPhysiqueData onPhysiqueAdded(IEntityData heldEntity,ResourceLocation oldPhysique);
+public interface IBloodline {
+    IBloodlineData onBloodlineAdded(IEntityData heldEntity,ResourceLocation newBloodline);
     /*
-        called when physique is replaced with a new one.
+        called when bloodline is replaced with a new one.
         if it is removed due to entity tether being broken it is called after all that removal logic
      */
-    void onPhysiqueRemoved(IEntityData heldEntity,IPhysiqueData physiqueData,ResourceLocation newPhysique);
+    void onBloodlineAdded(IEntityData heldEntity,IBloodlineData bloodlineData,ResourceLocation newBloodline);
 
     /*
         onEntityTethered is called when an entities data is tethered to another existing entity.
@@ -23,8 +21,8 @@ public interface IPhysique {
 
         same with Untethered. called when there is some sort of data being added or removed rather than just moved around
      */
-    void onEntityTethered(IEntityData heldEntity,IEntityData tetheredEntity,IPhysiqueData physiqueData);
-    void onEntityUntethered(IEntityData heldEntity,IEntityData oldTetheredEntity,IPhysiqueData physiqueData);
+    void onEntityTethered(IEntityData heldEntity, IEntityData tetheredEntity,IBloodlineData bloodlineData);
+    void onEntityUntethered(IEntityData heldEntity,IEntityData oldTetheredEntity,IBloodlineData bloodlineData);
 
 
 
@@ -32,7 +30,7 @@ public interface IPhysique {
         handles when forms are added and removed. is also called if an untethered entity held forms
         used when you want to apply data to specific forms
      */
-    void onFormAdded(IEntityData heldEntity, ResourceLocation form,IPhysiqueData physiqueData);
-    void onFormRemoved(IEntityData heldEntity,ResourceLocation form,IPhysiqueData physiqueData);
+    void onFormAdded(IEntityData heldEntity, ResourceLocation form,IBloodlineData bloodlineData);
+    void onFormRemoved(IEntityData heldEntity,ResourceLocation form,IBloodlineData bloodlineData);
 
 }

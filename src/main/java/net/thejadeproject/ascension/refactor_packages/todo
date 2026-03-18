@@ -13,6 +13,9 @@ this would contain a container for each applied stat. with a percentage of said 
 this fully removes the need of events
 
 
+go through and change anything that is attached to entityData to hold a reference to the attached entity data(should include forms and such)
+this is because in almost all scenarios these components only need access to the entityData and very rarely the entity itself
+
 look into moving dao and dao bonuses over to a similar system
 
 Think about creating an entity controller, when changing forms prompt the form for an entity controller
