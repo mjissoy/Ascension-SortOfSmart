@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.entity_data;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 
@@ -28,9 +29,7 @@ public class EntityDataManager {
     }
 
     public static void addTetheredEntity(LivingEntity primaryEntity,LivingEntity secondaryEntity,IEntityData secondaryEntityData){
-        if(!primaryTetheredEntities.containsKey(primaryEntity.getUUID())) addPrimaryTetheredEntity(primaryEntity);
 
-        secondaryTetheredEntities.put(secondaryEntity.getUUID(),secondaryEntityData);
     }
 
     public static IEntityData getEntityData(UUID uuid){

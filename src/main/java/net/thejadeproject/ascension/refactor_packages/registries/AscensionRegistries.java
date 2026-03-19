@@ -9,6 +9,7 @@ import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.progression.physiques.IPhysique;
+import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttribute;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
@@ -26,7 +27,14 @@ public class AscensionRegistries {
         public static final Registry<IEntityForm> ENTITY_FORMS_REGISTRY = new RegistryBuilder<>(ENTITY_FORM_REGISTRY_KEY)
                 .create();
     }
-
+    public static class Techniques{
+        public static final ResourceKey<Registry<ITechnique>> TECHNIQUES_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(
+                AscensionCraft.MOD_ID,"techniques"
+        ));
+        public static final Registry<ITechnique> TECHNIQUES_REGISTRY = new RegistryBuilder<>(TECHNIQUES_REGISTRY_KEY)
+                .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"empty"))
+                .create();
+    }
     @SubscribeEvent // on the mod event bus
     public static void registerRegistries(NewRegistryEvent event) {
         event.register(Stats.STATS_REGISTRY);

@@ -13,22 +13,23 @@ import net.thejadeproject.ascension.refactor_packages.stats.Stat;
 import net.thejadeproject.ascension.refactor_packages.stats.StatSheet;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public interface IEntityFormData extends IDataInstance {
 
-    LivingEntity getAttachedEntity();
-    void setAttachedEntity(LivingEntity entity);
+    UUID getAttachedEntity();
+    void setAttachedEntity(UUID entity);
     ResourceLocation getEntityFormId();
     IEntityForm getEntityForm();
 
-    void changeFormTo(IEntityForm form);
 
 
 
 
     PathData getPathData(ResourceLocation path);
-    List<PathData> getAllPathData();
+    Collection<PathData> getAllPathData();
 
     boolean hasPathData(ResourceLocation path);
 
@@ -42,16 +43,9 @@ public interface IEntityFormData extends IDataInstance {
     void setBloodlineData(IBloodlineData data);
 
 
-    AscensionAttributesContainer getAttributeContainer();
 
     StatSheet getStatSheet();
 
 
-    //allows me to quickly sync separately instead of 1 massive syncs
-    void syncHeldSkills();
-    void syncPhysiqueData();
-    void syncBloodlineData();
-    void syncStatSheet(); //add some sort of auto sync to individual stats
-    void syncAllPathData();
-    void syncPathData(ResourceLocation path);
+
 }

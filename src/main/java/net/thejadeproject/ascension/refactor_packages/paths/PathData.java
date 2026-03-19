@@ -3,6 +3,9 @@ package net.thejadeproject.ascension.refactor_packages.paths;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.breakthroughs.IBreakthroughInstance;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
+import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 import oshi.util.tuples.Pair;
 
@@ -18,8 +21,9 @@ public class PathData {
     private int majorRealm;
     private int minorRealm;
     private double currentRealmProgress;
+    private int currentRealmStability;
     private boolean cultivating;
-
+    private ResourceLocation technique; //the current technique
 
 
     /*
@@ -41,7 +45,6 @@ public class PathData {
      */
     private final HashMap<Integer, ResourceLocation> techniqueHistory = new HashMap<>();
     private final HashMap<ResourceLocation, ITechniqueData> techniqueData = new HashMap<>();
-
     public Set<Integer> getTechniqueRealms(ResourceLocation technique){
         HashSet<Integer> realms = new HashSet<>();
         techniqueHistory.forEach((key,val)->{
@@ -58,35 +61,25 @@ public class PathData {
         });
         return realms;
     }
-    public void onEntityUntethered(IEntityData heldEntity,IEntityData tetheredEntity){
-        //TODO
-        /*
-            go through technique history,
-            if major realm is not equal to current use getMaxMinorRealm in the technique
 
-            the "remove" methodology here is handled slightly differently since the cultivation data still exists
-            and we are not trying to delete that so do not call remove() on the technique
-            but instead removeFromTetheredEntity(), well technically old tethered
-            essentially treat it like we are not removing the technique (since we are not) but instead removing the cultivation
-            so some sort of removeProgressBonuses method?
-         */
-    }
-    public void onEntityTethered(IEntityData heldEntity,IEntityData tetheredEntity){
-        //TODO
-        /*
-            go through technique history,
-            if major realm is not equal to current use getMaxMinorRealm in the technique
-            then use correct apply method with current progress
+    public int getMajorRealm(){return majorRealm;}
+    public int getMinorRealm(){return minorRealm;}
+    public double getCurrentRealmProgress(){return currentRealmProgress;}
+    public int getCurrentRealmStability(){return currentRealmStability;}
+    public ResourceLocation getTechnique(){return technique;}
 
 
-           U IS NOT THE SAME AS LEVELING UP WITH THE TECHNIQUE
-            SO DO NOT APPLY ANY SKILLS ONLY TO BONUSES
+    public void onFormRemoved(IEntityData heldEntity, IEntityFormData removedFormData){
+        for(ResourceLocation technique : techniqueData.keySet()){
+            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique).onFormRemoved(heldEntity,removedFormData,this);
+        }
+    };
+    public void onFormAdded(IEntityData heldEntity, IEntityFormData addedFormData){
+        for(ResourceLocation technique : techniqueData.keySet()){
+            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique).onFormAdded(heldEntity,addedFormData,this);
+        }
+    };
 
-            SO I NEED TO MAKE SURE I HAVE A METHOD FOR WHEN PROGRESSING TO A NEW REALM WITH THAT TECHNIQUE
-
-            AND ONE FOR WHEN IM APPLYING THE CULTIVATION BONUSES FOR A BODY THAT SHOULD ALREADY BE AT THAT REALM
-         */
-    }
 
 
 

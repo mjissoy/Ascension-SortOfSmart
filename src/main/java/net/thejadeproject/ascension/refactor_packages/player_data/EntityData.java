@@ -15,6 +15,8 @@ import net.thejadeproject.ascension.refactor_packages.stats.StatInstance;
 import java.util.HashMap;
 
 public class EntityData {
+
+
     private ResourceLocation activeForm;
     private final LivingEntity entity;
 
@@ -67,12 +69,15 @@ public class EntityData {
             );
         }
     }
+
+
+
     public void changeFormTo(ResourceLocation form){
         if(form.equals(activeForm)) return;
-        IEntityFormData previousFormData = getActiveFormData();
+        ResourceLocation previousForm = getActiveFormId();
         activeForm = form;
-        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(previousFormData.getEntityFormId()).leaveForm(entity);
-        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form).enterForm(entity,previousFormData);
+        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(previousForm).leaveForm(this);
+        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form).enterForm(entity,previousForm);
 
     }
 

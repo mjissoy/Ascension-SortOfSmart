@@ -10,6 +10,9 @@ import java.util.UUID;
 
 public interface IEntityForm {
 
+
+
+
     /*
         onEntityTethered is called when an entities data is tethered to another existing entity.
         not called when,for example, a fresh tethered vessel is created. Since in that instance data is only being
@@ -30,10 +33,10 @@ public interface IEntityForm {
     /*
         handles when forms are added and removed. is also called if an untethered entity held forms
      */
-    void onFormAdded(IEntityData heldEntity,ResourceLocation form);
-    void onFormRemoved(IEntityData heldEntity,ResourceLocation form);
+    void onFormAdded(IEntityData heldEntity,IEntityFormData formData, IEntityFormData addedFormData);
+    void onFormRemoved(IEntityData heldEntity,IEntityFormData formData,IEntityFormData removedFormData);
 
-    IEntityFormData freshEntityFormData(LivingEntity entity);
-    IEntityFormData fromCompound(CompoundTag tag,LivingEntity entity);
-    IEntityFormData fromNetwork(RegistryFriendlyByteBuf buf,LivingEntity entity);
+    IEntityFormData freshEntityFormData(IEntityData heldEntity);
+    IEntityFormData fromCompound(CompoundTag tag,IEntityData heldEntity);
+    IEntityFormData fromNetwork(RegistryFriendlyByteBuf buf,IEntityData heldEntity);
 }

@@ -15,12 +15,13 @@ import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 import java.nio.file.Path;
 import java.util.*;
 
-public class GenericEntityData implements IEntityData{
+public class GenericEntityData implements IEntityData {
     private ResourceLocation activeForm;
     private UUID attachedEntity;
 
     private final HashMap<ResourceLocation, IEntityFormData> heldFormData = new HashMap<>();
     private final HashMap<ResourceLocation, UUID> tetheredFormData = new HashMap<>();
+
 
     private ResourceLocation physique;
     private ResourceLocation bloodline;
@@ -28,10 +29,11 @@ public class GenericEntityData implements IEntityData{
     private ResourceLocation physiqueForm; //the form holding the data of the physique
     private ResourceLocation bloodlineForm;//almost always body (but might have some rare circumstances where it is not)
     //not copied over to tethered entities
-    private final HashMap<ResourceLocation,ResourceLocation> techniques = new HashMap<>(); //Path -> current technique
+    private final HashMap<ResourceLocation, ResourceLocation> techniques = new HashMap<>(); //Path -> current technique
 
     boolean attachedEntityLoaded;
 
+    //========================== FORM DATA HANDLING ==========================
     @Override
     public UUID getAttachedEntity() {
         return attachedEntity;
@@ -39,79 +41,17 @@ public class GenericEntityData implements IEntityData{
 
     @Override
     public boolean isAttachedEntityLoaded() {
-        return attachedEntityLoaded;
+        return false; //TODO
     }
 
     @Override
-    public void setAttachedEntityLoaded(boolean attachedEntityLoaded) {
-        this.attachedEntityLoaded = attachedEntityLoaded;
+    public void setAttachedEntityLoaded(boolean loaded) {
+        this.attachedEntityLoaded = loaded;
     }
 
-    @Override
-    public void unTetherEntity(UUID entity) {
-        //FIRST CHECK IF THAT ENTITY HAS OUR PHYSIQUE AND BLOODLINE
-        //THEN RUN REMOVE FOR FORM ON ALL CULTIVATION METHODS
-        //MAKE SURE TO DO THIS FOR ALL TETHERED ENTITIES THAT ARE NOT THE REMOVED ENTITY
-        IEntityData unTetheredEntity = EntityDataManager.getEntityData(entity);
-        if(!heldFormData.containsKey(bloodlineForm) && tetheredFormData.get(bloodlineForm).equals(entity)){
-            //TODO
-            // proceed with bloodline removal
-        }
-        if(!heldFormData.containsKey(physiqueForm) && tetheredFormData.get(physiqueForm).equals(entity)){
-            //TODO
-            // proceed with physique removal
-        }
-
-
-       for(Map.Entry<ResourceLocation,UUID> form : tetheredFormData.entrySet()){
-           if(!form.equals(entity)) continue;
-           IEntityFormData formData = EntityDataManager.getEntityFormData(form.getValue(),form.getKey());
-           IEntityForm formObj = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form.getKey());
-           formObj.removeForm(getAttachedEntity(),formData);
-           tetheredFormData.remove(form.getKey());
-       }
-
-        //gets all related form data, exclude this entity so i do not acidentaly remove a technique i have on me
-        //two entities should not tether to a shared entity and eachother
-        for(IEntityFormData formData : unTetheredEntity.getFormData(Set.of(getAttachedEntity()))){
-            //handle removal of held skills and pathData
-            List<PathData> allPathData = formData.getAllPathData();
-            for(PathData pathData : allPathData){
-                pathData.removeForEntity(this);
-            }
-            HeldSkills heldSkills = formData.getHeldSkills();
-            heldSkills.removeAllSkillsFromEntityData(this);
-        }
-
-    }
-
-    /*
-        The active form can only be in heldFormData
-     */
     @Override
     public IEntityFormData getActiveFormData() {
         return heldFormData.get(activeForm);
-    }
-
-    @Override
-    public List<IEntityFormData> getFormData() {
-        return getFormData(Set.of());
-    }
-
-    @Override
-    public  List<IEntityFormData> getHeldFormData() {
-        return (List<IEntityFormData>) heldFormData.values();
-    }
-
-    @Override
-    public List<IEntityFormData> getFormData(Set<UUID> excludedTetheredEntities) {
-        ArrayList<IEntityFormData> fullFormData = new ArrayList<>();
-        fullFormData.addAll(heldFormData.values());
-        for (Map.Entry<ResourceLocation,UUID> tetheredForm : tetheredFormData.entrySet()){
-            if(excludedTetheredEntities.contains(tetheredForm.getValue())) continue;
-            fullFormData.add(EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()));
-        }
-        return fullFormData;
     }
 
     @Override
@@ -121,9 +61,9 @@ public class GenericEntityData implements IEntityData{
 
     @Override
     public IEntityFormData getEntityFormData(ResourceLocation form) {
-        if(heldFormData.containsKey(form))return heldFormData.get(form);
-        if(tetheredFormData.containsKey(form)) return EntityDataManager.getEntityFormData(tetheredFormData.get(form),form);
-        return null;
+        if(heldFormData.containsKey(form)) return heldFormData.get(form);
+        if(!tetheredFormData.containsKey(form)) return null;
+        return EntityDataManager.getEntityFormData(tetheredFormData.get(form),form);
     }
 
     @Override
@@ -132,13 +72,65 @@ public class GenericEntityData implements IEntityData{
     }
 
     @Override
+    public List<IEntityFormData> getFormData() {
+        ArrayList<IEntityFormData> finalList = new ArrayList<>();
+        for(Map.Entry<ResourceLocation,UUID> tetheredForm:tetheredFormData.entrySet()){
+            finalList.add(EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()));
+        }
+        finalList.addAll(getHeldFormData());
+        return finalList;
+    }
+
+    @Override
+    public List<IEntityFormData> getHeldFormData() {
+        return (List<IEntityFormData>) heldFormData.values();
+    }
+
+    @Override
+    public List<IEntityFormData> getFormData(Set<UUID> excludedTetheredEntities) {
+        ArrayList<IEntityFormData> finalList = new ArrayList<>();
+        for(Map.Entry<ResourceLocation,UUID> tetheredForm:tetheredFormData.entrySet()){
+            if(excludedTetheredEntities.contains(tetheredForm.getValue())) continue;
+            finalList.add(EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()));
+        }
+        finalList.addAll(getHeldFormData());
+        return finalList;
+    }
+
+    @Override
     public void addNewEntityForm(ResourceLocation form) {
-        //TODO
+        IEntityForm formFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form);
+        IEntityFormData formData = formFactory.freshEntityFormData(this);
+        Set<Map.Entry<ResourceLocation,IEntityFormData>> forms = heldFormData.entrySet();
+
+        heldFormData.put(form,formData);
+
+        for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : forms){
+            IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
+            heldFormFactory.onFormAdded(this,heldForm.getValue(),formData);
+        }
+        for(Map.Entry<ResourceLocation,UUID> tetheredForm : tetheredFormData.entrySet()){
+            IEntityForm tetheredFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(tetheredForm.getKey());
+            tetheredFormFactory.onFormAdded(this,EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()),formData);
+        }
     }
 
     @Override
     public void addExistingEntityForm(ResourceLocation form, IEntityFormData data) {
-        //TODO
+        IEntityForm formFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form);
+
+        Set<Map.Entry<ResourceLocation,IEntityFormData>> forms = heldFormData.entrySet();
+
+        heldFormData.put(form,data);
+
+        for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : forms){
+            IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
+            heldFormFactory.onFormAdded(this,heldForm.getValue(),data);
+        }
+        for(Map.Entry<ResourceLocation,UUID> tetheredForm : tetheredFormData.entrySet()){
+            IEntityForm tetheredFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(tetheredForm.getKey());
+            tetheredFormFactory.onFormAdded(this,EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()),data);
+        }
     }
 
     @Override
@@ -146,129 +138,146 @@ public class GenericEntityData implements IEntityData{
         //TODO
     }
 
-    /*
-        removes the form data from this entity data instance, then adds a reference to the tethered entity
-        the actual form data should be handled by whatever is creating the tethered entity
-     */
+    //========================== TETHERED ENTITY HANDLING======================
+
+
+    //does not handle the removed form data, this is done by whatever method is "moving" the data
     @Override
-    public void moveFormToTetheredEntity(UUID entityId,ResourceLocation form) {
-        //TODO
+    public void moveFormToTetheredEntity(UUID entityId, ResourceLocation form) {
+        heldFormData.remove(form);
+        tetheredFormData.put(form,entityId);
+    }
+    //does not try to access the tethered entity, for that reason we pass form data directly
+    @Override
+    public void moveFormOffTetheredEntity(ResourceLocation form,IEntityFormData formData) {
+        tetheredFormData.remove(form);
+        heldFormData.put(form,formData);
     }
 
+    /**
+        Handles the removal of a tethered entities and all that goes along with it (form removal, cultivation removal ect
+     */
     @Override
-    public void moveFormOffTetheredEntity(ResourceLocation form) {
+    public void unTetherEntity(UUID entity) {
+        IEntityData removedEntityData = EntityDataManager.getEntityData(entity);
+
+        //first we get all forms that are on that entity
+        //this also gets any other tethered forms(future proofing)
+        List<IEntityFormData> removedForms = removedEntityData.getFormData(Set.of(getAttachedEntity()));
+
+        List<IEntityFormData> leftoverForms = getFormData(Set.of(entity));
+        for(IEntityFormData removedForm : removedForms){
+            //remove the reference
+            if(tetheredFormData.containsKey(removedForm.getEntityFormId())) tetheredFormData.remove(removedForm.getEntityFormId());
+
+            for(IEntityFormData leftoverForm :leftoverForms){
+                leftoverForm.getEntityForm().onFormRemoved(this,leftoverForm,removedForm);
+            }
+        }
+
 
     }
 
     @Override
     public List<UUID> getTetheredEntities() {
-        return List.of();//TODO
+        return List.of(); //TODO
     }
 
+    //============================ PHYSIQUE HANDLING =======================================
     @Override
     public void setPhysique(ResourceLocation physique) {
-
+        //TODO
     }
 
     @Override
     public void setPhysiqueFromExisting(ResourceLocation physique, IPhysiqueData existingData) {
-
+        //TODO
     }
 
     @Override
     public IPhysiqueData getPhysiqueData() {
-        return null;
+        return null; //TODO
     }
 
     @Override
     public ResourceLocation getPhysiqueForm() {
-        return null;
+        return null; //TODO
     }
 
     @Override
     public IPhysiqueData removePhysique() {
-        return null;
+        return null; //TODO
     }
 
+    //============================ BLOODLINE HANDLING =======================================
     @Override
     public void setBloodline(ResourceLocation bloodline) {
-
+        //TODO
     }
 
     @Override
     public void setBloodlineFromExisting(ResourceLocation bloodline, IBloodlineData existingData) {
-
+        //TODO
     }
 
     @Override
     public IBloodlineData getBloodlineData() {
-        return null;
+        return null;//TODO
     }
 
     @Override
     public ResourceLocation getBloodlineForm() {
-        return null;
+        return null;//TODO
     }
 
     @Override
     public IBloodlineData removeBloodline() {
-        return null;
+        return null;//TODO
     }
 
+    //============================ CULTIVATION DATA HANDLING ==================================
     @Override
     public boolean hasPath(ResourceLocation path) {
-        return false;
+        return false;//TODO
     }
 
     @Override
     public boolean isCultivating() {
-        return false;
+        return false;//TODO
     }
 
     @Override
     public boolean isCultivating(ResourceLocation path) {
-        return false;
+        return false;//TODO
     }
 
     @Override
     public ResourceLocation getTechnique(ResourceLocation path) {
-        return null;
+        return null;//TODO
     }
 
     @Override
     public ITechniqueData getTechniqueData(ResourceLocation path) {
-        return null;
+        return null;//TODO
     }
 
     @Override
     public PathData getPathData(ResourceLocation path) {
-        return null;
+        return null;//TODO
     }
 
     @Override
     public ITechniqueData removeTechnique(ResourceLocation path) {
-        return null;
+        return null;//TODO
     }
 
     @Override
     public ITechniqueData setTechnique(ResourceLocation path) {
-        return null;
+        return null;//TODO
     }
 
     @Override
     public void removePath(ResourceLocation path) {
-
-    }
-
-
-
-    @Override
-    public void addTemporaryForm(ResourceLocation form) {
-//TODO
-    }
-
-    @Override
-    public void addExistingTemporaryForm(ResourceLocation form, IEntityFormData data) {
-//TODO
+        //TODO
     }
 }
