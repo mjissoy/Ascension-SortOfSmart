@@ -17,7 +17,7 @@ public interface ISkill {
 
     void finishedCooldown(IEntityData attachedEntityData);
 
-    IPersistentSkillData freshPersistentData();
-    IPersistentSkillData fromCompound(CompoundTag tag);
-    IPersistentSkillData fromNetwork(RegistryFriendlyByteBuf buf);
+    IPersistentSkillData freshPersistentData(IEntityData heldEntity);
+    IPersistentSkillData fromCompound(CompoundTag tag,IEntityData heldEntity);
+    IPersistentSkillData fromNetwork(RegistryFriendlyByteBuf buf,IEntityData heldEntity);
 }

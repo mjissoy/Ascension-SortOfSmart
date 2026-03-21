@@ -1,8 +1,11 @@
 package net.thejadeproject.ascension.refactor_packages.physiques;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 
 import java.util.UUID;
 
@@ -35,4 +38,8 @@ public interface IPhysique {
     void onFormAdded(IEntityData heldEntity, ResourceLocation form,IPhysiqueData physiqueData);
     void onFormRemoved(IEntityData heldEntity,ResourceLocation form,IPhysiqueData physiqueData);
 
+
+    IPhysiqueData freshPhysique(IEntityData heldEntity);
+    IPhysiqueData fromCompound(CompoundTag tag,IEntityData heldEntity);
+    IPhysiqueData fromNetwork(RegistryFriendlyByteBuf buf,IEntityData heldEntity);
 }

@@ -8,6 +8,6 @@ import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegist
 import java.util.List;
 import java.util.UUID;
 
-public class RemoteEntityData implements IEntityData{
+public class RemoteEntityData{
 
 }

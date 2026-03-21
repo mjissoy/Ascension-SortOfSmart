@@ -1,11 +1,14 @@
 package net.thejadeproject.ascension.refactor_packages.entity_data;
 
+import it.unimi.dsi.fastutil.Hash;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /*
@@ -18,33 +21,46 @@ public class EntityDataManager {
 
 
 
-    private static final HashMap<UUID, IEntityData> secondaryTetheredEntities = new HashMap<>();
+    private static HashMap<UUID,IEntityData> watchableEntityData = new HashMap<>();
 
+    //holds an entity id and connects it to an entity ID that references an entityData
+    private static HashMap<UUID,UUID> entityWatchers = new HashMap<>();
 
-    private static final HashMap<UUID, IEntityData> primaryTetheredEntities = new HashMap<>();
+    //holds a set of all watchers for each UUID, if it ever gets to 1 and the watcher is loaded move onto watcher
+    //the UUID in this scenario is the "original"
+    private static HashMap<UUID, HashSet<UUID>> watchlist = new HashMap<>();
 
-
-    private static void addPrimaryTetheredEntity(LivingEntity primaryEntity){
-
+    private void addWatchableEntityData(UUID entity,IEntityData entityData){
+        watchableEntityData.put(entity,entityData);
+        entityWatchers.put(entity,entity);
+        watchlist.put(entity,new HashSet<>(){{add(entity);}});
     }
 
-    public static void addTetheredEntity(LivingEntity primaryEntity,LivingEntity secondaryEntity,IEntityData secondaryEntityData){
-
+    private void watchEntityData(UUID watcher, UUID entity){
+        entityWatchers.put(watcher,entity);
+        watchlist.get(entity).add(watcher);
+    }
+    private void removeWatcher(UUID watcher){
+        UUID entity = entityWatchers.remove(watcher);
+        watchlist.get(entity).remove(watcher);
     }
 
+    /*
+        In scenarios like trying to possess a new body I recommend not using this method, and instead rely on
+        ability to entity data moving behaviour, or at least ensure there is only 1 watcher
+     */
+    private IEntityData removeWatchableEntityData(UUID entity){
+
+        for(UUID watcher : watchlist.remove(entity)){
+            entityWatchers.remove(watcher);
+        }
+        return watchableEntityData.remove(entity);
+    }
     public static IEntityData getEntityData(UUID uuid){
-        if(secondaryTetheredEntities.containsKey(uuid)) return secondaryTetheredEntities.get(uuid);
-        return primaryTetheredEntities.get(uuid);
-    }
-    public static IEntityFormData getEntityFormData(UUID uuid, ResourceLocation form){
-        if(secondaryTetheredEntities.containsKey(uuid)) return secondaryTetheredEntities.get(uuid).getEntityFormData(form);
-        return primaryTetheredEntities.get(uuid).getEntityFormData(form);
+        return watchableEntityData.get(entityWatchers.get(uuid));
     }
 
-    public static IEntityData removeTetheredEntity(UUID uuid){
-        if(secondaryTetheredEntities.containsKey(uuid)) return secondaryTetheredEntities.remove(uuid);
-        return primaryTetheredEntities.remove(uuid);
-    }
+
 
 
 }

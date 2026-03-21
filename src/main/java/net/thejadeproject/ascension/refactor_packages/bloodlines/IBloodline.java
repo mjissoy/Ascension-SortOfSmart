@@ -1,5 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.bloodlines;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
@@ -33,4 +35,8 @@ public interface IBloodline {
     void onFormAdded(IEntityData heldEntity, ResourceLocation form,IBloodlineData bloodlineData);
     void onFormRemoved(IEntityData heldEntity,ResourceLocation form,IBloodlineData bloodlineData);
 
+
+    IBloodlineData freshBloodlineData(IEntityData heldEntity);
+    IBloodlineData fromCompound(CompoundTag tag, IEntityData heldEntity);
+    IBloodlineData fromNetwork(RegistryFriendlyByteBuf buf, IEntityData heldEntity);
 }

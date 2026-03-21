@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -107,7 +108,9 @@ public class HeldSkills {
     public boolean hasSkill(ResourceLocation skillKey){
         return skills.containsKey(skillKey);
     }
-
+    public Collection<HeldSkill> getSkills(){
+        return skills.values();
+    }
     private void clearBuffers(){
         additionSyncBuffer.clear();
         modifiedSyncBuffer.clear();

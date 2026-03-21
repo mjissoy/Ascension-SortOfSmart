@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.refactor_packages.entity_data;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
@@ -7,6 +8,7 @@ import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 
 import java.util.ArrayList;
@@ -35,31 +37,13 @@ public interface IEntityData {
     IEntityFormData getEntityFormData(IEntityForm form);
 
     List<IEntityFormData> getFormData();
-    List<IEntityFormData> getHeldFormData();
-    List<IEntityFormData> getFormData(Set<UUID> excludedTetheredEntities);
-    void addNewEntityForm(ResourceLocation form);
-    void addExistingEntityForm(ResourceLocation form, IEntityFormData data);
-    void changeActiveFormTo(ResourceLocation form);
-
-    //========================== TETHERED ENTITY HANDLING======================
-
-    //this is called after the data is already moved
-    //this way i can safely "remove" the data without calling the proper protocols
-    void moveFormToTetheredEntity(UUID entityId,ResourceLocation form);
-
-    //this does not call any untether methods. since it would be used when merging a tethered entity back into the entity data
-    void moveFormOffTetheredEntity(ResourceLocation form,IEntityFormData formData);
-
-    /*
-        returns a list of all the currently tethered entities
-        in most cases it is empty or 1, however some cases the primary entity data may have multiple
-     */
-
-    //handles the removal of data that occurs
-    void unTetherEntity(UUID entity);
 
 
-    List<UUID> getTetheredEntities();
+    void addEntityForm(ResourceLocation form);
+    void addEntityForm(ResourceLocation form, IEntityFormData formData);
+
+    void setActiveForm(ResourceLocation activeForm);
+
 
 
     //============================ PHYSIQUE HANDLING =======================================
@@ -94,5 +78,15 @@ public interface IEntityData {
     //a shortcut for removing cultivation, anything more complex must be done through the path data and path
     void removePath(ResourceLocation path);
 
+    //============================ SKILL HANDLING ===================================
+    void giveSkill(ResourceLocation skill,ResourceLocation form);
+    void giveSkill(ResourceLocation skill, IPersistentSkillData skillData, ResourceLocation form);
+
+    //only removes from that specific form.
+    void removeSkill(ResourceLocation skill,ResourceLocation form);
+
+
+    //============================= DATA HANDLING ====================================
+    void write(CompoundTag tag);
 
 }

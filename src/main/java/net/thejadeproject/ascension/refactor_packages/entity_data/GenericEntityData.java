@@ -1,15 +1,23 @@
 package net.thejadeproject.ascension.refactor_packages.entity_data;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.player_data.EntityData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
+import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
+import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 
 import java.nio.file.Path;
@@ -20,7 +28,6 @@ public class GenericEntityData implements IEntityData {
     private UUID attachedEntity;
 
     private final HashMap<ResourceLocation, IEntityFormData> heldFormData = new HashMap<>();
-    private final HashMap<ResourceLocation, UUID> tetheredFormData = new HashMap<>();
 
 
     private ResourceLocation physique;
@@ -32,6 +39,118 @@ public class GenericEntityData implements IEntityData {
     private final HashMap<ResourceLocation, ResourceLocation> techniques = new HashMap<>(); //Path -> current technique
 
     boolean attachedEntityLoaded;
+
+
+    //used during loading to temporarily store data, and when we save ignore.
+    //important because during simulation something might exist before we actually made any data for it
+    private HashMap<ResourceLocation,IEntityFormData> cachedFormData = new HashMap<>();
+    private HashMap<ResourceLocation, IPersistentSkillData> cachedSkillData = new HashMap<>();
+
+
+    //========================== SAVE DATA HANDLING ==========================
+
+    public GenericEntityData(CompoundTag tag){
+        //TODO load cached form data
+        ListTag formDataTags = tag.getList("form_data", Tag.TAG_COMPOUND);
+        ListTag skillDataTags = tag.getList("skill_data",Tag.TAG_COMPOUND);
+        ListTag pathDataTags = tag.getList("path_progress",Tag.TAG_COMPOUND);
+
+        for(int i=0;i<formDataTags.size();i++){
+            CompoundTag formDataTag = formDataTags.getCompound(i);
+            ResourceLocation formId = ResourceLocation.bySeparator(formDataTag.getString("form"),':');
+            IEntityForm form = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(formId);
+            IEntityFormData formData = form.fromCompound(formDataTag.getCompound("data"),this);
+            cachedFormData.put(formId,formData);
+        }
+        for(int i=0;i<skillDataTags.size();i++){
+            CompoundTag skillDataTag = skillDataTags.getCompound(i);
+            ResourceLocation skillId = ResourceLocation.bySeparator(skillDataTag.getString("skill"),':');
+            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
+            IPersistentSkillData skillData = skill.fromCompound(skillDataTag.getCompound("data"),this);
+            cachedSkillData.put(skillId,skillData);
+        }
+
+        if(tag.getBoolean("vessel_flag")){
+            //TODO add mortal vessel
+        }
+        //TODO add soul form
+
+
+
+        ResourceLocation physique = ResourceLocation.bySeparator(tag.getString("physique"),':');
+        //the user has no physique
+        if(!physique.getPath().equals("none")){
+            IPhysique physiqueInstance = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physique);
+            IPhysiqueData physiqueData = physiqueInstance.fromCompound(tag.getCompound("physique_data"),this);
+        }
+        ResourceLocation bloodline = ResourceLocation.bySeparator(tag.getString("bloodline"),':');
+        //no bloodline
+        if(bloodline.getPath().equals("none")){
+            IBloodline bloodlineInstance = AscensionRegistries.Bloodlines.BLOODLINE_REGISTRY.get(bloodline);
+            IBloodlineData bloodlineData = bloodlineInstance.fromCompound(tag.getCompound("bloodline_data"),this);
+        }
+
+        //TODO add cultivation
+    }
+
+
+    @Override
+    public void write(CompoundTag tag) {
+        //if the player losses their vessel we do not want to accidentally make a new one
+        tag.putBoolean("vessel_flag",heldFormData.containsKey(ResourceLocation.bySeparator("mortal_vessel",':')));
+
+        tag.putString("physique",physique.toString());
+        if (physiqueForm != null && heldFormData.get(physiqueForm).getPhysiqueData() != null) {
+            tag.put("physique_data",heldFormData.get(physiqueForm).getPhysiqueData().write());
+        }
+        tag.putString("bloodline",bloodline.toString());
+        if (bloodlineForm != null && heldFormData.get(bloodlineForm).getBloodlineData() != null) {
+            tag.put("bloodline",heldFormData.get(bloodlineForm).getBloodlineData().write());
+        }
+
+        ListTag formTags = new ListTag();
+        //since this is only for caching only cache forms that have data
+        //for skills keep track of what i have already saved, so i don't accidentally do dupes
+        //only write skills that have skill data, otherwise don't
+        HashSet<ResourceLocation> visitedSkills = new HashSet<>();
+        ListTag skillTags = new ListTag();
+
+        ListTag pathDataTags = new ListTag();
+        for(ResourceLocation form : heldFormData.keySet()){
+            CompoundTag formTag = new CompoundTag();
+            formTag.putString("form",form.toString());
+            formTag.put("data",heldFormData.get(form).write());
+            formTags.add(formTag);
+
+            HeldSkills skills = heldFormData.get(form).getHeldSkills();
+            for(HeldSkill heldSkill : skills.getSkills()){
+
+                if(heldSkill.getPersistentData() == null) continue;
+                if(visitedSkills.contains(heldSkill.getKey())) continue;
+
+                visitedSkills.add(heldSkill.getKey());
+                CompoundTag skillTag = new CompoundTag();
+                skillTag.putString("skill",heldSkill.getKey().toString());
+                skillTag.put("data",heldSkill.getPersistentData().write());
+                skillTags.add(skillTag);
+            }
+
+            for(PathData pathData:heldFormData.get(form).getAllPathData()){
+                CompoundTag pathDataTag = new CompoundTag();
+                pathDataTag.putString("path",pathData.getPath().toString());
+                pathDataTag.put("data",pathData.write());
+
+                pathDataTags.add(pathDataTag);
+            }
+        }
+        tag.put("form_data",formTags);
+        tag.put("skill_data",skillTags);
+        tag.put("path_progress",pathDataTags);
+
+
+
+        //path data, make sure to also hold the path
+    }
 
     //========================== FORM DATA HANDLING ==========================
     @Override
@@ -48,7 +167,9 @@ public class GenericEntityData implements IEntityData {
     public void setAttachedEntityLoaded(boolean loaded) {
         this.attachedEntityLoaded = loaded;
     }
-
+    public void setAttachedEntity(UUID attachedEntity) {
+        this.attachedEntity = attachedEntity;
+    }
     @Override
     public IEntityFormData getActiveFormData() {
         return heldFormData.get(activeForm);
@@ -61,9 +182,7 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public IEntityFormData getEntityFormData(ResourceLocation form) {
-        if(heldFormData.containsKey(form)) return heldFormData.get(form);
-        if(!tetheredFormData.containsKey(form)) return null;
-        return EntityDataManager.getEntityFormData(tetheredFormData.get(form),form);
+        return heldFormData.get(form);
     }
 
     @Override
@@ -73,114 +192,33 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public List<IEntityFormData> getFormData() {
-        ArrayList<IEntityFormData> finalList = new ArrayList<>();
-        for(Map.Entry<ResourceLocation,UUID> tetheredForm:tetheredFormData.entrySet()){
-            finalList.add(EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()));
-        }
-        finalList.addAll(getHeldFormData());
-        return finalList;
-    }
-
-    @Override
-    public List<IEntityFormData> getHeldFormData() {
         return (List<IEntityFormData>) heldFormData.values();
     }
 
     @Override
-    public List<IEntityFormData> getFormData(Set<UUID> excludedTetheredEntities) {
-        ArrayList<IEntityFormData> finalList = new ArrayList<>();
-        for(Map.Entry<ResourceLocation,UUID> tetheredForm:tetheredFormData.entrySet()){
-            if(excludedTetheredEntities.contains(tetheredForm.getValue())) continue;
-            finalList.add(EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()));
-        }
-        finalList.addAll(getHeldFormData());
-        return finalList;
+    public void addEntityForm(ResourceLocation form) {
+        IEntityForm formFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form);
+        IEntityFormData formData = formFactory.freshEntityFormData(this);
+        addEntityForm(form,formData);
+
     }
 
     @Override
-    public void addNewEntityForm(ResourceLocation form) {
+    public void addEntityForm(ResourceLocation form, IEntityFormData formData) {
         IEntityForm formFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form);
-        IEntityFormData formData = formFactory.freshEntityFormData(this);
         Set<Map.Entry<ResourceLocation,IEntityFormData>> forms = heldFormData.entrySet();
-
         heldFormData.put(form,formData);
 
         for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : forms){
             IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
             heldFormFactory.onFormAdded(this,heldForm.getValue(),formData);
         }
-        for(Map.Entry<ResourceLocation,UUID> tetheredForm : tetheredFormData.entrySet()){
-            IEntityForm tetheredFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(tetheredForm.getKey());
-            tetheredFormFactory.onFormAdded(this,EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()),formData);
-        }
     }
 
-    @Override
-    public void addExistingEntityForm(ResourceLocation form, IEntityFormData data) {
-        IEntityForm formFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form);
-
-        Set<Map.Entry<ResourceLocation,IEntityFormData>> forms = heldFormData.entrySet();
-
-        heldFormData.put(form,data);
-
-        for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : forms){
-            IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
-            heldFormFactory.onFormAdded(this,heldForm.getValue(),data);
-        }
-        for(Map.Entry<ResourceLocation,UUID> tetheredForm : tetheredFormData.entrySet()){
-            IEntityForm tetheredFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(tetheredForm.getKey());
-            tetheredFormFactory.onFormAdded(this,EntityDataManager.getEntityFormData(tetheredForm.getValue(),tetheredForm.getKey()),data);
-        }
-    }
 
     @Override
-    public void changeActiveFormTo(ResourceLocation form) {
-        //TODO
-    }
-
-    //========================== TETHERED ENTITY HANDLING======================
-
-
-    //does not handle the removed form data, this is done by whatever method is "moving" the data
-    @Override
-    public void moveFormToTetheredEntity(UUID entityId, ResourceLocation form) {
-        heldFormData.remove(form);
-        tetheredFormData.put(form,entityId);
-    }
-    //does not try to access the tethered entity, for that reason we pass form data directly
-    @Override
-    public void moveFormOffTetheredEntity(ResourceLocation form,IEntityFormData formData) {
-        tetheredFormData.remove(form);
-        heldFormData.put(form,formData);
-    }
-
-    /**
-        Handles the removal of a tethered entities and all that goes along with it (form removal, cultivation removal ect
-     */
-    @Override
-    public void unTetherEntity(UUID entity) {
-        IEntityData removedEntityData = EntityDataManager.getEntityData(entity);
-
-        //first we get all forms that are on that entity
-        //this also gets any other tethered forms(future proofing)
-        List<IEntityFormData> removedForms = removedEntityData.getFormData(Set.of(getAttachedEntity()));
-
-        List<IEntityFormData> leftoverForms = getFormData(Set.of(entity));
-        for(IEntityFormData removedForm : removedForms){
-            //remove the reference
-            if(tetheredFormData.containsKey(removedForm.getEntityFormId())) tetheredFormData.remove(removedForm.getEntityFormId());
-
-            for(IEntityFormData leftoverForm :leftoverForms){
-                leftoverForm.getEntityForm().onFormRemoved(this,leftoverForm,removedForm);
-            }
-        }
-
-
-    }
-
-    @Override
-    public List<UUID> getTetheredEntities() {
-        return List.of(); //TODO
+    public void setActiveForm(ResourceLocation activeForm) {
+        this.activeForm = activeForm;
     }
 
     //============================ PHYSIQUE HANDLING =======================================
@@ -280,4 +318,20 @@ public class GenericEntityData implements IEntityData {
     public void removePath(ResourceLocation path) {
         //TODO
     }
+    //============================ SKILL DATA HANDLING ==================================
+    @Override
+    public void giveSkill(ResourceLocation skill, ResourceLocation form) {
+        
+    }
+
+    @Override
+    public void giveSkill(ResourceLocation skill, IPersistentSkillData skillData, ResourceLocation form) {
+
+    }
+
+    @Override
+    public void removeSkill(ResourceLocation skill, ResourceLocation form) {
+
+    }
+
 }

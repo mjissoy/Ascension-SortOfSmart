@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.refactor_packages.paths;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.breakthroughs.IBreakthroughInstance;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -7,6 +8,7 @@ import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
+import org.checkerframework.checker.units.qual.C;
 import oshi.util.tuples.Pair;
 
 import java.util.*;
@@ -17,13 +19,18 @@ import java.util.*;
     *DOES NOT STORE CURRENT TECHNIQUE*
  */
 public class PathData {
+    private ResourceLocation path;
 
     private int majorRealm;
     private int minorRealm;
     private double currentRealmProgress;
     private int currentRealmStability;
     private boolean cultivating;
-    private ResourceLocation technique; //the current technique
+    private ResourceLocation lastUsedTechnique; //the current technique
+
+    public PathData(ResourceLocation path){
+        this.path = path;
+    }
 
 
     /*
@@ -66,8 +73,8 @@ public class PathData {
     public int getMinorRealm(){return minorRealm;}
     public double getCurrentRealmProgress(){return currentRealmProgress;}
     public int getCurrentRealmStability(){return currentRealmStability;}
-    public ResourceLocation getTechnique(){return technique;}
-
+    public ResourceLocation getLastUsedTechnique(){return lastUsedTechnique;}
+    public ResourceLocation getPath(){return path;}
 
     public void onFormRemoved(IEntityData heldEntity, IEntityFormData removedFormData){
         for(ResourceLocation technique : techniqueData.keySet()){
@@ -80,6 +87,12 @@ public class PathData {
         }
     };
 
+
+    public CompoundTag write(){
+        CompoundTag tag = new CompoundTag();
+
+        return tag;
+    }
 
 
 
