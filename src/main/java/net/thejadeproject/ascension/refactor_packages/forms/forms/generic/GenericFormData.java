@@ -4,10 +4,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributesContainer;
+import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
@@ -23,7 +25,10 @@ public class GenericFormData implements IEntityFormData {
     private final ResourceLocation formId;
     private final HashMap<ResourceLocation,PathData> pathData = new HashMap<>();
 
+    private ResourceLocation physique;
     private IPhysiqueData physiqueData;
+
+    private ResourceLocation bloodline;
     private IBloodlineData bloodlineData;
 
     private StatSheet statSheet;
@@ -73,14 +78,42 @@ public class GenericFormData implements IEntityFormData {
         return heldSkills;
     }
 
+
+    @Override
+    public ResourceLocation getPhysiqueKey() {
+        return physique;
+    }
+
+    @Override
+    public IPhysique getPhysique() {
+        return AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(getPhysiqueKey());
+    }
+
     @Override
     public IPhysiqueData getPhysiqueData() {
         return physiqueData;
     }
 
     @Override
-    public void setPhysiqueData(IPhysiqueData data) {
-        this.physiqueData = data;
+    public void setPhysique(ResourceLocation physique) {
+        setPhysique(physique,null);
+    }
+
+    @Override
+    public void setPhysique(ResourceLocation physique, IPhysiqueData physiqueData) {
+        this.physique = physique;
+        this.physiqueData = physiqueData;
+    }
+
+
+    @Override
+    public ResourceLocation getBloodlineKey() {
+        return bloodline;
+    }
+
+    @Override
+    public IBloodline getBloodline() {
+        return AscensionRegistries.Bloodlines.BLOODLINE_REGISTRY.get(getBloodlineKey());
     }
 
     @Override
@@ -89,10 +122,15 @@ public class GenericFormData implements IEntityFormData {
     }
 
     @Override
-    public void setBloodlineData(IBloodlineData data) {
-        bloodlineData = data;
+    public void setBloodline(ResourceLocation bloodline) {
+        setBloodline(bloodline,null);
     }
 
+    @Override
+    public void setBloodline(ResourceLocation bloodline, IBloodlineData bloodlineData) {
+        this.bloodline = bloodline;
+        this.bloodlineData = bloodlineData;
+    }
 
     @Override
     public StatSheet getStatSheet() {
@@ -101,11 +139,11 @@ public class GenericFormData implements IEntityFormData {
 
     @Override
     public CompoundTag write() {
-        return null;
+        return new CompoundTag();
     }
 
     @Override
     public void encode(RegistryFriendlyByteBuf buf) {
-
+        //TODO meant to write EVERYTHING. including the stats, physiques and bloodlines
     }
 }

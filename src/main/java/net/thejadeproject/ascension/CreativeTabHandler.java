@@ -9,7 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,45 +47,31 @@ public class CreativeTabHandler {
                     generatePhysiqueTransferItems(output);
                 })
                 .build());
-        CREATIVE_TABS.register("formation_plates",()->CreativeModeTab.builder()
-                .title(Component.literal("Ascension - Formations"))
-                .icon(()->new ItemStack(ModItems.FORMATION_PLATE.get()))
-                .displayItems(((itemDisplayParameters, output) -> generateFormationPlateItems(output))).build());
+
     }
 
-    public static void generateFormationPlateItems(CreativeModeTab.Output output){
-        FormationRegistry.FORMATION_REGISTRY.keySet().forEach(resourceLocation ->{
-            ItemStack stack = new ItemStack(ModItems.FORMATION_PLATE.get());
-            stack.set(net.lucent.formation_arrays.data_components.ModDataComponents.FORMATION_PLATE_COMPONENT,resourceLocation.toString());
-            output.accept(stack);
-        });
-    }
+
 
     private static void generatePhysiqueTransferItems(CreativeModeTab.Output output) {
-        List<String> physiqueIds = new ArrayList<>();
 
-        physiqueIds.add("ascension:empty_vessel");
 
         AscensionRegistries.Physiques.PHSIQUES_REGISTRY.keySet().forEach(resourceLocation -> {
             String id = resourceLocation.toString();
-            if (!id.equals("ascension:empty_vessel")) {
-                physiqueIds.add(id);
-            }
-        });
 
-        // Create an item stack for each physique with 1% purity
-        for (String physiqueId : physiqueIds) {
             ItemStack stack = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
-            stack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
+            stack.set(ModDataComponents.PHYSIQUE_ID.get(), id);
             stack.set(ModDataComponents.PURITY.get(), 1); // Start with 1% purity
             output.accept(stack);
 
             // Also add a 100% purity version for testing
             ItemStack fullStack = new ItemStack(ModItems.PHYSIQUE_ESSENCE.get());
-            fullStack.set(ModDataComponents.PHYSIQUE_ID.get(), physiqueId);
+            fullStack.set(ModDataComponents.PHYSIQUE_ID.get(), id);
             fullStack.set(ModDataComponents.PURITY.get(), 100);
             output.accept(fullStack);
-        }
+
+        });
+
+
     }
 
 

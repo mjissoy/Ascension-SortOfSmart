@@ -6,5 +6,5 @@ import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 public interface IPhysiqueData extends IDataInstance {
 
     ResourceLocation getPhysiqueKey(); //useful when "removing" the physique when changing forms
-    String getPhysiqueVersion();
+    IPhysique getPhysique();
 }

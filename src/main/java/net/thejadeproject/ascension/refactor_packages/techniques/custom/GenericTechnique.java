@@ -1,0 +1,94 @@
+package net.thejadeproject.ascension.refactor_packages.techniques.custom;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
+
+public class GenericTechnique implements ITechnique {
+    private ResourceLocation path;
+    private Component title;
+    private Component shortDescription;
+    private Component description;
+
+    public GenericTechnique(ResourceLocation path,Component title){
+        this.path = path;
+        this.title = title;
+    }
+
+    @Override
+    public void cultivate(IEntityData entityData) {
+
+    }
+
+    @Override
+    public Component getDisplayTitle() {
+        return title;
+    }
+
+    @Override
+    public Component getShortDescription() {
+        return shortDescription;
+    }
+
+    @Override
+    public Component getDescription() {
+        return description;
+    }
+
+    @Override
+    public ResourceLocation getPath() {
+        return path;
+    }
+
+    @Override
+    public void onTechniqueAdded(IEntityData heldEntity) {
+
+    }
+
+    @Override
+    public void onTechniqueRemoved(IEntityData heldEntity, ITechniqueData techniqueData) {
+        heldEntity.getPathData(getPath()).handleRealmChange(heldEntity.getPathData(getPath()).getMajorRealm(),0,heldEntity);
+    }
+
+    @Override
+    public void onRealmChange(IEntityData entityData, int oldMajorRealm, int oldMinorRealm, int newMajorRealm, int newMinorRealm) {
+
+    }
+
+    @Override
+    public void onFormRemoved(IEntityData heldEntity, IEntityFormData removedForm, PathData pathData) {
+
+    }
+
+    @Override
+    public void onFormAdded(IEntityData heldEntity, IEntityFormData addedForm, PathData pathData) {
+
+    }
+
+    @Override
+    public boolean isCompatibleWith(ResourceLocation technique) {
+        return AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique) instanceof GenericTechnique;
+    }
+
+    @Override
+    public ITechniqueData freshTechniqueData(IEntityData heldEntity) {
+        return null;
+    }
+
+    @Override
+    public ITechniqueData fromCompound(CompoundTag tag, IEntityData heldEntity) {
+        return null;
+    }
+
+    @Override
+    public ITechniqueData fromNetwork(RegistryFriendlyByteBuf buf, IEntityData heldEntity) {
+        return null;
+    }
+}

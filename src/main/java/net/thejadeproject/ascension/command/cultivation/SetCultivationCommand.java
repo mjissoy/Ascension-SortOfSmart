@@ -10,18 +10,8 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
-import net.thejadeproject.ascension.events.custom.cultivation.RealmChangeEvent;
-import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
-import net.thejadeproject.ascension.progression.techniques.ITechnique;
-import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 public class SetCultivationCommand {
 
@@ -127,11 +117,7 @@ public class SetCultivationCommand {
 
     private static int getCultivationInfo(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "target");
-        PlayerData playerData = player.getData(ModAttachments.PLAYER_DATA);
-
-        Component info = buildCultivationInfo(player, playerData);
-        context.getSource().sendSuccess(() -> info, false);
-
+        //TODO
         return 1;
     }
 
@@ -176,64 +162,7 @@ public class SetCultivationCommand {
                                                      int progressPercent,
                                                      CommandSourceStack source) {
         try {
-            PlayerData playerData = player.getData(ModAttachments.PLAYER_DATA);
-            CultivationData cultivationData = playerData.getCultivationData();
-            CultivationData.PathData pathData = cultivationData.getPathData(pathId);
-
-            int oldMajorRealm = pathData.majorRealm;
-            int oldMinorRealm = pathData.minorRealm;
-            String technique = pathData.technique;
-            boolean wasCultivating = pathData.cultivating;
-            boolean wasBreakingThrough = pathData.breakingThrough;
-
-            RealmChangeEvent.Pre realmChangeEvent = new RealmChangeEvent.Pre(
-                    player,
-                    pathId,
-                    oldMajorRealm,
-                    newMajorRealm,
-                    oldMinorRealm,
-                    newMinorRealm,
-                    pathData.stabilityCultivationTicks,
-                    pathData.breakthroughData
-            );
-
-            net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(realmChangeEvent);
-
-            pathData.majorRealm = newMajorRealm;
-            pathData.minorRealm = newMinorRealm;
-
-            // FIX: Convert percentage to absolute Qi value based on max Qi for the realm
-            if (progressPercent >= 0) {
-                double maxQi = cultivationData.getMaxQiForRealm(pathId);
-                pathData.pathProgress = (progressPercent / 100.0) * maxQi;
-
-                // Clamp to max Qi to prevent overflow
-                if (pathData.pathProgress > maxQi) {
-                    pathData.pathProgress = maxQi;
-                }
-            } else if (oldMajorRealm != newMajorRealm || oldMinorRealm != newMinorRealm) {
-                // Only reset progress if realm changed and no custom progress was set
-                pathData.pathProgress = 0.0;
-            }
-
-            if (wasCultivating && (oldMajorRealm != newMajorRealm || oldMinorRealm != newMinorRealm)) {
-                pathData.cultivating = false;
-            }
-            if (wasBreakingThrough && (oldMajorRealm != newMajorRealm || oldMinorRealm != newMinorRealm)) {
-                pathData.breakingThrough = false;
-                pathData.breakthroughData = null;
-            }
-            NeoForge.EVENT_BUS.post(new RealmChangeEvent.Post(realmChangeEvent));
-
-
-            PacketDistributor.sendToPlayer(player, new SyncPathDataPayload(
-                    pathId,
-                    newMajorRealm,
-                    newMinorRealm,
-                    pathData.pathProgress,
-                    technique,
-                    (int) pathData.stabilityCultivationTicks
-            ));
+            //TODO FIX
 
             // Build feedback message with progress info if provided
             String progressStr = (progressPercent >= 0) ? String.format(" with %d%% progress", progressPercent) : "";
@@ -243,8 +172,8 @@ public class SetCultivationCommand {
                     getSimplePathName(pathId),
                     newMajorRealm,
                     newMinorRealm,
-                    oldMajorRealm,
-                    oldMinorRealm,
+                    0,
+                    0,
                     progressStr
             );
 
@@ -273,32 +202,12 @@ public class SetCultivationCommand {
         }
     }
 
-    private static Component buildCultivationInfo(ServerPlayer player, PlayerData playerData) {
+    private static Component buildCultivationInfo(ServerPlayer player) {
         StringBuilder info = new StringBuilder();
         info.append("=== Cultivation Info for ").append(player.getName().getString()).append(" ===\n");
 
         boolean hasData = false;
-        for (CultivationData.PathData pathData : playerData.getCultivationData().getPaths()) {
-            hasData = true;
-            info.append("\n")
-                    .append(getSimplePathName(pathData.pathId)).append(" Path\n")
-                    .append("  Realm: ").append(pathData.majorRealm).append(".").append(pathData.minorRealm).append("\n")
-                    .append("  Technique: ").append(getSimpleTechniqueName(pathData.technique)).append("\n")
-                    .append("  Progress: ").append(String.format("%.2f", pathData.pathProgress)).append("\n")
-                    .append("  Stability: ").append(String.format("%.1f", pathData.stabilityCultivationTicks)).append(" ticks\n")
-                    .append("  Cultivating: ").append(pathData.cultivating).append("\n")
-                    .append("  Breaking Through: ").append(pathData.breakingThrough).append("\n");
-        }
-
-        if (!hasData) {
-            info.append("\nNo cultivation data found.\n");
-        }
-
-        info.append("\nCurrent Qi: ")
-                .append(String.format("%.1f", playerData.getCurrentQi()))
-                .append(" / ")
-                .append(String.format("%.1f", playerData.getPlayerMaxQi()));
-
+        //TODO FIX
         return Component.literal(info.toString());
     }
 

@@ -13,10 +13,24 @@ this would contain a container for each applied stat. with a percentage of said 
 this fully removes the need of events
 
 
-go through and change anything that is attached to entityData to hold a reference to the attached entity data(should include forms and such)
-this is because in almost all scenarios these components only need access to the entityData and very rarely the entity itself
-
-look into moving dao and dao bonuses over to a similar system
 
 Think about creating an entity controller, when changing forms prompt the form for an entity controller
 the default one does nothing,
+
+
+
+
+Need to add a way for players to be able to get skills without progression (from scrolls and stuff)
+like some sort of non-progression skill, that is stored differently
+basically a way to mark if a skill should always be accessible to the player
+
+
+mabey some sort of skill source thing? that way i can modify if the player should have been able to get a skill from it?
+also i need to be able to store it in a cached way still because the form it is attached to might not exist yet.
+
+update attributes to be able to hold non minecraft attributes, then add a way to dynamically add path bonuses to it
+
+
+when you enter a body that has a different learned technique than you what should happen,
+your learned technique will be removed.
+this does not make sense irl, but is done for game balance reasons

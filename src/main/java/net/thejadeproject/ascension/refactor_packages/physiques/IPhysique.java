@@ -2,32 +2,26 @@ package net.thejadeproject.ascension.refactor_packages.physiques;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
 
 public interface IPhysique {
 
 
-    IPhysiqueData onPhysiqueAdded(IEntityData heldEntity,ResourceLocation oldPhysique);
+    void onPhysiqueAdded(IEntityData heldEntity,ResourceLocation oldPhysique,IPhysiqueData oldPhysiqueData);
     /*
         called when physique is replaced with a new one.
         if it is removed due to entity tether being broken it is called after all that removal logic
      */
     void onPhysiqueRemoved(IEntityData heldEntity,IPhysiqueData physiqueData,ResourceLocation newPhysique);
 
-    /*
-        onEntityTethered is called when an entities data is tethered to another existing entity.
-        not called when,for example, a fresh tethered vessel is created. Since in that instance data is only being
-        moved around. nothing new is being added or removed
-
-        same with Untethered. called when there is some sort of data being added or removed rather than just moved around
-     */
-    void onEntityTethered(IEntityData heldEntity,IEntityData tetheredEntity,IPhysiqueData physiqueData);
-    void onEntityUntethered(IEntityData heldEntity,IEntityData oldTetheredEntity,IPhysiqueData physiqueData);
 
 
 
@@ -39,7 +33,20 @@ public interface IPhysique {
     void onFormRemoved(IEntityData heldEntity,ResourceLocation form,IPhysiqueData physiqueData);
 
 
-    IPhysiqueData freshPhysique(IEntityData heldEntity);
+    Component getDisplayTitle();
+    Component getShortDescription();
+    Component getDescription();
+
+    //the paths that this physique "unlocks"
+    //without unlocking a path, even with a technique they cannot use it
+    //although some paths let you unlock them by learning a technique. (but not all!!)
+    Collection<ResourceLocation> paths();
+
+    //what bonus does it give to each path (bonus is replacing efficiency)
+    Map<ResourceLocation,Double> pathBonuses();
+
+
+    IPhysiqueData freshPhysiqueData(IEntityData heldEntity);
     IPhysiqueData fromCompound(CompoundTag tag,IEntityData heldEntity);
     IPhysiqueData fromNetwork(RegistryFriendlyByteBuf buf,IEntityData heldEntity);
 }

@@ -7,10 +7,9 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerSkillData;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.data_attachments.attachments.PlayerInputStates;
-import net.thejadeproject.ascension.network.serverBound.ChangeSkillSlotSpellPayload;
+
 
 public record ChangePlayerInputState(String input,int modifier,boolean isDown)implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<ChangePlayerInputState> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "change_player_input_sate"));

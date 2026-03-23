@@ -6,14 +6,11 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.events.karma.KarmaNetworkHandler;
 import net.thejadeproject.ascension.events.karma.KarmaSyncPayload;
-import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
+
 import net.thejadeproject.ascension.network.clientBound.*;
-import net.thejadeproject.ascension.network.packets.*;
+
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
-import net.thejadeproject.ascension.network.spatialrings.RequestSpatialRingDataPayload;
-import net.thejadeproject.ascension.network.spatialrings.SyncSpatialRingInventoryPayload;
-import net.thejadeproject.ascension.network.spatialrings.SyncSpatialRingUpgradesPayload;
 
 
 public class ModPayloads {
@@ -21,58 +18,7 @@ public class ModPayloads {
         final PayloadRegistrar registrar = event.registrar(AscensionCraft.MOD_ID).versioned("1.0");
 
         //=================================== CLIENT======================================
-        registrar.playToClient(
-                SyncAttackDamageAttribute.TYPE,
-                SyncAttackDamageAttribute.STREAM_CODEC,
-                SyncAttackDamageAttribute::handlePayload
-        );
 
-        registrar.playToClient(
-                SyncPathDataPayload.TYPE,
-                SyncPathDataPayload.STREAM_CODEC,
-                SyncPathDataPayload::handlePayload
-        );
-        registrar.playToClient(
-                SyncPlayerPhysique.TYPE,
-                SyncPlayerPhysique.STREAM_CODEC,
-                SyncPlayerPhysique::handlePayload
-        );
-        registrar.playToClient(
-                SyncCastingInstance.TYPE,
-                SyncCastingInstance.STREAM_CODEC,
-                SyncCastingInstance::handlePayload
-        );
-        registrar.playToClient(
-                SyncPlayerQi.TYPE,
-                SyncPlayerQi.STREAM_CODEC,
-                SyncPlayerQi::handlePayload
-        );
-
-        registrar.playToClient(
-                SyncSpiritualSensePacket.TYPE,
-                SyncSpiritualSensePacket.STREAM_CODEC,
-                SyncSpiritualSensePacket::handle
-        );
-        registrar.playToClient(
-                ClearSpiritualSensePacket.TYPE,
-                ClearSpiritualSensePacket.STREAM_CODEC,
-                ClearSpiritualSensePacket::handle
-        );
-        registrar.playToClient(
-                SyncSpiritualSenseEntitiesPacket.TYPE,
-                SyncSpiritualSenseEntitiesPacket.STREAM_CODEC,
-                SyncSpiritualSenseEntitiesPacket::handle
-        );
-        registrar.playToClient(
-                SyncOreSightPacket.TYPE,
-                SyncOreSightPacket.STREAM_CODEC,
-                SyncOreSightPacket::handle
-        );
-        registrar.playToClient(
-                ClearOreSightPacket.TYPE,
-                ClearOreSightPacket.STREAM_CODEC,
-                ClearOreSightPacket::handle
-        );
 
         registrar.playToClient(
                 OpenKarmicLedgerScreen.TYPE,
@@ -93,69 +39,12 @@ public class ModPayloads {
                 KarmaSyncPayload::handle
         );
 
-        registrar.playToClient(
-                SyncSpatialRingInventoryPayload.TYPE,
-                SyncSpatialRingInventoryPayload.STREAM_CODEC,
-                SyncSpatialRingInventoryPayload::handle
-        );
 
-        registrar.playToClient(
-                SyncSpatialRingUpgradesPayload.TYPE,
-                SyncSpatialRingUpgradesPayload.STREAM_CODEC,
-                SyncSpatialRingUpgradesPayload::handle
-        );
-        registrar.playToClient(
-                UpdateAttackDamageSuppressorModifier.TYPE,
-                UpdateAttackDamageSuppressorModifier.STREAM_CODEC,
-                UpdateAttackDamageSuppressorModifier::handlePayload
-        );
-        registrar.playToClient(
-                UpdateSpeedSuppressorModifier.TYPE,
-                UpdateSpeedSuppressorModifier.STREAM_CODEC,
-                UpdateSpeedSuppressorModifier::handlePayload
-        );
 
         //===================================== SERVER ==================================
 
-        registrar.playToServer(
-                UpdateSuppressorValuePayload.TYPE,
-                UpdateSuppressorValuePayload.STREAM_CODEC,
-                UpdateSuppressorValuePayload::handlePayload
-        );
-        registrar.playToServer(
-                PlayerTryHitBarrier.TYPE,
-                PlayerTryHitBarrier.STREAM_CODEC,
-                PlayerTryHitBarrier::handlePayload
-        );
-        registrar.playToServer(
-                TriggerMajorRealmBreakthrough.TYPE,
-                TriggerMajorRealmBreakthrough.STREAM_CODEC,
-                TriggerMajorRealmBreakthrough::handlePayload
-        );
-        registrar.playToServer(
-                ChangeSkillSlotSpellPayload.TYPE,
-                ChangeSkillSlotSpellPayload.STREAM_CODEC,
-                ChangeSkillSlotSpellPayload::handlePayload
-        );
 
-        registrar.playToServer(
-                SyncCultivationPayload.TYPE,
-                SyncCultivationPayload.STREAM_CODEC,
-                SyncCultivationPayload::handlePayload
 
-        );
-        registrar.playToServer(
-                SyncSelectedSkill.TYPE,
-                SyncSelectedSkill.STREAM_CODEC,
-                SyncSelectedSkill::handlePayload
-
-        );
-
-        registrar.playToServer(
-                OpenSpatialRingPacket.TYPE,  // ADD THIS LINE
-                OpenSpatialRingPacket.CODEC, // ADD THIS LINE
-                OpenSpatialRingPacket::handle // ADD THIS LINE
-        );
         registrar.playToServer(
                 ToggleTabletDropModePayload.TYPE,
                 ToggleTabletDropModePayload.STREAM_CODEC,
@@ -163,12 +52,7 @@ public class ModPayloads {
         );
 
 
-        registrar.playToServer(
-                ServerCastSkillPayload.TYPE,
-                ServerCastSkillPayload.STREAM_CODEC,
-                ServerCastSkillPayload::handlePayload
 
-        );
         registrar.playToServer(
                 ChangePlayerInputState.TYPE,
                 ChangePlayerInputState.STREAM_CODEC,
@@ -176,11 +60,6 @@ public class ModPayloads {
 
         );
 
-        registrar.playToServer(
-                RequestSpatialRingDataPayload.TYPE,
-                RequestSpatialRingDataPayload.STREAM_CODEC,
-                RequestSpatialRingDataPayload::handle
-        );
 
 
 

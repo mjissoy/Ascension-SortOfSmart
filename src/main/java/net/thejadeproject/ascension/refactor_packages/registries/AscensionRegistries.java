@@ -8,6 +8,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
@@ -15,6 +16,9 @@ import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttribute;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
+
+import java.nio.file.Path;
+
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class AscensionRegistries {
     public static class Stats{
@@ -61,6 +65,14 @@ public class AscensionRegistries {
                 .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"empty"))
                 .create();
     }
+    public static class Paths {
+        public static final ResourceKey<Registry<IPath>> PATHS_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation
+                .fromNamespaceAndPath(AscensionCraft.MOD_ID,"paths"));
+        public static final Registry<IPath> PATHS_REGISTRY = new RegistryBuilder<>(PATHS_REGISTRY_KEY)
+                .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"none"))
+                .create();
+
+    }
     @SubscribeEvent // on the mod event bus
     public static void registerRegistries(NewRegistryEvent event) {
         event.register(Stats.STATS_REGISTRY);
@@ -69,6 +81,7 @@ public class AscensionRegistries {
         event.register(Physiques.PHSIQUES_REGISTRY);
         event.register(Bloodlines.BLOODLINE_REGISTRY);
         event.register(Skills.SKILL_REGISTRY);
+        event.register(Paths.PATHS_REGISTRY);
 
     }
 }

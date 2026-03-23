@@ -4,10 +4,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributesContainer;
+import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
-import net.thejadeproject.ascension.refactor_packages.player_data.PlayerData;
+
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
 import net.thejadeproject.ascension.refactor_packages.stats.StatSheet;
@@ -37,10 +39,17 @@ public interface IEntityFormData extends IDataInstance {
 
 
     // i want to be able to sync stuff separate for more efficient network traffic
+    ResourceLocation getPhysiqueKey();
+    IPhysique getPhysique();
     IPhysiqueData getPhysiqueData();
-    void setPhysiqueData(IPhysiqueData data);
+    void setPhysique(ResourceLocation physique);
+    void setPhysique(ResourceLocation physique,IPhysiqueData physiqueData);
+
+    ResourceLocation getBloodlineKey();
+    IBloodline getBloodline();
     IBloodlineData getBloodlineData();
-    void setBloodlineData(IBloodlineData data);
+    void setBloodline(ResourceLocation bloodline);
+    void setBloodline(ResourceLocation bloodline,IBloodlineData bloodlineData);
 
 
 

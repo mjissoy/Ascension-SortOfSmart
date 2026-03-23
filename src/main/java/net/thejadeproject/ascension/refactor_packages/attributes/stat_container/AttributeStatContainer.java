@@ -6,7 +6,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.thejadeproject.ascension.refactor_packages.player_data.PlayerData;
+
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
 import net.thejadeproject.ascension.refactor_packages.stats.StatInstance;
 import net.thejadeproject.ascension.refactor_packages.stats.events.StatChangedEvent;

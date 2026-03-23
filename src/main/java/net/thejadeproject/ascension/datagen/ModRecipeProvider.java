@@ -18,7 +18,7 @@ import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipeShaped;
+
 import net.thejadeproject.ascension.util.ModTags;
 import net.thejadeproject.ascension.util.NoAdvRecipeOutput;
 import net.thejadeproject.ascension.util.RecipeInjector;
@@ -44,8 +44,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPEAR.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPEAR.get());
 
 
-
-        record CushionRecipeData(String color, Supplier<Block> cushion, Block wool) {}
+        record CushionRecipeData(String color, Supplier<Block> cushion, Block wool) {
+        }
 
         List<CushionRecipeData> cushions = List.of(
                 new CushionRecipeData("white", ModBlocks.CUSHION_WHITE::get, Blocks.WHITE_WOOL),
@@ -78,8 +78,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         }
 
 
-
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_PICKAXE.get())
                 .pattern("SSS")
                 .pattern(" T ")
@@ -108,7 +106,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', ModItems.SPIRITUAL_STONE.get())
                 .define('T', Items.STICK)
                 .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/spiritual_stone_shovel");
-
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SOULSTEAD_RETURN_TALISMAN.get())
@@ -218,8 +215,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_black_iron_nugget", has(ModItems.REPAIR_SLIP)).save(recipeOutput, "ascension:shaped/repair_slip");
 
 
-
-
         //Formation Stuff
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, net.lucent.formation_arrays.blocks.ModBlocks.TIER_1_FORMATION_CORE.get())
                 .pattern("FCF")
@@ -249,33 +244,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK.get())
                 .unlockedBy("has_amethyst", has(Blocks.AMETHYST_BLOCK)).save(
                         withFormationId(recipeOutput, "ascension:barrier_formation"), "ascension:shaped/formation_plate_barrier");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', ModItems.ESSENCE_GATHERING_PILL_T3)
-                .define('O', ModBlocks.SPIRITUAL_STONE_BLOCK)
-                .define('B', ModItems.SPATIAL_STONE_TIER_1.get())
-                .unlockedBy("has_essence_gathering", has(ModItems.ESSENCE_GATHERING_PILL_T3)).save(
-                        withFormationId(recipeOutput, "ascension:qi_gathering_formation"), "ascension:shaped/formation_plate_qi_gathering");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', ModItems.SPIRIT_FOCUS_PILL_T3)
-                .define('O', ModBlocks.SPIRITUAL_STONE_BLOCK)
-                .define('B', ModItems.SPATIAL_STONE_TIER_1.get())
-                .unlockedBy("has_spirit_focus", has(ModItems.SPIRIT_FOCUS_PILL_T3)).save(
-                        withFormationId(recipeOutput, "ascension:enlightenment_formation"), "ascension:shaped/formation_plate_enlightenment");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', ModItems.INNER_REINFORCEMENT_PILL_T3)
-                .define('O', ModBlocks.SPIRITUAL_STONE_BLOCK)
-                .define('B', ModItems.SPATIAL_STONE_TIER_1.get())
-                .unlockedBy("has_inner_reinforcement", has(ModItems.INNER_REINFORCEMENT_PILL_T3)).save(
-                        withFormationId(recipeOutput, "ascension:body_reinforcement_formation"), "ascension:shaped/formation_plate_body_reinforcement");
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
                 .pattern("SOS")
                 .pattern("OBO")
@@ -312,7 +281,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK)
                 .unlockedBy("has_spiritual_stone_block", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(
                         withFormationId(recipeOutput, "ascension:mist_obfuscation_formation"), "ascension:shaped/formation_plate_mist_obfuscation_formation");
-
 
 
         //Formation Stuff
@@ -409,10 +377,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/mangrove_slip");
 
 
-
-
-
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TALISMAN_PAPER.get(), 6)
                 .pattern("   ")
                 .pattern("SPS")
@@ -496,7 +460,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', Items.STICK)
                 .unlockedBy("has_diamond", has(Items.DIAMOND)).save(recipeOutput, "ascension:shaped/diamond_spear");
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPEAR.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPEAR.get()).unlocks(getHasName(Items.NETHERITE_INGOT), has(Items.NETHERITE_INGOT)).save(recipeOutput, "ascension:smithing/netherite_spear");
-
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.SPIRITUAL_STONE_BLOCK.get())
@@ -660,8 +623,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         polished(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.PINK_MARBLE_TILES.get(), ModBlocks.PINK_MARBLE_BRICKS.get());
 
 
-
-
 // Define color mappings
         Map<DyeColor, Supplier<Block>> COLORED_MARBLES = Map.ofEntries(
                 Map.entry(DyeColor.LIGHT_GRAY, ModBlocks.LIGHT_GRAY_MARBLE),
@@ -694,12 +655,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         });
 
 
-
-
-
-
-
-
         oreSmelting(recipeOutput, ModBlocks.JADE_ORE.asItem(), RecipeCategory.MISC, ModItems.JADE.get(), 0.25f, 200, "jade");
         oreBlasting(recipeOutput, ModBlocks.JADE_ORE.asItem(), RecipeCategory.MISC, ModItems.JADE.get(), 0.30f, 100, "jade");
         oreSmelting(recipeOutput, ModItems.RAW_BLACK_IRON.get(), RecipeCategory.MISC, ModItems.BLACK_IRON_INGOT.get(), 0.25f, 200, "black_iron_ingot");
@@ -707,7 +662,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         oreSmelting(recipeOutput, ModItems.RAW_FROST_SILVER.get(), RecipeCategory.MISC, ModItems.FROST_SILVER_INGOT.get(), 0.25f, 200, "frost_silver_ingot");
         oreBlasting(recipeOutput, ModItems.RAW_FROST_SILVER.get(), RecipeCategory.MISC, ModItems.FROST_SILVER_INGOT.get(), 0.30f, 100, "frost_silver_ingot");
-
 
 
         //Stairs
@@ -933,7 +887,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
 
-
     protected static void oreSmelting(RecipeOutput recipeOutput, Item pIngredient, RecipeCategory pCategory, ItemLike pResult,
                                       float pExperience, int pCookingTime, String pGroup) {
         oreCooking(recipeOutput, RecipeSerializer.SMELTING_RECIPE, SmeltingRecipe::new, List.of(pIngredient), pCategory, pResult,
@@ -949,14 +902,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     protected static <T extends AbstractCookingRecipe> void oreCooking(RecipeOutput recipeOutput, RecipeSerializer<T> pCookingSerializer, AbstractCookingRecipe.Factory<T> factory,
                                                                        List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTime, String pGroup, String pRecipeName) {
-        for(ItemLike itemlike : pIngredients) {
+        for (ItemLike itemlike : pIngredients) {
             SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), pCategory, pResult, pExperience, pCookingTime, pCookingSerializer, factory).group(pGroup).unlockedBy(getHasName(itemlike), has(itemlike))
                     .save(recipeOutput, AscensionCraft.MOD_ID + ":" + getItemName(pResult) + pRecipeName + "_" + getItemName(itemlike));
         }
-    }
-
-    @NotNull
-    private static RecipeInjector<ShapedRecipe> SpatialRingUpgrade(NoAdvRecipeOutput consumer) {
-        return new RecipeInjector<>(consumer, CopySpatialringDataRecipeShaped::new);
     }
 }

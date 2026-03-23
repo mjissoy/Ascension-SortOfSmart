@@ -80,16 +80,6 @@
         },
         {
           "type": "minecraft:item",
-          "name": "ascension:essence_gathering_pill_t1",
-          "weight": 12
-        },
-        {
-          "type": "minecraft:item",
-          "name": "ascension:blade_dance_technique",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
           "name": "ascension:spatial_stone_tier_1",
           "weight": 10
         },

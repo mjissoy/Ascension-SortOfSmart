@@ -3,7 +3,6 @@ package net.thejadeproject.ascension.util;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -16,17 +15,12 @@ import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.thejadeproject.ascension.cultivation.NetworkHandler;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
+
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.guis.easygui.screens.MainScreen;
+
 import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionEarth;
 import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionHeaven;
-import net.thejadeproject.ascension.menus.spatialrings.OpenSpatialRingPacket;
-import net.thejadeproject.ascension.guis.easygui.screens.SelectSkillMenu;
-import net.thejadeproject.ascension.guis.easygui.screens.SkillMenuScreen;
-import net.thejadeproject.ascension.network.serverBound.ServerCastSkillPayload;
-import net.thejadeproject.ascension.network.serverBound.SyncCultivationPayload;
+
 import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
 import net.thejadeproject.ascension.particle.ModParticles;
 
@@ -46,7 +40,7 @@ public class KeyBindHandler {
         if (player.level().isClientSide) {
             boolean isDown = KeyBindHandler.CULTIVATE_KEY.isDown();
             if (isDown && !wasCultivating) {
-                NetworkHandler.sendCultivationStart(player.getUUID());
+                //TODO
             }
             wasCultivating = isDown;
 
@@ -148,24 +142,6 @@ public class KeyBindHandler {
 
          */
 
-        //a bit hacky
-        if (event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 1) {
-            // Open menu
-            if (minecraft.screen == null) {
-                try {
-                    SelectSkillMenu.open(Component.literal("Skill Wheel"));
-                } catch (Exception e) {
-                    
-                    
-                }
-            }
-        } else if (event.getKey() == SKILL_WHEEL_KEY.getKey().getValue() && event.getAction() == 0) {
-            // Close
-            
-            if (minecraft.screen != null && SelectSkillMenu.hasInstance()) {
-                SelectSkillMenu.close();
-            }
-        }
 
 
     }
@@ -177,28 +153,8 @@ public class KeyBindHandler {
         Player player = Minecraft.getInstance().player;
         if (player == null) return;
 
-        if (INTROSPECTION_KEY.consumeClick()) {
-            try {
-                minecraft.setScreen(new MainScreen(Component.literal("Introspection")));
-            } catch (Exception e) {
-                
-                
-            }
-        }
-        if (SKILL_MENU_KEY.consumeClick()) {
-            
-            try {
-                minecraft.setScreen(new SkillMenuScreen(Component.literal("Skill Menu")));
-            } catch (Exception e) {
-                
-                
-            }
-        }
 
-        // Handle Spatial Ring key - SEND PACKET TO SERVER
-        if (OPEN_SPATIAL_RING_KEY.consumeClick()) {
-            PacketDistributor.sendToServer(new OpenSpatialRingPacket());
-        }
+
 
         // Handle Toggle Tablet Mode key
         if (TOGGLE_ARTIFACT_MODE_KEY.consumeClick()) {
@@ -216,22 +172,6 @@ public class KeyBindHandler {
             }
         }
 
-        // Handle Cultivation key
-        if(player.getData(ModAttachments.PLAYER_DATA) != null){
-            CultivationData.PathData data = player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence");
-            boolean cultivating = data.isCultivating();
 
-            data.setCultivating(CULTIVATE_KEY.isDown());
-
-            if (cultivating != data.isCultivating()) {
-
-                
-                PacketDistributor.sendToServer(new SyncCultivationPayload("ascension:essence", data.isCultivating()));
-            }
-
-            if (data.isCultivating()) {
-                spawnCultivationParticles(player);
-            }
-        }
     }
 }

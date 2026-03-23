@@ -1,2 +1,0 @@
-think about creating a base EntityData, since entities will also be able to store 1 or more form data
-then Player Data is a superclass that adds extra stuff (likes storing technique etc)

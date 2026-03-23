@@ -2,7 +2,7 @@ package net.thejadeproject.ascension.refactor_packages.skill_casting;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.thejadeproject.ascension.refactor_packages.player_data.PlayerData;
+
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 
 import java.util.ArrayList;
@@ -47,10 +47,7 @@ public class SkillHotBar {
         used when it is detected a change was made to the skill list
      */
     public void refreshSkillSlots(){
-        for(HotBarSkillSlot slot : skillSlots){
-            if(slot.getSkillKey() == null) continue;
-            if(!PlayerData.getPlayerData(player).hasSkill(slot.getSkillKey())) slot.unSlotSKill();
-        }
+        //TODO
     }
 
 }

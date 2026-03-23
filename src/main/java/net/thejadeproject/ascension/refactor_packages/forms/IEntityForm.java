@@ -12,18 +12,6 @@ public interface IEntityForm {
 
 
 
-
-    /*
-        onEntityTethered is called when an entities data is tethered to another existing entity.
-        not called when,for example, a fresh tethered vessel is created. Since in that instance data is only being
-        moved around. nothing new is being added or removed
-
-        same with Untethered. called when there is some sort of data being added or removed rather than just moved around
-     */
-    void onEntityTethered(IEntityData heldEntity,IEntityData tetheredEntity);
-    void onEntityUntethered(IEntityData heldEntity,IEntityData oldTetheredEntity);
-
-
     void enterForm(IEntityData heldEntity, ResourceLocation previousForm);
     void leaveForm(IEntityData heldEntity);
 

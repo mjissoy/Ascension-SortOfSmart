@@ -6,6 +6,7 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 
@@ -72,7 +73,7 @@ public class HeldSkill  {
         tag.put("sources",sourcesTag);
         return tag;
     }
-    public static HeldSkill read(CompoundTag tag){
+    public static HeldSkill read(CompoundTag tag,IEntityData heldEntity){
         HeldSkill heldSkill = new HeldSkill(ResourceLocation.bySeparator(tag.getString("skill_key"),':'));
         //TODO RUN VERSION VERIFICATION HERE
         String version = tag.getString("skill_version");
@@ -82,7 +83,7 @@ public class HeldSkill  {
         heldSkill.setPermanent(tag.getBoolean("permanent"));
 
         if(tag.contains("skill_data")){
-            heldSkill.setPersistentData(heldSkill.getSkill().fromCompound(tag));
+            heldSkill.setPersistentData(heldSkill.getSkill().fromCompound(tag,heldEntity));
         }
 
         ListTag sources = tag.getList("sources", Tag.TAG_STRING);
@@ -103,7 +104,7 @@ public class HeldSkill  {
             ByteBufHelper.encodeString(buf,key.toString());
         }
     }
-    public static HeldSkill decode(RegistryFriendlyByteBuf buf){
+    public static HeldSkill decode(RegistryFriendlyByteBuf buf, IEntityData heldEntity){
         ResourceLocation skillKey = ByteBufHelper.readResourceLocation(buf);
         HeldSkill skill = new HeldSkill(skillKey);
         String version = ByteBufHelper.readString(buf);
@@ -114,7 +115,7 @@ public class HeldSkill  {
         skill.setFixed(fixed);
         skill.setPermanent(permanent);
 
-        IPersistentSkillData data = skill.getSkill().fromNetwork(buf);
+        IPersistentSkillData data = skill.getSkill().fromNetwork(buf,heldEntity);
 
         skill.setPersistentData(data);
 

@@ -30,26 +30,28 @@ public class EntityDataManager {
     //the UUID in this scenario is the "original"
     private static HashMap<UUID, HashSet<UUID>> watchlist = new HashMap<>();
 
-    private void addWatchableEntityData(UUID entity,IEntityData entityData){
+    public static void addWatchableEntityData(UUID entity,IEntityData entityData){
         watchableEntityData.put(entity,entityData);
         entityWatchers.put(entity,entity);
         watchlist.put(entity,new HashSet<>(){{add(entity);}});
     }
 
-    private void watchEntityData(UUID watcher, UUID entity){
+    public static void watchEntityData(UUID watcher, UUID entity){
         entityWatchers.put(watcher,entity);
         watchlist.get(entity).add(watcher);
     }
-    private void removeWatcher(UUID watcher){
+    public static void removeWatcher(UUID watcher){
         UUID entity = entityWatchers.remove(watcher);
         watchlist.get(entity).remove(watcher);
     }
-
+    public static boolean isWatching(UUID entity){
+        return entityWatchers.containsKey(entity);
+    }
     /*
         In scenarios like trying to possess a new body I recommend not using this method, and instead rely on
         ability to entity data moving behaviour, or at least ensure there is only 1 watcher
      */
-    private IEntityData removeWatchableEntityData(UUID entity){
+    public static IEntityData removeWatchableEntityData(UUID entity){
 
         for(UUID watcher : watchlist.remove(entity)){
             entityWatchers.remove(watcher);

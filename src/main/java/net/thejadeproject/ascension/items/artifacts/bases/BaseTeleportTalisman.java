@@ -22,7 +22,7 @@ import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -68,9 +68,7 @@ public abstract class BaseTeleportTalisman extends Item {
         return Boolean.TRUE.equals(stack.get(ModDataComponents.PERMANENT.get()));
     }
 
-    protected PlayerData getPlayerData(ServerPlayer player) {
-        return player.getData(ModAttachments.PLAYER_DATA);
-    }
+
 
     // PERFECT ISOLATION: Prefix with item type first, then variant
     protected String getActualCountdownTag(ItemStack stack) {
@@ -273,25 +271,7 @@ public abstract class BaseTeleportTalisman extends Item {
     }
 
     protected void handleRechargeTick(ServerPlayer player, ItemStack stack) {
-        Integer progress = stack.get(ModDataComponents.RECHARGE_PROGRESS.get());
-        if (progress == null || progress == 0) {
-            return;
-        }
-
-        PlayerData playerData = getPlayerData(player);
-        if (playerData == null) return;
-
-        int maxRecharge = getRechargeMaxValue();
-
-        if (progress >= maxRecharge) {
-            stack.set(ModDataComponents.RECHARGE_PROGRESS.get(), 0);
-            return;
-        }
-
-        if (playerData.getCurrentQi() >= 1.0) {
-            playerData.tryConsumeQi(1.0);
-            stack.set(ModDataComponents.RECHARGE_PROGRESS.get(), progress + 1);
-        }
+        //TODO
     }
 
     protected void updateCooldownDisplay(ItemStack stack, ServerPlayer player) {

@@ -13,7 +13,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.constants.CultivationSource;
-import net.thejadeproject.ascension.cultivation.CultivationSystem;
+
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
@@ -62,8 +62,6 @@ public class ModItems {
             () -> new UpgradeItem("pickup_upgrade", Rarity.RARE));*/
 
 
-    public static final DeferredItem<Item> SPATIAL_RING = ITEMS.register("spatial_ring",
-            () -> new SpatialRingItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
 
 
 
@@ -264,8 +262,6 @@ public class ModItems {
 
 
     //Pills
-    public static final DeferredItem<Item> REGENERATION_PILL = ITEMS.register("regeneration_pill",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.REGENERATION_PILL), 400));
 
     public static final DeferredItem<Item> NEUTRALITY_PILL = ITEMS.register("neutrality_pill",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.NEUTRALITY_PILL), 400));
@@ -277,8 +273,6 @@ public class ModItems {
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL_T3), 400));
     public static final DeferredItem<Item> CLEANSING_PILL_T4 = ITEMS.register("cleansing_pill_t4",
             () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CLEANSING_PILL_T4), 400));
-    public static final DeferredItem<Item> ANTIDOTE_PILL_T1 = ITEMS.register("antidote_pill_qdppill",
-            () -> new PillAntidote(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL), 400, ModEffects.PARASITE));
     public static final DeferredItem<Item> ANTIDOTE_PILL_T2 = ITEMS.register("antidote_pill_t2",
             () -> new PillAntidote(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL), 400));
     public static final DeferredItem<Item> ANTIDOTE_PILL_T3 = ITEMS.register("antidote_pill_t3",
@@ -296,67 +290,12 @@ public class ModItems {
     //Important Pills
     public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
             () -> new RebirthPill(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
-    public static final DeferredItem<Item> BODY_AMNESIA_PILL = ITEMS.register("body_amnesia_pill",
-            () -> new BodyTechniqueChangePill(new Item.Properties().food(ModFoodProperties.PILLS), 3 /*Going to be 72000 so 8 hour cooldown when released*/));
 
     //Cultivation Pills
 
-    //Body
-    public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T1 = ITEMS.register("inner_reinforcement_pill_t1",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 400 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:body",500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
-    public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T2 = ITEMS.register("inner_reinforcement_pill_t2",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 800 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:body",1500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
-    public static final DeferredItem<Item> INNER_REINFORCEMENT_PILL_T3 = ITEMS.register("inner_reinforcement_pill_t3",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 1600 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:body",4500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
-
-    //Essence
-    public static final DeferredItem<Item> ESSENCE_GATHERING_PILL_T1 = ITEMS.register("essence_gathering_pill_t1",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 400 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:essence",500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
-    public static final DeferredItem<Item> ESSENCE_GATHERING_PILL_T2 = ITEMS.register("essence_gathering_pill_t2",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 800 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:essence",1500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
-    public static final DeferredItem<Item> ESSENCE_GATHERING_PILL_T3 = ITEMS.register("essence_gathering_pill_t3",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 1600 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:essence",4500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
-
-    //Intent
-    public static final DeferredItem<Item> SPIRIT_FOCUS_PILL_T1 = ITEMS.register("spirit_focus_pill_t1",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 400 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:intent",500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
-    public static final DeferredItem<Item> SPIRIT_FOCUS_PILL_T2 = ITEMS.register("spirit_focus_pill_t2",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 800 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:intent",1500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
-    public static final DeferredItem<Item> SPIRIT_FOCUS_PILL_T3 = ITEMS.register("spirit_focus_pill_t3",
-            () -> new PillCooldownItem(new Item.Properties().food(ModFoodProperties.CULT_PILL), 1600 /*Will be 10 min later*/)
-                    .addOnUse((item,level,entity)->{
-                        CultivationSystem.cultivate((Player) entity,"ascension:intent",4500.0,new HashSet<>(), CultivationSource.CONSUMABLE);
-                    }));
 
 
 
-    //Poison Pills
-    public static final DeferredItem<Item> QI_DEVOURING_PARASITE_PILL = ITEMS.register("qi_devouring_parasite_pill",
-            () -> new ThrowablePoisonPill(new Item.Properties().food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL), new MobEffectInstance(ModEffects.PARASITE, 400, 1)));
 
 
 

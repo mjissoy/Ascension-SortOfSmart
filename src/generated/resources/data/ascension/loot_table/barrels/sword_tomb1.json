@@ -82,23 +82,8 @@
         },
         {
           "type": "minecraft:item",
-          "name": "ascension:regeneration_pill",
-          "weight": 15
-        },
-        {
-          "type": "minecraft:item",
           "name": "ascension:fasting_pill_t1",
           "weight": 15
-        },
-        {
-          "type": "minecraft:item",
-          "name": "ascension:focused_strike_technique",
-          "weight": 12
-        },
-        {
-          "type": "minecraft:item",
-          "name": "ascension:inner_reinforcement_pill_t1",
-          "weight": 10
         },
         {
           "type": "minecraft:item",

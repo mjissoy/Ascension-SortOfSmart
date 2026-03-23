@@ -9,7 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
+
 
 import java.util.function.Supplier;
 
@@ -39,31 +39,18 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SPATIAL_RING.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_pills_tab"))
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.KARMIC_DEBT_LEDGER);
 
-                        output.accept(ModItems.FORMATION_SLIP_ACACIA);
-                        output.accept(ModItems.FORMATION_SLIP_OAK);
-                        output.accept(ModItems.FORMATION_SLIP_DARK_OAK);
-                        output.accept(ModItems.FORMATION_SLIP_BIRCH);
-                        output.accept(ModItems.FORMATION_SLIP_BAMBOO);
-                        output.accept(ModItems.FORMATION_SLIP_CHERRY);
-                        output.accept(ModItems.FORMATION_SLIP_CRIMSON);
-                        output.accept(ModItems.FORMATION_SLIP_WARPED);
-                        output.accept(ModItems.FORMATION_SLIP_GOLDEN_PALM);
-                        output.accept(ModItems.FORMATION_SLIP_IRONWOOD);
-                        output.accept(ModItems.FORMATION_SLIP_JUNGLE);
-                        output.accept(ModItems.FORMATION_SLIP_SPRUCE);
-                        output.accept(ModItems.FORMATION_SLIP_MANGROVE);
                         output.accept(ModItems.REPAIR_SLIP);
                         output.accept(ModItems.ENDER_POUCH);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HUMAN);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_EARTH);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HEAVEN);
-                        output.accept(ModItems.SPATIAL_RING);
+
                         output.accept(ModItems.FIRE_GOURD);
 
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);
@@ -371,7 +358,7 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_PILLS_TAB = CREATIVE_MODE_TAB.register("ascension_pills_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.REGENERATION_PILL.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.FASTING_PILL_T1.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_herbs_tab"))
                     .title(Component.translatable("creativetab.ascension.pills"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -387,85 +374,20 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.CLEANSING_PILL_T2);
                         output.accept(ModItems.CLEANSING_PILL_T3);
                         output.accept(ModItems.CLEANSING_PILL_T4);
-                        output.accept(ModItems.ANTIDOTE_PILL_T1);
+
                         output.accept(ModItems.ANTIDOTE_PILL_T2);
                         output.accept(ModItems.ANTIDOTE_PILL_T3);
-                        output.accept(ModItems.REGENERATION_PILL);
-                        output.accept(ModItems.NEUTRALITY_PILL);
 
-                        //Poison
-                        output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
+                        output.accept(ModItems.NEUTRALITY_PILL);
 
                         //Cultivation
 
-                        //Body
-                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T1);
-                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T2);
-                        output.accept(ModItems.INNER_REINFORCEMENT_PILL_T3);
-
-                        //Essence
-                        output.accept(ModItems.ESSENCE_GATHERING_PILL_T1);
-                        output.accept(ModItems.ESSENCE_GATHERING_PILL_T2);
-                        output.accept(ModItems.ESSENCE_GATHERING_PILL_T3);
-
-                        //Intent
-                        output.accept(ModItems.SPIRIT_FOCUS_PILL_T1);
-                        output.accept(ModItems.SPIRIT_FOCUS_PILL_T2);
-                        output.accept(ModItems.SPIRIT_FOCUS_PILL_T3);
 
                         //Important Pills
                         output.accept(ModItems.REBIRTH_PILL);
-                        output.accept(ModItems.BODY_AMNESIA_PILL);
+
                     }).build());
 
-    public static final Supplier<CreativeModeTab> ASCENSION_TECHNIQUE_MANUALS = CREATIVE_MODE_TAB.register("ascension_technique_manuals",
-            ()->CreativeModeTab.builder().icon(()-> new ItemStack(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get()))
-                    .title(Component.translatable("creativetab.ascension.manuals"))
-                    .displayItems((itemDisplayParameters, output) -> {
-
-                        //TODO add missing tech
-                        //Essence
-                        output.accept(ModTechniques.PURE_FIRE_TECHNIQUE.manual);
-                        output.accept(ModTechniques.PURE_WATER_TECHNIQUE.manual);
-                        output.accept(ModTechniques.PURE_METAL_TECHNIQUE.manual);
-                        output.accept(ModTechniques.PURE_EARTH_TECHNIQUE.manual);
-                        output.accept(ModTechniques.PURE_WOOD_TECHNIQUE.manual);
-                        output.accept(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual); // Human Tier - New
-                        output.accept(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual); // Earth Tier
-                        output.accept(ModTechniques.THUNDER_HEART_TECHNIQUE.manual); //  Earth Tier - New
-                        output.accept(ModTechniques.VOID_WALKER_TECHNIQUE.manual); // Heaven Tier - New
-                        output.accept(ModTechniques.INFINITE_TIME_ESSENCE_TECHNIQUE.manual); // Ascension Tier - New
-                        output.accept(ModTechniques.COSMIC_CREATION_ESSENCE_TECHNIQUE.manual); // Ascension Tier - New
-
-                        //Intent
-                        output.accept(ModTechniques.PURE_SWORD_INTENT.manual);
-                        output.accept(ModTechniques.PURE_FIST_INTENT.manual);
-                        output.accept(ModTechniques.PURE_AXE_INTENT.manual);
-                        output.accept(ModTechniques.PURE_BLADE_INTENT.manual);
-                        output.accept(ModTechniques.PURE_SPEAR_INTENT.manual);
-                        output.accept(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual); // Human Tier - New
-                        output.accept(ModTechniques.FIST_KINGS_TECHNIQUE.manual); // Earth Tier
-                        output.accept(ModTechniques.BLADE_DANCE_TECHNIQUE.manual); // Earth Tier - New
-                        output.accept(ModTechniques.SWORD_SAINT_TECHNIQUE.manual); // Heaven Tier - New
-                        output.accept(ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual); // Ascension Tier - New
-                        output.accept(ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual); // Ascension Tier - New
-
-                        //Body
-                        output.accept(ModTechniques.WOOD_ELEMENTAL_TECHNIQUE.manual);
-                        output.accept(ModTechniques.FIRE_ELEMENTAL_TECHNIQUE.manual);
-                        output.accept(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual);
-                        output.accept(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual);
-                        output.accept(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual);
-                        output.accept(ModTechniques.IRON_SKIN_TECHNIQUE.manual); // Human Tier - New
-                        output.accept(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual); // Earth Tier
-                        output.accept(ModTechniques.JADE_BONE_TECHNIQUE.manual); // Earth Tier - New
-                        output.accept(ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual); // Heaven Tier - New
-                        output.accept(ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual); // Ascension Tier - New
-                        output.accept(ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual); // Ascension Tier - New
-
-
-                    })
-                    .build());
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TAB.register(eventBus);

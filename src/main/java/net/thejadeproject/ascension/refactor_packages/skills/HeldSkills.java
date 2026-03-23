@@ -117,39 +117,27 @@ public class HeldSkills {
         removalSyncBuffer.clear();
     }
 
-    public ListTag write(){
-        ListTag skills = new ListTag();
-        for (HeldSkill heldSkill :this.skills.values()){
-            skills.add(heldSkill.write());
-        }
-        return skills;
-    }
-    public void read(ListTag tag){
-        for(int i =0;i<tag.size();i++){
-            HeldSkill heldSkill = HeldSkill.read(tag.getCompound(i));
-            skills.put(heldSkill.getKey(),heldSkill);
-        }
-    }
+
 
 
     //============================== NETWORK =================================
 
 
-    public void decode(RegistryFriendlyByteBuf buf){
-        if(buf.readBoolean())decodeChanges(buf);
-        else decodeFull(buf);
+    public void decode(RegistryFriendlyByteBuf buf,IEntityData heldEntity){
+        if(buf.readBoolean())decodeChanges(buf,heldEntity);
+        else decodeFull(buf,heldEntity);
     }
 
-    private void decodeFull(RegistryFriendlyByteBuf buf){
+    private void decodeFull(RegistryFriendlyByteBuf buf,IEntityData heldEntity){
         for(int i = 0;i<buf.readInt();i++){
-            HeldSkill skill = HeldSkill.decode(buf);
+            HeldSkill skill = HeldSkill.decode(buf,heldEntity);
             skills.put(skill.getKey(),skill);
         }
     }
-    private void decodeChanges(RegistryFriendlyByteBuf buf){
+    private void decodeChanges(RegistryFriendlyByteBuf buf,IEntityData heldEntity){
         //added
         for(int i =0;i<buf.readInt();i++){
-            HeldSkill skill = HeldSkill.decode(buf);
+            HeldSkill skill = HeldSkill.decode(buf,heldEntity);
             skills.put(skill.getKey(),skill);
         }
         //removed
@@ -159,7 +147,7 @@ public class HeldSkills {
 
         //modified skills
         for(int i =0;i<buf.readInt();i++){
-            updateModifiedSkill(HeldSkill.decode(buf));
+            updateModifiedSkill(HeldSkill.decode(buf,heldEntity));
         }
 
 

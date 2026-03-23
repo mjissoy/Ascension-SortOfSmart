@@ -74,16 +74,6 @@
         },
         {
           "type": "minecraft:item",
-          "name": "ascension:body_amnesia_pill",
-          "weight": 10
-        },
-        {
-          "type": "minecraft:item",
-          "name": "ascension:sword_saint_technique",
-          "weight": 8
-        },
-        {
-          "type": "minecraft:item",
           "name": "ascension:todh",
           "weight": 8
         },

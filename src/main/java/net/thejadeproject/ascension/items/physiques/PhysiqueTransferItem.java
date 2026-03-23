@@ -10,11 +10,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.thejadeproject.ascension.cultivation.player.PlayerDataChangeHandler;
+
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.progression.physiques.IPhysique;
-import net.thejadeproject.ascension.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 import java.util.List;
 
@@ -52,9 +53,7 @@ public class PhysiqueTransferItem extends Item {
                 stack.shrink(1);
             }
 
-            PlayerDataChangeHandler.changePhysique(player, ResourceLocation.bySeparator(targetPhysiqueId,':'));
-
-
+            player.getData(ModAttachments.ENTITY_DATA).setPhysique(ResourceLocation.bySeparator(targetPhysiqueId,':'));
 
             // Send feedback message
             player.sendSystemMessage(
@@ -76,7 +75,8 @@ public class PhysiqueTransferItem extends Item {
 
         if (targetPhysiqueId != null && !targetPhysiqueId.isEmpty()) {
             ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
-            IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
+            IPhysique physique = null;
+            //TODO implement physique transfer
             if (physique != null) {
                 Component baseName = Component.empty().append(physique.getDisplayTitle()).append(" Essence");
 

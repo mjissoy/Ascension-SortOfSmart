@@ -14,7 +14,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.thejadeproject.ascension.entity.ModEntities;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
@@ -29,11 +29,7 @@ public class ModEntityLootTables extends EntityLootSubProvider {
         this.add(ModEntities.RAT.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1.0f))
-                        .add(LootItem.lootTableItem(ModTechniques.FIST_KINGS_TECHNIQUE.manual.get())
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 3.0f)))
-                                .when(LootItemKilledByPlayerCondition.killedByPlayer())
-                                .when(LootItemRandomChanceWithEnchantedBonusCondition.randomChanceAndLootingBoost(this.registries, 0.05f, 0.02f)) // Fixed: Added registries parameter
-                        )
+
                 )
         );
     }

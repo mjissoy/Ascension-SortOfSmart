@@ -4,20 +4,25 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
+import net.thejadeproject.ascension.refactor_packages.events.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
-import net.thejadeproject.ascension.refactor_packages.player_data.EntityData;
+
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
+import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 
 import java.nio.file.Path;
@@ -29,14 +34,10 @@ public class GenericEntityData implements IEntityData {
 
     private final HashMap<ResourceLocation, IEntityFormData> heldFormData = new HashMap<>();
 
-
-    private ResourceLocation physique;
-    private ResourceLocation bloodline;
+    private final HashMap<ResourceLocation,ResourceLocation> pathDataLocation = new HashMap<>();
 
     private ResourceLocation physiqueForm; //the form holding the data of the physique
     private ResourceLocation bloodlineForm;//almost always body (but might have some rare circumstances where it is not)
-    //not copied over to tethered entities
-    private final HashMap<ResourceLocation, ResourceLocation> techniques = new HashMap<>(); //Path -> current technique
 
     boolean attachedEntityLoaded;
 
@@ -48,8 +49,18 @@ public class GenericEntityData implements IEntityData {
 
 
     //========================== SAVE DATA HANDLING ==========================
+    public GenericEntityData(Entity attachedEntity){
+        this.attachedEntity = attachedEntity.getUUID();
+        //TODO add mortal vessel
+        heldFormData.put(ModForms.MORTAL_VESSEL.getId(),ModForms.MORTAL_VESSEL.get().freshEntityFormData(this));
 
-    public GenericEntityData(CompoundTag tag){
+        //TODO add soul form
+        heldFormData.put(ModForms.SOUL_FORM.getId(),ModForms.SOUL_FORM.get().freshEntityFormData(this));
+
+    }
+    public GenericEntityData(Entity attachedEntity, CompoundTag tag){
+        System.out.println("creating player data");
+        this.attachedEntity = attachedEntity.getUUID();
         //TODO load cached form data
         ListTag formDataTags = tag.getList("form_data", Tag.TAG_COMPOUND);
         ListTag skillDataTags = tag.getList("skill_data",Tag.TAG_COMPOUND);
@@ -71,23 +82,32 @@ public class GenericEntityData implements IEntityData {
         }
 
         if(tag.getBoolean("vessel_flag")){
-            //TODO add mortal vessel
+            System.out.println("creating mortal vessel");
+            heldFormData.put(ModForms.MORTAL_VESSEL.getId(),
+                    cachedFormData.containsKey(ModForms.MORTAL_VESSEL.getId()) ?
+                            cachedFormData.get(ModForms.MORTAL_VESSEL.getId()) : ModForms.MORTAL_VESSEL.get().freshEntityFormData(this));
         }
-        //TODO add soul form
+
+        heldFormData.put(ModForms.SOUL_FORM.getId(),
+                cachedFormData.containsKey(ModForms.SOUL_FORM.getId()) ?
+                        cachedFormData.get(ModForms.SOUL_FORM.getId()) : ModForms.SOUL_FORM.get().freshEntityFormData(this));
 
 
-
-        ResourceLocation physique = ResourceLocation.bySeparator(tag.getString("physique"),':');
+        String rawPhysique = tag.getString("physique");
         //the user has no physique
-        if(!physique.getPath().equals("none")){
+        if(!rawPhysique.equals("none")){
+            ResourceLocation physique = ResourceLocation.bySeparator(rawPhysique,':');
             IPhysique physiqueInstance = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physique);
             IPhysiqueData physiqueData = physiqueInstance.fromCompound(tag.getCompound("physique_data"),this);
+            setPhysique(physique,physiqueData);
         }
-        ResourceLocation bloodline = ResourceLocation.bySeparator(tag.getString("bloodline"),':');
+        String rawBloodline = tag.getString("bloodline");
         //no bloodline
-        if(bloodline.getPath().equals("none")){
+        if(!rawBloodline.equals("none")){
+            ResourceLocation bloodline = ResourceLocation.bySeparator(rawBloodline,':');
             IBloodline bloodlineInstance = AscensionRegistries.Bloodlines.BLOODLINE_REGISTRY.get(bloodline);
             IBloodlineData bloodlineData = bloodlineInstance.fromCompound(tag.getCompound("bloodline_data"),this);
+            //TODO add to mortal vessel, then run proper physique addition code
         }
 
         //TODO add cultivation
@@ -97,13 +117,13 @@ public class GenericEntityData implements IEntityData {
     @Override
     public void write(CompoundTag tag) {
         //if the player losses their vessel we do not want to accidentally make a new one
-        tag.putBoolean("vessel_flag",heldFormData.containsKey(ResourceLocation.bySeparator("mortal_vessel",':')));
+        tag.putBoolean("vessel_flag",heldFormData.containsKey(ModForms.MORTAL_VESSEL.getId()));
 
-        tag.putString("physique",physique.toString());
+        tag.putString("physique",physiqueForm == null ? "none" : heldFormData.get(physiqueForm).getPhysiqueKey().toString());
         if (physiqueForm != null && heldFormData.get(physiqueForm).getPhysiqueData() != null) {
             tag.put("physique_data",heldFormData.get(physiqueForm).getPhysiqueData().write());
         }
-        tag.putString("bloodline",bloodline.toString());
+        tag.putString("bloodline",bloodlineForm == null ? "none" : heldFormData.get(bloodlineForm).getBloodlineKey().toString());
         if (bloodlineForm != null && heldFormData.get(bloodlineForm).getBloodlineData() != null) {
             tag.put("bloodline",heldFormData.get(bloodlineForm).getBloodlineData().write());
         }
@@ -123,16 +143,18 @@ public class GenericEntityData implements IEntityData {
             formTags.add(formTag);
 
             HeldSkills skills = heldFormData.get(form).getHeldSkills();
-            for(HeldSkill heldSkill : skills.getSkills()){
+            if(skills != null){
+                for(HeldSkill heldSkill : skills.getSkills()){
 
-                if(heldSkill.getPersistentData() == null) continue;
-                if(visitedSkills.contains(heldSkill.getKey())) continue;
+                    if(heldSkill.getPersistentData() == null) continue;
+                    if(visitedSkills.contains(heldSkill.getKey())) continue;
 
-                visitedSkills.add(heldSkill.getKey());
-                CompoundTag skillTag = new CompoundTag();
-                skillTag.putString("skill",heldSkill.getKey().toString());
-                skillTag.put("data",heldSkill.getPersistentData().write());
-                skillTags.add(skillTag);
+                    visitedSkills.add(heldSkill.getKey());
+                    CompoundTag skillTag = new CompoundTag();
+                    skillTag.putString("skill",heldSkill.getKey().toString());
+                    skillTag.put("data",heldSkill.getPersistentData().write());
+                    skillTags.add(skillTag);
+                }
             }
 
             for(PathData pathData:heldFormData.get(form).getAllPathData()){
@@ -223,13 +245,42 @@ public class GenericEntityData implements IEntityData {
 
     //============================ PHYSIQUE HANDLING =======================================
     @Override
-    public void setPhysique(ResourceLocation physique) {
-        //TODO
+    public boolean setPhysique(ResourceLocation physique) {
+        return setPhysique(physique,AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physique).freshPhysiqueData(this));
     }
 
     @Override
-    public void setPhysiqueFromExisting(ResourceLocation physique, IPhysiqueData existingData) {
-        //TODO
+    public boolean setPhysique(ResourceLocation physique, IPhysiqueData existingData) {
+        return setPhysique(physique,existingData,ModForms.MORTAL_VESSEL.getId());
+    }
+
+    @Override
+    public boolean setPhysique(ResourceLocation physique, IPhysiqueData physiqueData,ResourceLocation form) {
+
+        if(!heldFormData.containsKey(form)) return false;
+
+
+        ResourceLocation oldPhysique = null;
+        IPhysiqueData oldPhysiqueData = null;
+        if(physiqueForm != null){
+            //no old physique just replace directly
+            oldPhysique = heldFormData.get(physiqueForm).getPhysiqueKey();
+            oldPhysiqueData = heldFormData.get(physiqueForm).getPhysiqueData();
+            heldFormData.get(physiqueForm).getPhysique().onPhysiqueRemoved(this,oldPhysiqueData,physique);
+            heldFormData.get(physiqueForm).setPhysique(null);
+        }
+        System.out.println("trying to replace :"+(oldPhysique == null ? "none" : oldPhysique.toString()));
+
+        physiqueForm = form;
+
+        heldFormData.get(physiqueForm).setPhysique(physique,physiqueData);
+        heldFormData.get(physiqueForm).getPhysique().onPhysiqueAdded(this,oldPhysique,oldPhysiqueData);
+
+        PhysiqueChangeEvent event = new PhysiqueChangeEvent(oldPhysique,oldPhysiqueData,physique,physiqueData,this);
+        System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
+        NeoForge.EVENT_BUS.post(event);
+
+        return true;
     }
 
     @Override
@@ -247,6 +298,21 @@ public class GenericEntityData implements IEntityData {
         return null; //TODO
     }
 
+    @Override
+    public IPhysique getPhysique() {
+        return heldFormData.get(physiqueForm).getPhysique();
+    }
+
+    @Override
+    public void movePhysique(ResourceLocation form) {
+        if(!heldFormData.containsKey(form))return;
+        ResourceLocation physique = heldFormData.get(physiqueForm).getPhysiqueKey();
+        IPhysiqueData physiqueData = heldFormData.get(physique).getPhysiqueData();
+        heldFormData.get(physiqueForm).setPhysique(null);
+        heldFormData.get(form).setPhysique(physique,physiqueData);
+        physiqueForm = form;
+    }
+
     //============================ BLOODLINE HANDLING =======================================
     @Override
     public void setBloodline(ResourceLocation bloodline) {
@@ -254,7 +320,7 @@ public class GenericEntityData implements IEntityData {
     }
 
     @Override
-    public void setBloodlineFromExisting(ResourceLocation bloodline, IBloodlineData existingData) {
+    public void setBloodline(ResourceLocation bloodline, IBloodlineData existingData) {
         //TODO
     }
 
@@ -271,6 +337,16 @@ public class GenericEntityData implements IEntityData {
     @Override
     public IBloodlineData removeBloodline() {
         return null;//TODO
+    }
+
+    @Override
+    public IBloodline getBloodline() {
+        return heldFormData.get(bloodlineForm).getBloodline();
+    }
+
+    @Override
+    public void moveBloodline(ResourceLocation form) {
+
     }
 
     //============================ CULTIVATION DATA HANDLING ==================================
@@ -310,14 +386,64 @@ public class GenericEntityData implements IEntityData {
     }
 
     @Override
-    public ITechniqueData setTechnique(ResourceLocation path) {
-        return null;//TODO
+    public boolean setTechnique(ResourceLocation technique) {
+        return setTechnique(technique,AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique).freshTechniqueData(this));
+    }
+
+    @Override
+    public boolean setTechnique(ResourceLocation technique, ITechniqueData techniqueData) {
+        ITechnique techniqueInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique);
+        ResourceLocation path = techniqueInstance.getPath();
+        PathData pathData = heldFormData.get(pathDataLocation.get(path)).getPathData(path);
+        if(pathData == null) return false;
+        ITechnique oldTechnique = null;
+        if(pathData.getLastUsedTechnique() != null){
+
+            if(technique.equals(pathData.getLastUsedTechnique())){
+                return false; //we have already learned this technique
+            }
+            oldTechnique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
+            oldTechnique.onTechniqueRemoved(this,pathData.getTechniqueData(pathData.getLastUsedTechnique()));
+        }
+
+        //TODO then check compatibility with technique history, if even 1 is not compatible we reset cultivation data
+        if(oldTechnique != null){
+            //there was a previous technique so check for compatibility
+            pathData.removeLastUsedTechnique();
+            for(ResourceLocation usedTechnique : pathData.getTechniqueHistory()){
+                if(techniqueInstance.isCompatibleWith(usedTechnique)) continue;
+
+                pathData.resetCultivation();
+
+                break;
+            }
+
+        }
+        pathData.setLastUsedTechnique(technique);
+        pathData.addTechniqueData(technique,techniqueData);
+
+        techniqueInstance.onTechniqueAdded(this);
+
+        return true;
     }
 
     @Override
     public void removePath(ResourceLocation path) {
         //TODO
     }
+    //============================ BREAKTHROUGH HANDLING ==================================
+
+
+    @Override
+    public boolean isBreakingThrough(ResourceLocation path) {
+        if(!pathDataLocation.containsKey(path)) return false;
+        if(!heldFormData.containsKey(pathDataLocation.get(path))) return false;
+
+        PathData data = heldFormData.get(pathDataLocation.get(path)).getPathData(path);
+        if(data == null) return false;
+        return data.isBreakingThrough();
+    }
+
     //============================ SKILL DATA HANDLING ==================================
     @Override
     public void giveSkill(ResourceLocation skill, ResourceLocation form) {

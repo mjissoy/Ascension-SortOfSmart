@@ -2,22 +2,22 @@ package net.thejadeproject.ascension.refactor_packages.forms.forms.generic;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 public class GenericForm implements IEntityForm {
-    @Override
-    public void onEntityTethered(IEntityData heldEntity, IEntityData tetheredEntity) {
 
+    private final Component title;
+
+    public GenericForm(Component title){
+        this.title=title;
     }
 
-    @Override
-    public void onEntityUntethered(IEntityData heldEntity, IEntityData oldTetheredEntity) {
-
-    }
 
     @Override
     public void enterForm(IEntityData heldEntity, ResourceLocation previousForm) {
@@ -49,11 +49,14 @@ public class GenericForm implements IEntityForm {
 
         //handle physique and bloodline
         if(genericFormData.getBloodlineData() != null){
-            //TODO
+            genericFormData.getBloodline().onFormAdded(heldEntity,addedFormData.getEntityFormId(), genericFormData.getBloodlineData());
         }
         if(genericFormData.getPhysiqueData() != null){
-            //TODO
+            genericFormData.getPhysique().onFormAdded(heldEntity,addedFormData.getEntityFormId(),genericFormData.getPhysiqueData());
         }
+
+        //TODO go through skills
+
 
     }
 
@@ -67,27 +70,30 @@ public class GenericForm implements IEntityForm {
 
         //handle physique and bloodline
         if(genericFormData.getBloodlineData() != null){
-            //TODO
+            genericFormData.getBloodline().onFormRemoved(heldEntity,removedFormData.getEntityFormId(), genericFormData.getBloodlineData());
         }
         if(genericFormData.getPhysiqueData() != null){
-            //TODO
+            genericFormData.getPhysique().onFormRemoved(heldEntity,removedFormData.getEntityFormId(),genericFormData.getPhysiqueData());
         }
+
+        //TODO go through skills
 
 
     }
 
     @Override
     public IEntityFormData freshEntityFormData(IEntityData heldEntity) {
-        return null;
+        return new GenericFormData(AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.getKey(this));
     }
 
     @Override
     public IEntityFormData fromCompound(CompoundTag tag, IEntityData heldEntity) {
-        return null;
+        return new GenericFormData(AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.getKey(this));
     }
 
     @Override
     public IEntityFormData fromNetwork(RegistryFriendlyByteBuf buf, IEntityData heldEntity) {
-        return null;
+        //TODO properly decode it
+        return new GenericFormData(AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.getKey(this));
     }
 }

@@ -2,10 +2,12 @@ package net.thejadeproject.ascension.refactor_packages.entity_data;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
@@ -47,20 +49,23 @@ public interface IEntityData {
 
 
     //============================ PHYSIQUE HANDLING =======================================
-    void setPhysique(ResourceLocation physique);
+    boolean setPhysique(ResourceLocation physique);
     //calls a separate method so the physique can update things properly
-    void setPhysiqueFromExisting(ResourceLocation physique, IPhysiqueData existingData);
+    boolean setPhysique(ResourceLocation physique,IPhysiqueData existingData);
+    boolean setPhysique(ResourceLocation physique, IPhysiqueData existingData,ResourceLocation form);
     IPhysiqueData getPhysiqueData();
     ResourceLocation getPhysiqueForm();
     IPhysiqueData removePhysique();
-
+    IPhysique getPhysique();
+    void movePhysique(ResourceLocation form);
     //============================ BLOODLINE HANDLING =======================================
     void setBloodline(ResourceLocation bloodline);
-    void setBloodlineFromExisting(ResourceLocation bloodline, IBloodlineData existingData);
+    void setBloodline(ResourceLocation bloodline, IBloodlineData existingData);
     IBloodlineData getBloodlineData();
     ResourceLocation getBloodlineForm();
     IBloodlineData removeBloodline();
-
+    IBloodline getBloodline();
+    void moveBloodline(ResourceLocation form);
     //============================ CULTIVATION DATA HANDLING ==================================
 
     boolean hasPath(ResourceLocation path);
@@ -74,10 +79,14 @@ public interface IEntityData {
     ITechniqueData removeTechnique(ResourceLocation path);
     //techniques will check if the last used technique is compatible, if not will remove all cultivation
     //give some sort of warning beforehand?
-    ITechniqueData setTechnique(ResourceLocation path);
+    boolean setTechnique(ResourceLocation technique);
+    boolean setTechnique(ResourceLocation technique,ITechniqueData techniqueData);
+
     //a shortcut for removing cultivation, anything more complex must be done through the path data and path
     void removePath(ResourceLocation path);
 
+    //============================ BREAKTHROUGH HANDLING ===================================
+    boolean isBreakingThrough(ResourceLocation path);
     //============================ SKILL HANDLING ===================================
     void giveSkill(ResourceLocation skill,ResourceLocation form);
     void giveSkill(ResourceLocation skill, IPersistentSkillData skillData, ResourceLocation form);

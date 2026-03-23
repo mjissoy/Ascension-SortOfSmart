@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.refactor_packages.skill_casting;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastingInstance;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.persistent_casting.PersistentCastingInstance;

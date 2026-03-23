@@ -6,7 +6,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
+
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,8 +21,8 @@ public class QiChannelingRecipeInput implements RecipeInput {
     public QiChannelingRecipeInput(Player player) {
         this.player = player;
         this.mainHandItem = player.getItemInHand(InteractionHand.MAIN_HAND);
-        PlayerData playerData = player.getData(ModAttachments.PLAYER_DATA);
-        this.currentQi = playerData != null ? playerData.getCurrentQi() : 0.0;
+        //TODO update
+        this.currentQi = 0;
     }
 
     public double getCurrentQi() {
