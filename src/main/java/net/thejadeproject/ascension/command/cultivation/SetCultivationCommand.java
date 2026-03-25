@@ -10,15 +10,17 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 public class SetCultivationCommand {
 
     private static final String[] VALID_PATHS = {
-            "ascension:body",
             "ascension:essence",
-            "ascension:intent"
     };
 
     private static final String[] SIMPLE_PATH_NAMES = {
@@ -163,7 +165,12 @@ public class SetCultivationCommand {
                                                      CommandSourceStack source) {
         try {
             //TODO FIX
+            System.out.println("trying to get data for path: "+pathId);
+            ResourceLocation path = ResourceLocation.parse(pathId);
+            PathData data = player.getData(ModAttachments.ENTITY_DATA).getPathData(path);
+            data.handleRealmChange(newMajorRealm,newMinorRealm,player.getData(ModAttachments.ENTITY_DATA));
 
+            data.setCurrentRealmProgress((AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(data.getLastUsedTechnique()).getMaxQiForRealm(data.getMajorRealm(),data.getMinorRealm()))*(progressPercent/100.0));
             // Build feedback message with progress info if provided
             String progressStr = (progressPercent >= 0) ? String.format(" with %d%% progress", progressPercent) : "";
             String feedbackToSource = String.format(

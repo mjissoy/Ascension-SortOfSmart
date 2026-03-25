@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.refactor_packages.events.PhysiqueChangeEvent
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
+import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
@@ -111,6 +112,16 @@ public class GenericEntityData implements IEntityData {
         }
 
         //TODO add cultivation
+        for(int i = 0;i<pathDataTags.size();i++){
+            CompoundTag pathDataTag = pathDataTags.getCompound(i);
+            ResourceLocation pathId = ResourceLocation.parse(pathDataTag.getString("path"));
+            if(pathDataLocation.containsKey(pathId)){
+                heldFormData.get(pathDataLocation.get(pathId)).getPathData(pathId).read(pathDataTag.getCompound("data"),this);
+            }
+
+            //TODO add a cache?
+
+        }
     }
 
 
@@ -276,6 +287,17 @@ public class GenericEntityData implements IEntityData {
         heldFormData.get(physiqueForm).setPhysique(physique,physiqueData);
         heldFormData.get(physiqueForm).getPhysique().onPhysiqueAdded(this,oldPhysique,oldPhysiqueData);
 
+        for(ResourceLocation path : heldFormData.get(physiqueForm).getPhysique().paths()){
+            System.out.println("trying to add path: "+path.toString());
+
+            IPath pathInstance = AscensionRegistries.Paths.PATHS_REGISTRY.get(path);
+            PathData pathData = pathInstance.freshPathData(this);
+            if(heldFormData.containsKey(pathInstance.defaultForm())){
+                System.out.println("adding path: "+path.toString());
+                addPathData(path,pathData);
+            }
+        }
+
         PhysiqueChangeEvent event = new PhysiqueChangeEvent(oldPhysique,oldPhysiqueData,physique,physiqueData,this);
         System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
         NeoForge.EVENT_BUS.post(event);
@@ -377,7 +399,8 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public PathData getPathData(ResourceLocation path) {
-        return null;//TODO
+        if(!pathDataLocation.containsKey(path)) return null;
+        return heldFormData.get(pathDataLocation.get(path)).getPathData(path);//TODO
     }
 
     @Override
@@ -392,8 +415,10 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public boolean setTechnique(ResourceLocation technique, ITechniqueData techniqueData) {
+        System.out.println("trying to set technique");
         ITechnique techniqueInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique);
         ResourceLocation path = techniqueInstance.getPath();
+        if(!pathDataLocation.containsKey(path)) return false;
         PathData pathData = heldFormData.get(pathDataLocation.get(path)).getPathData(path);
         if(pathData == null) return false;
         ITechnique oldTechnique = null;
@@ -423,8 +448,28 @@ public class GenericEntityData implements IEntityData {
         pathData.addTechniqueData(technique,techniqueData);
 
         techniqueInstance.onTechniqueAdded(this);
-
+        System.out.println("technique changed to: "+technique.toString());
         return true;
+    }
+
+    /*TODO need to consider a circumstance where the player said merged essence onto spirit then lost mortal vessel
+        in this situation when reloading they would lose said cultivation, so i should create a "cached" version of the form data?
+        and then when the player tries to move it later on we check if the form is in the cached form data?
+        should work.
+        basically when player calls getPathData(). check if we have any cached path data
+        and when we do move pathData to form we check if that path is cached, if so we use that
+
+     */
+
+    @Override
+    public void addPathData(ResourceLocation path, PathData pathData) {
+        if(pathDataLocation.containsKey(path)) return;
+
+        IPath pathInstance = AscensionRegistries.Paths.PATHS_REGISTRY.get(path);
+        if(!heldFormData.containsKey(pathInstance.defaultForm())) return;
+
+        pathDataLocation.put(path,pathInstance.defaultForm());
+        heldFormData.get(pathInstance.defaultForm()).addPathData(path,pathData);
     }
 
     @Override
@@ -447,17 +492,59 @@ public class GenericEntityData implements IEntityData {
     //============================ SKILL DATA HANDLING ==================================
     @Override
     public void giveSkill(ResourceLocation skill, ResourceLocation form) {
-        
+        IPersistentSkillData skillData = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill).freshPersistentData(this);
+        giveSkill(skill,skillData,form);
     }
 
     @Override
     public void giveSkill(ResourceLocation skill, IPersistentSkillData skillData, ResourceLocation form) {
+        System.out.println("trying to add skill:"+skill.toString());
+        IPersistentSkillData existingSkillData = getSkillData(skill);
+        if(existingSkillData != null) skillData =existingSkillData;
 
+        if(!heldFormData.containsKey(form)) return;
+        System.out.println("form exists");
+        HeldSkills skills = heldFormData.get(form).getHeldSkills();
+        if(skills.hasSkill(skill)) return;
+        System.out.println("skill will be new for form");
+
+        boolean hasSkill = hasSkill(skill);
+        skills.addSkill(skill,skillData);
+        if(!hasSkill){
+            ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
+            skillInstance.onAdded(this);
+        }
     }
 
     @Override
     public void removeSkill(ResourceLocation skill, ResourceLocation form) {
+        if(!hasSkill(skill)) return;
+        if(!heldFormData.containsKey(form)) return;
+        if(!heldFormData.get(form).getHeldSkills().hasSkill(skill)) return;
 
+        IPersistentSkillData skillData = heldFormData.get(form).getHeldSkills().removeSkill(skill);
+        if(hasSkill(skill)) return;
+
+        ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
+        skillInstance.onRemoved(this,skillData);
     }
 
+    @Override
+    public boolean hasSkill(ResourceLocation skill) {
+        for(IEntityFormData formData : heldFormData.values()){
+            if(formData.getHeldSkills() != null && formData.getHeldSkills().hasSkill(skill)) return true;
+        }
+        return false;
+    }
+
+    @Override
+    public IPersistentSkillData getSkillData(ResourceLocation skill) {
+        if(cachedSkillData.containsKey(skill)) return cachedSkillData.remove(skill);
+        for(IEntityFormData formData : heldFormData.values()){
+            if(formData.getHeldSkills().getHeldSkill(skill) != null){
+                return formData.getHeldSkills().getHeldSkill(skill).getPersistentData();
+            }
+        }
+        return null;
+    }
 }

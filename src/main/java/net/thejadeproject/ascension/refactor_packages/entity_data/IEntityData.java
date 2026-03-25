@@ -82,6 +82,7 @@ public interface IEntityData {
     boolean setTechnique(ResourceLocation technique);
     boolean setTechnique(ResourceLocation technique,ITechniqueData techniqueData);
 
+    void addPathData(ResourceLocation path,PathData pathData);
     //a shortcut for removing cultivation, anything more complex must be done through the path data and path
     void removePath(ResourceLocation path);
 
@@ -94,7 +95,8 @@ public interface IEntityData {
     //only removes from that specific form.
     void removeSkill(ResourceLocation skill,ResourceLocation form);
 
-
+    boolean hasSkill(ResourceLocation skill);
+    IPersistentSkillData getSkillData(ResourceLocation skill);
     //============================= DATA HANDLING ====================================
     void write(CompoundTag tag);
 

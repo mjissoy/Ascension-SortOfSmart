@@ -61,6 +61,8 @@ import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
+import net.thejadeproject.ascension.refactor_packages.techniques.ModTechniques;
 import net.thejadeproject.ascension.sects.*;
 import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 import net.thejadeproject.ascension.util.KeyBindHandler;
@@ -138,9 +140,9 @@ public class AscensionCraft {
 
         ModAttributes.register(modEventBus);
 
+        ModTechniques.register(modEventBus);
 
-
-
+        ModSkills.register(modEventBus);
 
 
 

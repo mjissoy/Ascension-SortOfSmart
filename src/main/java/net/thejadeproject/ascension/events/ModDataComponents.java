@@ -28,6 +28,13 @@ public class ModDataComponents {
                     .networkSynchronized(ByteBufCodecs.STRING_UTF8)
                     .build()
     );
+    public static final Supplier<DataComponentType<String>> TECHNIQUE_ID = DATA_COMPONENTS.register(
+            "technique_id",
+            ()->DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build()
+    );
 
     public static final Supplier<DataComponentType<Integer>> PURITY = DATA_COMPONENTS.register(
             "purity",

@@ -9,6 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.items.techniques.TechniqueTransferItem;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 import java.util.ArrayList;
@@ -22,6 +23,16 @@ public class CreativeTabHandler {
     public static void register(IEventBus eventBus) {
         CREATIVE_TABS.register(eventBus);
 
+        CREATIVE_TABS.register("technique_transfers",()->CreativeModeTab.builder()
+                .title(Component.literal("Ascension - Technique Manuals"))
+                .icon(()->{
+                    return TechniqueTransferItem.createWithTechnique("ascension:none");
+                })
+                .displayItems(((itemDisplayParameters, output) -> {
+                    generateTechniqueTransferItem(output);
+                }))
+                .build()
+        );
         // Register a creative tab for physique transfer items
         CREATIVE_TABS.register("physique_transfers", () -> CreativeModeTab.builder()
                 .title(Component.literal("Ascension - Physique Essences"))
@@ -50,7 +61,11 @@ public class CreativeTabHandler {
 
     }
 
-
+    private static void generateTechniqueTransferItem(CreativeModeTab.Output output){
+        AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.keySet().forEach(resourceLocation -> {
+            output.accept(TechniqueTransferItem.createWithTechnique(resourceLocation.toString()));
+        });
+    }
 
     private static void generatePhysiqueTransferItems(CreativeModeTab.Output output) {
 

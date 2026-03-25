@@ -16,7 +16,6 @@ import java.util.UUID;
 public interface ITechnique {
 
 
-    void cultivate(IEntityData entityData);
 
     Component getDisplayTitle();
     Component getShortDescription();
@@ -54,6 +53,10 @@ public interface ITechnique {
     }
     default double getMaxQiForRealm(int majorRealm,int minorRealm){
         return AscensionRegistries.Paths.PATHS_REGISTRY.get(getPath()).getMaxQiForRealm(majorRealm,minorRealm);
+    }
+
+    default boolean canBreakthroughMinorRealm(IEntityData entityData,int majorRealm,int minorRealm,double progress){
+        return progress >= getMaxQiForRealm(majorRealm,minorRealm);
     }
     default boolean canBreakthrough(IEntityData entityData,int majorRealm,int minorRealm,double progress){
         return minorRealm == getMaxMinorRealm(majorRealm) && majorRealm < getMaxMajorRealm() && !entityData.isBreakingThrough(getPath()) && progress >= getMaxQiForRealm(majorRealm,minorRealm);

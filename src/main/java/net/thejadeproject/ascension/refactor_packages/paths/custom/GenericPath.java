@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.Panda;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.paths.PathInteraction;
@@ -104,7 +105,7 @@ public class GenericPath implements IPath {
 
     @Override
     public ResourceLocation defaultForm() {
-        return null;
+        return ModForms.MORTAL_VESSEL.getId();
     }
 
     @Override
@@ -115,7 +116,10 @@ public class GenericPath implements IPath {
     @Override
     public PathData fromCompound(CompoundTag tag, IEntityData heldEntity) {
         //todo handle cultivation data simulations
-        return null;
+        PathData pathData = freshPathData(heldEntity);
+        heldEntity.addPathData(AscensionRegistries.Paths.PATHS_REGISTRY.getKey(this),pathData);
+        pathData.read(tag,heldEntity);
+        return pathData;
     }
 
     @Override

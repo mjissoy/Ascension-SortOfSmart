@@ -29,7 +29,7 @@ public interface IEntityFormData extends IDataInstance {
 
 
 
-
+    void addPathData(ResourceLocation path,PathData pathData);
     PathData getPathData(ResourceLocation path);
     Collection<PathData> getAllPathData();
 

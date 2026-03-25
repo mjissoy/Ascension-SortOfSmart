@@ -191,8 +191,18 @@ public class RemoteEntityData implements IEntityData{
     }
 
     @Override
-    public ITechniqueData setTechnique(ResourceLocation path) {
-        return null;
+    public boolean setTechnique(ResourceLocation path) {
+        return false;
+    }
+
+    @Override
+    public boolean setTechnique(ResourceLocation technique, ITechniqueData techniqueData) {
+        return false;
+    }
+
+    @Override
+    public void addPathData(ResourceLocation path, PathData pathData) {
+
     }
 
     @Override
@@ -218,6 +228,16 @@ public class RemoteEntityData implements IEntityData{
     @Override
     public void removeSkill(ResourceLocation skill, ResourceLocation form) {
 
+    }
+
+    @Override
+    public boolean hasSkill(ResourceLocation skill) {
+        return false;
+    }
+
+    @Override
+    public IPersistentSkillData getSkillData(ResourceLocation skill) {
+        return null;
     }
 
     @Override

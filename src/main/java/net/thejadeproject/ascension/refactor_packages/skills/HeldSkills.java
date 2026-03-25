@@ -19,7 +19,6 @@ import java.util.UUID;
 
 public class HeldSkills {
 
-    private IEntityData attachedEntityData;
 
     private final HashMap<ResourceLocation,HeldSkill> skills = new HashMap<>();
 
@@ -29,37 +28,24 @@ public class HeldSkills {
     private final ArrayList<HeldSkill> removalSyncBuffer = new ArrayList<>();
 
 
-    public HeldSkills(IEntityData attachedEntityData){
-        this.attachedEntityData = attachedEntityData;
-    }
-    public IEntityData getAttachedEntity(){
-        return attachedEntityData;
-    }
-    public void setAttachedEntity(IEntityData entityData){
-        this.attachedEntityData = entityData;
-    }
-    public void addSkill(ISkill skill,boolean fixed,boolean permanent){
-        //TODO IMPLEMENT
-    }
-    public void addSkill(ResourceLocation skillKey,boolean fixed,boolean permanent){
-        addSkill(skillKey,fixed,permanent,null);
-    }
-    public void addSkill(ResourceLocation skillKey,boolean fixed,boolean permanent,ResourceLocation source){
-        if(skills.containsKey(skillKey)){
-            HeldSkill heldSkill = skills.get(skillKey);
-            if(!heldSkill.isFixed() && fixed) heldSkill.setFixed(true);
-            if(!heldSkill.isPermanent() && permanent) heldSkill.setPermanent(true);
-            if(source != null)heldSkill.addSource(source);
-            markDirty(skillKey);
-        }else {
-            HeldSkill heldSkill = new HeldSkill(skillKey);
-            heldSkill.setPermanent(permanent);
-            heldSkill.setFixed(fixed);
-            if(source != null) heldSkill.addSource(source);
-            skills.put(skillKey,heldSkill);
-            additionSyncBuffer.add(heldSkill);
-            heldSkill.getSkill().onAdded(attachedEntityData);
-        }
+    /*
+        if a skill is fixed it just means if a technique is removed the skill stays,
+        ideally this should be set up such that when loading the data the technique history is able to add the skill
+        so it should not be a situation where a player can keep a skill after LOSING cultivation since lost realms are not tracked
+
+        this is a limitation of the system that we will have to deal with
+
+        should i even handle it like this though? or should i instead removed the idea of fixed and offload removal checks?
+
+        like an on remove event that can be cancelled? so if for example i try to remove a skill that another source gives it can cancel it
+        
+     */
+
+    public void addSkill(ResourceLocation skill,IPersistentSkillData skillData){
+        HeldSkill heldSkill = new HeldSkill(skill);
+        heldSkill.setPersistentData(skillData);
+        skills.put(skill,heldSkill);
+        additionSyncBuffer.add(heldSkill);
     }
 
 
@@ -67,9 +53,7 @@ public class HeldSkills {
     private void updateModifiedSkill(HeldSkill skill){
         HeldSkill heldSkill =  skills.get(skill.getKey());
         heldSkill.setPersistentData(skill.getPersistentData());
-        heldSkill.setFixed(skill.isFixed());
-        heldSkill.setPermanent(skill.isPermanent());
-        heldSkill.setSkillVersion(skill.getSkillVersion());
+
     }
 
 
@@ -89,20 +73,12 @@ public class HeldSkills {
         modifiedSyncBuffer.add(skills.get(skillKey));
     }
 
-    public void removeSkill(ResourceLocation skillKey){
-        if(!skills.containsKey(skillKey))return;
+    public IPersistentSkillData removeSkill(ResourceLocation skillKey){
+        if(!skills.containsKey(skillKey))return null;
         HeldSkill heldSkill = skills.remove(skillKey);
-        heldSkill.getSkill().onRemoved(attachedEntityData,heldSkill.getPersistentData());
         removalSyncBuffer.add(heldSkill);
+        return heldSkill.getPersistentData();
 
-    }
-    /*
-        used when skill data is stored on a different tethered entity data and they are unlinked
-     */
-    public void removeAllSkillsFromEntityData(IEntityData targetEntityData){
-        for(HeldSkill heldSkill : skills.values()){
-            heldSkill.getSkill().removeForTetheredEntity(attachedEntityData,targetEntityData,heldSkill.getPersistentData());
-        }
     }
 
     public boolean hasSkill(ResourceLocation skillKey){

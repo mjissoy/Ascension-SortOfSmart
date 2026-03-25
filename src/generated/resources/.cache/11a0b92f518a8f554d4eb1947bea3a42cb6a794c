@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-22T02:46:00.0437025	Item Models: ascension
+// 1.21.1	2026-03-23T21:14:24.1983558	Item Models: ascension
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
@@ -113,6 +113,7 @@ f6d8b4d372f8ba1e408dac571f5e98cbb1cb8b38 assets/ascension/models/item/spirit_sea
 8dbc1b2966d37340bf272dfccb2dfd6b59aa9249 assets/ascension/models/item/stone_blade.json
 7768d1dcf40a98c2e67896252be4d1085fc27473 assets/ascension/models/item/stone_spear.json
 1d3fe5992fff342daa85c2c5a007f4093300df29 assets/ascension/models/item/talisman_paper.json
+09bd4247a1b118c8ceffbe7dcc2ace6c8521a440 assets/ascension/models/item/technique_manual.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/tode.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todh.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todhe.json

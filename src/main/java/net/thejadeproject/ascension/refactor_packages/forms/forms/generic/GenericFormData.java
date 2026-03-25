@@ -33,7 +33,7 @@ public class GenericFormData implements IEntityFormData {
 
     private StatSheet statSheet;
 
-    private HeldSkills heldSkills;
+    private HeldSkills heldSkills = new HeldSkills();
     public GenericFormData(ResourceLocation formId){
         this.formId = formId;
     }
@@ -56,6 +56,11 @@ public class GenericFormData implements IEntityFormData {
     @Override
     public IEntityForm getEntityForm() {
         return AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(formId);
+    }
+
+    @Override
+    public void addPathData(ResourceLocation path, PathData pathData) {
+        this.pathData.put(path,pathData);
     }
 
     @Override

@@ -62,11 +62,11 @@ public class PathData {
     }
     public Set<Pair<Integer,Integer>> getTechniqueBreakthroughs(ResourceLocation technique){
         HashSet<Pair<Integer,Integer>> realms = new HashSet<>();
-        techniqueHistory.forEach((key,val)->{
-            if(val.equals(technique) && realmStability.containsKey(key)) {
-                realms.add(new Pair<>(key,realmStability.get(key)));
-            };
-        });
+        for(int realm =0; realm<techniqueHistory.size();realm++){
+            if(techniqueHistory.get(realm).equals(technique) && realm<realmStability.size()){
+                realms.add(new Pair<>(realm,realmStability.get(realm)));
+            }
+        }
         return realms;
     }
 
@@ -88,10 +88,10 @@ public class PathData {
     }
     //if you want to stability for when you breakthrough from 0-1 you put 0, since that is the realm you where stable in
     public int getStability(int realm){
-        return realmStability.get(realm-1);
+        return realmStability.get(realm);
     }
-
     public void handleRealmChange(int newMajorRealm,int newMinorRealm,IEntityData entityData){
+        if(lastUsedTechnique == null) return;
         //TODO
         //make sure to properly add and remove data as needed, calling the proper methods
         if(newMajorRealm > majorRealm || (newMajorRealm == majorRealm && newMinorRealm > minorRealm)){
@@ -101,15 +101,24 @@ public class PathData {
 
             //realm increased;
             if(boundedMajorRealm > majorRealm){
+                realmStability.add(currentRealmStability);
+                techniqueHistory.add(lastUsedTechnique);
+
+                currentRealmStability = 0;
                 //majorRealm breakthrough
-                for(int i=majorRealm;i<boundedMajorRealm;i++){
-                    realmStability.add(currentRealmStability); //generally not recommended to increase by multiple major realms at once cus of this
-                    techniqueHistory.add(lastUsedTechnique);
+                for(int i=majorRealm+1;i<boundedMajorRealm;i++){
+                    if(i >=realmStability.size()) realmStability.add(currentRealmStability); //generally not recommended to increase by multiple major realms at once cus of this
+                    if(i >=techniqueHistory.size()) techniqueHistory.add(lastUsedTechnique);
                 }
+
             }
-            this.minorRealm = newMinorRealm;
-            this.majorRealm = newMajorRealm;
-            technique.onRealmChange(entityData,majorRealm,minorRealm,boundedMajorRealm,boundedMinorRealm);
+            int oldMajorRealm = majorRealm;
+            int oldMinorRealm = minorRealm;
+
+            this.minorRealm = boundedMinorRealm;
+            this.majorRealm = boundedMajorRealm;
+            currentRealmProgress = 0.0;
+            technique.onRealmChange(entityData,oldMajorRealm,oldMinorRealm,boundedMajorRealm,boundedMinorRealm);
             //TODO handle event stuff
 
         }else {
@@ -144,7 +153,9 @@ public class PathData {
     public void setMinorRealm(int minorRealm){this.minorRealm = minorRealm;}
     public void setCurrentRealmProgress(double progress){this.currentRealmProgress = progress;}
     public void setCurrentRealmStability(int cultivationTicks){this.currentRealmStability = cultivationTicks;}
-    public void setLastUsedTechnique(ResourceLocation technique){}
+    public void setLastUsedTechnique(ResourceLocation technique){
+        this.lastUsedTechnique = technique;
+    }
     public void addTechniqueData(ResourceLocation technique,ITechniqueData techniqueData){
         this.techniqueData.put(technique, techniqueData);
     }
@@ -178,7 +189,7 @@ public class PathData {
         tag.putInt("minor_realm",minorRealm);
         tag.putDouble("progress",currentRealmProgress);
         tag.putInt("stability",currentRealmStability);
-        tag.putString("technique",lastUsedTechnique.toString());
+        tag.putString("technique",lastUsedTechnique==null?"none":lastUsedTechnique.toString());
         ListTag previousStability = new ListTag();
         for (Integer stability : realmStability) {
             previousStability.add(IntTag.valueOf(stability));
@@ -188,7 +199,7 @@ public class PathData {
         for(ResourceLocation technique : this.techniqueData.keySet()){
             CompoundTag techniqueDataTag = new CompoundTag();
             techniqueDataTag.putString("technique",technique.toString());
-            techniqueDataTag.put("data",techniqueData.get(technique).write());
+            techniqueDataTag.put("data",techniqueData.get(technique) == null? new CompoundTag(): techniqueData.get(technique).write());
             techniqueDataTags.add(techniqueDataTag);
         }
         tag.put("technique_data",techniqueDataTags);
@@ -223,8 +234,9 @@ public class PathData {
         for(int i =0;i<techniqueHistory.size();i++){
             ResourceLocation techniqueId = ResourceLocation.bySeparator(techniqueHistory.getString(i),':');
 
-            entityData.setTechnique(techniqueId,cachedTechniqueData.get(techniqueId));
-
+            if(entityData.setTechnique(techniqueId,cachedTechniqueData.get(techniqueId))){
+                System.out.println("current technique for sim : "+(lastUsedTechnique == null?"none":lastUsedTechnique.toString()));
+            }else System.out.println("failed to set technique for sim");
             handleRealmChange(i+1,0,entityData);
         }
 
@@ -233,14 +245,18 @@ public class PathData {
         int minorRealm = tag.getInt("minor_realm");
         double progress = tag.getDouble("progress");
         int stability = tag.getInt("stability");
-        ResourceLocation technique = ResourceLocation.bySeparator(tag.getString("technique"),':');
+        String rawTechnique = tag.getString("technique");
+        if(!rawTechnique.equals("none")){
+            ResourceLocation technique = ResourceLocation.bySeparator(tag.getString("technique"),':');
 
-        entityData.setTechnique(technique,cachedTechniqueData.get(technique));
+            entityData.setTechnique(technique,cachedTechniqueData.get(technique));
 
-        handleRealmChange(majorRealm,minorRealm,entityData);
+            handleRealmChange(majorRealm,minorRealm,entityData);
 
-        this.currentRealmProgress = progress;
-        this.currentRealmStability = stability;
+            this.currentRealmProgress = progress;
+            this.currentRealmStability = stability;
+        }
+
 
     }
 
