@@ -10,6 +10,7 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 
@@ -75,6 +76,11 @@ public class RemoteEntityData implements IEntityData{
 
     @Override
     public void setActiveForm(ResourceLocation activeForm) {
+
+    }
+
+    @Override
+    public void setFormData(ResourceLocation form, IEntityFormData formData) {
 
     }
 
@@ -237,6 +243,11 @@ public class RemoteEntityData implements IEntityData{
 
     @Override
     public IPersistentSkillData getSkillData(ResourceLocation skill) {
+        return null;
+    }
+
+    @Override
+    public SkillCastHandler getSkillCastHandler() {
         return null;
     }
 

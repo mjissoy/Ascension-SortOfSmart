@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.refactor_packages.skill_casting.casting;
+package net.thejadeproject.ascension.refactor_packages.skills.castable;
 
 public enum CastType {
     INSTANT,

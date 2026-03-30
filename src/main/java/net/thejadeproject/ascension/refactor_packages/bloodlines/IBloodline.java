@@ -38,5 +38,5 @@ public interface IBloodline {
 
     IBloodlineData freshBloodlineData(IEntityData heldEntity);
     IBloodlineData fromCompound(CompoundTag tag, IEntityData heldEntity);
-    IBloodlineData fromNetwork(RegistryFriendlyByteBuf buf, IEntityData heldEntity);
+    IBloodlineData fromNetwork(RegistryFriendlyByteBuf buf);
 }

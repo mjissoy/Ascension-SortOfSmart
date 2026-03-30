@@ -58,6 +58,7 @@ import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 
+import net.thejadeproject.ascension.refactor_packages.entity_data.GenericEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
@@ -300,6 +301,9 @@ public class AscensionCraft {
 
         if(!event.getEntity().level().isClientSide()){
             //TODO ensure sync
+            if(player.getData(ModAttachments.ENTITY_DATA) instanceof GenericEntityData genericEntityData){
+                genericEntityData.sync(player);
+            }
         }
 
 

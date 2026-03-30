@@ -1,5 +1,6 @@
 package net.thejadeproject.ascension.refactor_packages.skills;
 
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -12,12 +13,15 @@ import net.neoforged.fml.loading.FMLLoader;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class HeldSkills {
+
+
 
 
     private final HashMap<ResourceLocation,HeldSkill> skills = new HashMap<>();
@@ -97,23 +101,33 @@ public class HeldSkills {
 
 
     //============================== NETWORK =================================
-
-
-    public void decode(RegistryFriendlyByteBuf buf,IEntityData heldEntity){
-        if(buf.readBoolean())decodeChanges(buf,heldEntity);
-        else decodeFull(buf,heldEntity);
+    public static HeldSkills decodeFull(RegistryFriendlyByteBuf buf){
+        HeldSkills heldSkills = new HeldSkills();
+        for(int i =0;i<buf.readInt();i++){
+            HeldSkill heldSkill = HeldSkill.decode(buf);
+            heldSkills.skills.put(heldSkill.getKey(),heldSkill);
+        }
+        return heldSkills;
     }
+    public static void encodeFull(RegistryFriendlyByteBuf buf,HeldSkills heldSkills){
 
-    private void decodeFull(RegistryFriendlyByteBuf buf,IEntityData heldEntity){
-        for(int i = 0;i<buf.readInt();i++){
-            HeldSkill skill = HeldSkill.decode(buf,heldEntity);
-            skills.put(skill.getKey(),skill);
+        buf.writeInt(heldSkills.skills.size());
+        for(HeldSkill skill : heldSkills.skills.values()){
+            skill.encode(buf);
         }
     }
-    private void decodeChanges(RegistryFriendlyByteBuf buf,IEntityData heldEntity){
+
+
+    public void decode(RegistryFriendlyByteBuf buf){
+
+        if(buf.readBoolean())decodeChanges(buf);
+        else decodeFull(buf);
+    }
+
+    private void decodeChanges(RegistryFriendlyByteBuf buf){
         //added
         for(int i =0;i<buf.readInt();i++){
-            HeldSkill skill = HeldSkill.decode(buf,heldEntity);
+            HeldSkill skill = HeldSkill.decode(buf);
             skills.put(skill.getKey(),skill);
         }
         //removed
@@ -123,7 +137,7 @@ public class HeldSkills {
 
         //modified skills
         for(int i =0;i<buf.readInt();i++){
-            updateModifiedSkill(HeldSkill.decode(buf,heldEntity));
+            updateModifiedSkill(HeldSkill.decode(buf));
         }
 
 
@@ -132,12 +146,14 @@ public class HeldSkills {
 
 
     public void encode(RegistryFriendlyByteBuf buf,boolean onlyChanges){
+
         buf.writeBoolean(onlyChanges);
         if(onlyChanges) encodeChanges(buf);
-        else encodeFull(buf);
+
     }
     private void encodeChanges(RegistryFriendlyByteBuf buf){
         //write added
+
         buf.writeInt(additionSyncBuffer.size());
         for(HeldSkill heldSkill : additionSyncBuffer){
             heldSkill.encode(buf);
@@ -155,11 +171,6 @@ public class HeldSkills {
         clearBuffers();
 
     }
-    private void encodeFull(RegistryFriendlyByteBuf buf){
-        buf.writeInt(skills.size());
-        for(HeldSkill skill : skills.values()){
-            skill.encode(buf);
-        }
-    }
+
 
 }

@@ -16,6 +16,7 @@ public class EntityDataProvider implements IAttachmentSerializer<CompoundTag,IEn
         if(holder instanceof Entity entity){
             System.out.println("trying to create entity data");
             if(EntityDataManager.isWatching(entity.getUUID())) return new RemoteEntityData(entity.getUUID());
+            GenericEntityData entityData = new GenericEntityData(entity,tag);
             return new GenericEntityData(entity,tag);
         }
 

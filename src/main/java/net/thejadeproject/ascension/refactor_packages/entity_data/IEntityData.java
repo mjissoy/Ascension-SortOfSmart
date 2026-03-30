@@ -10,6 +10,7 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 
@@ -46,6 +47,8 @@ public interface IEntityData {
 
     void setActiveForm(ResourceLocation activeForm);
 
+    //should only be used during sync
+    void setFormData(ResourceLocation form,IEntityFormData formData);
 
 
     //============================ PHYSIQUE HANDLING =======================================
@@ -97,6 +100,9 @@ public interface IEntityData {
 
     boolean hasSkill(ResourceLocation skill);
     IPersistentSkillData getSkillData(ResourceLocation skill);
+
+    //============================= SKILL CASTING ====================================
+    SkillCastHandler getSkillCastHandler();
     //============================= DATA HANDLING ====================================
     void write(CompoundTag tag);
 

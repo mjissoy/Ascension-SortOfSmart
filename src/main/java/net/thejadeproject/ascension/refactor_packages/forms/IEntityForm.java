@@ -26,5 +26,6 @@ public interface IEntityForm {
 
     IEntityFormData freshEntityFormData(IEntityData heldEntity);
     IEntityFormData fromCompound(CompoundTag tag,IEntityData heldEntity);
-    IEntityFormData fromNetwork(RegistryFriendlyByteBuf buf,IEntityData heldEntity);
+    IEntityFormData fromNetwork(RegistryFriendlyByteBuf buf);
+    void encode(RegistryFriendlyByteBuf buf,IEntityFormData formData);
 }

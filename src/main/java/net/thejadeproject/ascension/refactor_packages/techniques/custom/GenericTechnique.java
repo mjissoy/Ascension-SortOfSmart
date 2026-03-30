@@ -11,18 +11,25 @@ import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.skill_data.GenericCultivationSkillData;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
+
+import java.util.Set;
 
 public class GenericTechnique implements ITechnique {
     private ResourceLocation path;
     private Component title;
     private Component shortDescription;
     private Component description;
+    private double baseRate;
+    private Set<ResourceLocation> secondaryPaths;
 
-    public GenericTechnique(ResourceLocation path,Component title){
+    public GenericTechnique(ResourceLocation path,Component title,double baseRate,Set<ResourceLocation> secondaryPaths){
         this.path = path;
         this.title = title;
+        this.baseRate = baseRate;
+        this.secondaryPaths = secondaryPaths;
     }
 
 
@@ -50,7 +57,7 @@ public class GenericTechnique implements ITechnique {
     @Override
     public void onTechniqueAdded(IEntityData heldEntity) {
         if(getPath().equals(ModPaths.ESSENCE.getId())){
-            heldEntity.giveSkill(ModSkills.BASIC_CULTIVATION_SKILL.getId(), ModForms.MORTAL_VESSEL.getId());
+            heldEntity.giveSkill(ModSkills.BASIC_CULTIVATION_SKILL.getId(),new GenericCultivationSkillData(baseRate, secondaryPaths), ModForms.MORTAL_VESSEL.getId());
         }
     }
 

@@ -7,6 +7,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 
@@ -38,7 +39,8 @@ public class HeldSkill  {
 
     }
 
-    public ISkill getSkill(){return null;}
+
+    public ISkill getSkill(){return AscensionRegistries.Skills.SKILL_REGISTRY.get(skillKey);}
     public ResourceLocation getKey(){return skillKey;}
 
     public IPersistentSkillData getPersistentData(){return persistentData;}
@@ -75,12 +77,12 @@ public class HeldSkill  {
         buf.writeInt(sources.size());
 
     }
-    public static HeldSkill decode(RegistryFriendlyByteBuf buf, IEntityData heldEntity){
+    public static HeldSkill decode(RegistryFriendlyByteBuf buf){
         ResourceLocation skillKey = ByteBufHelper.readResourceLocation(buf);
         HeldSkill skill = new HeldSkill(skillKey);
 
 
-        IPersistentSkillData data = skill.getSkill().fromNetwork(buf,heldEntity);
+        IPersistentSkillData data = skill.getSkill().fromNetwork(buf);
 
         skill.setPersistentData(data);
 

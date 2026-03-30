@@ -123,8 +123,9 @@ public class GenericPath implements IPath {
     }
 
     @Override
-    public PathData fromNetwork(RegistryFriendlyByteBuf buf, IEntityData heldEntity) {
-        //TODO
-        return null;
+    public PathData fromNetwork(RegistryFriendlyByteBuf buf) {
+        PathData pathData = new PathData(AscensionRegistries.Paths.PATHS_REGISTRY.getKey(this));
+        pathData.decode(buf);
+        return pathData;
     }
 }

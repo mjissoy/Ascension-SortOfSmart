@@ -3,15 +3,22 @@ package net.thejadeproject.ascension.refactor_packages.forms.forms.generic;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributesContainer;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
 import net.thejadeproject.ascension.refactor_packages.stats.StatSheet;
 
@@ -33,9 +40,11 @@ public class GenericFormData implements IEntityFormData {
 
     private StatSheet statSheet;
 
-    private HeldSkills heldSkills = new HeldSkills();
+    private HeldSkills heldSkills;
     public GenericFormData(ResourceLocation formId){
+
         this.formId = formId;
+        heldSkills  = new HeldSkills();
     }
 
     @Override
@@ -74,6 +83,11 @@ public class GenericFormData implements IEntityFormData {
     }
 
     @Override
+    public Collection<ResourceLocation> getPaths() {
+        return pathData.keySet();
+    }
+
+    @Override
     public boolean hasPathData(ResourceLocation path) {
         return pathData.containsKey(path);
     }
@@ -81,6 +95,11 @@ public class GenericFormData implements IEntityFormData {
     @Override
     public HeldSkills getHeldSkills() {
         return heldSkills;
+    }
+
+    @Override
+    public void setHeldSkills(HeldSkills heldSkills) {
+        this.heldSkills = heldSkills;
     }
 
 
@@ -151,4 +170,23 @@ public class GenericFormData implements IEntityFormData {
     public void encode(RegistryFriendlyByteBuf buf) {
         //TODO meant to write EVERYTHING. including the stats, physiques and bloodlines
     }
+
+    public void syncHeldSkills(Player player){
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncHeldSkills(getEntityFormId().toString(),heldSkills));
+    }
+    public void syncPhysique(Player player){
+
+    }
+    public void syncStatSheet(Player player){
+
+    }
+    //for now also syncs all the skills and such
+    public void syncForm(Player player){
+
+    }
+    public void syncPathData(Player player){
+
+    }
+
+
 }

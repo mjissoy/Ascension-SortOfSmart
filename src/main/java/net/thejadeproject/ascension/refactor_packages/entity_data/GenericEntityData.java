@@ -4,21 +4,26 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.events.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
@@ -33,6 +38,7 @@ public class GenericEntityData implements IEntityData {
     private ResourceLocation activeForm;
     private UUID attachedEntity;
 
+    private final SkillCastHandler skillCastHandler = new SkillCastHandler();
     private final HashMap<ResourceLocation, IEntityFormData> heldFormData = new HashMap<>();
 
     private final HashMap<ResourceLocation,ResourceLocation> pathDataLocation = new HashMap<>();
@@ -119,8 +125,13 @@ public class GenericEntityData implements IEntityData {
                 heldFormData.get(pathDataLocation.get(pathId)).getPathData(pathId).read(pathDataTag.getCompound("data"),this);
             }
 
-            //TODO add a cache?
+            //TODO add a cache for when the form does not yet exist
+        }
 
+    }
+    public void sync(Player player){
+        for(ResourceLocation form:heldFormData.keySet()){
+            PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncEntityForm(heldFormData.get(form)));
         }
     }
 
@@ -163,7 +174,7 @@ public class GenericEntityData implements IEntityData {
                     visitedSkills.add(heldSkill.getKey());
                     CompoundTag skillTag = new CompoundTag();
                     skillTag.putString("skill",heldSkill.getKey().toString());
-                    skillTag.put("data",heldSkill.getPersistentData().write());
+                    skillTag.put("data",heldSkill.getPersistentData() == null ? new CompoundTag() :heldSkill.getPersistentData().write());
                     skillTags.add(skillTag);
                 }
             }
@@ -252,6 +263,16 @@ public class GenericEntityData implements IEntityData {
     @Override
     public void setActiveForm(ResourceLocation activeForm) {
         this.activeForm = activeForm;
+    }
+
+    @Override
+    public void setFormData(ResourceLocation form, IEntityFormData formData) {
+        heldFormData.put(form,formData);
+        if(formData.getPhysiqueKey() != null) physiqueForm = form;
+        if(formData.getBloodlineKey() != null) bloodlineForm = form;
+        for(ResourceLocation path : formData.getPaths()){
+            pathDataLocation.put(path,form);
+        }
     }
 
     //============================ PHYSIQUE HANDLING =======================================
@@ -546,5 +567,10 @@ public class GenericEntityData implements IEntityData {
             }
         }
         return null;
+    }
+    //============================= SKILL CASTING ====================================
+    @Override
+    public SkillCastHandler getSkillCastHandler() {
+        return skillCastHandler;
     }
 }

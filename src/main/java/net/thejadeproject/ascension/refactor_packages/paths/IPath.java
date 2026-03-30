@@ -32,5 +32,5 @@ public interface IPath {
     PathData freshPathData(IEntityData heldEntity);
     //expected to simulate progression
     PathData fromCompound(CompoundTag tag, IEntityData heldEntity);
-    PathData fromNetwork(RegistryFriendlyByteBuf buf, IEntityData heldEntity);
+    PathData fromNetwork(RegistryFriendlyByteBuf buf);
 }

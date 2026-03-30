@@ -10,6 +10,7 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 
+import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
 import net.thejadeproject.ascension.refactor_packages.stats.StatSheet;
@@ -32,11 +33,11 @@ public interface IEntityFormData extends IDataInstance {
     void addPathData(ResourceLocation path,PathData pathData);
     PathData getPathData(ResourceLocation path);
     Collection<PathData> getAllPathData();
-
+    Collection<ResourceLocation> getPaths();
     boolean hasPathData(ResourceLocation path);
 
     HeldSkills getHeldSkills();
-
+    void setHeldSkills(HeldSkills heldSkills); //mainly for syncing purposes
 
     // i want to be able to sync stuff separate for more efficient network traffic
     ResourceLocation getPhysiqueKey();

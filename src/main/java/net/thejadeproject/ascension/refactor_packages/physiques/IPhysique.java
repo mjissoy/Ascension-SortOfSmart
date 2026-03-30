@@ -48,5 +48,5 @@ public interface IPhysique {
 
     IPhysiqueData freshPhysiqueData(IEntityData heldEntity);
     IPhysiqueData fromCompound(CompoundTag tag,IEntityData heldEntity);
-    IPhysiqueData fromNetwork(RegistryFriendlyByteBuf buf,IEntityData heldEntity);
+    IPhysiqueData fromNetwork(RegistryFriendlyByteBuf buf);
 }

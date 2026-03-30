@@ -103,7 +103,9 @@ public class GenericPhysique implements IPhysique {
     }
 
     @Override
-    public IPhysiqueData fromNetwork(RegistryFriendlyByteBuf buf, IEntityData heldEntity) {
+    public IPhysiqueData fromNetwork(RegistryFriendlyByteBuf buf) {
         return null;
     }
+
+
 }

@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.paths;
 
 import net.minecraft.nbt.*;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.breakthroughs.IBreakthroughInstance;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -122,6 +123,8 @@ public class PathData {
             //TODO handle event stuff
 
         }else {
+            //TODO handle case where we go from say 5 0 -> 3 2 and the technique at 3 is different than the current technique
+            //TODO in this scenario change to 3 0 then make sure we have correct technique and update to 3 2
             //realm decreased
             ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(lastUsedTechnique);
             technique.onRealmChange(entityData,majorRealm,minorRealm,newMajorRealm,newMinorRealm);
@@ -260,5 +263,11 @@ public class PathData {
 
     }
 
-
+    //encodes full path data
+    public void encode(RegistryFriendlyByteBuf buf){
+        //TODO
+    }
+    public void decode(RegistryFriendlyByteBuf buf){
+        //TODO
+    }
 }

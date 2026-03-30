@@ -19,7 +19,7 @@ public class ModSkills {
 
     //TODO update to not include any of these details (except path) and the technique defines the data
     public static final DeferredHolder<ISkill,? extends GenericCultivationSkill> BASIC_CULTIVATION_SKILL = SKILLS.register("basic_essence_cultivation_skill",
-            ()->new GenericCultivationSkill(2.0,ModPaths.ESSENCE.getId(), Set.of()));
+            ()->new GenericCultivationSkill(2.0,ModPaths.ESSENCE.getId()));
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);

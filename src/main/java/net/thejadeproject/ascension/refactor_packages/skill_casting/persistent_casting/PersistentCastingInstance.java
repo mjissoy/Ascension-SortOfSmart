@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.skill_casting.persistent_casting;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPersistentSkillInstance;
 /*
@@ -17,8 +18,8 @@ public class PersistentCastingInstance {
         this.skill = skill;
     }
 
-    public boolean tick(Player player) {
+    public boolean tick(Entity entity) {
         ticksElapsed += 1;
-        return castInstance.continueCasting(ticksElapsed,player,skill);
+        return castInstance.continueCasting(ticksElapsed,entity,skill);
     }
 }

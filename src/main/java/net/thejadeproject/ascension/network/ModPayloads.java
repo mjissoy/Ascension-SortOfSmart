@@ -11,6 +11,8 @@ import net.thejadeproject.ascension.network.clientBound.*;
 
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 
 
 public class ModPayloads {
@@ -18,8 +20,16 @@ public class ModPayloads {
         final PayloadRegistrar registrar = event.registrar(AscensionCraft.MOD_ID).versioned("1.0");
 
         //=================================== CLIENT======================================
-
-
+        registrar.playToClient(
+                SyncHeldSkills.TYPE,
+                SyncHeldSkills.STREAM_CODEC,
+                SyncHeldSkills::handlePayload
+        );
+        registrar.playToClient(
+                SyncEntityForm.TYPE,
+                SyncEntityForm.STREAM_CODEC,
+                SyncEntityForm::handlePayload
+        );
         registrar.playToClient(
                 OpenKarmicLedgerScreen.TYPE,
                 OpenKarmicLedgerScreen.STREAM_CODEC,

@@ -18,14 +18,21 @@ public interface ISkill {
     /*
      handles when forms are added and removed. is also called if an untethered entity held forms
      used when you want to apply data to specific forms
-  */
+    */
     void onFormAdded(IEntityData heldEntity, ResourceLocation form, IPhysiqueData physiqueData);
     void onFormRemoved(IEntityData heldEntity,ResourceLocation form,IPhysiqueData physiqueData);
 
 
-    void finishedCooldown(IEntityData attachedEntityData);
+    void finishedCooldown(IEntityData attachedEntityData,String identifier);
 
     IPersistentSkillData freshPersistentData(IEntityData heldEntity);
     IPersistentSkillData fromCompound(CompoundTag tag,IEntityData heldEntity);
-    IPersistentSkillData fromNetwork(RegistryFriendlyByteBuf buf,IEntityData heldEntity);
+    IPersistentSkillData fromNetwork(RegistryFriendlyByteBuf buf);
+
+    //Harmful -> neutral -> buff
+    /*
+        boolean isHarmful();
+        int harmStrength();
+     */
+
 }
