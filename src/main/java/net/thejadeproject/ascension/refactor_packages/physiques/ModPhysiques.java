@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.paths.custom.GenericPath;
 import net.thejadeproject.ascension.refactor_packages.physiques.custom.GenericPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
@@ -30,13 +31,22 @@ public class ModPhysiques {
                     .addPath(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"))
                     .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"),0.5)
     );
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> SWORD_BONE = PHYSIQUES.register("sword_bone",()->
+            new GenericPhysique(Component.literal("Sword Bone"))
+                    .addPath(ModPaths.BODY.getId())
+                    .addPathBonus(ModPaths.BODY.getId(),0.5)
+                    .addPath(ModPaths.ESSENCE.getId())
+                    .addPathBonus(ModPaths.ESSENCE.getId(),0.5)
+                    .addPath(ModPaths.SWORD.getId())
+                    .addPathBonus(ModPaths.SWORD.getId(),2.0)
+    );
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> FLAME_TOUCHED = PHYSIQUES.register("flame_touched",()->
             new GenericPhysique(Component.literal("Flame Touched"))
-                    .addPath(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"))
-                    .addPath(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"))
-                    .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"),0.5)
-                    .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"),1.0)
-                    .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"fire"),2.0)
+                    .addPath(ModPaths.BODY.getId())
+                    .addPath(ModPaths.ESSENCE.getId())
+                    .addPathBonus(ModPaths.BODY.getId(),0.5)
+                    .addPathBonus(ModPaths.ESSENCE.getId(),1.0)
+                    .addPathBonus(ModPaths.FIRE.getId(),2.0)
     );
     public static void register(IEventBus modEventBus){
         PHYSIQUES.register(modEventBus);

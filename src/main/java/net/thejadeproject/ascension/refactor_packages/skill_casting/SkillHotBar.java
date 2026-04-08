@@ -1,14 +1,15 @@
 package net.thejadeproject.ascension.refactor_packages.skill_casting;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncSlot;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
-
-import java.util.ArrayList;
 
 public class SkillHotBar {
 
@@ -25,10 +26,10 @@ public class SkillHotBar {
     }
 
     public void setActiveSlot(IEntityData entityData,int slot){
-        if(activeSlot != slot && skillSlots[activeSlot].getSkill() != null){
-            if(skillSlots[activeSlot].getSkill() instanceof ICastableSkill castableSkill) castableSkill.unselected(entityData);
+        if(activeSlot != slot){
+            if(skillSlots[activeSlot].getSkillKey() != null && skillSlots[activeSlot].getSkill() instanceof ICastableSkill castableSkill) castableSkill.unselected(entityData);
             this.activeSlot = slot;
-            if(skillSlots[activeSlot].getSkill() != null && skillSlots[activeSlot].getSkill() instanceof  ICastableSkill newCastableSkill) newCastableSkill.selected(entityData);
+            if(skillSlots[activeSlot].getSkillKey() != null && skillSlots[activeSlot].getSkill() instanceof  ICastableSkill newCastableSkill) newCastableSkill.selected(entityData);
         }
 
     }
@@ -38,6 +39,9 @@ public class SkillHotBar {
     public IPreCastData getPreCastData(int slot){
         return skillSlots[slot].getPreCastData();
     }
+    public ResourceLocation getSkillKey(int slot) {return skillSlots[slot].getSkillKey();}
+    public ISkill getSkill(int slot){return skillSlots[slot].getSkill();}
+
     public int getActiveSlot(){return activeSlot;}
     public int getSlot(ResourceLocation skill){
         for(int i = 0;i<skillSlots.length;i++){
@@ -49,7 +53,22 @@ public class SkillHotBar {
         return skillSlots[activeSlot].getSkillKey();
     }
     public void slotSkill(IEntityData entityData,ResourceLocation skill,int slot){
+        for(int i = 0;i<MAX_SLOTS;i++){
+            if(skill.equals(skillSlots[i].getSkillKey())){
+                skillSlots[i].unSlotSKill(entityData);
+            }
+        }
+        if(skill.equals(skillSlots[slot].getSkillKey())) return;
         skillSlots[slot].setSkill(skill,entityData);
+    }
+    public void slotSkill(IEntityData entityData,ResourceLocation skill,int slot,IPreCastData preCastData){
+        for(int i = 0;i<MAX_SLOTS;i++){
+            if(skill.equals(skillSlots[i].getSkillKey())){
+                skillSlots[i].unSlotSKill(entityData);
+            }
+        }
+        if(skill.equals(skillSlots[slot].getSkillKey())) return;
+        skillSlots[slot].setSkill(skill,preCastData,entityData);
     }
     public void unSlotSkill(IEntityData entityData,int slot){
         skillSlots[slot].unSlotSKill(entityData);
@@ -57,6 +76,16 @@ public class SkillHotBar {
     public void unSlotSkill(IEntityData entityData,ResourceLocation skill){
         for(HotBarSkillSlot skillSlot : skillSlots){
             if(skillSlot.getSkillKey().equals(skill)) skillSlot.unSlotSKill(entityData);
+        }
+    }
+
+    public void syncSlots(Player player){
+        for(int i = 0;i<skillSlots.length;i++){
+            if(skillSlots[i].isDirty()){
+
+                PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncSlot(i,skillSlots[i].getSkillKey(),skillSlots[i].getPreCastData()));
+                skillSlots[i].resolve();
+            }
         }
     }
 

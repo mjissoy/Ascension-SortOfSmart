@@ -26,9 +26,6 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
 
-        //FORMATIONS
-
-        basicItem(ModItems.FORMATION_PLATE.get());
 
 
         //Block Items

@@ -91,6 +91,7 @@ public class HeldSkills {
     public Collection<HeldSkill> getSkills(){
         return skills.values();
     }
+
     private void clearBuffers(){
         additionSyncBuffer.clear();
         modifiedSyncBuffer.clear();
@@ -102,10 +103,15 @@ public class HeldSkills {
 
     //============================== NETWORK =================================
     public static HeldSkills decodeFull(RegistryFriendlyByteBuf buf){
+
         HeldSkills heldSkills = new HeldSkills();
-        for(int i =0;i<buf.readInt();i++){
+        int skills = buf.readInt();
+
+        for(int i =0;i<skills;i++){
+
             HeldSkill heldSkill = HeldSkill.decode(buf);
             heldSkills.skills.put(heldSkill.getKey(),heldSkill);
+
         }
         return heldSkills;
     }
@@ -113,8 +119,10 @@ public class HeldSkills {
 
         buf.writeInt(heldSkills.skills.size());
         for(HeldSkill skill : heldSkills.skills.values()){
+
             skill.encode(buf);
         }
+
     }
 
 

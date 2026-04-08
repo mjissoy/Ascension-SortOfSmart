@@ -109,13 +109,7 @@ config="${mod_id}.mixins.json"
     versionRange="${easy_gui_version}"
     ordering="NONE"
     side="BOTH"
-# easy gui
-[[dependencies.${mod_id}]]
-    modId="formation_arrays"
-    type="required"
-    versionRange="${formation_arrays_version}"
-    ordering="NONE"
-    side="BOTH"
+
 # JEI
 [[dependencies.${mod_id}]]
 modId="jei"

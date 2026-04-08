@@ -30,20 +30,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
     }
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        tag(net.lucent.formation_arrays.util.ModTags.Items.JADE_SLIP).add(
-                ModItems.FORMATION_SLIP_ACACIA.get(),
-                ModItems.FORMATION_SLIP_BAMBOO.get(),
-                ModItems.FORMATION_SLIP_BIRCH.get(),
-                ModItems.FORMATION_SLIP_CHERRY.get(),
-                ModItems.FORMATION_SLIP_CRIMSON.get(),
-                ModItems.FORMATION_SLIP_GOLDEN_PALM.get(),
-                ModItems.FORMATION_SLIP_DARK_OAK.get(),
-                ModItems.FORMATION_SLIP_IRONWOOD.get(),
-                ModItems.FORMATION_SLIP_MANGROVE.get(),
-                ModItems.FORMATION_SLIP_OAK.get(),
-                ModItems.FORMATION_SLIP_JUNGLE.get(),
-                ModItems.FORMATION_SLIP_SPRUCE.get(),
-                ModItems.FORMATION_SLIP_WARPED.get());
+
 
         tag(ModTags.Items.MEDICINAL)
                 .add(ModItems.GOLDEN_SUN_LEAF.get())

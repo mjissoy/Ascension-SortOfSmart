@@ -27,6 +27,7 @@ public record SyncEntityForm(IEntityFormData formData) implements CustomPacketPa
     public static void encode(RegistryFriendlyByteBuf buf,IEntityFormData formData){
         buf.writeInt(formData.getEntityFormId().toString().length());
         buf.writeCharSequence(formData.getEntityFormId().toString(), Charset.defaultCharset());
+        System.out.println("encoding form:"+formData.getEntityFormId().toString());
         formData.getEntityForm().encode(buf,formData);
     }
     public static IEntityFormData decode(RegistryFriendlyByteBuf buf){

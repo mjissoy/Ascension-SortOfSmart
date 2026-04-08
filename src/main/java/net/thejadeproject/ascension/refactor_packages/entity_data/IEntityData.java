@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.refactor_packages.entity_data;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
@@ -101,9 +102,14 @@ public interface IEntityData {
     boolean hasSkill(ResourceLocation skill);
     IPersistentSkillData getSkillData(ResourceLocation skill);
 
+    Set<ResourceLocation> getAllSkills();
     //============================= SKILL CASTING ====================================
     SkillCastHandler getSkillCastHandler();
     //============================= DATA HANDLING ====================================
     void write(CompoundTag tag);
 
+    //============================= EXTRA =========================================
+    default boolean isClientSide(){
+        return FMLEnvironment.dist.isClient();
+    }
 }

@@ -1,6 +1,6 @@
 package net.thejadeproject.ascension.datagen;
 
-import net.lucent.formation_arrays.data_components.ModDataComponents;
+
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.HolderLookup;
@@ -215,72 +215,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_black_iron_nugget", has(ModItems.REPAIR_SLIP)).save(recipeOutput, "ascension:shaped/repair_slip");
 
 
-        //Formation Stuff
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, net.lucent.formation_arrays.blocks.ModBlocks.TIER_1_FORMATION_CORE.get())
-                .pattern("FCF")
-                .pattern("ESE")
-                .pattern("FCF")
-                .define('F', ModBlocks.FROST_SILVER_BLOCK)
-                .define('S', ModBlocks.SPIRITUAL_STONE_BLOCK)
-                .define('C', ModItems.UNDEAD_CORE.get())
-                .define('E', ModItems.LIVING_CORE.get())
-                .unlockedBy("has_jade", has(ModItems.UNDEAD_CORE)).save(recipeOutput, "ascension:shaped/tier_1_formation_core");
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', Blocks.SPONGE)
-                .define('O', ModItems.SPIRITUAL_STONE.get())
-                .define('B', ModItems.BLACK_IRON_INGOT.get())
-                .unlockedBy("has_sponge", has(Blocks.SPONGE)).save(
-                        withFormationId(recipeOutput, "ascension:water_bubble_formation"), "ascension:shaped/formation_plate_water_bubble");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', Blocks.AMETHYST_BLOCK)
-                .define('O', Blocks.TINTED_GLASS)
-                .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK.get())
-                .unlockedBy("has_amethyst", has(Blocks.AMETHYST_BLOCK)).save(
-                        withFormationId(recipeOutput, "ascension:barrier_formation"), "ascension:shaped/formation_plate_barrier");
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', Blocks.CRYING_OBSIDIAN)
-                .define('O', Blocks.OBSIDIAN)
-                .define('B', ModItems.REBIRTH_PILL.get())
-                .unlockedBy("has_rebirth", has(ModItems.REBIRTH_PILL)).save(
-                        withFormationId(recipeOutput, "ascension:area_protection_formation"), "ascension:shaped/formation_plate_area_protection");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', Blocks.LIGHTNING_ROD)
-                .define('O', Blocks.SCULK_SHRIEKER)
-                .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK)
-                .unlockedBy("has_spiritual_stone_block", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(
-                        withFormationId(recipeOutput, "ascension:qi_absorption_formation"), "ascension:shaped/formation_plate_qi_absorption");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', ModItems.SPATIAL_STONE_TIER_2)
-                .define('O', ItemTags.SAPLINGS)
-                .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK)
-                .unlockedBy("has_spiritual_stone_block", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(
-                        withFormationId(recipeOutput, "ascension:growth_formation"), "ascension:shaped/formation_plate_growth_formation");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_PLATE.get())
-                .pattern("SOS")
-                .pattern("OBO")
-                .pattern("SOS")
-                .define('S', ItemTags.CANDLES)
-                .define('O', Items.NAME_TAG)
-                .define('B', ModBlocks.SPIRITUAL_STONE_BLOCK)
-                .unlockedBy("has_spiritual_stone_block", has(ModBlocks.SPIRITUAL_STONE_BLOCK)).save(
-                        withFormationId(recipeOutput, "ascension:mist_obfuscation_formation"), "ascension:shaped/formation_plate_mist_obfuscation_formation");
 
 
         //Formation Stuff
@@ -855,36 +789,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     }
 
-
-    public static RecipeOutput withFormationId(RecipeOutput parent, String formationId) {
-        return new RecipeOutput() {
-
-            @Override
-            public void accept(ResourceLocation id, Recipe<?> recipe, @Nullable AdvancementHolder advancement, ICondition... iConditions) {
-                if (recipe instanceof ShapedRecipe shaped) {
-                    ItemStack newResult = shaped.getResultItem(null).copy();
-                    newResult.set(ModDataComponents.FORMATION_PLATE_COMPONENT.get(), formationId);
-
-                    Recipe<?> modifiedRecipe = new ShapedRecipe(
-                            shaped.getGroup(),
-                            shaped.category(),
-                            shaped.pattern,
-                            newResult,
-                            shaped.showNotification()
-                    );
-                    parent.accept(id, modifiedRecipe, advancement);
-                } else {
-                    parent.accept(id, recipe, advancement);
-                }
-            }
-
-            @Override
-            public Advancement.Builder advancement() {
-                return parent.advancement()
-                        ;
-            }
-        };
-    }
 
 
     protected static void oreSmelting(RecipeOutput recipeOutput, Item pIngredient, RecipeCategory pCategory, ItemLike pResult,

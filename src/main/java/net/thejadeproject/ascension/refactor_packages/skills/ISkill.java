@@ -1,7 +1,9 @@
 package net.thejadeproject.ascension.refactor_packages.skills;
 
+import net.lucent.easygui.gui.textures.ITextureData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -29,6 +31,10 @@ public interface ISkill {
     IPersistentSkillData fromCompound(CompoundTag tag,IEntityData heldEntity);
     IPersistentSkillData fromNetwork(RegistryFriendlyByteBuf buf);
 
+
+    ITextureData getIcon();
+    Component getTitle();
+    Component getDescription();
     //Harmful -> neutral -> buff
     /*
         boolean isHarmful();

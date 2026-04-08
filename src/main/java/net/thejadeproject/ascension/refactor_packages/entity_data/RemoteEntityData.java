@@ -15,6 +15,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillDat
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 //TODO implement properly
 public class RemoteEntityData implements IEntityData{
@@ -244,6 +245,11 @@ public class RemoteEntityData implements IEntityData{
     @Override
     public IPersistentSkillData getSkillData(ResourceLocation skill) {
         return null;
+    }
+
+    @Override
+    public Set<ResourceLocation> getAllSkills() {
+        return Set.of();
     }
 
     @Override

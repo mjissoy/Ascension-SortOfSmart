@@ -1,10 +1,8 @@
 package net.thejadeproject.ascension.network;
 
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.events.karma.KarmaNetworkHandler;
 import net.thejadeproject.ascension.events.karma.KarmaSyncPayload;
 
 import net.thejadeproject.ascension.network.clientBound.*;
@@ -12,7 +10,12 @@ import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncCastingInstance;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncSlot;
+import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.ClearSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
+import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.SetActiveSlot;
+import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.UpdateSkillSlot;
 
 
 public class ModPayloads {
@@ -48,8 +51,16 @@ public class ModPayloads {
                 KarmaSyncPayload.STREAM_CODEC,
                 KarmaSyncPayload::handle
         );
-
-
+        registrar.playToClient(
+                SyncSlot.TYPE,
+                SyncSlot.STREAM_CODEC,
+                SyncSlot::handlePayload
+        );
+        registrar.playToClient(
+                SyncCastingInstance.TYPE,
+                SyncCastingInstance.STREAM_CODEC,
+                SyncCastingInstance::handlePayload
+        );
 
         //===================================== SERVER ==================================
 
@@ -61,12 +72,28 @@ public class ModPayloads {
                 ToggleTabletDropModePayload::handlePayload
         );
 
+        registrar.playToServer(
+                UpdateSkillSlot.TYPE,
+                UpdateSkillSlot.STREAM_CODEC,
+                UpdateSkillSlot::handlePayload
+        );
+        registrar.playToServer(
+                ClearSlot.TYPE,
+                ClearSlot.STREAM_CODEC,
+                ClearSlot::handlePayload
+        );
 
 
         registrar.playToServer(
                 ChangePlayerInputState.TYPE,
                 ChangePlayerInputState.STREAM_CODEC,
                 ChangePlayerInputState::handlePayload
+
+        );
+        registrar.playToServer(
+                SetActiveSlot.TYPE,
+                SetActiveSlot.STREAM_CODEC,
+                SetActiveSlot::handlePayload
 
         );
 

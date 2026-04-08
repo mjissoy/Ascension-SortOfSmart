@@ -37,6 +37,14 @@ public class ModPaths {
                     .addMajorRealmName("True Flame")
                     .addMajorRealmName("Origin Flame")
     );
+
+    public static final DeferredHolder<IPath, ? extends GenericPath> SWORD = PATHS.register("sword",()->
+            new ComprehensionPath(Component.literal("Sword"))
+                    .addMajorRealmName("Initiate")
+                    .addMajorRealmName("Intent")
+                    .addMajorRealmName("Aura")
+                    .addMajorRealmName("Unity")
+    );
     public static void register(IEventBus modEventBus){
         PATHS.register(modEventBus);
     }

@@ -10,6 +10,7 @@ import net.thejadeproject.ascension.refactor_packages.physiques.custom.GenericPh
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
 
 import java.util.Set;
 
@@ -20,6 +21,9 @@ public class ModSkills {
     //TODO update to not include any of these details (except path) and the technique defines the data
     public static final DeferredHolder<ISkill,? extends GenericCultivationSkill> BASIC_CULTIVATION_SKILL = SKILLS.register("basic_essence_cultivation_skill",
             ()->new GenericCultivationSkill(2.0,ModPaths.ESSENCE.getId()));
+
+    public static final DeferredHolder<ISkill,? extends SwordCultivationSkill> SWORD_CULTIVATION_SKILL = SKILLS.register("sword_cultivation_skill",
+            SwordCultivationSkill::new);
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);

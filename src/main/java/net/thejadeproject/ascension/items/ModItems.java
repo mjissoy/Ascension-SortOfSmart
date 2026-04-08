@@ -1,7 +1,5 @@
 package net.thejadeproject.ascension.items;
 
-import net.lucent.formation_arrays.api.capability.Capabilities;
-import net.lucent.formation_arrays.data_components.ModDataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
@@ -99,20 +97,8 @@ public class ModItems {
     public static final DeferredItem<Item> JADE_NUGGET = ITEMS.register("jade_nugget",
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> SPIRITUAL_STONE = ITEMS.register("spiritual_stone",
-            () -> new Item(new Item.Properties().rarity(Rarity.EPIC).component(ModDataComponents.FORMATION_FUEL,1000)));
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
 
-    public static final DeferredItem<Item> FORMATION_PLATE = ITEMS.register("formation_plate",
-            () -> new Item(new Item.Properties()){
-
-                @Override
-                public Component getName(ItemStack stack) {
-                    if(stack.getCapability(Capabilities.FORMATION_HOLDER_CAPABILITY) !=null){
-                        return stack.getCapability(Capabilities.FORMATION_HOLDER_CAPABILITY).getFormation(stack).getFormationTitle();
-                    }
-                    return super.getName(stack);
-                }
-
-            });
 
     //Weapons & Tools
     public static final DeferredItem<BladeItem> WOODEN_BLADE = ITEMS.register("wooden_blade",

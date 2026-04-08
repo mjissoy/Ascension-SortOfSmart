@@ -22,8 +22,6 @@ import java.util.List;
 public class SkillCastHandler {
 
 
-
-
     private final CastingInstance castingInstance = new CastingInstance();;
 
     private final ArrayList<PersistentCastingInstance> persistentCastingInstances = new ArrayList<>();
@@ -31,7 +29,7 @@ public class SkillCastHandler {
     private final SkillCooldownHandler cooldownHandler = new SkillCooldownHandler();
 
     //TODO update to use config with max 14
-    private final SkillHotBar hotBar = new SkillHotBar(7);
+    private final SkillHotBar hotBar = new SkillHotBar(6);
 
     public void addPersistentCastingInstance(ResourceLocation skill, IPersistentSkillInstance skillInstance){
         persistentCastingInstances.add(new PersistentCastingInstance(skillInstance,skill));
@@ -45,7 +43,7 @@ public class SkillCastHandler {
         getCooldownHandler().tick(entityData);
         CastEndData castEndData =  castingInstance.castTick(entity);
         if(castEndData != null){
-            int cooldownTime = castEndData.getSkill().getCooldown(castEndData);
+            int cooldownTime = ((ICastableSkill) castEndData.getSkill()).getCooldown(castEndData);
             getCooldownHandler().addCooldown(castEndData.skillId(),cooldownTime);
         }
         ArrayList<PersistentCastingInstance> toRemove = new ArrayList<>();
@@ -80,7 +78,7 @@ public class SkillCastHandler {
     //TODO get it to send message to client on fail
     public void tryCast(Entity entity){
         //get selected skill
-        if(hotBar.getActiveSkill() == null) return;
+        if(hotBar.getSkillKey(hotBar.getActiveSlot()) == null) return;
         if(!(hotBar.getActiveSkill() instanceof ICastableSkill castableSkill))return;
         IPreCastData preCastData = hotBar.getPreCastData(hotBar.getActiveSlot());
         //call try cast
@@ -96,7 +94,7 @@ public class SkillCastHandler {
         if(castingInstance.isCasting()){
             CastEndData endData = castingInstance.endCast(entity, CastEndReason.CANCELLED);
             if(endData != null){
-                int cooldownTime = endData.getSkill().getCooldown(endData);
+                int cooldownTime = ((ICastableSkill ) endData.getSkill()).getCooldown(endData);
                 getCooldownHandler().addCooldown(endData.skillId(),cooldownTime);
             }
         }
@@ -113,5 +111,8 @@ public class SkillCastHandler {
     }
     public int getMaxSlots(){
         return hotBar.MAX_SLOTS;
+    }
+    public SkillHotBar getHotBar(){
+        return hotBar;
     }
 }

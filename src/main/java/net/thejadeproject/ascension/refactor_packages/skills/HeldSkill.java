@@ -24,15 +24,7 @@ public class HeldSkill  {
 
 
 
-    // technique -> remove skill1  but physique also had skill1
-    // technique -> remove skill1 skill1 checks if sources i empty. can cancel
 
-    /*
-        stores the key of anything that gave the player this skill
-        this includes techniques,physiques,bloodlines etc
-        useful for balancing stuff
-     */
-    private HashSet<ResourceLocation> sources = new HashSet<>();
 
     public HeldSkill(ResourceLocation skillKey){
         this.skillKey = skillKey;
@@ -50,18 +42,11 @@ public class HeldSkill  {
         CompoundTag tag = new CompoundTag();
         tag.putString("skill_key",getKey().toString());
         if(getPersistentData() != null) tag.put("skill_data",getPersistentData().write());
-        ListTag sourcesTag = new ListTag();
-        for(ResourceLocation source : sources){
-            sourcesTag.add(StringTag.valueOf(source.toString()));
-        }
-        tag.put("sources",sourcesTag);
+
         return tag;
     }
     public static HeldSkill read(CompoundTag tag,IEntityData heldEntity){
         HeldSkill heldSkill = new HeldSkill(ResourceLocation.bySeparator(tag.getString("skill_key"),':'));
-        //TODO RUN VERSION VERIFICATION HERE
-        String version = tag.getString("skill_version");
-
 
         if(tag.contains("skill_data")){
             heldSkill.setPersistentData(heldSkill.getSkill().fromCompound(tag,heldEntity));
@@ -71,14 +56,17 @@ public class HeldSkill  {
     }
 
     public void encode(RegistryFriendlyByteBuf buf){
+        System.out.println("writing skill : "+getKey().toString());
         ByteBufHelper.encodeString(buf,getKey().toString());
 
-        persistentData.encode(buf);
-        buf.writeInt(sources.size());
+        System.out.println("data encoded? : "+(persistentData != null));
+        if(persistentData != null) persistentData.encode(buf);
+
 
     }
     public static HeldSkill decode(RegistryFriendlyByteBuf buf){
         ResourceLocation skillKey = ByteBufHelper.readResourceLocation(buf);
+
         HeldSkill skill = new HeldSkill(skillKey);
 
 

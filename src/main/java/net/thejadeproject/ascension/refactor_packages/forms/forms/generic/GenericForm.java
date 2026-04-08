@@ -103,6 +103,7 @@ public class GenericForm implements IEntityForm {
     @Override
     public IEntityFormData fromNetwork(RegistryFriendlyByteBuf buf) {
         //TODO properly decode it
+        System.out.println("decoding form :" +AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.getKey(this).toString());
         GenericFormData formData = new GenericFormData(AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.getKey(this));
         formData.setHeldSkills(HeldSkills.decodeFull(buf));
         if(buf.readBoolean()){

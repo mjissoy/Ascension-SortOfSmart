@@ -301,6 +301,7 @@ public class AscensionCraft {
 
         if(!event.getEntity().level().isClientSide()){
             //TODO ensure sync
+            System.out.println("TRYING TO SYNC PLAYER DATA");
             if(player.getData(ModAttachments.ENTITY_DATA) instanceof GenericEntityData genericEntityData){
                 genericEntityData.sync(player);
             }

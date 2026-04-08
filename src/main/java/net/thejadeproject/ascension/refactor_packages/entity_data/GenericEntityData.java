@@ -131,6 +131,7 @@ public class GenericEntityData implements IEntityData {
     }
     public void sync(Player player){
         for(ResourceLocation form:heldFormData.keySet()){
+            System.out.println("syncing form : "+form.toString());
             PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncEntityForm(heldFormData.get(form)));
         }
     }
@@ -491,6 +492,9 @@ public class GenericEntityData implements IEntityData {
 
         pathDataLocation.put(path,pathInstance.defaultForm());
         heldFormData.get(pathInstance.defaultForm()).addPathData(path,pathData);
+        if(pathData.getLastUsedTechnique() != null && !pathData.getLastUsedTechnique().toString().equals("ascension:none")){
+            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique()).onTechniqueAdded(this);
+        }
     }
 
     @Override
@@ -568,6 +572,19 @@ public class GenericEntityData implements IEntityData {
         }
         return null;
     }
+
+    @Override
+    public Set<ResourceLocation> getAllSkills() {
+        HashSet<ResourceLocation> skills = new HashSet<>();
+
+        for(IEntityFormData formData : heldFormData.values()){
+            for(HeldSkill heldSkill : formData.getHeldSkills().getSkills()){
+                skills.add(heldSkill.getKey());
+            }
+        }
+        return skills;
+    }
+
     //============================= SKILL CASTING ====================================
     @Override
     public SkillCastHandler getSkillCastHandler() {

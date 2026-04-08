@@ -13,8 +13,11 @@ public class HotBarSkillSlot {
     private ResourceLocation skillKey;
     private IPreCastData preCastData;
 
+    private boolean dirty;
 
     public ISkill getSkill(){return AscensionRegistries.Skills.SKILL_REGISTRY.get(skillKey);};
+
+    public boolean isEmpty(){return skillKey == null;}
 
     public void unSlotSKill(IEntityData entityData){
         if(skillKey != null){
@@ -24,11 +27,13 @@ public class HotBarSkillSlot {
         }
         skillKey =null;
         preCastData = null;
+        markDirty();
     }
 
     public void setSkill(ResourceLocation skill,IEntityData entityData){
         if(AscensionRegistries.Skills.SKILL_REGISTRY.get(skill) instanceof  ICastableSkill castableSkill){
             setSkill(skill,castableSkill.freshPreCastData(),entityData);
+            markDirty();
         }
     }
     public void setSkill(ResourceLocation skill,IPreCastData preCastData,IEntityData entityData){
@@ -39,9 +44,18 @@ public class HotBarSkillSlot {
             castableSkill.onEquip(entityData);
             this.preCastData = preCastData;
         }
+        markDirty();
     }
 
     public IPreCastData getPreCastData(){return this.preCastData;}
 
     public ResourceLocation getSkillKey(){return skillKey;}
+
+    public void markDirty(){
+        this.dirty = true;
+    }
+    public void resolve(){
+        this.dirty = false;
+    }
+    public boolean isDirty(){return this.dirty;}
 }

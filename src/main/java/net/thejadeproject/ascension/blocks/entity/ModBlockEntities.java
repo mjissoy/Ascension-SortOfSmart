@@ -1,8 +1,6 @@
 package net.thejadeproject.ascension.blocks.entity;
 
-import net.lucent.formation_arrays.blocks.block_entities.formation_cores.Tier1FormationCoreBlockEntity;
-import net.lucent.formation_arrays.formations.FormationCoreItemStackHandler;
-import net.lucent.formation_arrays.formations.energy_containers.CappedEnergyContainer;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;

@@ -1,11 +1,22 @@
 package net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation;
 
+import net.lucent.easygui.gui.RenderableElement;
+import net.lucent.easygui.gui.UIFrame;
+import net.lucent.easygui.gui.textures.ITextureData;
+import net.lucent.easygui.gui.textures.TextureData;
+import net.lucent.easygui.gui.textures.TextureDataSubsection;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.skills.cultivation.CultivationProgressBar;
+import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndData;
@@ -17,6 +28,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastData;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.skill_data.GenericCultivationSkillData;
+import org.checkerframework.checker.guieffect.qual.UI;
 
 import java.util.Set;
 
@@ -74,6 +86,24 @@ public class GenericCultivationSkill implements ICastableSkill {
         return new GenericCultivationSkillData(buf);
     }
 
+    @Override
+    public ITextureData getIcon() {
+        return new TextureData(
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/icon/placeholder.png"),
+                16,16
+        );
+    }
+
+    @Override
+    public Component getTitle() {
+        return Component.empty().append(AscensionRegistries.Paths.PATHS_REGISTRY.get(path).getDisplayTitle()).append(" Cultivation Skill");
+    }
+
+    @Override
+    public Component getDescription() {
+        return Component.empty();
+    }
+
 
     @Override
     public void onEquip(IEntityData entityData) {
@@ -97,15 +127,19 @@ public class GenericCultivationSkill implements ICastableSkill {
 
     @Override
     public CastResult canCast(Entity caster, IPreCastData preCastData) {
-        return null;
+        return new CastResult(CastResult.Type.SUCCESS);
     }
 
     @Override
     public boolean continueCasting(int ticksElapsed, Entity caster, ICastData castData) {
         if(!caster.hasData(ModAttachments.INPUT_STATES)) return false;
 
-        //TODO handle cultivation event here
+        if(!caster.level().isClientSide()){
+            //TODO handle cultivation event here
+            System.out.println("Player is trying to cultivate");
+            PathData pathData = caster.getData(ModAttachments.ENTITY_DATA).getPathData(path);
 
+        }
 
         return caster.getData(ModAttachments.INPUT_STATES).isHeld("skill_cast");
     }
@@ -173,5 +207,17 @@ public class GenericCultivationSkill implements ICastableSkill {
     @Override
     public CastType getCastType() {
         return CastType.LONG;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public RenderableElement getCastElement(UIFrame frame) {
+        return new CultivationProgressBar(frame,
+                new TextureDataSubsection(
+                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/overlay/overlays_all.png"),
+                        256,256,
+                        0,0,
+                        65,7
+                ),path);
     }
 }

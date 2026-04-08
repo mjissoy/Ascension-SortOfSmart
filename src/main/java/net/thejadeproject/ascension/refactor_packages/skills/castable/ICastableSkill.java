@@ -1,10 +1,14 @@
 package net.thejadeproject.ascension.refactor_packages.skills.castable;
 
+import net.lucent.easygui.gui.RenderableElement;
+import net.lucent.easygui.gui.UIFrame;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndReason;
@@ -53,5 +57,13 @@ public interface ICastableSkill extends ISkill {
     IPersistentSkillData persistentInstanceFromNetwork(RegistryFriendlyByteBuf buf);
 
 
+
     CastType getCastType();
+
+    /**
+       when initial cast is called on the client this element is constructed and added to the cast overlay
+        the generic behaviour is to behave as a cast bar
+     */
+    @OnlyIn(Dist.CLIENT)
+    RenderableElement getCastElement(UIFrame frame);
 }
