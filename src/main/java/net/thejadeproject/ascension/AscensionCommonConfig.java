@@ -28,9 +28,9 @@ public class AscensionCommonConfig {
                 "Example: [\"ascension:flame,8\", \"ascension:soul_flame,16\", \"ascension:crimson_lotus_flame,200\"]");
         PILL_CAULDRON_HEAT_ITEMS = builder.defineList("heat_items",
                 () -> new ArrayList<>(Arrays.asList(
-                        "ascension:flame,8",
-                        "ascension:soul_flame,16",
-                        "ascension:crimson_lotus_flame,200"
+                        "ascension:flame,8,0,0",
+                        "ascension:soul_flame,16,5,0",
+                        "ascension:crimson_lotus_flame,200,15,1"
                 )),
                 this::validateHeatItemEntry
         );
@@ -155,18 +155,6 @@ public class AscensionCommonConfig {
     // Add this record at the class level:
     public record OreColorConfig(int color, boolean enabled) {}
 
-    private boolean validateHeatItemEntry(Object entry) {
-        if (!(entry instanceof String)) return false;
-        String entryStr = (String) entry;
-        String[] parts = entryStr.split(",");
-        if (parts.length != 2) return false;
-        try {
-            Integer.parseInt(parts[1].trim());
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 
     // New validation method for starter kit entries
     private boolean validateStarterKitEntry(Object entry) {
@@ -183,21 +171,64 @@ public class AscensionCommonConfig {
         }
     }
 
+    private boolean validateHeatItemEntry(Object entry) {
+        if (!(entry instanceof String)) return false;
+        String[] parts = ((String) entry).split(",");
+        // Accept both old 2-part and new 4-part format
+        if (parts.length != 2 && parts.length != 4) return false;
+        try {
+            Integer.parseInt(parts[1].trim());
+            if (parts.length == 4) {
+                Integer.parseInt(parts[2].trim());
+                Integer.parseInt(parts[3].trim());
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public Map<String, Integer> getHeatItems() {
         Map<String, Integer> heatItems = new HashMap<>();
         for (String entry : PILL_CAULDRON_HEAT_ITEMS.get()) {
             String[] parts = entry.split(",");
-            if (parts.length == 2) {
+            if (parts.length >= 2) {
                 try {
-                    String itemId = parts[0].trim();
-                    int heatValue = Integer.parseInt(parts[1].trim());
-                    heatItems.put(itemId, heatValue);
+                    heatItems.put(parts[0].trim(), Integer.parseInt(parts[1].trim()));
                 } catch (NumberFormatException e) {
                     AscensionCraft.LOGGER.warn("Invalid heat item entry: {}", entry);
                 }
             }
         }
         return heatItems;
+    }
+
+    public int getFlameStandPurityBonus(String itemId) {
+        for (String entry : PILL_CAULDRON_HEAT_ITEMS.get()) {
+            String[] parts = entry.split(",");
+            if (parts.length >= 3 && parts[0].trim().equals(itemId)) {
+                try {
+                    return Integer.parseInt(parts[2].trim());
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
+            }
+        }
+        return 0;
+    }
+
+    public int getFlameStandRealmBonus(String itemId) {
+        for (String entry : PILL_CAULDRON_HEAT_ITEMS.get()) {
+            String[] parts = entry.split(",");
+            if (parts.length >= 4 && parts[0].trim().equals(itemId)) {
+                try {
+                    return Integer.parseInt(parts[3].trim());
+                } catch (NumberFormatException e) {
+                    return 0;
+                }
+            }
+        }
+        return 0;
     }
 
     public List<StarterKitItem> getStarterKitItems() {

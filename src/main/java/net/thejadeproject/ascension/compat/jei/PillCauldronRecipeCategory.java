@@ -10,50 +10,60 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
-import net.neoforged.neoforge.common.crafting.SizedIngredient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * JEI recipe category for the Mortal-tier Pill Cauldron.
+ *
+ * Layout:
+ *   Three input slots at the pedestal positions (left / back / right).
+ *   Two output slots below (success / fail) with success/failure % tooltips.
+ *   Temperature range and craft time drawn as text beneath the outputs.
+ *
+ * Texture: textures/jei/cauldron.png  (100 × 90 px recommended)
+ */
 public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillCauldronRecipe> {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pill_cauldron_low_human");
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/jei/cauldron.png");
+
+    public static final ResourceLocation UID =
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pill_cauldron_low_human");
+    public static final ResourceLocation TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/jei/cauldron.png");
 
     public static final RecipeType<LowHumanPillCauldronRecipe> CAULDRON_RECIPE_TYPE =
             new RecipeType<>(UID, LowHumanPillCauldronRecipe.class);
 
-    // Configurable positions - adjust these to fit your custom texture
-    private static final int BACKGROUND_WIDTH = 100;  // Width of the background texture
-    private static final int BACKGROUND_HEIGHT = 81;  // Height of the background texture
+    // ── Background dimensions ─────────────────────────────────────
+    private static final int BG_WIDTH  = 120;
+    private static final int BG_HEIGHT = 95;
 
-    private static final int INPUT1_X = 10;      // X position for first input slot
-    private static final int INPUT1_Y = 12;      // Y position for first input slot
-    private static final int INPUT2_X = 37;      // X position for second input slot
-    private static final int INPUT2_Y = 1;      // Y position for second input slot
-    private static final int INPUT3_X = 64;      // X position for third input slot
-    private static final int INPUT3_Y = 12;      // Y position for third input slot
+    // ── Slot positions (match pedestal layout: left / back / right) ─
+    // "back" pedestal = top slot in JEI (center)
+    private static final int SLOT_LEFT_X  = 8,  SLOT_LEFT_Y  = 20;
+    private static final int SLOT_BACK_X  = 44, SLOT_BACK_Y  = 2;
+    private static final int SLOT_RIGHT_X = 80, SLOT_RIGHT_Y = 20;
 
-    private static final int SUCCESS_X = 19;    // X position for success output slot
-    private static final int SUCCESS_Y = 51;     // Y position for success output slot
-    private static final int FAIL_X = 55;       // X position for fail output slot
-    private static final int FAIL_Y = 51;        // Y position for fail output slot
-
-    private static final int HEAT_TEXT_Y_OFFSET = 6; // Offset from bottom for heat text
+    // ── Output slot positions ─────────────────────────────────────
+    private static final int SUCCESS_X = 26, SUCCESS_Y = 55;
+    private static final int FAIL_X    = 70, FAIL_Y    = 55;
 
     private final IDrawable background;
     private final IDrawable icon;
 
     public PillCauldronRecipeCategory(IGuiHelper helper) {
-        this.background = helper.createDrawable(TEXTURE, 0, 0, BACKGROUND_WIDTH, BACKGROUND_HEIGHT);
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get()));
+        this.background = helper.createDrawable(TEXTURE, 0, 0, BG_WIDTH, BG_HEIGHT);
+        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK,
+                new ItemStack(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get()));
     }
 
     @Override
@@ -67,75 +77,77 @@ public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillC
     }
 
     @Override
-    public IDrawable getBackground() {
-        return background;
-    }
+    public IDrawable getIcon() { return icon; }
 
     @Override
-    public IDrawable getIcon() {
-        return icon;
+    public void setRecipe(IRecipeLayoutBuilder builder,
+                          LowHumanPillCauldronRecipe recipe,
+                          IFocusGroup focuses) {
+
+        List<SizedIngredient> ings = recipe.getSizedIngredients();
+
+        // ── Input slots (positional: left / back / right) ─────────
+        addInputSlot(builder, ings, 0, SLOT_LEFT_X,  SLOT_LEFT_Y);
+        addInputSlot(builder, ings, 1, SLOT_BACK_X,  SLOT_BACK_Y);
+        addInputSlot(builder, ings, 2, SLOT_RIGHT_X, SLOT_RIGHT_Y);
+
+        // ── Success output ────────────────────────────────────────
+        builder.addSlot(RecipeIngredientRole.OUTPUT, SUCCESS_X, SUCCESS_Y)
+                .addItemStack(recipe.getSuccess())
+                .addRichTooltipCallback((view, tooltip) -> {
+                    tooltip.add(Component.literal(
+                            "Success: " + (int)(recipe.getChance() * 100) + "%"));
+                    tooltip.add(Component.literal(
+                            "Purity: " + recipe.getPurityMin() + "–" + recipe.getPurityMax()));
+                    tooltip.add(Component.literal(
+                            "Realm: " + recipe.getPillRealmMajor() + " " + recipe.getPillRealmMinor()));
+                });
+
+        // ── Fail output ───────────────────────────────────────────
+        builder.addSlot(RecipeIngredientRole.OUTPUT, FAIL_X, FAIL_Y)
+                .addItemStack(recipe.getFail())
+                .addRichTooltipCallback((view, tooltip) ->
+                        tooltip.add(Component.literal(
+                                "Failure: " + (int)((1 - recipe.getChance()) * 100) + "%")));
     }
 
-    @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, LowHumanPillCauldronRecipe recipe, IFocusGroup focuses) {
-        // Input slots: up to 3 ingredients, each with individual positions
-        int size = recipe.getSizedIngredients().size();
-        if (size > 0) {
-            SizedIngredient sizedIngredient = recipe.getSizedIngredients().get(0);
-            List<ItemStack> inputStacks1 = createItemStacksWithCount(sizedIngredient);
-            IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, INPUT1_X, INPUT1_Y)
-                    .addItemStacks(inputStacks1);
-        }
-        if (size > 1) {
-            SizedIngredient sizedIngredient = recipe.getSizedIngredients().get(1);
-            List<ItemStack> inputStacks2 = createItemStacksWithCount(sizedIngredient);
-            IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, INPUT2_X, INPUT2_Y)
-                    .addItemStacks(inputStacks2);
-        }
-        if (size > 2) {
-            SizedIngredient sizedIngredient = recipe.getSizedIngredients().get(2);
-            List<ItemStack> inputStacks3 = createItemStacksWithCount(sizedIngredient);
-            IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, INPUT3_X, INPUT3_Y)
-                    .addItemStacks(inputStacks3);
-        }
-
-        // Success output
-        IRecipeSlotBuilder successSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, SUCCESS_X, SUCCESS_Y)
-                .addItemStack(recipe.getSuccess());
-        successSlot.addRichTooltipCallback((recipeSlotView, tooltip) ->
-                tooltip.add(Component.literal("Success Chance: " + (int)(recipe.getChance() * 100) + "%")));
-
-        // Fail output
-        IRecipeSlotBuilder failSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, FAIL_X, FAIL_Y)
-                .addItemStack(recipe.getFail());
-        failSlot.addRichTooltipCallback((recipeSlotView, tooltip) ->
-                tooltip.add(Component.literal("Failure Chance: " + (int)((1 - recipe.getChance()) * 100) + "%")));
-    }
-
-    // Helper method to create ItemStacks with the required count
-    private List<ItemStack> createItemStacksWithCount(SizedIngredient sizedIngredient) {
+    private void addInputSlot(IRecipeLayoutBuilder builder,
+                              List<SizedIngredient> ings, int index, int x, int y) {
+        if (index >= ings.size()) return;
+        SizedIngredient ing = ings.get(index);
         List<ItemStack> stacks = new ArrayList<>();
-        for (ItemStack stack : sizedIngredient.ingredient().getItems()) {
-            ItemStack copy = stack.copy();
-            copy.setCount(sizedIngredient.count());
+        for (ItemStack s : ing.ingredient().getItems()) {
+            ItemStack copy = s.copy();
+            copy.setCount(ing.count());
             stacks.add(copy);
         }
-        return stacks;
+        builder.addSlot(RecipeIngredientRole.INPUT, x, y).addItemStacks(stacks);
     }
 
     @Override
-    public void draw(LowHumanPillCauldronRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-        background.draw(guiGraphics);
+    public void draw(LowHumanPillCauldronRecipe recipe, IRecipeSlotsView slots,
+                     GuiGraphics g, double mouseX, double mouseY) {
+        background.draw(g);
 
-        String heatRequired = "Required Heat: " + recipe.getRequiredHeat();
-        net.minecraft.client.Minecraft minecraft = net.minecraft.client.Minecraft.getInstance();
-        int textWidth = minecraft.font.width(heatRequired);
-        int xPos = (background.getWidth() / 2) - (textWidth / 2);
-        int yPos = background.getHeight() - HEAT_TEXT_Y_OFFSET;
+        Minecraft mc    = Minecraft.getInstance();
+        int lineY       = BG_HEIGHT - 30;
+        int lineSpacing = 10;
 
-        // Draw shadow
-        guiGraphics.drawString(minecraft.font, heatRequired, xPos + 1, yPos + 1, 0x000000, false);
-        // Draw main text
-        guiGraphics.drawString(minecraft.font, heatRequired, xPos, yPos, 0xFF5555, false); // Red color for heat
+        // Temperature range line
+        String tempLine = "Temp: " + recipe.getMinTemp() + "° – " + recipe.getMaxTemp() + "°";
+        int tempX = (BG_WIDTH - mc.font.width(tempLine)) / 2;
+        g.drawString(mc.font, tempLine, tempX, lineY, 0xFF5533, false);
+
+        // Craft time line
+        String timeLine = "Time: " + recipe.getRecipeTime() + "s in range";
+        int timeX = (BG_WIDTH - mc.font.width(timeLine)) / 2;
+        g.drawString(mc.font, timeLine, timeX, lineY + lineSpacing, 0xCCCCCC, false);
+
+        // Bonus chance line (only shown if non-zero)
+        if (recipe.getBonusChance() > 0) {
+            String bonusLine = "Bonus: " + (int)(recipe.getBonusChance() * 100) + "% chance";
+            int bonusX = (BG_WIDTH - mc.font.width(bonusLine)) / 2;
+            g.drawString(mc.font, bonusLine, bonusX, lineY + lineSpacing * 2, 0x44CCFF, false);
+        }
     }
 }

@@ -7,135 +7,141 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.entity.PillCauldronLowHumanEntity;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 
-
+/**
+ * Menu for the Pill Cauldron.
+ *
+ * Slots 0-2 (mirror pedestal items) are DISPLAY ONLY – cannot be inserted into or taken from.
+ * Slots 3-4 are the success/fail output slots.
+ *
+ * ContainerData:
+ *   [0] progress  [1] maxProgress  [2] flameLit  [3] fanProgress  [4] needsFanning
+ */
 public class PillCauldronLowHumanMenu extends AbstractContainerMenu {
+
     public final PillCauldronLowHumanEntity blockEntity;
     private final Level level;
     private final ContainerData data;
 
-
-    public PillCauldronLowHumanMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(5));
+    // ── Network constructor ───────────────────────────────────────
+    public PillCauldronLowHumanMenu(int id, Inventory inv, FriendlyByteBuf extra) {
+        this(id, inv, inv.player.level().getBlockEntity(extra.readBlockPos()), new SimpleContainerData(6));
     }
 
-    public PillCauldronLowHumanMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), pContainerId);
-
-        this.blockEntity = ((PillCauldronLowHumanEntity) entity);
+    // ── Direct constructor ────────────────────────────────────────
+    public PillCauldronLowHumanMenu(int id, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), id);
+        this.blockEntity = (PillCauldronLowHumanEntity) entity;
         this.level = inv.player.level();
-        this.data = data;
+        this.data  = data;
 
         addPlayerHotbar(inv);
         addPlayerInventory(inv);
 
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 0, 53, 20));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 1, 80, 9));
-        this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 2, 107, 20));
+        // ── Pedestal mirror slots (display only, locked) ──────────
+        // Slot 0 → left pedestal  (west)   displayed at left input position
+        this.addSlot(new LockedSlot(blockEntity.itemHandler, 0, 53, 20));
+        // Slot 1 → top pedestal   (north)  displayed at top input position
+        this.addSlot(new LockedSlot(blockEntity.itemHandler, 1, 80, 9));
+        // Slot 2 → right pedestal (east)   displayed at right input position
+        this.addSlot(new LockedSlot(blockEntity.itemHandler, 2, 107, 20));
+
+        // ── Output slots ──────────────────────────────────────────
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 3, 62, 59));
         this.addSlot(new SlotItemHandler(blockEntity.itemHandler, 4, 98, 59));
 
         addDataSlots(data);
     }
 
-    public boolean isCrafting() {
-        return data.get(0) > 0;
-    }
+    // ── ContainerData helpers ─────────────────────────────────────
+    // Slot layout: 0=progress, 1=maxProgress, 2=flameLit, 3=temperature, 4=minTemp, 5=maxTemp
+    public boolean isCrafting()         { return data.get(0) > 0 && data.get(1) > 0; }
+    public boolean isFlameStandLit()    { return data.get(2) == 1; }
+    public int getCurrentTemp()         { return data.get(3); }
+    public int getRecipeMinTemp()       { return data.get(4); }
+    public int getRecipeMaxTemp()       { return data.get(5); }
 
     public int getScaledArrowProgress() {
-        int progress = this.data.get(0);
-        int maxProgress = this.data.get(1);
-        int arrowPixelSize = 21;
-
-        return maxProgress != 0 && progress != 0 ? progress * arrowPixelSize / maxProgress : 0;
+        int prog = data.get(0);
+        int max  = data.get(1);
+        return max != 0 && prog != 0 ? prog * 21 / max : 0;
     }
 
-    private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
-    private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-
-    // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
-
+    // ── Shift-click ───────────────────────────────────────────────
+    private static final int HOTBAR_SLOTS      = 9;
+    private static final int PLAYER_INV_ROWS   = 3;
+    private static final int PLAYER_INV_COLS   = 9;
+    private static final int VANILLA_SLOTS     = HOTBAR_SLOTS + PLAYER_INV_ROWS * PLAYER_INV_COLS;
+    private static final int TE_FIRST          = VANILLA_SLOTS;
+    private static final int TE_SLOTS          = 5;
 
     @Override
-    public ItemStack quickMoveStack(Player playerIn, int pIndex) {
-        Slot sourceSlot = slots.get(pIndex);
-        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
-        ItemStack sourceStack = sourceSlot.getItem();
-        ItemStack copyOfSourceStack = sourceStack.copy();
+    public ItemStack quickMoveStack(Player player, int index) {
+        Slot source = slots.get(index);
+        if (source == null || !source.hasItem()) return ItemStack.EMPTY;
+        ItemStack sourceStack = source.getItem();
+        ItemStack copy = sourceStack.copy();
 
-        // Check if the slot clicked is one of the vanilla container slots
-        if (pIndex < VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT) {
-            // This is a vanilla container slot so merge the stack into the tile inventory
-            if (!moveItemStackTo(sourceStack, TE_INVENTORY_FIRST_SLOT_INDEX, TE_INVENTORY_FIRST_SLOT_INDEX
-                    + TE_INVENTORY_SLOT_COUNT, false)) {
-                return ItemStack.EMPTY;  // EMPTY_ITEM
-            }
-        } else if (pIndex < TE_INVENTORY_FIRST_SLOT_INDEX + TE_INVENTORY_SLOT_COUNT) {
-            // This is a TE slot so merge the stack into the players inventory
-            if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT, false)) {
+        if (index < TE_FIRST) {
+            // From player inventory → only output slots (3-4) accept shift-click in reverse
+            // Mirror slots (0-2) cannot receive items
+            if (!moveItemStackTo(sourceStack, TE_FIRST + 3, TE_FIRST + TE_SLOTS, false)) {
                 return ItemStack.EMPTY;
             }
         } else {
-            
-            return ItemStack.EMPTY;
+            int teSlot = index - TE_FIRST;
+            if (teSlot < 3) return ItemStack.EMPTY; // mirror slots – no shift-click
+            // Output slots → player inventory
+            if (!moveItemStackTo(sourceStack, 0, VANILLA_SLOTS, false)) {
+                return ItemStack.EMPTY;
+            }
         }
-        // If stack size == 0 (the entire stack was moved) set slot contents to null
-        if (sourceStack.getCount() == 0) {
-            sourceSlot.set(ItemStack.EMPTY);
-        } else {
-            sourceSlot.setChanged();
-        }
-        sourceSlot.onTake(playerIn, sourceStack);
-        return copyOfSourceStack;
+
+        if (sourceStack.getCount() == 0) source.set(ItemStack.EMPTY);
+        else source.setChanged();
+        source.onTake(player, sourceStack);
+        return copy;
     }
 
     @Override
-    public boolean stillValid(Player pPlayer) {
+    public boolean stillValid(Player player) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
+                player, ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
     }
 
-    private void addPlayerInventory(Inventory playerInventory) {
-        for (int i = 0; i < 3; ++i) {
-            for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 84 + i * 18));
+    // ── Player slots ──────────────────────────────────────────────
+    private void addPlayerInventory(Inventory inv) {
+        for (int row = 0; row < 3; row++) {
+            for (int col = 0; col < 9; col++) {
+                this.addSlot(new Slot(inv, col + row * 9 + 9, 8 + col * 18, 84 + row * 18));
             }
         }
     }
 
-    private void addPlayerHotbar(Inventory playerInventory) {
-        for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
+    private void addPlayerHotbar(Inventory inv) {
+        for (int i = 0; i < 9; i++) {
+            this.addSlot(new Slot(inv, i, 8 + i * 18, 142));
         }
     }
 
-    public int getHeatLevel() {
-        return data.get(2);
-    }
+    // ── Locked display slot ───────────────────────────────────────
+    /**
+     * A slot that cannot be interacted with by the player.
+     * Used to show pedestal item mirrors without allowing insertion/removal.
+     */
+    private static class LockedSlot extends net.neoforged.neoforge.items.SlotItemHandler {
+        public LockedSlot(net.neoforged.neoforge.items.IItemHandler handler, int index, int x, int y) {
+            super(handler, index, x, y);
+        }
 
-    public int getMaxHeat() {
-        return data.get(3);
-    }
+        @Override
+        public boolean mayPlace(ItemStack stack) { return false; }
 
-    public String getHeatText() {
-        int heat = getHeatLevel();
-        return heat + "°C";
-    }
-
-    public int getHeatPercentage() {
-        int heat = getHeatLevel();
-        int maxHeat = getMaxHeat();
-        return maxHeat != 0 ? (heat * 100) / maxHeat : 0;
+        @Override
+        public boolean mayPickup(Player player) { return false; }
     }
 }

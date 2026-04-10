@@ -143,6 +143,11 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
 
         dropSelf(ModBlocks.PILL_CAULDRON_HUMAN_LOW.get());
+        dropSelf(ModBlocks.FLAME_STAND_BLOCK.get());
+        dropSelf(ModBlocks.CAULDRON_PEDESTAL_BLOCK.get());
+        dropSelf(ModBlocks.SPIRIT_CONDENSER_BLOCK.get());
+
+
 
         add(ModBlocks.SPIRITUAL_STONE_CLUSTER.get(),
                 block -> createOreDrop(ModBlocks.SPIRITUAL_STONE_CLUSTER.get(), ModItems.SPIRITUAL_STONE.get()));

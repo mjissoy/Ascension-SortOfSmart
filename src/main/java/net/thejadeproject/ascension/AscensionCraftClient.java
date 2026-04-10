@@ -16,7 +16,12 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForge;
+import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
+import net.thejadeproject.ascension.clients.hud.FlameBarOverlay;
+import net.thejadeproject.ascension.clients.renderer.CauldronPedestalRenderer;
+import net.thejadeproject.ascension.clients.renderer.PillCauldronLowHumanBlockEntityRenderer;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.CushionRenderer;
 import net.thejadeproject.ascension.entity.client.DummyRenderer;
@@ -51,6 +56,8 @@ public class AscensionCraftClient {
         ModOverlays.register();
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
+        NeoForge.EVENT_BUS.register(FlameBarOverlay.class);
+
     }
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID,value = Dist.CLIENT)
@@ -67,6 +74,23 @@ public class AscensionCraftClient {
         public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ModParticles.CULTIVATION_PARTICLES.get(), CultivationParticles.Provider::new);
         }
+
+        @SubscribeEvent
+        public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+
+            // Floating item above each ingredient pedestal
+            event.registerBlockEntityRenderer(
+                    ModBlockEntities.CAULDRON_PEDESTAL.get(),
+                    CauldronPedestalRenderer::new
+            );
+
+            // Ghost-block hints for missing multiblock pieces on the cauldron itself
+            event.registerBlockEntityRenderer(
+                    ModBlockEntities.PILL_CAULDRON_LOW_HUMAN.get(),
+                    PillCauldronLowHumanBlockEntityRenderer::new
+            );
+        }
+
 
         @SubscribeEvent
         public static void onRegisterTooltipComponents(RegisterClientTooltipComponentFactoriesEvent event) {
@@ -91,6 +115,7 @@ public class AscensionCraftClient {
                 EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
                 EntityRenderers.register(ModEntities.CUSHION_ENTITY.get(), CushionRenderer::new);
                 EntityRenderers.register(ModEntities.DUMMY_ENTITY.get(), DummyRenderer::new);
+
                 // Register item properties
                 ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
                         ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),

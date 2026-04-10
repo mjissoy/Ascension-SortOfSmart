@@ -10,7 +10,7 @@ import net.thejadeproject.ascension.blocks.entity.PillCauldronLowHumanEntity;
 import snownee.jade.api.*;
 import snownee.jade.api.config.IPluginConfig;
 
-@WailaPlugin
+/*@WailaPlugin
 public class JadeModPlugin implements IWailaPlugin {
 
     @Override
@@ -127,4 +127,4 @@ public class JadeModPlugin implements IWailaPlugin {
             return UID;
         }
     }
-}
+}*/

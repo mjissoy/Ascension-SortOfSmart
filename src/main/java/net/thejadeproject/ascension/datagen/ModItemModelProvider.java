@@ -249,9 +249,6 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
 
-        pills(ModItems.BODY_AMNESIA_PILL.get());
-
-
 
         //herbs
         herbs(ModItems.GOLDEN_SUN_LEAF.get());

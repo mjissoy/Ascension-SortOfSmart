@@ -134,6 +134,50 @@ public class ModDataComponents {
 
 
 
+
+
+
+    // ── Pill Quality System ──────────────────────────────────────
+    // Purity: 1-100. Higher = stronger effects.
+    public static final Supplier<DataComponentType<Integer>> PILL_PURITY = DATA_COMPONENTS.register(
+            "pill_purity",
+            () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.VAR_INT)
+                    .build()
+    );
+
+    // Major Realm of the pill: 1-9
+    public static final Supplier<DataComponentType<Integer>> PILL_MAJOR_REALM = DATA_COMPONENTS.register(
+            "pill_major_realm",
+            () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.VAR_INT)
+                    .build()
+    );
+
+    // Minor Realm of the pill: "lower", "middle", "peak"
+    public static final Supplier<DataComponentType<String>> PILL_MINOR_REALM = DATA_COMPONENTS.register(
+            "pill_minor_realm",
+            () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build()
+    );
+
+    // Bonus effect ResourceLocation string (e.g. "ascension:fire_affinity")
+    // Empty string = no bonus
+    public static final Supplier<DataComponentType<String>> PILL_BONUS_EFFECT = DATA_COMPONENTS.register(
+            "pill_bonus_effect",
+            () -> DataComponentType.<String>builder()
+                    .persistent(Codec.STRING)
+                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+                    .build()
+    );
+
+
+
+
     public static void register(IEventBus eventBus) {
         DATA_COMPONENTS.register(eventBus);
     }

@@ -416,7 +416,6 @@ public class ModCreativeModeTabs {
 
                         //Important Pills
                         output.accept(ModItems.REBIRTH_PILL);
-                        output.accept(ModItems.BODY_AMNESIA_PILL);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_TECHNIQUE_MANUALS = CREATIVE_MODE_TAB.register("ascension_technique_manuals",

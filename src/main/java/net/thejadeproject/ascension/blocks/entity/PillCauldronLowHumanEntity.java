@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.blocks.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -18,11 +19,13 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import net.thejadeproject.ascension.Config;
+import net.thejadeproject.ascension.items.herbs.HerbBonusEffects;
+import net.thejadeproject.ascension.items.pills.PillItem;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
 import net.thejadeproject.ascension.recipe.ModRecipes;
@@ -33,65 +36,169 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Block Entity for the Mortal-tier Pill Cauldron.
+ *
+ * ── Crafting model ───────────────────────────────────────────────────────
+ * Progress advances by 1 tick only while the Flame Stand's temperature is
+ * inside [recipe.minTemp, recipe.maxTemp].
+ * Progress resets if the flame goes out OR temp leaves the range.
+ * maxProgress = recipe.recipeTime * 20 ticks.
+ *
+ * The temperature at the LAST tick of crafting determines purity via
+ * FlameStand.getTempPrecision(minTemp, maxTemp) → recipe.calcPurity().
+ *
+ * ── ContainerData layout ─────────────────────────────────────────────────
+ *  0  progress (ticks)
+ *  1  maxProgress (ticks)
+ *  2  flame lit (0/1)
+ *  3  current temperature (0–1000)
+ *  4  recipe minTemp (0 when no active recipe)
+ *  5  recipe maxTemp (0 when no active recipe)
+ */
 public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvider {
+
+    private static final int MIRROR_LEFT    = 0;
+    private static final int MIRROR_BACK    = 1;
+    private static final int MIRROR_RIGHT   = 2;
+    private static final int OUTPUT_SUCCESS = 3;
+    private static final int OUTPUT_FAIL    = 4;
+
     public final ItemStackHandler itemHandler = new ItemStackHandler(5) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            if (!level.isClientSide()) {
+            if (level != null && !level.isClientSide()) {
                 level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
             }
         }
     };
 
-    private static final int INPUT_SLOT0 = 0;
-    private static final int INPUT_SLOT1 = 1;
-    private static final int INPUT_SLOT2 = 2;
-    private static final int OUTPUT_SLOT_SUCCESS = 3; // Left slot - always for success items
-    private static final int OUTPUT_SLOT_FAIL = 4;   // Right slot - always for fail items
+    private int progress    = 0;
+    private int maxProgress = 0;
 
-    private int heatLevel = 0;
-    private int heatLossTimer = 0;
+    public final ContainerData data;
 
-    protected final ContainerData data;
-    private int progress = 0;
-    private int maxProgress = 72;
+    public PillCauldronLowHumanEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.PILL_CAULDRON_LOW_HUMAN.get(), pos, state);
 
-    public PillCauldronLowHumanEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.PILL_CAULDRON_LOW_HUMAN.get(), pos, blockState);
         data = new ContainerData() {
             @Override
             public int get(int i) {
+                FlameStandBlockEntity fs = getFlameStand();
+                Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
                 return switch (i) {
-                    case 0 -> PillCauldronLowHumanEntity.this.progress;
-                    case 1 -> PillCauldronLowHumanEntity.this.maxProgress;
-                    case 2 -> PillCauldronLowHumanEntity.this.heatLevel;
-                    case 3 -> Config.COMMON.PILL_CAULDRON_MAX_HEAT.get();
+                    case 0 -> progress;
+                    case 1 -> maxProgress;
+                    case 2 -> (fs != null && fs.isLit()) ? 1 : 0;
+                    case 3 -> (fs != null) ? fs.getTemperature() : 0;
+                    case 4 -> recipe.map(r -> r.value().getMinTemp()).orElse(0);
+                    case 5 -> recipe.map(r -> r.value().getMaxTemp()).orElse(0);
                     default -> 0;
                 };
             }
-
-            @Override
-            public void set(int i, int value) {
-                switch (i) {
-                    case 0:
-                        PillCauldronLowHumanEntity.this.progress = value;
-                        break;
-                    case 1:
-                        PillCauldronLowHumanEntity.this.maxProgress = value;
-                        break;
-                    case 2:
-                        PillCauldronLowHumanEntity.this.heatLevel = value;
-                        break;
-                }
+            @Override public void set(int i, int v) {
+                if (i == 0) progress = v;
+                if (i == 1) maxProgress = v;
             }
-
-            @Override
-            public int getCount() {
-                return 4;
-            }
+            @Override public int getCount() { return 6; }
         };
     }
+
+    // ── Facing / relative position helpers ───────────────────────
+
+    public Direction getFacing() {
+        if (level == null) return Direction.NORTH;
+        BlockState state = level.getBlockState(worldPosition);
+        if (state.hasProperty(HorizontalDirectionalBlock.FACING)) {
+            return state.getValue(HorizontalDirectionalBlock.FACING);
+        }
+        return Direction.NORTH;
+    }
+
+    public BlockPos relativeOffset(int right, int up, int forward) {
+        Direction facing   = getFacing();
+        Direction rightDir = facing.getClockWise();
+        return worldPosition
+                .relative(rightDir, right)
+                .relative(Direction.UP, up)
+                .relative(facing, forward);
+    }
+
+    public BlockPos pedestalLeftPos()  { return relativeOffset(-2, 0, 0); }
+    public BlockPos pedestalBackPos()  { return relativeOffset(0, 0, 2); }
+    public BlockPos pedestalRightPos() { return relativeOffset(2, 0, 0); }
+
+    // ── Multiblock helpers ────────────────────────────────────────
+
+    @Nullable
+    public FlameStandBlockEntity getFlameStand() {
+        if (level == null) return null;
+        BlockEntity be = level.getBlockEntity(worldPosition.below());
+        return (be instanceof FlameStandBlockEntity fs) ? fs : null;
+    }
+
+    @Nullable
+    private SpiritCondenserBlockEntity getActiveSpiritCondenser() {
+        if (level == null) return null;
+        for (int dx = -3; dx <= 3; dx++) for (int dy = -3; dy <= 3; dy++) for (int dz = -3; dz <= 3; dz++) {
+            if (dx == 0 && dy == 0 && dz == 0) continue;
+            BlockEntity be = level.getBlockEntity(worldPosition.offset(dx, dy, dz));
+            if (be instanceof SpiritCondenserBlockEntity sc && sc.isActive()) return sc;
+        }
+        return null;
+    }
+
+    @Nullable
+    private CauldronPedestalBlockEntity getPedestalEntity(BlockPos pos) {
+        if (level == null) return null;
+        BlockEntity be = level.getBlockEntity(pos);
+        return (be instanceof CauldronPedestalBlockEntity p) ? p : null;
+    }
+
+    private ItemStack getPedestalItem(BlockPos pos) {
+        CauldronPedestalBlockEntity p = getPedestalEntity(pos);
+        return (p != null) ? p.getItem() : ItemStack.EMPTY;
+    }
+
+    // ── Mirror sync ───────────────────────────────────────────────
+
+    private void syncPedestalMirrors() {
+        updateMirrorIfChanged(MIRROR_LEFT,  getPedestalItem(pedestalLeftPos()));
+        updateMirrorIfChanged(MIRROR_BACK,  getPedestalItem(pedestalBackPos()));
+        updateMirrorIfChanged(MIRROR_RIGHT, getPedestalItem(pedestalRightPos()));
+    }
+
+    private void updateMirrorIfChanged(int slot, ItemStack incoming) {
+        ItemStack current = itemHandler.getStackInSlot(slot);
+        boolean same = ItemStack.isSameItemSameComponents(current, incoming)
+                && current.getCount() == incoming.getCount();
+        if (!same) {
+            itemHandler.setStackInSlot(slot, incoming.isEmpty() ? ItemStack.EMPTY : incoming.copy());
+        }
+    }
+
+    // ── Consume ───────────────────────────────────────────────────
+
+    private void consumePedestalIngredients(NonNullList<SizedIngredient> ingredients) {
+        BlockPos[] positions = { pedestalLeftPos(), pedestalBackPos(), pedestalRightPos() };
+        for (int i = 0; i < ingredients.size() && i < 3; i++) {
+            CauldronPedestalBlockEntity pedestal = getPedestalEntity(positions[i]);
+            if (pedestal == null) continue;
+            int needed = ingredients.get(i).count();
+            ItemStack held = pedestal.getItem();
+            if (held.isEmpty()) continue;
+            if (held.getCount() <= needed) {
+                pedestal.setItem(ItemStack.EMPTY);
+            } else {
+                ItemStack remaining = held.copy();
+                remaining.shrink(needed);
+                pedestal.setItem(remaining);
+            }
+        }
+    }
+
+    // ── MenuProvider ──────────────────────────────────────────────
 
     @Override
     public Component getDisplayName() {
@@ -100,216 +207,186 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return new PillCauldronLowHumanMenu(i, inventory, this, this.data);
+    public AbstractContainerMenu createMenu(int id, Inventory inv, Player player) {
+        return new PillCauldronLowHumanMenu(id, inv, this, this.data);
     }
 
-    public void drops() {
-        SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
-            inventory.setItem(i, itemHandler.getStackInSlot(i));
+    // ── Tick ──────────────────────────────────────────────────────
+
+    public void tick(Level level, BlockPos pos, BlockState state) {
+        syncPedestalMirrors();
+
+        FlameStandBlockEntity flameStand = getFlameStand();
+        boolean flameLit = flameStand != null && flameStand.isLit();
+
+        if (!flameLit) {
+            resetProgress();
+            return;
         }
 
-        Containers.dropContents(this.level, this.worldPosition, inventory);
-    }
+        Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipeOpt = getMatchingRecipe(flameStand);
 
-    public void addHeat(int amount) {
-        int maxHeat = Config.COMMON.PILL_CAULDRON_MAX_HEAT.get();
-        heatLevel = Math.min(maxHeat, heatLevel + amount);
-        setChanged();
-    }
+        if (recipeOpt.isPresent()) {
+            LowHumanPillCauldronRecipe recipe = recipeOpt.get().value();
 
-    public int getHeatLevel() {
-        return this.data.get(2);
-    }
-
-    public int getMaxHeat() {
-        return this.data.get(3);
-    }
-
-    public int getProgress() {
-        return this.data.get(0);
-    }
-
-    public int getMaxProgress() {
-        return this.data.get(1);
-    }
-
-    public ItemStack getCurrentRecipeOutput() {
-        ItemStack successOutput = this.itemHandler.getStackInSlot(OUTPUT_SLOT_SUCCESS);
-        ItemStack failOutput = this.itemHandler.getStackInSlot(OUTPUT_SLOT_FAIL);
-
-        if (!successOutput.isEmpty()) {
-            return successOutput;
-        } else if (!failOutput.isEmpty()) {
-            return failOutput;
-        }
-        return ItemStack.EMPTY;
-    }
-
-    public ItemStack getInputItem(int slot) {
-        if (slot >= 0 && slot < 3) {
-            return this.itemHandler.getStackInSlot(slot);
-        }
-        return ItemStack.EMPTY;
-    }
-
-    public boolean isCrafting() {
-        return getProgress() > 0;
-    }
-
-    @Override
-    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        pTag.put("inventory", itemHandler.serializeNBT(pRegistries));
-        pTag.putInt("pill_cauldron.progress", progress);
-        pTag.putInt("pill_cauldron.max_progress", maxProgress);
-        pTag.putInt("heatLevel", heatLevel);
-        pTag.putInt("heatLossTimer", heatLossTimer);
-
-        super.saveAdditional(pTag, pRegistries);
-    }
-
-    @Override
-    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        super.loadAdditional(pTag, pRegistries);
-
-        itemHandler.deserializeNBT(pRegistries, pTag.getCompound("inventory"));
-        progress = pTag.getInt("pill_cauldron.progress");
-        maxProgress = pTag.getInt("pill_cauldron.max_progress");
-        heatLevel = pTag.getInt("heatLevel");
-        heatLossTimer = pTag.getInt("heatLossTimer");
-    }
-
-    public void tick(Level level, BlockPos blockPos, BlockState blockState) {
-        // Handle heat loss over time using config values
-        heatLossTimer++;
-        int heatLossInterval = Config.COMMON.PILL_CAULDRON_HEAT_LOSS_INTERVAL.get();
-        if (heatLossTimer >= heatLossInterval) {
-            if (heatLevel > 0) {
-                int heatLossAmount = Config.COMMON.PILL_CAULDRON_HEAT_LOSS_AMOUNT.get();
-                heatLevel = Math.max(0, heatLevel - heatLossAmount);
-                setChanged();
+            // Set maxProgress from recipe on first tick of this recipe
+            if (maxProgress != recipe.getRecipeTimeTicks()) {
+                maxProgress = recipe.getRecipeTimeTicks();
+                progress = 0;
             }
-            heatLossTimer = 0;
-        }
 
-        if (hasRecipe() && hasRequiredHeat()) {
-            increaseCraftingProgress();
-            setChanged(level, blockPos, blockState);
+            if (canOutput(recipe)) {
+                progress++;
+                setChanged(level, pos, state);
 
-            if (hasCraftingFinished()) {
-                craftItem();
-                resetProgress();
+                if (progress >= maxProgress) {
+                    craftItem(flameStand, recipe);
+                    resetProgress();
+                }
             }
+            // If can't output, pause but don't reset — let player clear output first
         } else {
+            // Temp out of range or ingredients missing — reset
             resetProgress();
         }
     }
 
-    private boolean hasRequiredHeat() {
-        Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
-        if (recipe.isEmpty()) {
-            return false;
-        }
+    // ── Crafting ──────────────────────────────────────────────────
 
-        int requiredHeat = recipe.get().value().getRequiredHeat();
-        return heatLevel >= requiredHeat;
-    }
-
-    private void resetProgress() {
-        progress = 0;
-        maxProgress = 72;
-    }
-
-    private void craftItem() {
-        Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
-        if (recipe.isEmpty()) {
-            return;
-        }
-
-        LowHumanPillCauldronRecipe recipeValue = recipe.get().value();
-        NonNullList<SizedIngredient> ingredients = recipeValue.getSizedIngredients();
-
-        // Consume input items from each slot based on recipe requirements
-        for (int i = 0; i < ingredients.size(); i++) {
-            SizedIngredient ingredient = ingredients.get(i);
-            // Extract the required amount from the corresponding slot
-            itemHandler.extractItem(i, ingredient.count(), false);
-        }
-
-        // Determine success or fail based on chance
-        boolean isSuccess = ThreadLocalRandom.current().nextDouble() < recipeValue.getChance();
-        ItemStack output = isSuccess ? recipeValue.getSuccess() : recipeValue.getFail();
-        int targetSlot = isSuccess ? OUTPUT_SLOT_SUCCESS : OUTPUT_SLOT_FAIL;
-
-        ItemStack currentStack = itemHandler.getStackInSlot(targetSlot);
-
-        if (currentStack.isEmpty()) {
-            // Slot is empty, place new stack
-            itemHandler.setStackInSlot(targetSlot, output.copy());
-        } else if (ItemStack.isSameItemSameComponents(currentStack, output) &&
-                currentStack.getCount() + output.getCount() <= currentStack.getMaxStackSize()) {
-            // Same item and has space, add to existing stack
-            currentStack.grow(output.getCount());
-            itemHandler.setStackInSlot(targetSlot, currentStack);
-        }
-        // If neither condition is met, the output is lost
-    }
-
-    private boolean hasCraftingFinished() {
-        return this.progress >= this.maxProgress;
-    }
-
-    private void increaseCraftingProgress() {
-        progress++;
-    }
-
-    private boolean hasRecipe() {
-        Optional<RecipeHolder<LowHumanPillCauldronRecipe>> recipe = getCurrentRecipe();
-
-        if (recipe.isEmpty()) {
-            return false;
-        }
-
-        // Check heat requirement
-        LowHumanPillCauldronRecipe recipeValue = recipe.get().value();
-        if (this.heatLevel < recipeValue.getRequiredHeat()) {
-            return false;
-        }
-
-        // Check output slots
-        ItemStack successOutput = recipeValue.getSuccess();
-        ItemStack failOutput = recipeValue.getFail();
-
-        ItemStack successSlot = itemHandler.getStackInSlot(OUTPUT_SLOT_SUCCESS);
-        ItemStack failSlot = itemHandler.getStackInSlot(OUTPUT_SLOT_FAIL);
-
-        // Check if success output can go to success slot
-        boolean canInsertSuccess = successSlot.isEmpty() ||
-                (ItemStack.isSameItemSameComponents(successSlot, successOutput) &&
-                        successSlot.getCount() + successOutput.getCount() <= successSlot.getMaxStackSize());
-
-        // Check if fail output can go to fail slot
-        boolean canInsertFail = failSlot.isEmpty() ||
-                (ItemStack.isSameItemSameComponents(failSlot, failOutput) &&
-                        failSlot.getCount() + failOutput.getCount() <= failSlot.getMaxStackSize());
-
-        return canInsertSuccess && canInsertFail;
+    /**
+     * Returns the matching recipe only if the flame stand temperature is currently
+     * within [minTemp, maxTemp] AND the ingredients are present.
+     * This drives both progress advancement and recipe-display for the HUD.
+     */
+    private Optional<RecipeHolder<LowHumanPillCauldronRecipe>> getMatchingRecipe(FlameStandBlockEntity fs) {
+        if (level == null) return Optional.empty();
+        int temp = fs.getTemperature();
+        return level.getRecipeManager().getRecipeFor(
+                ModRecipes.CAULDRON_LOW_HUMAN_TYPE.get(),
+                new PillCauldronInput(3, List.of(
+                        getPedestalItem(pedestalLeftPos()),
+                        getPedestalItem(pedestalBackPos()),
+                        getPedestalItem(pedestalRightPos())
+                ), temp),
+                level
+        );
     }
 
     private Optional<RecipeHolder<LowHumanPillCauldronRecipe>> getCurrentRecipe() {
-        return this.level.getRecipeManager()
-                .getRecipeFor(ModRecipes.CAULDRON_LOW_HUMAN_TYPE.get(), new PillCauldronInput(3, List.of(
-                        itemHandler.getStackInSlot(INPUT_SLOT0),
-                        itemHandler.getStackInSlot(INPUT_SLOT1),
-                        itemHandler.getStackInSlot(INPUT_SLOT2)
-                ), this.heatLevel), level);
+        FlameStandBlockEntity fs = getFlameStand();
+        if (fs == null || !fs.isLit()) {
+            // Still provide ingredients for HUD display, just pass 0 heat
+            if (level == null) return Optional.empty();
+            return level.getRecipeManager().getRecipeFor(
+                    ModRecipes.CAULDRON_LOW_HUMAN_TYPE.get(),
+                    new PillCauldronInput(3, List.of(
+                            getPedestalItem(pedestalLeftPos()),
+                            getPedestalItem(pedestalBackPos()),
+                            getPedestalItem(pedestalRightPos())
+                    ), 0),
+                    level
+            );
+        }
+        return getMatchingRecipe(fs);
+    }
+
+    private boolean canOutput(LowHumanPillCauldronRecipe r) {
+        ItemStack successSlot = itemHandler.getStackInSlot(OUTPUT_SUCCESS);
+        ItemStack failSlot    = itemHandler.getStackInSlot(OUTPUT_FAIL);
+        boolean canSuccess = successSlot.isEmpty() ||
+                (ItemStack.isSameItemSameComponents(successSlot, r.getSuccess()) &&
+                        successSlot.getCount() + r.getSuccess().getCount() <= successSlot.getMaxStackSize());
+        boolean canFail = failSlot.isEmpty() ||
+                (ItemStack.isSameItemSameComponents(failSlot, r.getFail()) &&
+                        failSlot.getCount() + r.getFail().getCount() <= failSlot.getMaxStackSize());
+        return canSuccess && canFail;
+    }
+
+    private void craftItem(FlameStandBlockEntity flameStand, LowHumanPillCauldronRecipe recipe) {
+        // Purity from final-second temperature precision
+        float tempPrecision  = flameStand.getTempPrecision(recipe.getMinTemp(), recipe.getMaxTemp());
+        int condenserBonus   = (getActiveSpiritCondenser() != null)
+                ? net.thejadeproject.ascension.blocks.entity.SpiritCondenserBlockEntity.PURITY_BONUS : 0;
+        int purity = recipe.calcPurity(tempPrecision, condenserBonus + flameStand.getPurityBonus());
+
+        int finalMajorRealm = Math.min(9, Math.max(1,
+                recipe.getPillRealmMajor() + flameStand.getRealmBonus()));
+        String finalMinorRealm = recipe.getPillRealmMinor();
+
+        List<ItemStack> inputs = List.of(
+                getPedestalItem(pedestalLeftPos()),
+                getPedestalItem(pedestalBackPos()),
+                getPedestalItem(pedestalRightPos())
+        );
+        String bonusEffect = HerbBonusEffects.rollBonusEffect(inputs, recipe.getBonusChance());
+
+        boolean isSuccess  = ThreadLocalRandom.current().nextDouble() < recipe.getChance();
+        ItemStack output   = (isSuccess ? recipe.getSuccess() : recipe.getFail()).copy();
+        int targetSlot     = isSuccess ? OUTPUT_SUCCESS : OUTPUT_FAIL;
+
+        PillItem.applyPillData(output, finalMajorRealm, finalMinorRealm, purity, bonusEffect);
+
+        ItemStack current = itemHandler.getStackInSlot(targetSlot);
+        if (current.isEmpty()) {
+            itemHandler.setStackInSlot(targetSlot, output);
+        } else if (ItemStack.isSameItemSameComponents(current, output) &&
+                current.getCount() + output.getCount() <= current.getMaxStackSize()) {
+            current.grow(output.getCount());
+            itemHandler.setStackInSlot(targetSlot, current);
+        }
+
+        consumePedestalIngredients(recipe.getSizedIngredients());
+    }
+
+    private void resetProgress() {
+        if (progress != 0 || maxProgress != 0) {
+            progress = 0;
+            maxProgress = 0;
+            setChanged();
+        }
+    }
+
+    // ── Menu / HUD helpers ────────────────────────────────────────
+
+    public boolean isCrafting()       { return progress > 0 && maxProgress > 0; }
+    public boolean isFlameStandLit()  { return data.get(2) == 1; }
+    public int getCurrentTemp()       { return data.get(3); }
+    public int getRecipeMinTemp()     { return data.get(4); }
+    public int getRecipeMaxTemp()     { return data.get(5); }
+
+    public int getScaledArrowProgress() {
+        int prog = data.get(0), max = data.get(1);
+        return max != 0 && prog != 0 ? prog * 21 / max : 0;
+    }
+
+    // ── Drops ─────────────────────────────────────────────────────
+
+    public void drops() {
+        SimpleContainer inv = new SimpleContainer(2);
+        inv.setItem(0, itemHandler.getStackInSlot(OUTPUT_SUCCESS));
+        inv.setItem(1, itemHandler.getStackInSlot(OUTPUT_FAIL));
+        Containers.dropContents(level, worldPosition, inv);
+    }
+
+    // ── NBT ───────────────────────────────────────────────────────
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider reg) {
+        tag.put("inventory", itemHandler.serializeNBT(reg));
+        tag.putInt("progress", progress);
+        tag.putInt("maxProgress", maxProgress);
+        super.saveAdditional(tag, reg);
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider pRegistries) {
-        return saveWithoutMetadata(pRegistries);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider reg) {
+        super.loadAdditional(tag, reg);
+        itemHandler.deserializeNBT(reg, tag.getCompound("inventory"));
+        progress    = tag.getInt("progress");
+        maxProgress = tag.getInt("maxProgress");
     }
+
+    @Override public CompoundTag getUpdateTag(HolderLookup.Provider reg) { return saveWithoutMetadata(reg); }
 
     @Nullable
     @Override

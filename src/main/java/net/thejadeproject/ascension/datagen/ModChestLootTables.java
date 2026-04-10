@@ -146,8 +146,6 @@ public class ModChestLootTables implements LootTableSubProvider {
                                                 .setWeight(15))
                                         .add(LootItem.lootTableItem(ModItems.REBIRTH_PILL.get())
                                                 .setWeight(8))
-                                        .add(LootItem.lootTableItem(ModItems.BODY_AMNESIA_PILL.get())
-                                                .setWeight(10))
                                         .add(LootItem.lootTableItem(ModTechniques.SWORD_SAINT_TECHNIQUE.manual.get())
                                                 .setWeight(8))
                                         .add(LootItem.lootTableItem(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get())
