@@ -94,7 +94,20 @@ public class ValueContainer {
         }
         calculateCachedVal();
     }
-
+    public void removeModifier(ResourceLocation id){
+        addFinal.remove(id);
+        addBase.remove(id);
+        if(multiFinal.containsKey(id)){
+            ValueContainerModifier modifier = multiFinal.remove(id);
+            ResourceLocation group = modifier.getGroupIdentifier();
+            multiFinalByGroup.get(group).remove(modifier);
+        }
+        if(multiBase.containsKey(id)){
+            ValueContainerModifier modifier = multiBase.remove(id);
+            ResourceLocation group = modifier.getGroupIdentifier();
+            multiBaseByGroup.get(group).remove(modifier);
+        }
+    }
 
     public double getValue(){return cachedVal;}
     public double getBaseValue(){return base;}

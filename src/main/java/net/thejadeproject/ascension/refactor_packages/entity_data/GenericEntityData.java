@@ -20,10 +20,12 @@ import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
+import net.thejadeproject.ascension.refactor_packages.paths.PathBonusHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 
+import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
@@ -36,7 +38,7 @@ import org.checkerframework.checker.units.qual.A;
 
 import java.nio.file.Path;
 import java.util.*;
-
+//TODO set up some sort of tick handler for entity data and all its parts that need it
 public class GenericEntityData implements IEntityData {
     private ResourceLocation activeForm = ModForms.MORTAL_VESSEL.getId();
     private UUID attachedEntity;
@@ -51,7 +53,8 @@ public class GenericEntityData implements IEntityData {
 
     //not final since in the future we will be able to change it
     private AscensionAttributeHolder ascensionAttributeHolder;
-
+    private final PathBonusHandler pathBonusHandler = new PathBonusHandler();
+    private final EntityQiContainer entityQiContainer = new EntityQiContainer(this);
     boolean attachedEntityLoaded;
 
 
@@ -538,6 +541,11 @@ public class GenericEntityData implements IEntityData {
     public void removePath(ResourceLocation path) {
         //TODO
     }
+
+    @Override
+    public PathBonusHandler getPathBonusHandler() {
+        return pathBonusHandler;
+    }
     //============================ BREAKTHROUGH HANDLING ==================================
 
 
@@ -627,6 +635,12 @@ public class GenericEntityData implements IEntityData {
     public SkillCastHandler getSkillCastHandler() {
         return skillCastHandler;
     }
+
+    @Override
+    public EntityQiContainer getQiContainer() {
+        return entityQiContainer;
+    }
+
     //============================= ATTRIBUTES =======================================
     @Override
     public AscensionAttributeHolder getAscensionAttributeHolder() {

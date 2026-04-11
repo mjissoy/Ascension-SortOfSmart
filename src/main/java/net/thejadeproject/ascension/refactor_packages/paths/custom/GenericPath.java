@@ -88,8 +88,23 @@ public class GenericPath implements IPath {
     }
 
     @Override
-    public int getMaxQiForRealm(int majorRealm, int minorRealm) {
+    public double getMaxQiForRealm(int majorRealm, int minorRealm) {
         return 100;
+    }
+
+    @Override
+    public double getQiConversionRatio() {
+        return 1;
+    }
+
+    @Override
+    public double tryRegenQi(double amount, IEntityData heldEntity) {
+        return amount;
+    }
+
+    @Override
+    public void qiConsumed(double amount, IEntityData heldEntity) {
+
     }
 
 

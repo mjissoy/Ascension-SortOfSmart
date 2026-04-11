@@ -125,12 +125,12 @@ public class GenericTechnique implements ITechnique {
     }
 
     @Override
-    public IBreakthroughInstance breakthroughInstanceFromCompound(CompoundTag tag) {
+    public IBreakthroughInstance breakthroughInstanceFromCompound(CompoundTag tag,int majorRealm,int minorRealm,ITechniqueData data) {
         return null;
     }
 
     @Override
-    public IBreakthroughInstance breakthroughInstanceFromNetwork(RegistryFriendlyByteBuf buf) {
+    public IBreakthroughInstance breakthroughInstanceFromNetwork(RegistryFriendlyByteBuf buf,int majorRealm,int minorRealm,ITechniqueData data) {
         return null;
     }
 }

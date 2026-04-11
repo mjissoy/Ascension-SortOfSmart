@@ -7,9 +7,11 @@ import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.paths.PathBonusHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
+import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
@@ -230,6 +232,11 @@ public class RemoteEntityData implements IEntityData{
     }
 
     @Override
+    public PathBonusHandler getPathBonusHandler() {
+        return null;
+    }
+
+    @Override
     public boolean isBreakingThrough(ResourceLocation path) {
         return false;
     }
@@ -266,6 +273,11 @@ public class RemoteEntityData implements IEntityData{
 
     @Override
     public SkillCastHandler getSkillCastHandler() {
+        return null;
+    }
+
+    @Override
+    public EntityQiContainer getQiContainer() {
         return null;
     }
 

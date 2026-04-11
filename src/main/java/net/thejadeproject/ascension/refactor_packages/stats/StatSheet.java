@@ -36,6 +36,10 @@ public class StatSheet {
         if(!sheetStats.containsKey(stat)) sheetStats.put(stat,stat.instance());
         sheetStats.get(stat).addModifier(modifier);
     }
+    public void removeStatModifier(Stat stat,ResourceLocation identifier){
+        if(!sheetStats.containsKey(stat)) return;
+        sheetStats.get(stat).removeModifier(identifier);
+    }
     public boolean hasStat(Stat stat){return sheetStats.containsKey(stat);}
 
 

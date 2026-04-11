@@ -79,6 +79,6 @@ public interface ITechnique {
     ITechniqueData fromNetwork(RegistryFriendlyByteBuf buf);
 
     IBreakthroughInstance freshBreakthroughData(IEntityData heldEntity);
-    IBreakthroughInstance breakthroughInstanceFromCompound(CompoundTag tag);
-    IBreakthroughInstance breakthroughInstanceFromNetwork(RegistryFriendlyByteBuf buf);
+    IBreakthroughInstance breakthroughInstanceFromCompound(CompoundTag tag,int majorRealm,int minorRealm,ITechniqueData techniqueData);
+    IBreakthroughInstance breakthroughInstanceFromNetwork(RegistryFriendlyByteBuf buf,int majorRealm,int minorRealm,ITechniqueData techniqueData);
 }

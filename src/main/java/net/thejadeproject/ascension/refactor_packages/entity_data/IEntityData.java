@@ -13,9 +13,11 @@ import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.paths.PathBonusHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
+import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
@@ -96,6 +98,7 @@ public interface IEntityData {
     //a shortcut for removing cultivation, anything more complex must be done through the path data and path
     void removePath(ResourceLocation path);
 
+    PathBonusHandler getPathBonusHandler();
     //============================ BREAKTHROUGH HANDLING ===================================
     boolean isBreakingThrough(ResourceLocation path);
     //============================ SKILL HANDLING ===================================
@@ -111,6 +114,7 @@ public interface IEntityData {
     Set<ResourceLocation> getAllSkills();
     //============================= SKILL CASTING ====================================
     SkillCastHandler getSkillCastHandler();
+    EntityQiContainer getQiContainer();
     //============================= ATTRIBUTES =======================================
     AscensionAttributeHolder getAscensionAttributeHolder();
     default void addDefaultAttributes(LivingEntity entity){

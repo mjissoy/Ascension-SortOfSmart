@@ -291,12 +291,7 @@ public class PathData {
         buf.writeBoolean(lastUsedTechnique != null);
         if(lastUsedTechnique != null) ByteBufHelper.encodeString(buf,lastUsedTechnique.toString());
 
-        //breakthrough stuff
-        buf.writeBoolean(breakingThrough);
-        buf.writeBoolean(breakthroughInstance != null);
-        if(breakthroughInstance != null){
-            breakthroughInstance.encode(buf);
-        }
+
         buf.writeInt(realmStability.size());
         for(Integer stability : realmStability){
             buf.writeInt(stability);
@@ -311,7 +306,12 @@ public class PathData {
             System.out.println("trying to write data for skill : "+technique.toString());
             techniqueData.get(technique).encode(buf);
         }
-
+        //breakthrough stuff
+        buf.writeBoolean(breakingThrough);
+        buf.writeBoolean(breakthroughInstance != null);
+        if(breakthroughInstance != null){
+            breakthroughInstance.encode(buf);
+        }
     }
     public void decode(RegistryFriendlyByteBuf buf){
         //TODO
@@ -322,10 +322,7 @@ public class PathData {
         cultivating = buf.readBoolean();
         if(buf.readBoolean())lastUsedTechnique = ByteBufHelper.readResourceLocation(buf);
 
-        breakingThrough = buf.readBoolean();
-        if(buf.readBoolean()){
-            breakthroughInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(lastUsedTechnique).breakthroughInstanceFromNetwork(buf);
-        }
+
         int size = buf.readInt();
         realmStability.clear();
         for(int i=0;i<size;i++){
@@ -342,6 +339,11 @@ public class PathData {
             ResourceLocation technique = ByteBufHelper.readResourceLocation(buf);
             ITechniqueData techniqueDataInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique).fromNetwork(buf);
             techniqueData.put(technique,techniqueDataInstance);
+        }
+        breakingThrough = buf.readBoolean();
+        if(buf.readBoolean()){
+            breakthroughInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(lastUsedTechnique).breakthroughInstanceFromNetwork(
+                    buf,majorRealm,minorRealm,techniqueData.get(lastUsedTechnique));
         }
     }
 }
