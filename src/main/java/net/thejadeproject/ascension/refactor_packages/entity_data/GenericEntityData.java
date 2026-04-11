@@ -79,6 +79,7 @@ public class GenericEntityData implements IEntityData {
             addDefaultAttributes(entity);
 
         }
+        getQiContainer().fullFillQi();
     }
     //TODO add better error handling so an error does not delete all data
     public GenericEntityData(Entity attachedEntity, CompoundTag tag){
@@ -150,6 +151,7 @@ public class GenericEntityData implements IEntityData {
         }
         getSkillCastHandler().read(tag.getCompound("skill_cast_handler"));
         getAscensionAttributeHolder().updateAttributes(this);
+        getQiContainer().fullFillQi();
     }
     public void sync(Player player){
         for(ResourceLocation form:heldFormData.keySet()){

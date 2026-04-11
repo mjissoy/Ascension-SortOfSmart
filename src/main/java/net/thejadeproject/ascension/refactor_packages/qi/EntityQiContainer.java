@@ -61,7 +61,13 @@ public class EntityQiContainer {
 
     public EntityQiContainer(IEntityData attachedEntity){
         this.attachedEntity = attachedEntity;
-        currentPureQi = attachedEntity.getAscensionAttributeHolder().getAttribute(ModAttributes.MAX_QI).getValue();
+
+    }
+    public void fullFillQi(){
+        for(QiSegment segment : segmentedQi.values()){
+            segment.setCurrentQi(segment.getMaxQi());
+        }
+        currentPureQi = getMaxPureQi();
     }
     public double getMaxPureQi(){
         double maxQi = attachedEntity.getAscensionAttributeHolder().getAttribute(ModAttributes.MAX_QI).getValue();

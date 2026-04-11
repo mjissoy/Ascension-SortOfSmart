@@ -36,11 +36,13 @@ public class PassiveSkillIcon extends RenderableElement {
         label.setHeight(8);
         label.setTextPositioningY(EasyLabel.TextPositionRule.CENTER);
         label.setTextPositioningX(EasyLabel.TextPositionRule.START);
-
+        label.setTextColor(-1);
         label.setTextScale(0.5f);
         setSkill(skill);
         addEventListener(EasyEvents.GLOBAL_MOUSE_MOVE_EVENT,this::onMouseMove, EventPhase.BUBBLE);
         addChild(label);
+        setWidth(background.getWidth());
+        setHeight(background.getHeight());
         this.skillId = skill;
     }
 

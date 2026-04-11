@@ -23,6 +23,7 @@ import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHan
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
 import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
+import net.thejadeproject.ascension.util.ModAttributes;
 
 import java.util.*;
 
@@ -135,6 +136,8 @@ public interface IEntityData {
         holder.getAttribute(Attributes.MOVEMENT_SPEED).addStatScaling(ModStats.STRENGTH.get(),0.0001); //0.01% of strength
         holder.getAttribute(Attributes.MOVEMENT_SPEED).addStatScaling(ModStats.AGILITY.get(),0.001); //0.1% of agility
 
+        holder.addAttribute(ModAttributes.MAX_QI,Component.literal("Max Qi"));
+        holder.addAttribute(ModAttributes.QI_REGEN_RATE,Component.literal("Qi Regen Rate"));
         holder.updateAttributes(this);
     }
     //============================= DATA HANDLING ====================================

@@ -15,7 +15,7 @@ public class SkillMenuContainer extends RenderableElement {
 
     private ResourceLocation heldSkill;
     private ITextureData heldSkillIcon;
-
+    private boolean scheduledHeldSKillRemoval;
     public SkillMenuContainer(UIFrame frame) {
         super(frame);
         getPositioning().setPositioningRule(PositioningRules.CENTER);
@@ -35,6 +35,9 @@ public class SkillMenuContainer extends RenderableElement {
         addChild(activeContainer);
         addChild(activeSkillContainer);
         addChild(passiveContainer);
+        addEventListener(EasyEvents.GLOBAL_MOUSE_UP_EVENT,event -> {
+            if(this.heldSkill != null) scheduledHeldSKillRemoval = true;
+        });
 
     }
 
@@ -60,4 +63,13 @@ public class SkillMenuContainer extends RenderableElement {
         return heldSkill;
     }
 
+    @Override
+    public void renderTick(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if(scheduledHeldSKillRemoval){
+            setHeldSkill(null);
+            scheduledHeldSKillRemoval = false;
+        }
+        super.renderTick(guiGraphics, mouseX, mouseY, partialTick);
+
+    }
 }
