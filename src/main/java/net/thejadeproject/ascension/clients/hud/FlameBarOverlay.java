@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.client.hud;
+package net.thejadeproject.ascension.clients.hud;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

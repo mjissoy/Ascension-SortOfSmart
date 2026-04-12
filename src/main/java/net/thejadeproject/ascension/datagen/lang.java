@@ -12,6 +12,26 @@ public class lang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+        //GuideBook
+        add("book.title.ascension.art_of_ascension", "Ascension Guide");
+        add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance");
+
+        add("guide.landing_text.ascension.1", "§lAscension§0 is the art of Cultivating and Improving yourself to Ascend and reach Godhood\n\nThis book aims to explain the various functions of §lAscension§8.");
+        add("guide.cultivation_info.landing_text.ascension.1", "This will explain everything you need to know in order to play the mod! From early game to mid game to late game!");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //Menus
         add("container.ascension.spatial_stones", "§5Spatial Stones");
         add("container.ascension.other_upgrades", "§6Upgrades");
@@ -31,10 +51,6 @@ public class lang extends LanguageProvider {
 
         //Death msgs
         add("death.attack.pill_residue", "%1$s finally learned not to eat Pill Residue leftover in the Pill Cauldron");
-
-        //GuideBook
-        add("book.title.ascension.art_of_ascension", "Ascension Guide");
-        add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance");
 
         //Attributes & Technical Shit
 

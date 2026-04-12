@@ -1,7 +1,7 @@
 {
   "title": "book.title.ascension.art_of_ascension",
   "subtitle": "book.subtitle.ascension.art_of_ascension",
-  "landing_text": "§lAscension§0 is the art of Cultivating and Improving yourself to Ascend and reach Godhood\n\nThis book aims to explain the various functions of §lAscension§8.",
+  "landing_text": "guide.landing_text.ascension.1",
   "creative_tab": "ascension:ascension_items_tab",
   "model": "ascension:item/modopedia_books/scroll",
   "type": "modopedia:classic"
