@@ -137,8 +137,7 @@ public class ModDataComponents {
 
 
 
-    // ── Pill Quality System ──────────────────────────────────────
-    // Purity: 1-100. Higher = stronger effects.
+    // ── Pill: purity (1-100, used for grade names in tooltip) ────
     public static final Supplier<DataComponentType<Integer>> PILL_PURITY = DATA_COMPONENTS.register(
             "pill_purity",
             () -> DataComponentType.<Integer>builder()
@@ -147,7 +146,7 @@ public class ModDataComponents {
                     .build()
     );
 
-    // Major Realm of the pill: 1-9
+    // ── Pill: major realm (1-9) ───────────────────────────────────
     public static final Supplier<DataComponentType<Integer>> PILL_MAJOR_REALM = DATA_COMPONENTS.register(
             "pill_major_realm",
             () -> DataComponentType.<Integer>builder()
@@ -156,22 +155,41 @@ public class ModDataComponents {
                     .build()
     );
 
-    // Minor Realm of the pill: "lower", "middle", "peak"
-    public static final Supplier<DataComponentType<String>> PILL_MINOR_REALM = DATA_COMPONENTS.register(
-            "pill_minor_realm",
+    // NOTE: PILL_MINOR_REALM is REMOVED.
+    // Purity grade (Basic/Average/Advanced/Peak) is now derived
+    // at tooltip time from the numeric PILL_PURITY value.
+    // See PillRealmData.getPurityGrade(int purity).
+
+    // ── Pill: bonus herb effect ID ────────────────────────────────
+    public static final Supplier<DataComponentType<String>> PILL_BONUS_EFFECT = DATA_COMPONENTS.register(
+            "pill_bonus_effect",
             () -> DataComponentType.<String>builder()
                     .persistent(Codec.STRING)
                     .networkSynchronized(ByteBufCodecs.STRING_UTF8)
                     .build()
     );
 
-    // Bonus effect ResourceLocation string (e.g. "ascension:fire_affinity")
-    // Empty string = no bonus
-    public static final Supplier<DataComponentType<String>> PILL_BONUS_EFFECT = DATA_COMPONENTS.register(
-            "pill_bonus_effect",
-            () -> DataComponentType.<String>builder()
-                    .persistent(Codec.STRING)
-                    .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+    // ── Herb: ticks spent at max age (lazy timestamp, no ticking) ─
+    // Stored as a Long. The crop writes (currentGameTime) when it
+    // first reaches max age. At harvest the item stores
+    // (harvestTime - grownSinceTime) as the age in ticks.
+    // 100,000 ticks ≈ 100 in-game years at default scale.
+    public static final Supplier<DataComponentType<Long>> HERB_AGE_TICKS = DATA_COMPONENTS.register(
+            "herb_age_ticks",
+            () -> DataComponentType.<Long>builder()
+                    .persistent(Codec.LONG)
+                    .networkSynchronized(ByteBufCodecs.VAR_LONG)
+                    .build()
+    );
+
+    // ── Herb: quality tier (0=Basic 1=Average 2=Advanced 3=Peak) ─
+    // Rolled randomly when the crop first reaches max age.
+    // Higher quality = larger purity contribution when used in cauldron.
+    public static final Supplier<DataComponentType<Integer>> HERB_QUALITY = DATA_COMPONENTS.register(
+            "herb_quality",
+            () -> DataComponentType.<Integer>builder()
+                    .persistent(Codec.INT)
+                    .networkSynchronized(ByteBufCodecs.VAR_INT)
                     .build()
     );
 

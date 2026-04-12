@@ -19,26 +19,34 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Recipe for the Mortal-tier Pill Cauldron multiblock.
  *
- * ── JSON fields ───────────────────────────────────────────────────────────
+ * ── JSON fields ─────────────────────────────────────────────────────────────
  * {
- *   "ingredients":    [ { "item": "...", "count": 1 }, ... ],  // up to 3, positional
- *   "success":        { "id": "...", "count": 1 },
- *   "fail":           { "id": "...", "count": 1 },
- *   "chance":         0.75,           // probability of success output
- *   "min_temp":       300,            // flame stand must be >= this to progress
- *   "max_temp":       700,            // flame stand must be <= this to progress
- *   "recipe_time":    10,             // seconds the temp must stay in range
- *   "pill_realm_major": 1,            // 1-9
- *   "pill_realm_minor": "lower",      // "lower" | "middle" | "peak"
- *   "purity_min":     10,             // minimum possible purity roll
- *   "purity_max":     40,             // maximum possible purity roll
- *   "bonus_chance":   0.08            // chance (0.0-1.0) of herb bonus
+ *   "ingredients":      [ { "item": "...", "count": 1 }, ... ],  // up to 3
+ *   "success":          { "id": "...", "count": 1 },
+ *   "fail":             { "id": "...", "count": 1 },
+ *   "chance":           0.75,
+ *   "min_temp":         300,     // temp must be >= this to progress
+ *   "max_temp":         700,     // temp must be <= this to progress
+ *   "ideal_temp":       500,     // closest to this = highest purity + best minor realm
+ *   "recipe_time":      10,      // seconds temp must stay in [min, max]
+ *   "pill_realm_major": 1,
+ *   "pill_realm_minor": "lower", // baseline minor realm (overridden by ideal_temp precision)
+ *   "purity_min":       10,
+ *   "purity_max":       40,
+ *   "bonus_chance":     0.08
  * }
  *
- * ── Purity calculation ────────────────────────────────────────────────────
- * Purity is determined by how well the last-second temperature was centred
- * in [min_temp, max_temp].  Precision 1.0 (dead centre) = purity_max roll.
- * Precision 0.0 (at the edge) = purity_min roll.
+ * ── Ideal Temperature & Minor Realm ─────────────────────────────────────────
+ * ideal_temp sits inside [min_temp, max_temp].
+ * The closer the final temperature is to ideal_temp, the higher the purity
+ * and the better the minor realm:
+ *
+ *   precision 0.00–0.33 (far from ideal)  → minor realm stays at pill_realm_minor (base)
+ *   precision 0.33–0.66 (moderate)        → one tier above base (lower→middle, middle→peak)
+ *   precision 0.66–1.00 (near ideal)      → two tiers above base (lower→peak)
+ *
+ * "base" is the recipe-defined pill_realm_minor and acts as the floor — you can
+ * never go BELOW it, only above it with good temperature control.
  */
 public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
 
@@ -50,7 +58,8 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
     final double chance;
     final int    minTemp;
     final int    maxTemp;
-    final int    recipeTime;     // seconds
+    final int    idealTemp;
+    final int    recipeTime;
     final int    pillRealmMajor;
     final String pillRealmMinor;
     final int    purityMin;
@@ -60,7 +69,7 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
     public LowHumanPillCauldronRecipe(NonNullList<SizedIngredient> ingredients,
                                       ItemStack success, ItemStack fail,
                                       double chance,
-                                      int minTemp, int maxTemp, int recipeTime,
+                                      int minTemp, int maxTemp, int idealTemp, int recipeTime,
                                       int pillRealmMajor, String pillRealmMinor,
                                       int purityMin, int purityMax,
                                       double bonusChance) {
@@ -70,6 +79,7 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
         this.chance         = chance;
         this.minTemp        = minTemp;
         this.maxTemp        = maxTemp;
+        this.idealTemp      = idealTemp;
         this.recipeTime     = recipeTime;
         this.pillRealmMajor = pillRealmMajor;
         this.pillRealmMinor = pillRealmMinor;
@@ -79,40 +89,51 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
     }
 
     // ── Getters ──────────────────────────────────────────────────
-    public int    getMinTemp()        { return minTemp; }
-    public int    getMaxTemp()        { return maxTemp; }
-    public int    getRecipeTime()     { return recipeTime; }
-    public int    getRecipeTimeTicks(){ return recipeTime * 20; }
-    public ItemStack getSuccess()     { return success; }
-    public ItemStack getFail()        { return fail; }
-    public double getChance()         { return chance; }
-    public int    getPillRealmMajor() { return pillRealmMajor; }
-    public String getPillRealmMinor() { return pillRealmMinor; }
-    public int    getPurityMin()      { return purityMin; }
-    public int    getPurityMax()      { return purityMax; }
-    public double getBonusChance()    { return bonusChance; }
+    public int    getMinTemp()         { return minTemp; }
+    public int    getMaxTemp()         { return maxTemp; }
+    public int    getIdealTemp()       { return idealTemp; }
+    public int    getRecipeTime()      { return recipeTime; }
+    public int    getRecipeTimeTicks() { return recipeTime * 20; }
+    public ItemStack getSuccess()      { return success; }
+    public ItemStack getFail()         { return fail; }
+    public double getChance()          { return chance; }
+    public int    getPillRealmMajor()  { return pillRealmMajor; }
+    public String getPillRealmMinor()  { return pillRealmMinor; }
+    public int    getPurityMin()       { return purityMin; }
+    public int    getPurityMax()       { return purityMax; }
+    public double getBonusChance()     { return bonusChance; }
     public NonNullList<SizedIngredient> getSizedIngredients() { return ingredients; }
 
     /**
-     * Calculates purity from the final-second temperature precision.
-     *
-     * @param tempPrecision  0.0 (edge of range) to 1.0 (dead centre). From FlameStand.getTempPrecision().
-     * @param condenserBonus Flat bonus from Spirit Condenser (+5 when active).
+     * Returns 0.0–1.0 representing how close {@code temp} is to {@code idealTemp}
+     * within the valid range. 1.0 = exactly ideal, 0.0 = at min or max edge.
      */
-    public int calcPurity(float tempPrecision, int condenserBonus) {
-        int range  = purityMax - purityMin;
-        int base   = purityMin + (int)(range * tempPrecision);
-        // Small random variance (±3) so identical temp doesn't give identical purity every time
-        int jitter = ThreadLocalRandom.current().nextInt(-3, 4);
+    public float getIdealPrecision(int temp) {
+        if (temp < minTemp || temp > maxTemp) return 0f;
+        int halfRange = Math.max(1, Math.max(idealTemp - minTemp, maxTemp - idealTemp));
+        return 1f - Math.min(1f, Math.abs(temp - idealTemp) / (float) halfRange);
+    }
+
+
+    /**
+     * Calculates purity from the final-second temperature.
+     *
+     * @param temp           Current flame stand temperature when craft finishes.
+     * @param condenserBonus Flat bonus from an active Spirit Condenser.
+     */
+    public int calcPurity(int temp, int condenserBonus) {
+        float precision = getIdealPrecision(temp);
+        int range       = purityMax - purityMin;
+        int base        = purityMin + (int)(range * precision);
+        int jitter      = ThreadLocalRandom.current().nextInt(-3, 4);
         return Math.min(100, Math.max(1, base + jitter + condenserBonus));
     }
 
-    // ── Recipe interface ─────────────────────────────────────────
+    // ── Recipe interface ──────────────────────────────────────────
 
     @Override
     public boolean matches(@NotNull PillCauldronInput input, Level level) {
         if (level.isClientSide()) return false;
-        // Temperature range check (pass current temp from flame stand)
         int temp = input.getCurrentHeat();
         if (temp < minTemp || temp > maxTemp) return false;
         if (input.items.isEmpty()) return false;
@@ -139,7 +160,8 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
     @Override public RecipeSerializer<?> getSerializer() { return ModRecipes.CAULDRON_LOW_HUMAN_SERIALIZER.get(); }
     @Override public RecipeType<?> getType()             { return ModRecipes.CAULDRON_LOW_HUMAN_TYPE.get(); }
 
-    // ── Serializer ───────────────────────────────────────────────
+
+    // ── Serializer ────────────────────────────────────────────────
 
     public static class Serializer implements RecipeSerializer<LowHumanPillCauldronRecipe> {
 
@@ -160,8 +182,9 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
                         ItemStack.CODEC.fieldOf("success").forGetter(r -> r.success),
                         ItemStack.CODEC.fieldOf("fail").forGetter(r -> r.fail),
                         Codec.DOUBLE.fieldOf("chance").forGetter(r -> r.chance),
-                        Codec.INT.optionalFieldOf("min_temp", 200).forGetter(r -> r.minTemp),
-                        Codec.INT.optionalFieldOf("max_temp", 800).forGetter(r -> r.maxTemp),
+                        Codec.INT.optionalFieldOf("min_temp",   200).forGetter(r -> r.minTemp),
+                        Codec.INT.optionalFieldOf("max_temp",   800).forGetter(r -> r.maxTemp),
+                        Codec.INT.optionalFieldOf("ideal_temp", 500).forGetter(r -> r.idealTemp),
                         Codec.INT.optionalFieldOf("recipe_time", 10).forGetter(r -> r.recipeTime),
                         Codec.INT.optionalFieldOf("pill_realm_major", 1).forGetter(r -> r.pillRealmMajor),
                         Codec.STRING.optionalFieldOf("pill_realm_minor", "lower").forGetter(r -> r.pillRealmMinor),
@@ -180,19 +203,21 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
             int size = buf.readVarInt();
             NonNullList<SizedIngredient> ings = NonNullList.withSize(size, new SizedIngredient(Ingredient.EMPTY, 1));
             ings.replaceAll(i -> SizedIngredient.STREAM_CODEC.decode(buf));
-            ItemStack success     = ItemStack.STREAM_CODEC.decode(buf);
-            ItemStack fail        = ItemStack.STREAM_CODEC.decode(buf);
-            double  chance        = buf.readDouble();
-            int     minTemp       = buf.readInt();
-            int     maxTemp       = buf.readInt();
-            int     recipeTime    = buf.readInt();
-            int     major         = buf.readInt();
-            String  minor         = buf.readUtf();
-            int     purityMin     = buf.readInt();
-            int     purityMax     = buf.readInt();
-            double  bonusChance   = buf.readDouble();
+            ItemStack success   = ItemStack.STREAM_CODEC.decode(buf);
+            ItemStack fail      = ItemStack.STREAM_CODEC.decode(buf);
+            double  chance      = buf.readDouble();
+            int     minTemp     = buf.readInt();
+            int     maxTemp     = buf.readInt();
+            int     idealTemp   = buf.readInt();
+            int     recipeTime  = buf.readInt();
+            int     major       = buf.readInt();
+            String  minor       = buf.readUtf();
+            int     purityMin   = buf.readInt();
+            int     purityMax   = buf.readInt();
+            double  bonusChance = buf.readDouble();
             return new LowHumanPillCauldronRecipe(ings, success, fail, chance,
-                    minTemp, maxTemp, recipeTime, major, minor, purityMin, purityMax, bonusChance);
+                    minTemp, maxTemp, idealTemp, recipeTime,
+                    major, minor, purityMin, purityMax, bonusChance);
         }
 
         private static void toNetwork(RegistryFriendlyByteBuf buf, LowHumanPillCauldronRecipe r) {
@@ -203,6 +228,7 @@ public class LowHumanPillCauldronRecipe implements Recipe<PillCauldronInput> {
             buf.writeDouble(r.chance);
             buf.writeInt(r.minTemp);
             buf.writeInt(r.maxTemp);
+            buf.writeInt(r.idealTemp);
             buf.writeInt(r.recipeTime);
             buf.writeInt(r.pillRealmMajor);
             buf.writeUtf(r.pillRealmMinor);

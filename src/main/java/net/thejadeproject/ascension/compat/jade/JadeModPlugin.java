@@ -6,125 +6,219 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.blocks.custom.CauldronPedestalBlock;
+import net.thejadeproject.ascension.blocks.custom.FlameStandBlock;
+import net.thejadeproject.ascension.blocks.custom.PillCauldronLowHumanBlock;
+import net.thejadeproject.ascension.blocks.entity.CauldronPedestalBlockEntity;
+import net.thejadeproject.ascension.blocks.entity.FlameStandBlockEntity;
 import net.thejadeproject.ascension.blocks.entity.PillCauldronLowHumanEntity;
 import snownee.jade.api.*;
 import snownee.jade.api.config.IPluginConfig;
 
-/*@WailaPlugin
+/**
+ * Jade (WTHIT/Waila) tooltip provider for the Pill Cauldron multiblock.
+ *
+ * Shows when looking at the Pill Cauldron:
+ *   • Flame Stand temperature + bar + status
+ *   • Pedestal contents (left / back / right)
+ *   • Craft progress % and seconds remaining
+ *
+ * Shows when looking at the Flame Stand directly:
+ *   • Temperature + bar + fan warning
+ *
+ * Shows when looking at a Cauldron Pedestal:
+ *   • Item name and count, or "Empty" prompt
+ *
+ * NOTE on registerBlockComponent signature:
+ *   Jade's IWailaClientRegistration.registerBlockComponent(IBlockComponentProvider, Class<? extends Block>)
+ *   takes a Class, NOT a Block instance. We cast via .getClass() here.
+ */
+@WailaPlugin
 public class JadeModPlugin implements IWailaPlugin {
 
     @Override
     public void register(IWailaCommonRegistration registration) {
-        // Server-side registration if needed
+        // No server-side data needed — all data is read client-side from the BE
     }
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
-        registration.registerBlockComponent(PillCauldronComponentProvider.INSTANCE,
-                ModBlocks.PILL_CAULDRON_HUMAN_LOW.get().getClass());
+        // The API requires Class<? extends Block>, not a Block instance.
+        registration.registerBlockComponent(
+                CauldronProvider.INSTANCE,
+                PillCauldronLowHumanBlock.class);
+
+        registration.registerBlockComponent(
+                FlameStandProvider.INSTANCE,
+                FlameStandBlock.class);
+
+        registration.registerBlockComponent(
+                PedestalProvider.INSTANCE,
+                CauldronPedestalBlock.class);
     }
 
-    public enum PillCauldronComponentProvider implements IBlockComponentProvider {
+    // ── Cauldron tooltip ──────────────────────────────────────────
+
+    public enum CauldronProvider implements IBlockComponentProvider {
         INSTANCE;
 
-        private static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pill_cauldron");
+        private static final ResourceLocation UID =
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "pill_cauldron");
 
         @Override
         public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
-            BlockEntity blockEntity = accessor.getBlockEntity();
+            BlockEntity be = accessor.getBlockEntity();
+            if (!(be instanceof PillCauldronLowHumanEntity cauldron)) return;
 
-            if (blockEntity instanceof PillCauldronLowHumanEntity cauldron) {
-                // ALWAYS show heat information
-                int currentHeat = cauldron.getHeatLevel();
-                int maxHeat = cauldron.getMaxHeat();
+            FlameStandBlockEntity fs = cauldron.getFlameStand();
 
-                // Add heat information
-                tooltip.add(Component.translatable("tooltip.ascension.heat_level", currentHeat, maxHeat));
+            // ── Flame status ──────────────────────────────────────
+            if (fs != null && fs.isLit()) {
+                int temp    = fs.getTemperature();
+                int minTemp = cauldron.getRecipeMinTemp();
+                int maxTemp = cauldron.getRecipeMaxTemp();
+                tooltip.add(buildTempLine(temp, minTemp, maxTemp));
+                tooltip.add(Component.literal(buildTempBar(temp)));
 
-                // Create heat bar visualization
-                String heatBar = createHeatBar(currentHeat, maxHeat);
-                tooltip.add(Component.literal(heatBar));
-
-                // Show current output if available
-                ItemStack currentOutput = cauldron.getCurrentRecipeOutput();
-                if (!currentOutput.isEmpty()) {
-                    tooltip.add(Component.translatable("tooltip.ascension.output", currentOutput.getHoverName()));
-                }
-
-                // Show input items
-                boolean hasInputs = false;
-                for (int i = 0; i < 3; i++) {
-                    ItemStack input = cauldron.getInputItem(i);
-                    if (!input.isEmpty()) {
-                        if (!hasInputs) {
-                            tooltip.add(Component.translatable("tooltip.ascension.inputs"));
-                            hasInputs = true;
-                        }
-                        tooltip.add(Component.literal("  " + input.getCount() + "x " + input.getHoverName().getString()));
-                    }
-                }
-
-                // Get progress information
-                int progress = cauldron.getProgress();
-                int maxProgress = cauldron.getMaxProgress();
-
-                // Show progress information if crafting is in progress
-                if (maxProgress > 0 && progress > 0) {
-                    int progressPercentage = (progress * 100) / maxProgress;
-                    int timeRemainingTicks = maxProgress - progress;
-                    int timeRemainingSeconds = (timeRemainingTicks + 19) / 20; // Round up to nearest second
-
-                    // Add progress information
-                    tooltip.add(Component.translatable("tooltip.ascension.progress", progressPercentage));
-
-                    if (timeRemainingSeconds > 0) {
-                        tooltip.add(Component.translatable("tooltip.ascension.time_remaining", timeRemainingSeconds));
-                    } else {
-                        tooltip.add(Component.translatable("tooltip.ascension.finishing"));
-                    }
-
-                    // Add progress bar visualization
-                    String progressBar = createProgressBar(progressPercentage);
-                    tooltip.add(Component.literal(progressBar));
-                }
-            }
-        }
-
-        private String createHeatBar(int current, int max) {
-            if (max <= 0) return "§c[NO HEAT]";
-
-            int bars = (current * 10) / max;
-            StringBuilder bar = new StringBuilder("§c"); // Red color for heat
-
-            for (int i = 0; i < 10; i++) {
-                if (i < bars) {
-                    bar.append("|");
-                } else {
-                    bar.append("§7|"); // Gray color for empty
-                }
+                if (fs.isCritical())
+                    tooltip.add(Component.literal("§c⚠ Critical! Fan immediately!"));
+                else if (fs.needsFanning())
+                    tooltip.add(Component.literal("§e⚡ Fan the flame!"));
+            } else {
+                tooltip.add(Component.literal("§7Flame Stand: §cUnlit"));
             }
 
-            return bar.toString();
-        }
+            // ── Pedestal contents ─────────────────────────────────
+            ItemStack left  = cauldron.itemHandler.getStackInSlot(0);
+            ItemStack back  = cauldron.itemHandler.getStackInSlot(1);
+            ItemStack right = cauldron.itemHandler.getStackInSlot(2);
 
-        private String createProgressBar(int percentage) {
-            int bars = percentage / 10;
-            StringBuilder bar = new StringBuilder("§a"); // Green color for progress
-
-            for (int i = 0; i < 10; i++) {
-                if (i < bars) {
-                    bar.append("█");
-                } else {
-                    bar.append("§7█"); // Gray color for empty
-                }
+            if (!left.isEmpty() || !back.isEmpty() || !right.isEmpty()) {
+                tooltip.add(Component.literal("§6Ingredients:"));
+                if (!left.isEmpty())
+                    tooltip.add(Component.literal(
+                            "  §7Left: §f" + left.getCount() + "× " + left.getHoverName().getString()));
+                if (!back.isEmpty())
+                    tooltip.add(Component.literal(
+                            "  §7Back: §f" + back.getCount() + "× " + back.getHoverName().getString()));
+                if (!right.isEmpty())
+                    tooltip.add(Component.literal(
+                            "  §7Right: §f" + right.getCount() + "× " + right.getHoverName().getString()));
             }
 
-            return bar.toString();
+            // ── Craft progress ────────────────────────────────────
+            int progress    = cauldron.data.get(0);
+            int maxProgress = cauldron.data.get(1);
+            if (maxProgress > 0 && progress > 0) {
+                int pct     = (progress * 100) / maxProgress;
+                int secLeft = Math.max(0, (maxProgress - progress) / 20);
+                tooltip.add(Component.literal(
+                        "§aCrafting: §f" + pct + "% §7(" + secLeft + "s left)"));
+                tooltip.add(Component.literal(buildProgressBar(pct)));
+            }
         }
 
         @Override
-        public ResourceLocation getUid() {
-            return UID;
-        }
+        public ResourceLocation getUid() { return UID; }
     }
-}*/
+
+    // ── Flame Stand tooltip ───────────────────────────────────────
+
+    public enum FlameStandProvider implements IBlockComponentProvider {
+        INSTANCE;
+
+        private static final ResourceLocation UID =
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "flame_stand");
+
+        @Override
+        public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
+            BlockEntity be = accessor.getBlockEntity();
+            if (!(be instanceof FlameStandBlockEntity fs)) return;
+
+            if (!fs.isLit()) {
+                tooltip.add(Component.literal("§7Unlit — right-click with a fire item to light"));
+                return;
+            }
+
+            int temp = fs.getTemperature();
+            tooltip.add(buildTempLine(temp, 0, 0));
+            tooltip.add(Component.literal(buildTempBar(temp)));
+
+            if (fs.isCritical())
+                tooltip.add(Component.literal("§c⚠ Critical! Fan immediately!"));
+            else if (fs.needsFanning())
+                tooltip.add(Component.literal("§e⚡ Fan the flame!"));
+            else
+                tooltip.add(Component.literal("§a✔ Burning steadily"));
+        }
+
+        @Override
+        public ResourceLocation getUid() { return UID; }
+    }
+
+    // ── Pedestal tooltip ──────────────────────────────────────────
+
+    public enum PedestalProvider implements IBlockComponentProvider {
+        INSTANCE;
+
+        private static final ResourceLocation UID =
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron_pedestal");
+
+        @Override
+        public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
+            BlockEntity be = accessor.getBlockEntity();
+            if (!(be instanceof CauldronPedestalBlockEntity pedestal)) return;
+
+            ItemStack item = pedestal.getItem();
+            if (item.isEmpty()) {
+                tooltip.add(Component.literal("§7Empty — right-click with an item to place"));
+            } else {
+                tooltip.add(Component.literal(
+                        "§6" + item.getCount() + "× §f" + item.getHoverName().getString()));
+            }
+        }
+
+        @Override
+        public ResourceLocation getUid() { return UID; }
+    }
+
+    // ── Shared helpers ────────────────────────────────────────────
+
+    private static Component buildTempLine(int temp, int minTemp, int maxTemp) {
+        String base = "§6Temperature: §f" + temp + "°";
+        if (minTemp > 0 && maxTemp > minTemp) {
+            String status;
+            if      (temp < minTemp) status = " §9(too cold)";
+            else if (temp > maxTemp) status = " §c(too hot)";
+            else                     status = " §a(in range)";
+            return Component.literal(base + status + " §7[" + minTemp + "–" + maxTemp + "]");
+        }
+        return Component.literal(base);
+    }
+
+    private static String buildTempBar(int temp) {
+        int segments = 10;
+        int filled   = Math.min(segments,
+                (int)((temp / (float) FlameStandBlockEntity.MAX_TEMP) * segments));
+
+        String fillColor;
+        if      (temp < FlameStandBlockEntity.WARN_THRESH)       fillColor = "§9";
+        else if (temp < FlameStandBlockEntity.MAX_TEMP / 2)      fillColor = "§e";
+        else                                                       fillColor = "§c";
+
+        StringBuilder bar = new StringBuilder(fillColor);
+        for (int i = 0; i < segments; i++) {
+            bar.append(i < filled ? "█" : "§7█");
+        }
+        return bar.toString();
+    }
+
+    private static String buildProgressBar(int pct) {
+        int filled = pct / 10;
+        StringBuilder bar = new StringBuilder("§a");
+        for (int i = 0; i < 10; i++) {
+            bar.append(i < filled ? "█" : "§7█");
+        }
+        return bar.toString();
+    }
+}

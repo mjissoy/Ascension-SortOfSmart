@@ -88,7 +88,7 @@ public class FlameStandBlock extends BaseEntityBlock {
             return ItemInteractionResult.sidedSuccess(false);
         }
 
-        // ── FanItem is handled by FanItem.useOn — skip here ──────
+        // ── FanItem is handled by FanItem.useOn — nothing else fans ─
         if (stack.getItem() instanceof FanItem) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
@@ -101,20 +101,12 @@ public class FlameStandBlock extends BaseEntityBlock {
             int purityBonus = Config.COMMON.getFlameStandPurityBonus(itemId);
             int realmBonus  = Config.COMMON.getFlameStandRealmBonus(itemId);
 
-            flameStand.light(purityBonus, realmBonus);
+            flameStand.light(stack, purityBonus, realmBonus);
             level.setBlock(pos, state.setValue(LIT, true), 3);
 
             if (!player.getAbilities().instabuild) stack.shrink(1);
             level.playSound(null, pos, net.minecraft.sounds.SoundEvents.FLINTANDSTEEL_USE,
                     net.minecraft.sounds.SoundSource.BLOCKS, 1.0f, 1.0f);
-            return ItemInteractionResult.sidedSuccess(false);
-        }
-
-        // ── Empty hand: small convenience fan boost ───────────────
-        if (stack.isEmpty() && state.getValue(LIT)) {
-            flameStand.fan(30); // smaller than FanItem
-            level.playSound(null, pos, net.minecraft.sounds.SoundEvents.WOOL_HIT,
-                    net.minecraft.sounds.SoundSource.BLOCKS, 0.4f, 1.5f);
             return ItemInteractionResult.sidedSuccess(false);
         }
 

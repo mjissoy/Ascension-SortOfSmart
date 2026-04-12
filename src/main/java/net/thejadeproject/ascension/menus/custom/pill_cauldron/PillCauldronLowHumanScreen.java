@@ -112,14 +112,5 @@ public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCaul
                     Component.literal("Temp: " + menu.getCurrentTemp() + "°\n" + rangeText),
                     mouseX, mouseY);
         }
-
-        // Tooltip – read-only pedestal mirror slots
-        if (isHovering(53, 20, 16, 16, mouseX, mouseY) ||
-                isHovering(80,  9, 16, 16, mouseX, mouseY) ||
-                isHovering(107,20, 16, 16, mouseX, mouseY)) {
-            g.renderTooltip(font,
-                    Component.literal("§7Place on the Pedestal"),
-                    mouseX, mouseY);
-        }
     }
 }

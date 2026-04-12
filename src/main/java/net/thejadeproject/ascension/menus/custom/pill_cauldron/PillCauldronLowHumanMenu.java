@@ -29,7 +29,7 @@ public class PillCauldronLowHumanMenu extends AbstractContainerMenu {
 
     // ── Network constructor ───────────────────────────────────────
     public PillCauldronLowHumanMenu(int id, Inventory inv, FriendlyByteBuf extra) {
-        this(id, inv, inv.player.level().getBlockEntity(extra.readBlockPos()), new SimpleContainerData(6));
+        this(id, inv, inv.player.level().getBlockEntity(extra.readBlockPos()), new SimpleContainerData(7));
     }
 
     // ── Direct constructor ────────────────────────────────────────
@@ -64,6 +64,7 @@ public class PillCauldronLowHumanMenu extends AbstractContainerMenu {
     public int getCurrentTemp()         { return data.get(3); }
     public int getRecipeMinTemp()       { return data.get(4); }
     public int getRecipeMaxTemp()       { return data.get(5); }
+    public int getRecipeIdealTemp()     { return data.get(6); }
 
     public int getScaledArrowProgress() {
         int prog = data.get(0);

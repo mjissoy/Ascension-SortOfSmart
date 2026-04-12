@@ -34,10 +34,6 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCK =
             DeferredRegister.createBlocks(AscensionCraft.MOD_ID);
 
-    /**
-     * The Flame Stand — must be placed directly below the Pill Cauldron.
-     * Right-click with a fire item to light, shovel to extinguish, empty hand to fan.
-     */
     public static final DeferredBlock<FlameStandBlock> FLAME_STAND_BLOCK =
             registerBlock("flame_stand",
                     () -> new FlameStandBlock(BlockBehaviour.Properties.of()
@@ -48,10 +44,6 @@ public class ModBlocks {
                             .lightLevel(state -> state.getValue(FlameStandBlock.LIT) ? 13 : 0)
                     ));
 
-    /**
-     * The Spirit Condenser — place within 3 blocks of the cauldron.
-     * Stand on top to drain your Qi and boost pill purity.
-     */
     public static final DeferredBlock<SpiritCondenserBlock> SPIRIT_CONDENSER_BLOCK =
             registerBlock("spirit_condenser",
                     () -> new SpiritCondenserBlock(BlockBehaviour.Properties.of()
@@ -59,13 +51,10 @@ public class ModBlocks {
                             .sound(SoundType.AMETHYST)
                             .strength(3.0f, 4.0f)
                             .requiresCorrectToolForDrops()
+                            .noOcclusion()
                     ));
 
-    /**
-     * The Cauldron Ingredient Pedestal — place at the 3 positions around the cauldron.
-     * Right-click with an item to place it; right-click with empty hand to retrieve.
-     * Items displayed floating above the pedestal.
-     */
+
     public static final DeferredBlock<CauldronPedestalBlock> CAULDRON_PEDESTAL_BLOCK =
             registerBlock("cauldron_pedestal",
                     () -> new CauldronPedestalBlock(BlockBehaviour.Properties.of()

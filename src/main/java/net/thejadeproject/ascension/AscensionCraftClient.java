@@ -19,8 +19,8 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
-import net.thejadeproject.ascension.clients.hud.FlameBarOverlay;
 import net.thejadeproject.ascension.clients.renderer.CauldronPedestalRenderer;
+import net.thejadeproject.ascension.clients.renderer.FlameStandRenderer;
 import net.thejadeproject.ascension.clients.renderer.PillCauldronLowHumanBlockEntityRenderer;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.CushionRenderer;
@@ -56,7 +56,7 @@ public class AscensionCraftClient {
         ModOverlays.register();
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
-        NeoForge.EVENT_BUS.register(FlameBarOverlay.class);
+        NeoForge.EVENT_BUS.register(net.thejadeproject.ascension.client.hud.FlameBarOverlay.class);
 
     }
 
@@ -88,6 +88,12 @@ public class AscensionCraftClient {
             event.registerBlockEntityRenderer(
                     ModBlockEntities.PILL_CAULDRON_LOW_HUMAN.get(),
                     PillCauldronLowHumanBlockEntityRenderer::new
+            );
+
+            // Flame item floating above the lit Flame Stand
+            event.registerBlockEntityRenderer(
+                    ModBlockEntities.FLAME_STAND.get(),
+                    FlameStandRenderer::new
             );
         }
 

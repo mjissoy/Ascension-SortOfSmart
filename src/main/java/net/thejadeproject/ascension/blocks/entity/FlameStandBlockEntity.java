@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -54,10 +55,12 @@ public class FlameStandBlockEntity extends BlockEntity {
     private static final int   FLICKER_RANGE    = 25; // ± max flicker amount
 
     // ── State ────────────────────────────────────────────────────
-    private boolean isLit        = false;
-    private float   temperature  = 0f;    // actual temperature (server)
-    private int     purityBonus  = 0;
-    private int     realmBonus   = 0;
+    private boolean   isLit        = false;
+    private float     temperature  = 0f;
+    private int       purityBonus  = 0;
+    private int       realmBonus   = 0;
+    /** The flame item currently burning in the stand (shown by renderer). */
+    private ItemStack litFlameItem = ItemStack.EMPTY;
 
     // Flicker state (used client-side for smooth HUD)
     private float   flickerTarget   = 0f;
@@ -70,25 +73,38 @@ public class FlameStandBlockEntity extends BlockEntity {
 
     // ── Public API ───────────────────────────────────────────────
 
-    /** Lights the stand with the given starting temp and bonuses. */
-    public void light(int purityBonus, int realmBonus) {
-        this.isLit       = true;
-        this.temperature = LIGHT_TEMP;
-        this.purityBonus = purityBonus;
-        this.realmBonus  = realmBonus;
+    /** Lights the stand with the given flame item, starting temp and bonuses. */
+    public void light(ItemStack flameItem, int purityBonus, int realmBonus) {
+        this.isLit        = true;
+        this.temperature  = LIGHT_TEMP;
+        this.purityBonus  = purityBonus;
+        this.realmBonus   = realmBonus;
+        this.litFlameItem = flameItem.copyWithCount(1);
         sync();
     }
 
     /** Extinguishes the flame, resetting all state. */
     public void extinguish() {
-        this.isLit       = false;
-        this.temperature = 0f;
-        this.purityBonus = 0;
-        this.realmBonus  = 0;
+        this.isLit        = false;
+        this.temperature  = 0f;
+        this.purityBonus  = 0;
+        this.realmBonus   = 0;
+        this.litFlameItem = ItemStack.EMPTY;
         sync();
     }
 
-    public void onRemoved() { isLit = false; }
+    public void onRemoved() { isLit = false; litFlameItem = ItemStack.EMPTY; }
+
+    /** The flame item currently burning — shown by the BESR above the stand. */
+    public ItemStack getLitFlameItem() { return litFlameItem; }
+
+    private float rotation = 0f;
+    /** Client-side spin for the flame item renderer. */
+    public float getRenderingRotation() {
+        rotation += 0.4f;
+        if (rotation >= 360f) rotation = 0f;
+        return rotation;
+    }
 
     /**
      * Raises temperature by {@code amount}.
@@ -176,6 +192,11 @@ public class FlameStandBlockEntity extends BlockEntity {
         tag.putFloat("temperature", temperature);
         tag.putInt("purityBonus", purityBonus);
         tag.putInt("realmBonus", realmBonus);
+        if (!litFlameItem.isEmpty()) {
+            tag.put("litFlameItem", litFlameItem.save(reg));
+        } else {
+            tag.put("litFlameItem", new net.minecraft.nbt.CompoundTag());
+        }
     }
 
     @Override
@@ -185,6 +206,12 @@ public class FlameStandBlockEntity extends BlockEntity {
         temperature = tag.getFloat("temperature");
         purityBonus = tag.getInt("purityBonus");
         realmBonus  = tag.getInt("realmBonus");
+        if (tag.contains("litFlameItem")) {
+            net.minecraft.nbt.CompoundTag itemTag = tag.getCompound("litFlameItem");
+            litFlameItem = itemTag.isEmpty()
+                    ? ItemStack.EMPTY
+                    : ItemStack.parse(reg, itemTag).orElse(ItemStack.EMPTY);
+        }
     }
 
     @Override

@@ -32,7 +32,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public class SpiritCondenserBlock extends BaseEntityBlock {
 
-    public static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 6, 16);
+    public static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 2, 14);
     public static final MapCodec<SpiritCondenserBlock> CODEC = simpleCodec(SpiritCondenserBlock::new);
 
     /** Qi drained per second while player stands on the condenser. */

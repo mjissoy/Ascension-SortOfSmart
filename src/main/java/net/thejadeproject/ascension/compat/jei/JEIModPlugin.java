@@ -10,7 +10,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
@@ -18,6 +17,7 @@ import net.thejadeproject.ascension.recipe.ModRecipes;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @JeiPlugin
 public class JEIModPlugin implements IModPlugin {
@@ -37,21 +37,28 @@ public class JEIModPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        // Guard: level can be null during initial load before a world is joined.
-        if (Minecraft.getInstance().level == null) {
+        // JEI calls this after the client has joined a world and synced recipes.
+        // Defensive null-check: if called before level is available, register nothing.
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level == null || mc.level.getRecipeManager() == null) {
             registration.addRecipes(PillCauldronRecipeCategory.CAULDRON_RECIPE_TYPE,
                     Collections.emptyList());
             return;
         }
 
-        RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
-        List<LowHumanPillCauldronRecipe> recipes = recipeManager
-                .getAllRecipesFor(ModRecipes.CAULDRON_LOW_HUMAN_TYPE.get())
-                .stream()
-                .map(RecipeHolder::value)
-                .toList();
+        try {
+            List<LowHumanPillCauldronRecipe> recipes = mc.level.getRecipeManager()
+                    .getAllRecipesFor(ModRecipes.CAULDRON_LOW_HUMAN_TYPE.get())
+                    .stream()
+                    .map(RecipeHolder::value)
+                    .collect(Collectors.toList());
 
-        registration.addRecipes(PillCauldronRecipeCategory.CAULDRON_RECIPE_TYPE, recipes);
+            registration.addRecipes(PillCauldronRecipeCategory.CAULDRON_RECIPE_TYPE, recipes);
+        } catch (Exception e) {
+            AscensionCraft.LOGGER.warn("JEI: Failed to load pill cauldron recipes: {}", e.getMessage());
+            registration.addRecipes(PillCauldronRecipeCategory.CAULDRON_RECIPE_TYPE,
+                    Collections.emptyList());
+        }
     }
 
     @Override

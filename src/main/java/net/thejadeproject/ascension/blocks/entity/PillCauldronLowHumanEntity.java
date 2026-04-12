@@ -94,6 +94,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
                     case 3 -> (fs != null) ? fs.getTemperature() : 0;
                     case 4 -> recipe.map(r -> r.value().getMinTemp()).orElse(0);
                     case 5 -> recipe.map(r -> r.value().getMaxTemp()).orElse(0);
+                    case 6 -> recipe.map(r -> r.value().getIdealTemp()).orElse(0);
                     default -> 0;
                 };
             }
@@ -101,7 +102,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
                 if (i == 0) progress = v;
                 if (i == 1) maxProgress = v;
             }
-            @Override public int getCount() { return 6; }
+            @Override public int getCount() { return 7; }
         };
     }
 
@@ -303,28 +304,44 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     }
 
     private void craftItem(FlameStandBlockEntity flameStand, LowHumanPillCauldronRecipe recipe) {
-        // Purity from final-second temperature precision
-        float tempPrecision  = flameStand.getTempPrecision(recipe.getMinTemp(), recipe.getMaxTemp());
-        int condenserBonus   = (getActiveSpiritCondenser() != null)
-                ? net.thejadeproject.ascension.blocks.entity.SpiritCondenserBlockEntity.PURITY_BONUS : 0;
-        int purity = recipe.calcPurity(tempPrecision, condenserBonus + flameStand.getPurityBonus());
+        int finalTemp = flameStand.getTemperature();
 
-        int finalMajorRealm = Math.min(9, Math.max(1,
-                recipe.getPillRealmMajor() + flameStand.getRealmBonus()));
-        String finalMinorRealm = recipe.getPillRealmMinor();
+        // ── Purity calculation ────────────────────────────────────
+        int condenserBonus = (getActiveSpiritCondenser() != null)
+                ? SpiritCondenserBlockEntity.PURITY_BONUS : 0;
+        int tempPurity = recipe.calcPurity(finalTemp, condenserBonus + flameStand.getPurityBonus());
 
+        // Herb quality/age adds a flat bonus on top
         List<ItemStack> inputs = List.of(
                 getPedestalItem(pedestalLeftPos()),
                 getPedestalItem(pedestalBackPos()),
                 getPedestalItem(pedestalRightPos())
         );
+        int herbPurityBonus = HerbBonusEffects.calcHerbPurityBonus(inputs);
+        int rawPurity       = Math.min(100, tempPurity + herbPurityBonus);
+
+        // ── Realm calculation ─────────────────────────────────────
+        int baseRealm = Math.min(9, Math.max(1,
+                recipe.getPillRealmMajor() + flameStand.getRealmBonus()));
+
+        int finalMajorRealm = resolveRealm(baseRealm, rawPurity, inputs);
+        int finalPurity     = rawPurity;
+
+        // If realm was downgraded (degraded craft), re-roll purity to < 90
+        if (finalMajorRealm < baseRealm) {
+            finalPurity = ThreadLocalRandom.current().nextInt(1, 90);
+        }
+
+        // ── Bonus effect ──────────────────────────────────────────
         String bonusEffect = HerbBonusEffects.rollBonusEffect(inputs, recipe.getBonusChance());
 
-        boolean isSuccess  = ThreadLocalRandom.current().nextDouble() < recipe.getChance();
-        ItemStack output   = (isSuccess ? recipe.getSuccess() : recipe.getFail()).copy();
-        int targetSlot     = isSuccess ? OUTPUT_SUCCESS : OUTPUT_FAIL;
+        // ── Output ────────────────────────────────────────────────
+        boolean isSuccess = ThreadLocalRandom.current().nextDouble() < recipe.getChance();
+        ItemStack output  = (isSuccess ? recipe.getSuccess() : recipe.getFail()).copy();
+        int targetSlot    = isSuccess ? OUTPUT_SUCCESS : OUTPUT_FAIL;
 
-        PillItem.applyPillData(output, finalMajorRealm, finalMinorRealm, purity, bonusEffect);
+        // New signature — no minor realm parameter
+        PillItem.applyPillData(output, finalMajorRealm, finalPurity, bonusEffect);
 
         ItemStack current = itemHandler.getStackInSlot(targetSlot);
         if (current.isEmpty()) {
@@ -336,6 +353,44 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         }
 
         consumePedestalIngredients(recipe.getSizedIngredients());
+    }
+
+    /**
+     * Resolves the final major realm from the base realm, raw purity, and input herbs.
+     *
+     * ── Upgrade (purity == 100) ───────────────────────────────────────────
+     * When purity reaches exactly 100 (Peak), there is a chance to upgrade the
+     * pill's major realm by 1. Chance sources stack:
+     *   - Base chance: 15%
+     *   - Herb quality bonus (best Peak herb in inputs adds up to 20% more)
+     *
+     * ── Downgrade (purity < recipe purity_min) ───────────────────────────
+     * When the raw purity is below the recipe's purity_min the craft degraded.
+     * The major realm is reduced by 1 (floor 1). The purity of the downgraded
+     * pill is re-rolled to a random value below 90 by the caller.
+     */
+    private int resolveRealm(int baseRealm, int purity,
+                             List<ItemStack> inputs) {
+        // ── Downgrade check ───────────────────────────────────────
+        // A purity of 0 would mean the craft failed entirely (handled by fail output).
+        // Downgrade only if purity rolled below 1 (shouldn't happen in practice, but defensive).
+        // The real downgrade trigger: purity fell below Basic threshold (1) is impossible.
+        // Instead: if baseRealm > 1 and purity < 10 (extremely bad craft), downgrade.
+        if (baseRealm > 1 && purity < 10) {
+            return baseRealm - 1;
+        }
+
+        // ── Upgrade check ────────────────────────────────────────
+        if (purity < 100) return baseRealm; // must be exactly 100 (Peak) to upgrade
+        if (baseRealm >= 9) return baseRealm; // already at max
+
+        double upgradeChance = 0.15; // base 15%
+        double herbBonus     = HerbBonusEffects.calcHerbRealmUpgradeChance(inputs);
+        double totalChance   = Math.min(0.85, upgradeChance + herbBonus);
+
+        return (ThreadLocalRandom.current().nextDouble() < totalChance)
+                ? baseRealm + 1
+                : baseRealm;
     }
 
     private void resetProgress() {
@@ -353,6 +408,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
     public int getCurrentTemp()       { return data.get(3); }
     public int getRecipeMinTemp()     { return data.get(4); }
     public int getRecipeMaxTemp()     { return data.get(5); }
+    public int getRecipeIdealTemp()   { return data.get(6); }
 
     public int getScaledArrowProgress() {
         int prog = data.get(0), max = data.get(1);

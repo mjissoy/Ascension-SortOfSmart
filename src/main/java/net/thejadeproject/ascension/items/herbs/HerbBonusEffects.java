@@ -1,83 +1,109 @@
 package net.thejadeproject.ascension.items.herbs;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.common.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Resolves herb bonus effects by checking item tags on input herbs.
+ * Resolves herb bonus effects and calculates quality/age purity contributions.
  *
- * Tag files to create (in data/ascension/tags/items/):
- *   herb_fire_affinity.json      → items with fire affinity bonus
- *   herb_qi_nourishing.json      → items with qi nourishing bonus
- *   herb_body_strengthening.json → items with body strengthening bonus
- *   herb_cold_essence.json       → items with cold essence bonus
- *   herb_spirit_clarity.json     → items with spirit clarity bonus
+ * ── Herb quality purity bonus ─────────────────────────────────────────────
+ * calcHerbPurityBonus(inputs) sums the purity bonus from all input stacks.
+ * Each pedestal slot contributes its herb's quality+age bonus independently,
+ * so using multiple high-quality herbs compounds the bonus.
  *
- * Each tag is paired with the bonus effect ResourceLocation string.
+ * ── Realm upgrade from herbs ──────────────────────────────────────────────
+ * calcHerbRealmUpgradeChance(inputs) returns the highest realm-upgrade chance
+ * across all input stacks (doesn't stack — only the best herb counts).
+ *
+ * ── Fire + Ice combo logic ────────────────────────────────────────────────
+ * If both a [Fire] and [Ice] herb are in the same craft, the bonus slot is
+ * contested: 10% → [Fire & Ice], 45% → [Fire], 45% → [Ice].
  */
 public class HerbBonusEffects {
 
-    // ── Tag → Bonus Effect mapping ───────────────────────────────
-    // Add new entries here as you add herb categories.
-    public static final List<HerbBonusEntry> BONUS_ENTRIES = List.of(
-            new HerbBonusEntry(
-                    ResourceLocation.fromNamespaceAndPath("ascension", "herb_fire_affinity"),
-                    "ascension:fire_affinity"
-            ),
-            new HerbBonusEntry(
-                    ResourceLocation.fromNamespaceAndPath("ascension", "herb_qi_nourishing"),
-                    "ascension:qi_nourishing"
-            ),
-            new HerbBonusEntry(
-                    ResourceLocation.fromNamespaceAndPath("ascension", "herb_body_strengthening"),
-                    "ascension:body_strengthening"
-            ),
-            new HerbBonusEntry(
-                    ResourceLocation.fromNamespaceAndPath("ascension", "herb_cold_essence"),
-                    "ascension:cold_essence"
-            ),
-            new HerbBonusEntry(
-                    ResourceLocation.fromNamespaceAndPath("ascension", "herb_spirit_clarity"),
-                    "ascension:spirit_clarity"
-            )
-    );
+    // ── Bonus IDs ─────────────────────────────────────────────────
+    public static final String FIRE_IMPERVIOUSNESS        = "ascension:fire_imperviousness";
+    public static final String ICE_IMPERVIOUSNESS         = "ascension:ice_imperviousness";
+    public static final String TEMPERATURE_IMPERVIOUSNESS = "ascension:temperature_imperviousness";
+    public static final String QI_NOURISHING              = "ascension:qi_nourishing";
+    public static final String BODY_STRENGTHENING         = "ascension:body_strengthening";
+    public static final String SPIRIT_CLARITY             = "ascension:spirit_clarity";
+
+    // ── Tags ──────────────────────────────────────────────────────
+    private static final TagKey<net.minecraft.world.item.Item> TAG_FIRE =
+            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("ascension", "herb_fire_affinity"));
+    private static final TagKey<net.minecraft.world.item.Item> TAG_ICE =
+            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("ascension", "herb_ice_affinity"));
+    private static final TagKey<net.minecraft.world.item.Item> TAG_QI =
+            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("ascension", "herb_qi_nourishing"));
+    private static final TagKey<net.minecraft.world.item.Item> TAG_BODY =
+            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("ascension", "herb_body_strengthening"));
+    private static final TagKey<net.minecraft.world.item.Item> TAG_SPIRIT =
+            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("ascension", "herb_spirit_clarity"));
+
+    // ── Quality / Age purity bonus ────────────────────────────────
 
     /**
-     * Scans a list of input herb stacks and rolls a random bonus effect.
-     *
-     * @param inputStacks   The herb stacks used in crafting.
-     * @param bonusChance   Chance (0.0 - 1.0) that any bonus is applied.
-     * @return              A bonus effect ID string, or empty string if none.
+     * Sums the flat purity bonus from all input herb stacks.
+     * Each stack contributes independently based on its Quality + Age data.
      */
-    public static String rollBonusEffect(List<ItemStack> inputStacks, double bonusChance) {
-        if (ThreadLocalRandom.current().nextDouble() > bonusChance) {
-            return ""; // No bonus this craft
+    public static int calcHerbPurityBonus(List<ItemStack> inputs) {
+        int total = 0;
+        for (ItemStack stack : inputs) {
+            total += HerbQuality.getPurityBonus(stack);
         }
-
-        // Collect all bonus effects present among input herbs
-        List<String> eligibleBonuses = new ArrayList<>();
-        for (ItemStack stack : inputStacks) {
-            if (stack.isEmpty()) continue;
-            for (HerbBonusEntry entry : BONUS_ENTRIES) {
-                if (stack.is(net.minecraft.tags.TagKey.create(
-                        net.minecraft.core.registries.Registries.ITEM, entry.tagLocation()))) {
-                    if (!eligibleBonuses.contains(entry.bonusEffectId())) {
-                        eligibleBonuses.add(entry.bonusEffectId());
-                    }
-                }
-            }
-        }
-
-        if (eligibleBonuses.isEmpty()) return "";
-        // Pick one random eligible bonus
-        return eligibleBonuses.get(ThreadLocalRandom.current().nextInt(eligibleBonuses.size()));
+        return total;
     }
 
-    public record HerbBonusEntry(ResourceLocation tagLocation, String bonusEffectId) {}
+    /**
+     * Returns the highest realm-upgrade chance from any single input herb.
+     * Only Peak-quality herbs contribute; the best one wins (no stacking).
+     */
+    public static double calcHerbRealmUpgradeChance(List<ItemStack> inputs) {
+        double best = 0.0;
+        for (ItemStack stack : inputs) {
+            best = Math.max(best, HerbQuality.getRealmUpgradeChance(stack));
+        }
+        return best;
+    }
+
+    // ── Bonus effect roll ─────────────────────────────────────────
+
+    /**
+     * Rolls the bonus effect for the craft considering fire/ice combo logic.
+     */
+    public static String rollBonusEffect(List<ItemStack> inputs, double bonusChance) {
+        if (ThreadLocalRandom.current().nextDouble() > bonusChance) return "";
+
+        boolean hasFire = false, hasIce = false;
+        List<String> eligible = new ArrayList<>();
+
+        for (ItemStack stack : inputs) {
+            if (stack.isEmpty()) continue;
+            if (stack.is(TAG_FIRE)) hasFire = true;
+            if (stack.is(TAG_ICE))  hasIce  = true;
+            if (stack.is(TAG_QI)    && !eligible.contains(QI_NOURISHING))    eligible.add(QI_NOURISHING);
+            if (stack.is(TAG_BODY)  && !eligible.contains(BODY_STRENGTHENING)) eligible.add(BODY_STRENGTHENING);
+            if (stack.is(TAG_SPIRIT)&& !eligible.contains(SPIRIT_CLARITY))   eligible.add(SPIRIT_CLARITY);
+        }
+
+        if (hasFire && hasIce) {
+            double roll = ThreadLocalRandom.current().nextDouble();
+            if      (roll < 0.10) eligible.add(TEMPERATURE_IMPERVIOUSNESS);
+            else if (roll < 0.55) eligible.add(FIRE_IMPERVIOUSNESS);
+            else                  eligible.add(ICE_IMPERVIOUSNESS);
+        } else {
+            if (hasFire) eligible.add(FIRE_IMPERVIOUSNESS);
+            if (hasIce)  eligible.add(ICE_IMPERVIOUSNESS);
+        }
+
+        if (eligible.isEmpty()) return "";
+        return eligible.get(ThreadLocalRandom.current().nextInt(eligible.size()));
+    }
 }

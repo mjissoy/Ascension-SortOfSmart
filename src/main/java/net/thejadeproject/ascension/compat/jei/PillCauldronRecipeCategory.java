@@ -49,13 +49,13 @@ public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillC
 
     // ── Slot positions (match pedestal layout: left / back / right) ─
     // "back" pedestal = top slot in JEI (center)
-    private static final int SLOT_LEFT_X  = 8,  SLOT_LEFT_Y  = 20;
-    private static final int SLOT_BACK_X  = 44, SLOT_BACK_Y  = 2;
-    private static final int SLOT_RIGHT_X = 80, SLOT_RIGHT_Y = 20;
+    private static final int SLOT_LEFT_X  = 10,  SLOT_LEFT_Y  = 12;
+    private static final int SLOT_BACK_X  = 37, SLOT_BACK_Y  = 1;
+    private static final int SLOT_RIGHT_X = 64, SLOT_RIGHT_Y = 12;
 
     // ── Output slot positions ─────────────────────────────────────
-    private static final int SUCCESS_X = 26, SUCCESS_Y = 55;
-    private static final int FAIL_X    = 70, FAIL_Y    = 55;
+    private static final int SUCCESS_X = 19, SUCCESS_Y = 51;
+    private static final int FAIL_X    = 55, FAIL_Y    = 51;
 
     private final IDrawable background;
     private final IDrawable icon;
@@ -77,6 +77,9 @@ public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillC
     }
 
     @Override
+    public IDrawable getBackground() { return background; }
+
+    @Override
     public IDrawable getIcon() { return icon; }
 
     @Override
@@ -93,15 +96,7 @@ public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillC
 
         // ── Success output ────────────────────────────────────────
         builder.addSlot(RecipeIngredientRole.OUTPUT, SUCCESS_X, SUCCESS_Y)
-                .addItemStack(recipe.getSuccess())
-                .addRichTooltipCallback((view, tooltip) -> {
-                    tooltip.add(Component.literal(
-                            "Success: " + (int)(recipe.getChance() * 100) + "%"));
-                    tooltip.add(Component.literal(
-                            "Purity: " + recipe.getPurityMin() + "–" + recipe.getPurityMax()));
-                    tooltip.add(Component.literal(
-                            "Realm: " + recipe.getPillRealmMajor() + " " + recipe.getPillRealmMinor()));
-                });
+                .addItemStack(recipe.getSuccess());
 
         // ── Fail output ───────────────────────────────────────────
         builder.addSlot(RecipeIngredientRole.OUTPUT, FAIL_X, FAIL_Y)
@@ -130,24 +125,17 @@ public class PillCauldronRecipeCategory implements IRecipeCategory<LowHumanPillC
         background.draw(g);
 
         Minecraft mc    = Minecraft.getInstance();
-        int lineY       = BG_HEIGHT - 30;
+        int lineY       = BG_HEIGHT - 25;
         int lineSpacing = 10;
 
         // Temperature range line
         String tempLine = "Temp: " + recipe.getMinTemp() + "° – " + recipe.getMaxTemp() + "°";
         int tempX = (BG_WIDTH - mc.font.width(tempLine)) / 2;
-        g.drawString(mc.font, tempLine, tempX, lineY, 0xFF5533, false);
+        g.drawString(mc.font, tempLine, tempX, lineY, 0x444444, false);
 
         // Craft time line
         String timeLine = "Time: " + recipe.getRecipeTime() + "s in range";
         int timeX = (BG_WIDTH - mc.font.width(timeLine)) / 2;
-        g.drawString(mc.font, timeLine, timeX, lineY + lineSpacing, 0xCCCCCC, false);
-
-        // Bonus chance line (only shown if non-zero)
-        if (recipe.getBonusChance() > 0) {
-            String bonusLine = "Bonus: " + (int)(recipe.getBonusChance() * 100) + "% chance";
-            int bonusX = (BG_WIDTH - mc.font.width(bonusLine)) / 2;
-            g.drawString(mc.font, bonusLine, bonusX, lineY + lineSpacing * 2, 0x44CCFF, false);
-        }
+        g.drawString(mc.font, timeLine, timeX, lineY + lineSpacing, 0x444444, false);
     }
 }
