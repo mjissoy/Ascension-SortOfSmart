@@ -10,9 +10,11 @@ import net.thejadeproject.ascension.network.clientBound.*;
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncCastingInstance;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncSlot;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.stats.SyncStat;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.ClearSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.SetActiveSlot;
@@ -67,6 +69,18 @@ public class ModPayloads {
                 SyncPathData.STREAM_CODEC,
                 SyncPathData::handlePayload
         );
+        registrar.playToClient(
+                SyncAttributeHolder.TYPE,
+                SyncAttributeHolder.STREAM_CODEC,
+                SyncAttributeHolder::handlePayload
+        );
+
+        registrar.playToClient(
+                SyncStat.TYPE,
+                SyncStat.STREAM_CODEC,
+                SyncStat::handlePayload
+        );
+
 
 
         //===================================== SERVER ==================================

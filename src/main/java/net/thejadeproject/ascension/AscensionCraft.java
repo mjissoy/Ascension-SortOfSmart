@@ -59,7 +59,9 @@ import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 
 import net.thejadeproject.ascension.refactor_packages.entity_data.GenericEntityData;
+import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
@@ -142,8 +144,6 @@ public class AscensionCraft {
 
         ModAttributes.register(modEventBus);
 
-        ModTechniques.register(modEventBus);
-
         ModSkills.register(modEventBus);
 
 
@@ -155,6 +155,8 @@ public class AscensionCraft {
         ModVillagers.POI_TYPES.register(modEventBus);
 
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
+
+        ModTechniques.register(modEventBus);
 
         ModDataComponents.register(modEventBus);
         CreativeTabHandler.register(modEventBus);
@@ -308,7 +310,11 @@ public class AscensionCraft {
                 genericEntityData.getAscensionAttributeHolder().log();
             }
             player.getData(ModAttachments.ENTITY_DATA).getSkillCastHandler().sync(player);
+            PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttributeHolder(player.getData(ModAttachments.ENTITY_DATA).getAscensionAttributeHolder()));
 
+            for(IEntityFormData formData:player.getData(ModAttachments.ENTITY_DATA).getFormData()){
+                formData.getStatSheet().sync((ServerPlayer) player,formData.getEntityFormId());
+            }
         }
 
 

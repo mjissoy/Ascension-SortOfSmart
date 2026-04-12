@@ -5,7 +5,13 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.stats.SyncStat;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
+import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainer;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
 import org.checkerframework.checker.units.qual.C;
 
@@ -42,9 +48,16 @@ public class StatSheet {
     }
     public boolean hasStat(Stat stat){return sheetStats.containsKey(stat);}
 
-
+    public void setContainer(Stat stat, ValueContainer container){
+        sheetStats.put(stat,new StatInstance(container));
+    }
+    public void sync(ServerPlayer player, ResourceLocation form){
+        for (StatInstance stat : sheetStats.values()){
+            PacketDistributor.sendToPlayer(player, new SyncStat(form.toString(),stat));
+        }
+    }
     public void log(){
-        System.out.println("Stats:");
+        System.out.println("Stats on " + FMLEnvironment.dist.toString() +" :");
         for(StatInstance instance:sheetStats.values()){
             instance.log();
         }

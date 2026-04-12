@@ -1,8 +1,10 @@
 package net.thejadeproject.ascension.refactor_packages.util.value_modifiers;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 
 /**
  * a modifier that is applied to a value
@@ -31,4 +33,20 @@ public class ValueContainerModifier {
     public ResourceLocation getIdentifier(){return this.modifierIdentifier;}
     public ResourceLocation getGroupIdentifier(){return this.groupIdentifier;}
     public double getVal(){return this.val;}
+
+
+    public void encode(RegistryFriendlyByteBuf buf){
+        buf.writeDouble(val);
+        ByteBufHelper.encodeString(buf,operation.toString());
+        ByteBufHelper.encodeString(buf,modifierIdentifier.toString());
+        ByteBufHelper.encodeString(buf,groupIdentifier.toString());
+    }
+    public static ValueContainerModifier decode(RegistryFriendlyByteBuf buf){
+        double val = buf.readDouble();
+        ModifierOperation operation = ModifierOperation.valueOf(ByteBufHelper.readString(buf));
+        ResourceLocation modifierIdentifier = ByteBufHelper.readResourceLocation(buf);
+        ResourceLocation groupIdentifier = ByteBufHelper.readResourceLocation(buf);
+        return new ValueContainerModifier(val,operation,modifierIdentifier,groupIdentifier);
+    }
 }
+

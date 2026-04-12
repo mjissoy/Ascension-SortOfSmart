@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributeHolder;
-import net.thejadeproject.ascension.refactor_packages.attributes.AttributeValueContainer;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.events.PhysiqueChangeEvent;
@@ -34,14 +33,12 @@ import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillDat
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
-import org.checkerframework.checker.units.qual.A;
 
-import java.nio.file.Path;
 import java.util.*;
 //TODO set up some sort of tick handler for entity data and all its parts that need it
 public class GenericEntityData implements IEntityData {
     private ResourceLocation activeForm = ModForms.MORTAL_VESSEL.getId();
-    private UUID attachedEntity;
+    private Entity attachedEntity;
 
     private final SkillCastHandler skillCastHandler = new SkillCastHandler();
     private final HashMap<ResourceLocation, IEntityFormData> heldFormData = new HashMap<>();
@@ -66,7 +63,7 @@ public class GenericEntityData implements IEntityData {
 
     //========================== SAVE DATA HANDLING ==========================
     public GenericEntityData(Entity attachedEntity){
-        this.attachedEntity = attachedEntity.getUUID();
+        this.attachedEntity = attachedEntity;
 
         //TODO add mortal vessel
         heldFormData.put(ModForms.MORTAL_VESSEL.getId(),ModForms.MORTAL_VESSEL.get().freshEntityFormData(this));
@@ -84,7 +81,7 @@ public class GenericEntityData implements IEntityData {
     //TODO add better error handling so an error does not delete all data
     public GenericEntityData(Entity attachedEntity, CompoundTag tag){
         System.out.println("creating player data");
-        this.attachedEntity = attachedEntity.getUUID();
+        this.attachedEntity = attachedEntity;
         //TODO load cached form data
         ListTag formDataTags = tag.getList("form_data", Tag.TAG_COMPOUND);
         ListTag skillDataTags = tag.getList("skill_data",Tag.TAG_COMPOUND);
@@ -107,7 +104,7 @@ public class GenericEntityData implements IEntityData {
         }
 
         if(tag.getBoolean("vessel_flag")){
-            System.out.println("creating mortal vessel");
+
             heldFormData.put(ModForms.MORTAL_VESSEL.getId(),
                     cachedFormData.containsKey(ModForms.MORTAL_VESSEL.getId()) ?
                             cachedFormData.get(ModForms.MORTAL_VESSEL.getId()) : ModForms.MORTAL_VESSEL.get().freshEntityFormData(this));
@@ -155,7 +152,7 @@ public class GenericEntityData implements IEntityData {
     }
     public void sync(Player player){
         for(ResourceLocation form:heldFormData.keySet()){
-            System.out.println("syncing form : "+form.toString());
+
             PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncEntityForm(heldFormData.get(form)));
         }
     }
@@ -223,7 +220,7 @@ public class GenericEntityData implements IEntityData {
 
     //========================== FORM DATA HANDLING ==========================
     @Override
-    public UUID getAttachedEntity() {
+    public Entity getAttachedEntity() {
         return attachedEntity;
     }
 
@@ -236,7 +233,7 @@ public class GenericEntityData implements IEntityData {
     public void setAttachedEntityLoaded(boolean loaded) {
         this.attachedEntityLoaded = loaded;
     }
-    public void setAttachedEntity(UUID attachedEntity) {
+    public void setAttachedEntity(Entity attachedEntity) {
         this.attachedEntity = attachedEntity;
     }
     @Override
@@ -260,8 +257,8 @@ public class GenericEntityData implements IEntityData {
     }
 
     @Override
-    public List<IEntityFormData> getFormData() {
-        return (List<IEntityFormData>) heldFormData.values();
+    public Collection<IEntityFormData> getFormData() {
+        return heldFormData.values();
     }
 
     @Override
@@ -334,12 +331,10 @@ public class GenericEntityData implements IEntityData {
         heldFormData.get(physiqueForm).getPhysique().onPhysiqueAdded(this,oldPhysique,oldPhysiqueData);
 
         for(ResourceLocation path : heldFormData.get(physiqueForm).getPhysique().paths()){
-            System.out.println("trying to add path: "+path.toString());
 
             IPath pathInstance = AscensionRegistries.Paths.PATHS_REGISTRY.get(path);
             PathData pathData = pathInstance.freshPathData(this);
             if(heldFormData.containsKey(pathInstance.defaultForm())){
-                System.out.println("adding path: "+path.toString());
                 addPathData(path,pathData);
             }
         }
@@ -570,15 +565,15 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public void giveSkill(ResourceLocation skill, IPersistentSkillData skillData, ResourceLocation form) {
-        System.out.println("trying to add skill:"+skill.toString());
+
         IPersistentSkillData existingSkillData = getSkillData(skill);
         if(existingSkillData != null) skillData =existingSkillData;
 
         if(!heldFormData.containsKey(form)) return;
-        System.out.println("form exists");
+
         HeldSkills skills = heldFormData.get(form).getHeldSkills();
         if(skills.hasSkill(skill)) return;
-        System.out.println("skill will be new for form");
+
 
         boolean hasSkill = hasSkill(skill);
         skills.addSkill(skill,skillData);
@@ -647,6 +642,12 @@ public class GenericEntityData implements IEntityData {
     @Override
     public AscensionAttributeHolder getAscensionAttributeHolder() {
         return ascensionAttributeHolder;
+    }
+
+    @Override
+    public void setAscensionAttributeHolder(LivingEntity entity,AscensionAttributeHolder holder) {
+        this.ascensionAttributeHolder = holder;
+        if(entity != null && holder != null) holder.setAttachedEntity(entity);
     }
 
 }

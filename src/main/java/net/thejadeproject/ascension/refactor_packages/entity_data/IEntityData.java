@@ -3,12 +3,11 @@ package net.thejadeproject.ascension.refactor_packages.entity_data;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributeHolder;
-import net.thejadeproject.ascension.refactor_packages.attributes.AttributeValueContainer;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
@@ -18,7 +17,6 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
-import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
 import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
@@ -35,7 +33,7 @@ import java.util.*;
  * being used
  */
 public interface IEntityData {
-    UUID getAttachedEntity();
+    Entity getAttachedEntity();
     boolean isAttachedEntityLoaded(); //in scenarios where data is stored separately from the entity itself
     void setAttachedEntityLoaded(boolean loaded); //useful for implementations that rely on a manager(mine)
 
@@ -47,7 +45,7 @@ public interface IEntityData {
     IEntityFormData getEntityFormData(ResourceLocation form);
     IEntityFormData getEntityFormData(IEntityForm form);
 
-    List<IEntityFormData> getFormData();
+    Collection<IEntityFormData> getFormData();
 
 
     void addEntityForm(ResourceLocation form);
@@ -118,6 +116,7 @@ public interface IEntityData {
     EntityQiContainer getQiContainer();
     //============================= ATTRIBUTES =======================================
     AscensionAttributeHolder getAscensionAttributeHolder();
+    void setAscensionAttributeHolder(LivingEntity entity,AscensionAttributeHolder holder);
     default void addDefaultAttributes(LivingEntity entity){
         AscensionAttributeHolder holder = getAscensionAttributeHolder();
         //TODO set up some null handling

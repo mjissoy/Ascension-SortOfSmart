@@ -1,20 +1,27 @@
 package net.thejadeproject.ascension.refactor_packages.attributes;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
 import net.thejadeproject.ascension.refactor_packages.stats.StatInstance;
 import net.thejadeproject.ascension.refactor_packages.stats.StatSheet;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainer;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * need to be careful when handling remote entity data. this should only be held on Loaded entities
@@ -26,7 +33,7 @@ import java.util.HashMap;
  */
 public class AttributeValueContainer extends ValueContainer {
     private final Holder<Attribute> attributeHolder;
-    private final LivingEntity attachedEntity;
+    private  LivingEntity attachedEntity;
     public AttributeValueContainer(LivingEntity attachedEntity,Holder<Attribute> attributeHolder, Component valueName) {
         super(attributeHolder.getKey().location(), valueName, 0);
         this.attributeHolder = attributeHolder;
@@ -43,7 +50,8 @@ public class AttributeValueContainer extends ValueContainer {
         if(cachedAttributeValue+cachedBaseStat != getBaseValue()) setBaseValue(cachedAttributeValue+cachedBaseStat);
         super.calculateCachedVal();
     }
-
+    public Holder<Attribute> getAttributeHolder(){return attributeHolder;}
+    public void setAttachedEntity(LivingEntity entity){this.attachedEntity = entity;}
     public void addStatScaling(Stat stat, double scaling){
         if(!statMultipliers.containsKey(stat)) statMultipliers.put(stat,new ValueContainer(
                 AscensionRegistries.Stats.STATS_REGISTRY.getKey(stat),
@@ -114,6 +122,37 @@ public class AttributeValueContainer extends ValueContainer {
         return suppressed;
     }
 
+
+    public static void encode(RegistryFriendlyByteBuf buf, AttributeValueContainer container){
+        ValueContainer.encode(buf,container);
+        buf.writeInt(container.statMultipliers.size());
+        for(ValueContainer statContainer : container.statMultipliers.values()){
+            ValueContainer.encode(buf,statContainer);
+        }
+        buf.writeBoolean(container.suppressed);
+        buf.writeDouble(container.suppressedValue);
+
+    }
+    public static AttributeValueContainer decode(RegistryFriendlyByteBuf buf){
+        ResourceLocation identifier = ByteBufHelper.readResourceLocation(buf);
+        Component displayName = ComponentSerialization.STREAM_CODEC.decode(buf);
+        double base = buf.readDouble();
+        int modifierNumber = buf.readInt();
+        AttributeValueContainer container = new AttributeValueContainer(null, BuiltInRegistries.ATTRIBUTE.wrapAsHolder(
+                BuiltInRegistries.ATTRIBUTE.get(identifier)
+        ),displayName);
+        for(int i=0;i<modifierNumber;i++){
+            container.addModifier(ValueContainerModifier.decode(buf));
+        }
+        int statContainers = buf.readInt();
+        for(int i =0;i<statContainers;i++){
+            ValueContainer statContainer = ValueContainer.decode(buf);
+            container.statMultipliers.put(AscensionRegistries.Stats.STATS_REGISTRY.get(statContainer.getIdentifier()),statContainer);
+        }
+        container.suppressed = buf.readBoolean();
+        container.suppressedValue=buf.readDouble();
+        return container;
+    }
     public void log(){
         System.out.print(getDisplayName().getString() +" : ");
         System.out.print((isSuppressed() ? getSuppressedValue() : getValue()));

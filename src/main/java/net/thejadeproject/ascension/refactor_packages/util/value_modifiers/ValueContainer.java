@@ -1,13 +1,18 @@
 package net.thejadeproject.ascension.refactor_packages.util.value_modifiers;
 
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 
 import java.util.*;
 
 /**
  * used to store values that have multipliers applied to them
  * is fully volatile, none of the multipliers are persistent after log out
+ *
+ * TODO add a dirty attribute to modifiers so i can sync only changes
  */
 public class ValueContainer {
     private final ResourceLocation valueIdentifier;
@@ -30,6 +35,14 @@ public class ValueContainer {
         this.valueName = valueName;
 
         calculateCachedVal();
+    }
+    public Collection<ValueContainerModifier> getAllModifiers(){
+        List<ValueContainerModifier> modifiers = new ArrayList<>();
+        modifiers.addAll(addBase.values());
+        modifiers.addAll(addFinal.values());
+        modifiers.addAll(multiBase.values());
+        modifiers.addAll(multiFinal.values());
+        return modifiers;
     }
     public ResourceLocation getIdentifier(){return valueIdentifier;}
     public Component getDisplayName(){return valueName;}
@@ -111,4 +124,28 @@ public class ValueContainer {
 
     public double getValue(){return cachedVal;}
     public double getBaseValue(){return base;}
+
+
+    public static void encode(RegistryFriendlyByteBuf buf,ValueContainer container){
+        ByteBufHelper.encodeString(buf,container.getIdentifier().toString());
+        ComponentSerialization.STREAM_CODEC.encode(buf,container.getDisplayName());
+        buf.writeDouble(container.base);
+        Collection<ValueContainerModifier> modifiers = container.getAllModifiers();
+        buf.writeInt(modifiers.size());
+        for(ValueContainerModifier modifier : modifiers){
+            modifier.encode(buf);
+        }
+
+    }
+    public static ValueContainer decode(RegistryFriendlyByteBuf buf){
+        ResourceLocation identifier = ByteBufHelper.readResourceLocation(buf);
+        Component displayName = ComponentSerialization.STREAM_CODEC.decode(buf);
+        double base = buf.readDouble();
+        int modifierNumber = buf.readInt();
+        ValueContainer container = new ValueContainer(identifier,displayName,base);
+        for(int i=0;i<modifierNumber;i++){
+            container.addModifier(ValueContainerModifier.decode(buf));
+        }
+        return container;
+    }
 }

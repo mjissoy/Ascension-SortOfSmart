@@ -52,7 +52,6 @@ public class CultivationProgressBar extends RenderableElement {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-        System.out.println("trying to render");
         barBackground.render(guiGraphics);
         barContent.renderAt(guiGraphics,1,1, (int) ((barContent.getWidth())*getProgress()),barContent.getHeight());
         barDetail.renderAt(guiGraphics,4,-10);

@@ -61,7 +61,6 @@ public class SkillHotBarContainer extends RenderableElement {
             double offset = segmentRadius/2;
             angle += (float) offset + 90f;
             int index = (int) Math.floor((angle < 0 ? 360f+angle : angle)/(segmentRadius));
-            System.out.println("SELECTED INDEX : "+index);
             if(index != currentIndex){
                 currentIndex = index;
                 PacketDistributor.sendToServer(new SetActiveSlot(currentIndex));

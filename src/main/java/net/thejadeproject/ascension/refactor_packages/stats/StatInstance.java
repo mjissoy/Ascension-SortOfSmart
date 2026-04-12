@@ -23,6 +23,13 @@ public class StatInstance extends ValueContainer {
         super(AscensionRegistries.Stats.STATS_REGISTRY.getKey(stat), stat.getDisplayName(), base);
         this.stat = stat;
     }
+    public StatInstance(ValueContainer container){
+        super(container.getIdentifier(),container.getDisplayName(),container.getBaseValue());
+        this.stat = AscensionRegistries.Stats.STATS_REGISTRY.get(container.getIdentifier());
+        for(ValueContainerModifier modifier : container.getAllModifiers()){
+            addModifier(modifier);
+        }
+    }
 
     public Stat getStat(){return stat;}
 
