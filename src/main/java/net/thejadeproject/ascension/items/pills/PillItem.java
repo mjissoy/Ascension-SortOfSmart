@@ -22,102 +22,76 @@ import net.thejadeproject.ascension.events.ModDataComponents;
 import java.util.List;
 
 /**
- * Unified pill class that replaces:
- *   PillCooldownItem, RebirthPill, ThrowablePoisonPill, PillAntidote,
- *   BodyTechniqueChangePill (if using BODY_AMNESIA type).
+ * Unified pill class.
  *
- * ── Pill Types ──────────────────────────────────────────────────────
+ * ── Effect scaling ────────────────────────────────────────────────────────
+ * Cultivation pills (BODY / ESSENCE / INTENT) scale their effect by both
+ * purity and major realm:
  *
- *   BODY    – Cultivation pill for the Body path.
- *             Constructor: PillItem(props, BODY, cultivationAmount, source, cooldown)
+ *   effectiveAmount = baseAmount × purityScale × realmMultiplier
  *
- *   ESSENCE – Cultivation pill for the Essence path.
- *             Constructor: PillItem(props, ESSENCE, cultivationAmount, source, cooldown)
+ * purityScale   = purity / 100.0   (1-100 → 0.01–1.0)
+ * realmMultiplier per major realm:
+ *   1 → 1.0×
+ *   2 → 3.5×
+ *   3 → 3.5² ≈ 12.25×
+ *   4 → 3.5³ ≈ 42.9×
+ *   ... and so on (exponential)
  *
- *   INTENT  – Cultivation pill for the Intent path.
- *             Constructor: PillItem(props, INTENT, cultivationAmount, source, cooldown)
+ * ── Purity display ────────────────────────────────────────────────────────
+ * The numeric purity is NOT shown in the tooltip. Instead the named grade is:
+ *   Basic / Average / Advanced / Peak
+ * determined by PillRealmData.getPurityGrade(purity).
  *
- *   POISON  – Throwable pill. Right-click throws; shift+right-click eats and applies effect.
- *             Constructor: PillItem(props, POISON, MobEffectInstance)
- *
- *   REBIRTH – Triggers a cultivation rebirth on consume.
- *             Constructor: PillItem(props, REBIRTH, cooldown)
- *
- *   ANTIDOTE – Removes one or more MobEffects on consume.
- *              Constructor: PillItem(props, ANTIDOTE, cooldown, MobEffectInstance...)
- *
- * ── Tooltip ─────────────────────────────────────────────────────────
- *   All pills show Realm / Purity / Bonus tooltips when those data
- *   components are present (applied by the cauldron on craft).
- *   Pills with no cauldron data show "Unrefined".
- *
- * ── Extending ───────────────────────────────────────────────────────
- *   To add a new pill type in the future:
- *     1. Add an entry to the {@link PillType} enum.
- *     2. Add a constructor overload below.
- *     3. Add a case in finishUsingItem() / use().
+ * ── Pill Types ────────────────────────────────────────────────────────────
+ *   BODY    – Cultivation pill for Body path
+ *   ESSENCE – Cultivation pill for Essence path
+ *   INTENT  – Cultivation pill for Intent path
+ *   POISON  – Throwable; shift+click to eat
+ *   REBIRTH – Triggers rebirth
+ *   ANTIDOTE – Removes MobEffects
  */
 public class PillItem extends Item {
 
-    // ── Pill Type enum ───────────────────────────────────────────
-    public enum PillType {
-        BODY,
-        ESSENCE,
-        INTENT,
-        POISON,
-        REBIRTH,
-        ANTIDOTE
+    public enum PillType { BODY, ESSENCE, INTENT, POISON, REBIRTH, ANTIDOTE }
+
+    // ── Realm multiplier ──────────────────────────────────────────
+    /** Each major realm multiplies effects by this factor over the previous. */
+    private static final double REALM_MULTIPLIER = 3.5;
+
+    public static double getRealmMultiplier(int majorRealm) {
+        // Realm 1 = 1.0×, Realm 2 = 3.5×, Realm 3 = 12.25×, etc.
+        return Math.pow(REALM_MULTIPLIER, Math.max(0, majorRealm - 1));
     }
 
-    // ── Fields ───────────────────────────────────────────────────
-    private final PillType type;
-
-    // Cultivation pills (BODY / ESSENCE / INTENT)
-    private final double   cultivationAmount;
+    // ── Fields ────────────────────────────────────────────────────
+    private final PillType          type;
+    private final double            cultivationAmount;
     private final CultivationSource cultivationSource;
+    private final int               cooldown;
+    private       MobEffectInstance poisonEffect;
+    private       MobEffectInstance[] effectsToRemove;
 
-    // Cooldown (BODY / ESSENCE / INTENT / REBIRTH / ANTIDOTE)
-    private final int cooldown;
+    // ── Constructors ──────────────────────────────────────────────
 
-    // POISON
-    private MobEffectInstance poisonEffect;
-
-    // ANTIDOTE
-    private MobEffectInstance[] effectsToRemove;
-
-    // ── Constructors ─────────────────────────────────────────────
-
-    /**
-     * BODY / ESSENCE / INTENT cultivation pill.
-     *
-     * @param cultivationAmount  Raw cultivation progress to grant.
-     * @param source             CultivationSource (usually CultivationSource.CONSUMABLE).
-     * @param cooldown           Cooldown in ticks after consumption.
-     */
-    public PillItem(Properties properties, PillType type,
+    /** BODY / ESSENCE / INTENT */
+    public PillItem(Properties props, PillType type,
                     double cultivationAmount, CultivationSource source, int cooldown) {
-        super(properties);
-        if (type != PillType.BODY && type != PillType.ESSENCE && type != PillType.INTENT) {
-            throw new IllegalArgumentException("Use the correct constructor for type: " + type);
-        }
-        this.type               = type;
-        this.cultivationAmount  = cultivationAmount;
-        this.cultivationSource  = source;
-        this.cooldown           = cooldown;
-        this.poisonEffect       = null;
-        this.effectsToRemove    = new MobEffectInstance[0];
+        super(props);
+        if (type != PillType.BODY && type != PillType.ESSENCE && type != PillType.INTENT)
+            throw new IllegalArgumentException("Use the correct constructor for: " + type);
+        this.type              = type;
+        this.cultivationAmount = cultivationAmount;
+        this.cultivationSource = source;
+        this.cooldown          = cooldown;
+        this.poisonEffect      = null;
+        this.effectsToRemove   = new MobEffectInstance[0];
     }
 
-    /**
-     * POISON throwable pill.
-     *
-     * @param effect  The MobEffectInstance applied on hit (thrown) or on eat (shift+click).
-     */
-    public PillItem(Properties properties, PillType type, MobEffectInstance effect) {
-        super(properties);
-        if (type != PillType.POISON) {
-            throw new IllegalArgumentException("Use the correct constructor for type: " + type);
-        }
+    /** POISON */
+    public PillItem(Properties props, PillType type, MobEffectInstance effect) {
+        super(props);
+        if (type != PillType.POISON) throw new IllegalArgumentException("Use POISON type");
         this.type              = PillType.POISON;
         this.cultivationAmount = 0;
         this.cultivationSource = null;
@@ -126,16 +100,10 @@ public class PillItem extends Item {
         this.effectsToRemove   = new MobEffectInstance[0];
     }
 
-    /**
-     * REBIRTH pill.
-     *
-     * @param cooldown  Cooldown in ticks after consumption.
-     */
-    public PillItem(Properties properties, PillType type, int cooldown) {
-        super(properties);
-        if (type != PillType.REBIRTH) {
-            throw new IllegalArgumentException("Use the correct constructor for type: " + type);
-        }
+    /** REBIRTH */
+    public PillItem(Properties props, PillType type, int cooldown) {
+        super(props);
+        if (type != PillType.REBIRTH) throw new IllegalArgumentException("Use REBIRTH type");
         this.type              = PillType.REBIRTH;
         this.cultivationAmount = 0;
         this.cultivationSource = null;
@@ -144,18 +112,11 @@ public class PillItem extends Item {
         this.effectsToRemove   = new MobEffectInstance[0];
     }
 
-    /**
-     * ANTIDOTE pill. Removes the given effects on consumption.
-     *
-     * @param cooldown         Cooldown in ticks after consumption.
-     * @param effectsToRemove  One or more MobEffectInstance whose effect types will be removed.
-     */
-    public PillItem(Properties properties, PillType type,
+    /** ANTIDOTE */
+    public PillItem(Properties props, PillType type,
                     int cooldown, MobEffectInstance... effectsToRemove) {
-        super(properties);
-        if (type != PillType.ANTIDOTE) {
-            throw new IllegalArgumentException("Use the correct constructor for type: " + type);
-        }
+        super(props);
+        if (type != PillType.ANTIDOTE) throw new IllegalArgumentException("Use ANTIDOTE type");
         this.type              = PillType.ANTIDOTE;
         this.cultivationAmount = 0;
         this.cultivationSource = null;
@@ -164,112 +125,81 @@ public class PillItem extends Item {
         this.effectsToRemove   = effectsToRemove;
     }
 
-    // ── Use behaviour ────────────────────────────────────────────
+    // ── Use ───────────────────────────────────────────────────────
 
-    /**
-     * POISON pills launch a projectile on right-click (no sneak).
-     * All other types use the normal eat animation.
-     */
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (type == PillType.POISON) {
             ItemStack stack = player.getItemInHand(hand);
-
             if (player.isShiftKeyDown()) {
-                // Shift + right-click → eat
                 player.startUsingItem(hand);
                 return InteractionResultHolder.consume(stack);
             }
-
-            // Plain right-click → throw
             if (!level.isClientSide()) {
-                PoisonPillProjectile projectile = new PoisonPillProjectile(
-                        ModEntities.POISON_PILL.get(),
-                        level,
-                        player,
-                        poisonEffect,
-                        this
-                );
-                projectile.setItem(stack);
-                projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0f, 1.5f, 1f);
-                level.addFreshEntity(projectile);
+                PoisonPillProjectile proj = new PoisonPillProjectile(
+                        ModEntities.POISON_PILL.get(), level, player, poisonEffect, this);
+                proj.setItem(stack);
+                proj.shootFromRotation(player, player.getXRot(), player.getYRot(), 0f, 1.5f, 1f);
+                level.addFreshEntity(proj);
             }
-
-            if (!player.getAbilities().instabuild) {
-                stack.shrink(1);
-            }
+            if (!player.getAbilities().instabuild) stack.shrink(1);
             return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
         }
-
         return super.use(level, player, hand);
     }
 
-    @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
-        return UseAnim.EAT;
-    }
-
-    @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    @Override public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.EAT; }
+    @Override public int getUseDuration(ItemStack stack, LivingEntity e) {
         return (type == PillType.POISON) ? 16 : 32;
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         ItemStack result = super.finishUsingItem(stack, level, livingEntity);
+        if (level.isClientSide() || !(livingEntity instanceof Player player)) return result;
 
-        if (level.isClientSide() || !(livingEntity instanceof Player player)) {
-            return result;
-        }
-
-        // Read purity (used for both cultivation scaling and bonus duration)
         Integer purityComp = stack.get(ModDataComponents.PILL_PURITY.get());
-        int     purityInt  = (purityComp != null) ? purityComp : 50;   // default 50 if unrefined
-        double  purityScale = purityInt / 100.0;
+        Integer majorComp  = stack.get(ModDataComponents.PILL_MAJOR_REALM.get());
+
+        int purity      = (purityComp != null) ? purityComp : 50;
+        int majorRealm  = (majorComp  != null) ? majorComp  : 1;
+
+        double purityScale      = purity / 100.0;
+        double realmMultiplier  = getRealmMultiplier(majorRealm);
 
         switch (type) {
-
             case BODY -> {
-                double scaled = cultivationAmount * purityScale;
+                double amt = cultivationAmount * purityScale * realmMultiplier;
                 CultivationSystem.cultivate(player, "ascension:body",
-                        scaled, new java.util.HashSet<>(), cultivationSource);
+                        amt, new java.util.HashSet<>(), cultivationSource);
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
-
             case ESSENCE -> {
-                double scaled = cultivationAmount * purityScale;
+                double amt = cultivationAmount * purityScale * realmMultiplier;
                 CultivationSystem.cultivate(player, "ascension:essence",
-                        scaled, new java.util.HashSet<>(), cultivationSource);
+                        amt, new java.util.HashSet<>(), cultivationSource);
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
-
             case INTENT -> {
-                double scaled = cultivationAmount * purityScale;
+                double amt = cultivationAmount * purityScale * realmMultiplier;
                 CultivationSystem.cultivate(player, "ascension:intent",
-                        scaled, new java.util.HashSet<>(), cultivationSource);
+                        amt, new java.util.HashSet<>(), cultivationSource);
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
-
             case POISON -> {
-                if (poisonEffect != null) {
-                    player.addEffect(new MobEffectInstance(poisonEffect));
-                }
+                if (poisonEffect != null) player.addEffect(new MobEffectInstance(poisonEffect));
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
-
             case REBIRTH -> {
                 PlayerDataChangeHandler.rebirth(player);
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
-
             case ANTIDOTE -> {
-                for (MobEffectInstance effect : effectsToRemove) {
-                    player.removeEffect(effect.getEffect());
-                }
+                for (MobEffectInstance e : effectsToRemove) player.removeEffect(e.getEffect());
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
@@ -278,91 +208,59 @@ public class PillItem extends Item {
         return result;
     }
 
-    // ── Tooltip ──────────────────────────────────────────────────
+    // ── Tooltip ───────────────────────────────────────────────────
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context,
-                                List<Component> tooltipComponents, TooltipFlag flag) {
-        super.appendHoverText(stack, context, tooltipComponents, flag);
+    public void appendHoverText(ItemStack stack, TooltipContext ctx,
+                                List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(stack, ctx, list, flag);
 
         Integer majorRealm = stack.get(ModDataComponents.PILL_MAJOR_REALM.get());
-        String  minorRealm = stack.get(ModDataComponents.PILL_MINOR_REALM.get());
         Integer purity     = stack.get(ModDataComponents.PILL_PURITY.get());
         String  bonus      = stack.get(ModDataComponents.PILL_BONUS_EFFECT.get());
 
-        boolean hasRealm  = majorRealm != null && minorRealm != null;
-        boolean hasPurity = purity != null;
-
-        if (!hasRealm && !hasPurity) {
-            tooltipComponents.add(
-                    Component.literal("Unrefined")
-                            .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-            );
+        if (majorRealm == null && purity == null) {
+            list.add(Component.literal("Unrefined")
+                    .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
             return;
         }
 
-        // Realm
-        if (hasRealm) {
-            tooltipComponents.add(
-                    Component.literal("Pill Realm")
-                            .withStyle(ChatFormatting.GOLD)
-            );
-            tooltipComponents.add(
-                    Component.literal("  Major: ")
-                            .withStyle(ChatFormatting.YELLOW)
-                            .append(Component.literal(
-                                            majorRealm + " - " + PillRealmData.getMajorRealmName(majorRealm))
-                                    .withStyle(ChatFormatting.WHITE))
-            );
-            tooltipComponents.add(
-                    Component.literal("  Minor: ")
-                            .withStyle(ChatFormatting.YELLOW)
-                            .append(Component.literal(
-                                            PillRealmData.getMinorRealmName(minorRealm))
-                                    .withStyle(ChatFormatting.WHITE))
-            );
+        // ── Realm line ────────────────────────────────────────────
+        if (majorRealm != null) {
+            list.add(Component.literal("Pill Realm: ")
+                    .withStyle(ChatFormatting.GOLD)
+                    .append(Component.literal(
+                                    majorRealm + " — " + PillRealmData.getMajorRealmName(majorRealm))
+                            .withStyle(ChatFormatting.WHITE)));
         }
 
-        // Purity
-        if (hasPurity) {
-            tooltipComponents.add(
-                    Component.literal("Purity: ")
-                            .withStyle(ChatFormatting.YELLOW)
-                            .append(Component.literal(purity + "/100")
-                                    .withStyle(getPurityColor(purity)))
-            );
+        // ── Purity grade line (named, no number shown) ────────────
+        if (purity != null) {
+            String gradeName = PillRealmData.getPurityGrade(purity);
+            ChatFormatting gradeColor = PillRealmData.getPurityGradeColor(purity);
+            list.add(Component.literal("Purity: ")
+                    .withStyle(ChatFormatting.YELLOW)
+                    .append(Component.literal(gradeName).withStyle(gradeColor)));
         }
 
-        // Bonus effect
+        // ── Bonus effect ──────────────────────────────────────────
         if (bonus != null && !bonus.isEmpty()) {
-            tooltipComponents.add(
-                    Component.literal("✦ Bonus: ")
-                            .withStyle(ChatFormatting.AQUA)
-                            .append(Component.literal(
-                                            PillRealmData.getBonusEffectDisplay(bonus))
-                                    .withStyle(ChatFormatting.LIGHT_PURPLE))
-            );
+            list.add(Component.literal("✦ Bonus: ")
+                    .withStyle(ChatFormatting.AQUA)
+                    .append(Component.literal(PillRealmData.getBonusEffectDisplay(bonus))
+                            .withStyle(ChatFormatting.LIGHT_PURPLE)));
         }
     }
 
-    private ChatFormatting getPurityColor(int purity) {
-        if (purity >= 90) return ChatFormatting.AQUA;
-        if (purity >= 70) return ChatFormatting.GREEN;
-        if (purity >= 50) return ChatFormatting.YELLOW;
-        if (purity >= 25) return ChatFormatting.GOLD;
-        return ChatFormatting.DARK_RED;
-    }
-
-    // ── Static cauldron utility ──────────────────────────────────
+    // ── Static utility ────────────────────────────────────────────
 
     /**
-     * Applied by the cauldron block entity after crafting.
-     * Sets realm, purity, and optional bonus effect on the output stack.
+     * Applied by the cauldron after crafting.
+     * No longer takes minorRealm — purity grade is derived at tooltip time.
      */
-    public static ItemStack applyPillData(ItemStack stack, int majorRealm, String minorRealm,
+    public static ItemStack applyPillData(ItemStack stack, int majorRealm,
                                           int purity, String bonusEffect) {
         stack.set(ModDataComponents.PILL_MAJOR_REALM.get(), majorRealm);
-        stack.set(ModDataComponents.PILL_MINOR_REALM.get(), minorRealm);
         stack.set(ModDataComponents.PILL_PURITY.get(), purity);
         if (bonusEffect != null && !bonusEffect.isEmpty()) {
             stack.set(ModDataComponents.PILL_BONUS_EFFECT.get(), bonusEffect);

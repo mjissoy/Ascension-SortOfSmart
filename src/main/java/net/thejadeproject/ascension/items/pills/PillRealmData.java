@@ -1,14 +1,28 @@
 package net.thejadeproject.ascension.items.pills;
 
+import net.minecraft.ChatFormatting;
+
 /**
- * Defines the Pill Realm system – separate from cultivation realms.
+ * Central data class for pill realm names, purity grades, and bonus display text.
  *
- * Major Realms 1-9 and Minor Realms within each.
- * Names are plain strings so developers can rename them easily here.
+ * ── Purity Grade system ───────────────────────────────────────────────────
+ * The numeric purity (1-100) maps to a named grade shown in tooltips.
+ * The number is kept for all game logic; only the tooltip shows the name.
+ *
+ *   1  – 30   Basic      (dark red)
+ *   31 – 70   Average    (gold)
+ *   71 – 89   Advanced   (green)
+ *   90 – 100  Peak       (aqua)
+ *
+ * PILL_MINOR_REALM data component is removed. All code that previously
+ * wrote or read minor realm should use getPurityGrade() instead.
+ *
+ * ── Major Realm names (1-9) ───────────────────────────────────────────────
+ * Rename here freely.
  */
 public class PillRealmData {
 
-    // ── Major Realm Names (index 0 = realm 1, index 8 = realm 9) ──
+    // ── Major realm names ─────────────────────────────────────────
     private static final String[] MAJOR_REALM_NAMES = {
             "Mortal",       // 1
             "Spirit",       // 2
@@ -21,59 +35,57 @@ public class PillRealmData {
             "Transcendent"  // 9
     };
 
-    // ── Minor Realm Names (index 0 = lower, 1 = middle, 2 = peak) ──
-    public static final String MINOR_LOWER = "Lower";
-    public static final String MINOR_MIDDLE = "Middle";
-    public static final String MINOR_PEAK = "Peak";
-
-    private static final String[] MINOR_REALM_NAMES = {
-            MINOR_LOWER,
-            MINOR_MIDDLE,
-            MINOR_PEAK
-    };
+    // ── Purity grade names ────────────────────────────────────────
+    public static final String GRADE_BASIC    = "Basic";
+    public static final String GRADE_AVERAGE  = "Average";
+    public static final String GRADE_ADVANCED = "Advanced";
+    public static final String GRADE_PEAK     = "Peak";
 
     /**
-     * Returns the display name for a major realm (1-9).
-     * Returns "Unknown" if out of range.
+     * Returns the purity grade name for a given numeric purity value.
+     *
+     *   1  – 30  → Basic
+     *   31 – 70  → Average
+     *   71 – 89  → Advanced
+     *   90 – 100 → Peak
      */
+    public static String getPurityGrade(int purity) {
+        if (purity >= 90) return GRADE_PEAK;
+        if (purity >= 71) return GRADE_ADVANCED;
+        if (purity >= 31) return GRADE_AVERAGE;
+        return GRADE_BASIC;
+    }
+
+    /**
+     * Returns the ChatFormatting colour for a purity grade name.
+     */
+    public static ChatFormatting getPurityGradeColor(int purity) {
+        if (purity >= 90) return ChatFormatting.AQUA;
+        if (purity >= 71) return ChatFormatting.GREEN;
+        if (purity >= 31) return ChatFormatting.GOLD;
+        return ChatFormatting.DARK_RED;
+    }
+
     public static String getMajorRealmName(int majorRealm) {
         if (majorRealm < 1 || majorRealm > 9) return "Unknown";
         return MAJOR_REALM_NAMES[majorRealm - 1];
     }
 
-    /**
-     * Returns the display name for a minor realm string key.
-     * Keys: "lower", "middle", "peak" (case-insensitive).
-     */
-    public static String getMinorRealmName(String minorRealm) {
-        if (minorRealm == null) return MINOR_LOWER;
-        return switch (minorRealm.toLowerCase()) {
-            case "lower"  -> MINOR_LOWER;
-            case "middle" -> MINOR_MIDDLE;
-            case "peak"   -> MINOR_PEAK;
-            default       -> minorRealm; // passthrough for custom values
-        };
+    public static String getFullRealmDisplay(int majorRealm, int purity) {
+        return getMajorRealmName(majorRealm) + " — " + getPurityGrade(purity);
     }
 
-    /**
-     * Returns a combined display string, e.g. "Mortal - Lower".
-     */
-    public static String getFullRealmDisplay(int majorRealm, String minorRealm) {
-        return getMajorRealmName(majorRealm) + " - " + getMinorRealmName(minorRealm);
-    }
-
-    // ── Bonus Effect Display Names ──────────────────────────────
-    // Map ResourceLocation strings to human-readable descriptions.
-    // Developers: add entries here as you add herb bonus types.
-    public static String getBonusEffectDisplay(String bonusEffectId) {
-        if (bonusEffectId == null || bonusEffectId.isEmpty()) return "";
-        return switch (bonusEffectId) {
-            case "ascension:fire_affinity"      -> "Fire Affinity: Boosts fire-element effects";
-            case "ascension:qi_nourishing"      -> "Qi Nourishing: Increased Qi regeneration";
-            case "ascension:body_strengthening" -> "Body Strengthening: Enhanced physical resilience";
-            case "ascension:cold_essence"       -> "Cold Essence: Resistance to frost damage";
-            case "ascension:spirit_clarity"     -> "Spirit Clarity: Improved skill cooldown recovery";
-            default -> "Unknown Bonus: " + bonusEffectId;
+    // ── Bonus effect display strings ──────────────────────────────
+    public static String getBonusEffectDisplay(String id) {
+        if (id == null || id.isEmpty()) return "";
+        return switch (id) {
+            case "ascension:fire_imperviousness"        -> "[Fire] Impervious to fire and lava";
+            case "ascension:ice_imperviousness"         -> "[Ice] Impervious to freezing; walk on powder snow";
+            case "ascension:temperature_imperviousness" -> "[Fire & Ice] Impervious to temperature; walk on water";
+            case "ascension:qi_nourishing"              -> "Qi Nourishing: Increased Qi regeneration";
+            case "ascension:body_strengthening"         -> "Body Strengthening: Enhanced physical resilience";
+            case "ascension:spirit_clarity"             -> "Spirit Clarity: Improved skill cooldown recovery";
+            default -> "Unknown Bonus: " + id;
         };
     }
 }
