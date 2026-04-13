@@ -15,7 +15,8 @@ public class ModFoodProperties {
             .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 2), 1f).build();
     public static final FoodProperties CLEANSING_PILL_T4 = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 3), 1f).build();
-
+    public static final FoodProperties QI_DEVOURING_PARASITE_PILL = new FoodProperties.Builder().alwaysEdible().fast()
+            .effect(() -> new MobEffectInstance(ModEffects.PARASITE, 400), 1f).build();
 
     public static final FoodProperties NEUTRALITY_PILL = new FoodProperties.Builder().alwaysEdible().fast()
             .effect(() -> new MobEffectInstance(ModEffects.NEUTRALITY, 1000), 1f).build();

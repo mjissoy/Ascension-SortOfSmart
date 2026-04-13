@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.thejadeproject.ascension.blocks.custom.SpiritCondenserBlock;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.PlayerData;
+
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,10 +43,7 @@ public class SpiritCondenserBlockEntity extends BlockEntity {
 
     /** Called by the block each tick a qualifying player is on top. */
     public void onPlayerStanding(Player player) {
-        PlayerData data = player.getData(ModAttachments.PLAYER_DATA);
-        if (data.getCurrentQi() > 0) {
-            pendingPlayer = player;
-        }
+        //todo
     }
 
     public boolean isActive() { return active; }
@@ -59,11 +56,7 @@ public class SpiritCondenserBlockEntity extends BlockEntity {
             drainTimer++;
             if (drainTimer >= DRAIN_INTERVAL) {
                 drainTimer = 0;
-                PlayerData data = pendingPlayer.getData(ModAttachments.PLAYER_DATA);
-                boolean drained = data.tryConsumeQi(SpiritCondenserBlock.QI_DRAIN_PER_SECOND);
-                if (!drained) {
-                    active = false; // No Qi left
-                }
+                //TODO drain qi
             }
         } else {
             // Player stepped off

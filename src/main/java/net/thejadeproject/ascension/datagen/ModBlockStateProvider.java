@@ -394,11 +394,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
 
 
-
+        /*
         blockItem(ModBlocks.FLAME_STAND_BLOCK);
         blockItem(ModBlocks.CAULDRON_PEDESTAL_BLOCK);
         blockItem(ModBlocks.SPIRIT_CONDENSER_BLOCK);
-
+         */
     }
 
 

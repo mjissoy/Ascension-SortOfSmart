@@ -13,8 +13,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.thejadeproject.ascension.constants.CultivationSource;
-import net.thejadeproject.ascension.cultivation.CultivationSystem;
-import net.thejadeproject.ascension.cultivation.player.PlayerDataChangeHandler;
+
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.PoisonPillProjectile;
 import net.thejadeproject.ascension.events.ModDataComponents;
@@ -170,22 +169,19 @@ public class PillItem extends Item {
         switch (type) {
             case BODY -> {
                 double amt = cultivationAmount * purityScale * realmMultiplier;
-                CultivationSystem.cultivate(player, "ascension:body",
-                        amt, new java.util.HashSet<>(), cultivationSource);
+                //TODO add cultivation
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
             case ESSENCE -> {
                 double amt = cultivationAmount * purityScale * realmMultiplier;
-                CultivationSystem.cultivate(player, "ascension:essence",
-                        amt, new java.util.HashSet<>(), cultivationSource);
+                //TODO add cultivation
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
             case INTENT -> {
                 double amt = cultivationAmount * purityScale * realmMultiplier;
-                CultivationSystem.cultivate(player, "ascension:intent",
-                        amt, new java.util.HashSet<>(), cultivationSource);
+                //TODO add cultivation
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
@@ -194,7 +190,7 @@ public class PillItem extends Item {
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }
             case REBIRTH -> {
-                PlayerDataChangeHandler.rebirth(player);
+                //TODO add cultivation
                 player.getCooldowns().addCooldown(this, cooldown);
                 if (!player.getAbilities().instabuild) stack.shrink(1);
             }

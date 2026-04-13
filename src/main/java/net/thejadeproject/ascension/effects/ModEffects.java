@@ -20,6 +20,8 @@ public class ModEffects {
             () -> new NeutralityEffect(MobEffectCategory.BENEFICIAL, 0xE8E8E8));
 
 
+    public static final Holder<MobEffect> PARASITE = MOB_EFFECT.register("qi_devouring_parasite",
+            () -> new QiDevouringParasiteEffect(MobEffectCategory.HARMFUL, 0x4a5c0a)); // Sickly green color
 
 
 
