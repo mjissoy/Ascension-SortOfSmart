@@ -1,144 +1,116 @@
 package net.thejadeproject.ascension.menus.custom.pill_cauldron;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.compat.jei.PillCauldronRecipeCategory;
-import net.thejadeproject.ascension.compat.jei.JEIModPlugin;
+import net.thejadeproject.ascension.blocks.entity.FlameStandBlockEntity;
 
+@OnlyIn(Dist.CLIENT)
 public class PillCauldronLowHumanScreen extends AbstractContainerScreen<PillCauldronLowHumanMenu> {
 
     private static final ResourceLocation GUI_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/pill_cauldron_low_human/pill_cauldron_low_human_menu.png");
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,
+                    "textures/gui/pill_cauldron_low_human/pill_cauldron_low_human_menu.png");
     private static final ResourceLocation ARROW_TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/arrow_progress.png");
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,
+                    "textures/gui/arrow_progress.png");
 
-    public PillCauldronLowHumanScreen(PillCauldronLowHumanMenu menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title);
+    // Client-side smooth temperature for the in-GUI bar
+    private float smoothTemp = 0f;
+
+    public PillCauldronLowHumanScreen(PillCauldronLowHumanMenu menu, Inventory inv, Component title) {
+        super(menu, inv, title);
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
+    protected void renderBg(GuiGraphics g, float partialTick, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, GUI_TEXTURE);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
-        guiGraphics.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
-
-        renderProgressArrow(guiGraphics, x, y);
-        renderHeatBar(guiGraphics, x, y);
+        g.blit(GUI_TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
+        renderProgressArrow(g, x, y);
+        renderTempBar(g, x, y, partialTick);
     }
 
-    private void renderProgressArrow(GuiGraphics guiGraphics, int x, int y) {
+    private void renderProgressArrow(GuiGraphics g, int x, int y) {
         if (menu.isCrafting()) {
-            guiGraphics.blit(ARROW_TEXTURE, x + 80, y + 33, 0, 0, 16, menu.getScaledArrowProgress(), 16, 21);
+            g.blit(ARROW_TEXTURE, x + 80, y + 33, 0, 0, 16, menu.getScaledArrowProgress(), 16, 21);
         }
     }
 
-    private int getHeatColor(int percentage) {
-        // Color gradient from blue (cold) to red (hot)
-        if (percentage < 25) {
-            return 0xFF0000FF; // Blue
-        } else if (percentage < 50) {
-            return 0xFF00FF00; // Green
-        } else if (percentage < 75) {
-            return 0xFFFFFF00; // Yellow
-        } else {
-            return 0xFFFF0000; // Red
-        }
-    }
+    private void renderTempBar(GuiGraphics g, int x, int y, float partialTick) {
+        boolean lit   = menu.isFlameStandLit();
+        int rawTemp   = menu.getCurrentTemp();
+        int minTemp   = menu.getRecipeMinTemp();
+        int maxTemp   = menu.getRecipeMaxTemp();
 
-    @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        super.renderLabels(guiGraphics, mouseX, mouseY);
+        // Smooth toward raw temp
+        float target  = lit ? (rawTemp / (float) FlameStandBlockEntity.MAX_TEMP) : 0f;
+        smoothTemp   += (target - smoothTemp) * 0.12f;
 
-        // Heat text has been removed as requested
-    }
-
-    private void renderHeatBar(GuiGraphics guiGraphics, int x, int y) {
-        int heatPercentage = menu.getHeatPercentage();
-        int heatBarHeight = (int) (50 * (heatPercentage / 100.0)); // 50 pixels max height
-
-        // Position the vertical heat bar at (5, 49) relative to the GUI
-        int barX = x + 144;
+        // Bar geometry (right side of GUI)
+        int barX = x + 148;
         int barY = y + 70;
+        int barH = 50;
 
-        // Draw heat bar background (gray) - vertical bar
-        guiGraphics.fill(barX, barY, barX + 5, barY - 50, 0xFF555555);
+        // Background
+        g.fill(barX, barY - barH, barX + 5, barY, 0xFF333333);
 
-        // Draw heat bar with color based on temperature - from bottom to top
-        int color = getHeatColor(heatPercentage);
-        int filledHeight = Math.min(heatBarHeight, 50);
-        guiGraphics.fill(barX, barY, barX + 5, barY - filledHeight, color);
+        // Green zone (recipe range)
+        if (minTemp > 0 && maxTemp > minTemp) {
+            int minPx = (int)(barH * (minTemp  / (float) FlameStandBlockEntity.MAX_TEMP));
+            int maxPx = (int)(barH * (maxTemp  / (float) FlameStandBlockEntity.MAX_TEMP));
+            g.fill(barX, barY - maxPx, barX + 5, barY - minPx, 0x5500CC00);
+        }
+
+        // Fill
+        int filled = (int)(barH * smoothTemp);
+        int color  = getTempBarColor(rawTemp, minTemp, maxTemp);
+        g.fill(barX, barY - filled, barX + 5, barY, color);
+
+        // Flame icon / lit indicator dot
+        int dotColor = lit ? 0xFFFF6600 : 0xFF555555;
+        g.fill(x + 8, y + 30, x + 16, y + 38, dotColor);
+    }
+
+    private int getTempBarColor(int temp, int minTemp, int maxTemp) {
+        if (maxTemp > 0 && temp >= minTemp && temp <= maxTemp) return 0xFF00CC00;
+        if (maxTemp > 0 && temp < minTemp)  return 0xFF4488FF;
+        return 0xFFFF4400;
     }
 
     @Override
-    protected void renderSlot(GuiGraphics guiGraphics, Slot slot) {
-        super.renderSlot(guiGraphics, slot);
-    }
+    public void render(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
+        super.render(g, mouseX, mouseY, partialTick);
+        this.renderTooltip(g, mouseX, mouseY);
 
-    @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        this.renderTooltip(pGuiGraphics, pMouseX, pMouseY);
-
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
-
-        // Updated tooltip area for vertical heat bar
-        if (isHovering(144, 70 - 50, 5, 50, pMouseX, pMouseY)) {
-            pGuiGraphics.renderTooltip(this.font,
-                    Component.literal("Heat: " + menu.getHeatLevel() + "°C / " + menu.getMaxHeat() + "°C"),
-                    pMouseX, pMouseY);
+        // Tooltip – flame dot
+        if (isHovering(8, 30, 8, 8, mouseX, mouseY)) {
+            g.renderTooltip(font,
+                    Component.literal(menu.isFlameStandLit()
+                            ? "Flame Stand: Lit (" + menu.getCurrentTemp() + "°)"
+                            : "Flame Stand: Unlit"),
+                    mouseX, mouseY);
         }
 
-        // Add tooltip for progress arrow (JEI integration)
-        if (isHovering(80, 33, 16, 21, pMouseX, pMouseY)) {
-            pGuiGraphics.renderTooltip(this.font,
-                    Component.literal("Click to view recipes"),
-                    pMouseX, pMouseY);
-        }
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0) { // Left click
-            int x = (width - imageWidth) / 2;
-            int y = (height - imageHeight) / 2;
-
-            // Check if clicked on progress arrow
-            if (isHovering(80, 33, 16, 21, mouseX, mouseY)) {
-                showJeiRecipes();
-                return true;
-            }
-        }
-
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    private void showJeiRecipes() {
-        // Get JEI runtime and show recipes for the pill cauldron
-        try {
-            IJeiRuntime jeiRuntime = JEIModPlugin.getJeiRuntime();
-            if (jeiRuntime != null) {
-                // Simple approach - just show all recipes for our category
-                jeiRuntime.getRecipesGui().showTypes(
-                        java.util.List.of(PillCauldronRecipeCategory.CAULDRON_RECIPE_TYPE)
-                );
-            }
-        } catch (Exception e) {
-            AscensionCraft.LOGGER.warn("Could not open JEI recipes: {}", e.getMessage());
+        // Tooltip – temp bar
+        if (isHovering(148, 70 - 50, 5, 50, mouseX, mouseY)) {
+            int min = menu.getRecipeMinTemp(), max = menu.getRecipeMaxTemp();
+            String rangeText = (min > 0 && max > 0)
+                    ? "Range: " + min + "° — " + max + "°"
+                    : "No active recipe";
+            g.renderTooltip(font,
+                    Component.literal("Temp: " + menu.getCurrentTemp() + "°\n" + rangeText),
+                    mouseX, mouseY);
         }
     }
 }

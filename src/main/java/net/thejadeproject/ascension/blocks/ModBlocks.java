@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
@@ -33,6 +34,46 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCK =
             DeferredRegister.createBlocks(AscensionCraft.MOD_ID);
+
+    public static final DeferredBlock<FlameStandBlock> FLAME_STAND_BLOCK =
+            registerBlock("flame_stand",
+                    () -> new FlameStandBlock(BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .sound(SoundType.STONE)
+                            .strength(2.5f, 4.0f)
+                            .requiresCorrectToolForDrops()
+                            .lightLevel(state -> state.getValue(FlameStandBlock.LIT) ? 13 : 0)
+                    ));
+
+    public static final DeferredBlock<SpiritCondenserBlock> SPIRIT_CONDENSER_BLOCK =
+            registerBlock("spirit_condenser",
+                    () -> new SpiritCondenserBlock(BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.COLOR_PURPLE)
+                            .sound(SoundType.AMETHYST)
+                            .strength(3.0f, 4.0f)
+                            .requiresCorrectToolForDrops()
+                            .noOcclusion()
+                    ));
+
+
+    public static final DeferredBlock<CauldronPedestalBlock> CAULDRON_PEDESTAL_BLOCK =
+            registerBlock("cauldron_pedestal",
+                    () -> new CauldronPedestalBlock(BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .sound(SoundType.STONE)
+                            .strength(2.5f, 4.0f)
+                            .requiresCorrectToolForDrops()
+                    ));
+
+
+
+
+
+
+
+
+
+
 
     private static Block makeBlockFrom(Block other) {
         return new Block(BlockBehaviour.Properties.ofFullCopy(other));

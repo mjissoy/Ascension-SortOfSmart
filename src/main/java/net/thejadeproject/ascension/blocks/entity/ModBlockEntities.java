@@ -27,6 +27,30 @@ public class ModBlockEntities {
 
 
 
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FlameStandBlockEntity>> FLAME_STAND =
+            BLOCK_ENTITIES.register("flame_stand",
+                    () -> BlockEntityType.Builder.of(
+                            FlameStandBlockEntity::new,
+                            ModBlocks.FLAME_STAND_BLOCK.get()
+                    ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SpiritCondenserBlockEntity>> SPIRIT_CONDENSER =
+            BLOCK_ENTITIES.register("spirit_condenser",
+                    () -> BlockEntityType.Builder.of(
+                            SpiritCondenserBlockEntity::new,
+                            ModBlocks.SPIRIT_CONDENSER_BLOCK.get()
+                    ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CauldronPedestalBlockEntity>> CAULDRON_PEDESTAL =
+            BLOCK_ENTITIES.register("cauldron_pedestal",
+                    () -> BlockEntityType.Builder.of(
+                            CauldronPedestalBlockEntity::new,
+                            ModBlocks.CAULDRON_PEDESTAL_BLOCK.get()
+                    ).build(null));
+
+
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

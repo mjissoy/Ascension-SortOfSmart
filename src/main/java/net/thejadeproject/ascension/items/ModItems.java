@@ -16,14 +16,13 @@ import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.formations.PlayerAccessItemToken;
-import net.thejadeproject.ascension.items.herbs.HundredYearFireGinseng;
-import net.thejadeproject.ascension.items.herbs.HundredYearSnowGinseng;
-import net.thejadeproject.ascension.items.herbs.PlantableHerb;
+import net.thejadeproject.ascension.items.herbs.*;
 import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
 import net.thejadeproject.ascension.items.pills.*;
 import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
 import net.thejadeproject.ascension.items.techniques.TechniqueTransferItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
+import net.thejadeproject.ascension.items.tools.FanItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.items.tools.SpiritualStoneTools;
 import net.thejadeproject.ascension.util.ItemUtil;
@@ -31,8 +30,16 @@ import net.thejadeproject.ascension.util.ItemUtil;
 import java.util.HashSet;
 import java.util.List;
 
+import static net.thejadeproject.ascension.items.pills.PillItem.PillType.*;
+
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
+
+    public static final DeferredItem<Item> TEST_FAN = ITEMS.register("test_fan",
+            () -> new FanItem(new Item.Properties()));
+
+
+
 
 
     public static final DeferredItem<Item> RIFT_SUMMONER_DEBUG_STICK = ITEMS.register("rift_debug_stick",
@@ -277,13 +284,35 @@ public class ModItems {
     //Important Pills
     public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
             () -> new RebirthPill(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL), 400 /*Going to be 72000 so 8 hour cooldown when released*/));
+// ── Cultivation Pills ─────────────────────────────────────────
 
     //Cultivation Pills
 
 
 
 
+    // ── Poison Pills ──────────────────────────────────────────────
+    public static final DeferredItem<Item> QI_DEVOURING_PARASITE_PILL = ITEMS.register("qi_devouring_parasite_pill",
+            () -> new PillItem(new Item.Properties().food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL),
+                    POISON, new MobEffectInstance(ModEffects.PARASITE, 400, 1)));
 
+    // ── Important Pills ───────────────────────────────────────────
+    public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
+            () -> new PillItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL),
+                    REBIRTH, 400 /* will be 72000 on release */));
+
+    // ── Antidote Pills ────────────────────────────────────────────
+    public static final DeferredItem<Item> ANTIDOTE_PILL_T1 = ITEMS.register("antidote_pill_qdppill",
+            () -> new PillItem(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL),
+                    ANTIDOTE, 400, new MobEffectInstance(ModEffects.PARASITE, 1, 0)));
+
+    public static final DeferredItem<Item> ANTIDOTE_PILL_T2 = ITEMS.register("antidote_pill_t2",
+            () -> new PillItem(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL),
+                    ANTIDOTE, 400, new MobEffectInstance(ModEffects.PARASITE, 1, 0)));
+
+    public static final DeferredItem<Item> ANTIDOTE_PILL_T3 = ITEMS.register("antidote_pill_t3",
+            () -> new PillItem(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL),
+                    ANTIDOTE, 400, new MobEffectInstance(ModEffects.PARASITE, 1, 0)));
 
 
     //Phys Stuff
@@ -297,11 +326,11 @@ public class ModItems {
 
 
 
-    //Herbs
+    //Herbs Refactor all types of registration to sort it better
     public static final DeferredItem<Item> GOLDEN_SUN_LEAF = ITEMS.register("golden_sun_leaf",
-            () -> new Item(new Item.Properties().food(ModFoodProperties.GOLDEN_SUN_LEAF)));
+            () -> new HerbItem(new Item.Properties().food(ModFoodProperties.GOLDEN_SUN_LEAF)));
     public static final DeferredItem<Item> JADE_BAMBOO_OF_SERENITY = ITEMS.register("jade_bamboo_of_serenity",
-            () -> new Item(new Item.Properties().food(ModFoodProperties.JADE_BAMBOO_OF_SERENITY)));
+            () -> new HerbItem(new Item.Properties().food(ModFoodProperties.JADE_BAMBOO_OF_SERENITY)));
 
     public static final DeferredItem<Item> IRONWOOD_SPROUT = ITEMS.register("ironwood_sprout",
             () -> new PlantableHerb(ModBlocks.IRONWOOD_SPROUT_CROP.get(),
@@ -309,17 +338,19 @@ public class ModItems {
 
 
     public static final DeferredItem<Item> WHITE_JADE_ORCHID = ITEMS.register("white_jade_orchid",
-            () -> new ItemNameBlockItem(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
+            () -> new HerbBlockItem(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.WHITE_JADE_ORCHID)));
+    public static final DeferredItem<Item> HUNDRED_YEAR_GINSENG = ITEMS.register("hundred_year_ginseng",
+            () -> new HerbBlockItem(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
+                    new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_GINSENG)));
+
+
     public static final DeferredItem<Item> HUNDRED_YEAR_SNOW_GINSENG = ITEMS.register("hundred_year_snow_ginseng",
             () -> new HundredYearSnowGinseng(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_SNOW_GINSENG)));
     public static final DeferredItem<Item> HUNDRED_YEAR_FIRE_GINSENG = ITEMS.register("hundred_year_fire_ginseng",
             () -> new HundredYearFireGinseng(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_FIRE_GINSENG)));
-    public static final DeferredItem<Item> HUNDRED_YEAR_GINSENG = ITEMS.register("hundred_year_ginseng",
-            () -> new ItemNameBlockItem(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
-                    new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_GINSENG)));
 
 
     //MobEggs

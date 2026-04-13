@@ -464,9 +464,6 @@ public class SpiritSealingRingItem extends Item {
             tooltipComponents.add(Component.empty());
             tooltipComponents.add(Component.literal("§oThe ring hungers for spirits...").withStyle(ChatFormatting.DARK_GREEN, ChatFormatting.ITALIC));
         }
-
-        tooltipComponents.add(Component.empty());
-        tooltipComponents.add(Component.literal("§8Perfect Ascension").withStyle(ChatFormatting.DARK_GRAY));
     }
 
     @Override

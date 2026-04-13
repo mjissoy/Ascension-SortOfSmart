@@ -39,7 +39,7 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SPATIAL_RING.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_pills_tab"))
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -360,7 +360,7 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_PILLS_TAB = CREATIVE_MODE_TAB.register("ascension_pills_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.FASTING_PILL_T1.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.REGENERATION_PILL.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_herbs_tab"))
                     .title(Component.translatable("creativetab.ascension.pills"))
                     .displayItems((itemDisplayParameters, output) -> {

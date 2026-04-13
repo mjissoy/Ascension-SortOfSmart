@@ -12,6 +12,7 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
@@ -390,6 +391,21 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(ModBlocks.IRONWOOD_PRESSURE_PLATE);
         blockItem(ModBlocks.IRONWOOD_FENCE_GATE);
         blockItem(ModBlocks.IRONWOOD_TRAPDOOR, "_bottom");
+
+
+
+
+        blockItem(ModBlocks.FLAME_STAND_BLOCK);
+        blockItem(ModBlocks.CAULDRON_PEDESTAL_BLOCK);
+        blockItem(ModBlocks.SPIRIT_CONDENSER_BLOCK);
+
+    }
+
+
+    private void spiritualStoneClusterBlocks(DeferredHolder<Block, ?> block){
+        directionalBlock(block.get(),models()
+                .withExistingParent(block.getId().getPath(), AscensionCraft.MOD_ID+":block/spiritual_stone_cluster_template")
+                .texture("palette", block.getId().toString().replace(":", ":block/")));
     }
 
     public void makeCrop(CropBlock block, String modelName, String textureName) {
@@ -420,7 +436,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .renderType("cutout"));
 
         return models;
+
     }
+
 
 
 
