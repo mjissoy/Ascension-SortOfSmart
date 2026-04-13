@@ -30,10 +30,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 //FormationsArrays
-                .add(net.lucent.formation_arrays.blocks.ModBlocks.TIER_1_FORMATION_CORE.get())
-                .add(net.lucent.formation_arrays.blocks.ModBlocks.TIER_2_FORMATION_CORE.get())
-
-
 
 
 
