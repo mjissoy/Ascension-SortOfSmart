@@ -10,7 +10,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.attachments.PlayerInputStates;
-import net.thejadeproject.ascension.events.karma.KarmaData;
 import net.thejadeproject.ascension.refactor_packages.entity_data.EntityDataProvider;
 import net.thejadeproject.ascension.refactor_packages.entity_data.GenericEntityData;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -28,13 +27,6 @@ public class ModAttachments {
 
 
 
-    public static final Supplier<AttachmentType<KarmaData>> PLAYER_KARMA = ATTACHMENT_TYPES.register(
-            "player_karma",
-            () -> AttachmentType.builder(() -> new KarmaData())
-                    .serialize(KarmaData.CODEC)
-                    .copyOnDeath()
-                    .build()
-    );
     public static final Supplier<AttachmentType<IEntityData>> ENTITY_DATA = ATTACHMENT_TYPES.register(
             "entity_data",
             ()->AttachmentType.<IEntityData>builder((holder) -> holder instanceof Entity entity ? new GenericEntityData(entity):null)

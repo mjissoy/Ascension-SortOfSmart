@@ -193,9 +193,6 @@ public class ModItems {
 
 
     //Artifacts
-    public static final DeferredItem<Item> KARMIC_DEBT_LEDGER = ITEMS.register("karmic_debt_ledger",
-            () -> new KarmicDebtLedgerItem());
-
 
 
     public static final DeferredItem<Item> SPATIAL_RUPTURE_TALISMAN_T1 = ITEMS.register("spatial_rupture_talisman_t1",

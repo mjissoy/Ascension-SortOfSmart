@@ -39,11 +39,10 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.KARMIC_DEBT_LEDGER.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SOULSTEAD_RETURN_TALISMAN.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_pills_tab"))
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.KARMIC_DEBT_LEDGER);
 
                         output.accept(ModItems.REPAIR_SLIP);
                         output.accept(ModItems.ENDER_POUCH);

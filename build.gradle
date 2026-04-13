@@ -141,7 +141,7 @@ dependencies {
 
     implementation 'com.github.OliverHesse:EasyGui:0cfbd4ea8a'
 
-    //implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
+    implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     // Example optional mod dependency with JEI

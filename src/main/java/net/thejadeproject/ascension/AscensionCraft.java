@@ -36,13 +36,9 @@ import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.command.cultivation.ResetAttributesCommand;
 import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.command.cultivation.SetCultivationCommand;
-import net.thejadeproject.ascension.command.karma.KarmaCommand;
 
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.events.TeleportationEventHandler;
-import net.thejadeproject.ascension.events.karma.KarmaEvents;
-import net.thejadeproject.ascension.events.karma.KarmaManager;
-import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
 
 import net.thejadeproject.ascension.items.artifacts.DeathRecallTalisman;
 
@@ -67,8 +63,6 @@ import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
 import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
 import net.thejadeproject.ascension.refactor_packages.techniques.ModTechniques;
-import net.thejadeproject.ascension.sects.*;
-import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 import net.thejadeproject.ascension.util.KeyBindHandler;
 
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
@@ -101,7 +95,6 @@ public class AscensionCraft {
     public static float hue;
     public static final String MOD_ID = "ascension";
     public static final Logger LOGGER = LogUtils.getLogger();
-    private static final Map<String, SectManager> WORLD_SECT_MANAGERS = new HashMap<>(); // World ID -> SectManager
     public static final Map<String, String> SECT_DATA = new HashMap<>();
 
     public static ResourceLocation prefix(String name){
@@ -173,12 +166,6 @@ public class AscensionCraft {
         // Register ourselves for server and other game events we are interested in.
         NeoForge.EVENT_BUS.register(this);
 
-        NeoForge.EVENT_BUS.register(new SectEventHandler());
-        NeoForge.EVENT_BUS.register(new SectMissionEventHandler());
-
-        NeoForge.EVENT_BUS.register(new KarmicLedgerEvents());
-
-        NeoForge.EVENT_BUS.register(new KarmaEvents());
 
         register(modEventBus);
         // Register the item to a creative tab
@@ -296,9 +283,6 @@ public class AscensionCraft {
 
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = (Player) event.getEntity();
-        if (!player.level().isClientSide) {
-            KarmaManager.initializeKarma(player);
-        }
 
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
 
@@ -346,40 +330,12 @@ public class AscensionCraft {
         }
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-        // Each world gets its own sect manager
-        String worldId = event.getServer().getWorldData().getLevelName();
-        SectManager manager = SectManager.get(event.getServer(), worldId);
-        WORLD_SECT_MANAGERS.put(worldId, manager);
-    }
-
-    @SubscribeEvent
-    public void onServerStopping(ServerStoppingEvent event) {
-        // Save all world sect managers
-        for (SectManager manager : WORLD_SECT_MANAGERS.values()) {
-            if (manager != null) {
-                manager.save();
-            }
-        }
-        WORLD_SECT_MANAGERS.clear();
-    }
 
     private void registerCommands(RegisterCommandsEvent event) {
-        SectCommand.register(event.getDispatcher());
-        KarmaCommand.register(event.getDispatcher());
         SetCultivationCommand.register(event.getDispatcher());;
         ResetAttributesCommand.register(event.getDispatcher());;
     }
 
-
-    // Get sect manager for current world
-    public static SectManager getSectManager(net.minecraft.server.MinecraftServer server) {
-        if (server == null) return null;
-        String worldId = server.getWorldData().getLevelName();
-        return WORLD_SECT_MANAGERS.get(worldId);
-    }
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
     public static class ModEvents {

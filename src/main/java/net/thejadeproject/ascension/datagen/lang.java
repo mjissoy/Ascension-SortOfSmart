@@ -20,6 +20,40 @@ public class lang extends LanguageProvider {
         add("guide.cultivation_info.landing_text.ascension.1", "This will explain everything you need to know in order to play the mod! From early game to mid game to late game!");
 
 
+        // Path names
+        add("ascension.path.essence", "Essence");
+        add("ascension.path.body", "Body");
+        add("ascension.path.fire", "Fire");
+        add("ascension.path.sword", "Sword");
+        //essence
+        add("ascension.path.essence.mortal", "Mortal");
+        add("ascension.path.essence.qi_condensation", "Qi Condensation");
+        add("ascension.path.essence.formation_establishment", "Formation Establishment");
+        add("ascension.path.essence.golden_core", "Golden Core");
+        add("ascension.path.essence.nascent_core", "Nascent Core");
+        //body
+        add("ascension.path.body.bortal", "Mortal Body");
+        add("ascension.path.body.skin_tempering", "Skin Tempering");
+        add("ascension.path.body.sinew_weaving", "Sinew Weaving");
+        add("ascension.path.body.bone_forging", "Bone Forging");
+        add("ascension.path.body.heart_kindling", "Heart Kindling");
+        //fire
+        add("ascension.path.fire.kindling", "Kindling");
+        add("ascension.path.fire.ignition", "Ignition");
+        add("ascension.path.fire.true_flame", "True Flame");
+        add("ascension.path.fire.origin_flame", "Origin Flame");
+        //sword
+        add("ascension.path.sword.initiate", "Initiate");
+        add("ascension.path.sword.intent", "Intent");
+        add("ascension.path.sword.aura", "Aura");
+        add("ascension.path.sword.unity", "Unity");
+
+        // Physiques
+        add("ascension.physiques.mortal", "Mortal Physique");
+        add("ascension.physiques.severed_meridians", "Severed Meridians");
+        add("ascension.physiques.sword_bone", "Sword Bone");
+        add("ascension.physiques.flame_touched", "Flame Touched");
+
 
 
 
@@ -345,6 +379,14 @@ public class lang extends LanguageProvider {
 
         //Blocks
         add("block.ascension.pill_cauldron", "Pill Cauldron");
+        add("block.ascension.cauldron_pedestal", "Cauldron Pedestal");
+        add("block.ascension.flame_stand", "Flame Stand");
+        add("block.ascension.spirit_condenser", "Spirit Condenser");
+
+
+
+
+
         add("block.ascension.golden_palm_log", "Golden Palm Log");
         add("block.ascension.golden_palm_wood", "Golden Palm Wood");
         add("block.ascension.stripped_golden_palm_log", "Stripped Golden Palm Log");

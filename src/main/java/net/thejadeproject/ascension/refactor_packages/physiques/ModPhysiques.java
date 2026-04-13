@@ -19,7 +19,7 @@ public class ModPhysiques {
 
 
     public static final DeferredHolder<IPhysique,? extends GenericPhysique> MORTAL = PHYSIQUES.register("mortal",()->
-            new GenericPhysique(Component.literal("Mortal"))
+            new GenericPhysique(Component.translatable("ascension.physiques.mortal"))
                     .addPath(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"))
                     .addPath(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"))
                     .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"),0.5)
@@ -27,12 +27,12 @@ public class ModPhysiques {
             );
 
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> SEVERED_MERIDIANS = PHYSIQUES.register("severed_meridians",()->
-            new GenericPhysique(Component.literal("Severed Meridians"))
+            new GenericPhysique(Component.translatable("ascension.physiques.severed_meridians"))
                     .addPath(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"))
                     .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"),0.5)
     );
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> SWORD_BONE = PHYSIQUES.register("sword_bone",()->
-            new GenericPhysique(Component.literal("Sword Bone"))
+            new GenericPhysique(Component.translatable("ascension.physiques.sword_bone"))
                     .addPath(ModPaths.BODY.getId())
                     .addPathBonus(ModPaths.BODY.getId(),0.5)
                     .addPath(ModPaths.ESSENCE.getId())
@@ -41,7 +41,7 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.SWORD.getId(),2.0)
     );
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> FLAME_TOUCHED = PHYSIQUES.register("flame_touched",()->
-            new GenericPhysique(Component.literal("Flame Touched"))
+            new GenericPhysique(Component.translatable("ascension.physiques.flame_touched"))
                     .addPath(ModPaths.BODY.getId())
                     .addPath(ModPaths.ESSENCE.getId())
                     .addPathBonus(ModPaths.BODY.getId(),0.5)

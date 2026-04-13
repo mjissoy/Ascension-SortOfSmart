@@ -47,7 +47,7 @@ public class GenericPath implements IPath {
         return this;
     }
     public GenericPath addMajorRealmName(String realmName){
-        realmNames.add(Component.literal(realmName));
+        realmNames.add(Component.translatable(realmName));
         return this;
     }
 
