@@ -320,10 +320,19 @@ public class GenericEntityData implements IEntityData {
             //no old physique just replace directly
             oldPhysique = heldFormData.get(physiqueForm).getPhysiqueKey();
             oldPhysiqueData = heldFormData.get(physiqueForm).getPhysiqueData();
+
+        }
+        System.out.println("trying to replace :"+(oldPhysique == null ? "none" : oldPhysique.toString()));
+
+        PhysiqueChangeEvent.Pre preEvent = new PhysiqueChangeEvent.Pre(oldPhysique,oldPhysiqueData,physique,this);
+        NeoForge.EVENT_BUS.post(preEvent);
+        if(preEvent.isCanceled()) return false;
+        physique = preEvent.getNewPhysique();
+        if(oldPhysique != null){
             heldFormData.get(physiqueForm).getPhysique().onPhysiqueRemoved(this,oldPhysiqueData,physique);
             heldFormData.get(physiqueForm).setPhysique(null);
         }
-        System.out.println("trying to replace :"+(oldPhysique == null ? "none" : oldPhysique.toString()));
+
 
         physiqueForm = form;
 
@@ -339,7 +348,7 @@ public class GenericEntityData implements IEntityData {
             }
         }
 
-        PhysiqueChangeEvent event = new PhysiqueChangeEvent(oldPhysique,oldPhysiqueData,physique,physiqueData,this);
+        PhysiqueChangeEvent.Post event = new PhysiqueChangeEvent.Post(preEvent,heldFormData.get(physiqueForm).getPhysiqueData());
         System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
         NeoForge.EVENT_BUS.post(event);
 
