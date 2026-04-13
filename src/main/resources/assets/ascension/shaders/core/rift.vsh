@@ -3,27 +3,21 @@
 in vec3 Position;
 in vec4 Color;
 in vec2 UV0;
-in vec2 UV1;
+in ivec2 UV2;
 in vec3 Normal;
+
+uniform sampler2D Sampler2;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
-uniform float GameTime;
 
-out vec2 texCoord;
+out vec2 texCoord0;
 out vec4 vertexColor;
-out vec2 lightmapCoord;
-out float time;
+out float vertexLight;
 
 void main() {
-    texCoord = UV0;
+    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
+    texCoord0   = UV0;
     vertexColor = Color;
-    lightmapCoord = UV1;
-    time = GameTime;
-
-    vec3 pos = Position;
-    float distortion = sin(GameTime * 4.0 + pos.y * 8.0) * 0.03;
-    pos.x += distortion;
-
-    gl_Position = ProjMat * ModelViewMat * vec4(pos, 1.0);
+    vertexLight = (texelFetch(Sampler2, UV2 / 16, 0).r + texelFetch(Sampler2, UV2 / 16, 0).g) * 0.5;
 }

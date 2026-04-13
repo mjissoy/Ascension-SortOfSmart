@@ -141,7 +141,6 @@ dependencies {
 
     implementation 'com.github.OliverHesse:EasyGui:0cfbd4ea8a'
 
-    implementation "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     // Example optional mod dependency with JEI
@@ -182,7 +181,6 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_version            : mod_version,
             mod_authors            : mod_authors,
             mod_description        : mod_description,
-            modopedia_version        : modopedia_version,
             easy_gui_version       : easy_gui_version,
             formation_arrays_version       : formation_arrays_version,
             jei_version        : jei_version,

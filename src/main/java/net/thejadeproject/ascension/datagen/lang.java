@@ -12,17 +12,11 @@ public class lang extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
-        //GuideBook
-        add("book.title.ascension.art_of_ascension", "Ascension Guide");
-        add("book.subtitle.ascension.art_of_ascension", "Guide to Ascendance");
-
-        add("guide.landing_text.ascension.1", "§lAscension§0 is the art of Cultivating and Improving yourself to Ascend and reach Godhood\n\nThis book aims to explain the various functions of §lAscension§8.");
-        add("guide.cultivation_info.landing_text.ascension.1", "This will explain everything you need to know in order to play the mod! From early game to mid game to late game!");
-
 
         // Path names
         add("ascension.path.essence", "Essence");
         add("ascension.path.body", "Body");
+        add("ascension.path.soul", "Soul");
         add("ascension.path.fire", "Fire");
         add("ascension.path.sword", "Sword");
         //essence
@@ -32,11 +26,19 @@ public class lang extends LanguageProvider {
         add("ascension.path.essence.golden_core", "Golden Core");
         add("ascension.path.essence.nascent_core", "Nascent Core");
         //body
-        add("ascension.path.body.bortal", "Mortal Body");
+        add("ascension.path.body.mortal", "Mortal Body");
         add("ascension.path.body.skin_tempering", "Skin Tempering");
         add("ascension.path.body.sinew_weaving", "Sinew Weaving");
         add("ascension.path.body.bone_forging", "Bone Forging");
         add("ascension.path.body.heart_kindling", "Heart Kindling");
+        //soul
+        add("ascension.path.soul.mortal", "Mortal Soul");
+        add("ascension.path.soul.battle_soul", "Battle Soul");
+        add("ascension.path.soul.azure_soul", "Azure Soul");
+        add("ascension.path.soul.silver_soul", "Silver Soul");
+        add("ascension.path.soul.gold_battle_soul", "Gold Battle Soul");
+
+
         //fire
         add("ascension.path.fire.kindling", "Kindling");
         add("ascension.path.fire.ignition", "Ignition");

@@ -84,15 +84,6 @@ config="${mod_id}.mixins.json"
     versionRange="${minecraft_version_range}"
     ordering="NONE"
     side="BOTH"
-
-# Modopedia
-[[dependencies.${mod_id}]]
-    modId="modopedia"
-    type="optional"
-    # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="${modopedia_version}"
-    ordering="NONE"
-    side="BOTH"
 # Curios
 [[dependencies.${mod_id}]]
     modId="curios"

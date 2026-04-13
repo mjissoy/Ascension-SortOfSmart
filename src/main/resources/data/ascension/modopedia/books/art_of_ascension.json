@@ -1,8 +1,0 @@
-{
-  "title": "book.title.ascension.art_of_ascension",
-  "subtitle": "book.subtitle.ascension.art_of_ascension",
-  "landing_text": "guide.landing_text.ascension.1",
-  "creative_tab": "ascension:ascension_items_tab",
-  "model": "ascension:item/modopedia_books/scroll",
-  "type": "modopedia:classic"
-}
