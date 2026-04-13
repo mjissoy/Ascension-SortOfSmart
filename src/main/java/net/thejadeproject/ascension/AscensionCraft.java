@@ -37,35 +37,36 @@ import net.thejadeproject.ascension.command.cultivation.ResetAttributesCommand;
 import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.command.cultivation.SetCultivationCommand;
 import net.thejadeproject.ascension.command.karma.KarmaCommand;
-import net.thejadeproject.ascension.cultivation.player.data_attachements.CultivationData;
-import net.thejadeproject.ascension.cultivation.player.EntityAttributeManager;
+
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.events.TeleportationEventHandler;
 import net.thejadeproject.ascension.events.karma.KarmaEvents;
 import net.thejadeproject.ascension.events.karma.KarmaManager;
 import net.thejadeproject.ascension.events.karma.KarmicLedgerEvents;
-import net.thejadeproject.ascension.formations.ModFormations;
+
 import net.thejadeproject.ascension.items.artifacts.DeathRecallTalisman;
-import net.thejadeproject.ascension.menus.spatialrings.SpatialRingUtils;
-import net.thejadeproject.ascension.network.clientBound.SyncPathDataPayload;
-import net.thejadeproject.ascension.network.clientBound.SyncPlayerPhysique;
-import net.thejadeproject.ascension.progression.dao.ModDao;
-import net.thejadeproject.ascension.cultivation.realms.RealmRegistry;
+
+
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
 import net.thejadeproject.ascension.network.ModPayloads;
-import net.thejadeproject.ascension.network.clientBound.SyncAttackDamageAttribute;
 import net.thejadeproject.ascension.particle.ModParticles;
-import net.thejadeproject.ascension.progression.paths.ModPaths;
-import net.thejadeproject.ascension.progression.physiques.ModPhysiques;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
+
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
-import net.thejadeproject.ascension.recipe.crafting.CopySpatialringDataRecipeShaped;
-import net.thejadeproject.ascension.registries.AscensionRegistries;
-import net.thejadeproject.ascension.progression.skills.ModSkills;
+
+
+import net.thejadeproject.ascension.refactor_packages.entity_data.GenericEntityData;
+import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
+import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
+import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
+import net.thejadeproject.ascension.refactor_packages.techniques.ModTechniques;
 import net.thejadeproject.ascension.sects.*;
 import net.thejadeproject.ascension.sects.missions.SectMissionEventHandler;
 import net.thejadeproject.ascension.util.KeyBindHandler;
@@ -112,7 +113,7 @@ public class AscensionCraft {
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
 
     private static final DeferredRegister<RecipeSerializer<?>> RECIPES = DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, MOD_ID);
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> COPYRECIPE = RECIPES.register("spatialring_upgrade", CopySpatialringDataRecipeShaped.Serializer::new);
+
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(BuiltInRegistries.DATA_COMPONENT_TYPE, MOD_ID);
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<UUID>> SPATIALRING_UUID = COMPONENTS.register("spatialring_uuid", () -> DataComponentType.<UUID>builder().persistent(UUIDUtil.CODEC).networkSynchronized(UUIDUtil.STREAM_CODEC).build());
 
@@ -121,7 +122,6 @@ public class AscensionCraft {
         RECIPES.register(modEventBus);
 
         ModCreativeModeTabs.register(modEventBus);
-        RealmRegistry.register(modEventBus);
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
@@ -136,18 +136,18 @@ public class AscensionCraft {
         ModParticles.register(modEventBus);
         ModEntities.register(modEventBus);
 
-
+        ModPhysiques.register(modEventBus);
+        ModForms.register(modEventBus);
+        ModPaths.register(modEventBus);
 
         ModEffects.register(modEventBus);
 
         ModAttributes.register(modEventBus);
 
-        ModPhysiques.register(modEventBus);
         ModSkills.register(modEventBus);
-        ModTechniques.register(modEventBus);
-        ModDao.register(modEventBus);
-        ModPaths.register(modEventBus);
-        ModFormations.register(modEventBus);
+
+
+        ModStats.register(modEventBus);
         // In your main mod class, in the constructor:
         NeoForge.EVENT_BUS.register(TeleportationEventHandler.class);
 
@@ -155,6 +155,8 @@ public class AscensionCraft {
         ModVillagers.POI_TYPES.register(modEventBus);
 
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
+
+        ModTechniques.register(modEventBus);
 
         ModDataComponents.register(modEventBus);
         CreativeTabHandler.register(modEventBus);
@@ -285,15 +287,7 @@ public class AscensionCraft {
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {
-        // Only process on server side
-        if (!event.getEntity().level().isClientSide) {
-            if (event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").isCultivating()
-                    && !event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique.equals("ascension:none")){
 
-                String technique = event.getEntity().getData(ModAttachments.PLAYER_DATA).getCultivationData().getPathData("ascension:essence").technique;
-                AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(ResourceLocation.bySeparator(technique,':')).tryCultivate(event.getEntity(), CultivationSource.DEFAULT);
-            }
-        }
     }
 
     private void onPlayerLogOut(PlayerEvent.PlayerLoggedOutEvent event){
@@ -309,18 +303,17 @@ public class AscensionCraft {
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
 
         if(!event.getEntity().level().isClientSide()){
-            PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncAttackDamageAttribute(player.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue()));
+            //TODO ensure sync
+            System.out.println("TRYING TO SYNC PLAYER DATA");
+            if(player.getData(ModAttachments.ENTITY_DATA) instanceof GenericEntityData genericEntityData){
+                genericEntityData.sync(player);
+                genericEntityData.getAscensionAttributeHolder().log();
+            }
+            player.getData(ModAttachments.ENTITY_DATA).getSkillCastHandler().sync(player);
+            PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttributeHolder(player.getData(ModAttachments.ENTITY_DATA).getAscensionAttributeHolder()));
 
-            PacketDistributor.sendToPlayer((ServerPlayer) player, new SyncPlayerPhysique(player.getData(ModAttachments.PHYSIQUE).getPhysiqueId().toString()));
-            for(CultivationData.PathData path : player.getData(ModAttachments.PLAYER_DATA).getCultivationData().getPaths()){
-                PacketDistributor.sendToPlayer((ServerPlayer) event.getEntity(),new SyncPathDataPayload(
-                        path.pathId,
-                        path.majorRealm,
-                        path.minorRealm,
-                        path.pathProgress,
-                        path.technique,
-                        path.stabilityCultivationTicks
-                ));
+            for(IEntityFormData formData:player.getData(ModAttachments.ENTITY_DATA).getFormData()){
+                formData.getStatSheet().sync((ServerPlayer) player,formData.getEntityFormId());
             }
         }
 
@@ -328,10 +321,14 @@ public class AscensionCraft {
     }
 
     public void onLoadComplete(FMLLoadCompleteEvent event) {
-        EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.MAX_HEALTH.value());
-        EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.ATTACK_DAMAGE.value());
-        EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.STEP_HEIGHT.value());
-        EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.ATTACK_SPEED.value());
+        /*
+            TODO
+            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.MAX_HEALTH.value());
+            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.ATTACK_DAMAGE.value());
+            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.STEP_HEIGHT.value());
+            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.ATTACK_SPEED.value());
+
+         */
         //EntityAttributeManager.changeAttributeRange(0,ModTechniques.MaxSpeed,(RangedAttribute) Attributes.MOVEMENT_SPEED.value());
         //EntityAttributeManager.changeAttributeRange(0,ModTechniques.MaxJumpStrength,(RangedAttribute) Attributes.JUMP_STRENGTH.value());
     }
@@ -339,7 +336,7 @@ public class AscensionCraft {
     private void commonSetup(final FMLCommonSetupEvent event) {
         ToolTipManager.registerAllTooltips();
         FreezingEffectItems.onCommonSetup(event);
-        SpatialRingUtils.checkCuriosLoaded();
+
     }
 
     // Add the example block item to the building blocks tab

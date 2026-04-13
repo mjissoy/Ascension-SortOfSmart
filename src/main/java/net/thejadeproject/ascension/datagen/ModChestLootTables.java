@@ -16,7 +16,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 import net.thejadeproject.ascension.events.ModDataComponents;
 
 import java.util.function.BiConsumer;
@@ -52,14 +51,9 @@ public class ModChestLootTables implements LootTableSubProvider {
                                         .add(LootItem.lootTableItem(Items.IRON_INGOT)
                                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 7)))
                                                 .setWeight(20))
-                                        .add(LootItem.lootTableItem(ModItems.REGENERATION_PILL.get())
-                                                .setWeight(15))
                                         .add(LootItem.lootTableItem(ModItems.FASTING_PILL_T1.get())
                                                 .setWeight(15))
-                                        .add(LootItem.lootTableItem(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual.get())
-                                                .setWeight(12))
-                                        .add(LootItem.lootTableItem(ModItems.INNER_REINFORCEMENT_PILL_T1.get())
-                                                .setWeight(10))
+
                                         .add(LootItem.lootTableItem(ModItems.GOLDEN_SUN_LEAF.get())
                                                 .setWeight(10))
                                         .add(LootItem.lootTableItem(ModItems.IRONWOOD_SPROUT.get())
@@ -96,10 +90,7 @@ public class ModChestLootTables implements LootTableSubProvider {
                                                 .setWeight(20))
                                         .add(LootItem.lootTableItem(ModItems.CLEANSING_PILL_T1.get())
                                                 .setWeight(15))
-                                        .add(LootItem.lootTableItem(ModItems.ESSENCE_GATHERING_PILL_T1.get())
-                                                .setWeight(12))
-                                        .add(LootItem.lootTableItem(ModTechniques.BLADE_DANCE_TECHNIQUE.manual.get())
-                                                .setWeight(10))
+
                                         .add(LootItem.lootTableItem(ModItems.SPATIAL_STONE_TIER_1.get())
                                                 .setWeight(10))
                                         .add(LootItem.lootTableItem(ModItems.LIVING_CORE.get())
@@ -145,10 +136,6 @@ public class ModChestLootTables implements LootTableSubProvider {
                                         .add(LootItem.lootTableItem(ModItems.CLEANSING_PILL_T3.get())
                                                 .setWeight(15))
                                         .add(LootItem.lootTableItem(ModItems.REBIRTH_PILL.get())
-                                                .setWeight(8))
-                                        .add(LootItem.lootTableItem(ModItems.BODY_AMNESIA_PILL.get())
-                                                .setWeight(10))
-                                        .add(LootItem.lootTableItem(ModTechniques.SWORD_SAINT_TECHNIQUE.manual.get())
                                                 .setWeight(8))
                                         .add(LootItem.lootTableItem(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get())
                                                 .setWeight(8))

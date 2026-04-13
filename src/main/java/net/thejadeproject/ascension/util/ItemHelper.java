@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.util;
 import net.minecraft.world.item.ItemStack;
 import net.thejadeproject.ascension.events.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ItemHelper {
         items.add(createPhysiqueTransferItem("ascension:empty_vessel"));
 
         // Add all other physiques
-        net.thejadeproject.ascension.registries.AscensionRegistries.Physiques.PHSIQUES_REGISTRY.keySet().forEach(resourceLocation -> {
+        AscensionRegistries.Physiques.PHSIQUES_REGISTRY.keySet().forEach(resourceLocation -> {
             String id = resourceLocation.toString();
             if (!id.equals("ascension:empty_vessel")) {
                 items.add(createPhysiqueTransferItem(id));

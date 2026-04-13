@@ -1,6 +1,9 @@
 package net.thejadeproject.ascension.data_attachments.attachments;
 
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.bus.api.Event;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.TriState;
 
 import java.util.HashMap;
 
@@ -25,8 +28,29 @@ public class PlayerInputStates {
 
     public void inputDown(String input,int modifier){
         inputs.put(input,modifier);
+        NeoForge.EVENT_BUS.post(new InputStateChanged(player,input,modifier,InputState.PRESSED));
     }
     public void inputReleased(String input){
         inputs.remove(input);
+        NeoForge.EVENT_BUS.post(new InputStateChanged(player,input,0,InputState.RELEASED));
+    }
+
+    public enum InputState{
+        PRESSED,
+        DOWN,
+        RELEASED
+    }
+
+    public static class InputStateChanged extends Event {
+        public final Player player;
+        public final String input;
+        public final int modifier;
+        public final InputState state;
+        public InputStateChanged(Player player,String input, int modifier, InputState state){
+            this.player = player;
+            this.input = input;
+            this.modifier = modifier;
+            this.state = state;
+        }
     }
 }

@@ -1,6 +1,6 @@
 package net.thejadeproject.ascension.blocks;
 
-import net.lucent.formation_arrays.blocks.blocks.BaseFormationCoreEntityBlock;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.valueproviders.UniformInt;

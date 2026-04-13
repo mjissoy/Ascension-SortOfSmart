@@ -14,7 +14,6 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.progression.techniques.ModTechniques;
 
 import java.util.Objects;
 
@@ -27,9 +26,6 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
 
-        //FORMATIONS
-
-        basicItem(ModItems.FORMATION_PLATE.get());
 
 
         //Block Items
@@ -79,7 +75,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         //Artifacts
-        basicItem(ModItems.SPATIAL_RING.get());
+
         basicItem(ModItems.SPIRIT_SEALING_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
@@ -162,6 +158,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
 
+        basicItem(ModItems.TECHNIQUE_MANUAL.get());
+
         //Spiritual Fires
         basicItem(ModItems.CRIMSON_LOTUS_FLAME.get());
         basicItem(ModItems.FLAME.get());
@@ -172,46 +170,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Not Used For Anything in mod except being icons etc...
         basicItem(ModItems.ASCENSION_ICON.get());
 
-        //Manuals
-        //Essence
-        manual(ModTechniques.PURE_FIRE_TECHNIQUE.manual.get());
-        manual(ModTechniques.PURE_WATER_TECHNIQUE.manual.get());
-        manual(ModTechniques.PURE_METAL_TECHNIQUE.manual.get());
-        manual(ModTechniques.PURE_EARTH_TECHNIQUE.manual.get());
-        manual(ModTechniques.PURE_WOOD_TECHNIQUE.manual.get());
-        manual(ModTechniques.SWIFT_BREEZE_TECHNIQUE.manual.get()); // Human Tier - New
-        manual(ModTechniques.VOID_SWALLOWING_TECHNIQUE.manual.get());
-        manual(ModTechniques.THUNDER_HEART_TECHNIQUE.manual.get()); // Earth Tier - New
-        manual(ModTechniques.VOID_WALKER_TECHNIQUE.manual.get()); // Heaven Tier - New
-        manual(ModTechniques.COSMIC_CREATION_ESSENCE_TECHNIQUE.manual.get()); // Ascension Tier - New
-        manual(ModTechniques.INFINITE_TIME_ESSENCE_TECHNIQUE.manual.get()); // Ascension Tier - New
-
-        //Intent
-        manual(ModTechniques.PURE_SWORD_INTENT.manual.get());
-        manual(ModTechniques.PURE_FIST_INTENT.manual.get());
-        manual(ModTechniques.PURE_AXE_INTENT.manual.get());
-        manual(ModTechniques.PURE_BLADE_INTENT.manual.get());
-        manual(ModTechniques.PURE_SPEAR_INTENT.manual.get());
-        //TODO update with new mod techniques
-        manual(ModTechniques.FOCUSED_STRIKE_TECHNIQUE.manual.get()); // Human Tier - New
-        manual(ModTechniques.FIST_KINGS_TECHNIQUE.manual.get());
-        manual(ModTechniques.BLADE_DANCE_TECHNIQUE.manual.get()); // Earth Tier - New
-        manual(ModTechniques.SWORD_SAINT_TECHNIQUE.manual.get()); // Heaven Tier - New
-        manual(ModTechniques.UNIVERSE_DEVOURER_INTENT_TECHNIQUE.manual.get()); // Ascension Tier - New
-        manual(ModTechniques.ETERNAL_REINCARNATION_INTENT_TECHNIQUE.manual.get()); // Ascension Tier - New
-
-        //Body
-        manual(ModTechniques.EARTH_ELEMENTAL_TECHNIQUE.manual.get());
-        manual(ModTechniques.FIRE_ELEMENTAL_TECHNIQUE.manual.get());
-        manual(ModTechniques.METAL_ELEMENTAL_TECHNIQUE.manual.get());
-        manual(ModTechniques.WATER_ELEMENTAL_TECHNIQUE.manual.get());
-        manual(ModTechniques.WOOD_ELEMENTAL_TECHNIQUE.manual.get());
-        manual(ModTechniques.IRON_SKIN_TECHNIQUE.manual.get()); // Human Tier - New
-        manual(ModTechniques.DIVINE_PHOENIX_TECHNIQUE.manual.get());
-        manual(ModTechniques.JADE_BONE_TECHNIQUE.manual.get()); // Earth Tier - New
-        manual(ModTechniques.CELESTIAL_BODY_TECHNIQUE.manual.get()); // Heaven Tier - New
-        manual(ModTechniques.PRIMORDIAL_CHAOS_BODY_TECHNIQUE.manual.get()); // Ascension Tier - New
-        manual(ModTechniques.DRAGON_KING_BODY_TECHNIQUE.manual.get()); // Ascension Tier - New
 
         //Tablet Of Destructions
         tablet(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get());
@@ -220,18 +178,10 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Pills
         pills(ModItems.PILL_RESIDUE.get());
-        pills(ModItems.REGENERATION_PILL.get());
+
         pills(ModItems.NEUTRALITY_PILL.get());
         pills(ModItems.REBIRTH_PILL.get());
-        pills(ModItems.INNER_REINFORCEMENT_PILL_T1.get());
-        pills(ModItems.INNER_REINFORCEMENT_PILL_T2.get());
-        pills(ModItems.INNER_REINFORCEMENT_PILL_T3.get());
-        pills(ModItems.ESSENCE_GATHERING_PILL_T1.get());
-        pills(ModItems.ESSENCE_GATHERING_PILL_T2.get());
-        pills(ModItems.ESSENCE_GATHERING_PILL_T3.get());
-        pills(ModItems.SPIRIT_FOCUS_PILL_T1.get());
-        pills(ModItems.SPIRIT_FOCUS_PILL_T2.get());
-        pills(ModItems.SPIRIT_FOCUS_PILL_T3.get());
+
         pills(ModItems.FASTING_PILL_T1.get());
         pills(ModItems.FASTING_PILL_T2.get());
         pills(ModItems.FASTING_PILL_T3.get());
@@ -240,16 +190,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.CLEANSING_PILL_T3.get());
         pills(ModItems.CLEANSING_PILL_T4.get());
 
-        pills(ModItems.ANTIDOTE_PILL_T1.get());
+
         pills(ModItems.ANTIDOTE_PILL_T2.get());
         pills(ModItems.ANTIDOTE_PILL_T3.get());
 
 
-        pills(ModItems.QI_DEVOURING_PARASITE_PILL.get());
 
-
-
-        pills(ModItems.BODY_AMNESIA_PILL.get());
 
 
 

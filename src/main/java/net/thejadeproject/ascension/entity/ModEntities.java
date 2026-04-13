@@ -7,7 +7,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.custom.CushionEntity;
-import net.thejadeproject.ascension.entity.custom.formation.DummyEntity;
 import net.thejadeproject.ascension.entity.custom.shaders.RiftEntity;
 import net.thejadeproject.ascension.entity.custom.TreasureRatEntity;
 
@@ -52,8 +51,6 @@ public class ModEntities {
             ENTITY_TYPES.register("cushion_entity", () -> EntityType.Builder.of(CushionEntity::new, MobCategory.MISC)
                     .sized(0.5f, 0.5f).build("cushion_entity"));
 
-    public static final Supplier<EntityType<DummyEntity>> DUMMY_ENTITY =
-            ENTITY_TYPES.register("dummy_entity", () -> EntityType.Builder.<DummyEntity>of(DummyEntity::new, MobCategory.MISC).sized(1f, 2f).build("dummy_entity"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

@@ -1,0 +1,52 @@
+package net.thejadeproject.ascension.refactor_packages.physiques;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.UUID;
+
+public interface IPhysique {
+
+
+    void onPhysiqueAdded(IEntityData heldEntity,ResourceLocation oldPhysique,IPhysiqueData oldPhysiqueData);
+    /*
+        called when physique is replaced with a new one.
+        if it is removed due to entity tether being broken it is called after all that removal logic
+     */
+    void onPhysiqueRemoved(IEntityData heldEntity,IPhysiqueData physiqueData,ResourceLocation newPhysique);
+
+
+
+
+    /*
+        handles when forms are added and removed. is also called if an untethered entity held forms
+        used when you want to apply data to specific forms
+     */
+    void onFormAdded(IEntityData heldEntity, ResourceLocation form,IPhysiqueData physiqueData);
+    void onFormRemoved(IEntityData heldEntity,ResourceLocation form,IPhysiqueData physiqueData);
+
+
+    Component getDisplayTitle();
+    Component getShortDescription();
+    Component getDescription();
+
+    //the paths that this physique "unlocks"
+    //without unlocking a path, even with a technique they cannot use it
+    //although some paths let you unlock them by learning a technique. (but not all!!)
+    Collection<ResourceLocation> paths();
+
+    //what bonus does it give to each path (bonus is replacing efficiency)
+    Map<ResourceLocation,Double> pathBonuses();
+
+
+    IPhysiqueData freshPhysiqueData(IEntityData heldEntity);
+    IPhysiqueData fromCompound(CompoundTag tag,IEntityData heldEntity);
+    IPhysiqueData fromNetwork(RegistryFriendlyByteBuf buf);
+}

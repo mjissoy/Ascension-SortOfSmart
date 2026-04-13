@@ -30,26 +30,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
     }
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        tag(net.lucent.formation_arrays.util.ModTags.Items.JADE_SLIP).add(
-                ModItems.FORMATION_SLIP_ACACIA.get(),
-                ModItems.FORMATION_SLIP_BAMBOO.get(),
-                ModItems.FORMATION_SLIP_BIRCH.get(),
-                ModItems.FORMATION_SLIP_CHERRY.get(),
-                ModItems.FORMATION_SLIP_CRIMSON.get(),
-                ModItems.FORMATION_SLIP_GOLDEN_PALM.get(),
-                ModItems.FORMATION_SLIP_DARK_OAK.get(),
-                ModItems.FORMATION_SLIP_IRONWOOD.get(),
-                ModItems.FORMATION_SLIP_MANGROVE.get(),
-                ModItems.FORMATION_SLIP_OAK.get(),
-                ModItems.FORMATION_SLIP_JUNGLE.get(),
-                ModItems.FORMATION_SLIP_SPRUCE.get(),
-                ModItems.FORMATION_SLIP_WARPED.get());
-        tag(ModTags.Items.daoItemTags.get("ascension:fire"))
-                .add(ModItems.GOLDEN_SUN_LEAF.get());
-        tag(ModTags.Items.daoItemTags.get("ascension:earth"))
-                .add(ModItems.IRONWOOD_SPROUT.get());
-        tag(ModTags.Items.daoItemTags.get("ascension:metal"))
-                .add(ModItems.WHITE_JADE_ORCHID.get());
+
+
         tag(ModTags.Items.MEDICINAL)
                 .add(ModItems.GOLDEN_SUN_LEAF.get())
                 .add(ModItems.WHITE_JADE_ORCHID.get())
@@ -67,19 +49,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ItemTags.PLANKS)
                 .add(ModBlocks.GOLDEN_PALM_PLANKS.asItem())
                 .add(ModBlocks.IRONWOOD_PLANKS.asItem());
-
-        tag(ModTags.Items.daoItemTags.get("ascension:sword_intent"))
-                .addTag(ItemTags.SWORDS);
-
-        tag(ModTags.Items.daoItemTags.get("ascension:blade_intent"))
-                .addTag(ModTags.Items.BLADE);
-
-        tag(ModTags.Items.daoItemTags.get("ascension:axe_intent"))
-                .addTag(ItemTags.AXES);
-
-        tag(ModTags.Items.daoItemTags.get("ascension:spear_intent"))
-                .addTag(ModTags.Items.SPEAR);
-
 
 
         tag(ItemTags.PICKAXES)
@@ -173,8 +142,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.FROST_SILVER_NUGGET.get());
 
 
-        this.tag(ModTags.Items.CURIOS_RING)
-                .add(ModItems.SPATIAL_RING.get());
+
 
     }
 }

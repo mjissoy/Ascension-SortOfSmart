@@ -1,0 +1,43 @@
+create some sort of attribute container on the playerData that stores things like currentHealth,currentQi etc
+call it resourceContainer or something
+
+
+the max health will be calculated using a percentage of VIT by default(can be modified by skills)
+
+
+now, i can eiter send out an event EVERY TIME i want to do something like move to get movement speed
+or i create some sort of "ascension attribute handler" which handles which stats get used in what amounts for each stat
+this would contain a container for each applied stat. with a percentage of said stat.and a flat bonus + multiplier to that bonus
+(some skills might want to lets say give +10 agility to movement speed) so it can only be applied for movement
+
+this fully removes the need of events
+
+
+
+Think about creating an entity controller, when changing forms prompt the form for an entity controller
+the default one does nothing,
+
+
+
+
+Need to add a way for players to be able to get skills without progression (from scrolls and stuff)
+like some sort of non-progression skill, that is stored differently
+basically a way to mark if a skill should always be accessible to the player
+
+
+mabey some sort of skill source thing? that way i can modify if the player should have been able to get a skill from it?
+also i need to be able to store it in a cached way still because the form it is attached to might not exist yet.
+
+update attributes to be able to hold non minecraft attributes, then add a way to dynamically add path bonuses to it
+
+
+when you enter a body that has a different learned technique than you what should happen,
+your learned technique will be removed.
+this does not make sense irl, but is done for game balance reasons
+
+
+
+3 things
+- stat boost
+- dao bonus boost
+- progenitor skill

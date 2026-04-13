@@ -28,6 +28,14 @@ public class ModAttributes {
             // Min and max values.
             0,
             1000000000).setSyncable(true));
+    public static final Holder<Attribute> MAX_QI = ATTRIBUTES.register("max_qi",()->new RangedAttribute(
+            "attributes.ascension.max_qi",
+            100,
+            0,1000000000).setSyncable(true));
+    public static final Holder<Attribute> QI_REGEN_RATE = ATTRIBUTES.register("qi_regen_rate",()->new RangedAttribute(
+            "attributes.ascensoin.qi_regen_rate",
+            1,
+            0,1000000).setSyncable(true));
     public static final Holder<Attribute> PLAYER_QI_REGEN_RATE = ATTRIBUTES.register("player_qi_regen_rate", () -> new RangedAttribute(
             // The translation key to use.
             "attributes.ascension.player_qi_regen_rate",

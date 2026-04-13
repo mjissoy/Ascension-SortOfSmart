@@ -1,0 +1,111 @@
+package net.thejadeproject.ascension.refactor_packages.physiques.custom;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.paths.custom.GenericPath;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
+
+import java.util.*;
+
+public class GenericPhysique implements IPhysique {
+
+    private final Component title;
+    private Component description;
+    private Component shortDescription;
+
+    private final HashSet<ResourceLocation> paths = new HashSet<>();
+    private final HashMap<ResourceLocation,Double> pathBonuses = new HashMap<>();
+
+    public GenericPhysique(Component title){
+        this.title = title;
+
+
+
+    }
+    public GenericPhysique setDescription(Component description){
+        this.description = description;
+        return this;
+    }
+    public GenericPhysique setShortDescription(Component shortDescription){
+        this.shortDescription =shortDescription;
+        return this;
+    }
+    public GenericPhysique addPath(ResourceLocation path){
+        paths.add(path);
+        return this;
+    }
+    public GenericPhysique addPathBonus(ResourceLocation path, Double val){
+        pathBonuses.put(path,val);
+        return this;
+    }
+
+
+
+
+    @Override
+    public void onPhysiqueAdded(IEntityData heldEntity, ResourceLocation oldPhysique,IPhysiqueData oldPhysiqueData) {
+        //do not need to apply applied path bonuses, since this is handled by the entity data
+        System.out.println("player has been given physique");
+    }
+
+    @Override
+    public void onPhysiqueRemoved(IEntityData heldEntity, IPhysiqueData physiqueData, ResourceLocation newPhysique) {
+        //do not need to remove applied path bonuses, since this is handled by the entity data
+    }
+
+    @Override
+    public void onFormAdded(IEntityData heldEntity, ResourceLocation form, IPhysiqueData physiqueData) {
+
+    }
+
+    @Override
+    public void onFormRemoved(IEntityData heldEntity, ResourceLocation form, IPhysiqueData physiqueData) {
+
+    }
+
+    @Override
+    public Component getDisplayTitle() {
+        return title;
+    }
+
+    @Override
+    public Component getShortDescription() {
+        return shortDescription;
+    }
+
+    @Override
+    public Component getDescription() {
+        return description;
+    }
+
+    @Override
+    public Collection<ResourceLocation> paths() {
+        return paths;
+    }
+
+    @Override
+    public Map<ResourceLocation, Double> pathBonuses() {
+        return pathBonuses;
+    }
+
+    @Override
+    public IPhysiqueData freshPhysiqueData(IEntityData heldEntity) {
+        return null;
+    }
+
+    @Override
+    public IPhysiqueData fromCompound(CompoundTag tag, IEntityData heldEntity) {
+        return null;
+    }
+
+    @Override
+    public IPhysiqueData fromNetwork(RegistryFriendlyByteBuf buf) {
+        return null;
+    }
+
+
+}
