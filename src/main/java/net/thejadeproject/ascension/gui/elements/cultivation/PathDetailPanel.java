@@ -204,11 +204,39 @@ public class PathDetailPanel extends RenderableElement {
 
         if (technique != null) {
             String techName = technique.getDisplayTitle().getString();
+
+            int maxWidth = getWidth() - 12;
+            int textWidth = font.width(techName);
+
+            float scale = Math.min(1.0f, (float) maxWidth / textWidth);
+
+            scale = Math.max(scale, 0.6f);
+
             techniqueTextX = 6;
             techniqueTextY = iy;
-            techniqueTextWidth = font.width(techName);
-            gfx.drawString(font, techName, 6, iy, 0xFF4FC3F7, false);
-            gfx.fill(6, iy + 10, 6 + techniqueTextWidth, iy + 11, 0xFF4FC3F7);
+            techniqueTextWidth = (int)(textWidth * scale);
+
+            gfx.pose().pushPose();
+            gfx.pose().scale(scale, scale, 1.0f);
+
+            gfx.drawString(
+                    font,
+                    techName,
+                    (int)(6 / scale),
+                    (int)(iy / scale),
+                    0xFF4FC3F7,
+                    false
+            );
+
+            gfx.fill(
+                    (int)(6 / scale),
+                    (int)((iy + 10) / scale),
+                    (int)((6 + techniqueTextWidth) / scale),
+                    (int)((iy + 11) / scale),
+                    0xFF4FC3F7
+            );
+
+            gfx.pose().popPose();
         } else {
             gfx.drawString(font, "No Technique", 6, iy, 0xFFAAAAAA, false);
         }

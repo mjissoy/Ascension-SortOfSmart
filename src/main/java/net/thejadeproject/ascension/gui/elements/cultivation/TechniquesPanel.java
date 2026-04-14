@@ -224,9 +224,9 @@ public class TechniquesPanel extends RenderableElement {
                     borderCol = 0xFF00D0FF;
                     textCol = 0xFF99EEFF;
                 } else {
-                    bgCol = 0x22224422;
-                    borderCol = 0xFF44AA66;
-                    textCol = 0xFF99FFAA;
+                    bgCol = 0x12000000;
+                    borderCol = 0xFF444444;
+                    textCol = 0xFF777777;
                 }
 
                 fillBorderedRect(gfx, LIST_X, rowY, LIST_W, ROW_H - 1, bgCol, borderCol);
@@ -283,7 +283,7 @@ public class TechniquesPanel extends RenderableElement {
         gfx.drawString(font, "Status", DETAIL_X + 3, y, 0xFFAAAAAA, false);
         y += 10;
         String statusText = selectedState == TechniqueState.CURRENT ? "Current" : "Practiced";
-        int statusColor = selectedState == TechniqueState.CURRENT ? 0xFF99EEFF : 0xFF99FFAA;
+        int statusColor = selectedState == TechniqueState.CURRENT ? 0xFF99EEFF : 0xFF888888;
         gfx.drawString(font, statusText, DETAIL_X + 3, y, statusColor, false);
         y += 14;
 
