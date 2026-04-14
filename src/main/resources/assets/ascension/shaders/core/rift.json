@@ -1,15 +1,19 @@
 {
-  "blend": {
-    "func": "add",
-    "srcrgb": "srcalpha",
-    "dstrgb": "1minsrcalpha"
-  },
   "vertex": "ascension:rift",
   "fragment": "ascension:rift",
-  "attributes": ["Position", "Color", "UV0", "UV1", "Normal"],
+  "samplers": [
+    { "name": "SamplerVortex"  },
+    { "name": "SamplerCrack1"  },
+    { "name": "SamplerCrack2"  },
+    { "name": "SamplerCrack3"  },
+    { "name": "SamplerCrack4"  },
+    { "name": "SamplerCrack5"  },
+    { "name": "SamplerRuneGlow"},
+    { "name": "Sampler2"       }
+  ],
   "uniforms": [
-    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
-    { "name": "ProjMat", "type": "matrix4x4", "count": 16, "values": [ 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0 ] },
-    { "name": "GameTime", "type": "float", "count": 1, "values": [ 0.0 ] }
+    { "name": "ModelViewMat", "type": "matrix4x4", "count": 16, "values": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1] },
+    { "name": "ProjMat",      "type": "matrix4x4", "count": 16, "values": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1] },
+    { "name": "GameTime",     "type": "float",     "count":  1, "values": [0.0] }
   ]
 }

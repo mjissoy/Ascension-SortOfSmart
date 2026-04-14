@@ -11,48 +11,58 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.custom.shaders.RiftEntity;
 
 public class RiftRenderer extends EntityRenderer<RiftEntity> {
-    private static final ResourceLocation DUMMY_TEXTURE = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/white.png");
+
+    // The white texture is still returned from getTextureLocation so Minecraft
+    // doesn't complain; actual textures are bound inside the shader.
+    private static final ResourceLocation DUMMY_TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/white.png");
 
     public RiftRenderer(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void render(RiftEntity entity, float yaw, float partialTicks, PoseStack poseStack,
-                       MultiBufferSource bufferSource, int packedLight) {
+    public void render(RiftEntity entity, float yaw, float partialTicks,
+                       PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+
+        // Upload GameTime + all texture samplers before we touch the render type.
+        ModShaders.uploadRiftUniforms(partialTicks);
 
         poseStack.pushPose();
+
+        // Face the camera billboard-style.
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
         poseStack.scale(1.5f, 3.0f, 1.0f);
 
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(ModRenderTypes.RIFT);
+        VertexConsumer vc = bufferSource.getBuffer(ModRenderTypes.RIFT);
         var pose = poseStack.last();
 
-        // Render vertical quad with proper vertex data
-        vertexConsumer.addVertex(pose, -0.5f, 0.0f, 0.0f)
+        // A simple vertical quad; UV covers [0,1]² so the fragment shader sees
+        // the full texture space.
+        vc.addVertex(pose, -0.5f, 0.0f, 0.0f)
                 .setColor(255, 255, 255, 255)
-                .setUv(0, 1)
+                .setUv(0f, 1f)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(packedLight)
                 .setNormal(pose, 0, 0, 1);
 
-        vertexConsumer.addVertex(pose, 0.5f, 0.0f, 0.0f)
+        vc.addVertex(pose,  0.5f, 0.0f, 0.0f)
                 .setColor(255, 255, 255, 255)
-                .setUv(1, 1)
+                .setUv(1f, 1f)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(packedLight)
                 .setNormal(pose, 0, 0, 1);
 
-        vertexConsumer.addVertex(pose, 0.5f, 1.0f, 0.0f)
+        vc.addVertex(pose,  0.5f, 1.0f, 0.0f)
                 .setColor(255, 255, 255, 255)
-                .setUv(1, 0)
+                .setUv(1f, 0f)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(packedLight)
                 .setNormal(pose, 0, 0, 1);
 
-        vertexConsumer.addVertex(pose, -0.5f, 1.0f, 0.0f)
+        vc.addVertex(pose, -0.5f, 1.0f, 0.0f)
                 .setColor(255, 255, 255, 255)
-                .setUv(0, 0)
+                .setUv(0f, 0f)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(packedLight)
                 .setNormal(pose, 0, 0, 1);

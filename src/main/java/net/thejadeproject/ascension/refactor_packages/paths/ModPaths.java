@@ -23,11 +23,19 @@ public class ModPaths {
             );
     public static final DeferredHolder<IPath, ? extends GenericPath> BODY = PATHS.register("body",()->
             new GenericPath(Component.translatable("ascension.path.body"))
-                    .addMajorRealmName("ascension.path.body.bortal")
+                    .addMajorRealmName("ascension.path.body.mortal")
                     .addMajorRealmName("ascension.path.body.skin_tempering")
                     .addMajorRealmName("ascension.path.body.sinew_weaving")
                     .addMajorRealmName("ascension.path.body.bone_forging")
                     .addMajorRealmName("ascension.path.body.heart_kindling")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> SOUL = PATHS.register("soul",()->
+            new GenericPath(Component.translatable("ascension.path.soul"))
+                    .addMajorRealmName("ascension.path.soul.mortal")
+                    .addMajorRealmName("ascension.path.soul.battle_soul")
+                    .addMajorRealmName("ascension.path.soul.azure_soul")
+                    .addMajorRealmName("ascension.path.soul.silver_soul")
+                    .addMajorRealmName("ascension.path.soul.gold_battle_soul")
     );
 
     public static final DeferredHolder<IPath, ? extends GenericPath> FIRE = PATHS.register("fire",()->
