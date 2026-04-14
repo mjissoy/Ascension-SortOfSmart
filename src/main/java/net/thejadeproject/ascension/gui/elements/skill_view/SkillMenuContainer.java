@@ -7,23 +7,24 @@ import net.lucent.easygui.gui.textures.ITextureData;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec2;
-import net.thejadeproject.ascension.gui.elements.skill_view.ActiveSkillBar;
-import net.thejadeproject.ascension.gui.elements.skill_view.ActiveSkillList;
-import net.thejadeproject.ascension.gui.elements.skill_view.PassiveSkillList;
-import net.thejadeproject.ascension.gui.elements.skill_view.slots.ActiveSkillSlot;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 public class SkillMenuContainer extends RenderableElement implements ISkillDragContainer {
 
     private ResourceLocation heldSkill;
     private ITextureData heldSkillIcon;
+
     private final PassiveSkillList passiveList;
+    private final ActiveSkillList activeList;
+
+    private boolean dirty = true;
 
     public SkillMenuContainer(UIFrame frame) {
         super(frame);
         getPositioning().setPositioningRule(PositioningRules.CENTER);
         setId("container");
-        RenderableElement activeContainer = new ActiveSkillList(frame);
+
+        activeList = new ActiveSkillList(frame);
         RenderableElement activeSkillContainer = new ActiveSkillBar(frame);
         passiveList = new PassiveSkillList(frame);
 
@@ -33,15 +34,48 @@ public class SkillMenuContainer extends RenderableElement implements ISkillDragC
         activeSkillContainer.getPositioning().setX(-160);
         activeSkillContainer.getPositioning().setY(-passiveList.getHeight() / 2);
 
-        activeContainer.getPositioning().setX(-160);
-        activeContainer.getPositioning().setY(activeSkillContainer.getPositioning().getRawY() + 6 + activeSkillContainer.getHeight());
-        addChild(activeContainer);
+        activeList.getPositioning().setX(-160);
+        activeList.getPositioning().setY(
+                activeSkillContainer.getPositioning().getRawY() + 6 + activeSkillContainer.getHeight()
+        );
+
+        addChild(activeList);
         addChild(activeSkillContainer);
         addChild(passiveList);
     }
 
     public void setOnClose(Runnable onClose) {
         passiveList.setOnClose(onClose);
+    }
+
+    public void markDirty() {
+        dirty = true;
+    }
+
+    public void refreshLists() {
+        activeList.refreshSkills();
+        passiveList.refreshSkills();
+        dirty = false;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        super.setActive(active);
+
+        if (active) {
+            SkillMenuState.setOpenMenu(this);
+            markDirty();
+        } else {
+            SkillMenuState.clearOpenMenu(this);
+        }
+    }
+
+    @Override
+    public void renderTick(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        if (isActive() && dirty) {
+            refreshLists();
+        }
+        super.renderTick(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     @Override
@@ -51,14 +85,19 @@ public class SkillMenuContainer extends RenderableElement implements ISkillDragC
             guiGraphics.pose().pushPose();
             guiGraphics.pose().translate(0, 0, 1000);
             Vec2 global = getGlobalPoint();
-            heldSkillIcon.renderAt(guiGraphics, (int)(mouseX - global.x - heldSkillIcon.getWidth() / 2), (int)(mouseY - global.y - heldSkillIcon.getWidth() / 2));
+            heldSkillIcon.renderAt(
+                    guiGraphics,
+                    (int)(mouseX - global.x - (float) heldSkillIcon.getWidth() / 2),
+                    (int)(mouseY - global.y - (float) heldSkillIcon.getWidth() / 2)
+            );
             guiGraphics.pose().popPose();
         }
     }
 
     public void setHeldSkill(ResourceLocation skill) {
         this.heldSkill = skill;
-        this.heldSkillIcon = skill == null ? null : AscensionRegistries.Skills.SKILL_REGISTRY.get(skill).getIcon();
+        var skillInstance = skill == null ? null : AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
+        this.heldSkillIcon = skillInstance == null ? null : skillInstance.getIcon();
     }
 
     public ResourceLocation getHeldSkill() {

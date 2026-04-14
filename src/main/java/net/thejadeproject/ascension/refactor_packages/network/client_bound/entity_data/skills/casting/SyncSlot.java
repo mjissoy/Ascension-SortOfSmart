@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.gui.elements.skill_view.SkillMenuState;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
@@ -46,16 +47,16 @@ public record SyncSlot(int slot, ResourceLocation skill, IPreCastData preCastDat
     }
 
     public static void handlePayload(SyncSlot payload, IPayloadContext context) {
-        context.enqueueWork(()->{
+        context.enqueueWork(() -> {
             IEntityData entityData = context.player().getData(ModAttachments.ENTITY_DATA);
-            if(payload.skill == null){
+            if (payload.skill == null) {
                 System.out.println("un slotting skill");
-                entityData.getSkillCastHandler().getHotBar().unSlotSkill(entityData,payload.slot);
-
-            }else{
-                entityData.getSkillCastHandler().getHotBar().slotSkill(entityData,payload.skill,payload.slot,payload.preCastData);
+                entityData.getSkillCastHandler().getHotBar().unSlotSkill(entityData, payload.slot);
+            } else {
+                entityData.getSkillCastHandler().getHotBar().slotSkill(entityData, payload.skill, payload.slot, payload.preCastData);
             }
 
+            SkillMenuState.markDirty();
         });
     }
 }

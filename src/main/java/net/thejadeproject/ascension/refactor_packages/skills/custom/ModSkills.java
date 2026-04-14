@@ -22,6 +22,9 @@ public class ModSkills {
     public static final DeferredHolder<ISkill,? extends GenericCultivationSkill> BASIC_CULTIVATION_SKILL = SKILLS.register("basic_essence_cultivation_skill",
             ()->new GenericCultivationSkill(2.0,ModPaths.ESSENCE.getId()));
 
+    public static final DeferredHolder<ISkill,? extends GenericCultivationSkill> BASIC_RUNIC_CULTIVATION_SKILL = SKILLS.register("basic_runic_cultivation_skill",
+            ()->new GenericCultivationSkill(2.0,ModPaths.RUNIC.getId()));
+
     public static final DeferredHolder<ISkill,? extends SwordCultivationSkill> SWORD_CULTIVATION_SKILL = SKILLS.register("sword_cultivation_skill",
             SwordCultivationSkill::new);
 

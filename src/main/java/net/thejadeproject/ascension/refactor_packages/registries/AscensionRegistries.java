@@ -38,6 +38,8 @@ public class AscensionRegistries {
                 .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"empty"))
                 .create();
     }
+
+
     public static class Physiques{
 
         public static final ResourceKey<Registry<IPhysique>> PHYSIQUE_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation

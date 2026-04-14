@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.gui.elements.general.ScrollBox;
 import net.thejadeproject.ascension.gui.elements.skill_view.slots.ActiveSkillIcon;
 import net.thejadeproject.ascension.gui.elements.skill_view.slots.ActiveSkillSlot;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
+import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 
 public class ActiveSkillList extends RenderableElement {
@@ -31,13 +32,16 @@ public class ActiveSkillList extends RenderableElement {
         refreshSkills();
     }
 
-    public void refreshSkills(){
+    public void refreshSkills() {
+        scrollBox.clearScrollChildren();
+
         IEntityData entityData = Minecraft.getInstance().player.getData(ModAttachments.ENTITY_DATA);
-        for(ResourceLocation skillId : entityData.getAllSkills()){
-            if(!(AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof ICastableSkill skill)) continue;
-            //only do active skills
+        if (entityData == null) return;
+
+        for (ResourceLocation skillId : entityData.getAllSkills()) {
+            if (!(AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof ICastableSkill)) continue;
+
             ActiveSkillIcon skillIcon = new ActiveSkillIcon(getUiFrame());
-            System.out.println("trying to add skill :" +skillId.toString());
             skillIcon.setSkill(skillId);
             scrollBox.addChild(skillIcon);
         }

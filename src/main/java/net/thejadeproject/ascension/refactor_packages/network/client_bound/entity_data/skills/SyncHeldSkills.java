@@ -8,32 +8,39 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.gui.elements.skill_view.SkillMenuState;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
-import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 
-public record SyncHeldSkills(String form,HeldSkills heldSkills)implements CustomPacketPayload {
+public record SyncHeldSkills(String form, HeldSkills heldSkills) implements CustomPacketPayload {
 
-    public static final Type<SyncHeldSkills> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"sync_held_skills"));
+    public static final Type<SyncHeldSkills> TYPE =
+            new Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sync_held_skills"));
+
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncHeldSkills> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.STRING_UTF8,
             SyncHeldSkills::form,
-            StreamCodec.of(HeldSkills::encodeFull,HeldSkills::decodeFull),
+            StreamCodec.of(HeldSkills::encodeFull, HeldSkills::decodeFull),
             SyncHeldSkills::heldSkills,
             SyncHeldSkills::new
     );
+
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
+
     public static void handlePayload(SyncHeldSkills payload, IPayloadContext context) {
-        context.enqueueWork(()->{
+        context.enqueueWork(() -> {
             IEntityData entityData = context.player().getData(ModAttachments.ENTITY_DATA);
             IEntityFormData formData = entityData.getEntityFormData(ResourceLocation.parse(payload.form));
+            if (formData == null) return;
+
             formData.setHeldSkills(payload.heldSkills());
             System.out.println("skill list synced to client");
+
+            SkillMenuState.markDirty();
         });
     }
 }

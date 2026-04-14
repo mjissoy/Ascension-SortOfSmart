@@ -30,6 +30,17 @@ public class ModTechniques {
             .addMinorRealmStatModifier(ModStats.VITALITY.getId(),new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
             .addMinorRealmAttributeModifier(Attributes.MAX_HEALTH,new ValueContainerModifier(0.2,ModifierOperation.MULTIPLY_BASE,test));
 
+    public static BasicStatChangeHandler testHandler2 = new BasicStatChangeHandler()
+            .addMinorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
+            .addMinorRealmStatModifier(ModStats.STRENGTH.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
+            .addMinorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
+            .addMinorRealmAttributeModifier(Attributes.MAX_HEALTH, new ValueContainerModifier(0.2, ModifierOperation.MULTIPLY_BASE, test))
+            .addMinorRealmAttributeModifier(Attributes.ATTACK_DAMAGE, new ValueContainerModifier(0.15, ModifierOperation.MULTIPLY_BASE, test))
+            .addMinorRealmAttributeModifier(Attributes.ATTACK_SPEED, new ValueContainerModifier(0.05, ModifierOperation.MULTIPLY_BASE, test))
+            .addMinorRealmAttributeModifier(Attributes.MOVEMENT_SPEED, new ValueContainerModifier(0.03, ModifierOperation.MULTIPLY_BASE, test))
+            .addMinorRealmAttributeModifier(Attributes.ARMOR, new ValueContainerModifier(0.1, ModifierOperation.ADD_BASE, test))
+            .addMinorRealmAttributeModifier(Attributes.ARMOR_TOUGHNESS, new ValueContainerModifier(0.05, ModifierOperation.ADD_BASE, test));
+
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> BASIC_CULTIVATION_TECHNIQUE = TECHNIQUES.register("basic_cultivation_technique",()->
             new GenericTechnique(ModPaths.ESSENCE.getId(),Component.literal("Basic Cultivation Technique"),2.0, Set.of())
                     .setStatChangeHandler(testHandler));
@@ -37,13 +48,15 @@ public class ModTechniques {
             new GenericTechnique(ModPaths.ESSENCE.getId(),Component.literal("Advanced Cultivation Technique"),10.0,Set.of())
                     .setStatChangeHandler(testHandler));
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> SWORD_COMPREHENSION_TECHNIQUE = TECHNIQUES.register("sword_comprehension_technique",()->
-            new GenericTechnique(ModPaths.SWORD.getId(),Component.literal("Sword Comprehension Technique"),10.0,Set.of()));
+            new GenericTechnique(ModPaths.SWORD.getId(),Component.literal("Sword Comprehension Technique"),10.0,Set.of())
+                    .setStatChangeHandler(testHandler));
 
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_MONARCH_TECHNIQUE = TECHNIQUES.register("rune_monarch_technique", ()->
-            new GenericTechnique(ModPaths.RUNIC.getId(), Component.literal("Runic Monarch Technique"), 50.0,Set.of()));
+            new GenericTechnique(ModPaths.RUNIC.getId(), Component.literal("Runic Monarch Technique"), 50.0,Set.of())
+                    .setStatChangeHandler(testHandler2));
 
-    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_SERVENT_TECHNIQUE = TECHNIQUES.register("rune_servent_technique", ()->
-            new GenericTechnique(ModPaths.RUNIC.getId(), Component.literal("Runic Slave Technique"), 2.0,Set.of()).setStatChangeHandler(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_SERVANT_TECHNIQUE = TECHNIQUES.register("rune_servant_technique", ()->
+            new GenericTechnique(ModPaths.RUNIC.getId(), Component.literal("Runic Servant Technique"), 2.0,Set.of()).setStatChangeHandler(testHandler));
 
 
 

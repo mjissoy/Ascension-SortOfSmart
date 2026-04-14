@@ -8,16 +8,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.refactor_packages.attributes.AttributeValueContainer;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.cultivation.UpdateSuppressionValue;
 
 public class LimiterStatRow extends RenderableElement {
-    private static final ResourceLocation SUPPRESSION_ID =
-            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "suppression_modifier");
-
     private final Holder<Attribute> attribute;
     private final ResourceLocation attributeId;
     private final String label;
@@ -34,18 +30,27 @@ public class LimiterStatRow extends RenderableElement {
     public void tryClick(double lx, double ly) {
         int plusX = getWidth() - 11;
         int minusX = plusX - 13;
+
         if (lx >= minusX && lx <= minusX + 8 && ly >= 1 && ly <= 11) {
-            changeSuppression(getStep());
+            changeSuppression(getStep());      // suppress more
         } else if (lx >= plusX && lx <= plusX + 8 && ly >= 1 && ly <= 11) {
-            changeSuppression(-getStep());
+            changeSuppression(-getStep());     // suppress less
         }
     }
 
+    private AttributeValueContainer getContainer() {
+        var mc = Minecraft.getInstance();
+        if (mc.player == null) return null;
+
+        var entityData = mc.player.getData(ModAttachments.ENTITY_DATA);
+        if (entityData == null) return null;
+
+        return entityData.getAscensionAttributeHolder().getAttribute(attribute);
+    }
+
     private double getCurrentSuppression() {
-        AttributeInstance inst = Minecraft.getInstance().player.getAttribute(attribute);
-        if (inst == null) return 0.0;
-        AttributeModifier mod = inst.getModifier(SUPPRESSION_ID);
-        return mod == null ? 0.0 : Math.abs(mod.amount());
+        AttributeValueContainer container = getContainer();
+        return container == null ? 0.0 : container.getSuppressionPercent();
     }
 
     private double getStep() {
@@ -64,22 +69,48 @@ public class LimiterStatRow extends RenderableElement {
     @Override
     public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTick) {
         super.render(gfx, mouseX, mouseY, partialTick);
-        AttributeInstance inst = Minecraft.getInstance().player.getAttribute(attribute);
-        String realStr = inst == null ? "—" : String.format("%.2f", inst.getValue());
+
+        String realStr = getDisplayValue();
+        var container = getContainer();
 
         var font = Minecraft.getInstance().font;
         int plusX = getWidth() - 11;
         int minusX = plusX - 13;
 
         gfx.drawString(font, label, 0, 2, 0xFFAAAAAA, false);
-        gfx.drawString(font, realStr, 80, 2, 0xFFFFFFFF, false);
 
-        // − button (suppress more / lower stat)
+        int textWidth = font.width(realStr);
+        int rightLimit = getWidth() - 26;
+        int textX = rightLimit - textWidth;
+
+        int valueColor = (container != null && container.isSuppressed())
+                ? 0xFFFF7A7A
+                : 0xFFFFFFFF;
+
+        gfx.drawString(font, realStr, textX, 2, valueColor, false);
+
         gfx.fill(minusX, 1, minusX + 8, 11, 0xFF222222);
         gfx.drawString(font, "-", minusX + 1, 2, 0xFFFFFFFF, false);
 
-        // + button (suppress less / restore stat)
         gfx.fill(plusX, 1, plusX + 8, 11, 0xFF222222);
         gfx.drawString(font, "+", plusX + 1, 2, 0xFFFFFFFF, false);
+    }
+
+    private String getDisplayValue() {
+        AttributeValueContainer container = getContainer();
+        if (container != null) {
+            double shown = container.getValue();
+            double full = container.getUnsuppressedValue();
+
+            if (container.isSuppressed()) {
+                return String.format("%.2f (%.2f)", shown, full);
+            }
+            return String.format("%.2f", shown);
+        }
+
+        var mc = Minecraft.getInstance();
+        if (mc.player == null) return "—";
+        var inst = mc.player.getAttribute(attribute);
+        return inst == null ? "—" : String.format("%.2f", inst.getValue());
     }
 }

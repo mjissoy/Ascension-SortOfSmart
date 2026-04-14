@@ -60,8 +60,6 @@ public class ModPaths {
                     .addMajorRealmName("ascension.path.runic.soul")
                     .addMajorRealmName("ascension.path.runic.spark")
                     .addMajorRealmName("ascension.path.runic.void")
-                    .addMajorRealmName("ascension.path.runic.infinity")
-                    .addMajorRealmName("ascension.path.runic.overlord")
     );
     public static void register(IEventBus modEventBus){
         PATHS.register(modEventBus);

@@ -41,9 +41,13 @@ public class PassiveSkillList extends RenderableElement {
     }
 
     public void refreshSkills() {
+        scrollBox.clearScrollChildren();
+
         IEntityData entityData = Minecraft.getInstance().player.getData(ModAttachments.ENTITY_DATA);
+        if (entityData == null) return;
+
         for (ResourceLocation skillId : entityData.getAllSkills()) {
-            if (AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof ICastableSkill skill) continue;
+            if (AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof ICastableSkill) continue;
             scrollBox.addChild(new PassiveSkillIcon(getUiFrame(), skillId));
         }
     }

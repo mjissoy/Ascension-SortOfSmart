@@ -8,7 +8,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.refactor_packages.attributes.AttributeValueContainer;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 
 public class StatRow extends RenderableElement {
     private final Holder<Attribute> attribute;
@@ -35,10 +37,25 @@ public class StatRow extends RenderableElement {
         addChild(valueLabel);
     }
 
+    private String getDisplayValue() {
+        var mc = Minecraft.getInstance();
+        if (mc.player == null) return "—";
+
+        IEntityData entityData = mc.player.getData(ModAttachments.ENTITY_DATA);
+        if (entityData == null) return "—";
+
+        AttributeValueContainer container = entityData.getAscensionAttributeHolder().getAttribute(attribute);
+        if (container != null) {
+            return String.format("%.2f", container.getValue());
+        }
+
+        var inst = mc.player.getAttribute(attribute);
+        return inst == null ? "—" : String.format("%.2f", inst.getValue());
+    }
+
     @Override
     public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTick) {
-        AttributeInstance inst = Minecraft.getInstance().player.getAttribute(attribute);
-        valueLabel.setText(Component.literal(inst == null ? "—" : String.format("%.2f", inst.getValue())));
+        valueLabel.setText(Component.literal(getDisplayValue()));
         super.render(gfx, mouseX, mouseY, partialTick);
     }
 }

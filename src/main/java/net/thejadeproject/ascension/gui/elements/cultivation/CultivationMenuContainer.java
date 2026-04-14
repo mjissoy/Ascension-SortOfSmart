@@ -173,6 +173,7 @@ public class CultivationMenuContainer extends RenderableElement {
             if (skillMenu != null) {
                 skillMenu.getPositioning().setX(SKILLS_X);
                 skillMenu.getPositioning().setY(0);
+                skillMenu.markDirty();
                 skillMenu.setActive(true);
                 skillMenu.setOnClose(() -> { if (skillsOpen) selectSkills(); });
             }
@@ -397,4 +398,5 @@ public class CultivationMenuContainer extends RenderableElement {
             gfx.drawString(font, label, textX, textY, 0xFF888888, false);
         }
     }
+
 }

@@ -138,6 +138,25 @@ public interface IEntityData {
         holder.addAttribute(ModAttributes.MAX_QI,Component.literal("Max Qi"));
         holder.addAttribute(ModAttributes.QI_REGEN_RATE,Component.literal("Qi Regen Rate"));
         holder.updateAttributes(this);
+
+        holder.addAttribute(Attributes.ARMOR, Component.literal("Armor"));
+        holder.getAttribute(Attributes.ARMOR)
+                .addStatScaling(ModStats.VITALITY.get(), 0.1);
+
+        holder.addAttribute(Attributes.ARMOR_TOUGHNESS, Component.literal("Toughness"));
+        holder.getAttribute(Attributes.ARMOR_TOUGHNESS)
+                .addStatScaling(ModStats.VITALITY.get(), 0.05);
+
+        holder.addAttribute(Attributes.ATTACK_SPEED, Component.literal("Attack Speed"));
+        holder.getAttribute(Attributes.ATTACK_SPEED)
+                .addStatScaling(ModStats.AGILITY.get(), 0.01);
+
+
+        holder.addAttribute(Attributes.ATTACK_KNOCKBACK, Component.literal("Knockback"));
+        holder.getAttribute(Attributes.ATTACK_KNOCKBACK)
+                .addStatScaling(ModStats.STRENGTH.get(), 0.05);
+
+
     }
     //============================= DATA HANDLING ====================================
     void write(CompoundTag tag);

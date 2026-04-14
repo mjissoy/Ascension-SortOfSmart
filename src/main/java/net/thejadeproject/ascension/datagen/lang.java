@@ -43,8 +43,6 @@ public class lang extends LanguageProvider {
         add("ascension.path.runic.soul", "Runic Soul");
         add("ascension.path.runic.spark", "Runic Spark");
         add("ascension.path.runic.void", "Runic Void");
-        add("ascension.path.runic.infinity", "Runic Infinity");
-        add("ascension.path.runic.overlord", "Runic Overlord");
 
 
         //fire
@@ -63,16 +61,7 @@ public class lang extends LanguageProvider {
         add("ascension.physiques.severed_meridians", "Severed Meridians");
         add("ascension.physiques.sword_bone", "Sword Bone");
         add("ascension.physiques.flame_touched", "Flame Touched");
-
-
-
-
-
-
-
-
-
-
+        add("ascension.physiques.runic_eyes", "Runic Eyes");
 
 
 

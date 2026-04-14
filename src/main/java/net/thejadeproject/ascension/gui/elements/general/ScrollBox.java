@@ -101,4 +101,10 @@ public class ScrollBox extends RenderableElement {
         super.renderTick(guiGraphics, mouseX, mouseY, partialTick);
 
     }
+
+    public void clearScrollChildren() {
+        getChildren().clear();
+        yOffset = 0;
+    }
+
 }

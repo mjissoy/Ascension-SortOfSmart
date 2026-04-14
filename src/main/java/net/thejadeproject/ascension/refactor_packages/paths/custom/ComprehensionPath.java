@@ -19,15 +19,15 @@ public class ComprehensionPath extends GenericPath{
 
     @Override
     public PathData freshPathData(IEntityData heldEntity) {
+        PathData pathData = super.freshPathData(heldEntity);
+
         if(this == ModPaths.SWORD.get()){
-            PathData pathData = super.freshPathData(heldEntity);
             pathData.setLastUsedTechnique(ModTechniques.SWORD_COMPREHENSION_TECHNIQUE.getId());
             return pathData;
-        } else if(this == ModPaths.RUNIC.get()) {
-            PathData pathData = super.freshPathData(heldEntity);
-            pathData.setLastUsedTechnique(ModTechniques.RUNE_MONARCH_TECHNIQUE.getId());
-            return pathData;
+        } else if (this == ModPaths.RUNIC.get()) {
+            pathData.setLastUsedTechnique(ModTechniques.RUNE_SERVANT_TECHNIQUE.getId());
         }
+
         return super.freshPathData(heldEntity);
     }
 }

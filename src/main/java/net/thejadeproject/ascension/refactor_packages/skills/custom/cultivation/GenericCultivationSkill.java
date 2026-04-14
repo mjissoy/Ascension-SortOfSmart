@@ -148,7 +148,18 @@ public class GenericCultivationSkill implements ICastableSkill {
             PathData pathData = caster.getData(ModAttachments.ENTITY_DATA).getPathData(path);
 
             //TODO add a cultivate event
-            ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
+            ResourceLocation lastUsed = pathData.getLastUsedTechnique();
+            System.out.println("Last used technique = " + lastUsed);
+            System.out.println("Has key? " + AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.containsKey(lastUsed));
+            if (lastUsed == null) {
+                throw new IllegalStateException("lastUsedTechnique is null");
+            }
+
+            if (!AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.containsKey(lastUsed)) {
+                throw new IllegalStateException("Technique not registered: " + lastUsed);
+            }
+
+            ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(lastUsed);
             double amount = baseRate;
 
 

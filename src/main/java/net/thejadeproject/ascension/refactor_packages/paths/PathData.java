@@ -320,8 +320,12 @@ public class PathData {
         currentRealmProgress = buf.readDouble();
         currentRealmStability = buf.readInt();
         cultivating = buf.readBoolean();
-        if(buf.readBoolean())lastUsedTechnique = ByteBufHelper.readResourceLocation(buf);
 
+        if (buf.readBoolean()) {
+            lastUsedTechnique = ByteBufHelper.readResourceLocation(buf);
+        } else {
+            lastUsedTechnique = null;
+        }
 
         int size = buf.readInt();
         realmStability.clear();

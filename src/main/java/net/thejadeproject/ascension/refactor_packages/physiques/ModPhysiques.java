@@ -48,6 +48,15 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.ESSENCE.getId(),1.0)
                     .addPathBonus(ModPaths.FIRE.getId(),2.0)
     );
+
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> RUNIC_EYES = PHYSIQUES.register("runic_eyes",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.runic_eyes"))
+                    .addPath(ModPaths.RUNIC.getId())
+                    .addPath(ModPaths.ESSENCE.getId())
+                    .addPathBonus(ModPaths.RUNIC.getId(),4.0)
+                    .addPathBonus(ModPaths.ESSENCE.getId(),0.5)
+    );
+
     public static void register(IEventBus modEventBus){
         PHYSIQUES.register(modEventBus);
     }

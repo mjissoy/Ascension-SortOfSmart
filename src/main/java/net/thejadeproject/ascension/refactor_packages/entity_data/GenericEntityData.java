@@ -289,11 +289,26 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public void setFormData(ResourceLocation form, IEntityFormData formData) {
-        heldFormData.put(form,formData);
-        if(formData.getPhysiqueKey() != null) physiqueForm = form;
-        if(formData.getBloodlineKey() != null) bloodlineForm = form;
-        for(ResourceLocation path : formData.getPaths()){
-            pathDataLocation.put(path,form);
+        heldFormData.put(form, formData);
+
+        pathDataLocation.entrySet().removeIf(entry -> form.equals(entry.getValue()));
+
+        for (ResourceLocation path : formData.getPaths()) {
+            pathDataLocation.put(path, form);
+        }
+
+        if (physiqueForm != null && physiqueForm.equals(form)) {
+            physiqueForm = null;
+        }
+        if (bloodlineForm != null && bloodlineForm.equals(form)) {
+            bloodlineForm = null;
+        }
+
+        if (formData.getPhysiqueKey() != null) {
+            physiqueForm = form;
+        }
+        if (formData.getBloodlineKey() != null) {
+            bloodlineForm = form;
         }
     }
 
@@ -339,18 +354,35 @@ public class GenericEntityData implements IEntityData {
         heldFormData.get(physiqueForm).setPhysique(physique,physiqueData);
         heldFormData.get(physiqueForm).getPhysique().onPhysiqueAdded(this,oldPhysique,oldPhysiqueData);
 
-        for(ResourceLocation path : heldFormData.get(physiqueForm).getPhysique().paths()){
-
+        for (ResourceLocation path : heldFormData.get(physiqueForm).getPhysique().paths()) {
             IPath pathInstance = AscensionRegistries.Paths.PATHS_REGISTRY.get(path);
-            PathData pathData = pathInstance.freshPathData(this);
-            if(heldFormData.containsKey(pathInstance.defaultForm())){
-                addPathData(path,pathData);
+            if (pathInstance == null) {
+                System.out.println("Missing path registry entry: " + path);
+                continue;
+            }
+
+            if (!heldFormData.containsKey(pathInstance.defaultForm())) {
+                continue;
+            }
+
+            PathData existingPathData = getPathData(path);
+            if (existingPathData == null) {
+                PathData freshPathData = pathInstance.freshPathData(this);
+                addPathData(path, freshPathData);
+                System.out.println("Added fresh path data for: " + path);
+            } else {
+                System.out.println("Keeping existing path data for: " + path
+                        + " lastUsedTechnique=" + existingPathData.getLastUsedTechnique());
             }
         }
 
         PhysiqueChangeEvent.Post event = new PhysiqueChangeEvent.Post(preEvent,heldFormData.get(physiqueForm).getPhysiqueData());
         System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
         NeoForge.EVENT_BUS.post(event);
+
+        if (attachedEntity instanceof ServerPlayer serverPlayer) {
+            sync(serverPlayer);
+        }
 
         return true;
     }
@@ -607,6 +639,10 @@ public class GenericEntityData implements IEntityData {
             ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
             skillInstance.onAdded(this);
         }
+
+        if (attachedEntity instanceof ServerPlayer serverPlayer) {
+            sync(serverPlayer);
+        }
     }
 
     @Override
@@ -620,6 +656,10 @@ public class GenericEntityData implements IEntityData {
 
         ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
         skillInstance.onRemoved(this,skillData);
+
+        if (attachedEntity instanceof ServerPlayer serverPlayer) {
+            sync(serverPlayer);
+        }
     }
 
     @Override

@@ -75,7 +75,7 @@ public class PhysiqueTransferItem extends Item {
 
         if (targetPhysiqueId != null && !targetPhysiqueId.isEmpty()) {
             ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
-            IPhysique physique = null;
+            IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
             //TODO implement physique transfer
             if (physique != null) {
                 Component baseName = Component.empty().append(physique.getDisplayTitle()).append(" Essence");

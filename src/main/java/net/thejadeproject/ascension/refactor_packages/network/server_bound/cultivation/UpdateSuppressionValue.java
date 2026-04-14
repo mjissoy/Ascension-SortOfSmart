@@ -7,15 +7,18 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
 
 public record UpdateSuppressionValue(ResourceLocation attributeId, double value) implements CustomPacketPayload {
     public static final Type<UpdateSuppressionValue> TYPE = new Type<>(
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "update_suppression_value"));
+
     public static final StreamCodec<RegistryFriendlyByteBuf, UpdateSuppressionValue> STREAM_CODEC =
             StreamCodec.composite(
                     ResourceLocation.STREAM_CODEC,
@@ -24,9 +27,6 @@ public record UpdateSuppressionValue(ResourceLocation attributeId, double value)
                     UpdateSuppressionValue::value,
                     UpdateSuppressionValue::new
             );
-
-    private static final ResourceLocation SUPPRESSION_ID =
-            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "suppression_modifier");
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
@@ -38,17 +38,23 @@ public record UpdateSuppressionValue(ResourceLocation attributeId, double value)
             Holder<Attribute> holder = BuiltInRegistries.ATTRIBUTE
                     .getHolder(payload.attributeId()).orElse(null);
             if (holder == null) return;
-            AttributeInstance instance = context.player().getAttribute(holder);
-            if (instance == null) return;
+
+            ServerPlayer player = (ServerPlayer) context.player();
+            var entityData = player.getData(ModAttachments.ENTITY_DATA);
+            if (entityData == null) return;
+
+            var container = entityData.getAscensionAttributeHolder().getAttribute(holder);
+            if (container == null) return;
+
             double clamped = Math.max(0.0, Math.min(1.0, payload.value()));
-            instance.removeModifier(SUPPRESSION_ID);
-            if (clamped > 0.0) {
-                instance.addPermanentModifier(new AttributeModifier(
-                        SUPPRESSION_ID,
-                        -clamped,
-                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
-                ));
-            }
+            container.setSuppressionPercent(clamped);
+
+            entityData.getAscensionAttributeHolder().updateAttributes(entityData);
+
+            PacketDistributor.sendToPlayer(
+                    player,
+                    new SyncAttributeHolder(entityData.getAscensionAttributeHolder())
+            );
         });
     }
 }

@@ -68,7 +68,9 @@ public class GenericPath implements IPath {
 
     @Override
     public Component getMajorRealmName(int majorRealm) {
-        return realmNames.size()>=majorRealm ? Component.literal(String.valueOf(majorRealm)) : realmNames.get(majorRealm);
+        return realmNames.size() > majorRealm
+                ? realmNames.get(majorRealm)
+                : Component.literal(String.valueOf(majorRealm));
     }
 
     @Override

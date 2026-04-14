@@ -74,6 +74,9 @@ public class GenericTechnique implements ITechnique {
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.giveSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
+        if(getPath().equals(ModPaths.RUNIC.getId())){
+            heldEntity.giveSkill(ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(), new GenericCultivationSkillData(baseRate, secondaryPaths), ModForms.MORTAL_VESSEL.getId());
+        }
     }
 
     @Override
@@ -84,6 +87,9 @@ public class GenericTechnique implements ITechnique {
         }
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.removeSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
+        }
+        if(getPath().equals(ModPaths.RUNIC.getId())){
+            heldEntity.removeSkill(ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
     }
 
