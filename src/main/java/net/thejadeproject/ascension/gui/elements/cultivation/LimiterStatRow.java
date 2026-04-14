@@ -32,9 +32,9 @@ public class LimiterStatRow extends RenderableElement {
         int minusX = plusX - 13;
 
         if (lx >= minusX && lx <= minusX + 8 && ly >= 1 && ly <= 11) {
-            changeSuppression(getStep());      // suppress more
+            changeSuppression(getStep());
         } else if (lx >= plusX && lx <= plusX + 8 && ly >= 1 && ly <= 11) {
-            changeSuppression(-getStep());     // suppress less
+            changeSuppression(-getStep());
         }
     }
 

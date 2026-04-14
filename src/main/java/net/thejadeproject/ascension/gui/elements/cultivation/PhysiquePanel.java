@@ -116,7 +116,6 @@ public class PhysiquePanel extends RenderableElement {
             return;
         }
 
-        // top physique tab
         fillBorderedRect(gfx, HEADER_X, HEADER_Y, HEADER_W, HEADER_H, 0x2E006396, 0xFF00D0FF);
 
         String title = physique.getDisplayTitle() != null

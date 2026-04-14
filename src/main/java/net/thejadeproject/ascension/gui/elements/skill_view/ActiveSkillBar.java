@@ -79,7 +79,6 @@ public class ActiveSkillBar extends RenderableElement {
         gfx.fill(0,   0,   1,   h,   0xFF4FC3F7);
         gfx.fill(w-1, 0,   w,   h,   0xFF4FC3F7);
         gfx.fill(0, 13, w, 14, 0x55006396);
-        // corner bracket accents
         gfx.fill(1, 1, 4, 2, 0x88006396);  gfx.fill(1, 1, 2, 4, 0x88006396);
         gfx.fill(w-4, 1, w-1, 2, 0x88006396);  gfx.fill(w-2, 1, w-1, 4, 0x88006396);
         gfx.fill(1, h-2, 4, h-1, 0x88006396);  gfx.fill(1, h-4, 2, h-1, 0x88006396);
@@ -87,7 +86,6 @@ public class ActiveSkillBar extends RenderableElement {
 
         gfx.drawString(font, "HOTBAR", 5, 3, 0xFF4FC3F7, false);
 
-        // CLEAR button
         gfx.fill(BTN_X, BTN_Y, BTN_X + BTN_W, BTN_Y + BTN_H, 0xCC0A0C10);
         gfx.fill(BTN_X, BTN_Y,              BTN_X + BTN_W, BTN_Y + 1,         0xFF2A3A4A);
         gfx.fill(BTN_X, BTN_Y + BTN_H - 1, BTN_X + BTN_W, BTN_Y + BTN_H,     0xFF2A3A4A);
@@ -99,7 +97,6 @@ public class ActiveSkillBar extends RenderableElement {
                 BTN_Y + (BTN_H - 8) / 2 + 1,
                 0xFFAAAAAA, false);
 
-        // slot backgrounds
         for (int i = 0; i < 18; i++) {
             int sx = 15 + (i % 9) * 18;
             int sy = 32 + (i / 9) * 18;

@@ -160,7 +160,6 @@ public class CultivationMenuContainer extends RenderableElement {
     private void selectSkills() {
         skillsOpen = !skillsOpen;
         if (skillsOpen) {
-            // Close any floating side panels before shifting — they'd overlap
             if (leftPanel != null) { leftPanel.setActive(false); leftPanel = null; }
             if (rightPanel != null) { rightPanel.setActive(false); rightPanel = null; }
             if (centerPanel != null) {
@@ -261,13 +260,11 @@ public class CultivationMenuContainer extends RenderableElement {
             }
         }
 
-        // Title-bar interaction on the active content panel
         RenderableElement activePanel = activeContentPanel();
         if (activePanel != null) {
             int panelX = activePanel.getPositioning().getX();
             int panelY = activePanel.getPositioning().getY();
 
-            // × close button (rightmost 10px, y=2..12 in panel)
             int closeBx = panelX + activePanel.getWidth() - 12;
             if (mx >= closeBx && mx < closeBx + 10 && my >= panelY + 2 && my < panelY + 12) {
                 selectNone();
@@ -277,7 +274,6 @@ public class CultivationMenuContainer extends RenderableElement {
 
         }
 
-        // Sidebar tab clicks
         int tabsStartY = 19;
         for (int i = 0; i < pathTabs.size(); i++) {
             int tabY = tabsStartY + i * (TAB_H + TAB_GAP);

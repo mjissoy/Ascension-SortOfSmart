@@ -58,13 +58,12 @@ public class ActiveSkillList extends RenderableElement {
         gfx.fill(0,   0,   1,   h,   0xFF4FC3F7);
         gfx.fill(w-1, 0,   w,   h,   0xFF4FC3F7);
         gfx.fill(0, 13, w, 14, 0x55006396);
-        // corner bracket accents
         gfx.fill(1, 1, 4, 2, 0x88006396);  gfx.fill(1, 1, 2, 4, 0x88006396);
         gfx.fill(w-4, 1, w-1, 2, 0x88006396);  gfx.fill(w-2, 1, w-1, 4, 0x88006396);
         gfx.fill(1, h-2, 4, h-1, 0x88006396);  gfx.fill(1, h-4, 2, h-1, 0x88006396);
         gfx.fill(w-4, h-2, w-1, h-1, 0x88006396);  gfx.fill(w-2, h-4, w-1, h-1, 0x88006396);
         gfx.drawString(font, "ACTIVE", 5, 3, 0xFF4FC3F7, false);
-        // empty slot grid behind the scrollbox (4 cols × 4 rows at scrollbox origin x=15, y=32)
+
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
                 int sx = 15 + col * 18;
