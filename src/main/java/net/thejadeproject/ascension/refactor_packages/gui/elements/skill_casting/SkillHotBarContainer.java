@@ -16,7 +16,6 @@ public class SkillHotBarContainer extends RenderableElement {
     public SkillHotBarContainer(UIFrame frame) {
         super(frame);
         getPositioning().setPositioningRule(PositioningRules.CENTER);
-
         setActive(false);
 
     }
