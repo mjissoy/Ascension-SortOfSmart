@@ -41,10 +41,8 @@ public record SyncPathData(ResourceLocation form,PathData pathData)implements Cu
     public static void handlePayload(SyncPathData payload, IPayloadContext context) {
         context.enqueueWork(()->{
             IEntityData entityData = context.player().getData(ModAttachments.ENTITY_DATA);
-            IEntityFormData formData = entityData.getEntityFormData(payload.form);
             System.out.println("trying to sync for form: "+payload.form);
-            formData.addPathData(payload.pathData.getPath(),payload.pathData);
-
+            entityData.addPathData(payload.pathData.getPath(), payload.pathData);
         });
     }
 }

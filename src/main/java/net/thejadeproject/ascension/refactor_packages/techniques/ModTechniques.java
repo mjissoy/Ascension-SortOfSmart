@@ -4,6 +4,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Panda;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -37,6 +38,12 @@ public class ModTechniques {
                     .setStatChangeHandler(testHandler));
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> SWORD_COMPREHENSION_TECHNIQUE = TECHNIQUES.register("sword_comprehension_technique",()->
             new GenericTechnique(ModPaths.SWORD.getId(),Component.literal("Sword Comprehension Technique"),10.0,Set.of()));
+
+    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_MONARCH_TECHNIQUE = TECHNIQUES.register("rune_monarch_technique", ()->
+            new GenericTechnique(ModPaths.RUNIC.getId(), Component.literal("Runic Monarch Technique"), 50.0,Set.of()));
+
+    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_SERVENT_TECHNIQUE = TECHNIQUES.register("rune_servent_technique", ()->
+            new GenericTechnique(ModPaths.RUNIC.getId(), Component.literal("Runic Slave Technique"), 2.0,Set.of()).setStatChangeHandler(testHandler));
 
 
 

@@ -422,9 +422,18 @@ public class GenericEntityData implements IEntityData {
     }
 
     //============================ CULTIVATION DATA HANDLING ==================================
+
     @Override
     public boolean hasPath(ResourceLocation path) {
-        return false;//TODO
+        if (path == null) return false;
+        if (!pathDataLocation.containsKey(path)) return false;
+
+        ResourceLocation form = pathDataLocation.get(path);
+        if (form == null) return false;
+        if (!heldFormData.containsKey(form)) return false;
+
+        IEntityFormData formData = heldFormData.get(form);
+        return formData != null && formData.hasPathData(path);
     }
 
     @Override
@@ -513,11 +522,17 @@ public class GenericEntityData implements IEntityData {
 
         }
         pathData.setLastUsedTechnique(technique);
-        pathData.addTechniqueData(technique,techniqueData);
+        pathData.addTechniqueData(technique, techniqueData);
 
         techniqueInstance.onTechniqueAdded(this);
-        System.out.println("technique changed to: "+technique.toString());
+
+        if (attachedEntity instanceof ServerPlayer serverPlayer) {
+            pathData.sync(serverPlayer);
+        }
+
+        System.out.println("technique changed to: " + technique.toString());
         return true;
+
     }
 
     /*TODO need to consider a circumstance where the player said merged essence onto spirit then lost mortal vessel
@@ -531,16 +546,18 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public void addPathData(ResourceLocation path, PathData pathData) {
-        if(pathDataLocation.containsKey(path)) return;
-
         IPath pathInstance = AscensionRegistries.Paths.PATHS_REGISTRY.get(path);
-        if(!heldFormData.containsKey(pathInstance.defaultForm())) return;
+        if (pathInstance == null) return;
 
-        pathDataLocation.put(path,pathInstance.defaultForm());
-        heldFormData.get(pathInstance.defaultForm()).addPathData(path,pathData);
-        if(pathData.getLastUsedTechnique() != null && !pathData.getLastUsedTechnique().toString().equals("ascension:none")){
-            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique()).onTechniqueAdded(this);
+        ResourceLocation form = pathDataLocation.get(path);
+        if (form == null) {
+            form = pathInstance.defaultForm();
         }
+
+        if (!heldFormData.containsKey(form)) return;
+
+        pathDataLocation.put(path, form);
+        heldFormData.get(form).addPathData(path, pathData);
     }
 
     @Override

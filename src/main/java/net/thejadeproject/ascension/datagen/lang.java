@@ -19,6 +19,7 @@ public class lang extends LanguageProvider {
         add("ascension.path.soul", "Soul");
         add("ascension.path.fire", "Fire");
         add("ascension.path.sword", "Sword");
+        add("ascension.path.runic", "Rune");
         //essence
         add("ascension.path.essence.mortal", "Mortal");
         add("ascension.path.essence.qi_condensation", "Qi Condensation");
@@ -37,6 +38,13 @@ public class lang extends LanguageProvider {
         add("ascension.path.soul.azure_soul", "Azure Soul");
         add("ascension.path.soul.silver_soul", "Silver Soul");
         add("ascension.path.soul.gold_battle_soul", "Gold Battle Soul");
+        //runic
+        add("ascension.path.runic.body", "Runic Body");
+        add("ascension.path.runic.soul", "Runic Soul");
+        add("ascension.path.runic.spark", "Runic Spark");
+        add("ascension.path.runic.void", "Runic Void");
+        add("ascension.path.runic.infinity", "Runic Infinity");
+        add("ascension.path.runic.overlord", "Runic Overlord");
 
 
         //fire
@@ -192,13 +200,13 @@ public class lang extends LanguageProvider {
         add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
         add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
 
-        add("item.ascension.essence_gathering_pill_t1", "Essence Gathering Pill");
-        add("item.ascension.essence_gathering_pill_t2", "Essence Gathering Pill");
-        add("item.ascension.essence_gathering_pill_t3", "Essence Gathering Pill");
-
-        add("item.ascension.spirit_focus_pill_t1", "Spirit Focus Pill");
-        add("item.ascension.spirit_focus_pill_t2", "Spirit Focus Pill");
-        add("item.ascension.spirit_focus_pill_t3", "Spirit Focus Pill");
+//        add("item.ascension.essence_gathering_pill_t1", "Essence Gathering Pill");
+//        add("item.ascension.essence_gathering_pill_t2", "Essence Gathering Pill");
+//        add("item.ascension.essence_gathering_pill_t3", "Essence Gathering Pill");
+//
+//        add("item.ascension.spirit_focus_pill_t1", "Spirit Focus Pill");
+//        add("item.ascension.spirit_focus_pill_t2", "Spirit Focus Pill");
+//        add("item.ascension.spirit_focus_pill_t3", "Spirit Focus Pill");
 
 
 
@@ -665,6 +673,8 @@ public class lang extends LanguageProvider {
         add("config.jade.plugin_ascension.pill_cauldron", "Pill Cauldron");
         add("tooltip.ascension.heat_level", "Heat: %s°C / %s°C");
         add("tooltip.ascension.progress", "Progress: %s%%");
+        add("config.jade.plugin_ascension.flame_stand", "Flame Stand");
+        add("config.jade.plugin_ascension.cauldron_pedestal", "Cauldron Pedestal");
         add("tooltip.ascension.time_remaining", "Time remaining: %ss");
         add("tooltip.ascension.finishing", "Finishing...");
         add("tooltip.ascension.output", "Output: %s");

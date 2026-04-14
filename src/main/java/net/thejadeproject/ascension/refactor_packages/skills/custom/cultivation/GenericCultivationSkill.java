@@ -19,7 +19,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.refactor_packages.gui.elements.skills.cultivation.CultivationProgressBar;
+import net.thejadeproject.ascension.gui.elements.skills.cultivation.CultivationProgressBar;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
@@ -156,13 +156,17 @@ public class GenericCultivationSkill implements ICastableSkill {
                 //TODO minor/major realm breakthrough shenanigans here
                 pathData.setCurrentRealmProgress(technique.getMaxQiForRealm(pathData.getMajorRealm(),pathData.getMinorRealm()));
 
+                IEntityData entityData = caster.getData(ModAttachments.ENTITY_DATA);
                 if(pathData.getMinorRealm() < technique.getMaxMinorRealm(pathData.getMajorRealm()) && technique.canBreakthroughMinorRealm(
-                        caster.getData(ModAttachments.ENTITY_DATA),
+                        entityData,
                         pathData.getMajorRealm(),
                         pathData.getMinorRealm(),
                         pathData.getCurrentRealmProgress()
                 )){
-                    pathData.handleRealmChange(pathData.getMajorRealm(),pathData.getMinorRealm()+1,caster.getData(ModAttachments.ENTITY_DATA));
+                    pathData.handleRealmChange(pathData.getMajorRealm(),pathData.getMinorRealm()+1,entityData);
+                } else if(pathData.getMajorRealm() < technique.getMaxMajorRealm() && entityData.isBreakingThrough(path)) {
+                    pathData.setBreakingThrough(false);
+                    pathData.handleRealmChange(pathData.getMajorRealm() + 1, 0, entityData);
                 } else if(pathData.getMajorRealm()<technique.getMaxMajorRealm() && technique.getStabilityHandler() != null && pathData.getCurrentRealmStability() < technique.getStabilityHandler().getMaxCultivationTicks()) {
                     pathData.setCurrentRealmStability(pathData.getCurrentRealmStability()+1);
                 }

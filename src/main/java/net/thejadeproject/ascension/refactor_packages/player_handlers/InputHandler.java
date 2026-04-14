@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.refactor_packages.player_handlers;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.gui.UIFrame;
+import net.lucent.easygui.gui.layout.positioning.rules.PositioningRules;
 import net.lucent.easygui.gui.overaly.EasyOverlayHandler;
 import net.lucent.easygui.screen.EasyScreen;
 import net.minecraft.client.KeyMapping;
@@ -16,9 +17,11 @@ import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.gui.elements.cultivation.CultivationMenuContainer;
+import net.thejadeproject.ascension.gui.elements.general.Container;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
-import net.thejadeproject.ascension.refactor_packages.gui.elements.skill_casting.SkillHotBarContainer;
-import net.thejadeproject.ascension.refactor_packages.gui.elements.skill_view.SkillMenuContainer;
+import net.thejadeproject.ascension.gui.elements.skill_casting.SkillHotBarContainer;
+import net.thejadeproject.ascension.gui.elements.skill_view.SkillMenuContainer;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
@@ -34,6 +37,8 @@ public class InputHandler {
     public static final KeyMapping CAST_SKILL_KEY = new KeyMapping("key.ascension.cast_skill", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_V, "ascension skills");
     public static final KeyMapping OPEN_SKILL_MENU = new KeyMapping("key.ascension.open_skill_menu", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_L, "ascension skills");
     public static final KeyMapping SKILL_WHEEL_OVERLAY = new KeyMapping("key.ascension.skill_wheel", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_R, "ascension skills");
+    public static final KeyMapping OPEN_CULTIVATION_MENU = new KeyMapping("key.ascension.open_cultivation_menu", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_I, "ascension skills");
+
 
     private final static HashSet<KeyMapping> state = new HashSet<>();
     //maps a keyMapping->handler
@@ -51,6 +56,19 @@ public class InputHandler {
             ((SkillHotBarContainer) EasyOverlayHandler.getFrame(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_wheel")).getRoot()).open();
         }).setOnRelease(mod->{
             ((SkillHotBarContainer) EasyOverlayHandler.getFrame(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_wheel")).getRoot()).close();
+        }));
+        put(OPEN_CULTIVATION_MENU, new ActionHandler("cultivation_menu_opening").setOnRelease((mod) -> {
+            UIFrame frame = new UIFrame();
+            Container root = new Container(frame, 0, 0);
+            root.getPositioning().setPositioningRule(PositioningRules.CENTER);
+            SkillMenuContainer skillMenu = new SkillMenuContainer(frame);
+            skillMenu.setActive(false);
+            CultivationMenuContainer cult = new CultivationMenuContainer(frame);
+            cult.setSkillMenu(skillMenu);
+            root.addChild(cult);
+            root.addChild(skillMenu);
+            frame.setRoot(root);
+            Minecraft.getInstance().setScreen(new EasyScreen(Component.literal("cultivation"), frame));
         }));
     }};
     public static class ActionHandler {
