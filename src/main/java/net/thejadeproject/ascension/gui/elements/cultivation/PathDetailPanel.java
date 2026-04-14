@@ -18,6 +18,7 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.cultivation.TriggerBreakthrough;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 
@@ -239,6 +240,14 @@ public class PathDetailPanel extends RenderableElement {
             gfx.pose().popPose();
         } else {
             gfx.drawString(font, "No Technique", 6, iy, 0xFFAAAAAA, false);
+        }
+
+        IPhysique physique = entityData != null ? entityData.getPhysique() : null;
+        if (physique != null && physique.paths().contains(pathId)) {
+            String physiqueName = physique.getDisplayTitle() != null
+                    ? physique.getDisplayTitle().getString()
+                    : "Unknown Physique";
+            gfx.drawString(font, physiqueName, 6, iy + 16, 0xFFFFD27F, false);
         }
 
         super.render(gfx, mouseX, mouseY, partialTick);

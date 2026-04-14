@@ -15,6 +15,7 @@ import net.minecraft.world.phys.Vec2;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
@@ -287,12 +288,14 @@ public class TechniquesPanel extends RenderableElement {
         gfx.drawString(font, statusText, DETAIL_X + 3, y, statusColor, false);
         y += 14;
 
-        gfx.drawString(font, "Max Realm", DETAIL_X + 3, y, 0xFFAAAAAA, false);
+        gfx.drawString(font, "Technique Cap", DETAIL_X + 3, y, 0xFFAAAAAA, false);
         y += 10;
-        String maxRealm = selected.getMajorRealmName(selected.getMaxMajorRealm()).getString()
+
+        String capRealm = selected.getMajorRealmName(selected.getMaxMajorRealm()).getString()
                 + " (" + selected.getMaxMajorRealm() + " / "
                 + selected.getMaxMinorRealm(selected.getMaxMajorRealm()) + ")";
-        for (String line : wrapText(maxRealm, font, DETAIL_W - 6)) {
+
+        for (String line : wrapText(capRealm, font, DETAIL_W - 6)) {
             gfx.drawString(font, line, DETAIL_X + 3, y, 0xFFFFFFFF, false);
             y += 10;
             if (y > DETAIL_Y + 95) break;
