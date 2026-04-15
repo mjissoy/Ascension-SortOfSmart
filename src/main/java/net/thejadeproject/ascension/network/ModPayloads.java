@@ -8,6 +8,7 @@ import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncCurrentHealth;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncCastingInstance;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncSlot;
@@ -61,6 +62,13 @@ public class ModPayloads {
                 SyncStat.STREAM_CODEC,
                 SyncStat::handlePayload
         );
+
+        registrar.playToClient(
+                SyncCurrentHealth.TYPE,
+                SyncCurrentHealth.STREAM_CODEC,
+                SyncCurrentHealth::handlePayload
+        );
+
 
 
 

@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.refactor_packages.entity_data;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -158,6 +159,10 @@ public interface IEntityData {
 
 
     }
+
+    void setHealth(double newVal);
+    void setHealth(double val, DamageSource source);
+    double getHealth();
     //============================= DATA HANDLING ====================================
     void write(CompoundTag tag);
 

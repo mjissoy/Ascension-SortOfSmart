@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.refactor_packages.player_handlers;
+package net.thejadeproject.ascension.refactor_packages.player;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
