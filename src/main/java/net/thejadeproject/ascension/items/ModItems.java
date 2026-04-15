@@ -228,11 +228,6 @@ public class ModItems {
             () -> new EnderPouch(new Item.Properties()));
 
 
-    //NotUsedStuff
-    public static final DeferredItem<Item> ASCENSION_ICON = ITEMS.register("ascension_icon",
-            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
-
-
     //Drops
     public static final DeferredItem<Item> LIVING_CORE = ITEMS.register("living_core",
             () -> new Item(new Item.Properties()));

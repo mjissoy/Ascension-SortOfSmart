@@ -10,55 +10,55 @@ import net.thejadeproject.ascension.AscensionCraft;
 
 import java.io.IOException;
 
+/**
+ * Registers and holds all mod shaders.
+ *
+ * Pattern mirrors Lodestone's LodestoneShaderRegistry / ShaderHolder:
+ *  - Each shader has a static ShaderHolder that stores the live instance.
+ *  - Render types reference holders via holder.asSupplier(), never a raw null ref.
+ *  - Uniforms are pushed per-frame via uploadRiftUniforms(), equivalent to
+ *    Lodestone's ShaderUniformHandler lambda stored in RenderHandler.HANDLERS.
+ */
 public class ModShaders {
-    private static ShaderInstance riftShader;
 
-    // Texture ResourceLocations used by the rift shader
-    public static final ResourceLocation TEX_VORTEX    = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/vortex.png");
-    public static final ResourceLocation TEX_CRACK_1   = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/rift_crack_bloom_1.png");
-    public static final ResourceLocation TEX_CRACK_2   = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/rift_crack_bloom_2.png");
-    public static final ResourceLocation TEX_CRACK_3   = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/rift_crack_bloom_3.png");
-    public static final ResourceLocation TEX_CRACK_4   = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/rift_crack_bloom_4.png");
-    public static final ResourceLocation TEX_CRACK_5   = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/rift_crack_bloom_5.png");
-    public static final ResourceLocation TEX_RUNE_GLOW = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/rune_glow.png");
+    // ── Shader holders (one per program) ─────────────────────────────────────
+    public static final ShaderHolder RIFT = new ShaderHolder();
 
-    public static ShaderInstance getRiftShader() {
-        return riftShader;
-    }
+    // ── VFX texture locations ─────────────────────────────────────────────────
+    public static final ResourceLocation TEX_VORTEX    = rl("textures/vfx/vortex.png");
+    public static final ResourceLocation TEX_CRACK_1   = rl("textures/vfx/rift_crack_bloom_1.png");
+    public static final ResourceLocation TEX_CRACK_2   = rl("textures/vfx/rift_crack_bloom_2.png");
+    public static final ResourceLocation TEX_CRACK_3   = rl("textures/vfx/rift_crack_bloom_3.png");
+    public static final ResourceLocation TEX_CRACK_4   = rl("textures/vfx/rift_crack_bloom_4.png");
+    public static final ResourceLocation TEX_CRACK_5   = rl("textures/vfx/rift_crack_bloom_5.png");
+    public static final ResourceLocation TEX_RUNE_GLOW = rl("textures/vfx/rune_glow.png");
+
+    // ── Registration ──────────────────────────────────────────────────────────
 
     public static void register(RegisterShadersEvent event) throws IOException {
         event.registerShader(
                 new ShaderInstance(
                         event.getResourceProvider(),
-                        ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "rift"),
+                        rl("rift"),
                         DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP
                 ),
-                shader -> riftShader = shader
+                RIFT::setInstance
         );
     }
 
-    /**
-     * Call once per frame before rendering the rift.
-     * Sets the GameTime uniform and binds textures to their sampler slots.
-     *
-     * NOTE: Unit 2 is reserved for the lightmap (Sampler2), so we skip it and
-     * use higher units to avoid conflicts with Minecraft's internal bindings.
-     */
+    // ── Per-frame uniform upload ───────────────────────────────────────────────
+
     public static void uploadRiftUniforms(float partialTick) {
-        ShaderInstance s = riftShader;
+        ShaderInstance s = RIFT.getInstance();
         if (s == null) return;
 
-        // Upload GameTime uniform
         float ticks = (Minecraft.getInstance().level != null
-                ? Minecraft.getInstance().level.getGameTime()
-                : 0L) + partialTick;
+                ? (float) Minecraft.getInstance().level.getGameTime()
+                : 0f) + partialTick;
 
-        if (s.getUniform("GameTime") != null) {
-            s.getUniform("GameTime").set(ticks);
-        }
+        if (s.getUniform("GameTime") != null) s.getUniform("GameTime").set(ticks);
 
-        // Bind sampler uniforms to texture units and bind textures
-        // Unit 2 is reserved for Sampler2 (lightmap), so we start at 3
+        // Texture units 3-9: above Minecraft's reserved 0 (diffuse), 1 (overlay), 2 (lightmap)
         bindSampler(s, "SamplerVortex",   TEX_VORTEX,    3);
         bindSampler(s, "SamplerCrack1",   TEX_CRACK_1,   4);
         bindSampler(s, "SamplerCrack2",   TEX_CRACK_2,   5);
@@ -66,22 +66,16 @@ public class ModShaders {
         bindSampler(s, "SamplerCrack4",   TEX_CRACK_4,   7);
         bindSampler(s, "SamplerCrack5",   TEX_CRACK_5,   8);
         bindSampler(s, "SamplerRuneGlow", TEX_RUNE_GLOW, 9);
-
-        // Note: Sampler2 (lightmap) is automatically bound by Minecraft
-        // because we setLightmapState(LIGHTMAP) in the RenderType
     }
 
-    private static void bindSampler(ShaderInstance shader, String uniformName, ResourceLocation loc, int unit) {
-        // Set the uniform to the texture unit index
-        var uniform = shader.getUniform(uniformName);
-        if (uniform != null) {
-            uniform.set(unit);
-        }
-
-        // Bind the actual texture to that unit
+    private static void bindSampler(ShaderInstance s, String name, ResourceLocation loc, int unit) {
+        var uniform = s.getUniform(name);
+        if (uniform != null) uniform.set(unit);
         var tex = Minecraft.getInstance().getTextureManager().getTexture(loc, null);
-        if (tex != null) {
-            RenderSystem.setShaderTexture(unit, tex.getId());
-        }
+        if (tex != null) RenderSystem.setShaderTexture(unit, tex.getId());
+    }
+
+    private static ResourceLocation rl(String path) {
+        return ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, path);
     }
 }

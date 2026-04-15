@@ -10,12 +10,24 @@ import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.custom.shaders.RiftEntity;
 
+/**
+ * Renders the rift entity as a camera-facing square billboard.
+ *
+ * The quad is square so the shader's UV space is undistorted — equal angles
+ * between the five crack arms look equal on screen.
+ *
+ * Uniform upload mirrors Lodestone's pattern:
+ *   RenderHandler.HANDLERS stores a ShaderUniformHandler per RenderType,
+ *   which is fired before each batch flush.  Here we call uploadRiftUniforms()
+ *   directly before submitting geometry, which is equivalent.
+ */
 public class RiftRenderer extends EntityRenderer<RiftEntity> {
 
-    // The white texture is still returned from getTextureLocation so Minecraft
-    // doesn't complain; actual textures are bound inside the shader.
     private static final ResourceLocation DUMMY_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/vfx/white.png");
+
+    /** Square side length in blocks. Increase to scale the whole effect up. */
+    private static final float SIZE = 3.0f;
 
     public RiftRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -25,47 +37,29 @@ public class RiftRenderer extends EntityRenderer<RiftEntity> {
     public void render(RiftEntity entity, float yaw, float partialTicks,
                        PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
 
-        // Upload GameTime + all texture samplers before we touch the render type.
+        // Push uniforms BEFORE geometry — mirrors Lodestone's RenderHandler.draw()
+        // which calls handler.updateShaderData(shader) before flushing each buffer.
         ModShaders.uploadRiftUniforms(partialTicks);
 
         poseStack.pushPose();
-
-        // Face the camera billboard-style.
         poseStack.mulPose(this.entityRenderDispatcher.cameraOrientation());
-        poseStack.scale(1.5f, 3.0f, 1.0f);
+
+        float h = SIZE * 0.5f;
+        float w = SIZE * 0.5f;
 
         VertexConsumer vc = bufferSource.getBuffer(ModRenderTypes.RIFT);
         var pose = poseStack.last();
 
-        // A simple vertical quad; UV covers [0,1]² so the fragment shader sees
-        // the full texture space.
-        vc.addVertex(pose, -0.5f, 0.0f, 0.0f)
-                .setColor(255, 255, 255, 255)
-                .setUv(0f, 1f)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(packedLight)
-                .setNormal(pose, 0, 0, 1);
-
-        vc.addVertex(pose,  0.5f, 0.0f, 0.0f)
-                .setColor(255, 255, 255, 255)
-                .setUv(1f, 1f)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(packedLight)
-                .setNormal(pose, 0, 0, 1);
-
-        vc.addVertex(pose,  0.5f, 1.0f, 0.0f)
-                .setColor(255, 255, 255, 255)
-                .setUv(1f, 0f)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(packedLight)
-                .setNormal(pose, 0, 0, 1);
-
-        vc.addVertex(pose, -0.5f, 1.0f, 0.0f)
-                .setColor(255, 255, 255, 255)
-                .setUv(0f, 0f)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(packedLight)
-                .setNormal(pose, 0, 0, 1);
+        // Square quad centred at entity origin.
+        // UV: v=1 at bottom, v=0 at top — crack texture roots (bright base) at centre.
+        vc.addVertex(pose, -w, -h, 0f).setColor(255,255,255,255).setUv(0f,1f)
+                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(pose,0,0,1);
+        vc.addVertex(pose,  w, -h, 0f).setColor(255,255,255,255).setUv(1f,1f)
+                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(pose,0,0,1);
+        vc.addVertex(pose,  w,  h, 0f).setColor(255,255,255,255).setUv(1f,0f)
+                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(pose,0,0,1);
+        vc.addVertex(pose, -w,  h, 0f).setColor(255,255,255,255).setUv(0f,0f)
+                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(packedLight).setNormal(pose,0,0,1);
 
         poseStack.popPose();
         super.render(entity, yaw, partialTicks, poseStack, bufferSource, packedLight);
