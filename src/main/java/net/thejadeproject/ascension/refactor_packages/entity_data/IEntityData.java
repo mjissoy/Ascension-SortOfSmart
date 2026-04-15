@@ -138,11 +138,12 @@ public interface IEntityData {
         //this will also be further suppressed while in combat
         holder.addAttribute(Attributes.MOVEMENT_SPEED,Component.literal("Movement Speed"));
         holder.getAttribute(Attributes.MOVEMENT_SPEED).addStatScaling(ModStats.STRENGTH.get(),0.0001); //0.01% of strength
-        holder.getAttribute(Attributes.MOVEMENT_SPEED).addStatScaling(ModStats.AGILITY.get(),0.001); //0.1% of agility
+        holder.getAttribute(Attributes.MOVEMENT_SPEED).addStatScaling(ModStats.AGILITY.get(),0.01); //1% of agility
 
         holder.addAttribute(ModAttributes.MAX_QI,Component.literal("Max Qi"));
         holder.addAttribute(ModAttributes.QI_REGEN_RATE,Component.literal("Qi Regen Rate"));
         holder.updateAttributes(this);
+        //if(entity.getAttribute(Attributes.MOVEMENT_SPEED) != null) entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0);
     }
     void setHealth(double newVal);
     void setHealth(double val, DamageSource source);

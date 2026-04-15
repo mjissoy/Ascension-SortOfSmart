@@ -3,7 +3,9 @@
   "package": "net.thejadeproject.ascension.mixins",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "MilkBucketEffectMixin"
+    "LivingEntityMixin",
+    "MilkBucketEffectMixin",
+    "PlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
