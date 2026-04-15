@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.refactor_packages.entity_data;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -26,6 +27,10 @@ import net.thejadeproject.ascension.util.ModAttributes;
 import java.util.*;
 
 /**
+ * TODO set up a HeldEntityData,RemoteAccessEntityData and RemoteEntityData
+ *
+ *
+ *
  * Stores all the data an entity would need that relates to cultivation and stats
  *
  * does not hold a direct reference to the entity holding it, only the id. this is because there may be scenarios where this data is not stored on the entity directly
@@ -139,6 +144,9 @@ public interface IEntityData {
         holder.addAttribute(ModAttributes.QI_REGEN_RATE,Component.literal("Qi Regen Rate"));
         holder.updateAttributes(this);
     }
+    void setHealth(double newVal);
+    void setHealth(double val, DamageSource source);
+    double getHealth();
     //============================= DATA HANDLING ====================================
     void write(CompoundTag tag);
 

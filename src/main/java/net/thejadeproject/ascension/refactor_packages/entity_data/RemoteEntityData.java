@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.refactor_packages.entity_data;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributeHolder;
@@ -290,6 +291,21 @@ public class RemoteEntityData implements IEntityData{
     @Override
     public void setAscensionAttributeHolder(LivingEntity entity, AscensionAttributeHolder holder) {
 
+    }
+
+    @Override
+    public void setHealth(double newVal) {
+
+    }
+
+    @Override
+    public void setHealth(double val, DamageSource source) {
+
+    }
+
+    @Override
+    public double getHealth() {
+        return 0;
     }
 
     @Override

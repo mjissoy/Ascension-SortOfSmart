@@ -4,12 +4,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.physique.SyncPhysique;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
@@ -178,7 +180,7 @@ public class GenericFormData implements IEntityFormData {
         PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncHeldSkills(getEntityFormId().toString(),heldSkills));
     }
     public void syncPhysique(Player player){
-
+        PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncPhysique(getEntityFormId(),physique,physiqueData));
     }
     public void syncStatSheet(Player player){
 

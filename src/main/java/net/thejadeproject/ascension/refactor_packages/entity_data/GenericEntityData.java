@@ -5,8 +5,10 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -18,6 +20,10 @@ import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncCurrentHealth;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.physique.SyncPhysique;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.PathBonusHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
@@ -60,7 +66,7 @@ public class GenericEntityData implements IEntityData {
     private HashMap<ResourceLocation,IEntityFormData> cachedFormData = new HashMap<>();
     private HashMap<ResourceLocation, IPersistentSkillData> cachedSkillData = new HashMap<>();
 
-
+    private double currentHealth = 0;
     //========================== SAVE DATA HANDLING ==========================
     public GenericEntityData(Entity attachedEntity){
         this.attachedEntity = attachedEntity;
@@ -77,6 +83,7 @@ public class GenericEntityData implements IEntityData {
 
         }
         getQiContainer().fullFillQi();
+        currentHealth = getAscensionAttributeHolder().getAttribute(Attributes.MAX_HEALTH).getValue();
     }
     //TODO add better error handling so an error does not delete all data
     public GenericEntityData(Entity attachedEntity, CompoundTag tag){
@@ -149,6 +156,8 @@ public class GenericEntityData implements IEntityData {
         getSkillCastHandler().read(tag.getCompound("skill_cast_handler"));
         getAscensionAttributeHolder().updateAttributes(this);
         getQiContainer().fullFillQi();
+
+        currentHealth = tag.getDouble("current_health");
     }
     public void sync(Player player){
         for(ResourceLocation form:heldFormData.keySet()){
@@ -162,7 +171,7 @@ public class GenericEntityData implements IEntityData {
     public void write(CompoundTag tag) {
         //if the player losses their vessel we do not want to accidentally make a new one
         tag.putBoolean("vessel_flag",heldFormData.containsKey(ModForms.MORTAL_VESSEL.getId()));
-
+        tag.putDouble("current_health",currentHealth);
         tag.putString("physique",physiqueForm == null ? "none" : heldFormData.get(physiqueForm).getPhysiqueKey().toString());
         if (physiqueForm != null && heldFormData.get(physiqueForm).getPhysiqueData() != null) {
             tag.put("physique_data",heldFormData.get(physiqueForm).getPhysiqueData().write());
@@ -351,7 +360,7 @@ public class GenericEntityData implements IEntityData {
         PhysiqueChangeEvent.Post event = new PhysiqueChangeEvent.Post(preEvent,heldFormData.get(physiqueForm).getPhysiqueData());
         System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
         NeoForge.EVENT_BUS.post(event);
-
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer)PacketDistributor.sendToPlayer(serverPlayer,new SyncPhysique(physiqueForm,physique,physiqueData));
         return true;
     }
 
@@ -517,6 +526,9 @@ public class GenericEntityData implements IEntityData {
 
         techniqueInstance.onTechniqueAdded(this);
         System.out.println("technique changed to: "+technique.toString());
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncPathData(pathDataLocation.get(path),pathData));
+        }
         return true;
     }
 
@@ -590,6 +602,10 @@ public class GenericEntityData implements IEntityData {
             ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
             skillInstance.onAdded(this);
         }
+        //TODO update to sync only changes
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncHeldSkills(form.toString(),heldFormData.get(form).getHeldSkills()));
+        }
     }
 
     @Override
@@ -603,6 +619,10 @@ public class GenericEntityData implements IEntityData {
 
         ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
         skillInstance.onRemoved(this,skillData);
+        //TODO update to sync only changes
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncHeldSkills(form.toString(),heldFormData.get(form).getHeldSkills()));
+        }
     }
 
     @Override
@@ -657,6 +677,39 @@ public class GenericEntityData implements IEntityData {
     public void setAscensionAttributeHolder(LivingEntity entity,AscensionAttributeHolder holder) {
         this.ascensionAttributeHolder = holder;
         if(entity != null && holder != null) holder.setAttachedEntity(entity);
+    }
+
+    /*
+        should mainly be used for healing, instances of damage should include a source
+     */
+    @Override
+    public void setHealth(double val) {
+        this.currentHealth = val;
+        if(currentHealth <= 0 && getAttachedEntity() != null && getAttachedEntity() instanceof LivingEntity entity) {
+
+            entity.setHealth(0);
+        }
+
+    }
+
+    @Override
+    public void setHealth(double val, DamageSource source) {
+        this.currentHealth = val;
+        if(currentHealth <= 0 && getAttachedEntity() != null && getAttachedEntity() instanceof  LivingEntity entity) {
+            entity.setHealth(0);
+            //entity.die(source);
+
+
+        }
+        if(!getAttachedEntity().level().isClientSide()){
+            PacketDistributor.sendToPlayer((ServerPlayer) getAttachedEntity(),new SyncCurrentHealth(currentHealth));
+
+        }
+    }
+
+    @Override
+    public double getHealth() {
+        return this.currentHealth;
     }
 
 }

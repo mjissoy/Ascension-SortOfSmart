@@ -8,7 +8,9 @@ import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncCurrentHealth;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.physique.SyncPhysique;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncCastingInstance;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.stats.SyncStat;
@@ -60,7 +62,17 @@ public class ModPayloads {
                 SyncStat::handlePayload
         );
 
+        registrar.playToClient(
+                SyncCurrentHealth.TYPE,
+                SyncCurrentHealth.STREAM_CODEC,
+                SyncCurrentHealth::handlePayload
+        );
 
+        registrar.playToClient(
+                SyncPhysique.TYPE,
+                SyncPhysique.STREAM_CODEC,
+                SyncPhysique::handlePayload
+        );
 
         //===================================== SERVER ==================================
 
