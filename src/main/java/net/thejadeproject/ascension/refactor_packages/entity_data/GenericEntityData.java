@@ -21,6 +21,9 @@ import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncCurrentHealth;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.physique.SyncPhysique;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.PathBonusHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
@@ -357,7 +360,7 @@ public class GenericEntityData implements IEntityData {
         PhysiqueChangeEvent.Post event = new PhysiqueChangeEvent.Post(preEvent,heldFormData.get(physiqueForm).getPhysiqueData());
         System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
         NeoForge.EVENT_BUS.post(event);
-
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer)PacketDistributor.sendToPlayer(serverPlayer,new SyncPhysique(physiqueForm,physique,physiqueData));
         return true;
     }
 
@@ -523,6 +526,9 @@ public class GenericEntityData implements IEntityData {
 
         techniqueInstance.onTechniqueAdded(this);
         System.out.println("technique changed to: "+technique.toString());
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncPathData(pathDataLocation.get(path),pathData));
+        }
         return true;
     }
 
@@ -596,6 +602,10 @@ public class GenericEntityData implements IEntityData {
             ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
             skillInstance.onAdded(this);
         }
+        //TODO update to sync only changes
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncHeldSkills(form.toString(),heldFormData.get(form).getHeldSkills()));
+        }
     }
 
     @Override
@@ -609,6 +619,10 @@ public class GenericEntityData implements IEntityData {
 
         ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
         skillInstance.onRemoved(this,skillData);
+        //TODO update to sync only changes
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncHeldSkills(form.toString(),heldFormData.get(form).getHeldSkills()));
+        }
     }
 
     @Override
