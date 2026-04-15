@@ -56,7 +56,8 @@ public class ModPaths {
 
     public static final DeferredHolder<IPath, ? extends GenericPath> RUNIC = PATHS.register("runic",()->
             new ComprehensionPath(Component.translatable("ascension.path.runic"))
-                    .addMajorRealmName("ascension.path.runic.body")
+                    .setDescription(Component.translatable("ascencion.path.runic.description"))
+                    .addMajorRealmName("ascension.path.runic.flesh")
                     .addMajorRealmName("ascension.path.runic.soul")
                     .addMajorRealmName("ascension.path.runic.spark")
                     .addMajorRealmName("ascension.path.runic.void")

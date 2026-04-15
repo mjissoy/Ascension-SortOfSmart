@@ -19,7 +19,6 @@ public class lang extends LanguageProvider {
         add("ascension.path.soul", "Soul");
         add("ascension.path.fire", "Fire");
         add("ascension.path.sword", "Sword");
-        add("ascension.path.runic", "Rune");
         //essence
         add("ascension.path.essence.mortal", "Mortal");
         add("ascension.path.essence.qi_condensation", "Qi Condensation");
@@ -38,11 +37,38 @@ public class lang extends LanguageProvider {
         add("ascension.path.soul.azure_soul", "Azure Soul");
         add("ascension.path.soul.silver_soul", "Silver Soul");
         add("ascension.path.soul.gold_battle_soul", "Gold Battle Soul");
-        //runic
-        add("ascension.path.runic.body", "Runic Body");
-        add("ascension.path.runic.soul", "Runic Soul");
-        add("ascension.path.runic.spark", "Runic Spark");
-        add("ascension.path.runic.void", "Runic Void");
+
+
+            // Runic Path
+            add("ascension.path.runic", "Rune");
+
+            //Runic Realms
+            add("ascension.path.runic.description", "Gain Insight into the language of reality, and become One with It.");
+            add("ascension.path.runic.flesh", "Runic Flesh");
+            add("ascension.path.runic.soul", "Runic Soul");
+            add("ascension.path.runic.spark", "Runic Spark");
+            add("ascension.path.runic.void", "Runic Void");
+
+            // Runic Physiques
+            add("ascension.physiques.runic_eyes", "Runic Eyes");
+            add("ascension.physiques.runic_eyes.short_description", "Eyes that glimpse the script behind all things.");
+            add("ascension.physiques.runic_eyes.description", "Eyes attuned to the hidden inscriptions woven through matter, energy, and spirit. Their bearer more easily perceives and comprehends runic patterns, granting great talent in the Runic Path and minor affinity with Essence.");
+            add("ascension.physiques.runic_body", "Runic Body");
+            add("ascension.physiques.runic_body.short_description", "A Body drawn to hidden inscriptions.");
+            add("ascension.physiques.runic_body.description", "With a body naturally drawn to the Runes, the bearer finds themselves highly compatible with the Runic Path, while also being blessed in the Body Path");
+
+            // Runic Techniques
+            add("ascension.technique.rune_servant", "Rune Servant Technique");
+            add("ascension.technique.rune_servant.short_description", "A humble method of sensing and tracing existing runes.");
+            add("ascension.technique.rune_servant.description", "A foundational runic cultivation technique that teaches the cultivator to observe, follow, and resonate with the natural inscriptions hidden in all things.");
+            add("ascension.technique.rune_monarch", "Rune Monarch Technique");
+            add("ascension.technique.rune_monarch.short_description", "A sovereign method that bends inscriptions to oneself.");
+            add("ascension.technique.rune_monarch.description", "An advanced runic cultivation technique created by an ancient ruler. One no longer passively observes the Runes, but instead bends them to their will, enchancing cultivation tenfold.");
+
+            // Runic Skills
+            add("ascension.skill.runic_fortification", "Runic Fortification");
+            add("ascension.skill.runic_fortification.short_description", "Defensive runes reinforce the body.");
+            add("ascension.skill.runic_fortification.description", "The cultivator engraves simple reinforcing runes into flesh and spirit, hardening the body against harm.");
 
 
         //fire
@@ -61,7 +87,6 @@ public class lang extends LanguageProvider {
         add("ascension.physiques.severed_meridians", "Severed Meridians");
         add("ascension.physiques.sword_bone", "Sword Bone");
         add("ascension.physiques.flame_touched", "Flame Touched");
-        add("ascension.physiques.runic_eyes", "Runic Eyes");
 
 
 

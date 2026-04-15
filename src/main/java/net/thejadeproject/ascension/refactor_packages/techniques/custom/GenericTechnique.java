@@ -75,7 +75,15 @@ public class GenericTechnique implements ITechnique {
             heldEntity.giveSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
         if(getPath().equals(ModPaths.RUNIC.getId())){
-            heldEntity.giveSkill(ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(), new GenericCultivationSkillData(baseRate, secondaryPaths), ModForms.MORTAL_VESSEL.getId());
+            heldEntity.giveSkill(
+                    ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(),
+                    new GenericCultivationSkillData(baseRate, secondaryPaths),
+                    ModForms.MORTAL_VESSEL.getId()
+            );
+            heldEntity.giveSkill(
+                    ModSkills.RUNIC_FORTIFICATION.getId(),
+                    ModForms.MORTAL_VESSEL.getId()
+            );
         }
     }
 
@@ -89,7 +97,8 @@ public class GenericTechnique implements ITechnique {
             heldEntity.removeSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
         if(getPath().equals(ModPaths.RUNIC.getId())){
-            heldEntity.removeSkill(ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
+            heldEntity.removeSkill(ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(), ModForms.MORTAL_VESSEL.getId());
+            heldEntity.removeSkill(ModSkills.RUNIC_FORTIFICATION.getId(), ModForms.MORTAL_VESSEL.getId());
         }
     }
 
@@ -161,4 +170,15 @@ public class GenericTechnique implements ITechnique {
     public IBreakthroughInstance breakthroughInstanceFromNetwork(RegistryFriendlyByteBuf buf,int majorRealm,int minorRealm,ITechniqueData data) {
         return null;
     }
+
+    public GenericTechnique setDescription(Component description){
+        this.description = description;
+        return this;
+    }
+
+    public GenericTechnique setShortDescription(Component shortDescription){
+        this.shortDescription = shortDescription;
+        return this;
+    }
+
 }

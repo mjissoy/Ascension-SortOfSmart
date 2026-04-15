@@ -51,10 +51,22 @@ public class ModPhysiques {
 
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> RUNIC_EYES = PHYSIQUES.register("runic_eyes",()->
             new GenericPhysique(Component.translatable("ascension.physiques.runic_eyes"))
+                    .setShortDescription(Component.translatable("ascension.physiques.runic_eyes.short_description"))
+                    .setDescription(Component.translatable("ascension.physiques.runic_eyes.description"))
                     .addPath(ModPaths.RUNIC.getId())
                     .addPath(ModPaths.ESSENCE.getId())
                     .addPathBonus(ModPaths.RUNIC.getId(),4.0)
                     .addPathBonus(ModPaths.ESSENCE.getId(),0.5)
+    );
+
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> RUNIC_BODY = PHYSIQUES.register("runic_body",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.runic_body"))
+                    .setShortDescription(Component.translatable("ascension.physiques.runic_body.short_description"))
+                    .setDescription(Component.translatable("ascension.physiques.runic_body.description"))
+                    .addPath(ModPaths.RUNIC.getId())
+                    .addPath(ModPaths.BODY.getId())
+                    .addPathBonus(ModPaths.RUNIC.getId(),2.5)
+                    .addPathBonus(ModPaths.BODY.getId(),1.5)
     );
 
     public static void register(IEventBus modEventBus){
