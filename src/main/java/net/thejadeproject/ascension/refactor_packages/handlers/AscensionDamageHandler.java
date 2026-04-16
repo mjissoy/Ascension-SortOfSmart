@@ -10,6 +10,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
@@ -48,7 +49,18 @@ public class AscensionDamageHandler {
 
     }
 
+    public static void onAttack(AttackEntityEvent event){
 
+    }
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onIncomingDamage(LivingIncomingDamageEvent event){
+        if(event.getSource().getEntity() == null) return;
+        if(event.getSource().getDirectEntity() != event.getSource().getEntity()) return;
+
+        if(!event.getSource().getEntity().hasData(ModAttachments.ENTITY_DATA)) return;
+        System.out.println("dealing increased damage");
+        event.setAmount((float)event.getSource().getEntity().getData(ModAttachments.ENTITY_DATA).getAscensionAttributeHolder().getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+    }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onDamage(LivingDamageEvent.Pre event){

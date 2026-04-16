@@ -28,18 +28,20 @@ public class ModTechniques {
     public static final ResourceLocation test = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"test");
     public static BasicStatChangeHandler testHandler = new BasicStatChangeHandler()
             .addMinorRealmStatModifier(ModStats.VITALITY.getId(),new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
-            .addMinorRealmAttributeModifier(Attributes.MAX_HEALTH,new ValueContainerModifier(0.2,ModifierOperation.MULTIPLY_BASE,test));
+            .addMinorRealmAttributeModifier(Attributes.MAX_HEALTH,new ValueContainerModifier(0.2,ModifierOperation.MULTIPLY_BASE,test))
+            .addMinorRealmStatModifier(ModStats.AGILITY.getId(),new ValueContainerModifier(5,ModifierOperation.ADD_BASE,test));
 
+    public static final ResourceLocation test2 = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"test2");
     public static BasicStatChangeHandler testHandler2 = new BasicStatChangeHandler()
-            .addMinorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
-            .addMinorRealmStatModifier(ModStats.STRENGTH.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
-            .addMinorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
-            .addMinorRealmAttributeModifier(Attributes.MAX_HEALTH, new ValueContainerModifier(0.2, ModifierOperation.MULTIPLY_BASE, test))
-            .addMinorRealmAttributeModifier(Attributes.ATTACK_DAMAGE, new ValueContainerModifier(0.15, ModifierOperation.MULTIPLY_BASE, test))
-            .addMinorRealmAttributeModifier(Attributes.ATTACK_SPEED, new ValueContainerModifier(0.05, ModifierOperation.MULTIPLY_BASE, test))
-            .addMinorRealmAttributeModifier(Attributes.MOVEMENT_SPEED, new ValueContainerModifier(0.03, ModifierOperation.MULTIPLY_BASE, test))
-            .addMinorRealmAttributeModifier(Attributes.ARMOR, new ValueContainerModifier(0.1, ModifierOperation.ADD_BASE, test))
-            .addMinorRealmAttributeModifier(Attributes.ARMOR_TOUGHNESS, new ValueContainerModifier(0.05, ModifierOperation.ADD_BASE, test));
+            .addMinorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test2))
+            .addMinorRealmStatModifier(ModStats.STRENGTH.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test2))
+            .addMinorRealmStatModifier(ModStats.AGILITY.getId(),new ValueContainerModifier(5,ModifierOperation.ADD_BASE,test2))
+            .addMinorRealmAttributeModifier(Attributes.MAX_HEALTH, new ValueContainerModifier(0.2, ModifierOperation.MULTIPLY_BASE, test2))
+            .addMinorRealmAttributeModifier(Attributes.ATTACK_DAMAGE, new ValueContainerModifier(0.15, ModifierOperation.MULTIPLY_BASE, test2))
+            .addMinorRealmAttributeModifier(Attributes.ATTACK_SPEED, new ValueContainerModifier(0.05, ModifierOperation.MULTIPLY_BASE, test2))
+            .addMinorRealmAttributeModifier(Attributes.MOVEMENT_SPEED, new ValueContainerModifier(0.03, ModifierOperation.MULTIPLY_BASE, test2))
+            .addMinorRealmAttributeModifier(Attributes.ARMOR, new ValueContainerModifier(0.1, ModifierOperation.ADD_BASE, test2))
+            .addMinorRealmAttributeModifier(Attributes.ARMOR_TOUGHNESS, new ValueContainerModifier(0.05, ModifierOperation.ADD_BASE, test2));
 
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> BASIC_CULTIVATION_TECHNIQUE = TECHNIQUES.register("basic_cultivation_technique",()->
             new GenericTechnique(ModPaths.ESSENCE.getId(),Component.literal("Basic Cultivation Technique"),2.0, Set.of())

@@ -553,7 +553,7 @@ public class GenericEntityData implements IEntityData {
 
         techniqueInstance.onTechniqueAdded(this);
         System.out.println("technique changed to: "+technique.toString());
-        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer  && serverPlayer.connection != null){
             PacketDistributor.sendToPlayer(serverPlayer,new SyncPathData(pathDataLocation.get(path),pathData));
         }
         return true;
@@ -630,7 +630,7 @@ public class GenericEntityData implements IEntityData {
             skillInstance.onAdded(this);
         }
         //TODO update to sync only changes
-        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer && serverPlayer.connection != null){
             PacketDistributor.sendToPlayer(serverPlayer,new SyncHeldSkills(form.toString(),heldFormData.get(form).getHeldSkills()));
         }
     }
@@ -647,7 +647,7 @@ public class GenericEntityData implements IEntityData {
         ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
         skillInstance.onRemoved(this,skillData);
         //TODO update to sync only changes
-        if(getAttachedEntity() instanceof ServerPlayer serverPlayer){
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer && serverPlayer.connection != null){
             PacketDistributor.sendToPlayer(serverPlayer,new SyncHeldSkills(form.toString(),heldFormData.get(form).getHeldSkills()));
         }
     }
@@ -728,8 +728,8 @@ public class GenericEntityData implements IEntityData {
 
 
         }
-        if(!getAttachedEntity().level().isClientSide()){
-            PacketDistributor.sendToPlayer((ServerPlayer) getAttachedEntity(),new SyncCurrentHealth(currentHealth));
+        if(getAttachedEntity() instanceof  ServerPlayer serverPlayer && serverPlayer.connection != null){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncCurrentHealth(currentHealth));
 
         }
     }
