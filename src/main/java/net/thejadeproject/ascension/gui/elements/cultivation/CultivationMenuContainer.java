@@ -30,6 +30,62 @@ public class CultivationMenuContainer extends RenderableElement {
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/cultivation_menu.png"),
             228, 180, 0, 0, 228, 180);
 
+
+    // Path Tabs
+    private static final ITextureData PATH_TAB_ACTIVE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/path_tab_active.png"),
+            62, 14, 0, 0, 62, 14);
+
+    private static final ITextureData PATH_TAB_IDLE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/path_tab_idle.png"),
+            62, 14, 0, 0, 62, 14);
+
+
+    // Skill, Technique, Physique, Stats Tabs
+    private static final ITextureData SKIL_TAB_ACTIVE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/skill_tab_active.png"),
+            62, 12, 0, 0, 62, 12);
+
+    private static final ITextureData SKIL_TAB_IDLE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/skill_tab_idle.png"),
+            62, 12, 0, 0, 62, 12);
+
+    private static final ITextureData TECH_TAB_ACTIVE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/tech_tab_active.png"),
+            62, 12, 0, 0, 62, 12);
+
+    private static final ITextureData TECH_TAB_IDLE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/tech_tab_idle.png"),
+            62, 12, 0, 0, 62, 12);
+
+    private static final ITextureData PHYS_TAB_ACTIVE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/physique_tab_active.png"),
+            62, 12, 0, 0, 62, 12);
+
+    private static final ITextureData PHYS_TAB_IDLE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/physique_tab_idle.png"),
+            62, 12, 0, 0, 62, 12);
+
+    private static final ITextureData STAT_TAB_ACTIVE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/stats_tab_active.png"),
+            62, 12, 0, 0, 62, 12);
+
+    private static final ITextureData STAT_TAB_IDLE = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/stats_tab_idle.png"),
+            62, 12, 0, 0, 62, 12);
+
+//    private static final ITextureData DAO_TAB_ACTIVE = new TextureDataSubsection(
+//            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/dao_tab_active.png"),
+//            62, 12, 0, 0, 62, 12);
+//
+//    private static final ITextureData DAO_TAB_IDLE = new TextureDataSubsection(
+//            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/dao_tab_idle.png"),
+//            62, 12, 0, 0, 62, 12);
+
+    private static final ITextureData BOTTOM_TAB_REJECTED = new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/gui/screen/tabs/bottom_tab_rejected.png"),
+            62, 12, 0, 0, 62, 12);
+
     private static final int WIDTH = 228;
     private static final int HEIGHT = 180;
     private static final int SIDEBAR_W = 68;
@@ -350,16 +406,16 @@ public class CultivationMenuContainer extends RenderableElement {
             int tabY = tabsStartY + i * (TAB_H + TAB_GAP);
             boolean active = pathId.equals(selectedPath);
 
-            if (active) {
-                fillBorderedRect(gfx, TAB_X, tabY, TAB_W, TAB_H, 0x2E006396, 0xFF006396);
-            } else {
-                fillBorderedRect(gfx, TAB_X, tabY, TAB_W, TAB_H, 0x18050810, 0x44006396);
-            }
+            renderTextureAt(gfx, active ? PATH_TAB_ACTIVE : PATH_TAB_IDLE, TAB_X, tabY);
 
             String rawName = pathId.getPath();
-            String name = rawName.isEmpty() ? rawName : Character.toUpperCase(rawName.charAt(0)) + rawName.substring(1);
+            String name = rawName.isEmpty()
+                    ? rawName
+                    : Character.toUpperCase(rawName.charAt(0)) + rawName.substring(1);
+
             int nameX = TAB_X + (TAB_W - font.width(name)) / 2;
-            gfx.drawString(font, name, nameX, tabY + (TAB_H - 8) / 2, active ? 0xFF4FC3F7 : 0xFF888888, false);
+            int nameY = tabY + (TAB_H - 8) / 2;
+            gfx.drawString(font, name, nameX, nameY, active ? 0xFF4FC3F7 : 0xFF888888, false);
         }
 
         int statsTabY = HEIGHT - BOTTOM_TAB_H - 4;
@@ -371,28 +427,54 @@ public class CultivationMenuContainer extends RenderableElement {
         boolean statsActive = statsPanel == centerPanel || statsPanel == rightPanel || statsPanel == leftPanel;
         boolean techniquesActive = techniquesPanel == centerPanel || techniquesPanel == rightPanel || techniquesPanel == leftPanel;
         boolean physiqueActive = physiquePanel == centerPanel || physiquePanel == rightPanel || physiquePanel == leftPanel;
-        renderBottomTab(gfx, font, skillsTabY, "Skills", skillsOpen, false);
-        renderBottomTab(gfx, font, techniquesTabY, "Techniques", techniquesActive, showRejected && rejectedPanel == techniquesPanel);
-        renderBottomTab(gfx, font, physiqueTabY, "Physique", physiqueActive, showRejected && rejectedPanel == physiquePanel);
-        renderBottomTab(gfx, font, statsTabY, "Stats", statsActive, showRejected && rejectedPanel == statsPanel);
 
+        renderBottomTab(gfx, font, skillsTabY, "Skills", skillsOpen, false,
+                SKIL_TAB_IDLE, SKIL_TAB_ACTIVE);
+
+        renderBottomTab(gfx, font, techniquesTabY, "Techniques", techniquesActive,
+                showRejected && rejectedPanel == techniquesPanel,
+                TECH_TAB_IDLE, TECH_TAB_ACTIVE);
+
+        renderBottomTab(gfx, font, physiqueTabY, "Physique", physiqueActive,
+                showRejected && rejectedPanel == physiquePanel,
+                PHYS_TAB_IDLE, PHYS_TAB_ACTIVE);
+
+        renderBottomTab(gfx, font, statsTabY, "Stats", statsActive,
+                showRejected && rejectedPanel == statsPanel,
+                STAT_TAB_IDLE, STAT_TAB_ACTIVE);
         super.render(gfx, mouseX, mouseY, partialTick);
     }
 
-    private void renderBottomTab(GuiGraphics gfx, Font font, int tabY, String label, boolean active, boolean rejected) {
-        int h = BOTTOM_TAB_H;
-        int textY = tabY + (h - 8) / 2;
-        int textX = TAB_X + (TAB_W - font.width(label) + 1) / 2;
+    private void renderBottomTab(
+            GuiGraphics gfx,
+            Font font,
+            int tabY,
+            String label,
+            boolean active,
+            boolean rejected,
+            ITextureData idleTexture,
+            ITextureData activeTexture
+    ) {
+        int textY = tabY + (BOTTOM_TAB_H - 8) / 2;
+        int textX = TAB_X + (TAB_W - font.width(label)) / 2;
+
         if (rejected) {
-            fillBorderedRect(gfx, TAB_X, tabY, TAB_W, h, 0x882A0000, 0xFFAA2222);
+            renderTextureAt(gfx, BOTTOM_TAB_REJECTED, TAB_X, tabY);
             gfx.drawString(font, label, textX, textY, 0xFFFF5555, false);
         } else if (active) {
-            fillBorderedRect(gfx, TAB_X, tabY, TAB_W, h, 0x2E006396, 0xFF006396);
-            gfx.drawString(font, label, textX, textY, 0xFF4FC3F7, false);
+            renderTextureAt(gfx, activeTexture, TAB_X, tabY);
+            gfx.drawString(font, label, textX, textY, 0xFFFFFFFF, false);
         } else {
-            fillBorderedRect(gfx, TAB_X, tabY, TAB_W, h, 0x18050810, 0x44006396);
+            renderTextureAt(gfx, idleTexture, TAB_X, tabY);
             gfx.drawString(font, label, textX, textY, 0xFF888888, false);
         }
+    }
+
+    private static void renderTextureAt(GuiGraphics gfx, ITextureData texture, int x, int y) {
+        gfx.pose().pushPose();
+        gfx.pose().translate(x, y, 0);
+        texture.render(gfx);
+        gfx.pose().popPose();
     }
 
 }

@@ -128,12 +128,28 @@ public class GenericEntityData implements IEntityData {
 
         String rawPhysique = tag.getString("physique");
         //the user has no physique
-        if(!rawPhysique.equals("none")){
-            ResourceLocation physique = ResourceLocation.bySeparator(rawPhysique,':');
+        if (!rawPhysique.equals("none")) {
+            ResourceLocation physique = ResourceLocation.bySeparator(rawPhysique, ':');
             IPhysique physiqueInstance = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physique);
-            IPhysiqueData physiqueData = physiqueInstance.fromCompound(tag.getCompound("physique_data"),this);
-            setPhysique(physique,physiqueData);
+            IPhysiqueData physiqueData = physiqueInstance.fromCompound(tag.getCompound("physique_data"), this);
+
+            ResourceLocation formWithPhysique = null;
+
+            for (Map.Entry<ResourceLocation, IEntityFormData> entry : heldFormData.entrySet()) {
+                if (entry.getValue().getPhysiqueKey() != null) {
+                    formWithPhysique = entry.getKey();
+                    break;
+                }
+            }
+
+            if (formWithPhysique == null) {
+                formWithPhysique = ModForms.MORTAL_VESSEL.getId();
+            }
+
+            setPhysique(physique, physiqueData, formWithPhysique);
         }
+
+
         String rawBloodline = tag.getString("bloodline");
         //no bloodline
         if(!rawBloodline.equals("none")){
@@ -368,12 +384,14 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public IPhysiqueData getPhysiqueData() {
-        return null; //TODO
+        if (physiqueForm == null) return null;
+        IEntityFormData formData = heldFormData.get(physiqueForm);
+        return formData == null ? null : formData.getPhysiqueData();
     }
 
     @Override
     public ResourceLocation getPhysiqueForm() {
-        return null; //TODO
+        return physiqueForm;
     }
 
     @Override
@@ -383,18 +401,25 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public IPhysique getPhysique() {
-        return heldFormData.get(physiqueForm).getPhysique();
+        if (physiqueForm == null) return null;
+        IEntityFormData formData = heldFormData.get(physiqueForm);
+        return formData == null ? null : formData.getPhysique();
     }
 
     @Override
     public void movePhysique(ResourceLocation form) {
-        if(!heldFormData.containsKey(form))return;
+        if (physiqueForm == null) return;
+        if (!heldFormData.containsKey(form)) return;
+        if (!heldFormData.containsKey(physiqueForm)) return;
+
         ResourceLocation physique = heldFormData.get(physiqueForm).getPhysiqueKey();
-        IPhysiqueData physiqueData = heldFormData.get(physique).getPhysiqueData();
+        IPhysiqueData physiqueData = heldFormData.get(physiqueForm).getPhysiqueData();
+
         heldFormData.get(physiqueForm).setPhysique(null);
-        heldFormData.get(form).setPhysique(physique,physiqueData);
+        heldFormData.get(form).setPhysique(physique, physiqueData);
         physiqueForm = form;
     }
+
 
     //============================ BLOODLINE HANDLING =======================================
     @Override
