@@ -4,7 +4,9 @@ import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
 import net.lucent.easygui.gui.layout.positioning.rules.PositioningRules;
 import net.lucent.easygui.gui.textures.ITextureData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec2;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
@@ -92,6 +94,8 @@ public class SkillMenuContainer extends RenderableElement implements ISkillDragC
             );
             guiGraphics.pose().popPose();
         }
+
+
     }
 
     public void setHeldSkill(ResourceLocation skill) {

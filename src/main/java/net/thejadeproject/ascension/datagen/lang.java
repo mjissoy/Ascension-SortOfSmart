@@ -69,6 +69,29 @@ public class lang extends LanguageProvider {
             add("ascension.skill.runic_fortification", "Runic Fortification");
             add("ascension.skill.runic_fortification.short_description", "Defensive runes reinforce the body.");
             add("ascension.skill.runic_fortification.description", "The cultivator engraves simple reinforcing runes into flesh and spirit, hardening the body against harm.");
+            add("ascension.skill.runic_strength", "Runic Strength");
+            add("ascension.skill.runic_strength.short_description", "Power runes strengthen the body.");
+            add("ascension.skill.runic_strength.description", "The cultivator engraves simple power runes into flesh and spirit, strengthening the muscles and tendons.");
+
+            // Runes
+
+                // Flesh Runes
+                add("ascension.rune.strength", "Strength Rune");
+                add("item.ascension.strength_rune", "Strength Rune");
+                add("ascension.rune.strength.description", "A rune that empowers Strength");
+
+                add("ascension.rune.vitality", "Vitality Rune");
+                add("item.ascension.vitality_rune", "Vitality Rune");
+                add("ascension.rune.vitality.description", "A rune that empowers Vitality");
+
+                add("ascension.rune.armor", "Armor Rune");
+                add("item.ascension.armor_rune", "Armor Rune");
+                add("ascension.rune.armor.description", "A rune that empowers Armor");
+
+                add("ascension.rune.endurance", "Endurance Rune");
+                add("item.ascension.endurance_rune", "Endurance Rune");
+                add("ascension.rune.endurance.description", "A rune that empowers Endurance");
+
 
 
         //fire

@@ -23,8 +23,6 @@ public class ComprehensionPath extends GenericPath{
 
         if (this == ModPaths.SWORD.get()) {
             pathData.setLastUsedTechnique(ModTechniques.SWORD_COMPREHENSION_TECHNIQUE.getId());
-        } else if (this == ModPaths.RUNIC.get()) {
-            pathData.setLastUsedTechnique(ModTechniques.RUNE_SERVANT_TECHNIQUE.getId());
         }
 
         return pathData;

@@ -1,6 +1,7 @@
-// 1.21.1	2026-04-13T19:20:01.1622644	Item Models: ascension
+// 1.21.1	2026-04-16T22:46:47.377593	Item Models: ascension
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
+3fc839e5052ee37137dc15f391c9c1c2710eeb6d assets/ascension/models/item/armor_rune.json
 46af0894ec16789100ddfe84570bdb632013bd0e assets/ascension/models/item/ascension_icon.json
 34dabeb5a8be2b07546251a0b1b7bf79b4730464 assets/ascension/models/item/black_iron_ingot.json
 4797248d81db0dfdf041f22734e73e775b6dc54e assets/ascension/models/item/black_iron_nugget.json
@@ -21,6 +22,7 @@ f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marbl
 38b8fb051abd7c420998ca4844201a12eb285794 assets/ascension/models/item/diamond_blade.json
 314b298cf5460ebda41e529f392dcf27672e467e assets/ascension/models/item/diamond_spear.json
 14a26ac05e802ef718798bbab95ed44d115a809f assets/ascension/models/item/ender_pouch.json
+fe48325a7224f091a688a712b291eb6419e3e01b assets/ascension/models/item/endurance_rune.json
 24d636705893eb64e2c11c327ff2067de21fe1da assets/ascension/models/item/fasting_pill_t1.json
 a7a0cfdd0338bc05cdd2bcfd788629bc35994828 assets/ascension/models/item/fasting_pill_t2.json
 5c9d7b313153f0eb76da3df42e0894407138cce3 assets/ascension/models/item/fasting_pill_t3.json
@@ -110,12 +112,14 @@ b765b564f10d5d25e405cb7a9a0b4071980c3ced assets/ascension/models/item/spiritual_
 f6d8b4d372f8ba1e408dac571f5e98cbb1cb8b38 assets/ascension/models/item/spirit_sealing_ring.json
 8dbc1b2966d37340bf272dfccb2dfd6b59aa9249 assets/ascension/models/item/stone_blade.json
 7768d1dcf40a98c2e67896252be4d1085fc27473 assets/ascension/models/item/stone_spear.json
+6ffe4c907f192299cb192f25f02274af1a2cacdc assets/ascension/models/item/strength_rune.json
 1d3fe5992fff342daa85c2c5a007f4093300df29 assets/ascension/models/item/talisman_paper.json
 09bd4247a1b118c8ceffbe7dcc2ace6c8521a440 assets/ascension/models/item/technique_manual.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/tode.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todh.json
 2d7c25ead40a4fd83c78c971f5e9fb562d72f476 assets/ascension/models/item/todhe.json
 57f9654f314244059c37d411dc62a3e9d69d4c15 assets/ascension/models/item/undead_core.json
+5f8bd7b46705d88260da60c9e328baae77199521 assets/ascension/models/item/vitality_rune.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/void_marking_talisman.json
 f5846a37eb2d2b8c40f58a96f77b52ba2d479c08 assets/ascension/models/item/white_jade_orchid.json
 44da68e4588d03eab14e615994b783970ff317b1 assets/ascension/models/item/white_jade_orchid_crop.json

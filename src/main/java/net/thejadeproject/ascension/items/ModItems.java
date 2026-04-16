@@ -25,6 +25,8 @@ import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.FanItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.items.tools.SpiritualStoneTools;
+import net.thejadeproject.ascension.runic_path.Runes;
+import net.thejadeproject.ascension.runic_path.items.RuneItem;
 import net.thejadeproject.ascension.util.ItemUtil;
 
 import java.util.HashSet;
@@ -35,11 +37,25 @@ import static net.thejadeproject.ascension.items.pills.PillItem.PillType.*;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
 
+    // TEMP Runes
+    public static final DeferredItem<Item> ARMOR_RUNE = ITEMS.register("armor_rune",
+            () -> new RuneItem(new Item.Properties(), Runes.ARMOR.getId()));
+
+    public static final DeferredItem<Item> VITALITY_RUNE = ITEMS.register("vitality_rune",
+            () -> new RuneItem(new Item.Properties(), Runes.VITALITY.getId()));
+
+    public static final DeferredItem<Item> STRENGTH_RUNE = ITEMS.register("strength_rune",
+            () -> new RuneItem(new Item.Properties(), Runes.STRENGTH.getId()));
+
+    public static final DeferredItem<Item> ENDURANCE_RUNE = ITEMS.register("endurance_rune",
+            () -> new RuneItem(new Item.Properties(), Runes.ENDURANCE.getId()));
+
+
+
+
+
     public static final DeferredItem<Item> TEST_FAN = ITEMS.register("test_fan",
             () -> new FanItem(new Item.Properties()));
-
-
-
 
 
     public static final DeferredItem<Item> RIFT_SUMMONER_DEBUG_STICK = ITEMS.register("rift_debug_stick",

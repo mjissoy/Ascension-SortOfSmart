@@ -17,10 +17,16 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.cultivation.TriggerBreakthrough;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
+import net.thejadeproject.ascension.runic_path.ClientRunicData;
+import net.thejadeproject.ascension.runic_path.Rune;
+import net.thejadeproject.ascension.runic_path.Runes;
+
+import java.util.Set;
 
 public class PathDetailPanel extends RenderableElement {
 
@@ -93,6 +99,7 @@ public class PathDetailPanel extends RenderableElement {
         breakthroughBtn.setHeight(btnH);
         breakthroughBtn.getPositioning().setX(10);
         breakthroughBtn.getPositioning().setY(180 - 6 - btnH);
+
         breakthroughBtn.addEventListener(EasyEvents.MOUSE_DOWN_EVENT, e -> {
             if (e.getTarget() != breakthroughBtn) return;
             if (pathId == null) {
@@ -102,6 +109,7 @@ public class PathDetailPanel extends RenderableElement {
             PacketDistributor.sendToServer(new TriggerBreakthrough(pathId));
             e.setCanceled(true);
         }, EventPhase.BUBBLE);
+
         breakthroughBtn.setVisible(false);
         addChild(breakthroughBtn);
     }
@@ -255,6 +263,41 @@ public class PathDetailPanel extends RenderableElement {
                     : "Unknown Physique";
             gfx.drawString(font, physiqueName, 6, iy + 16, 0xFFFFD27F, false);
         }
+
+
+        // TEMP DISPLAY OBTAINED RUNES
+        if (pathId != null && pathId.equals(ModPaths.RUNIC.getId())
+                && entityData != null
+                && entityData.getAttachedEntity() != null) {
+
+            int runeY = y + 6;
+
+            Set<ResourceLocation> unlockedRunes = ClientRunicData.getUnlockedRunes();
+            String runeText = "Runes count: " + unlockedRunes.size();
+
+            if (unlockedRunes.isEmpty()) {
+                runeText = "Runes: None";
+            } else {
+                StringBuilder builder = new StringBuilder("Runes: ");
+                boolean first = true;
+
+                for (ResourceLocation runeId : unlockedRunes) {
+                    Rune rune = Runes.get(runeId);
+                    String name = rune != null ? rune.getDisplayName().getString() : runeId.getPath();
+
+                    if (!first) builder.append(", ");
+                    builder.append(name);
+                    first = false;
+                }
+
+                runeText = builder.toString();
+            }
+
+            gfx.drawString(font, runeText, 6, runeY, 0xFFD8C8FF, false);
+
+            y = runeY + 12;
+        }
+
 
         super.render(gfx, mouseX, mouseY, partialTick);
     }

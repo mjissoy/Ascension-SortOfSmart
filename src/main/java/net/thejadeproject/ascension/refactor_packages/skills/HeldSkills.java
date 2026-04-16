@@ -14,10 +14,7 @@ import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class HeldSkills {
 
@@ -27,9 +24,9 @@ public class HeldSkills {
     private final HashMap<ResourceLocation,HeldSkill> skills = new HashMap<>();
 
 
-    private final ArrayList<HeldSkill> modifiedSyncBuffer = new ArrayList<>();
-    private final ArrayList<HeldSkill> additionSyncBuffer = new ArrayList<>();
-    private final ArrayList<HeldSkill> removalSyncBuffer = new ArrayList<>();
+    private final Set<ResourceLocation> modifiedSyncBuffer = new HashSet<>();
+    private final Set<ResourceLocation> additionSyncBuffer = new HashSet<>();
+    private final Set<ResourceLocation> removalSyncBuffer = new HashSet<>();
 
 
     /*
@@ -45,11 +42,12 @@ public class HeldSkills {
         
      */
 
-    public void addSkill(ResourceLocation skill,IPersistentSkillData skillData){
+    public void addSkill(ResourceLocation skill, IPersistentSkillData skillData){
         HeldSkill heldSkill = new HeldSkill(skill);
         heldSkill.setPersistentData(skillData);
-        skills.put(skill,heldSkill);
-        additionSyncBuffer.add(heldSkill);
+
+        skills.put(skill, heldSkill);
+        additionSyncBuffer.add(skill);
     }
 
 
@@ -71,18 +69,16 @@ public class HeldSkills {
         markDirty(skillKey);
     }
 
-
     public void markDirty(ResourceLocation skillKey){
         if(!skills.containsKey(skillKey)) return;
-        modifiedSyncBuffer.add(skills.get(skillKey));
+        modifiedSyncBuffer.add(skillKey);
     }
 
     public IPersistentSkillData removeSkill(ResourceLocation skillKey){
-        if(!skills.containsKey(skillKey))return null;
+        if(!skills.containsKey(skillKey)) return null;
         HeldSkill heldSkill = skills.remove(skillKey);
-        removalSyncBuffer.add(heldSkill);
+        removalSyncBuffer.add(skillKey);
         return heldSkill.getPersistentData();
-
     }
 
     public boolean hasSkill(ResourceLocation skillKey){
@@ -153,29 +149,33 @@ public class HeldSkills {
     }
 
 
-    public void encode(RegistryFriendlyByteBuf buf,boolean onlyChanges){
-
+    public void encode(RegistryFriendlyByteBuf buf, boolean onlyChanges) {
         buf.writeBoolean(onlyChanges);
-        if(onlyChanges) encodeChanges(buf);
 
+        if (onlyChanges) {
+            encodeChanges(buf);
+        } else {
+            encodeFull(buf, this);
+        }
     }
-    private void encodeChanges(RegistryFriendlyByteBuf buf){
-        //write added
 
+
+    private void encodeChanges(RegistryFriendlyByteBuf buf){
         buf.writeInt(additionSyncBuffer.size());
-        for(HeldSkill heldSkill : additionSyncBuffer){
-            heldSkill.encode(buf);
+        for(ResourceLocation key : additionSyncBuffer){
+            skills.get(key).encode(buf);
         }
-        //write removed
+
         buf.writeInt(removalSyncBuffer.size());
-        for(HeldSkill heldSkill : removalSyncBuffer){
-            ByteBufHelper.encodeString(buf,heldSkill.getKey().toString());
+        for(ResourceLocation key : removalSyncBuffer){
+            ByteBufHelper.encodeString(buf, key.toString());
         }
-        //write modified
+
         buf.writeInt(modifiedSyncBuffer.size());
-        for(HeldSkill heldSkill : modifiedSyncBuffer){
-            heldSkill.encode(buf);
+        for(ResourceLocation key : modifiedSyncBuffer){
+            skills.get(key).encode(buf);
         }
+
         clearBuffers();
 
     }

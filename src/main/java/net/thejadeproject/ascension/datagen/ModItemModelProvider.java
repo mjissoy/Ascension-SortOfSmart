@@ -26,6 +26,11 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
 
+        // TEMP Runes
+        runes(ModItems.ARMOR_RUNE.get());
+        runes(ModItems.ENDURANCE_RUNE.get());
+        runes(ModItems.STRENGTH_RUNE.get());
+        runes(ModItems.VITALITY_RUNE.get());
 
 
         //Block Items
@@ -293,6 +298,19 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", textureLoc);
     }
+
+    // TEMP RUNE BUILDER
+    public ItemModelBuilder runes(Item item) {
+        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
+        String itemName = itemId.getPath();
+        ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "item/runes/" + itemName);
+
+        return getBuilder(itemName)
+                .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", textureLoc);
+    }
+
+
     public ItemModelBuilder herbs(Item item) {
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
         String itemName = itemId.getPath();

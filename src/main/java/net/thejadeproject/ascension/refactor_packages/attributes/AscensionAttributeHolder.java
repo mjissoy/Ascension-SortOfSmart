@@ -47,6 +47,7 @@ public class AscensionAttributeHolder {
             instance.log();
         }
     }
+
     public static void encode(RegistryFriendlyByteBuf buf,AscensionAttributeHolder holder){
         buf.writeInt(holder.attributes.size());
         for(AttributeValueContainer container : holder.attributes.values()){

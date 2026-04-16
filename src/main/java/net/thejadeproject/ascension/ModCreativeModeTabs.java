@@ -61,6 +61,12 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.WORLD_AXIS_TALISMAN);
                         output.accept(ModItems.VOID_MARKING_TALISMAN);
                         output.accept(ModItems.DEATH_RECALL_TALISMAN);
+
+                        output.accept(ModItems.STRENGTH_RUNE);
+                        output.accept(ModItems.ARMOR_RUNE);
+                        output.accept(ModItems.VITALITY_RUNE);
+                        output.accept(ModItems.ENDURANCE_RUNE);
+
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_TOOLS_TAB = CREATIVE_MODE_TAB.register("ascension_tools_tab",

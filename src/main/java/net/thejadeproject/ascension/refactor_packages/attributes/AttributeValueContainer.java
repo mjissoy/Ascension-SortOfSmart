@@ -20,6 +20,7 @@ import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainer;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -232,6 +233,20 @@ public class AttributeValueContainer extends ValueContainer {
         System.out.print(getValue());
         if (isSuppressed()) System.out.print(" (" + getUnsuppressedValue() + ")");
         System.out.println(" base : " + getBaseValue());
+
+        System.out.println("  cachedAttributeValue: " + cachedAttributeValue);
+        System.out.println("  cachedBaseStat: " + cachedBaseStat);
+
+        Collection<ValueContainerModifier> modifiers = getAllModifiers();
+        if (!modifiers.isEmpty()) {
+            System.out.println("  Modifiers:");
+            for (ValueContainerModifier modifier : modifiers) {
+                System.out.println("   - " + modifier.getIdentifier()
+                        + " | op=" + modifier.getOperation()
+                        + " | val=" + modifier.getVal()
+                        + " | group=" + modifier.getGroupIdentifier());
+            }
+        }
     }
 
 

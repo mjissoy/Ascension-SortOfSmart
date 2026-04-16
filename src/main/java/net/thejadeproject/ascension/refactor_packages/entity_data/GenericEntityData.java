@@ -527,22 +527,29 @@ public class GenericEntityData implements IEntityData {
         System.out.println("trying to set technique");
         ITechnique techniqueInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique);
         ResourceLocation path = techniqueInstance.getPath();
-        if(!pathDataLocation.containsKey(path)) return false;
+        if(!pathDataLocation.containsKey(path)) {
+            System.out.println("setTechnique failed: path not present yet for " + path);
+            return false;
+        }
         PathData pathData = heldFormData.get(pathDataLocation.get(path)).getPathData(path);
-        if(pathData == null) return false;
+        if(pathData == null) {
+            System.out.println("setTechnique failed: pathData is null for " + path);
+            return false;
+        }
         ITechnique oldTechnique = null;
         if(pathData.getLastUsedTechnique() != null){
 
-            if(technique.equals(pathData.getLastUsedTechnique())){
-                return false; //we have already learned this technique
+            if(technique.equals(pathData.getLastUsedTechnique())) {
+                System.out.println("setTechnique failed: already using technique " + technique);
+                return false;
             }
+
             oldTechnique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
             oldTechnique.onTechniqueRemoved(this,pathData.getTechniqueData(pathData.getLastUsedTechnique()));
         }
 
         //TODO then check compatibility with technique history, if even 1 is not compatible we reset cultivation data
         if(oldTechnique != null){
-            //there was a previous technique so check for compatibility
             pathData.removeLastUsedTechnique();
             for(ResourceLocation usedTechnique : pathData.getTechniqueHistory()){
                 if(techniqueInstance.isCompatibleWith(usedTechnique)) continue;

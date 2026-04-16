@@ -54,13 +54,28 @@ public class ModTechniques {
                     .setStatChangeHandler(testHandler));
 
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_MONARCH_TECHNIQUE = TECHNIQUES.register("rune_monarch_technique", ()->
-            new GenericTechnique(ModPaths.RUNIC.getId(), Component.translatable("ascension.technique.rune_monarch"), 50.0,Set.of())
+            new GenericTechnique(
+                    ModPaths.RUNIC.getId(),
+                    Component.translatable("ascension.technique.rune_monarch"),
+                    50.0,
+                    Set.of(ModPaths.ESSENCE.getId())
+            )
                     .setShortDescription(Component.translatable("ascension.technique.rune_monarch.short_description"))
                     .setDescription(Component.translatable("ascension.technique.rune_monarch.description"))
                     .setStatChangeHandler(testHandler2));
 
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_SERVANT_TECHNIQUE = TECHNIQUES.register("rune_servant_technique", ()->
-            new GenericTechnique(ModPaths.RUNIC.getId(), Component.translatable("ascension.technique.rune_servant"), 2.0,Set.of())
+            new GenericTechnique(
+                    ModPaths.RUNIC.getId(),
+                    Component.translatable("ascension.technique.rune_servant"),
+                    2.0,
+                    Set.of()
+            ) {
+                @Override
+                public int getMaxMajorRealm() {
+                    return 1;
+                }
+            }
                     .setShortDescription(Component.translatable("ascension.technique.rune_servant.short_description"))
                     .setDescription(Component.translatable("ascension.technique.rune_servant.description"))
                     .setStatChangeHandler(testHandler2));

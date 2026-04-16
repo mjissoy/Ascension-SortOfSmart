@@ -20,6 +20,7 @@ import net.thejadeproject.ascension.refactor_packages.network.server_bound.skill
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.SetActiveSlot;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.UpdateSkillSlot;
+import net.thejadeproject.ascension.runic_path.network.SyncRunes;
 
 
 public class ModPayloads {
@@ -74,6 +75,13 @@ public class ModPayloads {
                 SyncPhysique.TYPE,
                 SyncPhysique.STREAM_CODEC,
                 SyncPhysique::handlePayload
+        );
+
+        // TEMP Rune Syncing
+        registrar.playToClient(
+                SyncRunes.TYPE,
+                SyncRunes.STREAM_CODEC,
+                SyncRunes::handlePayload
         );
 
 

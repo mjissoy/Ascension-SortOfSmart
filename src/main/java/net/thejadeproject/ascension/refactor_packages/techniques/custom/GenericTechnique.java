@@ -5,7 +5,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.breakthroughs.IBreakthroughInstance;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -22,6 +21,9 @@ import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.IStabilityHandler;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.LnStabilityHandler;
+import net.thejadeproject.ascension.runic_path.Runes;
+import net.thejadeproject.ascension.runic_path.RunicPathHelper;
+import net.thejadeproject.ascension.runic_path.RunicRuneData;
 
 import java.util.Set;
 
@@ -74,18 +76,32 @@ public class GenericTechnique implements ITechnique {
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.giveSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
-        if(getPath().equals(ModPaths.RUNIC.getId())){
+
+        // TEMP Runic Path
+        if (getPath().equals(ModPaths.RUNIC.getId())) {
             heldEntity.giveSkill(
                     ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(),
-                    new GenericCultivationSkillData(baseRate, secondaryPaths),
                     ModForms.MORTAL_VESSEL.getId()
             );
-            heldEntity.giveSkill(
-                    ModSkills.RUNIC_FORTIFICATION.getId(),
-                    ModForms.MORTAL_VESSEL.getId()
-            );
+
+            // Passive Skills
+            if (RunicPathHelper.hasSelectedRune(heldEntity, 0, Runes.ARMOR.getId()))
+                heldEntity.giveSkill(
+                        ModSkills.RUNIC_FORTIFICATION.getId(),
+                        ModForms.MORTAL_VESSEL.getId()
+                );
+
+            if (RunicPathHelper.hasSelectedRune(heldEntity, 0, Runes.STRENGTH.getId())) {
+                heldEntity.giveSkill(
+                        ModSkills.RUNIC_STRENGTH.getId(),
+                        ModForms.MORTAL_VESSEL.getId()
+                );
+            }
         }
+
     }
+
+
 
     @Override
     public void onTechniqueRemoved(IEntityData heldEntity, ITechniqueData techniqueData) {
@@ -99,6 +115,7 @@ public class GenericTechnique implements ITechnique {
         if(getPath().equals(ModPaths.RUNIC.getId())){
             heldEntity.removeSkill(ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(), ModForms.MORTAL_VESSEL.getId());
             heldEntity.removeSkill(ModSkills.RUNIC_FORTIFICATION.getId(), ModForms.MORTAL_VESSEL.getId());
+            heldEntity.removeSkill(ModSkills.RUNIC_STRENGTH.getId(), ModForms.MORTAL_VESSEL.getId());
         }
     }
 
@@ -119,6 +136,20 @@ public class GenericTechnique implements ITechnique {
         for (IEntityFormData formData : entityData.getFormData()){
             formData.getStatSheet().sync(serverPlayer,formData.getEntityFormId());
         }
+
+        //TEMP: Forcefully refresh Runic Fortification Skill Values on Realm Change
+        if (getPath().equals(ModPaths.RUNIC.getId())) {
+            if (entityData.hasSkill(ModSkills.RUNIC_FORTIFICATION.getId())) {
+                entityData.removeSkill(ModSkills.RUNIC_FORTIFICATION.getId(), ModForms.MORTAL_VESSEL.getId());
+                entityData.giveSkill(ModSkills.RUNIC_FORTIFICATION.getId(), ModForms.MORTAL_VESSEL.getId());
+            }
+            if (entityData.hasSkill(ModSkills.RUNIC_STRENGTH.getId())) {
+                entityData.removeSkill(ModSkills.RUNIC_STRENGTH.getId(), ModForms.MORTAL_VESSEL.getId());
+                entityData.giveSkill(ModSkills.RUNIC_STRENGTH.getId(), ModForms.MORTAL_VESSEL.getId());
+            }
+        }
+
+
     }
 
     @Override
@@ -143,17 +174,17 @@ public class GenericTechnique implements ITechnique {
 
     @Override
     public ITechniqueData freshTechniqueData(IEntityData heldEntity) {
-        return null;
+        return new EmptyTechniqueData();
     }
 
     @Override
     public ITechniqueData fromCompound(CompoundTag tag) {
-        return null;
+        return new EmptyTechniqueData();
     }
 
     @Override
     public ITechniqueData fromNetwork(RegistryFriendlyByteBuf buf) {
-        return null;
+        return new EmptyTechniqueData();
     }
 
     @Override
@@ -180,5 +211,7 @@ public class GenericTechnique implements ITechnique {
         this.shortDescription = shortDescription;
         return this;
     }
+
+
 
 }

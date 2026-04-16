@@ -292,7 +292,7 @@ public class TechniquesPanel extends RenderableElement {
         y += 10;
 
         String capRealm = selected.getMajorRealmName(selected.getMaxMajorRealm()).getString()
-                + " (" + selected.getMaxMajorRealm() + " / "
+                + " (" + (selected.getMaxMajorRealm() + 1) + " / "
                 + selected.getMaxMinorRealm(selected.getMaxMajorRealm()) + ")";
 
         for (String line : wrapText(capRealm, font, DETAIL_W - 6)) {

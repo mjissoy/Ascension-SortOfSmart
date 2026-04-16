@@ -45,35 +45,46 @@ public class HeldSkill  {
 
         return tag;
     }
-    public static HeldSkill read(CompoundTag tag,IEntityData heldEntity){
-        HeldSkill heldSkill = new HeldSkill(ResourceLocation.bySeparator(tag.getString("skill_key"),':'));
+
+
+    public static HeldSkill read(CompoundTag tag, IEntityData heldEntity){
+        HeldSkill heldSkill = new HeldSkill(ResourceLocation.bySeparator(tag.getString("skill_key"), ':'));
 
         if(tag.contains("skill_data")){
-            heldSkill.setPersistentData(heldSkill.getSkill().fromCompound(tag,heldEntity));
+            heldSkill.setPersistentData(
+                    heldSkill.getSkill().fromCompound(tag.getCompound("skill_data"), heldEntity)
+            );
         }
 
         return heldSkill;
     }
 
     public void encode(RegistryFriendlyByteBuf buf){
-        System.out.println("writing skill : "+getKey().toString());
-        ByteBufHelper.encodeString(buf,getKey().toString());
+        System.out.println("writing skill : " + getKey().toString());
+        ByteBufHelper.encodeString(buf, getKey().toString());
 
-        System.out.println("data encoded? : "+(persistentData != null));
-        if(persistentData != null) persistentData.encode(buf);
+        boolean hasData = persistentData != null;
+        buf.writeBoolean(hasData);
 
-
+        System.out.println("data encoded? : " + hasData);
+        if (hasData) {
+            persistentData.encode(buf);
+        }
     }
+
     public static HeldSkill decode(RegistryFriendlyByteBuf buf){
         ResourceLocation skillKey = ByteBufHelper.readResourceLocation(buf);
 
         HeldSkill skill = new HeldSkill(skillKey);
 
-
-        IPersistentSkillData data = skill.getSkill().fromNetwork(buf);
-
-        skill.setPersistentData(data);
+        boolean hasData = buf.readBoolean();
+        if (hasData) {
+            IPersistentSkillData data = skill.getSkill().fromNetwork(buf);
+            skill.setPersistentData(data);
+        }
 
         return skill;
     }
+
+
 }

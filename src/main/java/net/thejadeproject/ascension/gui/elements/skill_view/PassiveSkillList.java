@@ -48,7 +48,7 @@ public class PassiveSkillList extends RenderableElement {
 
         for (ResourceLocation skillId : entityData.getAllSkills()) {
             if (AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof ICastableSkill) continue;
-            scrollBox.addChild(new PassiveSkillIcon(getUiFrame(), skillId));
+            scrollBox.addChild(new PassiveSkillIcon(this, getUiFrame(), skillId));
         }
     }
 
@@ -66,6 +66,7 @@ public class PassiveSkillList extends RenderableElement {
     public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTick) {
         int w = getWidth(), h = getHeight();
         var font = Minecraft.getInstance().font;
+
         gfx.fill(0, 0, w, h, 0xCC050810);
         gfx.fill(0,   0,   w,   1,   0xFF4FC3F7);
         gfx.fill(0,   h-1, w,   h,   0xFF4FC3F7);
@@ -79,8 +80,10 @@ public class PassiveSkillList extends RenderableElement {
 
         gfx.drawString(font, "PASSIVE", 5, 3, 0xFF4FC3F7, false);
         gfx.drawString(font, "\u00d7", w - 12 + (10 - font.width("\u00d7") + 1) / 2, 3, 0xFFFF5555, false);
+
         super.render(gfx, mouseX, mouseY, partialTick);
 
-        
     }
+
+
 }
