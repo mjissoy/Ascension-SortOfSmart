@@ -23,6 +23,7 @@ import net.thejadeproject.ascension.clients.renderer.FlameStandRenderer;
 import net.thejadeproject.ascension.clients.renderer.PillCauldronLowHumanBlockEntityRenderer;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.CushionRenderer;
+import net.thejadeproject.ascension.entity.client.form.PlayerBodyEntityRenderer;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
 import net.thejadeproject.ascension.events.ModDataComponents;
 
@@ -87,6 +88,7 @@ public class AscensionCraftClient {
                     ModBlockEntities.FLAME_STAND.get(),
                     FlameStandRenderer::new
             );
+
         }
 
 
@@ -112,7 +114,7 @@ public class AscensionCraftClient {
                 EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
                 EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
                 EntityRenderers.register(ModEntities.CUSHION_ENTITY.get(), CushionRenderer::new);
-
+                EntityRenderers.register(ModEntities.FAKE_PLAYER.get(), PlayerBodyEntityRenderer::new);
                 // Register item properties
                 ItemProperties.register(ModItems.SPIRITUAL_STONE.get(),
                         ResourceLocation.fromNamespaceAndPath("ascension", "stack_size"),

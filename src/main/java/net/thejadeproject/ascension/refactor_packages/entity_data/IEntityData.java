@@ -39,8 +39,6 @@ import java.util.*;
  */
 public interface IEntityData {
     Entity getAttachedEntity();
-    boolean isAttachedEntityLoaded(); //in scenarios where data is stored separately from the entity itself
-    void setAttachedEntityLoaded(boolean loaded); //useful for implementations that rely on a manager(mine)
 
     //========================== FORM DATA HANDLING ==========================
 

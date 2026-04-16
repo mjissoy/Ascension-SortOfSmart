@@ -60,6 +60,8 @@ public class PathData {
      */
     private final ArrayList<ResourceLocation> techniqueHistory = new ArrayList<>();
     private final HashMap<ResourceLocation, ITechniqueData> techniqueData = new HashMap<>();
+
+
     public Set<Integer> getTechniqueRealms(ResourceLocation technique){
         HashSet<Integer> realms = new HashSet<>();
         for(int i =0;i<techniqueHistory.size();i++){
@@ -97,6 +99,43 @@ public class PathData {
     //if you want to stability for when you breakthrough from 0-1 you put 0, since that is the realm you where stable in
     public int getStability(int realm){
         return realmStability.get(realm);
+    }
+    public void remove(IEntityData entityData){
+
+        int majorRealm = this.majorRealm;
+        int minorRealm = this.minorRealm;
+        double currentRealmProgress = this.currentRealmProgress;
+        int currentRealmStability = this.currentRealmStability;
+        ResourceLocation lastUsedTechnique = this.lastUsedTechnique;
+        boolean breakingThrough = this.breakingThrough;
+        IBreakthroughInstance breakthroughInstance = this.breakthroughInstance;
+        ArrayList<Integer> realmStability = new ArrayList<>(this.realmStability);
+        ArrayList<ResourceLocation> techniqueHistory = new ArrayList<>(this.techniqueHistory);
+        HashMap<ResourceLocation, ITechniqueData> techniqueData = new HashMap<>(this.techniqueData);
+
+        handleRealmChange(0,0,entityData);
+        if(getLastUsedTechnique() != null){
+            AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(getLastUsedTechnique()).onTechniqueRemoved(entityData,this.techniqueData.get(getLastUsedTechnique()));
+        }
+
+        this.majorRealm = majorRealm;
+        this.minorRealm = minorRealm;
+        this.currentRealmStability = currentRealmStability;
+        this.currentRealmProgress = currentRealmProgress;
+        this.lastUsedTechnique = lastUsedTechnique;
+        this.breakingThrough = breakingThrough;
+        this.breakthroughInstance = breakthroughInstance;
+        this.realmStability.clear();
+        this.techniqueData.clear();
+        this.techniqueHistory.clear();
+        this.realmStability.addAll(realmStability);
+        this.techniqueData.putAll(techniqueData);
+        this.techniqueHistory.addAll(techniqueHistory);
+    }
+    public void add(IEntityData entityData){
+        //TODO "simulate" realm change
+
+
     }
     public void handleRealmChange(int newMajorRealm,int newMinorRealm,IEntityData entityData){
         if(lastUsedTechnique == null) return;
@@ -189,7 +228,13 @@ public class PathData {
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique).onFormAdded(heldEntity,addedFormData,this);
         }
     };
+    public boolean cultivatedRealm(int majorRealm,int minorRealm,ResourceLocation technique){
+        if(majorRealm == this.majorRealm && technique.equals(lastUsedTechnique) && minorRealm<=this.minorRealm) return true;
 
+        if(getTechniqueHistory().size()<majorRealm) return false;
+
+        return techniqueHistory.get(majorRealm).equals(technique);
+    }
     public Collection<ResourceLocation> getTechniqueHistory(){
         return techniqueHistory;
     }

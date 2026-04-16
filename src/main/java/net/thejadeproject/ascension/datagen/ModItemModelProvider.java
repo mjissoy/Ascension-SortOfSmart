@@ -166,8 +166,6 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         //Not Used For Anything in mod except being icons etc...
-        basicItem(ModItems.ASCENSION_ICON.get());
-
 
         //Tablet Of Destructions
         tablet(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get());

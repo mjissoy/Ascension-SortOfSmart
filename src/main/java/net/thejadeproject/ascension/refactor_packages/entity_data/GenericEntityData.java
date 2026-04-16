@@ -30,6 +30,7 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 
+import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
 import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
@@ -233,15 +234,7 @@ public class GenericEntityData implements IEntityData {
         return attachedEntity;
     }
 
-    @Override
-    public boolean isAttachedEntityLoaded() {
-        return false; //TODO
-    }
 
-    @Override
-    public void setAttachedEntityLoaded(boolean loaded) {
-        this.attachedEntityLoaded = loaded;
-    }
     public void setAttachedEntity(Entity attachedEntity) {
         this.attachedEntity = attachedEntity;
     }
@@ -250,9 +243,52 @@ public class GenericEntityData implements IEntityData {
         return heldFormData.get(activeForm);
     }
 
+    /*
+        the way it works
+        the form data is STILL ON THE ENTITY WHEN EVERYTHING ELSE IS FIRST REMOVED
+
+        then remove the form and re add all the data
+        this way when re adding it to a different entity we do not need to worry about double-dipping
+
+     */
     @Override
     public IEntityFormData removeEntityForm(ResourceLocation form) {
-        return null; //TODO
+        IEntityFormData removedForm = heldFormData.get(form);
+        if(removedForm == null) return  null;
+        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form).onRemoved(this,removedForm);
+        if(physiqueForm.equals(form)){
+            ResourceLocation oldPhysique = removedForm.getPhysiqueKey();
+            IPhysiqueData oldPhysiqueData = removedForm.getPhysiqueData();
+            //TODO handle physique removed
+            if(form.equals(ModForms.MORTAL_VESSEL)) setPhysique(ModPhysiques.MORTAL.getId(),null,ModForms.SOUL_FORM.getId());
+            else setPhysique(ModPhysiques.MORTAL.getId());
+            removedForm.setPhysique(oldPhysique,oldPhysiqueData);
+        }
+        if (bloodlineForm.equals(form)) {
+            //TODO
+        }
+        for(PathData pathData : removedForm.getAllPathData()){
+            //TODO handle realm change to 0,0 then remove technique
+            pathDataLocation.remove(pathData.getPath());
+            pathData.remove(this);
+        }
+        //TODO trigger onFormRemoved of everything else
+        for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : heldFormData.entrySet()){
+            IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
+            IEntityFormData heldFormData = heldForm.getValue();
+            heldFormFactory.onFormRemoved(this,heldFormData,removedForm);
+
+            if(heldFormData.getPhysiqueKey() != null){
+                heldFormData.getPhysique().onFormRemoved(this,form,heldFormData.getPhysiqueData());
+            }
+            if(heldFormData.getBloodlineKey() != null){
+                heldFormData.getBloodline().onFormRemoved(this,form,heldFormData.getBloodlineData());
+            }
+            for(PathData pathData : heldFormData.getAllPathData()) pathData.onFormRemoved(this,removedForm);
+            heldFormData.getHeldSkills().onFormRemoved(this,form);
+        }
+        heldFormData.remove(form);
+        return removedForm;
     }
 
     @Override
@@ -283,6 +319,11 @@ public class GenericEntityData implements IEntityData {
         IEntityForm formFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form);
         Set<Map.Entry<ResourceLocation,IEntityFormData>> forms = heldFormData.entrySet();
         heldFormData.put(form,formData);
+        formFactory.onAdded(this);
+
+        //TODO handle addition of existing data on formData
+        //TODO make sure to fully run re add stuff, essentially simulate it
+
 
         for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : forms){
             IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
@@ -294,6 +335,7 @@ public class GenericEntityData implements IEntityData {
     @Override
     public void setActiveForm(ResourceLocation activeForm) {
         this.activeForm = activeForm;
+        getAscensionAttributeHolder().updateAttributes(this);
     }
 
     @Override
@@ -319,7 +361,11 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public boolean setPhysique(ResourceLocation physique, IPhysiqueData physiqueData,ResourceLocation form) {
+        return setPhysique(physique,physiqueData,form,heldFormData.get(physiqueForm));
 
+    }
+
+    public boolean setPhysique(ResourceLocation physique,IPhysiqueData physiqueData,ResourceLocation form,IEntityFormData olPhysiqueForm){
         if(!heldFormData.containsKey(form)) return false;
 
 
@@ -327,8 +373,8 @@ public class GenericEntityData implements IEntityData {
         IPhysiqueData oldPhysiqueData = null;
         if(physiqueForm != null){
             //no old physique just replace directly
-            oldPhysique = heldFormData.get(physiqueForm).getPhysiqueKey();
-            oldPhysiqueData = heldFormData.get(physiqueForm).getPhysiqueData();
+            oldPhysique = olPhysiqueForm.getPhysiqueKey();
+            oldPhysiqueData = olPhysiqueForm.getPhysiqueData();
 
         }
         System.out.println("trying to replace :"+(oldPhysique == null ? "none" : oldPhysique.toString()));
@@ -338,8 +384,8 @@ public class GenericEntityData implements IEntityData {
         if(preEvent.isCanceled()) return false;
         physique = preEvent.getNewPhysique();
         if(oldPhysique != null){
-            heldFormData.get(physiqueForm).getPhysique().onPhysiqueRemoved(this,oldPhysiqueData,physique);
-            heldFormData.get(physiqueForm).setPhysique(null);
+            olPhysiqueForm.getPhysique().onPhysiqueRemoved(this,oldPhysiqueData,physique);
+            olPhysiqueForm.setPhysique(null);
         }
 
 
