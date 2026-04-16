@@ -383,6 +383,11 @@ public class GenericEntityData implements IEntityData {
     }
 
     @Override
+    public void setPhysiqueForm(ResourceLocation form) {
+        this.physiqueForm = form;
+    }
+
+    @Override
     public IPhysiqueData getPhysiqueData() {
         if (physiqueForm == null) return null;
         IEntityFormData formData = heldFormData.get(physiqueForm);
@@ -460,7 +465,7 @@ public class GenericEntityData implements IEntityData {
     //============================ CULTIVATION DATA HANDLING ==================================
     @Override
     public boolean hasPath(ResourceLocation path) {
-        return false;//TODO
+        return pathDataLocation.containsKey(path);
     }
 
     @Override

@@ -26,11 +26,15 @@ public record TriggerBreakthrough(ResourceLocation pathId) implements CustomPack
 
     public static void handlePayload(TriggerBreakthrough payload, IPayloadContext context) {
         context.enqueueWork(() -> {
+            if (payload.pathId() == null) return;
+
             IEntityData entityData = context.player().getData(ModAttachments.ENTITY_DATA);
             if (entityData.hasPath(payload.pathId())) {
                 var pathData = entityData.getPathData(payload.pathId());
-                pathData.setBreakingThrough(true);
-                pathData.sync(context.player());
+                if (pathData != null) {
+                    pathData.setBreakingThrough(true);
+                    pathData.sync(context.player());
+                }
             }
         });
     }

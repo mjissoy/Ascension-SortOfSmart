@@ -45,8 +45,13 @@ public record SyncPhysique(ResourceLocation form, ResourceLocation physique, IPh
         context.enqueueWork(()->{
             IEntityData entityData = context.player().getData(ModAttachments.ENTITY_DATA);
             IEntityFormData formData = entityData.getEntityFormData(payload.form);
+            if (formData == null) return;
+
             formData.setPhysique(payload.physique,payload.physiqueData);
+            entityData.setPhysiqueForm(payload.form);
+
 
         });
     }
+
 }

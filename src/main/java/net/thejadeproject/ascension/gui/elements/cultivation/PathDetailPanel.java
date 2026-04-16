@@ -95,6 +95,10 @@ public class PathDetailPanel extends RenderableElement {
         breakthroughBtn.getPositioning().setY(180 - 6 - btnH);
         breakthroughBtn.addEventListener(EasyEvents.MOUSE_DOWN_EVENT, e -> {
             if (e.getTarget() != breakthroughBtn) return;
+            if (pathId == null) {
+                e.setCanceled(true);
+                return;
+            }
             PacketDistributor.sendToServer(new TriggerBreakthrough(pathId));
             e.setCanceled(true);
         }, EventPhase.BUBBLE);
@@ -144,6 +148,8 @@ public class PathDetailPanel extends RenderableElement {
         BG.render(gfx);
 
         IEntityData entityData = Minecraft.getInstance().player.getData(ModAttachments.ENTITY_DATA);
+
+
         boolean hasPath = entityData != null && entityData.hasPath(pathId);
         PathData pathData = hasPath ? entityData.getPathData(pathId) : null;
         ITechnique technique = null;

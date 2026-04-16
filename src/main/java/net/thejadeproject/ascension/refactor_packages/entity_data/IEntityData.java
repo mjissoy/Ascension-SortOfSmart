@@ -61,6 +61,7 @@ public interface IEntityData {
     //============================ PHYSIQUE HANDLING =======================================
     boolean setPhysique(ResourceLocation physique);
     //calls a separate method so the physique can update things properly
+    void setPhysiqueForm(ResourceLocation form);
     boolean setPhysique(ResourceLocation physique,IPhysiqueData existingData);
     boolean setPhysique(ResourceLocation physique, IPhysiqueData existingData,ResourceLocation form);
     IPhysiqueData getPhysiqueData();

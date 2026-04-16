@@ -97,6 +97,11 @@ public class RemoteEntityData implements IEntityData{
     }
 
     @Override
+    public void setPhysiqueForm(ResourceLocation form) {
+
+    }
+
+    @Override
     public boolean setPhysique(ResourceLocation physique, IPhysiqueData existingData) {
         return false;
     }
