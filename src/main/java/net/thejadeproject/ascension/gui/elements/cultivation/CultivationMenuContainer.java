@@ -396,6 +396,7 @@ public class CultivationMenuContainer extends RenderableElement {
 
     @Override
     public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTick) {
+        refreshPathTabs();
         Font font = Minecraft.getInstance().font;
 
         BG.render(gfx);
@@ -475,6 +476,31 @@ public class CultivationMenuContainer extends RenderableElement {
         gfx.pose().translate(x, y, 0);
         texture.render(gfx);
         gfx.pose().popPose();
+    }
+
+    private void refreshPathTabs() {
+        pathTabs.clear();
+
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null) return;
+
+        IEntityData entityData = mc.player.getData(ModAttachments.ENTITY_DATA);
+        if (entityData == null) return;
+
+        for (ResourceLocation pathId : AscensionRegistries.Paths.PATHS_REGISTRY.keySet()) {
+            if (entityData.hasPath(pathId)) {
+                pathTabs.add(pathId);
+            }
+        }
+
+        if (selectedPath != null && !pathTabs.contains(selectedPath)) {
+            selectedPath = null;
+            pathPanel.setActive(false);
+        }
+
+        if (selectedPath == null && !pathTabs.isEmpty()) {
+            selectPath(pathTabs.get(0));
+        }
     }
 
 }

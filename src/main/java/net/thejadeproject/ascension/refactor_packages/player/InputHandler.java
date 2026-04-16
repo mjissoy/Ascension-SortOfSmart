@@ -19,6 +19,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.gui.elements.cultivation.CultivationMenuContainer;
 import net.thejadeproject.ascension.gui.elements.general.Container;
+import net.thejadeproject.ascension.gui.elements.general.CultivationScreen;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.gui.elements.skill_casting.SkillHotBarContainer;
 import net.thejadeproject.ascension.gui.elements.skill_view.SkillMenuContainer;
@@ -68,7 +69,7 @@ public class InputHandler {
             root.addChild(cult);
             root.addChild(skillMenu);
             frame.setRoot(root);
-            Minecraft.getInstance().setScreen(new EasyScreen(Component.literal("cultivation"), frame));
+            Minecraft.getInstance().setScreen(new CultivationScreen(Component.literal("cultivation"), frame));
         }));
     }};
     public static class ActionHandler {

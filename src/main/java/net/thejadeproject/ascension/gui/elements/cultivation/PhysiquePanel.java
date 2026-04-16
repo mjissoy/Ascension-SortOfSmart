@@ -102,8 +102,14 @@ public class PhysiquePanel extends RenderableElement {
         Font font = mc.font;
         int w = getWidth();
 
-        IEntityData entityData = mc.player == null ? null : mc.player.getData(ModAttachments.ENTITY_DATA);
-        IPhysique physique = entityData == null ? null : entityData.getPhysique();
+        IEntityData entityData = mc.player.getData(ModAttachments.ENTITY_DATA);
+
+        ResourceLocation form = entityData.getPhysiqueForm();
+        IPhysique physique = null;
+
+        if (form != null) {
+            physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(form);
+        }
 
         BG.render(gfx);
         gfx.drawString(font, "PHYSIQUE", 5, 3, 0xFF4FC3F7, false);
