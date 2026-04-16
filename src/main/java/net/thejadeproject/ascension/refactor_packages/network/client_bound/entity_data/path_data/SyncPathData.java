@@ -42,7 +42,7 @@ public record SyncPathData(ResourceLocation form,PathData pathData)implements Cu
         context.enqueueWork(()->{
             IEntityData entityData = context.player().getData(ModAttachments.ENTITY_DATA);
             System.out.println("trying to sync for form: "+payload.form);
-            entityData.addPathData(payload.pathData.getPath(), payload.pathData);
+            entityData.setPathData(payload.form, payload.pathData.getPath(), payload.pathData);
         });
     }
 }

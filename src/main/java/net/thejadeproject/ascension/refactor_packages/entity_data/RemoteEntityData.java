@@ -239,6 +239,11 @@ public class RemoteEntityData implements IEntityData{
     }
 
     @Override
+    public void setPathData(ResourceLocation form, ResourceLocation path, PathData data) {
+
+    }
+
+    @Override
     public PathBonusHandler getPathBonusHandler() {
         return null;
     }

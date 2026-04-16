@@ -98,6 +98,7 @@ public interface IEntityData {
     void addPathData(ResourceLocation path,PathData pathData);
     //a shortcut for removing cultivation, anything more complex must be done through the path data and path
     void removePath(ResourceLocation path);
+    void setPathData(ResourceLocation form, ResourceLocation path, PathData data);
 
     PathBonusHandler getPathBonusHandler();
     //============================ BREAKTHROUGH HANDLING ===================================

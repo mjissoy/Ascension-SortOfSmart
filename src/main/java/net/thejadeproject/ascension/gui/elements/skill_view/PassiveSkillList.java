@@ -80,5 +80,7 @@ public class PassiveSkillList extends RenderableElement {
         gfx.drawString(font, "PASSIVE", 5, 3, 0xFF4FC3F7, false);
         gfx.drawString(font, "\u00d7", w - 12 + (10 - font.width("\u00d7") + 1) / 2, 3, 0xFFFF5555, false);
         super.render(gfx, mouseX, mouseY, partialTick);
+
+        
     }
 }

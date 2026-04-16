@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.skills.custom.passive;
 
 import net.lucent.easygui.gui.textures.ITextureData;
+import net.lucent.easygui.gui.textures.TextureData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -116,7 +117,10 @@ public class RunicFortificationSkill implements ISkill {
 
     @Override
     public ITextureData getIcon() {
-        return null;
+        return new TextureData(
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/spells/iron_body.png"),
+                16,16
+        );
     }
 
     @Override

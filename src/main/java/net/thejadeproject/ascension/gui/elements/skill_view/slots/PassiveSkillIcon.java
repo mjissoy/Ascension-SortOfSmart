@@ -7,6 +7,7 @@ import net.lucent.easygui.gui.events.EasyEvents;
 import net.lucent.easygui.gui.events.EventPhase;
 import net.lucent.easygui.gui.events.type.EasyEvent;
 import net.lucent.easygui.gui.textures.ITextureData;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -43,7 +44,14 @@ public class PassiveSkillIcon extends RenderableElement {
     public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTick) {
         int w = getWidth(), h = getHeight();
         gfx.fill(0, 0, w, h, 0xCC050810);
-        if (isHovered()) gfx.fill(0, 0, w, h, 0x22FFFFFF);
+        if (isHovered()) {
+            gfx.renderTooltip(
+                    Minecraft.getInstance().font,
+                    AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId).getDescription(),
+                    mouseX,
+                    mouseY
+            );
+        }
         gfx.fill(0, h - 1, w, h, 0x33006396);
         if (skillIcon != null) skillIcon.renderAt(gfx, 2, 2);
         super.render(gfx, mouseX, mouseY, partialTick);
@@ -56,7 +64,9 @@ public class PassiveSkillIcon extends RenderableElement {
         if(text == null) text = Component.empty();
         label.setText(text);
     }
+
     public boolean isHovered(){return hovered;}
+
     public void onMouseMove(EasyEvent event){
         hovered = event.getTarget() == this;
     }

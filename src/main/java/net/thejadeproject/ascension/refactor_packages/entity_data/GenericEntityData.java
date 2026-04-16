@@ -593,6 +593,14 @@ public class GenericEntityData implements IEntityData {
     }
 
     @Override
+    public void setPathData(ResourceLocation form, ResourceLocation path, PathData data) {
+        if (!heldFormData.containsKey(form)) return;
+
+        heldFormData.get(form).addPathData(path, data);
+        pathDataLocation.put(path, form);
+    }
+
+    @Override
     public PathBonusHandler getPathBonusHandler() {
         return pathBonusHandler;
     }
