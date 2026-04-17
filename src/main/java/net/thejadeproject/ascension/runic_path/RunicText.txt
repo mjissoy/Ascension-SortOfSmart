@@ -38,7 +38,7 @@ To begin with the Runic Path, one must first enter the second major realm of the
 
 Runes can be gained by ----- (actual method undecided).
 There is a limit to how many runes you get in each major realm (out of all four runes per realm)
-This is determined by your Technique (worse techniques = one, better techniques <= three)
+This is determined by your Technique (worse techniques -> one, better techniques -> three)
 Rune selection slots are unlocked progressively across minor realms within a major realm, based on the technique’s maximum rune capacity set with RunicTechnique.setMaxRunesAllRealms()
 Runes currently grant passive skills (stat modifiers or scaling effects), with potential expansion into more complex effects (active skills, aoe effects, player marking etc)
 
@@ -64,7 +64,7 @@ Techniques:
     >> Lesser Divine Rune Creation Technique
         - A mid-grade specialized Runic Technique, which lets u cultivate through Runic Flesh, Soul, and Spark
         - Grants 2 fixed (pre-selected) runes per realm instead of allowing player choice
-        - Requires one to be above y=210 to cultivate
+        - Requires one to be above y 210 to cultivate
 
     // IDEAS
     >> Fathomless Rune Creation Technique? WIP
