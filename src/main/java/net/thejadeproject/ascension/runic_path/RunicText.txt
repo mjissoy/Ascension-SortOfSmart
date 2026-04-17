@@ -4,6 +4,8 @@ This is notes for the Runic Path:
     // TLDR - A passive skill heavy Path with different build options... maybe make the attribute gain from realms a little smaller? or make progression more difficult somehow
 
 Realms:
+To begin with the Runic Path, one must first enter the second major realm of the Essence/Body/Soul Path.
+
     >> Runic Flesh
         Runes are drawn into the flesh, empowering the body
             - Strength Runes -> Runic Strength Skill

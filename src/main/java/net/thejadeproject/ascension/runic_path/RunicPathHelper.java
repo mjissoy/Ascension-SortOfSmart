@@ -262,4 +262,24 @@ public final class RunicPathHelper {
             }
         }
     }
+
+    public static boolean meetsRunicPrerequisite(IEntityData entityData) {
+        if (entityData == null) return false;
+
+        return hasReachedMajorRealm(entityData, ModPaths.ESSENCE.getId(), 1)
+                || hasReachedMajorRealm(entityData, ModPaths.BODY.getId(), 1)
+                || hasReachedMajorRealm(entityData, ModPaths.SOUL.getId(), 1);
+    }
+
+    public static boolean hasReachedMajorRealm(IEntityData entityData, ResourceLocation pathId, int requiredMajorRealm) {
+        if (entityData == null || pathId == null) return false;
+        if (!entityData.hasPath(pathId)) return false;
+
+        var pathData = entityData.getPathData(pathId);
+        if (pathData == null) return false;
+
+        return pathData.getMajorRealm() >= requiredMajorRealm;
+    }
+
+
 }

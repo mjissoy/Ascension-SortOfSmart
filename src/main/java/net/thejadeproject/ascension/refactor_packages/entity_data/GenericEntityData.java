@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.refactor_packages.entity_data;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -40,6 +41,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillDat
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
+import net.thejadeproject.ascension.runic_path.technique.RunicTechnique;
 
 import java.util.*;
 //TODO set up some sort of tick handler for entity data and all its parts that need it
@@ -556,6 +558,14 @@ public class GenericEntityData implements IEntityData {
     public boolean setTechnique(ResourceLocation technique, ITechniqueData techniqueData) {
         System.out.println("trying to set technique");
         ITechnique techniqueInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique);
+
+        if (techniqueInstance instanceof RunicTechnique runicTechnique) {
+            if (!runicTechnique.canUseTechnique(this)) {
+                System.out.println("Runic technique denied: prerequisite not met");
+                return false;
+            }
+        }
+
         ResourceLocation path = techniqueInstance.getPath();
         if(!pathDataLocation.containsKey(path)) {
             System.out.println("setTechnique failed: path not present yet for " + path);
