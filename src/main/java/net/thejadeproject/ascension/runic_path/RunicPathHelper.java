@@ -149,6 +149,9 @@ public final class RunicPathHelper {
             return false;
         }
 
+        if (runeData.hasSelectedRune(realm, runeId)) {
+            return false;
+        }
         return runeData.addSelectedRune(realm, runeId);
     }
 
@@ -212,13 +215,32 @@ public final class RunicPathHelper {
     public static void refreshSoulRuneSkills(IEntityData entityData, RunicRuneData runeData) {
         if (entityData == null || runeData == null) return;
 
-        List<ResourceLocation> selected = runeData.getSelectedRunes(0);
+        List<ResourceLocation> selected = runeData.getSelectedRunes(1);
 
         refreshSkill(
                 entityData,
                 ModSkills.RUNIC_CULTIVATION_BOOST.getId(),
                 selected.contains(Runes.ESSENCE.getId())
         );
+    }
+
+    public static boolean toggleRuneSelection(IEntityData entityData, RunicRuneData runeData, ResourceLocation runeId) {
+        if (entityData == null || runeData == null || runeId == null) return false;
+
+        Rune rune = Runes.get(runeId);
+        if (rune == null) return false;
+
+        int majorRealm = rune.getMajorRealm();
+
+        if (runeData.hasSelectedRune(majorRealm, runeId)) {
+            return runeData.removeSelectedRune(majorRealm, runeId);
+        }
+
+        if (!canSelectMoreRunes(entityData, majorRealm)) {
+            return false;
+        }
+
+        return runeData.addSelectedRune(majorRealm, runeId);
     }
 
 

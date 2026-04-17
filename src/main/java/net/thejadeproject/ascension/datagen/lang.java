@@ -98,10 +98,6 @@ public class lang extends LanguageProvider {
                 add("item.ascension.endurance_rune", "Endurance Rune");
                 add("ascension.rune.endurance.description", "A rune that empowers Endurance");
 
-                add("ascension.rune.endurance", "Endurance Rune");
-                add("item.ascension.endurance_rune", "Endurance Rune");
-                add("ascension.rune.endurance.description", "A rune that empowers Endurance");
-
                 add("ascension.rune.essence", "Essence Rune");
                 add("item.ascension.essence_rune", "Essence Rune");
                 add("ascension.rune.essence.description", "A rune that empowers Essence");

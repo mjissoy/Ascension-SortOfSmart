@@ -86,16 +86,42 @@ public class RuneItem extends Item {
         RunicRuneData runeData = RunicPathHelper.getRuneData(entityData);
 
         boolean added = runeData.unlockRune(runeId);
-        if (!added) {
+
+        if (added) {
+            RunicPathHelper.autoSelectRuneIfPossible(entityData, runeData, runeId);
+
             player.displayClientMessage(
-                    Component.literal("You already comprehend ").append(rune.getDisplayName()).append(Component.literal(".")),
+                    Component.literal("You have comprehended ")
+                            .append(rune.getDisplayName())
+                            .append(Component.literal(".")),
                     true
             );
-            return InteractionResultHolder.fail(stack);
+
+            stack.shrink(1);
+
+        } else {
+            boolean changed = RunicPathHelper.toggleRuneSelection(entityData, runeData, runeId);
+
+            if (!changed) {
+                player.displayClientMessage(
+                        Component.literal("No available rune slots in this realm.")
+                                .append(rune.getDisplayName())
+                                .append(Component.literal(".")),
+                        true
+                );
+                return InteractionResultHolder.fail(stack);
+            }
+
+            boolean nowSelected = runeData.hasSelectedRune(rune.getMajorRealm(), runeId);
+
+            player.displayClientMessage(
+                    Component.literal(nowSelected ? "Selected " : "Deselected ")
+                            .append(rune.getDisplayName())
+                            .append(Component.literal(".")),
+                    true
+            );
         }
 
-
-        RunicPathHelper.autoSelectRuneIfPossible(entityData, runeData, runeId);
         RunicPathHelper.saveRuneData(entityData, runeData);
         RunicPathHelper.refreshAllRuneSkills(entityData);
 
@@ -103,17 +129,12 @@ public class RuneItem extends Item {
             PacketDistributor.sendToPlayer(
                     serverPlayer,
                     new SyncRunes(
-                            new java.util.ArrayList<>(runeData.getUnlockedRunes()),
+                            new ArrayList<>(runeData.getUnlockedRunes()),
                             toRealmSelections(runeData)
-                    )            );
+                    )
+            );
         }
 
-        player.displayClientMessage(
-                Component.literal("You have comprehended ").append(rune.getDisplayName()).append(Component.literal(".")),
-                true
-        );
-
-        stack.shrink(1);
         return InteractionResultHolder.consume(stack);
     }
 

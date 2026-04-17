@@ -13,7 +13,7 @@ Realms:
         Runes are drawn into the Soul, empowering the soul
             - Health Regen Runes
             - Qi Regen Runes
-            - Cultivation Speed Runes -> A passive skill to check if the rune is equipped, and then a Global Cultivation gain modifier (currently just hooked into generic cultivation skill and runic cultivation skill since those are the only ones that exist)
+            - Cultivation Speed Runes -> Runic Cultivation Boost Skill
             - Stability Runes
 
     >> Runic Spark
@@ -82,7 +82,8 @@ Skills:
     >> Runic Strength Passive Skill
         - Strengthens the body by a small amount (increases strength). scales with major realm increase
     >> A General Runic Passive Skills Class (something that runic passive skills can extend, which lets u set the attribute effected, a matching rune needed to be unlocked potentially, the base attributes it gives, icon etc? idk might not be worth it)
-
+    >> Runic Cultivation Boost Skill
+        - A passive skill that boosts cultivation gain by a minor amount using CultivationModifierHelper. scales with major realm increase
 
 
 Implemented Classes:
@@ -103,3 +104,5 @@ Implemented Classes:
     RunicStrengthSkill = applies the Strength rune’s passive bonus by increasing the custom Strength stat.
     RunicVitalitySkill = applies the Vitality rune’s passive bonus by increasing the custom Vitality stat, which then feeds derived survivability attributes through stat scaling.
     RuneItem = represents rune unlock items that grant a rune, optionally auto-select it if a slot is available, save the updated rune data, refresh passives, and sync the result to the client.
+    RunicCultivationBoostSkill = a passive Soul rune skill that enables a global increase to cultivation gain while active.
+    CultivationModifierHelper = a central utility that calculates and applies all active multipliers affecting cultivation gain across every path.
