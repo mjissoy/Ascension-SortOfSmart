@@ -81,9 +81,11 @@ Skills:
         - Nurtures the body by a small amount (increases vitality). scales with major realm increase
     >> Runic Strength Passive Skill
         - Strengthens the body by a small amount (increases strength). scales with major realm increase
-    >> A General Runic Passive Skills Class (something that runic passive skills can extend, which lets u set the attribute effected, a matching rune needed to be unlocked potentially, the base attributes it gives, icon etc? idk might not be worth it)
     >> Runic Cultivation Boost Skill
         - A passive skill that boosts cultivation gain by a minor amount using CultivationModifierHelper. scales with major realm increase
+    >> AbstractRunicPassiveSkill
+        - An abstract class that can be extended by the Runic Passives to reduce clutter from implementing ISkill
+
 
 
 Implemented Classes:
