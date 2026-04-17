@@ -4,22 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
-import net.lucent.easygui.gui.events.EasyEvents;
-import net.lucent.easygui.gui.events.type.EasyEvent;
 import net.lucent.easygui.gui.textures.ITextureData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.phys.Vec2;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.SetActiveSlot;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
 
 public class SkillSegment extends RenderableElement {
     public final int slot;

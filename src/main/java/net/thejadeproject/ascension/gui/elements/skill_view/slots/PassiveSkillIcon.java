@@ -7,7 +7,6 @@ import net.lucent.easygui.gui.events.EasyEvents;
 import net.lucent.easygui.gui.events.EventPhase;
 import net.lucent.easygui.gui.events.type.EasyEvent;
 import net.lucent.easygui.gui.textures.ITextureData;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

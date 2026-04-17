@@ -9,9 +9,7 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.gui.elements.general.ScrollBox;
 import net.thejadeproject.ascension.gui.elements.skill_view.slots.ActiveSkillIcon;
-import net.thejadeproject.ascension.gui.elements.skill_view.slots.ActiveSkillSlot;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 
 public class ActiveSkillList extends RenderableElement {

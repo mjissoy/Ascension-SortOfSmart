@@ -6,13 +6,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
-import net.thejadeproject.ascension.refactor_packages.paths.custom.GenericPath;
 import net.thejadeproject.ascension.refactor_packages.physiques.custom.GenericPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-
-import java.util.List;
 
 public class ModPhysiques {
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);

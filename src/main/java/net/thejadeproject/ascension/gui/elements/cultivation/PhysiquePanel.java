@@ -16,7 +16,6 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
-import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 import java.util.ArrayList;
 import java.util.Comparator;
