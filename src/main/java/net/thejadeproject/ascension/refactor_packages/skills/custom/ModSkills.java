@@ -70,6 +70,22 @@ public class ModSkills {
                                 .setDescription(Component.translatable("ascension.skill.runic_health_regen.description"))
             );
 
+        public static final DeferredHolder<ISkill, ? extends RunicHealthRegenSkill> RUNIC_SPEED =
+                SKILLS.register(
+                        "runic_speed",
+                        () -> new RunicHealthRegenSkill(Component.translatable("ascension.skill.runic_speed"))
+                                .setShortDescription(Component.translatable("ascension.skill.runic_speed.short_description"))
+                                .setDescription(Component.translatable("ascension.skill.runic_speed.description"))
+            );
+
+        public static final DeferredHolder<ISkill, ? extends RunicHealthRegenSkill> RUNIC_PRECISION =
+                SKILLS.register(
+                        "runic_precision",
+                        () -> new RunicHealthRegenSkill(Component.translatable("ascension.skill.runic_precision"))
+                                .setShortDescription(Component.translatable("ascension.skill.runic_precision.short_description"))
+                                .setDescription(Component.translatable("ascension.skill.runic_precision.description"))
+            );
+
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);
     }

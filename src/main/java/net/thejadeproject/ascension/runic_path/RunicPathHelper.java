@@ -184,7 +184,7 @@ public final class RunicPathHelper {
         RunicRuneData runeData = getRuneData(entityData);
         refreshFleshRuneSkills(entityData, runeData);
         refreshSoulRuneSkills(entityData, runeData);
-        // refreshSparkRuneSkills(entityData, runeData);
+        refreshSparkRuneSkills(entityData, runeData);
         // refreshVoidRuneSkills(entityData, runeData);
     }
 
@@ -227,6 +227,26 @@ public final class RunicPathHelper {
                 entityData,
                 ModSkills.RUNIC_HEALTH_REGEN.getId(),
                 selected.contains(Runes.REGEN.getId())
+        );
+
+
+    }
+
+    public static void refreshSparkRuneSkills(IEntityData entityData, RunicRuneData runeData) {
+        if (entityData == null || runeData == null) return;
+
+        List<ResourceLocation> selected = runeData.getSelectedRunes(2);
+
+        refreshSkill(
+                entityData,
+                ModSkills.RUNIC_SPEED.getId(),
+                selected.contains(Runes.SPEED.getId())
+        );
+
+        refreshSkill(
+                entityData,
+                ModSkills.RUNIC_PRECISION.getId(),
+                selected.contains(Runes.PRECISION.getId())
         );
 
 

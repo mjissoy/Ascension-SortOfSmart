@@ -56,6 +56,8 @@ public class RunicTechnique extends GenericTechnique {
         heldEntity.removeSkill(ModSkills.RUNIC_VITALITY.getId(), ModForms.MORTAL_VESSEL.getId());
         heldEntity.removeSkill(ModSkills.RUNIC_CULTIVATION_BOOST.getId(), ModForms.MORTAL_VESSEL.getId());
         heldEntity.removeSkill(ModSkills.RUNIC_HEALTH_REGEN.getId(), ModForms.MORTAL_VESSEL.getId());
+        heldEntity.removeSkill(ModSkills.RUNIC_SPEED.getId(), ModForms.MORTAL_VESSEL.getId());
+        heldEntity.removeSkill(ModSkills.RUNIC_PRECISION.getId(), ModForms.MORTAL_VESSEL.getId());
     }
 
     @Override

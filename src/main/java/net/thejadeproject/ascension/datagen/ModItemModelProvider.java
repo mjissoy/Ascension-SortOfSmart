@@ -35,6 +35,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         runes(ModItems.ESSENCE_RUNE.get());
         runes(ModItems.REGEN_RUNE.get());
 
+        runes(ModItems.SPEED_RUNE.get());
+        runes(ModItems.PRECISION_RUNE.get());
+
 
         //Block Items
         buttonItem(ModBlocks.GOLDEN_PALM_BUTTON, ModBlocks.GOLDEN_PALM_PLANKS);

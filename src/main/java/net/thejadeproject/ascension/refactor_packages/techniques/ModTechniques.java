@@ -105,6 +105,7 @@ public class ModTechniques {
                             .setSpecialized(true)
                             .setForcedRunesForRealm(0, Runes.VITALITY.getId(), Runes.ARMOR.getId())
                             .setForcedRunesForRealm(1, Runes.REGEN.getId(), Runes.ESSENCE.getId())
+                            .setForcedRunesForRealm(2, Runes.SPEED.getId(), Runes.PRECISION.getId())
                             .setCultivationCondition(CultivationConditions.oceanOnly(1.25))
                             .setShortDescription(Component.translatable("ascension.technique.lesser_fathomless.short_description"))
                             .setDescription(Component.translatable("ascension.technique.lesser_fathomless.description"))

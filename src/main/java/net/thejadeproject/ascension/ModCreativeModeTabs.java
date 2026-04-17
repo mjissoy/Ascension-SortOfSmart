@@ -68,6 +68,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.ENDURANCE_RUNE);
                         output.accept(ModItems.ESSENCE_RUNE);
                         output.accept(ModItems.REGEN_RUNE);
+                        output.accept(ModItems.SPEED_RUNE);
+                        output.accept(ModItems.PRECISION_RUNE);
 
                     }).build());
 

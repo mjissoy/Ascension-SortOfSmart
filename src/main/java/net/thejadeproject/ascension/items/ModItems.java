@@ -52,6 +52,11 @@ public class ModItems {
     public static final DeferredItem<Item> REGEN_RUNE = ITEMS.register("regen_rune",
             () -> new RuneItem(new Item.Properties(), Runes.REGEN.getId()));
 
+    public static final DeferredItem<Item> SPEED_RUNE = ITEMS.register("speed_rune",
+            () -> new RuneItem(new Item.Properties(), Runes.ESSENCE.getId()));
+    public static final DeferredItem<Item> PRECISION_RUNE = ITEMS.register("precision_rune",
+            () -> new RuneItem(new Item.Properties(), Runes.REGEN.getId()));
+
 
     /*=====================================================
                     The Rest of the Mod Items

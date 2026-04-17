@@ -84,6 +84,12 @@ public class lang extends LanguageProvider {
             add("ascension.skill.runic_health_regen", "Runic Health Regeneration");
             add("ascension.skill.runic_health_regen.short_description", "Regeneration Runes amplify natural regeneration.");
             add("ascension.skill.runic_health_regen.description", "The cultivator engraves simple regeneration runes into soul, elevating their natural regeneration.");
+            add("ascension.skill.runic_speed", "Runic Speed");
+            add("ascension.skill.runic_speed.short_description", "Momentum Runes amplify natural regeneration.");
+            add("ascension.skill.runic_speed.description", "The cultivator engraves simple momentum runes into soul, accelerating their speed.");
+            add("ascension.skill.runic_precision", "Runic Precision");
+            add("ascension.skill.runic_precision.short_description", "Motion Runes amplify natural regeneration.");
+            add("ascension.skill.runic_precision.description", "The cultivator engraves simple motion runes into soul, advancing their speed.");
 
             // Runes
 
@@ -111,6 +117,14 @@ public class lang extends LanguageProvider {
                 add("ascension.rune.regen", "Regeneration Rune");
                 add("item.ascension.regen_rune", "Regeneration Rune");
                 add("ascension.rune.regen.description", "A rune that empowers Regeneration");
+
+                add("ascension.rune.speed", "Speed Rune");
+                add("item.ascension.speed_rune", "Speed Rune");
+                add("ascension.rune.speed.description", "A rune that empowers Speed");
+
+                add("ascension.rune.precision", "Precision Rune");
+                add("item.ascension.precision_rune", "Precision Rune");
+                add("ascension.rune.precision.description", "A rune that empowers Precision");
 
 
 
