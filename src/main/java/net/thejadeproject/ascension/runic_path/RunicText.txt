@@ -21,8 +21,8 @@ Realms:
     >> Runic Spark
         Runes are drawn into the Spark, empowering ones 'nature'
             - Attack Damage Runes
-            - Speed Runes
-            - Attack Speed Runes
+            - Speed Runes -> Runic Speed Skill
+            - Attack Speed Runes -> Runic Precision Skill
             - Skill Damage Runes
 
     >> Runic Void
@@ -124,5 +124,6 @@ Implemented Classes:
     RunicPassiveTickHandler = a server-side tick event handler that applies ongoing runic passive effects, such as health regeneration, under the correct conditions.
     CultivationConditions = provides predefined implementations of common cultivation conditions (such as ocean-only, height-based etc) that can be reused across multiple Runic techniques.
     CultivationCondition = defines a reusable rule that determines whether cultivation is allowed and how much it is modified based on the player’s current state (environment, conditions, etc).
-
+    RunicSpeedSkill = applies the Speed rune’s passive bonus by increasing movement speed through a multiplicative modifier that scales with Runic progression.
+    RunicPrecisionSkill = applies the Precision rune’s passive bonus by increasing attack speed through a flat modifier that scales with Runic progression.
 
