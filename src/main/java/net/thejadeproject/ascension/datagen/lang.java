@@ -78,6 +78,9 @@ public class lang extends LanguageProvider {
             add("ascension.skill.runic_cultivation_boost", "Runic Cultivation Enhancement");
             add("ascension.skill.runic_cultivation_boost.short_description", "Essence Runes speed up cultivation.");
             add("ascension.skill.runic_cultivation_boost.description", "The cultivator engraves simple essence runes into soul, augmenting their cultivation speed.");
+            add("ascension.skill.runic_health_regen", "Runic Health Regeneration");
+            add("ascension.skill.runic_health_regen.short_description", "Regeneration Runes amplify natural regeneration.");
+            add("ascension.skill.runic_health_regen.description", "The cultivator engraves simple regeneration runes into soul, elevating their natural regeneration.");
 
             // Runes
 
@@ -101,6 +104,10 @@ public class lang extends LanguageProvider {
                 add("ascension.rune.essence", "Essence Rune");
                 add("item.ascension.essence_rune", "Essence Rune");
                 add("ascension.rune.essence.description", "A rune that empowers Essence");
+
+                add("ascension.rune.regen", "Regeneration Rune");
+                add("item.ascension.regen_rune", "Regeneration Rune");
+                add("ascension.rune.regen.description", "A rune that empowers Regeneration");
 
 
 

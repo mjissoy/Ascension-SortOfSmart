@@ -40,21 +40,22 @@ public class ModItems {
     // TEMP Runes
     public static final DeferredItem<Item> ARMOR_RUNE = ITEMS.register("armor_rune",
             () -> new RuneItem(new Item.Properties(), Runes.ARMOR.getId()));
-
     public static final DeferredItem<Item> VITALITY_RUNE = ITEMS.register("vitality_rune",
             () -> new RuneItem(new Item.Properties(), Runes.VITALITY.getId()));
-
     public static final DeferredItem<Item> STRENGTH_RUNE = ITEMS.register("strength_rune",
             () -> new RuneItem(new Item.Properties(), Runes.STRENGTH.getId()));
-
     public static final DeferredItem<Item> ENDURANCE_RUNE = ITEMS.register("endurance_rune",
             () -> new RuneItem(new Item.Properties(), Runes.ENDURANCE.getId()));
 
     public static final DeferredItem<Item> ESSENCE_RUNE = ITEMS.register("essence_rune",
             () -> new RuneItem(new Item.Properties(), Runes.ESSENCE.getId()));
+    public static final DeferredItem<Item> REGEN_RUNE = ITEMS.register("regen_rune",
+            () -> new RuneItem(new Item.Properties(), Runes.REGEN.getId()));
 
 
-
+    /*=====================================================
+                    The Rest of the Mod Items
+      =====================================================*/
 
 
     public static final DeferredItem<Item> TEST_FAN = ITEMS.register("test_fan",

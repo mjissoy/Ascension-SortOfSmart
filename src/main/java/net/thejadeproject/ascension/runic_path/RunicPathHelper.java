@@ -222,6 +222,14 @@ public final class RunicPathHelper {
                 ModSkills.RUNIC_CULTIVATION_BOOST.getId(),
                 selected.contains(Runes.ESSENCE.getId())
         );
+
+        refreshSkill(
+                entityData,
+                ModSkills.RUNIC_HEALTH_REGEN.getId(),
+                selected.contains(Runes.REGEN.getId())
+        );
+
+
     }
 
     public static boolean toggleRuneSelection(IEntityData entityData, RunicRuneData runeData, ResourceLocation runeId) {

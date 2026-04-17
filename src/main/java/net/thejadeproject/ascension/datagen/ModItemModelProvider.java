@@ -33,6 +33,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         runes(ModItems.VITALITY_RUNE.get());
 
         runes(ModItems.ESSENCE_RUNE.get());
+        runes(ModItems.REGEN_RUNE.get());
 
 
         //Block Items

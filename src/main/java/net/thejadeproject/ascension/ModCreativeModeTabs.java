@@ -67,6 +67,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.VITALITY_RUNE);
                         output.accept(ModItems.ENDURANCE_RUNE);
                         output.accept(ModItems.ESSENCE_RUNE);
+                        output.accept(ModItems.REGEN_RUNE);
 
                     }).build());
 
