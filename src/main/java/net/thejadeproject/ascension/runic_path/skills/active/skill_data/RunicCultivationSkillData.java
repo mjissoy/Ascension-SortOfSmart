@@ -49,4 +49,14 @@ public class RunicCultivationSkillData implements IPersistentSkillData {
         buf.writeDouble(baseRate);
         buf.writeDouble(totalRunesDrawn);
     }
+
+    @Override
+    public IPersistentSkillData copy() {
+        return null;
+    }
+
+    @Override
+    public IPersistentSkillData merge(IPersistentSkillData other) {
+        return null;
+    }
 }

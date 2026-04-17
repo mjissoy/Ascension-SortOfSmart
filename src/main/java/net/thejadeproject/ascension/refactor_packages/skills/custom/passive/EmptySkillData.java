@@ -23,4 +23,14 @@ public class EmptySkillData implements IPersistentSkillData {
     public static EmptySkillData fromNetwork(RegistryFriendlyByteBuf buf) {
         return new EmptySkillData();
     }
+
+    @Override
+    public IPersistentSkillData copy() {
+        return null;
+    }
+
+    @Override
+    public IPersistentSkillData merge(IPersistentSkillData other) {
+        return null;
+    }
 }
