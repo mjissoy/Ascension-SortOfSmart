@@ -1,0 +1,105 @@
+
+This is notes for the Runic Path:
+
+Realms:
+    >> Runic Flesh
+        Runes are drawn into the flesh, empowering the body
+            - Strength Runes -> Runic Strength Skill
+            - Vitality Runes -> Runic Vitality Skill
+            - Endurance Runes
+            - Armour Runes -> Runic Armor Skill
+
+    >> Runic Soul
+        Runes are drawn into the Soul, empowering the soul
+            - Health Regen Runes
+            - Qi Regen Runes
+            - Cultivation Speed Runes
+            - Stability Runes
+
+    >> Runic Spark
+        Runes are drawn into the Spark, empowering ones 'nature'
+            - Attack Damage Runes
+            - Speed Runes
+            - Attack Speed Runes
+            - Skill Damage Runes
+
+    >> Runic Void
+        Runes are drawn into the Void
+            - Resistance Rune - resists negative effects maybe? or damage reduction by a small percentage? idk
+            - Echo Rune - chance that active skills excluding cultivation skills occur twice? idk
+            - Leech Rune - like a lifesteal but from incoming damage? again idk
+            - Shield - temporarily makes damage taken zero? once more, i really really dont know and will probably change this altogether
+
+
+
+Runes can be gained by ----- (actual method undecided).
+There is a limit to how many runes you get in each major realm (out of all four runes per realm)
+This is determined by your Technique (worse techniques = one, better techniques <= three)
+Rune selection slots are unlocked progressively across minor realms within a major realm, based on the technique’s maximum rune capacity set with RunicTechnique.setMaxRunesAllRealms()
+Runes currently grant passive skills (stat modifiers or scaling effects), with potential expansion into more complex effects (active skills, aoe effects, player marking etc)
+
+Rune Loop:
+- Unlock rune → added to unlocked pool (will be changed to a manual unlock/selection method in a gui or with an item/skill? (unless its a specialized technique))
+- If slots available → auto-selected (will be changed to a manual unlock/selection method in a gui or with an item/skill? (unless its a specialized technique))
+- Selected runes grant passive skills
+- Progress minor realms → unlock more rune slots
+- Technique defines max slots + realm limits
+
+Techniques:
+    >> Rune Servant Technique
+        - Beginning technique, which lets u cultivate to Runic Flesh and Runic Soul
+        - One Rune per Realm
+    >> Rune Monarch Technique
+        - The highest grade Runic Technique, which lets u cultivate to all the Runic Realms, from Flesh to MAX (whatever is the highest realm after the max realm increases)
+        - Three runes per realm
+    >> Fathomless Rune Creation Technique? WIP
+        - A specialized Runic Technique, which lets u cultivate all the runic realms, from Flesh to Void
+        - Grants 2 fixed (pre-selected) runes instead of allowing player choice
+        - Requires one to be in an ocean biome to cultivate? idk tbh
+    >> Divine Rune Creation Technique? WIP
+        - A specialized Runic Technique, which lets u cultivate all the runic realms, from Flesh to Void
+        - Grants 2 fixed (pre-selected) runes instead of allowing player choice
+        - Requires one to be high in the sky to cultivate? idk
+    >> Demonic Rune Creation Technique? WIP
+        - A specialized Runic Technique, which lets u cultivate all the runic realms, from Flesh to Void
+        - Grants 2 fixed (pre-selected) runes instead of allowing player choice
+        - Requires one to kill certain mobs and observe their deaths? idk tbh might be too complex
+    >>
+
+    Types:
+        - Regular > Player chooses runes per realm
+        - Specialized > Technique predefines rune selections per realm
+
+    Techniques gate how many realms u can cultivate in the Runic path using RunicTechnique.setMaxMajorRealm().
+
+Skills:
+    >> Runic Cultivation Skill
+        - The base cultivation skill given by the Runic Techniques -> need to add a custom particle effect, and maybe make it require certain items (Runic Scripture? Different Runes Books, which when held, boosts runic cultivation?)
+    >> Runic Armor Passive Skill
+        - Fortifies the body (increases armor and armor toughness significantly). scales with major realm increase
+    >> Runic Vitality Passive Skill
+        - Nurtures the body by a small amount (increases vitality). scales with major realm increase
+    >> Runic Strength Passive Skill
+        - Strengthens the body by a small amount (increases strength). scales with major realm increase
+    >> A General Runic Passive Skills Class (something that runic passive skills can extend, which lets u set the attribute effected, a matching rune needed to be unlocked potentially, the base attributes it gives, icon etc? idk might not be worth it)
+
+
+
+Implemented Classes:
+    Rune = defines a single runic path rune, including its identity, realm/category, display data, and effect metadata.
+    Runes = acts as the central registry/access point for all defined rune instances and lookup by ResourceLocation.
+    RunicRuneData = stores a player’s unlocked runes and currently selected runes per major realm, and handles reading/writing that data to NBT.
+    SyncRunes = syncs unlocked and selected rune data from the server to the client for UI/display purposes.
+    ClientRunicData = holds the client-side cached copy of unlocked and selected runes so the GUI can render runic information without querying server-only state.
+    RealmRuneSelection = represents one major realm’s selected rune list for packet syncing.
+    RunicRealm = defines the different major rune categories/realms, such as Flesh, Soul, Spark, and Void.
+    RuneEffectType = categorizes what kind of effect a rune provides, such as a stat boost or a passive-skill-style effect.
+    RunicPathHelper = provides the core utility logic for rune data access, selection checks, slot handling, and refreshing rune-based passive skills.
+    RunicScalingHelper = contains shared helper methods for scaling rune effects based on Runic path progression, especially major realm level.
+    RunicTechnique = extends the generic technique system with Runic-specific behavior like cultivation skill setup, passive rune refreshes, max realm limits, and per-realm rune slot counts.
+    RunicCultivationSkill = handles the active cultivation behavior for the Runic path.
+    RunicCultivationSkillData = stores any persistent/runtime data needed by the Runic cultivation skill.
+    RunicArmorSkill = applies the Armor rune’s passive defensive bonuses, mainly direct armor and armor toughness scaling.
+    RunicStrengthSkill = applies the Strength rune’s passive bonus by increasing the custom Strength stat.
+    RunicVitalitySkill = applies the Vitality rune’s passive bonus by increasing the custom Vitality stat, which then feeds derived survivability attributes through stat scaling.
+    RuneItem = represents rune unlock items that grant a rune, optionally auto-select it if a slot is available, save the updated rune data, refresh passives, and sync the result to the client.
