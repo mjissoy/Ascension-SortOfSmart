@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.custom.CushionEntity;
+import net.thejadeproject.ascension.entity.custom.form.PlayerBodyEntity;
 import net.thejadeproject.ascension.entity.custom.shaders.RiftEntity;
 import net.thejadeproject.ascension.entity.custom.TreasureRatEntity;
 
@@ -45,6 +46,15 @@ public class ModEntities {
                             .updateInterval(1)
                             .build("rift")
 
+            );
+
+    public static final DeferredHolder<EntityType<?>,EntityType<PlayerBodyEntity>> FAKE_PLAYER =
+            ENTITY_TYPES.register("player_body", () ->
+                    EntityType.Builder.of(PlayerBodyEntity::new, MobCategory.CREATURE)
+                            .sized(0.6f, 1.8f) // player size
+                            .clientTrackingRange(8)
+                            .updateInterval(2)
+                            .build("player_body")
             );
 
     public static final Supplier<EntityType<CushionEntity>> CUSHION_ENTITY =

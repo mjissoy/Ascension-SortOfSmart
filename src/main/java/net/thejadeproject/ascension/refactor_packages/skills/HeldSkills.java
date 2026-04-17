@@ -94,7 +94,20 @@ public class HeldSkills {
         removalSyncBuffer.clear();
     }
 
+    public void onFormRemoved(IEntityData entityData,ResourceLocation form){
 
+    }
+    public void onFormAdded(IEntityData entityData,ResourceLocation form){
+
+    }
+
+    public  void removeFrom(IEntityData entityData){
+        //TODO used when it is removed from an entity but we want the skills to be maintained
+        //TODO if entity has an existing instance of persistent skill data make a copy and do not call removed
+    }
+    public  void addTo(IEntityData entityData){
+        //TODO used when it is added to an existing entity data
+    }
 
 
     //============================== NETWORK =================================

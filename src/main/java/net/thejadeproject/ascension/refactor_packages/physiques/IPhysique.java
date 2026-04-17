@@ -26,8 +26,9 @@ public interface IPhysique {
 
 
     /*
-        handles when forms are added and removed. is also called if an untethered entity held forms
-        used when you want to apply data to specific forms
+        handles when forms are added and removed
+
+        removed is only called if the physique is still on the entity aka not on the removed entity
      */
     void onFormAdded(IEntityData heldEntity, ResourceLocation form,IPhysiqueData physiqueData);
     void onFormRemoved(IEntityData heldEntity,ResourceLocation form,IPhysiqueData physiqueData);

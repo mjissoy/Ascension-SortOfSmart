@@ -9,6 +9,7 @@ import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.form_change.EnterSpiritForm;
 import net.thejadeproject.ascension.runic_path.skills.active.RunicCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
 import net.thejadeproject.ascension.runic_path.skills.passive.RunicArmorSkill;
@@ -29,6 +30,9 @@ public class ModSkills {
 
     public static final DeferredHolder<ISkill,? extends SwordCultivationSkill> SWORD_CULTIVATION_SKILL = SKILLS.register("sword_cultivation_skill",
             SwordCultivationSkill::new);
+
+    public static final DeferredHolder<ISkill,? extends EnterSpiritForm> ENTER_SPIRIT_FORM = SKILLS.register("enter_spirit_form",
+            EnterSpiritForm::new);
 
     // Passives
     public static final DeferredHolder<ISkill, ? extends RunicArmorSkill> RUNIC_ARMOR = SKILLS.register(

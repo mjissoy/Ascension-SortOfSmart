@@ -27,7 +27,7 @@ public class ModAdvancementProvider extends AdvancementProvider {
         public void generate(HolderLookup.Provider provider, Consumer<AdvancementHolder> consumer, ExistingFileHelper existingFileHelper) {
             Advancement.Builder.advancement()
                     .display(
-                            ModItems.ASCENSION_ICON,
+                            ModItems.TABLET_OF_DESTRUCTION_HEAVEN,
                             Component.translatable("advancements.ascension.root.install"),
                             Component.translatable("advancements.ascension.root.welcome"),
                             ResourceLocation.fromNamespaceAndPath("ascension", "textures/gui/advancements/backgrounds/marble.png"),

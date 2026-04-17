@@ -47,10 +47,14 @@ public class EntityDataManager {
     public static boolean isWatching(UUID entity){
         return entityWatchers.containsKey(entity);
     }
+
+    public static UUID getWatchedEntityDataUUID(UUID watcher){
+        return entityWatchers.get(watcher);
+    }
     /*
-        In scenarios like trying to possess a new body I recommend not using this method, and instead rely on
-        ability to entity data moving behaviour, or at least ensure there is only 1 watcher
-     */
+    In scenarios like trying to possess a new body I recommend not using this method, and instead rely on
+    ability to entity data moving behaviour, or at least ensure there is only 1 watcher
+    */
     public static IEntityData removeWatchableEntityData(UUID entity){
 
         for(UUID watcher : watchlist.remove(entity)){

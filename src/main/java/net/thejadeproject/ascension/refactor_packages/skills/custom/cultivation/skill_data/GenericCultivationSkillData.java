@@ -58,4 +58,14 @@ public class GenericCultivationSkillData implements IPersistentSkillData {
 
     }
 
+    @Override
+    public IPersistentSkillData copy() {
+        return null;
+    }
+
+    @Override
+    public IPersistentSkillData merge(IPersistentSkillData other) {
+        return null;
+    }
+
 }

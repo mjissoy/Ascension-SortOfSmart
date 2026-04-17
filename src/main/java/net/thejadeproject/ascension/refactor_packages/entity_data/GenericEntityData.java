@@ -30,6 +30,7 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 
+import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
 import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
@@ -249,15 +250,6 @@ public class GenericEntityData implements IEntityData {
         return attachedEntity;
     }
 
-    @Override
-    public boolean isAttachedEntityLoaded() {
-        return false; //TODO
-    }
-
-    @Override
-    public void setAttachedEntityLoaded(boolean loaded) {
-        this.attachedEntityLoaded = loaded;
-    }
     public void setAttachedEntity(Entity attachedEntity) {
         this.attachedEntity = attachedEntity;
     }
@@ -268,7 +260,42 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public IEntityFormData removeEntityForm(ResourceLocation form) {
-        return null; //TODO
+        IEntityFormData removedForm = heldFormData.get(form);
+        if(removedForm == null) return  null;
+        AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form).onRemoved(this,removedForm);
+        if(physiqueForm.equals(form)){
+            ResourceLocation oldPhysique = removedForm.getPhysiqueKey();
+            IPhysiqueData oldPhysiqueData = removedForm.getPhysiqueData();
+            //TODO handle physique removed
+            if(form.equals(ModForms.MORTAL_VESSEL)) setPhysique(ModPhysiques.MORTAL.getId(),null,ModForms.SOUL_FORM.getId());
+            else setPhysique(ModPhysiques.MORTAL.getId());
+            removedForm.setPhysique(oldPhysique,oldPhysiqueData);
+        }
+        if (bloodlineForm.equals(form)) {
+            //TODO
+        }
+        for(PathData pathData : removedForm.getAllPathData()){
+            //TODO handle realm change to 0,0 then remove technique
+            pathDataLocation.remove(pathData.getPath());
+            pathData.remove(this);
+        }
+        //TODO trigger onFormRemoved of everything else
+        for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : heldFormData.entrySet()){
+            IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
+            IEntityFormData heldFormData = heldForm.getValue();
+            heldFormFactory.onFormRemoved(this,heldFormData,removedForm);
+
+            if(heldFormData.getPhysiqueKey() != null){
+                heldFormData.getPhysique().onFormRemoved(this,form,heldFormData.getPhysiqueData());
+            }
+            if(heldFormData.getBloodlineKey() != null){
+                heldFormData.getBloodline().onFormRemoved(this,form,heldFormData.getBloodlineData());
+            }
+            for(PathData pathData : heldFormData.getAllPathData()) pathData.onFormRemoved(this,removedForm);
+            heldFormData.getHeldSkills().onFormRemoved(this,form);
+        }
+        heldFormData.remove(form);
+        return removedForm;
     }
 
     @Override
@@ -299,6 +326,7 @@ public class GenericEntityData implements IEntityData {
         IEntityForm formFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(form);
         Set<Map.Entry<ResourceLocation,IEntityFormData>> forms = heldFormData.entrySet();
         heldFormData.put(form,formData);
+        formFactory.onAdded(this);
 
         for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : forms){
             IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
@@ -310,6 +338,8 @@ public class GenericEntityData implements IEntityData {
     @Override
     public void setActiveForm(ResourceLocation activeForm) {
         this.activeForm = activeForm;
+        getAscensionAttributeHolder().updateAttributes(this);
+
     }
 
     @Override
