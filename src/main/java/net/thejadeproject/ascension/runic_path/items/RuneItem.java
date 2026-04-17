@@ -22,6 +22,7 @@ import net.thejadeproject.ascension.runic_path.RunicPathHelper;
 import net.thejadeproject.ascension.runic_path.RunicRuneData;
 import net.thejadeproject.ascension.runic_path.network.RealmRuneSelection;
 import net.thejadeproject.ascension.runic_path.network.SyncRunes;
+import net.thejadeproject.ascension.runic_path.technique.RunicTechnique;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +84,15 @@ public class RuneItem extends Item {
             return InteractionResultHolder.fail(stack);
         }
 
+        RunicTechnique runicTechnique = RunicPathHelper.getRunicTechnique(entityData);
+        if (runicTechnique != null && runicTechnique.isSpecialized()) {
+            player.displayClientMessage(
+                    Component.literal("This technique fixes your rune selection."),
+                    true
+            );
+            return InteractionResultHolder.fail(stack);
+        }
+
         RunicRuneData runeData = RunicPathHelper.getRuneData(entityData);
 
         boolean added = runeData.unlockRune(runeId);
@@ -104,7 +114,7 @@ public class RuneItem extends Item {
 
             if (!changed) {
                 player.displayClientMessage(
-                        Component.literal("No available rune slots in this realm.")
+                        Component.literal("No available rune slots in this realm for ")
                                 .append(rune.getDisplayName())
                                 .append(Component.literal(".")),
                         true

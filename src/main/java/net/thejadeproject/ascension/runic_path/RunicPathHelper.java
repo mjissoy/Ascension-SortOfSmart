@@ -251,6 +251,27 @@ public final class RunicPathHelper {
         return runeData.addSelectedRune(majorRealm, runeId);
     }
 
+    public static void applyForcedRunesIfNeeded(IEntityData entityData, RunicRuneData runeData) {
+        RunicTechnique technique = getRunicTechnique(entityData);
+        if (technique == null || !technique.isSpecialized()) return;
+
+        for (int majorRealm = 0; majorRealm <= technique.getMaxMajorRealm(); majorRealm++) {
+            List<ResourceLocation> forced = technique.getForcedRunesForRealm(majorRealm);
+            int unlockedSlots = getUnlockedRuneSelectionsForRealm(entityData, majorRealm);
+
+            runeData.clearSelectedRunes(majorRealm);
+
+            int applied = 0;
+            for (ResourceLocation runeId : forced) {
+                if (applied >= unlockedSlots) break;
+
+                runeData.unlockRune(runeId);
+                runeData.addSelectedRune(majorRealm, runeId);
+                applied++;
+            }
+        }
+    }
+
 
 
 }

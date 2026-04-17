@@ -63,7 +63,10 @@ public class lang extends LanguageProvider {
             add("ascension.technique.rune_servant.description", "A foundational runic cultivation technique that teaches the cultivator to observe, follow, and resonate with the natural inscriptions hidden in all things.");
             add("ascension.technique.rune_monarch", "Rune Monarch Technique");
             add("ascension.technique.rune_monarch.short_description", "A sovereign method that bends inscriptions to oneself.");
-            add("ascension.technique.rune_monarch.description", "An advanced runic cultivation technique created by an ancient ruler. One no longer passively observes the Runes, but instead bends them to their will, enchancing cultivation tenfold.");
+            add("ascension.technique.rune_monarch.description", "An Sovereign runic cultivation technique created by an ancient ruler. One no longer passively observes the Runes, but instead bends them to their will, enchancing cultivation tenfold.");
+            add("ascension.technique.lesser_fathomless", "Lesser Fathomless Creation Technique");
+            add("ascension.technique.lesser_fathomless.short_description", "A creation technique derived from the Oceans.");
+            add("ascension.technique.lesser_fathomless.description", "An lesser runic cultivation technique derived from the advanced technique, Fathomless Runic Creation Technique. Cultivating within the Ocean, grow in endless aquatic affinity and runes.");
 
             // Runic Skills
             add("ascension.skill.runic_fortification", "Runic Fortification");

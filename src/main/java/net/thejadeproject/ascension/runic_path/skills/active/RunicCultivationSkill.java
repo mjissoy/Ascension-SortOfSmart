@@ -32,6 +32,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.skill_data.empty.EmptyPreCastData;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.runic_path.skills.passive.helpers.CultivationModifierHelper;
+import net.thejadeproject.ascension.runic_path.technique.RunicTechnique;
 
 public class RunicCultivationSkill implements ICastableSkill {
 
@@ -172,8 +173,17 @@ public class RunicCultivationSkill implements ICastableSkill {
                 return false;
             }
 
+            double techniqueMultiplier = 1.0;
+            if (technique instanceof RunicTechnique runicTechnique) {
+                if (!runicTechnique.canCultivate(entityData)) {
+                    return false;
+                }
+                techniqueMultiplier = runicTechnique.getCultivationMultiplier(entityData);
+            }
+
             double amount = getRunicDrawAmount(ticksElapsed, pathData, technique)
-                    * CultivationModifierHelper.getMultiplierForPath(entityData, PATH);
+                    * CultivationModifierHelper.getMultiplierForPath(entityData, PATH)
+                    * techniqueMultiplier;
 
             RunicCultivationSkillData persistentData = getPersistentRunicData(entityData);
             if (persistentData != null && amount > 0) {

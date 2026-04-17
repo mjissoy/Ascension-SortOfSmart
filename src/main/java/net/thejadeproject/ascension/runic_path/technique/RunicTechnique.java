@@ -9,15 +9,19 @@ import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.GenericTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.runic_path.RunicPathHelper;
+import net.thejadeproject.ascension.runic_path.RunicRuneData;
+import net.thejadeproject.ascension.runic_path.technique.helpers.CultivationCondition;
+import net.thejadeproject.ascension.runic_path.technique.helpers.CultivationConditions;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RunicTechnique extends GenericTechnique {
 
     private final Map<Integer, Integer> maxRunesPerRealm = new HashMap<>();
+    private final Map<Integer, List<ResourceLocation>> forcedRunesPerRealm = new HashMap<>();
     private int maxMajorRealm = 0;
+    private CultivationCondition cultivationCondition = CultivationConditions.none();
+    private boolean specialized = false;
 
     public RunicTechnique(ResourceLocation path, Component title, double baseRate, Set<ResourceLocation> secondaryPaths) {
         super(path, title, baseRate, secondaryPaths);
@@ -32,6 +36,9 @@ public class RunicTechnique extends GenericTechnique {
                 ModForms.MORTAL_VESSEL.getId()
         );
 
+        RunicRuneData runeData = RunicPathHelper.getRuneData(heldEntity);
+        RunicPathHelper.applyForcedRunesIfNeeded(heldEntity, runeData);
+        RunicPathHelper.saveRuneData(heldEntity, runeData);
         RunicPathHelper.refreshAllRuneSkills(heldEntity);
     }
 
@@ -47,12 +54,17 @@ public class RunicTechnique extends GenericTechnique {
         heldEntity.removeSkill(ModSkills.RUNIC_ARMOR.getId(), ModForms.MORTAL_VESSEL.getId());
         heldEntity.removeSkill(ModSkills.RUNIC_STRENGTH.getId(), ModForms.MORTAL_VESSEL.getId());
         heldEntity.removeSkill(ModSkills.RUNIC_VITALITY.getId(), ModForms.MORTAL_VESSEL.getId());
+        heldEntity.removeSkill(ModSkills.RUNIC_CULTIVATION_BOOST.getId(), ModForms.MORTAL_VESSEL.getId());
+        heldEntity.removeSkill(ModSkills.RUNIC_HEALTH_REGEN.getId(), ModForms.MORTAL_VESSEL.getId());
     }
 
     @Override
     public void onRealmChange(IEntityData entityData, int oldMajorRealm, int oldMinorRealm, int newMajorRealm, int newMinorRealm) {
         super.onRealmChange(entityData,oldMajorRealm,oldMinorRealm,newMajorRealm,newMinorRealm);
 
+        RunicRuneData runeData = RunicPathHelper.getRuneData(entityData);
+        RunicPathHelper.applyForcedRunesIfNeeded(entityData, runeData);
+        RunicPathHelper.saveRuneData(entityData, runeData);
         RunicPathHelper.refreshAllRuneSkills(entityData);
     }
 
@@ -103,5 +115,38 @@ public class RunicTechnique extends GenericTechnique {
         }
         return this;
     }
+
+    public RunicTechnique setCultivationCondition(CultivationCondition cultivationCondition) {
+        this.cultivationCondition = cultivationCondition == null ? CultivationConditions.none() : cultivationCondition;
+        return this;
+    }
+
+    public boolean canCultivate(IEntityData entityData) {
+        return cultivationCondition == null || cultivationCondition.canCultivate(entityData);
+    }
+
+    public double getCultivationMultiplier(IEntityData entityData) {
+        return cultivationCondition == null ? 1.0 : cultivationCondition.getMultiplier(entityData);
+    }
+
+    public RunicTechnique setSpecialized(boolean specialized) {
+        this.specialized = specialized;
+        return this;
+    }
+
+    public boolean isSpecialized() {
+        return specialized;
+    }
+
+    public RunicTechnique setForcedRunesForRealm(int majorRealm, ResourceLocation... runeIds) {
+        forcedRunesPerRealm.put(majorRealm, new ArrayList<>(List.of(runeIds)));
+        return this;
+    }
+
+    public List<ResourceLocation> getForcedRunesForRealm(int majorRealm) {
+        return forcedRunesPerRealm.getOrDefault(majorRealm, List.of());
+    }
+
+
 
 }

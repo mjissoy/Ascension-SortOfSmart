@@ -19,8 +19,12 @@ import net.thejadeproject.ascension.refactor_packages.techniques.custom.GenericT
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ModifierOperation;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
+import net.thejadeproject.ascension.runic_path.Runes;
 import net.thejadeproject.ascension.runic_path.technique.RunicTechnique;
+import net.thejadeproject.ascension.runic_path.technique.helpers.CultivationCondition;
+import net.thejadeproject.ascension.runic_path.technique.helpers.CultivationConditions;
 
+import java.util.Objects;
 import java.util.Set;
 
 public class ModTechniques {
@@ -54,16 +58,19 @@ public class ModTechniques {
             new GenericTechnique(ModPaths.SWORD.getId(),Component.literal("Sword Comprehension Technique"),10.0,Set.of())
                     .setStatChangeHandler(testHandler));
 
+
+
+    // ====================== Runic Techniques ====================== //
     public static final DeferredHolder<ITechnique, ? extends RunicTechnique> RUNE_MONARCH_TECHNIQUE =
             TECHNIQUES.register("rune_monarch_technique", () ->
                     new RunicTechnique(
                             ModPaths.RUNIC.getId(),
                             Component.translatable("ascension.technique.rune_monarch"),
-                            50.0,
+                            10.0,
                             Set.of(ModPaths.ESSENCE.getId())
                     )
                             .setMaxMajorRealm(3)
-                            .setMaxRunesAllRealms(3)
+                            .setMaxRunesAllRealms(4)
                             .setShortDescription(Component.translatable("ascension.technique.rune_monarch.short_description"))
                             .setDescription(Component.translatable("ascension.technique.rune_monarch.description"))
                             .setStatChangeHandler(testHandler2)
@@ -82,6 +89,25 @@ public class ModTechniques {
                             .setMaxRunesForRealm(1, 1)
                             .setShortDescription(Component.translatable("ascension.technique.rune_servant.short_description"))
                             .setDescription(Component.translatable("ascension.technique.rune_servant.description"))
+                            .setStatChangeHandler(testHandler2)
+            );
+
+    public static final DeferredHolder<ITechnique, ? extends RunicTechnique> LESSER_FATHOMLESS_TECHNIQUE =
+            TECHNIQUES.register("lesser_fathomless_technique", () ->
+                    new RunicTechnique(
+                            ModPaths.RUNIC.getId(),
+                            Component.translatable("ascension.technique.lesser_fathomless"),
+                            5.0,
+                            Set.of()
+                    )
+                            .setMaxMajorRealm(2)
+                            .setMaxRunesAllRealms(2)
+                            .setSpecialized(true)
+                            .setForcedRunesForRealm(0, Runes.VITALITY.getId(), Runes.ARMOR.getId())
+                            .setForcedRunesForRealm(1, Runes.REGEN.getId(), Runes.ESSENCE.getId())
+                            .setCultivationCondition(CultivationConditions.oceanOnly(1.25))
+                            .setShortDescription(Component.translatable("ascension.technique.lesser_fathomless.short_description"))
+                            .setDescription(Component.translatable("ascension.technique.lesser_fathomless.description"))
                             .setStatChangeHandler(testHandler2)
             );
 

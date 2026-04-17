@@ -11,7 +11,7 @@ Realms:
 
     >> Runic Soul
         Runes are drawn into the Soul, empowering the soul
-            - Health Regen Runes
+            - Health Regen Runes -> Runic Health Regen Skill
             - Qi Regen Runes
             - Cultivation Speed Runes -> Runic Cultivation Boost Skill
             - Stability Runes
@@ -46,12 +46,20 @@ Rune Loop:
 - Technique defines max slots + realm limits
 
 Techniques:
+    // IMPLEMENTED IN MODTECHNIQUES
     >> Rune Servant Technique
         - Beginning technique, which lets u cultivate to Runic Flesh and Runic Soul
         - One Rune per Realm
     >> Rune Monarch Technique
         - The highest grade Runic Technique, which lets u cultivate to all the Runic Realms, from Flesh to MAX (whatever is the highest realm after the max realm increases)
         - Three runes per realm
+    >> Lesser Fathomless Rune Creation Technique
+        - A mid-grade specialized Runic Technique, which lets u cultivate through Runic Flesh, Soul, and Spark
+        - Grants 2 fixed (pre-selected) runes per realm instead of allowing player choice
+        - Requires one to be within an ocean biome to cultivate
+        - Provides increased cultivation speed while in the ocean
+
+    // IDEAS
     >> Fathomless Rune Creation Technique? WIP
         - A specialized Runic Technique, which lets u cultivate all the runic realms, from Flesh to Void
         - Grants 2 fixed (pre-selected) runes instead of allowing player choice
@@ -70,7 +78,7 @@ Techniques:
         - Regular > Player chooses runes per realm
         - Specialized > Technique predefines rune selections per realm
 
-    Techniques gate how many realms u can cultivate in the Runic path using RunicTechnique.setMaxMajorRealm().
+Techniques gate how many realms u can cultivate in the Runic path using RunicTechnique.setMaxMajorRealm().
 
 Skills:
     >> Runic Cultivation Skill
@@ -112,3 +120,5 @@ Implemented Classes:
     RunicHealthRegenSkill = a passive Soul rune skill that grants continuous health regeneration over time
     HealthRegenHelper = a central utility that calculates passive health regeneration from active runic effects and is applied through a server-side tick handler.
     RunicPassiveTickHandler = a server-side tick event handler that applies ongoing runic passive effects, such as health regeneration, under the correct conditions.
+    CultivationConditions = provides predefined implementations of common cultivation conditions (such as ocean-only, height-based etc) that can be reused across multiple Runic techniques.
+    CultivationCondition = defines a reusable rule that determines whether cultivation is allowed and how much it is modified based on the player’s current state (environment, conditions, etc).
