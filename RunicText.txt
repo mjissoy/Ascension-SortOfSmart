@@ -27,8 +27,8 @@ Realms:
         Runes are drawn into the Void
             - Resistance Rune - resists negative effects maybe? or damage reduction by a small percentage? idk
             - Echo Rune - chance that active skills excluding cultivation skills occur twice? idk
-            - Leech Rune - like a lifesteal but from incoming damage? again idk
-            - Shield - temporarily makes damage taken zero? once more, i really really dont know and will probably change this altogether
+            - Leech Rune - like a life-steal but from incoming damage? again idk
+            - Shield - temporarily makes damage taken zero? once more, i really, really don't know and will probably change this altogether
 
 
 
@@ -39,8 +39,8 @@ Rune selection slots are unlocked progressively across minor realms within a maj
 Runes currently grant passive skills (stat modifiers or scaling effects), with potential expansion into more complex effects (active skills, aoe effects, player marking etc)
 
 Rune Loop:
-- Unlock rune → added to unlocked pool (will be changed to a manual unlock/selection method in a gui or with an item/skill? (unless its a specialized technique))
-- If slots available → auto-selected (will be changed to a manual unlock/selection method in a gui or with an item/skill? (unless its a specialized technique))
+- Unlock rune → added to unlocked pool (will be changed to a manual unlock/selection method in a gui or with an item/skill? (unless it's a specialized technique))
+- If slots available → auto-selected (will be changed to a manual unlock/selection method in a gui or with an item/skill? (unless it's a specialized technique))
 - Selected runes grant passive skills
 - Progress minor realms → unlock more rune slots
 - Technique defines max slots + realm limits
