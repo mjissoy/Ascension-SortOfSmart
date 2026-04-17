@@ -59,7 +59,10 @@ Techniques:
         - A mid-grade specialized Runic Technique, which lets u cultivate through Runic Flesh, Soul, and Spark
         - Grants 2 fixed (pre-selected) runes per realm instead of allowing player choice
         - Requires one to be within an ocean biome to cultivate
-        - Provides increased cultivation speed while in the ocean
+    >> Lesser Divine Rune Creation Technique
+        - A mid-grade specialized Runic Technique, which lets u cultivate through Runic Flesh, Soul, and Spark
+        - Grants 2 fixed (pre-selected) runes per realm instead of allowing player choice
+        - Requires one to be above y=210 to cultivate
 
     // IDEAS
     >> Fathomless Rune Creation Technique? WIP

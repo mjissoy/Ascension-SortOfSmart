@@ -98,7 +98,7 @@ public class ModTechniques {
                             ModPaths.RUNIC.getId(),
                             Component.translatable("ascension.technique.lesser_fathomless"),
                             5.0,
-                            Set.of()
+                            Set.of() // Water Path and Body Path if this actually works
                     )
                             .setMaxMajorRealm(2)
                             .setMaxRunesAllRealms(2)
@@ -106,9 +106,29 @@ public class ModTechniques {
                             .setForcedRunesForRealm(0, Runes.VITALITY.getId(), Runes.ARMOR.getId())
                             .setForcedRunesForRealm(1, Runes.REGEN.getId(), Runes.ESSENCE.getId())
                             .setForcedRunesForRealm(2, Runes.SPEED.getId(), Runes.PRECISION.getId())
-                            .setCultivationCondition(CultivationConditions.oceanOnly(1.25))
+                            .setCultivationCondition(CultivationConditions.oceanOnly(1.5))
                             .setShortDescription(Component.translatable("ascension.technique.lesser_fathomless.short_description"))
                             .setDescription(Component.translatable("ascension.technique.lesser_fathomless.description"))
+                            .setStatChangeHandler(testHandler2)
+            );
+
+    public static final DeferredHolder<ITechnique, ? extends RunicTechnique> LESSER_DIVINE_TECHNIQUE =
+            TECHNIQUES.register("lesser_divine_technique", () ->
+                    new RunicTechnique(
+                            ModPaths.RUNIC.getId(),
+                            Component.translatable("ascension.technique.lesser_divine"),
+                            5.0,
+                            Set.of() // Wind Path and Essence Path if this actually works
+                    )
+                            .setMaxMajorRealm(2)
+                            .setMaxRunesAllRealms(2)
+                            .setSpecialized(true)
+                            .setForcedRunesForRealm(0, Runes.STRENGTH.getId(), Runes.ARMOR.getId())
+                            .setForcedRunesForRealm(1, Runes.REGEN.getId(), Runes.ESSENCE.getId())
+                            .setForcedRunesForRealm(2, Runes.SPEED.getId(), Runes.PRECISION.getId())
+                            .setCultivationCondition(CultivationConditions.minHeight(210, 1.5))
+                            .setShortDescription(Component.translatable("ascension.technique.lesser_divine.short_description"))
+                            .setDescription(Component.translatable("ascension.technique.lesser_divine.description"))
                             .setStatChangeHandler(testHandler2)
             );
 
