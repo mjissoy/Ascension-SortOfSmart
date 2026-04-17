@@ -10,11 +10,25 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
 import net.thejadeproject.ascension.runic_path.technique.RunicTechnique;
 
 import java.util.List;
+import java.util.Map;
 
 public final class RunicPathHelper {
 
     private static final String RUNE_TAG = "ascension_runes";
     private static final int DEFAULT_MINOR_REALMS_PER_MAJOR = 9;
+
+    private static final Map<ResourceLocation, ResourceLocation> RUNE_TO_SKILL = Map.ofEntries(
+            Map.entry(Runes.ARMOR.getId(), ModSkills.RUNIC_ARMOR.getId()),
+            Map.entry(Runes.STRENGTH.getId(), ModSkills.RUNIC_STRENGTH.getId()),
+            Map.entry(Runes.VITALITY.getId(), ModSkills.RUNIC_VITALITY.getId()),
+
+            Map.entry(Runes.ESSENCE.getId(), ModSkills.RUNIC_CULTIVATION_BOOST.getId()),
+            Map.entry(Runes.REGEN.getId(), ModSkills.RUNIC_HEALTH_REGEN.getId()),
+
+            Map.entry(Runes.SPEED.getId(), ModSkills.RUNIC_SPEED.getId()),
+            Map.entry(Runes.PRECISION.getId(), ModSkills.RUNIC_PRECISION.getId())
+
+    );
 
     private RunicPathHelper() {}
 
@@ -111,7 +125,7 @@ public final class RunicPathHelper {
         if (maxSelections == 1) return 1;
 
         int currentMinorRealm = getCurrentMinorRealm(entityData, majorRealm);
-        int maxMinorRealm = DEFAULT_MINOR_REALMS_PER_MAJOR - 1; // 0..8 if there are 9 minor realms
+        int maxMinorRealm = DEFAULT_MINOR_REALMS_PER_MAJOR - 1;
 
         int unlocked = 1 + (currentMinorRealm * (maxSelections - 1)) / maxMinorRealm;
         return Math.min(unlocked, maxSelections);
@@ -152,104 +166,13 @@ public final class RunicPathHelper {
         if (runeData.hasSelectedRune(realm, runeId)) {
             return false;
         }
+
         return runeData.addSelectedRune(realm, runeId);
     }
 
     public static boolean deselectRune(RunicRuneData runeData, int majorRealm, ResourceLocation runeId) {
         if (runeData == null || runeId == null) return false;
         return runeData.removeSelectedRune(majorRealm, runeId);
-    }
-
-    // SKILL REFRESH
-    public static void refreshSkill(IEntityData entityData, ResourceLocation skillId, boolean shouldHave) {
-        if (entityData == null) return;
-
-        if (shouldHave) {
-            if (!entityData.hasSkill(skillId)) {
-                entityData.giveSkill(skillId, ModForms.MORTAL_VESSEL.getId());
-            } else {
-                entityData.removeSkill(skillId, ModForms.MORTAL_VESSEL.getId());
-                entityData.giveSkill(skillId, ModForms.MORTAL_VESSEL.getId());
-            }
-        } else {
-            if (entityData.hasSkill(skillId)) {
-                entityData.removeSkill(skillId, ModForms.MORTAL_VESSEL.getId());
-            }
-        }
-    }
-
-    public static void refreshAllRuneSkills(IEntityData entityData) {
-        if (entityData == null) return;
-
-        RunicRuneData runeData = getRuneData(entityData);
-        refreshFleshRuneSkills(entityData, runeData);
-        refreshSoulRuneSkills(entityData, runeData);
-        refreshSparkRuneSkills(entityData, runeData);
-        // refreshVoidRuneSkills(entityData, runeData);
-    }
-
-    public static void refreshFleshRuneSkills(IEntityData entityData, RunicRuneData runeData) {
-        if (entityData == null || runeData == null) return;
-
-        List<ResourceLocation> selected = runeData.getSelectedRunes(0);
-
-        refreshSkill(
-                entityData,
-                ModSkills.RUNIC_ARMOR.getId(),
-                selected.contains(Runes.ARMOR.getId())
-        );
-
-        refreshSkill(
-                entityData,
-                ModSkills.RUNIC_STRENGTH.getId(),
-                selected.contains(Runes.STRENGTH.getId())
-        );
-
-        refreshSkill(
-                entityData,
-                ModSkills.RUNIC_VITALITY.getId(),
-                selected.contains(Runes.VITALITY.getId())
-        );
-    }
-
-    public static void refreshSoulRuneSkills(IEntityData entityData, RunicRuneData runeData) {
-        if (entityData == null || runeData == null) return;
-
-        List<ResourceLocation> selected = runeData.getSelectedRunes(1);
-
-        refreshSkill(
-                entityData,
-                ModSkills.RUNIC_CULTIVATION_BOOST.getId(),
-                selected.contains(Runes.ESSENCE.getId())
-        );
-
-        refreshSkill(
-                entityData,
-                ModSkills.RUNIC_HEALTH_REGEN.getId(),
-                selected.contains(Runes.REGEN.getId())
-        );
-
-
-    }
-
-    public static void refreshSparkRuneSkills(IEntityData entityData, RunicRuneData runeData) {
-        if (entityData == null || runeData == null) return;
-
-        List<ResourceLocation> selected = runeData.getSelectedRunes(2);
-
-        refreshSkill(
-                entityData,
-                ModSkills.RUNIC_SPEED.getId(),
-                selected.contains(Runes.SPEED.getId())
-        );
-
-        refreshSkill(
-                entityData,
-                ModSkills.RUNIC_PRECISION.getId(),
-                selected.contains(Runes.PRECISION.getId())
-        );
-
-
     }
 
     public static boolean toggleRuneSelection(IEntityData entityData, RunicRuneData runeData, ResourceLocation runeId) {
@@ -269,6 +192,54 @@ public final class RunicPathHelper {
         }
 
         return runeData.addSelectedRune(majorRealm, runeId);
+    }
+
+    // SKILL REFRESH
+    public static void refreshSkill(IEntityData entityData, ResourceLocation skillId, boolean shouldHave) {
+        if (entityData == null || skillId == null) return;
+
+        if (shouldHave) {
+            if (!entityData.hasSkill(skillId)) {
+                entityData.giveSkill(skillId, ModForms.MORTAL_VESSEL.getId());
+            } else {
+                entityData.removeSkill(skillId, ModForms.MORTAL_VESSEL.getId());
+                entityData.giveSkill(skillId, ModForms.MORTAL_VESSEL.getId());
+            }
+        } else {
+            if (entityData.hasSkill(skillId)) {
+                entityData.removeSkill(skillId, ModForms.MORTAL_VESSEL.getId());
+            }
+        }
+    }
+
+    public static void refreshAllRuneSkills(IEntityData entityData) {
+        if (entityData == null) return;
+
+        RunicRuneData runeData = getRuneData(entityData);
+
+        RunicTechnique technique = getRunicTechnique(entityData);
+        if (technique == null) return;
+
+        for (int majorRealm = 0; majorRealm <= technique.getMaxMajorRealm(); majorRealm++) {
+            refreshRuneSkillsForRealm(entityData, runeData, majorRealm);
+        }
+    }
+
+    public static void refreshRuneSkillsForRealm(IEntityData entityData, RunicRuneData runeData, int majorRealm) {
+        if (entityData == null || runeData == null) return;
+
+        List<ResourceLocation> selected = runeData.getSelectedRunes(majorRealm);
+
+        for (Map.Entry<ResourceLocation, ResourceLocation> entry : RUNE_TO_SKILL.entrySet()) {
+            ResourceLocation runeId = entry.getKey();
+            ResourceLocation skillId = entry.getValue();
+
+            Rune rune = Runes.get(runeId);
+            if (rune == null) continue;
+            if (rune.getMajorRealm() != majorRealm) continue;
+
+            refreshSkill(entityData, skillId, selected.contains(runeId));
+        }
     }
 
     public static void applyForcedRunesIfNeeded(IEntityData entityData, RunicRuneData runeData) {
@@ -291,7 +262,4 @@ public final class RunicPathHelper {
             }
         }
     }
-
-
-
 }
