@@ -78,16 +78,6 @@ public class GenericTechnique implements ITechnique {
             heldEntity.giveSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
 
-        // TEMP Runic Path
-        if (getPath().equals(ModPaths.RUNIC.getId())) {
-            heldEntity.giveSkill(
-                    ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(),
-                    ModForms.MORTAL_VESSEL.getId()
-            );
-
-            RunicPathHelper.refreshAllRuneSkills(heldEntity);
-        }
-
     }
 
 
@@ -101,12 +91,7 @@ public class GenericTechnique implements ITechnique {
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.removeSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
-        if(getPath().equals(ModPaths.RUNIC.getId())){
-            heldEntity.removeSkill(ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(), ModForms.MORTAL_VESSEL.getId());
-            heldEntity.removeSkill(ModSkills.RUNIC_ARMOR.getId(), ModForms.MORTAL_VESSEL.getId());
-            heldEntity.removeSkill(ModSkills.RUNIC_STRENGTH.getId(), ModForms.MORTAL_VESSEL.getId());
-            heldEntity.removeSkill(ModSkills.RUNIC_VITALITY.getId(), ModForms.MORTAL_VESSEL.getId());
-        }
+
     }
 
     @Override
@@ -126,10 +111,6 @@ public class GenericTechnique implements ITechnique {
         for (IEntityFormData formData : entityData.getFormData()){
             formData.getStatSheet().sync(serverPlayer,formData.getEntityFormId());
         }
-
-        //TEMP: Forcefully refresh Runic Passive Skills on Realm Change, to recalculate values
-        RunicPathHelper.refreshAllRuneSkills(entityData);
-
     }
 
     @Override

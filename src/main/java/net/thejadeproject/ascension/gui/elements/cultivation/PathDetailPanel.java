@@ -22,7 +22,7 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
-import net.thejadeproject.ascension.runic_path.ClientRunicData;
+import net.thejadeproject.ascension.runic_path.network.ClientRunicData;
 import net.thejadeproject.ascension.runic_path.Rune;
 import net.thejadeproject.ascension.runic_path.Runes;
 
@@ -266,40 +266,48 @@ public class PathDetailPanel extends RenderableElement {
 
 
         // TEMP DISPLAY OBTAINED RUNES
-        if (pathId != null && pathId.equals(ModPaths.RUNIC.getId())
-                && entityData != null
-                && entityData.getAttachedEntity() != null) {
-
+        if (pathId != null && pathId.equals(ModPaths.RUNIC.getId())) {
             int runeY = y + 6;
 
-            Set<ResourceLocation> unlockedRunes = ClientRunicData.getUnlockedRunes();
-            String runeText = "Runes count: " + unlockedRunes.size();
+            gfx.drawString(font, "Selected Runes:", 6, runeY, 0xFFD8C8FF, false);
+            runeY += 12;
 
-            if (unlockedRunes.isEmpty()) {
-                runeText = "Runes: None";
-            } else {
-                StringBuilder builder = new StringBuilder("Runes: ");
-                boolean first = true;
+            runeY = drawSelectedRealmLine(gfx, font, runeY, 0, "Flesh");
+            runeY = drawSelectedRealmLine(gfx, font, runeY, 1, "Soul");
+            runeY = drawSelectedRealmLine(gfx, font, runeY, 2, "Spark");
+            runeY = drawSelectedRealmLine(gfx, font, runeY, 3, "Void");
 
-                for (ResourceLocation runeId : unlockedRunes) {
-                    Rune rune = Runes.get(runeId);
-                    String name = rune != null ? rune.getDisplayName().getString() : runeId.getPath();
-
-                    if (!first) builder.append(", ");
-                    builder.append(name);
-                    first = false;
-                }
-
-                runeText = builder.toString();
-            }
-
-            gfx.drawString(font, runeText, 6, runeY, 0xFFD8C8FF, false);
-
-            y = runeY + 12;
+            y = runeY + 4;
         }
 
 
         super.render(gfx, mouseX, mouseY, partialTick);
+    }
+
+    private int drawSelectedRealmLine(GuiGraphics gfx, Font font, int y, int majorRealm, String realmName) {
+        var selected = ClientRunicData.getSelectedRunes(majorRealm);
+
+        String text;
+        if (selected.isEmpty()) {
+            text = realmName + ": None";
+        } else {
+            StringBuilder builder = new StringBuilder(realmName).append(": ");
+            boolean first = true;
+
+            for (ResourceLocation runeId : selected) {
+                Rune rune = Runes.get(runeId);
+                String name = rune != null ? rune.getDisplayName().getString() : runeId.getPath();
+
+                if (!first) builder.append(", ");
+                builder.append(name);
+                first = false;
+            }
+
+            text = builder.toString();
+        }
+
+        gfx.drawString(font, text, 6, y, 0xFFD8C8FF, false);
+        return y + 10;
     }
 
 }

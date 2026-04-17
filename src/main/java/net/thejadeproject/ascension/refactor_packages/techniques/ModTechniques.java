@@ -19,6 +19,7 @@ import net.thejadeproject.ascension.refactor_packages.techniques.custom.GenericT
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ModifierOperation;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
+import net.thejadeproject.ascension.runic_path.technique.RunicTechnique;
 
 import java.util.Set;
 
@@ -53,32 +54,36 @@ public class ModTechniques {
             new GenericTechnique(ModPaths.SWORD.getId(),Component.literal("Sword Comprehension Technique"),10.0,Set.of())
                     .setStatChangeHandler(testHandler));
 
-    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_MONARCH_TECHNIQUE = TECHNIQUES.register("rune_monarch_technique", ()->
-            new GenericTechnique(
-                    ModPaths.RUNIC.getId(),
-                    Component.translatable("ascension.technique.rune_monarch"),
-                    50.0,
-                    Set.of(ModPaths.ESSENCE.getId())
-            )
-                    .setShortDescription(Component.translatable("ascension.technique.rune_monarch.short_description"))
-                    .setDescription(Component.translatable("ascension.technique.rune_monarch.description"))
-                    .setStatChangeHandler(testHandler2));
+    public static final DeferredHolder<ITechnique, ? extends RunicTechnique> RUNE_MONARCH_TECHNIQUE =
+            TECHNIQUES.register("rune_monarch_technique", () ->
+                    new RunicTechnique(
+                            ModPaths.RUNIC.getId(),
+                            Component.translatable("ascension.technique.rune_monarch"),
+                            50.0,
+                            Set.of(ModPaths.ESSENCE.getId())
+                    )
+                            .setMaxMajorRealm(3)
+                            .setMaxRunesAllRealms(3)
+                            .setShortDescription(Component.translatable("ascension.technique.rune_monarch.short_description"))
+                            .setDescription(Component.translatable("ascension.technique.rune_monarch.description"))
+                            .setStatChangeHandler(testHandler2)
+            );
 
-    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> RUNE_SERVANT_TECHNIQUE = TECHNIQUES.register("rune_servant_technique", ()->
-            new GenericTechnique(
-                    ModPaths.RUNIC.getId(),
-                    Component.translatable("ascension.technique.rune_servant"),
-                    2.0,
-                    Set.of()
-            ) {
-                @Override
-                public int getMaxMajorRealm() {
-                    return 1;
-                }
-            }
-                    .setShortDescription(Component.translatable("ascension.technique.rune_servant.short_description"))
-                    .setDescription(Component.translatable("ascension.technique.rune_servant.description"))
-                    .setStatChangeHandler(testHandler2));
+    public static final DeferredHolder<ITechnique, ? extends RunicTechnique> RUNE_SERVANT_TECHNIQUE =
+            TECHNIQUES.register("rune_servant_technique", () ->
+                    new RunicTechnique(
+                            ModPaths.RUNIC.getId(),
+                            Component.translatable("ascension.technique.rune_servant"),
+                            2.0,
+                            Set.of()
+                    )
+                            .setMaxMajorRealm(1)
+                            .setMaxRunesForRealm(0, 1)
+                            .setMaxRunesForRealm(1, 1)
+                            .setShortDescription(Component.translatable("ascension.technique.rune_servant.short_description"))
+                            .setDescription(Component.translatable("ascension.technique.rune_servant.description"))
+                            .setStatChangeHandler(testHandler2)
+            );
 
 
 

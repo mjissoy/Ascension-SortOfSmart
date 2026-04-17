@@ -11,7 +11,7 @@ import java.util.*;
 public class RunicRuneData {
 
     private final Set<ResourceLocation> unlockedRunes = new HashSet<>();
-    private final Map<Integer, ResourceLocation> selectedRunes = new HashMap<>();
+    private final Map<Integer, List<ResourceLocation>> selectedRunes = new HashMap<>();
 
     public boolean unlockRune(ResourceLocation runeId) {
         return unlockedRunes.add(runeId);
@@ -25,25 +25,56 @@ public class RunicRuneData {
         return Collections.unmodifiableSet(unlockedRunes);
     }
 
-    public ResourceLocation getSelectedRune(int majorRealm) {
-        return selectedRunes.get(majorRealm);
+    public List<ResourceLocation> getSelectedRunes(int majorRealm) {
+        List<ResourceLocation> selected = selectedRunes.get(majorRealm);
+        if (selected == null) return List.of();
+        return Collections.unmodifiableList(selected);
     }
 
-    public Map<Integer, ResourceLocation> getSelectedRunes() {
-        return Collections.unmodifiableMap(selectedRunes);
+    public Map<Integer, List<ResourceLocation>> getSelectedRunes() {
+        Map<Integer, List<ResourceLocation>> copy = new HashMap<>();
+        for (Map.Entry<Integer, List<ResourceLocation>> entry : selectedRunes.entrySet()) {
+            copy.put(entry.getKey(), Collections.unmodifiableList(entry.getValue()));
+        }
+        return Collections.unmodifiableMap(copy);
     }
 
-    public boolean setSelectedRune(int majorRealm, ResourceLocation runeId) {
-        if (runeId != null && !unlockedRunes.contains(runeId)) {
-            return false;
-        }
+    public int getSelectedRuneCount(int majorRealm) {
+        return getSelectedRunes(majorRealm).size();
+    }
 
-        if (runeId == null) {
-            selectedRunes.remove(majorRealm);
-        } else {
-            selectedRunes.put(majorRealm, runeId);
-        }
+    public boolean hasSelectedRune(int majorRealm, ResourceLocation runeId) {
+        return getSelectedRunes(majorRealm).contains(runeId);
+    }
+
+    public boolean addSelectedRune(int majorRealm, ResourceLocation runeId) {
+        if (runeId == null) return false;
+        if (!unlockedRunes.contains(runeId)) return false;
+
+        List<ResourceLocation> selected = selectedRunes.computeIfAbsent(majorRealm, k -> new ArrayList<>());
+        if (selected.contains(runeId)) return false;
+
+        selected.add(runeId);
         return true;
+    }
+
+    public boolean removeSelectedRune(int majorRealm, ResourceLocation runeId) {
+        List<ResourceLocation> selected = selectedRunes.get(majorRealm);
+        if (selected == null) return false;
+
+        boolean removed = selected.remove(runeId);
+        if (selected.isEmpty()) {
+            selectedRunes.remove(majorRealm);
+        }
+        return removed;
+    }
+
+    public void clearSelectedRunes(int majorRealm) {
+        selectedRunes.remove(majorRealm);
+    }
+
+    public void clearAllSelectedRunes() {
+        selectedRunes.clear();
     }
 
     public CompoundTag write() {
@@ -56,8 +87,12 @@ public class RunicRuneData {
         tag.put("unlocked_runes", unlockedList);
 
         CompoundTag selectedTag = new CompoundTag();
-        for (Map.Entry<Integer, ResourceLocation> entry : selectedRunes.entrySet()) {
-            selectedTag.putString(String.valueOf(entry.getKey()), entry.getValue().toString());
+        for (Map.Entry<Integer, List<ResourceLocation>> entry : selectedRunes.entrySet()) {
+            ListTag realmList = new ListTag();
+            for (ResourceLocation runeId : entry.getValue()) {
+                realmList.add(StringTag.valueOf(runeId.toString()));
+            }
+            selectedTag.put(String.valueOf(entry.getKey()), realmList);
         }
         tag.put("selected_runes", selectedTag);
 
@@ -76,8 +111,18 @@ public class RunicRuneData {
         for (String key : selectedTag.getAllKeys()) {
             try {
                 int majorRealm = Integer.parseInt(key);
-                ResourceLocation runeId = ResourceLocation.parse(selectedTag.getString(key));
-                data.setSelectedRune(majorRealm, runeId);
+
+                Tag rawTag = selectedTag.get(key);
+                if (rawTag instanceof ListTag realmList) {
+                    for (int i = 0; i < realmList.size(); i++) {
+                        ResourceLocation runeId = ResourceLocation.parse(realmList.getString(i));
+                        data.addSelectedRune(majorRealm, runeId);
+                    }
+                }
+                else if (rawTag instanceof StringTag) {
+                    ResourceLocation runeId = ResourceLocation.parse(selectedTag.getString(key));
+                    data.addSelectedRune(majorRealm, runeId);
+                }
             } catch (Exception ignored) {
             }
         }

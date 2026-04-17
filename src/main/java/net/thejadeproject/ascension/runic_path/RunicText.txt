@@ -4,10 +4,10 @@ This is notes for the Runic Path:
 Realms:
     >> Runic Flesh
         Runes are drawn into the flesh, empowering the body
-            - Strength Runes
-            - Vitality Runes
+            - Strength Runes -> Runic Strength Skill
+            - Vitality Runes -> Runic Vitality Skill
             - Endurance Runes
-            - Armour Runes -> maybe make this rune grant the fortification skill? idk that might be too much
+            - Armour Runes -> Runic Armor Skill
 
     >> Runic Soul
         Runes are drawn into the Soul, empowering the soul
@@ -25,10 +25,10 @@ Realms:
 
     >> Runic Void
         Runes are drawn into the Void
-            - Resistance Rune - resists negative effects maybe? or damage reduction by a small percentage
+            - Resistance Rune - resists negative effects maybe? or damage reduction by a small percentage? idk
             - Echo Rune - chance that active skills excluding cultivation skills occur twice? idk
-            - Leech Rune - like a lifesteal but from incoming damage? idk
-            - Shield - temporarily makes damage taken zero? again idk
+            - Leech Rune - like a lifesteal but from incoming damage? again idk
+            - Shield - temporarily makes damage taken zero? once more, i reeally really dont know
 
 
 
@@ -36,19 +36,60 @@ Runes can be gained by ----- (actual method undecided).
 There is a limit to how many runes you get in each major realm (out of all four runes per realm)
 This is determined by your Technique (worse techniques = one, better techniques <= three)
 Every Major Realm, depending on your technique, at certain minor realms u will have a chance to select a rune (somehow idk, maybe a skill?)
-Runes do --- (maybe multipliers, maybe passive skills? idk)
+Runes do --- (passive skills that grant multipliers? active skills with aoe effects? idk)
 
 Techniques:
     >> Rune Servant Technique
         - Beginning technique, which lets u cultivate to Runic Flesh and Runic Soul
         - One Rune per Realm
     >> Rune Monarch Technique
-        - The highest grade Runic Technique, which lets u cultivate to all the Runic Realms, from Flesh to Void (and any I add later after my friends lift the realm limit)
+        - The highest grade Runic Technique, which lets u cultivate to all the Runic Realms, from Flesh to MAX (whatever is the highest realm after the max realm increases)
         - Three runes per realm
+    >> Fathomless Rune Creation Technique? WIP
+        - A specialized Runic Technique, which lets u cultivate all the runic realms, from Flesh of Void
+        - Gives you 2 runes per realm (pre-selected)
+        - Requires one to be in an ocean biome to cultivate? idk tbh
+    >> Divine Rune Creation Technique? WIP
+        - A specialized Runic Technique, which lets u cultivate all the runic realms, from Flesh of Void
+        - Gives you 2 runes per realm (pre-selected)
+        - Requires one to be high in the sky to cultivate? idk
+    >> Demonic Rune Creation Technique? WIP
+        - A specialized Runic Technique, which lets u cultivate all the runic realms, from Flesh of Void
+        - Gives you 2 runes per realm (pre-selected)
+        - Requires one to kill certain mobs and observe their deaths? idk tbh might be too complex
+    >>
+
+    Types:
+        - Regular > Allows you to pick which runes u want each realm
+        - Specialized > Pre selects the runes u get each realm
 
 Skills:
     >> Runic Cultivation Skill
-        - The base cultivation skill given by the Runic Techniques
-    >> Runic Fortification Passive Skill
-        - Fortifies the body by a small amount (increases armor and armor toughness). scales with major realm increase and relevant rune
+        - The base cultivation skill given by the Runic Techniques -> need to add a custom particle effect, and maybe make it require certain items (Runic Scripture? Different Runes Books, which when held, boosts runic cultivation?)
+    >> Runic Armor Passive Skill
+        - Fortifies the body by a small amount (increases armor and armor toughness a large amount). scales with major realm increase
+    >> Runic Vitality Passive Skill
+        - Nurtures the body by a small amount (increases max health and armor a small amount). scales with major realm increase
+    >> Runic Strength Passive Skill
+        - Strengthens the body by a small amount (increases strength). scales with major realm increase
     >> A General Runic Passive Skills Class (something that runic passive skills can extend, which lets u set the attribute effected, a matching rune needed to be unlocked potentially, the base attributes it gives, icon etc? idk might not be worth it)
+
+
+
+Implemented Classes:
+    Rune =
+    Runes =
+    RunicRuneData =
+    SyncRunes =
+    ClientRunicData =
+    RunicRealm =
+    RuneEffectType =
+    RunicPathHelper =
+    RunicScalingHelper =
+    RunicTechnique =
+    RunicCultivationSkill =
+    RunicCultivationSkillData =
+    RunicArmorSkill =
+    RunicStrengthSkill =
+    RunicVitalitySkill =
+    RuneItem =

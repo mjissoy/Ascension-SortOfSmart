@@ -20,7 +20,12 @@ import net.thejadeproject.ascension.runic_path.Rune;
 import net.thejadeproject.ascension.runic_path.Runes;
 import net.thejadeproject.ascension.runic_path.RunicPathHelper;
 import net.thejadeproject.ascension.runic_path.RunicRuneData;
+import net.thejadeproject.ascension.runic_path.network.RealmRuneSelection;
 import net.thejadeproject.ascension.runic_path.network.SyncRunes;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class RuneItem extends Item {
 
@@ -55,7 +60,7 @@ public class RuneItem extends Item {
             if (player instanceof ServerPlayer serverPlayer) {
                 PacketDistributor.sendToPlayer(
                         serverPlayer,
-                        new SyncRunes(java.util.List.of())
+                        new SyncRunes(java.util.List.of(), java.util.List.of())
                 );
             }
 
@@ -90,15 +95,17 @@ public class RuneItem extends Item {
         }
 
 
-        RunicPathHelper.autoSelectRuneIfEmpty(runeData, runeId);
+        RunicPathHelper.autoSelectRuneIfPossible(entityData, runeData, runeId);
         RunicPathHelper.saveRuneData(entityData, runeData);
         RunicPathHelper.refreshAllRuneSkills(entityData);
 
         if (player instanceof ServerPlayer serverPlayer) {
             PacketDistributor.sendToPlayer(
                     serverPlayer,
-                    new SyncRunes(new java.util.ArrayList<>(runeData.getUnlockedRunes()))
-            );
+                    new SyncRunes(
+                            new java.util.ArrayList<>(runeData.getUnlockedRunes()),
+                            toRealmSelections(runeData)
+                    )            );
         }
 
         player.displayClientMessage(
@@ -108,6 +115,19 @@ public class RuneItem extends Item {
 
         stack.shrink(1);
         return InteractionResultHolder.consume(stack);
+    }
+
+    private static List<RealmRuneSelection> toRealmSelections(RunicRuneData runeData) {
+        java.util.List<RealmRuneSelection> result = new ArrayList<>();
+
+        for (Map.Entry<Integer, List<ResourceLocation>> entry : runeData.getSelectedRunes().entrySet()) {
+            result.add(new RealmRuneSelection(
+                    entry.getKey(),
+                    new ArrayList<>(entry.getValue())
+            ));
+        }
+
+        return result;
     }
 
 
