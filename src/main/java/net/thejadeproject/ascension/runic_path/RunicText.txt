@@ -13,7 +13,7 @@ Realms:
         Runes are drawn into the Soul, empowering the soul
             - Health Regen Runes
             - Qi Regen Runes
-            - Cultivation Speed Runes
+            - Cultivation Speed Runes -> A passive skill to check if the rune is equipped, and then a Global Cultivation gain modifier (currently just hooked into generic cultivation skill and runic cultivation skill since those are the only ones that exist)
             - Stability Runes
 
     >> Runic Spark

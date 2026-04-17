@@ -26,11 +26,13 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
 
-        // TEMP Runes
+        // TEMP RuneItems
         runes(ModItems.ARMOR_RUNE.get());
         runes(ModItems.ENDURANCE_RUNE.get());
         runes(ModItems.STRENGTH_RUNE.get());
         runes(ModItems.VITALITY_RUNE.get());
+
+        runes(ModItems.ESSENCE_RUNE.get());
 
 
         //Block Items

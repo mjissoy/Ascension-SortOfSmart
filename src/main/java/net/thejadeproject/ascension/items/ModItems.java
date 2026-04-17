@@ -50,6 +50,9 @@ public class ModItems {
     public static final DeferredItem<Item> ENDURANCE_RUNE = ITEMS.register("endurance_rune",
             () -> new RuneItem(new Item.Properties(), Runes.ENDURANCE.getId()));
 
+    public static final DeferredItem<Item> ESSENCE_RUNE = ITEMS.register("essence_rune",
+            () -> new RuneItem(new Item.Properties(), Runes.ESSENCE.getId()));
+
 
 
 

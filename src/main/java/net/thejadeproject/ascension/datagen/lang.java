@@ -74,7 +74,10 @@ public class lang extends LanguageProvider {
             add("ascension.skill.runic_strength.description", "The cultivator engraves simple power runes into flesh and spirit, strengthening the muscles and tendons.");
             add("ascension.skill.runic_vitality", "Runic Vitality");
             add("ascension.skill.runic_vitality.short_description", "Life runes nurture the body.");
-            add("ascension.skill.runic_vitality.description", "The cultivator engraves simple life runes into flesh and spirit, nurturing the body and lifeforce.");
+            add("ascension.skill.runic_vitality.description", "The cultivator engraves simple life runes into flesh and spirit, nurturing the body and life force.");
+            add("ascension.skill.runic_cultivation_boost", "Runic Cultivation Enhancement");
+            add("ascension.skill.runic_cultivation_boost.short_description", "Essence Runes speed up cultivation.");
+            add("ascension.skill.runic_cultivation_boost.description", "The cultivator engraves simple essence runes into soul, augmenting their cultivation speed.");
 
             // Runes
 
@@ -94,6 +97,14 @@ public class lang extends LanguageProvider {
                 add("ascension.rune.endurance", "Endurance Rune");
                 add("item.ascension.endurance_rune", "Endurance Rune");
                 add("ascension.rune.endurance.description", "A rune that empowers Endurance");
+
+                add("ascension.rune.endurance", "Endurance Rune");
+                add("item.ascension.endurance_rune", "Endurance Rune");
+                add("ascension.rune.endurance.description", "A rune that empowers Endurance");
+
+                add("ascension.rune.essence", "Essence Rune");
+                add("item.ascension.essence_rune", "Essence Rune");
+                add("ascension.rune.essence.description", "A rune that empowers Essence");
 
 
 

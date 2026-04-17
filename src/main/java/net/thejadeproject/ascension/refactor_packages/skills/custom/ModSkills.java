@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.form_change.
 import net.thejadeproject.ascension.runic_path.skills.active.RunicCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
 import net.thejadeproject.ascension.runic_path.skills.passive.RunicArmorSkill;
+import net.thejadeproject.ascension.runic_path.skills.passive.RunicCultivationBoostSkill;
 import net.thejadeproject.ascension.runic_path.skills.passive.RunicStrengthSkill;
 import net.thejadeproject.ascension.runic_path.skills.passive.RunicVitalitySkill;
 
@@ -55,6 +56,14 @@ public class ModSkills {
                     .setShortDescription(Component.translatable("ascension.skill.runic_vitality.short_description"))
                     .setDescription(Component.translatable("ascension.skill.runic_vitality.description"))
     );
+
+    public static final DeferredHolder<ISkill, ? extends RunicCultivationBoostSkill> RUNIC_CULTIVATION_BOOST =
+            SKILLS.register(
+                    "runic_cultivation_boost",
+                    () -> new RunicCultivationBoostSkill(Component.translatable("ascension.skill.runic_cultivation_boost"))
+                            .setShortDescription(Component.translatable("ascension.skill.runic_cultivation_boost.short_description"))
+                            .setDescription(Component.translatable("ascension.skill.runic_cultivation_boost.description"))
+            );
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);

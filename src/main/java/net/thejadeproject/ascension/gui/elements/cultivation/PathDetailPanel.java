@@ -22,6 +22,7 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
+import net.thejadeproject.ascension.runic_path.RunicPathHelper;
 import net.thejadeproject.ascension.runic_path.network.ClientRunicData;
 import net.thejadeproject.ascension.runic_path.Rune;
 import net.thejadeproject.ascension.runic_path.Runes;
@@ -272,10 +273,10 @@ public class PathDetailPanel extends RenderableElement {
             gfx.drawString(font, "Selected Runes:", 6, runeY, 0xFFD8C8FF, false);
             runeY += 12;
 
-            runeY = drawSelectedRealmLine(gfx, font, runeY, 0, "Flesh");
-            runeY = drawSelectedRealmLine(gfx, font, runeY, 1, "Soul");
-            runeY = drawSelectedRealmLine(gfx, font, runeY, 2, "Spark");
-            runeY = drawSelectedRealmLine(gfx, font, runeY, 3, "Void");
+            runeY = drawSelectedRealmLine(gfx, font, entityData, runeY, 0, "Flesh");
+            runeY = drawSelectedRealmLine(gfx, font, entityData, runeY, 1, "Soul");
+            runeY = drawSelectedRealmLine(gfx, font, entityData, runeY, 2, "Spark");
+            runeY = drawSelectedRealmLine(gfx, font, entityData, runeY, 3, "Void");
 
             y = runeY + 4;
         }
@@ -284,14 +285,22 @@ public class PathDetailPanel extends RenderableElement {
         super.render(gfx, mouseX, mouseY, partialTick);
     }
 
-    private int drawSelectedRealmLine(GuiGraphics gfx, Font font, int y, int majorRealm, String realmName) {
+    private int drawSelectedRealmLine(GuiGraphics gfx, Font font, IEntityData entityData, int y, int majorRealm, String realmName) {
         var selected = ClientRunicData.getSelectedRunes(majorRealm);
 
-        String text;
+        int selectedCount = selected.size();
+        int unlockedSlots = entityData != null
+                ? RunicPathHelper.getUnlockedRuneSelectionsForRealm(entityData, majorRealm)
+                : 0;
+        int maxSlots = entityData != null
+                ? RunicPathHelper.getMaxRuneSelectionsForRealm(entityData, majorRealm)
+                : 0;
+
+        String names;
         if (selected.isEmpty()) {
-            text = realmName + ": None";
+            names = "None";
         } else {
-            StringBuilder builder = new StringBuilder(realmName).append(": ");
+            StringBuilder builder = new StringBuilder();
             boolean first = true;
 
             for (ResourceLocation runeId : selected) {
@@ -303,10 +312,12 @@ public class PathDetailPanel extends RenderableElement {
                 first = false;
             }
 
-            text = builder.toString();
+            names = builder.toString();
         }
 
+        String text = realmName + " (" + selectedCount + "/" + unlockedSlots + "/" + maxSlots + "): " + names;
         gfx.drawString(font, text, 6, y, 0xFFD8C8FF, false);
+
         return y + 10;
     }
 

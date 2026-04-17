@@ -34,6 +34,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableS
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.skill_data.GenericCultivationSkillData;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
+import net.thejadeproject.ascension.runic_path.skills.passive.helpers.CultivationModifierHelper;
 import org.checkerframework.checker.guieffect.qual.UI;
 
 import java.util.Set;
@@ -160,14 +161,13 @@ public class GenericCultivationSkill implements ICastableSkill {
             }
 
             ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(lastUsed);
-            double amount = baseRate;
-
+            IEntityData entityData = caster.getData(ModAttachments.ENTITY_DATA);
+            double amount = baseRate * CultivationModifierHelper.getMultiplierForPath(entityData, path);
 
             if(pathData.getCurrentRealmProgress()+amount >= technique.getMaxQiForRealm(pathData.getMajorRealm(),pathData.getMinorRealm())){
                 //TODO minor/major realm breakthrough shenanigans here
                 pathData.setCurrentRealmProgress(technique.getMaxQiForRealm(pathData.getMajorRealm(),pathData.getMinorRealm()));
 
-                IEntityData entityData = caster.getData(ModAttachments.ENTITY_DATA);
                 if(pathData.getMinorRealm() < technique.getMaxMinorRealm(pathData.getMajorRealm()) && technique.canBreakthroughMinorRealm(
                         entityData,
                         pathData.getMajorRealm(),
