@@ -6,9 +6,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
@@ -18,25 +18,25 @@ import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.Modif
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
 import net.thejadeproject.ascension.runic_path.RunicScalingHelper;
 
-public class RunicStrengthSkill implements ISkill {
+public class RunicVitalitySkill implements ISkill {
 
-    private static final ResourceLocation STRENGTH_ID =
-            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "runic_strength_strength");
+    private static final ResourceLocation VITALITY_ID =
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "runic_vitality_stat");
 
     private final Component title;
     private Component shortDescription = Component.empty();
     private Component description = Component.empty();
 
-    public RunicStrengthSkill(Component title) {
+    public RunicVitalitySkill(Component title) {
         this.title = title;
     }
 
-    public RunicStrengthSkill setShortDescription(Component shortDescription) {
+    public RunicVitalitySkill setShortDescription(Component shortDescription) {
         this.shortDescription = shortDescription;
         return this;
     }
 
-    public RunicStrengthSkill setDescription(Component description) {
+    public RunicVitalitySkill setDescription(Component description) {
         this.description = description;
         return this;
     }
@@ -64,47 +64,45 @@ public class RunicStrengthSkill implements ISkill {
     private void apply(IEntityData entity) {
         if (entity == null || entity.getActiveFormData() == null) return;
         if (entity.getActiveFormData().getStatSheet() == null) return;
-        if (entity.getActiveFormData().getStatSheet().getStatInstance(ModStats.STRENGTH.get()) == null) return;
+        if (entity.getActiveFormData().getStatSheet().getStatInstance(ModStats.VITALITY.get()) == null) return;
 
         remove(entity);
 
-        double strengthBonus = getStrengthBonus(entity);
+        double vitalityBonus = getVitalityBonus(entity);
 
         entity.getActiveFormData()
                 .getStatSheet()
-                .getStatInstance(ModStats.STRENGTH.get())
-                .addModifier(makeModifier(STRENGTH_ID, strengthBonus));
+                .getStatInstance(ModStats.VITALITY.get())
+                .addModifier(makeModifier(VITALITY_ID, vitalityBonus));
 
-        if (entity.getAttachedEntity() instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+        if (entity.getAttachedEntity() instanceof ServerPlayer serverPlayer) {
             entity.getActiveFormData().getStatSheet().sync(
                     serverPlayer,
                     entity.getActiveFormData().getEntityFormId()
             );
         }
-    }
-
-    private double getStrengthBonus(IEntityData entity) {
-        int realm = RunicScalingHelper.getMajorRealm(entity);
-        return 2.0 * (realm + 1);
-
     }
 
     private void remove(IEntityData entity) {
         if (entity == null || entity.getActiveFormData() == null) return;
         if (entity.getActiveFormData().getStatSheet() == null) return;
-        if (entity.getActiveFormData().getStatSheet().getStatInstance(ModStats.STRENGTH.get()) == null) return;
+        if (entity.getActiveFormData().getStatSheet().getStatInstance(ModStats.VITALITY.get()) == null) return;
 
         entity.getActiveFormData()
                 .getStatSheet()
-                .getStatInstance(ModStats.STRENGTH.get())
-                .removeModifier(STRENGTH_ID);
+                .getStatInstance(ModStats.VITALITY.get())
+                .removeModifier(VITALITY_ID);
 
-        if (entity.getAttachedEntity() instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
+        if (entity.getAttachedEntity() instanceof ServerPlayer serverPlayer) {
             entity.getActiveFormData().getStatSheet().sync(
                     serverPlayer,
                     entity.getActiveFormData().getEntityFormId()
             );
         }
+    }
+
+    private double getVitalityBonus(IEntityData entity) {
+        return RunicScalingHelper.scaleFlat(2.0, 1.0, entity);
     }
 
     private ValueContainerModifier makeModifier(ResourceLocation id, double value) {
@@ -136,7 +134,7 @@ public class RunicStrengthSkill implements ISkill {
     @Override
     public ITextureData getIcon() {
         return new TextureData(
-                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/icon/runic_strength.png"),
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "textures/spells/icon/runic_vitality.png"),
                 16, 16
         );
     }

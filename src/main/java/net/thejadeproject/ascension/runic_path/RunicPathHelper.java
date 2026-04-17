@@ -35,17 +35,14 @@ public final class RunicPathHelper {
 
     public static void clearRuneData(IEntityData entityData) {
         if (entityData == null || entityData.getAttachedEntity() == null) return;
-
-        entityData.getAttachedEntity().getPersistentData().remove("ascension_runes");
+        entityData.getAttachedEntity().getPersistentData().remove(RUNE_TAG);
     }
 
     public static void clearRunes(IEntityData entityData) {
         if (entityData == null) return;
 
         clearRuneData(entityData);
-
-        RunicRuneData clearedData = getRuneData(entityData);
-        refreshFleshRuneSkills(entityData, clearedData);
+        refreshAllRuneSkills(entityData);
     }
 
     // CHECKS
@@ -53,8 +50,12 @@ public final class RunicPathHelper {
         return getRuneData(entityData).hasRune(runeId);
     }
 
+    public static ResourceLocation getSelectedRune(IEntityData entityData, int majorRealm) {
+        return getRuneData(entityData).getSelectedRune(majorRealm);
+    }
+
     public static boolean hasSelectedRune(IEntityData entityData, int majorRealm, ResourceLocation runeId) {
-        ResourceLocation selected = getRuneData(entityData).getSelectedRune(majorRealm);
+        ResourceLocation selected = getSelectedRune(entityData, majorRealm);
         return runeId.equals(selected);
     }
 
@@ -72,7 +73,7 @@ public final class RunicPathHelper {
         return runeData.setSelectedRune(realm, runeId);
     }
 
-    // Refresh Skills
+    // SKILL REFRESH
     public static void refreshSkill(IEntityData entityData, ResourceLocation skillId, boolean shouldHave) {
         if (entityData == null) return;
 
@@ -90,25 +91,38 @@ public final class RunicPathHelper {
         }
     }
 
+    public static void refreshAllRuneSkills(IEntityData entityData) {
+        if (entityData == null) return;
+
+        RunicRuneData runeData = getRuneData(entityData);
+        refreshFleshRuneSkills(entityData, runeData);
+        // later:
+        // refreshSoulRuneSkills(entityData, runeData);
+        // refreshSparkRuneSkills(entityData, runeData);
+        // refreshVoidRuneSkills(entityData, runeData);
+    }
+
     public static void refreshFleshRuneSkills(IEntityData entityData, RunicRuneData runeData) {
         if (entityData == null || runeData == null) return;
 
         ResourceLocation selected = runeData.getSelectedRune(0);
 
-        // Armor Rune → Fortification
         refreshSkill(
                 entityData,
-                ModSkills.RUNIC_FORTIFICATION.getId(),
+                ModSkills.RUNIC_ARMOR.getId(),
                 Runes.ARMOR.getId().equals(selected)
         );
 
-        // Strength Rune → Runic Strength
         refreshSkill(
                 entityData,
                 ModSkills.RUNIC_STRENGTH.getId(),
                 Runes.STRENGTH.getId().equals(selected)
         );
+
+        refreshSkill(
+                entityData,
+                ModSkills.RUNIC_VITALITY.getId(),
+                Runes.VITALITY.getId().equals(selected)
+        );
     }
-
-
 }

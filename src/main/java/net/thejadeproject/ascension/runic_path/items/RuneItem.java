@@ -92,8 +92,7 @@ public class RuneItem extends Item {
 
         RunicPathHelper.autoSelectRuneIfEmpty(runeData, runeId);
         RunicPathHelper.saveRuneData(entityData, runeData);
-        RunicPathHelper.refreshFleshRuneSkills(entityData, runeData);
-
+        RunicPathHelper.refreshAllRuneSkills(entityData);
 
         if (player instanceof ServerPlayer serverPlayer) {
             PacketDistributor.sendToPlayer(

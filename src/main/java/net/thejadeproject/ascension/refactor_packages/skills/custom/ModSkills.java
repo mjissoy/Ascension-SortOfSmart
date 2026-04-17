@@ -11,8 +11,9 @@ import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
 import net.thejadeproject.ascension.runic_path.skills.active.RunicCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
-import net.thejadeproject.ascension.runic_path.skills.passive.RunicFortificationSkill;
+import net.thejadeproject.ascension.runic_path.skills.passive.RunicArmorSkill;
 import net.thejadeproject.ascension.runic_path.skills.passive.RunicStrengthSkill;
+import net.thejadeproject.ascension.runic_path.skills.passive.RunicVitalitySkill;
 
 public class ModSkills {
     public static final DeferredRegister<ISkill> SKILLS =DeferredRegister.create(AscensionRegistries.Skills.SKILL_REGISTRY, AscensionCraft.MOD_ID);
@@ -30,9 +31,9 @@ public class ModSkills {
             SwordCultivationSkill::new);
 
     // Passives
-    public static final DeferredHolder<ISkill, ? extends RunicFortificationSkill> RUNIC_FORTIFICATION = SKILLS.register(
+    public static final DeferredHolder<ISkill, ? extends RunicArmorSkill> RUNIC_ARMOR = SKILLS.register(
             "runic_fortification",
-            () -> new RunicFortificationSkill(Component.translatable("ascension.skill.runic_fortification"))
+            () -> new RunicArmorSkill(Component.translatable("ascension.skill.runic_fortification"))
                     .setShortDescription(Component.translatable("ascension.skill.runic_fortification.short_description"))
                     .setDescription(Component.translatable("ascension.skill.runic_fortification.description"))
     );
@@ -42,6 +43,13 @@ public class ModSkills {
             () -> new RunicStrengthSkill(Component.translatable("ascension.skill.runic_strength"))
                     .setShortDescription(Component.translatable("ascension.skill.runic_strength.short_description"))
                     .setDescription(Component.translatable("ascension.skill.runic_strength.description"))
+    );
+
+    public static final DeferredHolder<ISkill, ? extends RunicVitalitySkill> RUNIC_VITALITY = SKILLS.register(
+            "runic_vitality",
+            () -> new RunicVitalitySkill(Component.translatable("ascension.skill.runic_vitality"))
+                    .setShortDescription(Component.translatable("ascension.skill.runic_vitality.short_description"))
+                    .setDescription(Component.translatable("ascension.skill.runic_vitality.description"))
     );
 
     public static void register(IEventBus modEventBus){

@@ -72,6 +72,9 @@ public class lang extends LanguageProvider {
             add("ascension.skill.runic_strength", "Runic Strength");
             add("ascension.skill.runic_strength.short_description", "Power runes strengthen the body.");
             add("ascension.skill.runic_strength.description", "The cultivator engraves simple power runes into flesh and spirit, strengthening the muscles and tendons.");
+            add("ascension.skill.runic_vitality", "Runic Vitality");
+            add("ascension.skill.runic_vitality.short_description", "Life runes nurture the body.");
+            add("ascension.skill.runic_vitality.description", "The cultivator engraves simple life runes into flesh and spirit, nurturing the body and lifeforce.");
 
             // Runes
 

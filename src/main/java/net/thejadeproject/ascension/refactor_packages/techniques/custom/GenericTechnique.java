@@ -23,7 +23,6 @@ import net.thejadeproject.ascension.refactor_packages.techniques.stability.IStab
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.LnStabilityHandler;
 import net.thejadeproject.ascension.runic_path.Runes;
 import net.thejadeproject.ascension.runic_path.RunicPathHelper;
-import net.thejadeproject.ascension.runic_path.RunicRuneData;
 
 import java.util.Set;
 
@@ -84,19 +83,7 @@ public class GenericTechnique implements ITechnique {
                     ModForms.MORTAL_VESSEL.getId()
             );
 
-            // Passive Skills
-            if (RunicPathHelper.hasSelectedRune(heldEntity, 0, Runes.ARMOR.getId()))
-                heldEntity.giveSkill(
-                        ModSkills.RUNIC_FORTIFICATION.getId(),
-                        ModForms.MORTAL_VESSEL.getId()
-                );
-
-            if (RunicPathHelper.hasSelectedRune(heldEntity, 0, Runes.STRENGTH.getId())) {
-                heldEntity.giveSkill(
-                        ModSkills.RUNIC_STRENGTH.getId(),
-                        ModForms.MORTAL_VESSEL.getId()
-                );
-            }
+            RunicPathHelper.refreshAllRuneSkills(heldEntity);
         }
 
     }
@@ -114,8 +101,9 @@ public class GenericTechnique implements ITechnique {
         }
         if(getPath().equals(ModPaths.RUNIC.getId())){
             heldEntity.removeSkill(ModSkills.BASIC_RUNIC_CULTIVATION_SKILL.getId(), ModForms.MORTAL_VESSEL.getId());
-            heldEntity.removeSkill(ModSkills.RUNIC_FORTIFICATION.getId(), ModForms.MORTAL_VESSEL.getId());
+            heldEntity.removeSkill(ModSkills.RUNIC_ARMOR.getId(), ModForms.MORTAL_VESSEL.getId());
             heldEntity.removeSkill(ModSkills.RUNIC_STRENGTH.getId(), ModForms.MORTAL_VESSEL.getId());
+            heldEntity.removeSkill(ModSkills.RUNIC_VITALITY.getId(), ModForms.MORTAL_VESSEL.getId());
         }
     }
 
@@ -137,18 +125,8 @@ public class GenericTechnique implements ITechnique {
             formData.getStatSheet().sync(serverPlayer,formData.getEntityFormId());
         }
 
-        //TEMP: Forcefully refresh Runic Fortification Skill Values on Realm Change
-        if (getPath().equals(ModPaths.RUNIC.getId())) {
-            if (entityData.hasSkill(ModSkills.RUNIC_FORTIFICATION.getId())) {
-                entityData.removeSkill(ModSkills.RUNIC_FORTIFICATION.getId(), ModForms.MORTAL_VESSEL.getId());
-                entityData.giveSkill(ModSkills.RUNIC_FORTIFICATION.getId(), ModForms.MORTAL_VESSEL.getId());
-            }
-            if (entityData.hasSkill(ModSkills.RUNIC_STRENGTH.getId())) {
-                entityData.removeSkill(ModSkills.RUNIC_STRENGTH.getId(), ModForms.MORTAL_VESSEL.getId());
-                entityData.giveSkill(ModSkills.RUNIC_STRENGTH.getId(), ModForms.MORTAL_VESSEL.getId());
-            }
-        }
-
+        //TEMP: Forcefully refresh Runic Passive Skills on Realm Change, to recalculate values
+        RunicPathHelper.refreshAllRuneSkills(entityData);
 
     }
 
