@@ -24,10 +24,6 @@ public final class MobRankResolver {
         return definition.baseStats().add(resolveBodyBias(entity).asProfile());
     }
 
-    public static MobRankStatProfile resolveFinalStats(LivingEntity entity, MobRankData data) {
-        return resolveFinalStats(entity, resolveDefinition(data));
-    }
-
 
     public static MobRankDefinition resolveFromNearbyPlayer(LivingEntity entity) {
         Player player = findNearestRelevantPlayer(entity, DEFAULT_PLAYER_SEARCH_RANGE);
@@ -101,6 +97,10 @@ public final class MobRankResolver {
         if (clamped <= 2) return 1;
         if (clamped <= 5) return 2;
         return 3;
+    }
+
+    public static MobRankCategory resolveCategory(LivingEntity entity) {
+        return MobCategoryResolver.resolve(entity);
     }
 
 }

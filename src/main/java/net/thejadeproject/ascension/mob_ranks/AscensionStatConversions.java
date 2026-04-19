@@ -15,4 +15,22 @@ public final class AscensionStatConversions {
     public static double movementSpeedBonus(double strength, double agility) {
         return (strength * 0.0001) + (agility * 0.001);
     }
+
+    public static double safeFallBonus(MobRankStatProfile stats) {
+        return (stats.vitality() * 0.1 + stats.agility() * 0.5);
+    }
+
+    public static double hostileArmorBonus(MobRankStatProfile stats) {
+        return stats.vitality() * 0.25;
+    }
+
+    public static double hostileArmorToughnessBonus(MobRankStatProfile stats) {
+        return (stats.vitality() * 0.10) + (stats.strength() * 0.05);
+    }
+
+    public static double hostileWaterMovementBonus(MobRankStatProfile stats) {
+        return stats.agility() * 0.02;
+    }
+
+
 }
