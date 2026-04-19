@@ -45,7 +45,6 @@ public class ModAttachments {
     );
 
 
-
     public static final DeferredHolder<AttachmentType<?>, AttachmentType<PlayerInputStates>> INPUT_STATES = ATTACHMENT_TYPES.register("input_states",
             () -> AttachmentType.builder((holder) -> holder instanceof Player player ? new PlayerInputStates(player):null).build());
 

@@ -4,6 +4,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 
+import net.thejadeproject.ascension.mob_ranks.client_debugging_remove_later.SyncMobRanks;
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
@@ -14,13 +15,10 @@ import net.thejadeproject.ascension.refactor_packages.network.client_bound.entit
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncCastingInstance;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.stats.SyncStat;
-import net.thejadeproject.ascension.refactor_packages.network.server_bound.cultivation.TriggerBreakthrough;
-import net.thejadeproject.ascension.refactor_packages.network.server_bound.cultivation.UpdateSuppressionValue;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.ClearSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.SetActiveSlot;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.UpdateSkillSlot;
-import net.thejadeproject.ascension.runic_path.network.SyncRunes;
 
 
 public class ModPayloads {
@@ -33,31 +31,26 @@ public class ModPayloads {
                 SyncHeldSkills.STREAM_CODEC,
                 SyncHeldSkills::handlePayload
         );
-
         registrar.playToClient(
                 SyncEntityForm.TYPE,
                 SyncEntityForm.STREAM_CODEC,
                 SyncEntityForm::handlePayload
         );
-
         registrar.playToClient(
                 SyncSlot.TYPE,
                 SyncSlot.STREAM_CODEC,
                 SyncSlot::handlePayload
         );
-
         registrar.playToClient(
                 SyncCastingInstance.TYPE,
                 SyncCastingInstance.STREAM_CODEC,
                 SyncCastingInstance::handlePayload
         );
-
         registrar.playToClient(
                 SyncPathData.TYPE,
                 SyncPathData.STREAM_CODEC,
                 SyncPathData::handlePayload
         );
-
         registrar.playToClient(
                 SyncAttributeHolder.TYPE,
                 SyncAttributeHolder.STREAM_CODEC,
@@ -82,14 +75,17 @@ public class ModPayloads {
                 SyncPhysique::handlePayload
         );
 
-        // TEMP Rune Syncing
+
+        // Temp for display purposes
         registrar.playToClient(
-                SyncRunes.TYPE,
-                SyncRunes.STREAM_CODEC,
-                SyncRunes::handlePayload
+                SyncMobRanks.TYPE,
+                SyncMobRanks.STREAM_CODEC,
+                SyncMobRanks::handlePayload
         );
 
         //===================================== SERVER ==================================
+
+
 
         registrar.playToServer(
                 ToggleTabletDropModePayload.TYPE,
@@ -106,18 +102,6 @@ public class ModPayloads {
                 ClearSlot.TYPE,
                 ClearSlot.STREAM_CODEC,
                 ClearSlot::handlePayload
-        );
-
-        registrar.playToServer(
-                UpdateSuppressionValue.TYPE,
-                UpdateSuppressionValue.STREAM_CODEC,
-                UpdateSuppressionValue::handlePayload
-        );
-
-        registrar.playToServer(
-                TriggerBreakthrough.TYPE,
-                TriggerBreakthrough.STREAM_CODEC,
-                TriggerBreakthrough::handlePayload
         );
 
 

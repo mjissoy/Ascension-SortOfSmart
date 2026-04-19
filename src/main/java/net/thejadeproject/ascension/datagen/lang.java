@@ -158,6 +158,19 @@ public class lang extends LanguageProvider {
 
 
 
+        //Commands
+        add("command.ascension.cultivation.info.header", "=== Cultivation Info for %s ===");
+        add("command.ascension.cultivation.info.path", "%s: Realm %d.%d");
+        add("command.ascension.cultivation.info.progress", "  Progress: %s");
+        add("command.ascension.cultivation.info.technique", "  Technique: %s");
+        add("command.ascension.cultivation.info.cultivating.yes", "  Status: Cultivating");
+        add("command.ascension.cultivation.info.cultivating.no", "  Status: Idle");
+        add("command.ascension.cultivation.info.no_paths", "No active cultivation paths.");
+        add("command.ascension.cultivation.info.physique", "Physique: %s");
+        add("command.ascension.cultivation.info.path_header", "%s — %s %d.%d");
+
+
+
 
 
 

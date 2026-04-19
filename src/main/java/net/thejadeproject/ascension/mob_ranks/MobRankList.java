@@ -6,6 +6,8 @@ public final class MobRankList {
     private MobRankList() {
     }
 
+
+    // Subject to Change
     public static final MobRankDefinition MORTAL_1 =
             new MobRankDefinition("mortal", 1, new MobRankStatProfile(0, 0, 0));
 
@@ -33,6 +35,24 @@ public final class MobRankList {
     public static final MobRankDefinition FORMATION_ESTABLISHMENT_3 =
             new MobRankDefinition("formation_establishment", 3, new MobRankStatProfile(50, 36, 13));
 
+    public static final MobRankDefinition GOLDEN_CORE_1 =
+            new MobRankDefinition("golden_core", 1, new MobRankStatProfile(70, 50, 15));
+
+    public static final MobRankDefinition GOLDEN_CORE_2 =
+            new MobRankDefinition("golden_core", 2, new MobRankStatProfile(90, 65, 20));
+
+    public static final MobRankDefinition GOLDEN_CORE_3 =
+            new MobRankDefinition("golden_core", 3, new MobRankStatProfile(110, 80, 25));
+
+    public static final MobRankDefinition NASCENT_SOUL_1 =
+            new MobRankDefinition("nascent_soul", 1, new MobRankStatProfile(210, 100, 35));
+
+    public static final MobRankDefinition NASCENT_SOUL_2 =
+            new MobRankDefinition("nascent_soul", 2, new MobRankStatProfile(270, 130, 55));
+
+    public static final MobRankDefinition NASCENT_SOUL_3 =
+            new MobRankDefinition("nascent_soul", 3, new MobRankStatProfile(320, 170, 65));
+
     public static final List<MobRankDefinition> ALL = List.of(
             MORTAL_1,
             MORTAL_2,
@@ -42,7 +62,13 @@ public final class MobRankList {
             QI_GATHERING_3,
             FORMATION_ESTABLISHMENT_1,
             FORMATION_ESTABLISHMENT_2,
-            FORMATION_ESTABLISHMENT_3
+            FORMATION_ESTABLISHMENT_3,
+            GOLDEN_CORE_1,
+            GOLDEN_CORE_2,
+            GOLDEN_CORE_3,
+            NASCENT_SOUL_1,
+            NASCENT_SOUL_2,
+            NASCENT_SOUL_3
     );
 
     public static MobRankDefinition get(String realmId, int stage) {

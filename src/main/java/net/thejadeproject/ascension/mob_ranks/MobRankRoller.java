@@ -15,7 +15,13 @@ public final class MobRankRoller {
             new WeightedMobRank(MobRankList.MORTAL_3, 17),
             new WeightedMobRank(MobRankList.QI_GATHERING_1, 6),
             new WeightedMobRank(MobRankList.QI_GATHERING_2, 2),
-            new WeightedMobRank(MobRankList.QI_GATHERING_3, 0)
+            new WeightedMobRank(MobRankList.QI_GATHERING_3, 0),
+            new WeightedMobRank(MobRankList.FORMATION_ESTABLISHMENT_1, 0),
+            new WeightedMobRank(MobRankList.FORMATION_ESTABLISHMENT_2, 0),
+            new WeightedMobRank(MobRankList.FORMATION_ESTABLISHMENT_3, 0),
+            new WeightedMobRank(MobRankList.GOLDEN_CORE_1, 0),
+            new WeightedMobRank(MobRankList.GOLDEN_CORE_2, 0),
+            new WeightedMobRank(MobRankList.GOLDEN_CORE_3, 0)
     );
 
     private MobRankRoller() {

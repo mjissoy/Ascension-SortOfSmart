@@ -27,7 +27,6 @@ public class ModEntityLootTables extends EntityLootSubProvider {
 
                 )
         );
-
         this.add(ModEntities.FAKE_PLAYER.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1.0f))
@@ -38,8 +37,11 @@ public class ModEntityLootTables extends EntityLootSubProvider {
         this.add(ModEntities.FAKE_PLAYER.get(), LootTable.lootTable());
 
     }
+
     @Override
     protected @NotNull Stream<EntityType<?>> getKnownEntityTypes() {
         return ModEntities.ENTITY_TYPES.getEntries().stream().map(DeferredHolder::value);
     }
+
+
 }
