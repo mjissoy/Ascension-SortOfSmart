@@ -38,8 +38,37 @@ public class ModPaths {
                     .addMajorRealmName("ascension.path.soul.gold_battle_soul")
     );
 
+    // 5 Elements
     public static final DeferredHolder<IPath, ? extends GenericPath> FIRE = PATHS.register("fire",()->
             new ComprehensionPath(Component.translatable("ascension.path.fire"))
+                    .addMajorRealmName("ascension.path.fire.kindling")
+                    .addMajorRealmName("ascension.path.fire.ignition")
+                    .addMajorRealmName("ascension.path.fire.true_flame")
+                    .addMajorRealmName("ascension.path.fire.origin_flame")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> WATER = PATHS.register("water",()->
+            new ComprehensionPath(Component.translatable("ascension.path.water"))
+                    .addMajorRealmName("ascension.path.fire.kindling")
+                    .addMajorRealmName("ascension.path.fire.ignition")
+                    .addMajorRealmName("ascension.path.fire.true_flame")
+                    .addMajorRealmName("ascension.path.fire.origin_flame")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> WOOD = PATHS.register("wood",()->
+            new ComprehensionPath(Component.translatable("ascension.path.wood"))
+                    .addMajorRealmName("ascension.path.fire.kindling")
+                    .addMajorRealmName("ascension.path.fire.ignition")
+                    .addMajorRealmName("ascension.path.fire.true_flame")
+                    .addMajorRealmName("ascension.path.fire.origin_flame")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> EARTH = PATHS.register("earth",()->
+            new ComprehensionPath(Component.translatable("ascension.path.earth"))
+                    .addMajorRealmName("ascension.path.fire.kindling")
+                    .addMajorRealmName("ascension.path.fire.ignition")
+                    .addMajorRealmName("ascension.path.fire.true_flame")
+                    .addMajorRealmName("ascension.path.fire.origin_flame")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> METAL = PATHS.register("metal",()->
+            new ComprehensionPath(Component.translatable("ascension.path.metal"))
                     .addMajorRealmName("ascension.path.fire.kindling")
                     .addMajorRealmName("ascension.path.fire.ignition")
                     .addMajorRealmName("ascension.path.fire.true_flame")

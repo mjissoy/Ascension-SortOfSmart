@@ -338,8 +338,8 @@ public class PathData {
 
 
         buf.writeInt(realmStability.size());
-        for(Integer stability : realmStability){
-            buf.writeInt(stability);
+        for(int i=0;i<realmStability.size();i++){
+            buf.writeInt(realmStability.get(i));
         }
         buf.writeInt(techniqueHistory.size());
         for(ResourceLocation technique:techniqueHistory){
