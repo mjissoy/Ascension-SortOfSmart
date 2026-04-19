@@ -130,7 +130,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.SPIRIT_VEIN);
                         output.accept(ModBlocks.SPIRITUAL_STONE_CLUSTER);
                         output.accept(ModBlocks.SPIRITUAL_STONE_BLOCK);
-                        output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
 
 
                         output.accept(ModBlocks.GOLDEN_PALM_LOG);
@@ -349,14 +348,21 @@ public class ModCreativeModeTabs {
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_HERBS_TAB = CREATIVE_MODE_TAB.register("ascension_herbs_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GOLDEN_SUN_LEAF.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PEACH.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_items_tab"))
                     .title(Component.translatable("creativetab.ascension.herbs"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModBlocks.PILL_CAULDRON_HUMAN_LOW);
+                        output.accept(ModBlocks.CAULDRON_PEDESTAL_BLOCK);
+                        output.accept(ModBlocks.FLAME_STAND_BLOCK);
+                        output.accept(ModBlocks.SPIRIT_CONDENSER_BLOCK);
+                        output.accept(ModItems.FAN);
+
                         output.accept(ModItems.FLAME);
                         output.accept(ModItems.SOUL_FLAME);
                         output.accept(ModItems.CRIMSON_LOTUS_FLAME);
 
+                        output.accept(ModItems.PEACH);
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
                         output.accept(ModItems.JADE_BAMBOO_OF_SERENITY);
                         output.accept(ModItems.HUNDRED_YEAR_GINSENG);
