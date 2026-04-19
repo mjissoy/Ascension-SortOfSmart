@@ -124,13 +124,13 @@ public class HeldSkills {
         }
         return heldSkills;
     }
-    public static void encodeFull(RegistryFriendlyByteBuf buf,HeldSkills heldSkills){
+    public static void encodeFull(RegistryFriendlyByteBuf buf, HeldSkills heldSkills) {
+        List<HeldSkill> snapshot = new ArrayList<>(heldSkills.skills.values());
 
-        buf.writeInt(heldSkills.skills.size());
-        for(HeldSkill skill : new ArrayList<>(heldSkills.skills.values())){
+        buf.writeInt(snapshot.size());
+        for (HeldSkill skill : snapshot) {
             skill.encode(buf);
         }
-
     }
 
 
@@ -173,21 +173,26 @@ public class HeldSkills {
 
 
     private void encodeChanges(RegistryFriendlyByteBuf buf){
-        buf.writeInt(additionSyncBuffer.size());
-        for(ResourceLocation key : new ArrayList<>(additionSyncBuffer)){
+
+        List<ResourceLocation> added = new ArrayList<>(additionSyncBuffer);
+        List<ResourceLocation> removed = new ArrayList<>(removalSyncBuffer);
+        List<ResourceLocation> modified = new ArrayList<>(modifiedSyncBuffer);
+
+        buf.writeInt(added.size());
+        for(ResourceLocation key : added){
             HeldSkill skill = skills.get(key);
             if (skill != null) {
                 skill.encode(buf);
             }
         }
 
-        buf.writeInt(removalSyncBuffer.size());
-        for(ResourceLocation key : new ArrayList<>(removalSyncBuffer)){
+        buf.writeInt(removed.size());
+        for(ResourceLocation key : removed){
             ByteBufHelper.encodeString(buf, key.toString());
         }
 
-        buf.writeInt(modifiedSyncBuffer.size());
-        for(ResourceLocation key : new ArrayList<>(modifiedSyncBuffer)){
+        buf.writeInt(modified.size());
+        for(ResourceLocation key : modified){
             HeldSkill skill = skills.get(key);
             if (skill != null) {
                 skill.encode(buf);

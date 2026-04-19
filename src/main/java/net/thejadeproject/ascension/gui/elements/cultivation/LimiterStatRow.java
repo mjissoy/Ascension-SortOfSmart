@@ -113,4 +113,6 @@ public class LimiterStatRow extends RenderableElement {
         var inst = mc.player.getAttribute(attribute);
         return inst == null ? "—" : String.format("%.2f", inst.getValue());
     }
+
+
 }

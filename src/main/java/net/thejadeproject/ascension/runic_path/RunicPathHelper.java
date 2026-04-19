@@ -208,9 +208,6 @@ public final class RunicPathHelper {
         if (shouldHave) {
             if (!entityData.hasSkill(skillId)) {
                 entityData.giveSkill(skillId, ModForms.MORTAL_VESSEL.getId());
-            } else {
-                entityData.removeSkill(skillId, ModForms.MORTAL_VESSEL.getId());
-                entityData.giveSkill(skillId, ModForms.MORTAL_VESSEL.getId());
             }
         } else {
             if (entityData.hasSkill(skillId)) {

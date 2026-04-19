@@ -41,6 +41,7 @@ public class AttributeValueContainer extends ValueContainer {
     double cachedAttributeValue;
     double suppressedValue;
     boolean suppressed;
+    private double suppressionPercent;
     @Override
     public void calculateCachedVal() {
         if(cachedAttributeValue+cachedBaseStat != getBaseValue()) setBaseValue(cachedAttributeValue+cachedBaseStat);
@@ -110,12 +111,27 @@ public class AttributeValueContainer extends ValueContainer {
         this.suppressedValue = value;
         setSuppressed(getValue()>getSuppressedValue());
     }
+
     public void setSuppressed(boolean suppressed){
         this.suppressed = suppressed;
     }
     public boolean isSuppressed(){
         if(super.getValue()<=getSuppressedValue()) setSuppressed(false);
         return suppressed;
+    }
+
+    public double getSuppressionPercent() {
+        return suppressionPercent;
+    }
+
+    public void setSuppressionPercent(double suppressionPercent) {
+        this.suppressionPercent = Math.max(0.0, Math.min(1.0, suppressionPercent));
+        this.suppressed = this.suppressionPercent > 0.0;
+    }
+
+    public double getUnsuppressedValue() {
+        validateAttributeValue();
+        return super.getValue();
     }
 
 
