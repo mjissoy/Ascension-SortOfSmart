@@ -63,10 +63,7 @@ public class RemoteEntityData implements IEntityData{
     public UUID getWatchedEntityData(){
         return watchedEntityData;
     }
-    @Override
-    public boolean isAttachedEntityLoaded() {
-        return false;
-    }
+
 
     @Override
     public Entity getAttachedEntity() {
@@ -271,7 +268,7 @@ public class RemoteEntityData implements IEntityData{
 
     @Override
     public boolean setTechnique(ResourceLocation path) {
-        EntityDataManager.getEntityData(getWatchedEntityData()).setTechnique(path)
+        return EntityDataManager.getEntityData(getWatchedEntityData()).setTechnique(path);
     }
 
     @Override

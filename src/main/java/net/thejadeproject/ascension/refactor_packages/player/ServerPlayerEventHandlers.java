@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/net/thejadeproject/ascension/refactor_packages/player/ServerPlayerEventHandlers.java
 package net.thejadeproject.ascension.refactor_packages.player;
-========
-package net.thejadeproject.ascension.refactor_packages.handlers.player;
->>>>>>>> refs/remotes/Ascencion-MainRepo/main:src/main/java/net/thejadeproject/ascension/refactor_packages/handlers/player/ServerPlayerEventHandlers.java
 
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
