@@ -18,6 +18,10 @@ public class lang extends LanguageProvider {
         add("ascension.path.body", "Body");
         add("ascension.path.soul", "Soul");
         add("ascension.path.fire", "Fire");
+        add("ascension.path.water","Water");
+        add("ascension.path.water","Wood");
+        add("ascension.path.water","Earth");
+        add("ascension.path.water","Metal");
         add("ascension.path.sword", "Sword");
         //essence
         add("ascension.path.essence.mortal", "Mortal");
@@ -57,7 +61,8 @@ public class lang extends LanguageProvider {
         add("ascension.physiques.flame_touched", "Flame Touched");
 
 
-
+        //Techniques
+        add("ascension.technique.five_element","Five Element Circulation Method");
 
 
 
