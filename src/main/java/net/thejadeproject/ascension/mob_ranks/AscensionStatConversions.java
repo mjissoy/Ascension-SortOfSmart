@@ -1,9 +1,11 @@
 package net.thejadeproject.ascension.mob_ranks;
 
 public final class AscensionStatConversions {
+
     private AscensionStatConversions() {
     }
 
+    // Subject to change
     public static double maxHealthBonus(double vitality) {
         return vitality * 2.0;
     }

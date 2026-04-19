@@ -47,6 +47,7 @@ import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
+import net.thejadeproject.ascension.mob_ranks.util.EntityAttributeManager;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.particle.ModParticles;
 
@@ -305,16 +306,23 @@ public class AscensionCraft {
     }
 
     public void onLoadComplete(FMLLoadCompleteEvent event) {
-        /*
-            TODO
-            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.MAX_HEALTH.value());
-            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.ATTACK_DAMAGE.value());
-            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.STEP_HEIGHT.value());
-            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.ATTACK_SPEED.value());
 
-         */
-        //EntityAttributeManager.changeAttributeRange(0,ModTechniques.MaxSpeed,(RangedAttribute) Attributes.MOVEMENT_SPEED.value());
-        //EntityAttributeManager.changeAttributeRange(0,ModTechniques.MaxJumpStrength,(RangedAttribute) Attributes.JUMP_STRENGTH.value());
+        // Subject to change
+        EntityAttributeManager.changeAttributeRange(1.0, Double.MAX_VALUE, (RangedAttribute) Attributes.MAX_HEALTH.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.ATTACK_DAMAGE.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.ARMOR.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.ARMOR_TOUGHNESS.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.SAFE_FALL_DISTANCE.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.WATER_MOVEMENT_EFFICIENCY.value());
+
+        EntityAttributeManager.changeAttributeRange(0.0, 100.0, (RangedAttribute) Attributes.MOVEMENT_SPEED.value());
+        EntityAttributeManager.changeAttributeRange(0.0, 100.0, (RangedAttribute) Attributes.JUMP_STRENGTH.value());
+
+        EntityAttributeManager.logAttributeRange("MAX_HEALTH", (RangedAttribute) Attributes.MAX_HEALTH.value());
+        EntityAttributeManager.logAttributeRange("ATTACK_DAMAGE", (RangedAttribute) Attributes.ATTACK_DAMAGE.value());
+        EntityAttributeManager.logAttributeRange("ARMOR", (RangedAttribute) Attributes.ARMOR.value());
+        EntityAttributeManager.logAttributeRange("ARMOR_TOUGHNESS", (RangedAttribute) Attributes.ARMOR_TOUGHNESS.value());
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

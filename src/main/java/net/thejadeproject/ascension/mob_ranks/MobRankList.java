@@ -6,6 +6,8 @@ public final class MobRankList {
     private MobRankList() {
     }
 
+
+    // Subject to Change
     public static final MobRankDefinition MORTAL_1 =
             new MobRankDefinition("mortal", 1, new MobRankStatProfile(0, 0, 0));
 

@@ -13,9 +13,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderLivingEvent;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.mob_ranks.MobRankCategory;
 import net.thejadeproject.ascension.mob_ranks.MobRankData;
-import net.thejadeproject.ascension.mob_ranks.MobRankResolver;
 import org.joml.Matrix4f;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID, value = Dist.CLIENT)
@@ -62,9 +60,8 @@ public class DebugRenderNameTags {
 
         String realm = formatRealm(data.getRealmId());
         int stage = data.getStage();
-        MobRankCategory category = MobRankResolver.resolveCategory(entity);
 
-        Component text = Component.literal("[" + category.name() + "] [" + realm + " " + stage + "]");
+        Component text = Component.literal( "[" + realm + " " + stage + "]");
 
         renderFloatingText(
                 entity,
