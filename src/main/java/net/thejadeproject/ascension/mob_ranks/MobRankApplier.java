@@ -10,12 +10,25 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.thejadeproject.ascension.AscensionCraft;
 
 public final class MobRankApplier {
+
+    // Base Stats
     private static final ResourceLocation HEALTH_ID =
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mob_rank_health");
     private static final ResourceLocation DAMAGE_ID =
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mob_rank_damage");
     private static final ResourceLocation SPEED_ID =
             ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mob_rank_speed");
+    private static final ResourceLocation SAFE_FALL_ID =
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mob_rank_safe_fall");
+
+    // Hostile and Boss Stats
+    private static final ResourceLocation ARMOR_ID =
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mob_rank_armor");
+    private static final ResourceLocation ARMOR_TOUGHNESS_ID =
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mob_rank_armor_toughness");
+    private static final ResourceLocation WATER_MOVEMENT_ID =
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "mob_rank_water_movement_efficiency");
+
 
     private MobRankApplier() {
     }
@@ -27,17 +40,55 @@ public final class MobRankApplier {
 
     public static void applyRank(LivingEntity entity, MobRankDefinition definition) {
         MobRankStatProfile finalStats = MobRankResolver.resolveFinalStats(entity, definition);
+        MobRankCategory category = MobRankResolver.resolveCategory(entity);
 
         double healthBonus = AscensionStatConversions.maxHealthBonus(finalStats.vitality());
         double damageBonus = AscensionStatConversions.attackDamageBonus(finalStats.strength());
         double speedBonus = AscensionStatConversions.movementSpeedBonus(finalStats.strength(), finalStats.agility());
+        double safeFall = AscensionStatConversions.safeFallBonus(finalStats);
 
-        applyAddValue(entity, Attributes.MAX_HEALTH, HEALTH_ID, healthBonus);
-        applyAddValue(entity, Attributes.ATTACK_DAMAGE, DAMAGE_ID, damageBonus);
-        applyAddValue(entity, Attributes.MOVEMENT_SPEED, SPEED_ID, speedBonus);
+        applyBaseStats(entity, healthBonus, damageBonus, speedBonus, safeFall);
+
+        switch (category) {
+            case PASSIVE -> applyPassiveStats(entity, definition, finalStats);
+            case HOSTILE -> applyHostileStats(entity, definition, finalStats);
+            case BOSS -> applyBossStats(entity, definition, finalStats);
+        }
 
         entity.setHealth(entity.getMaxHealth());
     }
+
+
+    private static void applyBaseStats(LivingEntity entity, double healthBonus, double damageBonus, double speedBonus, double safeFall) {
+        applyAddValue(entity, Attributes.MAX_HEALTH, HEALTH_ID, healthBonus);
+        applyAddValue(entity, Attributes.ATTACK_DAMAGE, DAMAGE_ID, damageBonus);
+        applyAddValue(entity, Attributes.MOVEMENT_SPEED, SPEED_ID, speedBonus);
+        applyAddValue(entity, Attributes.SAFE_FALL_DISTANCE, SAFE_FALL_ID, safeFall);
+    }
+
+    private static void applyPassiveStats (LivingEntity entity, MobRankDefinition definition, MobRankStatProfile finalStats) {
+        clearHostileOnlyStats(entity);
+    }
+
+    private static void applyHostileStats (LivingEntity entity, MobRankDefinition definition, MobRankStatProfile finalStats) {
+        double armorBonus = AscensionStatConversions.hostileArmorBonus(finalStats);
+        double armorToughnessBonus = AscensionStatConversions.hostileArmorToughnessBonus(finalStats);
+        double waterMovementBonus = AscensionStatConversions.hostileWaterMovementBonus(finalStats);
+
+        applyAddValue(entity, Attributes.ARMOR, ARMOR_ID, armorBonus);
+        applyAddValue(entity, Attributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS_ID, armorToughnessBonus);
+        applyAddValue(entity, Attributes.WATER_MOVEMENT_EFFICIENCY, WATER_MOVEMENT_ID, waterMovementBonus);
+
+    }
+
+    private static void applyBossStats (LivingEntity entity, MobRankDefinition definition, MobRankStatProfile finalStats) {
+        // Same as Hostile, higher multi
+        // Scale
+        // Spawn Reinforcement
+
+        applyHostileStats(entity, definition, finalStats);
+    }
+
 
     private static void applyAddValue(LivingEntity entity,
                                       Holder<Attribute> attribute,
@@ -51,4 +102,21 @@ public final class MobRankApplier {
             instance.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
         }
     }
+
+    private static void removeModifier(LivingEntity entity,
+                                       Holder<Attribute> attribute,
+                                       ResourceLocation id) {
+        AttributeInstance instance = entity.getAttribute(attribute);
+        if (instance == null) return;
+
+        instance.removeModifier(id);
+    }
+
+    private static void clearHostileOnlyStats(LivingEntity entity) {
+        removeModifier(entity, Attributes.ARMOR, ARMOR_ID);
+        removeModifier(entity, Attributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS_ID);
+        removeModifier(entity, Attributes.WATER_MOVEMENT_EFFICIENCY, WATER_MOVEMENT_ID);
+        removeModifier(entity, Attributes.SAFE_FALL_DISTANCE, SAFE_FALL_ID);
+    }
+
 }

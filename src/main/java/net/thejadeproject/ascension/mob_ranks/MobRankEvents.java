@@ -114,15 +114,33 @@ public class MobRankEvents {
         MobBodyStatBias bias = def != null ? MobRankResolver.resolveBodyBias(entity) : MobBodyStatBias.NONE;
         MobRankStatProfile finalStats = base.add(bias.asProfile());
 
+        MobRankCategory category = MobRankResolver.resolveCategory(entity);
+
         double maxHealth = entity.getMaxHealth();
         double attackDamage = entity.getAttribute(Attributes.ATTACK_DAMAGE) != null
                 ? entity.getAttributeValue(Attributes.ATTACK_DAMAGE) : -1;
         double movementSpeed = entity.getAttribute(Attributes.MOVEMENT_SPEED) != null
                 ? entity.getAttributeValue(Attributes.MOVEMENT_SPEED) : -1;
 
+        double armor = entity.getAttribute(Attributes.ARMOR) != null
+                ? entity.getAttributeValue(Attributes.ARMOR) : -1;
+        double armorToughness = entity.getAttribute(Attributes.ARMOR_TOUGHNESS) != null
+                ? entity.getAttributeValue(Attributes.ARMOR_TOUGHNESS) : -1;
+
+        double waterMove = entity.getAttribute(Attributes.WATER_MOVEMENT_EFFICIENCY) != null
+                ? entity.getAttributeValue(Attributes.WATER_MOVEMENT_EFFICIENCY) : -1;
+        double safeFall = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE) != null
+                ? entity.getAttributeValue(Attributes.SAFE_FALL_DISTANCE) : -1;
+
+        double calcArmor = AscensionStatConversions.hostileArmorBonus(finalStats);
+        double calcToughness = AscensionStatConversions.hostileArmorToughnessBonus(finalStats);
+        double calcWater = AscensionStatConversions.hostileWaterMovementBonus(finalStats);
+        double calcSafeFall = AscensionStatConversions.safeFallBonus(finalStats);
+
         player.sendSystemMessage(Component.literal(
                 header + " | " +
                         entity.getName().getString() + " | " +
+                        "[" + category + "] " +
                         realm + " " + stage +
                         " || Base[V:" + fmt(base.vitality()) + " S:" + fmt(base.strength()) + " A:" + fmt(base.agility()) + "]" +
                         " + Bias[V:" + fmt(bias.vitality()) + " S:" + fmt(bias.strength()) + " A:" + fmt(bias.agility()) + "]" +
@@ -132,7 +150,18 @@ public class MobRankEvents {
         player.sendSystemMessage(Component.literal(
                 " → HP:" + fmt(maxHealth) +
                         " DMG:" + (attackDamage >= 0 ? fmt(attackDamage) : "N/A") +
-                        " SPD:" + (movementSpeed >= 0 ? fmt(movementSpeed) : "N/A")
+                        " SPD:" + (movementSpeed >= 0 ? fmt(movementSpeed) : "N/A") +
+                        " ARM:" + (armor >= 0 ? fmt(armor) : "N/A") +
+                        " TGH:" + (armorToughness >= 0 ? fmt(armorToughness) : "N/A") +
+                        " WTR:" + (waterMove >= 0 ? fmt(waterMove) : "N/A") +
+                        " FALL:" + (safeFall >= 0 ? fmt(safeFall) : "N/A")
+        ));
+
+        player.sendSystemMessage(Component.literal(
+                " → Calc[ARM:" + fmt(calcArmor) +
+                        " TGH:" + fmt(calcToughness) +
+                        " WTR:" + fmt(calcWater) +
+                        " FALL:" + fmt(calcSafeFall) + "]"
         ));
     }
 
