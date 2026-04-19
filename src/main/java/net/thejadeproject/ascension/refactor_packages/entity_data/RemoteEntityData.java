@@ -266,7 +266,8 @@ public class RemoteEntityData implements IEntityData{
 
     @Override
     public boolean setTechnique(ResourceLocation path) {
-        EntityDataManager.getEntityData(getWatchedEntityData()).setTechnique(path)
+        EntityDataManager.getEntityData(getWatchedEntityData()).setTechnique(path);
+        return false;
     }
 
     @Override
