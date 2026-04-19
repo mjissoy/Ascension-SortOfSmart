@@ -117,6 +117,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.SPIRITUAL_STONE_SHOVEL.get());
 
 
+        handheldItem(ModItems.FAN.get());
+
+
         //Items
         basicItem(ModItems.JADE.get());
         basicItem(ModItems.JADE_NUGGET.get());
@@ -199,6 +202,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         herbs(ModItems.GOLDEN_SUN_LEAF.get());
         herbs(ModItems.JADE_BAMBOO_OF_SERENITY.get());
         herbs(ModItems.WHITE_JADE_ORCHID.get());
+
+
+        herbs(ModItems.PEACH.get());
 
         herbs(ModItems.HUNDRED_YEAR_GINSENG.get());
         herbs(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get());
