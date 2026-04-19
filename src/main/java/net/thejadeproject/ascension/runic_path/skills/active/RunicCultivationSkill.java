@@ -215,8 +215,8 @@ public class RunicCultivationSkill implements ICastableSkill {
         return switch (majorRealm) {
             case 0 -> techniqueRate;
             case 1 -> techniqueRate * 0.75;
-            case 2 -> (ticksElapsed % 20 == 0) ? techniqueRate * 4.0 : 0.0;
-            case 3 -> (ticksElapsed % 10 < 6) ? techniqueRate * 1.25 : 0.0;
+            case 2 -> techniqueRate * 0.55;
+            case 3 -> techniqueRate * 0.35;
             default -> 0.0;
         };
     }

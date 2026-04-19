@@ -120,6 +120,8 @@ public class ValueContainer {
             ResourceLocation group = modifier.getGroupIdentifier();
             multiBaseByGroup.get(group).remove(modifier);
         }
+
+        calculateCachedVal();
     }
 
     public double getValue(){return cachedVal;}

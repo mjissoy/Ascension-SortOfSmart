@@ -127,8 +127,7 @@ public class HeldSkills {
     public static void encodeFull(RegistryFriendlyByteBuf buf,HeldSkills heldSkills){
 
         buf.writeInt(heldSkills.skills.size());
-        for(HeldSkill skill : heldSkills.skills.values()){
-
+        for(HeldSkill skill : new ArrayList<>(heldSkills.skills.values())){
             skill.encode(buf);
         }
 
@@ -158,7 +157,7 @@ public class HeldSkills {
         }
 
 
-        if(FMLLoader.getDist() != Dist.CLIENT) clearBuffers(); //should prevent accidental memory leak
+        if(FMLLoader.getDist() != Dist.CLIENT) clearBuffers();
     }
 
 
@@ -175,18 +174,24 @@ public class HeldSkills {
 
     private void encodeChanges(RegistryFriendlyByteBuf buf){
         buf.writeInt(additionSyncBuffer.size());
-        for(ResourceLocation key : additionSyncBuffer){
-            skills.get(key).encode(buf);
+        for(ResourceLocation key : new ArrayList<>(additionSyncBuffer)){
+            HeldSkill skill = skills.get(key);
+            if (skill != null) {
+                skill.encode(buf);
+            }
         }
 
         buf.writeInt(removalSyncBuffer.size());
-        for(ResourceLocation key : removalSyncBuffer){
+        for(ResourceLocation key : new ArrayList<>(removalSyncBuffer)){
             ByteBufHelper.encodeString(buf, key.toString());
         }
 
         buf.writeInt(modifiedSyncBuffer.size());
-        for(ResourceLocation key : modifiedSyncBuffer){
-            skills.get(key).encode(buf);
+        for(ResourceLocation key : new ArrayList<>(modifiedSyncBuffer)){
+            HeldSkill skill = skills.get(key);
+            if (skill != null) {
+                skill.encode(buf);
+            }
         }
 
         clearBuffers();

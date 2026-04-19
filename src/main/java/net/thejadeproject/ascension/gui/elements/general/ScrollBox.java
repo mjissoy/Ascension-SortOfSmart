@@ -41,22 +41,20 @@ public class ScrollBox extends RenderableElement {
 
     @Override
     public void addChild(RenderableElement element) {
+        if (!getChildren().isEmpty()) {
+            RenderableElement lastChild = getChildren().getLast();
 
-        //go to the last element, if it is on the same row set y and x if not set only y
-        if(!getChildren().isEmpty()) {
-            RenderableElement lastChild=getChildren().getLast();
-
-            if(lastChild.getPositioning().getX()+lastChild.getWidth()+element.getWidth() < getWidth()){
-                //on a new row
-                element.getPositioning().setFromRawY(lastChild.getPositioning().getRawY()+element.getHeight());
-            }else{
-                element.getPositioning().setFromRawY(lastChild.getPositioning().getRawY());
-                element.getPositioning().setFromRawX(lastChild.getPositioning().getRawX()+lastChild.getWidth());
-            }
+            element.getPositioning().setFromRawX(2);
+            element.getPositioning().setFromRawY(lastChild.getPositioning().getRawY() + lastChild.getHeight() + 2);
+        } else {
+            element.getPositioning().setFromRawX(2);
+            element.getPositioning().setFromRawY(0);
         }
 
         super.addChild(element);
+        updateVisibility(element);
     }
+
 
     public void updateVisibility(RenderableElement element){
 

@@ -51,6 +51,10 @@ public class RunicStrengthSkill extends AbstractRunicPassiveSkill {
                 .getStatInstance(ModStats.STRENGTH.get())
                 .addModifier(makeModifier(STRENGTH_ID, strengthBonus));
 
+        if (entity.getAscensionAttributeHolder() != null) {
+            entity.getAscensionAttributeHolder().updateAttributes(entity);
+        }
+
         if (entity.getAttachedEntity() instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
             entity.getActiveFormData().getStatSheet().sync(
                     serverPlayer,
@@ -69,6 +73,10 @@ public class RunicStrengthSkill extends AbstractRunicPassiveSkill {
                 .getStatSheet()
                 .getStatInstance(ModStats.STRENGTH.get())
                 .removeModifier(STRENGTH_ID);
+
+        if (entity.getAscensionAttributeHolder() != null) {
+            entity.getAscensionAttributeHolder().updateAttributes(entity);
+        }
 
         if (entity.getAttachedEntity() instanceof net.minecraft.server.level.ServerPlayer serverPlayer) {
             entity.getActiveFormData().getStatSheet().sync(

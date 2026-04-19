@@ -16,6 +16,9 @@ import net.thejadeproject.ascension.gui.elements.skill_view.slots.PassiveSkillIc
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PassiveSkillList extends RenderableElement {
     ScrollBox scrollBox;
     private Runnable onClose;
@@ -46,9 +49,18 @@ public class PassiveSkillList extends RenderableElement {
         IEntityData entityData = Minecraft.getInstance().player.getData(ModAttachments.ENTITY_DATA);
         if (entityData == null) return;
 
+        List<ResourceLocation> passiveSkills = new ArrayList<>();
+
         for (ResourceLocation skillId : entityData.getAllSkills()) {
             if (AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof ICastableSkill) continue;
-            scrollBox.addChild(new PassiveSkillIcon(this, getUiFrame(), skillId));
+            passiveSkills.add(skillId);
+        }
+
+        for (ResourceLocation skillId : entityData.getAllSkills()) {
+            if (AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId) instanceof ICastableSkill) continue;
+
+            PassiveSkillIcon icon = new PassiveSkillIcon(this, getUiFrame(), skillId);
+            scrollBox.addChild(icon);
         }
     }
 

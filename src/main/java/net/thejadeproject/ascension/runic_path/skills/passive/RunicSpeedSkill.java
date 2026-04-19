@@ -40,6 +40,7 @@ public class RunicSpeedSkill extends AbstractRunicPassiveSkill {
         }
 
         entity.getAscensionAttributeHolder().updateAttributes(entity);
+        syncAttributes(entity);
     }
 
     @Override
@@ -52,6 +53,7 @@ public class RunicSpeedSkill extends AbstractRunicPassiveSkill {
         }
 
         entity.getAscensionAttributeHolder().updateAttributes(entity);
+        syncAttributes(entity);
     }
 
     private double getSpeedBonus(IEntityData entity) {

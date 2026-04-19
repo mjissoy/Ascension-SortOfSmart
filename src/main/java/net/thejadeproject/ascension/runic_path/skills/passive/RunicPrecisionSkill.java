@@ -41,6 +41,7 @@ public class RunicPrecisionSkill extends AbstractRunicPassiveSkill {
         }
 
         entity.getAscensionAttributeHolder().updateAttributes(entity);
+        syncAttributes(entity);
     }
 
     @Override
@@ -53,6 +54,7 @@ public class RunicPrecisionSkill extends AbstractRunicPassiveSkill {
         }
 
         entity.getAscensionAttributeHolder().updateAttributes(entity);
+        syncAttributes(entity);
     }
 
     private double getAttackSpeedBonus(IEntityData entity) {

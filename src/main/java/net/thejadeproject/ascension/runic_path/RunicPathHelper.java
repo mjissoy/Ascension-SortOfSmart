@@ -122,14 +122,21 @@ public final class RunicPathHelper {
     public static int getUnlockedRuneSelectionsForRealm(IEntityData entityData, int majorRealm) {
         int maxSelections = getMaxRuneSelectionsForRealm(entityData, majorRealm);
         if (maxSelections <= 0) return 0;
-        if (maxSelections == 1) return 1;
 
         int currentMinorRealm = getCurrentMinorRealm(entityData, majorRealm);
-        int maxMinorRealm = DEFAULT_MINOR_REALMS_PER_MAJOR - 1;
 
+        // DEBUG override
+        if (currentMinorRealm >= 8) {
+            return maxSelections;
+        }
+
+        int maxMinorRealm = DEFAULT_MINOR_REALMS_PER_MAJOR - 1;
         int unlocked = 1 + (currentMinorRealm * (maxSelections - 1)) / maxMinorRealm;
+
         return Math.min(unlocked, maxSelections);
     }
+
+
 
     public static boolean canSelectMoreRunes(IEntityData entityData, int majorRealm) {
         return getSelectedRuneCount(entityData, majorRealm) < getUnlockedRuneSelectionsForRealm(entityData, majorRealm);
@@ -248,13 +255,15 @@ public final class RunicPathHelper {
 
         for (int majorRealm = 0; majorRealm <= technique.getMaxMajorRealm(); majorRealm++) {
             List<ResourceLocation> forced = technique.getForcedRunesForRealm(majorRealm);
-            int unlockedSlots = getUnlockedRuneSelectionsForRealm(entityData, majorRealm);
 
             runeData.clearSelectedRunes(majorRealm);
 
+            int maxSelections = technique.getMaxRunesForRealm(majorRealm);
+            int limit = Math.min(forced.size(), maxSelections);
+
             int applied = 0;
             for (ResourceLocation runeId : forced) {
-                if (applied >= unlockedSlots) break;
+                if (applied >= limit) break;
 
                 runeData.unlockRune(runeId);
                 runeData.addSelectedRune(majorRealm, runeId);

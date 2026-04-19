@@ -512,12 +512,20 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public ResourceLocation getTechnique(ResourceLocation path) {
-        return null;//TODO
+        PathData pathData = getPathData(path);
+        if (pathData == null) return null;
+        return pathData.getLastUsedTechnique();
     }
 
     @Override
     public ITechniqueData getTechniqueData(ResourceLocation path) {
-        return null;//TODO
+        PathData pathData = getPathData(path);
+        if (pathData == null) return null;
+
+        ResourceLocation technique = pathData.getLastUsedTechnique();
+        if (technique == null) return null;
+
+        return pathData.getTechniqueData(technique);
     }
 
     @Override

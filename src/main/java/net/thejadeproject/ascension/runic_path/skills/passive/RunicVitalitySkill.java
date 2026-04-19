@@ -51,6 +51,11 @@ public class RunicVitalitySkill extends AbstractRunicPassiveSkill {
                 .getStatInstance(ModStats.VITALITY.get())
                 .addModifier(makeModifier(VITALITY_ID, vitalityBonus));
 
+        if (entity.getAscensionAttributeHolder() != null) {
+            entity.getAscensionAttributeHolder().updateAttributes(entity);
+        }
+
+
         if (entity.getAttachedEntity() instanceof ServerPlayer serverPlayer) {
             entity.getActiveFormData().getStatSheet().sync(
                     serverPlayer,
@@ -69,6 +74,11 @@ public class RunicVitalitySkill extends AbstractRunicPassiveSkill {
                 .getStatSheet()
                 .getStatInstance(ModStats.VITALITY.get())
                 .removeModifier(VITALITY_ID);
+
+        if (entity.getAscensionAttributeHolder() != null) {
+            entity.getAscensionAttributeHolder().updateAttributes(entity);
+        }
+
 
         if (entity.getAttachedEntity() instanceof ServerPlayer serverPlayer) {
             entity.getActiveFormData().getStatSheet().sync(

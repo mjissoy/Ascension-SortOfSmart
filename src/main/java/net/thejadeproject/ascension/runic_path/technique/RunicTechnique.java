@@ -112,8 +112,11 @@ public class RunicTechnique extends GenericTechnique {
     }
 
     public RunicTechnique setMaxRunesAllRealms(int maxRunes) {
-        for (int i = 0; i <= getMaxMajorRealm(); i++) {
-            setMaxRunesForRealm(i, maxRunes);
+        int max = this.maxMajorRealm;
+        if (max <= 0) max = 3;
+
+        for (int i = 0; i <= max; i++) {
+            maxRunesPerRealm.put(i, maxRunes);
         }
         return this;
     }

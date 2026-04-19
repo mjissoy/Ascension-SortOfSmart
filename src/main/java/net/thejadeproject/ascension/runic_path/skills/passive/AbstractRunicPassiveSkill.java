@@ -5,7 +5,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
@@ -109,4 +112,20 @@ public abstract class AbstractRunicPassiveSkill implements ISkill {
     public Component getShortDescription() {
         return shortDescription;
     }
+
+
+    // === Network Helpers ===
+
+    protected void syncAttributes(IEntityData entity) {
+        if (entity == null || entity.getAttachedEntity() == null) return;
+        if (!(entity.getAttachedEntity() instanceof ServerPlayer serverPlayer)) return;
+        if (serverPlayer.connection == null) return;
+
+        PacketDistributor.sendToPlayer(
+                serverPlayer,
+                new SyncAttributeHolder(entity.getAscensionAttributeHolder())
+        );
+    }
+
+
 }

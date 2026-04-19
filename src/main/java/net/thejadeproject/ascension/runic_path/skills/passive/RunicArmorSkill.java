@@ -60,6 +60,7 @@ public class RunicArmorSkill extends AbstractRunicPassiveSkill {
         }
 
         holder.updateAttributes(entity);
+        syncAttributes(entity);
     }
 
     @Override
@@ -79,6 +80,7 @@ public class RunicArmorSkill extends AbstractRunicPassiveSkill {
         }
 
         holder.updateAttributes(entity);
+        syncAttributes(entity);
     }
 
     private double getArmorBonus(IEntityData entity) {
