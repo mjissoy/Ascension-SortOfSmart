@@ -19,9 +19,9 @@ public class lang extends LanguageProvider {
         add("ascension.path.soul", "Soul");
         add("ascension.path.fire", "Fire");
         add("ascension.path.water","Water");
-        add("ascension.path.water","Wood");
-        add("ascension.path.water","Earth");
-        add("ascension.path.water","Metal");
+        add("ascension.path.wood","Wood");
+        add("ascension.path.earth","Earth");
+        add("ascension.path.metal","Metal");
         add("ascension.path.sword", "Sword");
         //essence
         add("ascension.path.essence.mortal", "Mortal");
