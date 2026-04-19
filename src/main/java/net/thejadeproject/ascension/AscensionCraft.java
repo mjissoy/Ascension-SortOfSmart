@@ -318,11 +318,6 @@ public class AscensionCraft {
         EntityAttributeManager.changeAttributeRange(0.0, 100.0, (RangedAttribute) Attributes.MOVEMENT_SPEED.value());
         EntityAttributeManager.changeAttributeRange(0.0, 100.0, (RangedAttribute) Attributes.JUMP_STRENGTH.value());
 
-        EntityAttributeManager.logAttributeRange("MAX_HEALTH", (RangedAttribute) Attributes.MAX_HEALTH.value());
-        EntityAttributeManager.logAttributeRange("ATTACK_DAMAGE", (RangedAttribute) Attributes.ATTACK_DAMAGE.value());
-        EntityAttributeManager.logAttributeRange("ARMOR", (RangedAttribute) Attributes.ARMOR.value());
-        EntityAttributeManager.logAttributeRange("ARMOR_TOUGHNESS", (RangedAttribute) Attributes.ARMOR_TOUGHNESS.value());
-
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

@@ -17,9 +17,4 @@ public final class EntityAttributeManager {
         }
     }
 
-    public static void logAttributeRange(String name, RangedAttribute attribute) {
-        System.out.println(name + " -> min=" + attribute.minValue
-                + ", max=" + attribute.maxValue
-                + ", default=" + attribute.defaultValue);
-    }
 }
