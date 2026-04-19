@@ -35,7 +35,7 @@ public class PathBonusHandler {
 
     public double getPathBonus(ResourceLocation path){
         //TODO handle all path interactions
-        if(!pathBonuses.containsKey(path))return 0;
+        if(!pathBonuses.containsKey(path))return 1;
         return pathBonuses.get(path).getValue();
     }
 }
