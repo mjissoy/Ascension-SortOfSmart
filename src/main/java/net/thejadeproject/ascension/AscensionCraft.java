@@ -332,8 +332,8 @@ public class AscensionCraft {
 
 
     private void registerCommands(RegisterCommandsEvent event) {
-        SetCultivationCommand.register(event.getDispatcher());;
-        ResetAttributesCommand.register(event.getDispatcher());;
+        SetCultivationCommand.register(event.getDispatcher());
+        ResetAttributesCommand.register(event.getDispatcher());
     }
 
 

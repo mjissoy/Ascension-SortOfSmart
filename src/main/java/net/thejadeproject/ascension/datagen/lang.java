@@ -667,13 +667,15 @@ public class lang extends LanguageProvider {
 
 
         //JADE
-        add("config.jade.plugin_ascension.pill_cauldron", "Pill Cauldron");
         add("tooltip.ascension.heat_level", "Heat: %s°C / %s°C");
         add("tooltip.ascension.progress", "Progress: %s%%");
         add("tooltip.ascension.time_remaining", "Time remaining: %ss");
         add("tooltip.ascension.finishing", "Finishing...");
         add("tooltip.ascension.output", "Output: %s");
         add("tooltip.ascension.inputs", "Inputs:");
+        add("config.jade.plugin_ascension.pill_cauldron", "Pill Cauldron");
+        add("config.jade.plugin_ascension.flame_stand", "Flame Stand");
+        add("config.jade.plugin_ascension.cauldron_pedestal", "Cauldron Pedestal");
 
 
 
