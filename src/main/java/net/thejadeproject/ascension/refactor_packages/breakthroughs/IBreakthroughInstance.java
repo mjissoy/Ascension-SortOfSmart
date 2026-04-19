@@ -13,4 +13,6 @@ public interface IBreakthroughInstance extends IDataInstance {
      * @param path the path the tribulation is for
      */
     void tick(IEntityData entity, ResourceLocation path);
+
+    void onEntityDeath(IEntityData entity,ResourceLocation path);
 }

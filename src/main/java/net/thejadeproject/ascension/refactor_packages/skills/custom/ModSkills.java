@@ -9,6 +9,8 @@ import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.five_element.FiveElementCirculation;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.form_change.EnterSpiritForm;
 import net.thejadeproject.ascension.runic_path.skills.active.RunicCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
@@ -31,6 +33,8 @@ public class ModSkills {
             SwordCultivationSkill::new);
     public static final DeferredHolder<ISkill,? extends EnterSpiritForm> ENTER_SPIRIT_FORM = SKILLS.register("enter_spirit_form",
             EnterSpiritForm::new);
+    public static final DeferredHolder<ISkill,? extends FiveElementCirculation> FIVE_ELEMENT_CIRCULATION = SKILLS.register("five_element_circulation",
+            FiveElementCirculation::new);
 
 
     // Passives
@@ -86,6 +90,8 @@ public class ModSkills {
                                 .setShortDescription(Component.translatable("ascension.skill.runic_precision.short_description"))
                                 .setDescription(Component.translatable("ascension.skill.runic_precision.description"))
             );
+
+
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);

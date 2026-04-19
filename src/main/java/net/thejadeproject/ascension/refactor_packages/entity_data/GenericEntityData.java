@@ -642,6 +642,9 @@ public class GenericEntityData implements IEntityData {
         if(pathData.getLastUsedTechnique() != null && !pathData.getLastUsedTechnique().toString().equals("ascension:none")){
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique()).onTechniqueAdded(this);
         }
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer  && serverPlayer.connection != null){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncPathData(pathDataLocation.get(path),pathData));
+        }
     }
 
     @Override

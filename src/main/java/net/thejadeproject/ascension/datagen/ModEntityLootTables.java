@@ -27,12 +27,14 @@ public class ModEntityLootTables extends EntityLootSubProvider {
 
                 )
         );
-        this.add(ModEntities.RAT.get(), LootTable.lootTable()
+
+        this.add(ModEntities.FAKE_PLAYER.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1.0f))
 
                 )
         );
+
         this.add(ModEntities.FAKE_PLAYER.get(), LootTable.lootTable());
 
     }

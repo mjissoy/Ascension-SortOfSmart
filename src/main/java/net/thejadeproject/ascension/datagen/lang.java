@@ -18,6 +18,10 @@ public class lang extends LanguageProvider {
         add("ascension.path.body", "Body");
         add("ascension.path.soul", "Soul");
         add("ascension.path.fire", "Fire");
+        add("ascension.path.water","Water");
+        add("ascension.path.wood","Wood");
+        add("ascension.path.earth","Earth");
+        add("ascension.path.metal","Metal");
         add("ascension.path.sword", "Sword");
         //essence
         add("ascension.path.essence.mortal", "Mortal");
@@ -149,6 +153,17 @@ public class lang extends LanguageProvider {
         add("ascension.physiques.flame_touched", "Flame Touched");
 
 
+        //Techniques
+        add("ascension.technique.five_element","Five Element Circulation Method");
+
+
+
+
+
+
+
+
+
 
         //Menus
         add("container.ascension.spatial_stones", "§5Spatial Stones");
@@ -274,13 +289,13 @@ public class lang extends LanguageProvider {
         add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
         add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
 
-//        add("item.ascension.essence_gathering_pill_t1", "Essence Gathering Pill");
-//        add("item.ascension.essence_gathering_pill_t2", "Essence Gathering Pill");
-//        add("item.ascension.essence_gathering_pill_t3", "Essence Gathering Pill");
-//
-//        add("item.ascension.spirit_focus_pill_t1", "Spirit Focus Pill");
-//        add("item.ascension.spirit_focus_pill_t2", "Spirit Focus Pill");
-//        add("item.ascension.spirit_focus_pill_t3", "Spirit Focus Pill");
+        add("item.ascension.essence_gathering_pill_t1", "Essence Gathering Pill");
+        add("item.ascension.essence_gathering_pill_t2", "Essence Gathering Pill");
+        add("item.ascension.essence_gathering_pill_t3", "Essence Gathering Pill");
+
+        add("item.ascension.spirit_focus_pill_t1", "Spirit Focus Pill");
+        add("item.ascension.spirit_focus_pill_t2", "Spirit Focus Pill");
+        add("item.ascension.spirit_focus_pill_t3", "Spirit Focus Pill");
 
 
 
@@ -744,15 +759,15 @@ public class lang extends LanguageProvider {
 
 
         //JADE
-        add("config.jade.plugin_ascension.pill_cauldron", "Pill Cauldron");
         add("tooltip.ascension.heat_level", "Heat: %s°C / %s°C");
         add("tooltip.ascension.progress", "Progress: %s%%");
-        add("config.jade.plugin_ascension.flame_stand", "Flame Stand");
-        add("config.jade.plugin_ascension.cauldron_pedestal", "Cauldron Pedestal");
         add("tooltip.ascension.time_remaining", "Time remaining: %ss");
         add("tooltip.ascension.finishing", "Finishing...");
         add("tooltip.ascension.output", "Output: %s");
         add("tooltip.ascension.inputs", "Inputs:");
+        add("config.jade.plugin_ascension.pill_cauldron", "Pill Cauldron");
+        add("config.jade.plugin_ascension.flame_stand", "Flame Stand");
+        add("config.jade.plugin_ascension.cauldron_pedestal", "Cauldron Pedestal");
 
 
 

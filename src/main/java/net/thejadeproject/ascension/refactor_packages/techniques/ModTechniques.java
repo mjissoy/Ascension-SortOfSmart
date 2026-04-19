@@ -10,6 +10,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.FiveElementCultivationTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.GenericTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ModifierOperation;
@@ -125,7 +126,8 @@ public class ModTechniques {
                             .setStatChangeHandler(testHandler2)
             );
 
-
+    public static final DeferredHolder<ITechnique,? extends FiveElementCultivationTechnique> FIVE_ELEMENT_CIRCULATION_METHOD = TECHNIQUES.register("five_element_cultivation_technique",(
+            FiveElementCultivationTechnique::new));
 
     public static void register(IEventBus modEventBus){
         TECHNIQUES.register(modEventBus);
