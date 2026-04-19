@@ -8,12 +8,21 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class MobRankEvents {
+
+    @SubscribeEvent
+    public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
+        if (event.getLevel().isClientSide()) return;
+        if (!(event.getEntity() instanceof LivingEntity living)) return;
+
+        initializeRank(living);
+    }
 
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
@@ -25,22 +34,14 @@ public class MobRankEvents {
         if (!(event.getTarget() instanceof LivingEntity living)) return;
         if (living instanceof Player) return;
 
-        // Sneak + empty hand = inspect only
+        // Sneak + empty hand = inspect stats
         if (player.getMainHandItem().isEmpty()) {
             sendMobRankInfo(player, living, "Current mob stats");
             return;
         }
 
-        // Sneak + stick = apply a temporary test rank
+        // Sneak + stick or bone or end rod to apply debug rank
         if (player.getMainHandItem().is(Items.STICK)) {
-            sendMobRankInfo(player, living, "Before applying rank");
-
-            debugApplyRank(living, "mortal", 3);
-
-            sendMobRankInfo(player, living, "After applying rank");
-            event.setCanceled(true);
-        }
-        if (player.getMainHandItem().is(Items.BONE)) {
             sendMobRankInfo(player, living, "Before applying rank");
 
             debugApplyRank(living, "qi_gathering", 3);
@@ -48,10 +49,18 @@ public class MobRankEvents {
             sendMobRankInfo(player, living, "After applying rank");
             event.setCanceled(true);
         }
-        if (player.getMainHandItem().is(Items.END_ROD)) {
+        if (player.getMainHandItem().is(Items.BONE)) {
             sendMobRankInfo(player, living, "Before applying rank");
 
             debugApplyRank(living, "formation_establishment", 3);
+
+            sendMobRankInfo(player, living, "After applying rank");
+            event.setCanceled(true);
+        }
+        if (player.getMainHandItem().is(Items.END_ROD)) {
+            sendMobRankInfo(player, living, "Before applying rank");
+
+            debugApplyRank(living, "golden_core", 3);
 
             sendMobRankInfo(player, living, "After applying rank");
             event.setCanceled(true);
@@ -76,23 +85,20 @@ public class MobRankEvents {
         MobRankData data = entity.getData(ModAttachments.MOB_RANK);
         if (data == null || data.isInitialized()) return;
 
-        MobRankDefinition definition = MobRankRoller.rollRank(entity);
+        MobRankDefinition definition = MobRankResolver.resolveFromNearbyPlayer(entity);
+
+        if (definition == null) {
+            definition = MobRankRoller.rollRank(entity);
+        }
 
         data.setRealmId(definition.realmId());
         data.setStage(definition.stage());
         data.setInitialized(true);
 
         MobRankApplier.applyRank(entity, definition);
+        updateDebugNameTag(entity);
     }
 
-    public static void reapplyRank(LivingEntity entity) {
-        if (!MobRankRoller.canHaveRank(entity)) return;
-
-        MobRankData data = entity.getData(ModAttachments.MOB_RANK);
-        if (data == null || !data.isInitialized()) return;
-
-        MobRankApplier.applyFromData(entity, data);
-    }
 
     private static void sendMobRankInfo(Player player, LivingEntity entity, String header) {
         MobRankData data = entity.getData(ModAttachments.MOB_RANK);

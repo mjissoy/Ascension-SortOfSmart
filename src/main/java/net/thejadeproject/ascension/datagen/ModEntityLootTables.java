@@ -33,8 +33,11 @@ public class ModEntityLootTables extends EntityLootSubProvider {
                 )
         );
     }
+
     @Override
     protected @NotNull Stream<EntityType<?>> getKnownEntityTypes() {
         return ModEntities.ENTITY_TYPES.getEntries().stream().map(DeferredHolder::value);
     }
+
+
 }
