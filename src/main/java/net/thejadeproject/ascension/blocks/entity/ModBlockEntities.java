@@ -27,8 +27,6 @@ public class ModBlockEntities {
                     SpiritVeinBlockEntity::new, ModBlocks.SPIRIT_VEIN.get()).build(null));
 
 
-
-
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FlameStandBlockEntity>> FLAME_STAND =
             BLOCK_ENTITIES.register("flame_stand",
                     () -> BlockEntityType.Builder.of(

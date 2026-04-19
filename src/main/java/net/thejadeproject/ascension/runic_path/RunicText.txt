@@ -8,6 +8,7 @@ To begin with the Runic Path, one must first enter the second major realm of the
 
     >> Runic Flesh
         Runes are drawn into the flesh, empowering the body
+            Passives:
             - Strength Runes -> Runic Strength Skill
             - Vitality Runes -> Runic Vitality Skill
             - Endurance Runes
@@ -15,6 +16,10 @@ To begin with the Runic Path, one must first enter the second major realm of the
 
     >> Runic Soul
         Runes are drawn into the Soul, empowering the soul
+            Active Function:
+            - Rune Combinations -> Overwrite old Passives with new ones?
+
+            Passives:
             - Health Regen Runes -> Runic Health Regen Skill
             - Qi Regen Runes
             - Cultivation Speed Runes -> Runic Cultivation Boost Skill
@@ -22,6 +27,13 @@ To begin with the Runic Path, one must first enter the second major realm of the
 
     >> Runic Spark
         Runes are drawn into the Spark, empowering ones 'nature'
+            Active Function:
+            - All Previous and
+            - Influence other paths, formations etc?
+            - Active Rune Skills? AoE skills, Player Targeting Skills etc
+
+
+            Passives:
             - Attack Damage Runes
             - Speed Runes -> Runic Speed Skill
             - Attack Speed Runes -> Runic Precision Skill
@@ -29,6 +41,12 @@ To begin with the Runic Path, one must first enter the second major realm of the
 
     >> Runic Void
         Runes are drawn into the Void
+        Active Function:
+            - All Previous and
+            - Like domain type stuff? idk i might have to add more realms tbh
+            -
+
+            Passives:
             - Resistance Rune - resists negative effects maybe? or damage reduction by a small percentage? idk
             - Echo Rune - chance that active skills excluding cultivation skills occur twice? idk
             - Leech Rune - like a life-steal but from incoming damage? again idk

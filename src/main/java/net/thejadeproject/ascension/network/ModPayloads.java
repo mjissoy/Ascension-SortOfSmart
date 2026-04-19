@@ -33,26 +33,31 @@ public class ModPayloads {
                 SyncHeldSkills.STREAM_CODEC,
                 SyncHeldSkills::handlePayload
         );
+
         registrar.playToClient(
                 SyncEntityForm.TYPE,
                 SyncEntityForm.STREAM_CODEC,
                 SyncEntityForm::handlePayload
         );
+
         registrar.playToClient(
                 SyncSlot.TYPE,
                 SyncSlot.STREAM_CODEC,
                 SyncSlot::handlePayload
         );
+
         registrar.playToClient(
                 SyncCastingInstance.TYPE,
                 SyncCastingInstance.STREAM_CODEC,
                 SyncCastingInstance::handlePayload
         );
+
         registrar.playToClient(
                 SyncPathData.TYPE,
                 SyncPathData.STREAM_CODEC,
                 SyncPathData::handlePayload
         );
+
         registrar.playToClient(
                 SyncAttributeHolder.TYPE,
                 SyncAttributeHolder.STREAM_CODEC,
@@ -65,11 +70,6 @@ public class ModPayloads {
                 SyncStat::handlePayload
         );
 
-        registrar.playToClient(
-                SyncCurrentHealth.TYPE,
-                SyncCurrentHealth.STREAM_CODEC,
-                SyncCurrentHealth::handlePayload
-        );
         registrar.playToClient(
                 SyncCurrentHealth.TYPE,
                 SyncCurrentHealth.STREAM_CODEC,
@@ -89,10 +89,7 @@ public class ModPayloads {
                 SyncRunes::handlePayload
         );
 
-
         //===================================== SERVER ==================================
-
-
 
         registrar.playToServer(
                 ToggleTabletDropModePayload.TYPE,
