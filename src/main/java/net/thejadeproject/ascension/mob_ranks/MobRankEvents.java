@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RenderNameTagEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -76,7 +77,6 @@ public class MobRankEvents {
         data.setInitialized(true);
 
         MobRankApplier.applyFromData(entity, data);
-        updateDebugNameTag(entity);
     }
 
     public static void initializeRank(LivingEntity entity) {
@@ -96,7 +96,6 @@ public class MobRankEvents {
         data.setInitialized(true);
 
         MobRankApplier.applyRank(entity, definition);
-        updateDebugNameTag(entity);
     }
 
 
@@ -169,40 +168,4 @@ public class MobRankEvents {
         return String.format("%.1f", value);
     }
 
-    private static void updateDebugNameTag(LivingEntity entity) {
-        MobRankData data = entity.getData(ModAttachments.MOB_RANK);
-        if (data == null || !data.isInitialized()) {
-            entity.setCustomName(null);
-            entity.setCustomNameVisible(false);
-            return;
-        }
-
-        String realm = formatRealm(data.getRealmId());
-        int stage = data.getStage();
-
-        String mobName = entity.getType().getDescription().getString();
-        String label = "[" + realm + " " + stage + "]";
-
-        entity.setCustomName(Component.literal(label));
-        entity.setCustomNameVisible(true);
-    }
-
-    private static String formatRealm(String realmId) {
-        String[] parts = realmId.split("_");
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < parts.length; i++) {
-            if (parts[i].isEmpty()) continue;
-
-            String word = parts[i];
-            builder.append(Character.toUpperCase(word.charAt(0)))
-                    .append(word.substring(1));
-
-            if (i < parts.length - 1) {
-                builder.append(" ");
-            }
-        }
-
-        return builder.toString();
-    }
 }
