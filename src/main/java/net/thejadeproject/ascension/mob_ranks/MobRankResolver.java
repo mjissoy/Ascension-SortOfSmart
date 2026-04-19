@@ -87,7 +87,8 @@ public final class MobRankResolver {
             case 1 -> "qi_gathering";
             case 2 -> "formation_establishment";
             case 3 -> "golden_core";
-            default -> majorRealm < 0 ? "mortal" : "golden_core";
+            case 4 -> "nascent_soul";
+            default -> majorRealm < 0 ? "mortal" : "nascent_soul";
         };
     }
 

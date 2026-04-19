@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.mob_ranks;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -8,11 +9,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RenderNameTagEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.mob_ranks.client_debugging_remove_later.SyncMobRanks;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class MobRankEvents {
@@ -26,6 +29,25 @@ public class MobRankEvents {
     }
 
     @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event) {
+        if (!(event.getTarget() instanceof LivingEntity living)) return;
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+
+        MobRankData data = living.getData(ModAttachments.MOB_RANK);
+        if (data == null) return;
+
+        PacketDistributor.sendToPlayer(
+                player,
+                new SyncMobRanks(
+                        living.getId(),
+                        data.getRealmId(),
+                        data.getStage(),
+                        data.isInitialized()
+                )
+        );
+    }
+
+    @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
         if (event.getLevel().isClientSide()) return;
         if (event.getHand() != InteractionHand.MAIN_HAND) return;
@@ -35,34 +57,28 @@ public class MobRankEvents {
         if (!(event.getTarget() instanceof LivingEntity living)) return;
         if (living instanceof Player) return;
 
-        // Sneak + empty hand = inspect stats
         if (player.getMainHandItem().isEmpty()) {
             sendMobRankInfo(player, living, "Current mob stats");
             return;
         }
 
-        // Sneak + stick or bone or end rod to apply debug rank
         if (player.getMainHandItem().is(Items.STICK)) {
             sendMobRankInfo(player, living, "Before applying rank");
-
             debugApplyRank(living, "qi_gathering", 3);
-
             sendMobRankInfo(player, living, "After applying rank");
             event.setCanceled(true);
         }
+
         if (player.getMainHandItem().is(Items.BONE)) {
             sendMobRankInfo(player, living, "Before applying rank");
-
             debugApplyRank(living, "formation_establishment", 3);
-
             sendMobRankInfo(player, living, "After applying rank");
             event.setCanceled(true);
         }
+
         if (player.getMainHandItem().is(Items.END_ROD)) {
             sendMobRankInfo(player, living, "Before applying rank");
-
             debugApplyRank(living, "golden_core", 3);
-
             sendMobRankInfo(player, living, "After applying rank");
             event.setCanceled(true);
         }
@@ -77,6 +93,7 @@ public class MobRankEvents {
         data.setInitialized(true);
 
         MobRankApplier.applyFromData(entity, data);
+        syncMobRanks(entity);
     }
 
     public static void initializeRank(LivingEntity entity) {
@@ -86,7 +103,6 @@ public class MobRankEvents {
         if (data == null || data.isInitialized()) return;
 
         MobRankDefinition definition = MobRankResolver.resolveFromNearbyPlayer(entity);
-
         if (definition == null) {
             definition = MobRankRoller.rollRank(entity);
         }
@@ -96,8 +112,18 @@ public class MobRankEvents {
         data.setInitialized(true);
 
         MobRankApplier.applyRank(entity, definition);
+        syncMobRanks(entity);
     }
 
+    public static void reapplyRank(LivingEntity entity) {
+        if (!MobRankRoller.canHaveRank(entity)) return;
+
+        MobRankData data = entity.getData(ModAttachments.MOB_RANK);
+        if (data == null || !data.isInitialized()) return;
+
+        MobRankApplier.applyFromData(entity, data);
+        syncMobRanks(entity);
+    }
 
     private static void sendMobRankInfo(Player player, LivingEntity entity, String header) {
         MobRankData data = entity.getData(ModAttachments.MOB_RANK);
@@ -131,10 +157,6 @@ public class MobRankEvents {
         double safeFall = entity.getAttribute(Attributes.SAFE_FALL_DISTANCE) != null
                 ? entity.getAttributeValue(Attributes.SAFE_FALL_DISTANCE) : -1;
 
-        double calcArmor = AscensionStatConversions.hostileArmorBonus(finalStats);
-        double calcToughness = AscensionStatConversions.hostileArmorToughnessBonus(finalStats);
-        double calcWater = AscensionStatConversions.hostileWaterMovementBonus(finalStats);
-        double calcSafeFall = AscensionStatConversions.safeFallBonus(finalStats);
 
         player.sendSystemMessage(Component.literal(
                 header + " | " +
@@ -156,16 +178,26 @@ public class MobRankEvents {
                         " FALL:" + (safeFall >= 0 ? fmt(safeFall) : "N/A")
         ));
 
-        player.sendSystemMessage(Component.literal(
-                " → Calc[ARM:" + fmt(calcArmor) +
-                        " TGH:" + fmt(calcToughness) +
-                        " WTR:" + fmt(calcWater) +
-                        " FALL:" + fmt(calcSafeFall) + "]"
-        ));
     }
 
     private static String fmt(double value) {
         return String.format("%.1f", value);
     }
 
+    private static void syncMobRanks(LivingEntity entity) {
+        if (entity.level().isClientSide()) return;
+
+        MobRankData data = entity.getData(ModAttachments.MOB_RANK);
+        if (data == null) return;
+
+        PacketDistributor.sendToPlayersTrackingEntity(
+                entity,
+                new SyncMobRanks(
+                        entity.getId(),
+                        data.getRealmId(),
+                        data.getStage(),
+                        data.isInitialized()
+                )
+        );
+    }
 }
