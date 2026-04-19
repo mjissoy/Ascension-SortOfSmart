@@ -51,4 +51,10 @@ public class ModFoodProperties {
     public static final FoodProperties HUNDRED_YEAR_GINSENG = new FoodProperties.Builder().fast().alwaysEdible()
             .effect(() -> new MobEffectInstance(MobEffects.WEAKNESS, 50), 1f).build();
 
+
+
+    public static final FoodProperties PEACH = new FoodProperties.Builder()
+            .effect(() -> new MobEffectInstance(ModEffects.CLEANSING, 200, 3), 1f).build();
+
+
 }

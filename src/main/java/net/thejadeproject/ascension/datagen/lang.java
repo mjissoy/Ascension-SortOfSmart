@@ -133,6 +133,10 @@ public class lang extends LanguageProvider {
 
 
 
+        add("item.ascension.fan", "Fan");
+
+
+
         //Misc
         add("item.ascension.spiritual_stone", "Spiritual Stone");
         add("item.ascension.spatial_stone_tier_1", "Spatial Stone I");
@@ -356,6 +360,14 @@ public class lang extends LanguageProvider {
         add("item.ascension.hundred_year_snow_ginseng", "Hundred Year Snow Ginseng");
         add("item.ascension.hundred_year_fire_ginseng", "Hundred Year Fire Ginseng");
         add("item.ascension.jade_bamboo_of_serenity", "Jade Bamboo of Serenity");
+
+
+
+
+
+        add("item.ascension.peach", "Peach");
+
+
 
 
         add("block.ascension.hundred_year_ginseng_crop", "Hundred Year Ginseng");

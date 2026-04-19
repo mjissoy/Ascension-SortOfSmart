@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-19T14:29:31.6715332	Item Models: ascension
+// 1.21.1	2026-04-19T16:36:00.2129694	Item Models: ascension
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
 34dabeb5a8be2b07546251a0b1b7bf79b4730464 assets/ascension/models/item/black_iron_ingot.json
@@ -20,6 +20,7 @@ f9073eb5a7e4556b306957c8baf89351f754110e assets/ascension/models/item/cyan_marbl
 38b8fb051abd7c420998ca4844201a12eb285794 assets/ascension/models/item/diamond_blade.json
 314b298cf5460ebda41e529f392dcf27672e467e assets/ascension/models/item/diamond_spear.json
 14a26ac05e802ef718798bbab95ed44d115a809f assets/ascension/models/item/ender_pouch.json
+ec888e01b36fabc3bb4c793825ffaf8361baf4b0 assets/ascension/models/item/fan.json
 24d636705893eb64e2c11c327ff2067de21fe1da assets/ascension/models/item/fasting_pill_t1.json
 a7a0cfdd0338bc05cdd2bcfd788629bc35994828 assets/ascension/models/item/fasting_pill_t2.json
 5c9d7b313153f0eb76da3df42e0894407138cce3 assets/ascension/models/item/fasting_pill_t3.json
@@ -83,6 +84,7 @@ f63e29620c65360185f215742e6512024da0b6f0 assets/ascension/models/item/netherite_
 72010a264f4e1b76dc0ca7ff15bd9e12c7fd86a1 assets/ascension/models/item/neutrality_pill.json
 d2f6ff9a5555f8f3fcaf09cf0d3c910e086dde1b assets/ascension/models/item/orange_marble_brick_wall.json
 d444f0d2fa5e69c9b94fc7845713f61b53575a39 assets/ascension/models/item/orange_marble_tile_wall.json
+4b92dea94e58f2bd7acb4e0a6418705c580a2af9 assets/ascension/models/item/peach.json
 4853c59c8284bac480ed2ed97b07c87d923d2601 assets/ascension/models/item/pill_residue.json
 26fb96759eae49d274da53e1a3786720e6de4b52 assets/ascension/models/item/pink_marble_brick_wall.json
 fd8380413755ee016f51bb609fd2839c0616cb46 assets/ascension/models/item/pink_marble_tile_wall.json
