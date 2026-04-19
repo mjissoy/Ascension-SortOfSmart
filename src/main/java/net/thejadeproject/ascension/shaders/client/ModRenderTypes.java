@@ -8,43 +8,33 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import org.lwjgl.opengl.GL14;
 
+/**
+ * Custom render types for Ascension.
+ *
+ * The RIFT type mirrors how Lodestone's LodestoneRenderLayers creates its
+ * additive-texture render types:
+ *  - ShaderStateShard uses a lambda supplier from the ShaderHolder (never null at init)
+ *  - EmptyTextureStateShard because all textures are bound manually in the shader
+ *  - Phases.ADDITIVE_TRANSPARENCY (SRC_ALPHA + ONE) for the glowing crack look
+ *  - NO_CULL, LIGHTMAP, OVERLAY as standard VFX options
+ */
 public class ModRenderTypes {
 
-    /** Additive blend: src*srcAlpha + dst*1 — gives a glowing "add light" look. */
-    // MOVED HERE: Must be defined BEFORE it is used by RIFT
-    public static final RenderType.TransparencyStateShard RIFT_TRANSPARENCY =
-            new RenderStateShard.TransparencyStateShard(
-                    "rift_transparency",
-                    () -> {
-                        RenderSystem.enableBlend();
-                        RenderSystem.blendFunc(
-                                GlStateManager.SourceFactor.SRC_ALPHA,
-                                GlStateManager.DestFactor.ONE          // additive
-                        );
-                    },
-                    () -> {
-                        RenderSystem.disableBlend();
-                        RenderSystem.defaultBlendFunc();
-                    });
-
-    /**
-     * The rift render type.
-     *
-     * Texture binding is handled entirely inside the shader (via named samplers
-     * uploaded in ModShaders.uploadRiftUniforms), so we use an EmptyTextureStateShard.
-     *
-     * Additive-ish blending (SRC_ALPHA + ONE) makes the green glow bloom over the
-     * world without cutting a hard-edged hole in it.
-     */
     public static final RenderType RIFT = RenderType.create(
             "ascension_rift",
             DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP,
             VertexFormat.Mode.QUADS,
             256,
             RenderType.CompositeState.builder()
-                    .setShaderState(new RenderStateShard.ShaderStateShard(() -> ModShaders.getRiftShader()))
-                    .setTextureState(new RenderStateShard.EmptyTextureStateShard(() -> {}, () -> {}))
-                    .setTransparencyState(RIFT_TRANSPARENCY)
+                    // Lambda supplier via ShaderHolder — null-safe at class init time
+                    .setShaderState(new RenderStateShard.ShaderStateShard(
+                            ModShaders.RIFT.asSupplier()))
+                    // All textures are bound manually inside the shader;
+                    // no render-type-level texture binding needed
+                    .setTextureState(new RenderStateShard.EmptyTextureStateShard(
+                            () -> {}, () -> {}))
+                    // Additive: dark = invisible, bright = adds light to scene
+                    .setTransparencyState(Phases.ADDITIVE_TRANSPARENCY)
                     .setCullState(RenderStateShard.NO_CULL)
                     .setLightmapState(RenderStateShard.LIGHTMAP)
                     .setOverlayState(RenderStateShard.OVERLAY)
@@ -53,7 +43,7 @@ public class ModRenderTypes {
                     .createCompositeState(false)
     );
 
-    // ── Ghost render type (unchanged) ────────────────────────────────────────
+    // ── Ghost (unchanged from original) ──────────────────────────────────────
 
     private static final RenderType.TransparencyStateShard GHOST_TRANSPARENCY =
             new RenderStateShard.TransparencyStateShard(
@@ -62,12 +52,11 @@ public class ModRenderTypes {
                         RenderSystem.enableBlend();
                         RenderSystem.blendFunc(
                                 GlStateManager.SourceFactor.CONSTANT_ALPHA,
-                                GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA
-                        );
-                        GL14.glBlendColor(1.0F, 1.0F, 1.0F, 0.5F);
+                                GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
+                        GL14.glBlendColor(1f, 1f, 1f, 0.5f);
                     },
                     () -> {
-                        GL14.glBlendColor(1.0F, 1.0F, 1.0F, 1.0F);
+                        GL14.glBlendColor(1f, 1f, 1f, 1f);
                         RenderSystem.disableBlend();
                         RenderSystem.defaultBlendFunc();
                     });
@@ -76,9 +65,7 @@ public class ModRenderTypes {
             "ascension:ghost",
             DefaultVertexFormat.BLOCK,
             VertexFormat.Mode.QUADS,
-            2097152,
-            true,
-            false,
+            2097152, true, false,
             RenderType.CompositeState.builder()
                     .setShaderState(RenderType.POSITION_COLOR_TEX_LIGHTMAP_SHADER)
                     .setTextureState(RenderType.BLOCK_SHEET)

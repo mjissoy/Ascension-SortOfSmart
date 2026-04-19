@@ -70,6 +70,11 @@ public class ModPayloads {
                 SyncCurrentHealth.STREAM_CODEC,
                 SyncCurrentHealth::handlePayload
         );
+        registrar.playToClient(
+                SyncCurrentHealth.TYPE,
+                SyncCurrentHealth.STREAM_CODEC,
+                SyncCurrentHealth::handlePayload
+        );
 
         registrar.playToClient(
                 SyncPhysique.TYPE,
@@ -83,8 +88,6 @@ public class ModPayloads {
                 SyncRunes.STREAM_CODEC,
                 SyncRunes::handlePayload
         );
-
-
 
 
         //===================================== SERVER ==================================

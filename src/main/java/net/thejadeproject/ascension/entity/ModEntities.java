@@ -56,7 +56,6 @@ public class ModEntities {
                             .updateInterval(2)
                             .build("player_body")
             );
-
     public static final Supplier<EntityType<CushionEntity>> CUSHION_ENTITY =
             ENTITY_TYPES.register("cushion_entity", () -> EntityType.Builder.of(CushionEntity::new, MobCategory.MISC)
                     .sized(0.5f, 0.5f).build("cushion_entity"));

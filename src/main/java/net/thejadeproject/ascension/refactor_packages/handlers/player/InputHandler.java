@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.refactor_packages.player;
+package net.thejadeproject.ascension.refactor_packages.handlers.player;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.gui.UIFrame;

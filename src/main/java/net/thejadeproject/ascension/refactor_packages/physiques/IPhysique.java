@@ -4,13 +4,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.UUID;
 
 public interface IPhysique {
 
@@ -26,7 +23,7 @@ public interface IPhysique {
 
 
     /*
-        handles when forms are added and removed
+        handles when forms are added and removed.
 
         removed is only called if the physique is still on the entity aka not on the removed entity
      */

@@ -3,7 +3,6 @@ package net.thejadeproject.ascension.refactor_packages.entity_data;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -409,7 +408,10 @@ public class GenericEntityData implements IEntityData {
         System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
         NeoForge.EVENT_BUS.post(event);
 
-        if(getAttachedEntity() instanceof ServerPlayer serverPlayer)PacketDistributor.sendToPlayer(serverPlayer,new SyncPhysique(physiqueForm,physique,physiqueData));
+        if (getAttachedEntity() instanceof ServerPlayer serverPlayer && serverPlayer.connection != null) {
+            PacketDistributor.sendToPlayer(serverPlayer, new SyncPhysique(physiqueForm, physique, physiqueData));
+        }
+
 
         return true;
     }

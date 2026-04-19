@@ -60,6 +60,8 @@ public class PathData {
      */
     private final ArrayList<ResourceLocation> techniqueHistory = new ArrayList<>();
     private final HashMap<ResourceLocation, ITechniqueData> techniqueData = new HashMap<>();
+
+
     public Set<Integer> getTechniqueRealms(ResourceLocation technique){
         HashSet<Integer> realms = new HashSet<>();
         for(int i =0;i<techniqueHistory.size();i++){

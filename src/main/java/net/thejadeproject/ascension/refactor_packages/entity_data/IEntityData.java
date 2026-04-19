@@ -27,6 +27,10 @@ import net.thejadeproject.ascension.util.ModAttributes;
 import java.util.*;
 
 /**
+ * TODO set up a HeldEntityData,RemoteAccessEntityData and RemoteEntityData
+ *
+ *
+ *
  * Stores all the data an entity would need that relates to cultivation and stats
  *
  * does not hold a direct reference to the entity holding it, only the id. this is because there may be scenarios where this data is not stored on the entity directly

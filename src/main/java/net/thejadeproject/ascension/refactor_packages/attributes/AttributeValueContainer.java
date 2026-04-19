@@ -8,9 +8,6 @@ import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
@@ -20,7 +17,6 @@ import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainer;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
 
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -32,13 +28,6 @@ import java.util.HashMap;
  * TODO remember to save the suppression values
  */
 public class AttributeValueContainer extends ValueContainer {
-
-    private static final ResourceLocation CULTIVATION_APPLIED_ID =
-            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cultivation_applied");
-
-    private static final ResourceLocation SUPPRESSION_APPLIED_ID =
-            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "suppression_applied");
-
     private final Holder<Attribute> attributeHolder;
     private  LivingEntity attachedEntity;
     public AttributeValueContainer(LivingEntity attachedEntity,Holder<Attribute> attributeHolder, Component valueName) {
@@ -52,8 +41,6 @@ public class AttributeValueContainer extends ValueContainer {
     double cachedAttributeValue;
     double suppressedValue;
     boolean suppressed;
-    private double suppressionPercent;
-
     @Override
     public void calculateCachedVal() {
         if(cachedAttributeValue+cachedBaseStat != getBaseValue()) setBaseValue(cachedAttributeValue+cachedBaseStat);
@@ -85,88 +72,29 @@ public class AttributeValueContainer extends ValueContainer {
     }
 
     public void updateValue(IEntityData entityData){
+        //used to retrieve the stat sheet for calculations
         StatSheet statSheet = entityData.getActiveFormData().getStatSheet();
 
         double baseVal = 0;
         for (Stat stat : statMultipliers.keySet()){
             StatInstance instance = statSheet.getStatInstance(stat);
-            if (instance != null) {
-                baseVal += instance.getValue() * statMultipliers.get(stat).getValue();
-            }
+            baseVal += instance.getValue()*statMultipliers.get(stat).getValue();
         }
         cachedBaseStat = baseVal;
 
         calculateCachedVal();
-        applyLiveModifiers();
     }
-
-    private void applyLiveModifiers() {
-        if (attachedEntity == null) return;
-
-        AttributeInstance inst = attachedEntity.getAttribute(attributeHolder);
-        if (inst == null) return;
-
-        inst.removeModifier(CULTIVATION_APPLIED_ID);
-        inst.removeModifier(SUPPRESSION_APPLIED_ID);
-
-        double base = cachedAttributeValue;
-        double full = getUnsuppressedValue();
-        double cultivationBonus = full - base;
-
-        if (cultivationBonus != 0.0) {
-            inst.addTransientModifier(new AttributeModifier(
-                    CULTIVATION_APPLIED_ID,
-                    cultivationBonus,
-                    AttributeModifier.Operation.ADD_VALUE
-            ));
-        }
-
-        if (isSuppressed()) {
-            double shown = getSuppressedValue();
-            double suppressionDelta = shown - full;
-
-            if (suppressionDelta != 0.0) {
-                inst.addTransientModifier(new AttributeModifier(
-                        SUPPRESSION_APPLIED_ID,
-                        suppressionDelta,
-                        AttributeModifier.Operation.ADD_VALUE
-                ));
-            }
-        }
-    }
-
-
-    public void validateAttributeValue() {
-        if (attachedEntity == null) return;
-
-        AttributeInstance inst = attachedEntity.getAttribute(attributeHolder);
-        if (inst == null) return;
-
-        double base = inst.getBaseValue();
-
-        if (base != cachedAttributeValue) {
-            cachedAttributeValue = base;
+    public void validateAttributeValue(){
+        if(attachedEntity == null) return;
+        if(attachedEntity.getAttribute(attributeHolder)!=null && attachedEntity.getAttribute(attributeHolder).getValue() != cachedAttributeValue) {
+            cachedAttributeValue = attachedEntity.getAttribute(attributeHolder).getValue();
             calculateCachedVal();
         }
     }
-
-    public double getSuppressionPercent() {
-        return suppressionPercent;
-    }
-
-    public void setSuppressionPercent(double suppressionPercent) {
-        this.suppressionPercent = Math.max(0.0, Math.min(1.0, suppressionPercent));
-        this.suppressed = this.suppressionPercent > 0.0;
-    }
-
     @Override
     public double getValue() {
-        return isSuppressed() ? getSuppressedValue() : getUnsuppressedValue();
-    }
-
-    public double getUnsuppressedValue() {
         validateAttributeValue();
-        return super.getValue();
+        return isSuppressed()?getSuppressedValue():super.getValue();
     }
 
     @Override
@@ -175,79 +103,56 @@ public class AttributeValueContainer extends ValueContainer {
         return super.getBaseValue();
     }
 
-    public double getSuppressedValue() {
-        double full = getUnsuppressedValue();
-        return full * (1.0 - suppressionPercent);
+    public double getSuppressedValue(){
+        return suppressedValue;
     }
-
+    public void setSuppressedValue(double value){
+        this.suppressedValue = value;
+        setSuppressed(getValue()>getSuppressedValue());
+    }
     public void setSuppressed(boolean suppressed){
         this.suppressed = suppressed;
     }
-
-    public boolean isSuppressed() {
-        return suppressionPercent > 0.0;
+    public boolean isSuppressed(){
+        if(super.getValue()<=getSuppressedValue()) setSuppressed(false);
+        return suppressed;
     }
+
 
     public static void encode(RegistryFriendlyByteBuf buf, AttributeValueContainer container){
-        ValueContainer.encode(buf, container);
+        ValueContainer.encode(buf,container);
         buf.writeInt(container.statMultipliers.size());
-        for (ValueContainer statContainer : container.statMultipliers.values()) {
-            ValueContainer.encode(buf, statContainer);
+        for(ValueContainer statContainer : container.statMultipliers.values()){
+            ValueContainer.encode(buf,statContainer);
         }
-        buf.writeDouble(container.suppressionPercent);
-    }
+        buf.writeBoolean(container.suppressed);
+        buf.writeDouble(container.suppressedValue);
 
+    }
     public static AttributeValueContainer decode(RegistryFriendlyByteBuf buf){
         ResourceLocation identifier = ByteBufHelper.readResourceLocation(buf);
         Component displayName = ComponentSerialization.STREAM_CODEC.decode(buf);
         double base = buf.readDouble();
         int modifierNumber = buf.readInt();
-
-        AttributeValueContainer container = new AttributeValueContainer(
-                null,
-                BuiltInRegistries.ATTRIBUTE.wrapAsHolder(BuiltInRegistries.ATTRIBUTE.get(identifier)),
-                displayName
-        );
-        container.setBaseValue(base);
-
-        for (int i = 0; i < modifierNumber; i++) {
+        AttributeValueContainer container = new AttributeValueContainer(null, BuiltInRegistries.ATTRIBUTE.wrapAsHolder(
+                BuiltInRegistries.ATTRIBUTE.get(identifier)
+        ),displayName);
+        for(int i=0;i<modifierNumber;i++){
             container.addModifier(ValueContainerModifier.decode(buf));
         }
-
         int statContainers = buf.readInt();
-        for (int i = 0; i < statContainers; i++) {
+        for(int i =0;i<statContainers;i++){
             ValueContainer statContainer = ValueContainer.decode(buf);
-            container.statMultipliers.put(
-                    AscensionRegistries.Stats.STATS_REGISTRY.get(statContainer.getIdentifier()),
-                    statContainer
-            );
+            container.statMultipliers.put(AscensionRegistries.Stats.STATS_REGISTRY.get(statContainer.getIdentifier()),statContainer);
         }
-
-        container.suppressionPercent = buf.readDouble();
-        container.suppressed = container.suppressionPercent > 0.0;
+        container.suppressed = buf.readBoolean();
+        container.suppressedValue=buf.readDouble();
         return container;
     }
-
-    public void log() {
-        System.out.print(getDisplayName().getString() + " : ");
-        System.out.print(getValue());
-        if (isSuppressed()) System.out.print(" (" + getUnsuppressedValue() + ")");
-        System.out.println(" base : " + getBaseValue());
-
-        System.out.println("  cachedAttributeValue: " + cachedAttributeValue);
-        System.out.println("  cachedBaseStat: " + cachedBaseStat);
-
-        Collection<ValueContainerModifier> modifiers = getAllModifiers();
-        if (!modifiers.isEmpty()) {
-            System.out.println("  Modifiers:");
-            for (ValueContainerModifier modifier : modifiers) {
-                System.out.println("   - " + modifier.getIdentifier()
-                        + " | op=" + modifier.getOperation()
-                        + " | val=" + modifier.getVal()
-                        + " | group=" + modifier.getGroupIdentifier());
-            }
-        }
+    public void log(){
+        System.out.print(getDisplayName().getString() +" : ");
+        System.out.print((isSuppressed() ? getSuppressedValue() : getValue()));
+        if(isSuppressed()) System.out.print(" ("+getValue()+")");
+        System.out.println(" base : "+getBaseValue());
     }
-
-
 }

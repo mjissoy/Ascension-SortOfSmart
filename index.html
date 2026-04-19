@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ascension — Wiki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef4fc;
+    --bg-surface: #f7faff;
+    --bg-panel: #ffffff;
+    --accent: #3b82f6;
+    --accent-soft: #bfdbfe;
+    --accent-deep: #1d4ed8;
+    --border: #c3d9f7;
+    --text: #0f1f3d;
+    --text-muted: #4b6a9b;
+    --text-faint: #8aaed6;
+    --sidebar-w: 260px;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Sora', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── Background pattern ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 15% 20%, #c7deff55 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, #bae0ff44 0%, transparent 40%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, #d0e8ff33 39px, #d0e8ff33 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, #d0e8ff33 39px, #d0e8ff33 40px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Topbar ─── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(238,244,252,0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--accent-deep);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo-icon {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .header-nav {
+    margin-left: auto;
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .header-nav a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding: 0.4rem 0.85rem;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .header-nav a:hover {
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+  }
+
+  .header-nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+    font-weight: 600;
+  }
+
+  /* ─── Layout ─── */
+  .layout {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 2rem 1.5rem;
+    gap: 2rem;
+  }
+
+  /* ─── Sidebar ─── */
+  aside {
+    width: var(--sidebar-w);
+    flex-shrink: 0;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem 1rem;
+    box-shadow: 0 2px 16px #3b82f60d;
+  }
+
+  .sidebar-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-section:last-child { margin-bottom: 0; }
+
+  .sidebar-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    padding: 0 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .sidebar-link {
+    display: block;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 7px;
+    transition: background 0.15s, color 0.15s;
+    line-height: 1.4;
+  }
+
+  .sidebar-link:hover {
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+  }
+
+  .sidebar-link.active {
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+    font-weight: 600;
+  }
+
+  .sidebar-sep {
+    height: 1px;
+    background: var(--border);
+    margin: 1rem 0;
+  }
+
+  /* ─── Main content ─── */
+  main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  /* ─── Section ─── */
+  .section {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem 2.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 20px #3b82f60e;
+    display: none;
+  }
+
+  .section.visible { display: block; }
+
+  .section-hero {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    width: 52px; height: 52px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    border: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .section-sub {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    line-height: 1.6;
+  }
+
+  /* ─── Content typography ─── */
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 2rem 0 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  h2::before {
+    content: '';
+    display: block;
+    width: 4px; height: 18px;
+    background: var(--accent);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent-deep);
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  p {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  /* ─── Cards (items / categories) ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .item-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    cursor: default;
+  }
+
+  .item-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px #3b82f620;
+    transform: translateY(-1px);
+  }
+
+  .item-card .ic-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .item-card .ic-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .item-card .ic-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    margin-top: 0.4rem;
+  }
+
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-amber { background: #fef3c7; color: #92400e; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+
+  /* ─── Info boxes ─── */
+  .callout {
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin: 1.25rem 0;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .callout-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { color: inherit; }
+  .callout-body strong { font-weight: 600; display: block; margin-bottom: 0.2rem; }
+
+  .callout-info { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+  .callout-warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+  .callout-tip  { background: #f0fdf4; border: 1px solid #bbf7d0; color: #14532d; }
+
+  /* ─── Code blocks ─── */
+  pre {
+    background: #0f1f3d;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    border: 1px solid #1e3a6e;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: #93c5fd;
+    line-height: 1.7;
+  }
+
+  code .kw  { color: #818cf8; }
+  code .str { color: #6ee7b7; }
+  code .cmt { color: #4b6a9b; font-style: italic; }
+  code .num { color: #fbbf24; }
+  code .fn  { color: #60a5fa; }
+
+  .inline-code {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    background: #e0eeff;
+    color: #1d4ed8;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    border: 1px solid #bfdbfe;
+  }
+
+  /* ─── Steps ─── */
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    margin: 1rem 0;
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    min-width: 28px; height: 28px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .steps li .step-content { flex: 1; }
+  .steps li .step-title { font-weight: 600; font-size: 0.9375rem; color: var(--text); margin-bottom: 0.2rem; }
+  .steps li .step-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ─── Table ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin: 1rem 0;
+  }
+
+  th {
+    background: #eff6ff;
+    color: var(--accent-deep);
+    font-weight: 600;
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+  }
+
+  td {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+
+  tr:hover td { background: #f0f7ff; }
+
+  /* ─── Divider ─── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+  }
+
+  /* ─── Page footer ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+    background: rgba(238,244,252,0.7);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">A</div>
+    Ascension
+  </div>
+  <nav class="header-nav">
+    <a href="#" class="active" onclick="showSection('wiki-general', this)">Wiki</a>
+    <a href="#" onclick="showSection('wiki-addons', this)">Addon Dev</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Wiki</div>
+      <a href="#" class="sidebar-link active" onclick="nav(event,'wiki-general')">Overview</a>
+      <a href="#" class="sidebar-link" onclick="nav(event,'wiki-items')">Items</a>
+      <a href="#" class="sidebar-link" onclick="nav(event,'wiki-mechanics')">Mechanics</a>
+    </div>
+    <div class="sidebar-sep"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Addon Development</div>
+      <a href="#" class="sidebar-link" onclick="nav(event,'addon-start')">Getting Started</a>
+      <a href="#" class="sidebar-link" onclick="nav(event,'addon-structure')">File Structure</a>
+      <a href="#" class="sidebar-link" onclick="nav(event,'addon-api')">API Reference</a>
+      <a href="#" class="sidebar-link" onclick="nav(event,'addon-example')">Example Addon</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main>
+
+    <!-- ─── Wiki: Overview ─── -->
+    <div class="section visible" id="wiki-general">
+      <div class="section-hero">
+        <div class="section-icon">🌌</div>
+        <div>
+          <div class="section-title">Ascension Wiki</div>
+          <div class="section-sub">Your central reference for everything in the Ascension mod — items, mechanics, systems, and more.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">📝</span>
+        <div class="callout-body">
+          <strong>Work in progress</strong>
+          This wiki is still being filled out. Placeholder sections are marked below — full content coming soon.
+        </div>
+      </div>
+
+      <h2>What is Ascension?</h2>
+      <p>Ascension is a [game/mod] modification that adds [describe core concept here]. It introduces new systems, items, and mechanics that change how you interact with [the game world].</p>
+      <p>This wiki covers everything from basic item descriptions to deep-dive mechanic explanations. Use the sidebar to navigate between topics.</p>
+
+      <h2>Core Systems</h2>
+      <p>Ascension is built around three interconnected systems. Understanding each one is key to getting the most out of the mod.</p>
+
+      <div class="card-grid">
+        <div class="item-card" onclick="nav(null,'wiki-items')">
+          <div class="ic-icon">⚗️</div>
+          <div class="ic-name">Items</div>
+          <div class="ic-desc">All new items added by Ascension, how to obtain them, and what they do.</div>
+          <span class="badge badge-blue">Reference</span>
+        </div>
+        <div class="item-card" onclick="nav(null,'wiki-mechanics')">
+          <div class="ic-icon">⚙️</div>
+          <div class="ic-name">Mechanics</div>
+          <div class="ic-desc">Core gameplay systems and how they interact with vanilla features.</div>
+          <span class="badge badge-green">Mechanics</span>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon">🗺️</div>
+          <div class="ic-name">World Gen</div>
+          <div class="ic-desc">New biomes, structures, and generation rules introduced by the mod.</div>
+          <span class="badge badge-amber">Coming Soon</span>
+        </div>
+        <div class="item-card">
+          <div class="ic-icon">👾</div>
+          <div class="ic-name">Entities</div>
+          <div class="ic-desc">New mobs, bosses, and NPCs — their behaviours, drops, and AI.</div>
+          <span class="badge badge-amber">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Wiki: Items ─── -->
+    <div class="section" id="wiki-items">
+      <div class="section-hero">
+        <div class="section-icon">⚗️</div>
+        <div>
+          <div class="section-title">Items</div>
+          <div class="section-sub">All items added by Ascension, their properties, and how to obtain them.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Placeholder content</strong>
+          This section contains example formatting only. Replace with real item data when ready.
+        </div>
+      </div>
+
+      <h2>Example Item Category</h2>
+      <p>Items in Ascension are grouped by their primary function. Below is an example of how item tables are structured — replace the data with real entries.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Rarity</th>
+            <th>Obtained From</th>
+            <th>Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Example Item</strong></td>
+            <td><span class="badge badge-blue">Common</span></td>
+            <td>Crafting / World Drop</td>
+            <td>Does something interesting here.</td>
+          </tr>
+          <tr>
+            <td><strong>Rare Example</strong></td>
+            <td><span class="badge badge-red">Rare</span></td>
+            <td>Boss Drop</td>
+            <td>Grants a powerful passive effect.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Example Item — Detailed Entry</h3>
+      <p>Use this layout for items that deserve their own breakdown:</p>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Pro tip</strong>
+          You can combine <span class="inline-code">Example Item</span> with [another item] to unlock a special crafting recipe.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Wiki: Mechanics ─── -->
+    <div class="section" id="wiki-mechanics">
+      <div class="section-hero">
+        <div class="section-icon">⚙️</div>
+        <div>
+          <div class="section-title">Mechanics</div>
+          <div class="section-sub">How Ascension's core systems work under the hood.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body">
+          <strong>Placeholder content</strong>
+          This section is reserved for mechanic explanations. Fill in when ready.
+        </div>
+      </div>
+
+      <h2>Example Mechanic</h2>
+      <p>Describe the mechanic here. Explain what triggers it, what it affects, and any edge cases players should know about. You can use the step list format below for processes that happen in sequence.</p>
+
+      <ol class="steps">
+        <li>
+          <div class="step-content">
+            <div class="step-title">Step One</div>
+            <div class="step-desc">Describe what happens first. Keep it clear and concise.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-content">
+            <div class="step-title">Step Two</div>
+            <div class="step-desc">The next phase of the mechanic. Reference items with <span class="inline-code">inline code</span> if needed.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-content">
+            <div class="step-title">Step Three</div>
+            <div class="step-desc">Final outcome or result. Add any notes on edge cases here.</div>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <!-- ─── Addon: Getting Started ─── -->
+    <div class="section" id="addon-start">
+      <div class="section-hero">
+        <div class="section-icon">🚀</div>
+        <div>
+          <div class="section-title">Getting Started with Addons</div>
+          <div class="section-sub">Everything you need to start building your first Ascension addon.</div>
+        </div>
+      </div>
+
+      <h2>Prerequisites</h2>
+      <p>Before writing an addon, make sure you have the following set up:</p>
+
+      <ul class="steps">
+        <li>
+          <div class="step-content">
+            <div class="step-title">Install Ascension</div>
+            <div class="step-desc">Addons depend on the core mod. Make sure you're running the latest release.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-content">
+            <div class="step-title">Set up your development environment</div>
+            <div class="step-desc">You'll need [your modding framework / language] installed. Any standard mod dev environment works.</div>
+          </div>
+        </li>
+        <li>
+          <div class="step-content">
+            <div class="step-title">Read the API reference</div>
+            <div class="step-desc">Familiarise yourself with the hooks and events Ascension exposes before writing any code.</div>
+          </div>
+        </li>
+      </ul>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">
+          <strong>Tip</strong>
+          Clone the <a href="#" style="color:#1d4ed8;">example addon repository</a> to get a pre-wired project structure right away.
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Addon: File Structure ─── -->
+    <div class="section" id="addon-structure">
+      <div class="section-hero">
+        <div class="section-icon">📁</div>
+        <div>
+          <div class="section-title">Addon File Structure</div>
+          <div class="section-sub">The expected folder layout and required files for any Ascension addon.</div>
+        </div>
+      </div>
+
+      <h2>Required layout</h2>
+      <p>Every Ascension addon must follow this directory structure. Ascension's loader will reject addons that are missing required files.</p>
+
+<pre><code>my-addon/
+├── <span class="fn">addon.json</span>          <span class="cmt"># Addon manifest (required)</span>
+├── <span class="fn">main.[ext]</span>          <span class="cmt"># Entry point (required)</span>
+├── items/
+│   └── <span class="fn">my_item.json</span>    <span class="cmt"># Custom item definitions</span>
+├── assets/
+│   ├── textures/       <span class="cmt"># PNG textures for your items/entities</span>
+│   └── lang/
+│       └── <span class="fn">en_us.json</span>  <span class="cmt"># Localisation strings</span>
+└── README.md</code></pre>
+
+      <h2>addon.json</h2>
+      <p>The manifest tells Ascension who made the addon and what version of the API it targets.</p>
+
+<pre><code>{
+  <span class="str">"id"</span>: <span class="str">"my-addon"</span>,
+  <span class="str">"name"</span>: <span class="str">"My Ascension Addon"</span>,
+  <span class="str">"version"</span>: <span class="str">"1.0.0"</span>,
+  <span class="str">"author"</span>: <span class="str">"YourName"</span>,
+  <span class="str">"ascension_api"</span>: <span class="str">">=1.0.0"</span>,
+  <span class="str">"description"</span>: <span class="str">"A short description of what this addon does."</span>
+}</code></pre>
+
+      <table>
+        <thead><tr><th>Field</th><th>Required</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><span class="inline-code">id</span></td><td>Yes</td><td>Unique identifier. Use lowercase letters and hyphens only.</td></tr>
+          <tr><td><span class="inline-code">name</span></td><td>Yes</td><td>Human-readable display name.</td></tr>
+          <tr><td><span class="inline-code">version</span></td><td>Yes</td><td>Semver string (e.g. <span class="inline-code">1.0.0</span>).</td></tr>
+          <tr><td><span class="inline-code">ascension_api</span></td><td>Yes</td><td>Minimum Ascension API version required.</td></tr>
+          <tr><td><span class="inline-code">author</span></td><td>No</td><td>Your name or username.</td></tr>
+          <tr><td><span class="inline-code">description</span></td><td>No</td><td>Short description shown in the mod menu.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ─── Addon: API Reference ─── -->
+    <div class="section" id="addon-api">
+      <div class="section-hero">
+        <div class="section-icon">📖</div>
+        <div>
+          <div class="section-title">API Reference</div>
+          <div class="section-sub">Hooks, events, and utilities exposed by Ascension for addon developers.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">
+          <strong>Note</strong>
+          All API calls go through the <span class="inline-code">Ascension</span> namespace. Import it at the top of your entry file.
+        </div>
+      </div>
+
+      <h2>Events</h2>
+      <p>Subscribe to events to react to things happening in the game world. All event listeners receive a single <span class="inline-code">context</span> object.</p>
+
+<pre><code><span class="cmt">-- Subscribe to an event</span>
+<span class="kw">Ascension</span>.<span class="fn">on</span>(<span class="str">"item.use"</span>, <span class="kw">function</span>(ctx)
+  <span class="cmt">-- ctx.player  → the player who used the item</span>
+  <span class="cmt">-- ctx.item    → the item that was used</span>
+  <span class="cmt">-- ctx.cancel  → call to cancel the default behaviour</span>
+  print(<span class="str">"Player used: "</span> .. ctx.item.id)
+<span class="kw">end</span>)</code></pre>
+
+      <table>
+        <thead><tr><th>Event</th><th>When it fires</th><th>Context fields</th></tr></thead>
+        <tbody>
+          <tr><td><span class="inline-code">item.use</span></td><td>Player uses any item</td><td><span class="inline-code">player, item, cancel</span></td></tr>
+          <tr><td><span class="inline-code">item.pickup</span></td><td>Player picks up an item</td><td><span class="inline-code">player, item</span></td></tr>
+          <tr><td><span class="inline-code">entity.spawn</span></td><td>Any entity spawns</td><td><span class="inline-code">entity, position</span></td></tr>
+          <tr><td><span class="inline-code">player.levelup</span></td><td>Player gains a level</td><td><span class="inline-code">player, newLevel</span></td></tr>
+        </tbody>
+      </table>
+
+      <h2>Registering custom items</h2>
+
+<pre><code><span class="kw">Ascension</span>.<span class="fn">registerItem</span>({
+  id      = <span class="str">"my_addon:cool_sword"</span>,
+  name    = <span class="str">"Cool Sword"</span>,
+  texture = <span class="str">"assets/textures/cool_sword.png"</span>,
+  rarity  = <span class="str">"rare"</span>,
+  onUse   = <span class="kw">function</span>(ctx)
+    <span class="cmt">-- Called when the player uses this item</span>
+  <span class="kw">end</span>
+})</code></pre>
+    </div>
+
+    <!-- ─── Addon: Example ─── -->
+    <div class="section" id="addon-example">
+      <div class="section-hero">
+        <div class="section-icon">🧪</div>
+        <div>
+          <div class="section-title">Example Addon</div>
+          <div class="section-sub">A minimal but complete working addon to use as a starting point.</div>
+        </div>
+      </div>
+
+      <h2>What this example does</h2>
+      <p>This walkthrough builds a tiny addon that adds one custom item and prints a message whenever a player picks it up. It's intentionally simple — the goal is to show the full lifecycle of an addon in one place.</p>
+
+      <h2>addon.json</h2>
+<pre><code>{
+  <span class="str">"id"</span>: <span class="str">"hello-ascension"</span>,
+  <span class="str">"name"</span>: <span class="str">"Hello Ascension"</span>,
+  <span class="str">"version"</span>: <span class="str">"1.0.0"</span>,
+  <span class="str">"author"</span>: <span class="str">"YourName"</span>,
+  <span class="str">"ascension_api"</span>: <span class="str">">=1.0.0"</span>
+}</code></pre>
+
+      <h2>main.lua (entry point)</h2>
+<pre><code><span class="cmt">-- Register our custom item</span>
+<span class="kw">Ascension</span>.<span class="fn">registerItem</span>({
+  id      = <span class="str">"hello-ascension:star_shard"</span>,
+  name    = <span class="str">"Star Shard"</span>,
+  texture = <span class="str">"assets/textures/star_shard.png"</span>,
+  rarity  = <span class="str">"uncommon"</span>,
+})
+
+<span class="cmt">-- Listen for pickup events on our item</span>
+<span class="kw">Ascension</span>.<span class="fn">on</span>(<span class="str">"item.pickup"</span>, <span class="kw">function</span>(ctx)
+  <span class="kw">if</span> ctx.item.id == <span class="str">"hello-ascension:star_shard"</span> <span class="kw">then</span>
+    <span class="fn">print</span>(<span class="str">"✨ "</span> .. ctx.player.name .. <span class="str">" picked up a Star Shard!"</span>)
+  <span class="kw">end</span>
+<span class="kw">end</span>)</code></pre>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">🎉</span>
+        <div class="callout-body">
+          <strong>That's all it takes!</strong>
+          Drop the folder into your addons directory, launch the game, and your item will appear. From here you can add crafting recipes, more events, custom entities, and more — see the API Reference for the full list.
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p>Need help? Open an issue on the <a href="#" style="color:#1d4ed8;font-weight:600;">GitHub repository</a> or ask in the community Discord.</p>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  Ascension — Community Wiki &nbsp;·&nbsp; Built with GitHub Pages
+</footer>
+
+<script>
+  const sections = ["wiki-general","wiki-items","wiki-mechanics","addon-start","addon-structure","addon-api","addon-example"];
+
+  function showSection(id, linkEl) {
+    sections.forEach(s => {
+      document.getElementById(s).classList.toggle("visible", s === id);
+    });
+    document.querySelectorAll(".sidebar-link").forEach(a => a.classList.remove("active"));
+    document.querySelectorAll(".header-nav a").forEach(a => a.classList.remove("active"));
+    if (linkEl) linkEl.classList.add("active");
+
+    const wikiSections = ["wiki-general","wiki-items","wiki-mechanics"];
+    const addonSections = ["addon-start","addon-structure","addon-api","addon-example"];
+    const headerLinks = document.querySelectorAll(".header-nav a");
+    if (wikiSections.includes(id)) headerLinks[0].classList.add("active");
+    else if (addonSections.includes(id)) headerLinks[1].classList.add("active");
+  }
+
+  function nav(e, id) {
+    if (e) e.preventDefault();
+    const sideLink = [...document.querySelectorAll(".sidebar-link")].find(a => {
+      const oc = a.getAttribute("onclick") || "";
+      return oc.includes("'" + id + "'");
+    });
+    showSection(id, null);
+    if (sideLink) {
+      document.querySelectorAll(".sidebar-link").forEach(a => a.classList.remove("active"));
+      sideLink.classList.add("active");
+    }
+    const wikiSections = ["wiki-general","wiki-items","wiki-mechanics"];
+    const addonSections = ["addon-start","addon-structure","addon-api","addon-example"];
+    const headerLinks = document.querySelectorAll(".header-nav a");
+    document.querySelectorAll(".header-nav a").forEach(a => a.classList.remove("active"));
+    if (wikiSections.includes(id)) headerLinks[0].classList.add("active");
+    else if (addonSections.includes(id)) headerLinks[1].classList.add("active");
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  document.querySelectorAll("header .header-nav a").forEach((a, i) => {
+    a.addEventListener("click", function(e) {
+      e.preventDefault();
+      const targets = [["wiki-general"], ["addon-start"]];
+      nav(null, targets[i][0]);
+      document.querySelectorAll(".header-nav a").forEach(x => x.classList.remove("active"));
+      this.classList.add("active");
+    });
+  });
+</script>
+</body>
+</html>

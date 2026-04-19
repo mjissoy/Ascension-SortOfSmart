@@ -27,7 +27,6 @@ public class ModEventBusEvents {
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.RAT.get(), TreasureRatEntity.createAttributes().build());
         event.put(ModEntities.FAKE_PLAYER.get(), PlayerBodyEntity.createAttributes().build());
-
     }
 
     @SubscribeEvent

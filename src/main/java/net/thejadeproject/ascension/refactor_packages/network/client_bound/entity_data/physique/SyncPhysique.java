@@ -53,5 +53,4 @@ public record SyncPhysique(ResourceLocation form, ResourceLocation physique, IPh
 
         });
     }
-
 }

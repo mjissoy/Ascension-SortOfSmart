@@ -36,12 +36,7 @@ public class RemoteEntityData implements IEntityData{
     private SkillCastHandler skillCastHandler=new SkillCastHandler();
     private double currentHealth;
 
-    public RemoteEntityData(Entity attachedEntity,UUID watchedEntityData){
-        this.attachedEntity = attachedEntity;
-        this.watchedEntityData = watchedEntityData;
 
-        currentHealth = getAscensionAttributeHolder().getAttribute(Attributes.MAX_HEALTH).getValue();
-    }
     public RemoteEntityData(Entity attachedEntity,CompoundTag tag){
         watchedEntityData = tag.getUUID("watched_entity_data");
         activeForm = ResourceLocation.parse(tag.getString("active_form"));
@@ -68,6 +63,11 @@ public class RemoteEntityData implements IEntityData{
     public UUID getWatchedEntityData(){
         return watchedEntityData;
     }
+    @Override
+    public boolean isAttachedEntityLoaded() {
+        return false;
+    }
+
     @Override
     public Entity getAttachedEntity() {
         return attachedEntity;
@@ -271,7 +271,7 @@ public class RemoteEntityData implements IEntityData{
 
     @Override
     public boolean setTechnique(ResourceLocation path) {
-        return EntityDataManager.getEntityData(getWatchedEntityData()).setTechnique(path);
+        EntityDataManager.getEntityData(getWatchedEntityData()).setTechnique(path)
     }
 
     @Override
