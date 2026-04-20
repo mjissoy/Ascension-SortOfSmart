@@ -532,6 +532,13 @@ public class GenericEntityData implements IEntityData {
     }
 
     @Override
+    public void setPathForm(ResourceLocation path, ResourceLocation form) {
+        if(!pathDataLocation.containsKey(path) || !heldFormData.containsKey(form)) return;
+
+        pathDataLocation.put(path,form);
+    }
+
+    @Override
     public boolean setTechnique(ResourceLocation technique) {
         return setTechnique(technique,AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique).freshTechniqueData(this));
     }
@@ -587,9 +594,11 @@ public class GenericEntityData implements IEntityData {
 
      */
 
+
     @Override
     public void addPathData(ResourceLocation path, PathData pathData) {
         if(pathDataLocation.containsKey(path)) return;
+
 
         IPath pathInstance = AscensionRegistries.Paths.PATHS_REGISTRY.get(path);
         if(!heldFormData.containsKey(pathInstance.defaultForm())) return;
@@ -737,8 +746,12 @@ public class GenericEntityData implements IEntityData {
         if(currentHealth <= 0 && getAttachedEntity() != null && getAttachedEntity() instanceof LivingEntity entity) {
 
             entity.setHealth(0);
+            currentHealth = 0;
         }
+        if(getAttachedEntity() instanceof  ServerPlayer serverPlayer && serverPlayer.connection != null){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncCurrentHealth(currentHealth));
 
+        }
     }
 
     @Override
@@ -746,6 +759,7 @@ public class GenericEntityData implements IEntityData {
         this.currentHealth = val;
         if(currentHealth <= 0 && getAttachedEntity() != null && getAttachedEntity() instanceof  LivingEntity entity) {
             entity.setHealth(0);
+            currentHealth = 0;
             //entity.die(source);
 
 

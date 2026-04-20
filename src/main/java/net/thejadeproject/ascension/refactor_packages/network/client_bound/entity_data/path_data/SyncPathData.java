@@ -44,7 +44,8 @@ public record SyncPathData(ResourceLocation form,PathData pathData)implements Cu
             IEntityFormData formData = entityData.getEntityFormData(payload.form);
             System.out.println("trying to sync for form: "+payload.form);
             formData.addPathData(payload.pathData.getPath(),payload.pathData);
-
+            entityData.setPathForm(payload.pathData.getPath(),formData.getEntityFormId());
+            System.out.println("synced path data :"+formData.getPathData(payload.pathData.getPath()).getPath().toString());
         });
     }
 }

@@ -42,6 +42,7 @@ public record SyncEntityForm(IEntityFormData formData) implements CustomPacketPa
             IEntityData entityData = context.player().getData(ModAttachments.ENTITY_DATA);
             entityData.setFormData(payload.formData.getEntityFormId(),payload.formData);
             System.out.println("form : "+payload.formData.getEntityFormId().toString() +" was synced to the client");
+            //TODO ensure path form locations are properly linked
         });
     }
 }

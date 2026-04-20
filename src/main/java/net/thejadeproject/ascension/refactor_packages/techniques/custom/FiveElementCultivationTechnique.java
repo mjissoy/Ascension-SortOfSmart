@@ -4,19 +4,24 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.breakthroughs.IBreakthroughInstance;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
+import net.thejadeproject.ascension.refactor_packages.stats.events.StatChangedEvent;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.IStabilityHandler;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.LnStabilityHandler;
 import org.checkerframework.checker.units.qual.C;
@@ -31,7 +36,12 @@ public class FiveElementCultivationTechnique implements ITechnique {
             ModPaths.WATER.getId(),
             ModPaths.WOOD.getId()
     );
+    private final BasicStatChangeHandler statChangeHandler;
     private final IStabilityHandler stabilityHandler = new LnStabilityHandler();
+
+    public FiveElementCultivationTechnique(BasicStatChangeHandler statChangeHandler) {
+        this.statChangeHandler = statChangeHandler;
+    }
 
     @Override
     public Component getDisplayTitle() {
@@ -79,6 +89,7 @@ public class FiveElementCultivationTechnique implements ITechnique {
 
     @Override
     public void onRealmChange(IEntityData entityData, int oldMajorRealm, int oldMinorRealm, int newMajorRealm, int newMinorRealm) {
+        statChangeHandler.applyChanges(entityData,this,oldMajorRealm,oldMajorRealm,newMajorRealm,newMinorRealm);
         if(oldMajorRealm<newMajorRealm){
             for(int i = oldMajorRealm+1;i<=newMajorRealm;i++){
                 if(i < elements.size()){
@@ -121,6 +132,14 @@ public class FiveElementCultivationTechnique implements ITechnique {
             }
         }
         //TODO handle minor realms decreasing
+        if(entityData.getAttachedEntity().level().isClientSide()) return;
+        if(!(entityData.getAttachedEntity() instanceof  ServerPlayer serverPlayer)) return;
+        if(serverPlayer.connection == null) return;
+        System.out.println("sending out sync packets");
+        PacketDistributor.sendToPlayer(serverPlayer,new SyncAttributeHolder(entityData.getAscensionAttributeHolder()));
+        for (IEntityFormData formData : entityData.getFormData()){
+            formData.getStatSheet().sync(serverPlayer,formData.getEntityFormId());
+        }
     }
 
     @Override

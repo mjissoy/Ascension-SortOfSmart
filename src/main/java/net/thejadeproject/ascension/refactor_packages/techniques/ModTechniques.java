@@ -27,8 +27,8 @@ public class ModTechniques {
 
     public static final ResourceLocation test = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"test");
     public static BasicStatChangeHandler testHandler = new BasicStatChangeHandler()
-            .addMinorRealmStatModifier(ModStats.VITALITY.getId(),new ValueContainerModifier(1, ModifierOperation.ADD_BASE, test))
-            .addMinorRealmAttributeModifier(Attributes.MAX_HEALTH,new ValueContainerModifier(0.2,ModifierOperation.MULTIPLY_BASE,test))
+            .addMinorRealmStatModifier(ModStats.VITALITY.getId(),new ValueContainerModifier(2, ModifierOperation.ADD_BASE, test))
+            .addMajorRealmStatModifier(ModStats.VITALITY.getId(),new ValueContainerModifier(0.2,ModifierOperation.MULTIPLY_FINAL,test))
             .addMinorRealmStatModifier(ModStats.AGILITY.getId(),new ValueContainerModifier(5,ModifierOperation.ADD_BASE,test));
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> BASIC_CULTIVATION_TECHNIQUE = TECHNIQUES.register("basic_cultivation_technique",()->
             new GenericTechnique(ModPaths.ESSENCE.getId(),Component.literal("Basic Cultivation Technique"),2.0, Set.of())
@@ -40,7 +40,7 @@ public class ModTechniques {
             new GenericTechnique(ModPaths.SWORD.getId(),Component.literal("Sword Comprehension Technique"),10.0,Set.of()));
 
     public static final DeferredHolder<ITechnique,? extends FiveElementCultivationTechnique> FIVE_ELEMENT_CIRCULATION_METHOD = TECHNIQUES.register("five_element_cultivation_technique",(
-            FiveElementCultivationTechnique::new));
+            ()->new FiveElementCultivationTechnique(testHandler)));
 
     public static void register(IEventBus modEventBus){
         TECHNIQUES.register(modEventBus);

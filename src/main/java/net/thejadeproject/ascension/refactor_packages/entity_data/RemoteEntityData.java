@@ -265,6 +265,11 @@ public class RemoteEntityData implements IEntityData{
     }
 
     @Override
+    public void setPathForm(ResourceLocation path, ResourceLocation form) {
+
+    }
+
+    @Override
     public boolean setTechnique(ResourceLocation path) {
        return EntityDataManager.getEntityData(getWatchedEntityData()).setTechnique(path);
     }

@@ -96,7 +96,7 @@ public class PathData {
         return techniqueData.get(technique);
     }
 
-    //if you want to stability for when you breakthrough from 0-1 you put 0, since that is the realm you where stable in
+    //if you want to stability for when you breakthrough from 0->1 you put 0, since that is the realm you where stable in
     public int getStability(int realm){
         return realmStability.get(realm);
     }
@@ -169,23 +169,53 @@ public class PathData {
             //TODO handle event stuff
 
         }else {
-            //TODO handle case where we go from say 5 0 -> 3 2 and the technique at 3 is different than the current technique
-            //TODO in this scenario change to 3 0 then make sure we have correct technique and update to 3 2
-            //realm decreased
-            ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(lastUsedTechnique);
-            technique.onRealmChange(entityData,majorRealm,minorRealm,newMajorRealm,newMinorRealm);
-            //TODO HANDLE EVENT STUFF
-            if(newMajorRealm<majorRealm){
-                //majorRealm changed
-                for(int i=majorRealm;i>newMajorRealm;i--){
-                    //TODO handle removal, for each major realm decreased
-                    //TODO basically add technique. then reduce cultivation, then remove technique
-                    realmStability.removeLast();//generally not recommended to increase by multiple major realms at once cus of this
-                    techniqueHistory.removeLast();
+            int boundedMajorRealm = Math.max(newMajorRealm,0);
+            int boundedMinorRealm = Math.max(newMinorRealm,0);
+
+            if(majorRealm == newMajorRealm){
+                ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(lastUsedTechnique);
+                technique.onRealmChange(entityData,majorRealm,minorRealm,newMajorRealm,newMinorRealm);
+                this.minorRealm = newMinorRealm;
+                this.currentRealmProgress = 0;
+
+            }else{
+                while(majorRealm>boundedMajorRealm){
+
+                    ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(getLastUsedTechnique());
+                    ITechniqueData techniqueData = getTechniqueData(getLastUsedTechnique());
+                    int oldMajorRealm = majorRealm;
+                    int oldMinorRealm = minorRealm;
+
+
+                    minorRealm =0;
+                    technique.onRealmChange(entityData,oldMajorRealm,oldMinorRealm,majorRealm,minorRealm);
+                    ITechnique breakthroughTechnique = technique;
+                    if(!getLastUsedTechnique().equals(techniqueHistory.get(majorRealm))){
+                        removeLastUsedTechnique();
+                        technique.onTechniqueRemoved(entityData,techniqueData);
+
+                        setLastUsedTechnique(techniqueHistory.get(majorRealm));
+
+                        breakthroughTechnique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(getLastUsedTechnique());
+                        breakthroughTechnique.onTechniqueAdded(entityData);
+                    }
+
+                    majorRealm --;
+                    minorRealm = breakthroughTechnique.getMaxMinorRealm(majorRealm);
+                    breakthroughTechnique.onRealmChange(entityData,oldMajorRealm,0,majorRealm,minorRealm);
+
+                    currentRealmStability = realmStability.removeLast();
                 }
+                if(minorRealm > boundedMinorRealm){
+                    ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(getLastUsedTechnique());
+                    int oldMinorRealm = minorRealm;
+                    minorRealm = boundedMinorRealm;
+                    technique.onRealmChange(entityData,majorRealm,oldMinorRealm,majorRealm,minorRealm);
+                }
+
             }
-            this.minorRealm = newMinorRealm;
-            this.majorRealm = newMajorRealm;
+
+
         }
 
     }

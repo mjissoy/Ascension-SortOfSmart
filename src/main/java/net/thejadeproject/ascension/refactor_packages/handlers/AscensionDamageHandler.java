@@ -14,6 +14,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -103,16 +104,12 @@ public class AscensionDamageHandler {
         AscensionDamageEvent.Post postEvent = new AscensionDamageEvent.Post(finalDamageSource,event.getContainer(),container,event.getEntity());
         NeoForge.EVENT_BUS.post(postEvent);
         event.setNewDamage((float) postEvent.getDamage());
-        //TODO potentially change to not do this but instead use mixins to change how health is handled through getHealth and setHealth
-        if (event.getEntity().hasData(ModAttachments.ENTITY_DATA)) {
-            event.setNewDamage(0);
-            IEntityData entityData = event.getEntity().getData(ModAttachments.ENTITY_DATA);
-            entityData.setHealth(entityData.getHealth()- postEvent.getDamage(),finalDamageSource);
-            System.out.println("health : "+entityData.getHealth());
 
         }
 
-    }
-
-
 }
+
+
+
+
+
