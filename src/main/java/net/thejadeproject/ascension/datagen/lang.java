@@ -19,9 +19,9 @@ public class lang extends LanguageProvider {
         add("ascension.path.soul", "Soul");
         add("ascension.path.fire", "Fire");
         add("ascension.path.water","Water");
-        add("ascension.path.water","Wood");
-        add("ascension.path.water","Earth");
-        add("ascension.path.water","Metal");
+        add("ascension.path.wood","Wood");
+        add("ascension.path.earth","Earth");
+        add("ascension.path.metal","Metal");
         add("ascension.path.sword", "Sword");
         //essence
         add("ascension.path.essence.mortal", "Mortal");
@@ -130,6 +130,10 @@ public class lang extends LanguageProvider {
         add("item.ascension.spiritual_stone_axe", "Spiritual Stone Axe");
         add("item.ascension.spiritual_stone_shovel", "Spiritual Stone Shovel");
         add("item.ascension.spiritual_stone_hoe", "Spiritual Stone Hoe");
+
+
+
+        add("item.ascension.fan", "Fan");
 
 
 
@@ -356,6 +360,14 @@ public class lang extends LanguageProvider {
         add("item.ascension.hundred_year_snow_ginseng", "Hundred Year Snow Ginseng");
         add("item.ascension.hundred_year_fire_ginseng", "Hundred Year Fire Ginseng");
         add("item.ascension.jade_bamboo_of_serenity", "Jade Bamboo of Serenity");
+
+
+
+
+
+        add("item.ascension.peach", "Peach");
+
+
 
 
         add("block.ascension.hundred_year_ginseng_crop", "Hundred Year Ginseng");
@@ -667,13 +679,15 @@ public class lang extends LanguageProvider {
 
 
         //JADE
-        add("config.jade.plugin_ascension.pill_cauldron", "Pill Cauldron");
         add("tooltip.ascension.heat_level", "Heat: %s°C / %s°C");
         add("tooltip.ascension.progress", "Progress: %s%%");
         add("tooltip.ascension.time_remaining", "Time remaining: %ss");
         add("tooltip.ascension.finishing", "Finishing...");
         add("tooltip.ascension.output", "Output: %s");
         add("tooltip.ascension.inputs", "Inputs:");
+        add("config.jade.plugin_ascension.pill_cauldron", "Pill Cauldron");
+        add("config.jade.plugin_ascension.flame_stand", "Flame Stand");
+        add("config.jade.plugin_ascension.cauldron_pedestal", "Cauldron Pedestal");
 
 
 

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ascension:item/ascension_icon"
+    "layer0": "ascension:item/herbs/peach"
   }
 }
