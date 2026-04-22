@@ -5,7 +5,7 @@
     "from_value": 1.0,
     "from_y": -64,
     "to_value": -1.5,
-    "to_y": 384
+    "to_y": 448
   },
   "argument2": {
     "type": "minecraft:range_choice",
@@ -14,7 +14,7 @@
       "argument1": 0.02,
       "argument2": {
         "type": "minecraft:mul",
-        "argument1": 1.2,
+        "argument1": 1.15,
         "argument2": {
           "type": "minecraft:flat_cache",
           "argument": {
@@ -36,7 +36,7 @@
         "argument1": 0.02,
         "argument2": {
           "type": "minecraft:mul",
-          "argument1": 1.2,
+          "argument1": 1.15,
           "argument2": {
             "type": "minecraft:flat_cache",
             "argument": {
@@ -58,7 +58,7 @@
           "argument1": 0.02,
           "argument2": {
             "type": "minecraft:mul",
-            "argument1": 1.2,
+            "argument1": 1.15,
             "argument2": {
               "type": "minecraft:flat_cache",
               "argument": {
@@ -72,8 +72,8 @@
         },
         "max_exclusive": 0.2,
         "min_inclusive": -0.12,
-        "when_in_range": 0.25,
-        "when_out_of_range": 0.9
+        "when_in_range": 0.2,
+        "when_out_of_range": 0.75
       }
     }
   }

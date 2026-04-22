@@ -17,17 +17,17 @@ public class ModNoiseGeneratorSettings {
 
     public static void bootstrap(BootstrapContext<NoiseGeneratorSettings> context) {
 
-        // world height -64 to 384
-        NoiseSettings noiseSettings = NoiseSettings.create(-64, 384, 1, 2);
+        // world height -64 to 448 (need to fix build height)
+        NoiseSettings noiseSettings = NoiseSettings.create(-64, 512, 4, 1);
 
         HolderGetter<DensityFunction> densityFunctions = context.lookup(Registries.DENSITY_FUNCTION);
 
-        DensityFunction continents = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_CONTINENTS_DF));
-        DensityFunction depth = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_DEPTH_DF));
-        DensityFunction erosion = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_EROSION_DF));
-        DensityFunction ridges = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_RIDGES_DF));
-        DensityFunction temperature = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_TEMPERATURE_DF));
-        DensityFunction vegetation = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_VEGETATION_DF));
+        DensityFunction continents   = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_CONTINENTS_DF));
+        DensityFunction depth        = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_DEPTH_DF));
+        DensityFunction erosion      = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_EROSION_DF));
+        DensityFunction ridges       = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_RIDGES_DF));
+        DensityFunction temperature  = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_TEMPERATURE_DF));
+        DensityFunction vegetation   = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_VEGETATION_DF));
         DensityFunction baseTerrain  = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_BASE_TERRAIN_DF));
         DensityFunction finalDensity = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_FINAL_DENSITY_DF));
 
@@ -50,8 +50,20 @@ public class ModNoiseGeneratorSettings {
         );
 
 
+        SurfaceRules.RuleSource oceanFloorRules = SurfaceRules.sequence(
+                SurfaceRules.ifTrue(
+                        SurfaceRules.ON_FLOOR,
+                        SurfaceRules.state(Blocks.SAND.defaultBlockState())
+                ),
+                SurfaceRules.ifTrue(
+                        SurfaceRules.UNDER_FLOOR,
+                        SurfaceRules.state(Blocks.GRAVEL.defaultBlockState())
+                ),
+                SurfaceRules.state(Blocks.STONE.defaultBlockState())
+        );
 
         SurfaceRules.RuleSource surfaceRule = SurfaceRules.sequence(
+
                 SurfaceRules.ifTrue(
                         SurfaceRules.isBiome(
                                 net.minecraft.world.level.biome.Biomes.OCEAN,
@@ -66,13 +78,7 @@ public class ModNoiseGeneratorSettings {
                                 net.minecraft.world.level.biome.Biomes.RIVER,
                                 net.minecraft.world.level.biome.Biomes.FROZEN_RIVER
                         ),
-                        SurfaceRules.sequence(
-                                SurfaceRules.ifTrue(
-                                        SurfaceRules.ON_FLOOR,
-                                        SurfaceRules.state(Blocks.STONE.defaultBlockState())
-                                ),
-                                SurfaceRules.state(Blocks.STONE.defaultBlockState())
-                        )
+                        oceanFloorRules
                 ),
 
                 SurfaceRules.ifTrue(
@@ -81,22 +87,14 @@ public class ModNoiseGeneratorSettings {
                                 net.minecraft.world.level.biome.Biomes.SNOWY_BEACH
                         ),
                         SurfaceRules.sequence(
-                                SurfaceRules.ifTrue(
-                                        SurfaceRules.ON_FLOOR,
-                                        SurfaceRules.state(Blocks.SAND.defaultBlockState())
-                                ),
+                                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.state(Blocks.SAND.defaultBlockState())),
                                 SurfaceRules.state(Blocks.STONE.defaultBlockState())
                         )
                 ),
 
-                SurfaceRules.ifTrue(
-                        SurfaceRules.ON_FLOOR,
-                        SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())
-                ),
-
+                SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())),
                 SurfaceRules.state(Blocks.STONE.defaultBlockState())
         );
-
 
         NoiseGeneratorSettings settings = new NoiseGeneratorSettings(
                 noiseSettings,

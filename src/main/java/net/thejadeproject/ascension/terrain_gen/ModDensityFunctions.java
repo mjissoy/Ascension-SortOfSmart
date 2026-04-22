@@ -26,16 +26,22 @@ public class ModDensityFunctions {
         );
 
         DensityFunction rawRidges = DensityFunctions.flatCache(
-                DensityFunctions.noise(mountainsNoise, 0.5, 0.0)
+                DensityFunctions.noise(mountainsNoise, 0.18, 0.0)
         );
 
-        DensityFunction rawDetail = DensityFunctions.flatCache(
-                DensityFunctions.noise(detailNoise, 2.0, 0.0)
+        DensityFunction broadDetail = DensityFunctions.flatCache(
+                DensityFunctions.noise(detailNoise, 0.35, 0.0)
         );
+
+        DensityFunction fineDetail = DensityFunctions.flatCache(
+                DensityFunctions.noise(detailNoise, 0.7, 0.0)
+        );
+
+        DensityFunction surfaceJitterNoise = DensityFunctions.noise(detailNoise, 1.5, 0.8);
 
 
         DensityFunction continents = DensityFunctions.add(
-                DensityFunctions.mul(rawContinents, DensityFunctions.constant(1.20)),
+                DensityFunctions.mul(rawContinents, DensityFunctions.constant(1.15)),
                 DensityFunctions.constant(0.02)
         );
 
@@ -45,27 +51,27 @@ public class ModDensityFunctions {
         );
 
         DensityFunction ridgeGate = DensityFunctions.max(
-                DensityFunctions.add(ridges, DensityFunctions.constant(0.08)),
+                DensityFunctions.add(ridges, DensityFunctions.constant(0.04)),
                 DensityFunctions.constant(0.0)
         );
 
 
         DensityFunction continentsOffset = DensityFunctions.add(
-                continents, DensityFunctions.constant(-0.08)
+                continents, DensityFunctions.constant(-0.05)
         );
 
         DensityFunction oceanHeight = DensityFunctions.add(
                 DensityFunctions.constant(63.0),
-                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(30.0))
+                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(43.0))
         );
 
         DensityFunction landHeight = DensityFunctions.add(
                 DensityFunctions.constant(63.0),
-                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(40.0))
+                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(55.0))
         );
 
         DensityFunction baseHeight = DensityFunctions.rangeChoice(
-                continents, -10.0, 0.08,
+                continents, -10.0, 0.06,
                 oceanHeight,
                 landHeight
         );
@@ -76,10 +82,18 @@ public class ModDensityFunctions {
                 DensityFunctions.min(
                         DensityFunctions.constant(1.0),
                         DensityFunctions.mul(
-                                DensityFunctions.add(continents, DensityFunctions.constant(-0.08)),
-                                DensityFunctions.constant(5.0)
+                                DensityFunctions.add(continents, DensityFunctions.constant(-0.04)),
+                                DensityFunctions.constant(3.0)
                         )
                 )
+        );
+
+        DensityFunction oceanDetailMask = clamp(
+                DensityFunctions.mul(
+                        DensityFunctions.add(continents, DensityFunctions.constant(-0.01)),
+                        DensityFunctions.constant(6.0)
+                ),
+                0.0, 1.0
         );
 
 
@@ -88,11 +102,17 @@ public class ModDensityFunctions {
                         DensityFunctions.mul(ridgeGate, ridgeGate),
                         landMask
                 ),
-                DensityFunctions.constant(80.0)
+                DensityFunctions.constant(260.0)
+
         );
 
+
         DensityFunction detailHeight = DensityFunctions.mul(
-                rawDetail, DensityFunctions.constant(14.0)
+                DensityFunctions.add(
+                        DensityFunctions.mul(broadDetail, DensityFunctions.constant(9.0)),
+                        DensityFunctions.mul(fineDetail,  DensityFunctions.constant(2.5))
+                ),
+                oceanDetailMask
         );
 
 
@@ -102,27 +122,29 @@ public class ModDensityFunctions {
         );
 
 
-        DensityFunction vertical = DensityFunctions.yClampedGradient(-64, 320, 64.0, -320.0);
 
-
+        DensityFunction vertical = DensityFunctions.yClampedGradient(-64, 448, 64.0, -448.0);
         DensityFunction baseTerrain = DensityFunctions.add(terrainHeight, vertical);
 
 
-        DensityFunction caveNoise = DensityFunctions.noise(detailNoise, 0.3, 0.25);
+        DensityFunction surfaceJitter = DensityFunctions.mul(
+                surfaceJitterNoise,
+                DensityFunctions.constant(7.0)
+        );
 
-        DensityFunction rawCave = DensityFunctions.add(caveNoise, DensityFunctions.constant(-0.2));
+
+        DensityFunction caveNoise = DensityFunctions.noise(detailNoise, 0.28, 0.20);
+        DensityFunction rawCave = DensityFunctions.add(caveNoise, DensityFunctions.constant(-0.24));
         DensityFunction carvingOnly = DensityFunctions.min(rawCave, DensityFunctions.constant(0.0));
-
-        DensityFunction caveDepthGate = DensityFunctions.yClampedGradient(42, 60, 1.0, 0.0);
+        DensityFunction caveDepthGate = DensityFunctions.yClampedGradient(48, 64, 1.0, 0.0);
 
         DensityFunction caveContrib = DensityFunctions.mul(
                 DensityFunctions.mul(
                         DensityFunctions.mul(carvingOnly, caveDepthGate),
                         landMask
                 ),
-                DensityFunctions.constant(22.0)
+                DensityFunctions.constant(16.0)
         );
-
 
 
         DensityFunction temperature = DensityFunctions.flatCache(
@@ -135,7 +157,7 @@ public class ModDensityFunctions {
                 DensityFunctions.noise(detailNoise, 0.15, 0.0)
         );
 
-        DensityFunction depthGradient = DensityFunctions.yClampedGradient(-64, 384, 1.0, -1.5);
+        DensityFunction depthGradient = DensityFunctions.yClampedGradient(-64, 448, 1.0, -1.5);
         DensityFunction offset = DensityFunctions.rangeChoice(
                 continents, -10.0, -0.35,
                 DensityFunctions.constant(-1.2),
@@ -144,15 +166,16 @@ public class ModDensityFunctions {
                         DensityFunctions.constant(-0.4),
                         DensityFunctions.rangeChoice(
                                 continents, -0.12, 0.2,
-                                DensityFunctions.constant(0.25),
-                                DensityFunctions.constant(0.9)
+                                DensityFunctions.constant(0.20),
+                                DensityFunctions.constant(0.75)
                         )
                 )
         );
         DensityFunction depth = DensityFunctions.add(depthGradient, offset);
 
 
-        DensityFunction finalDensity = DensityFunctions.add(baseTerrain, caveContrib);
+        DensityFunction withJitter  = DensityFunctions.add(baseTerrain, surfaceJitter);
+        DensityFunction finalDensity = DensityFunctions.add(withJitter, caveContrib);
 
 
         context.register(ModTerrainGenKeys.ASCENSION_CONTINENTS_DF,   continents);
@@ -167,5 +190,15 @@ public class ModDensityFunctions {
         context.register(ModTerrainGenKeys.ASCENSION_OFFSET_DF,        offset);
         context.register(ModTerrainGenKeys.ASCENSION_WINDSWEPT_DF,     DensityFunctions.zero());
         context.register(ModTerrainGenKeys.ASCENSION_JAGGEDNESS_DF,    DensityFunctions.zero());
+    }
+
+    private static DensityFunction clamp(DensityFunction input, double min, double max) {
+        return DensityFunctions.max(
+                DensityFunctions.constant(min),
+                DensityFunctions.min(
+                        DensityFunctions.constant(max),
+                        input
+                )
+        );
     }
 }

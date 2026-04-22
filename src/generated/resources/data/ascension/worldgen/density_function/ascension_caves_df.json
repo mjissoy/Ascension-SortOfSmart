@@ -1,6 +1,6 @@
 {
   "type": "minecraft:mul",
-  "argument1": 22.0,
+  "argument1": 16.0,
   "argument2": {
     "type": "minecraft:mul",
     "argument1": {
@@ -9,12 +9,12 @@
         "type": "minecraft:min",
         "argument1": {
           "type": "minecraft:add",
-          "argument1": -0.2,
+          "argument1": -0.24,
           "argument2": {
             "type": "minecraft:noise",
             "noise": "ascension:ascension_detail_noise",
-            "xz_scale": 0.3,
-            "y_scale": 0.25
+            "xz_scale": 0.28,
+            "y_scale": 0.2
           }
         },
         "argument2": 0.0
@@ -22,9 +22,9 @@
       "argument2": {
         "type": "minecraft:y_clamped_gradient",
         "from_value": 1.0,
-        "from_y": 42,
+        "from_y": 48,
         "to_value": 0.0,
-        "to_y": 60
+        "to_y": 64
       }
     },
     "argument2": {
@@ -35,16 +35,16 @@
         "argument1": 1.0,
         "argument2": {
           "type": "minecraft:mul",
-          "argument1": 5.0,
+          "argument1": 3.0,
           "argument2": {
             "type": "minecraft:add",
-            "argument1": -0.08,
+            "argument1": -0.04,
             "argument2": {
               "type": "minecraft:add",
               "argument1": 0.02,
               "argument2": {
                 "type": "minecraft:mul",
-                "argument1": 1.2,
+                "argument1": 1.15,
                 "argument2": {
                   "type": "minecraft:flat_cache",
                   "argument": {
