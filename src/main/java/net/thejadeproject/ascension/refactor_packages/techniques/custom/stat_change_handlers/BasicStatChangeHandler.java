@@ -71,6 +71,29 @@ public class BasicStatChangeHandler{
             entityData.getAscensionAttributeHolder().getAttribute(attributeHolder).addModifier(duplicate(identifier,majorRealmAttributeModifierMap.get(attributeHolder)));
         }
     }
+    public void removeMajorRealmChanges(IEntityData entityData,int majorRealm){
+        for(ResourceLocation stat : majorRealmStatModifierMap.keySet()){
+            ResourceLocation identifier = create("major",majorRealm,0);
+            Stat statInstance = AscensionRegistries.Stats.STATS_REGISTRY.get(stat);
+            entityData.getActiveFormData().getStatSheet().removeStatModifier(statInstance,identifier);
+        }
+        for(Holder<Attribute> attributeHolder : majorRealmAttributeModifierMap.keySet()){
+            ResourceLocation identifier = create("major",majorRealm,0);
+            entityData.getAscensionAttributeHolder().getAttribute(attributeHolder).removeModifier(identifier);
+        }
+    }
+    public void removeMinorRealmChanges(IEntityData entityData,int majorRealm,int minorRealm){
+        for(ResourceLocation stat : majorRealmStatModifierMap.keySet()){
+            ResourceLocation identifier = create("minor",majorRealm,minorRealm);
+            Stat statInstance = AscensionRegistries.Stats.STATS_REGISTRY.get(stat);
+            entityData.getActiveFormData().getStatSheet().removeStatModifier(statInstance,identifier);
+        }
+        for(Holder<Attribute> attributeHolder : majorRealmAttributeModifierMap.keySet()){
+            ResourceLocation identifier = create("minor",majorRealm,minorRealm);
+            entityData.getAscensionAttributeHolder().getAttribute(attributeHolder).removeModifier(identifier);
+        }
+    }
+    //TODO can be streamlined with a getRealms between method, then i either include or exclude each end
     public void applyChanges(IEntityData entityData, ITechnique technique, int oldMajorRealm, int oldMinorRealm, int newMajorRealm, int newMinorRealm){
         if(oldMajorRealm < newMajorRealm || (oldMajorRealm == newMajorRealm && newMinorRealm>oldMinorRealm)){
             int majorRealmsChanged = newMajorRealm-oldMajorRealm;
@@ -101,7 +124,33 @@ public class BasicStatChangeHandler{
             }
 
         }else{
-            //TODO remove
+
+            int majorRealmsChanged = newMajorRealm-oldMajorRealm;
+            for(int i =oldMajorRealm;i>newMajorRealm;i--){
+                removeMajorRealmChanges(entityData,i);
+            }
+            if(newMajorRealm != oldMajorRealm){
+                for(int i = oldMinorRealm;i>=0;i--){
+                    removeMinorRealmChanges(entityData,oldMajorRealm,i);
+                }
+
+                for (int i = 1; i < majorRealmsChanged; i++) {
+                    int majorRealm = oldMajorRealm+i;
+                    int minorRealmsForRealm = technique.getMaxMinorRealm(majorRealm);
+                    for(int j = 0;j<=minorRealmsForRealm;j++){
+                        removeMinorRealmChanges(entityData,majorRealm,j);
+                    }
+                }
+                int minorRealms = technique.getMaxMinorRealm(newMinorRealm);
+                for(int i =minorRealms;i>newMinorRealm;i--){
+                    applyAllMinorRealmChanges(entityData,newMajorRealm,i);
+                }
+            }else {
+                for(int i = oldMinorRealm;i>newMinorRealm;i--){
+                    removeMinorRealmChanges(entityData,newMajorRealm,i);
+                }
+            }
+
         }
         entityData.getAscensionAttributeHolder().updateAttributes(entityData);
     }

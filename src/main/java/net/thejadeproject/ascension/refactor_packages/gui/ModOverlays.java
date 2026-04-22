@@ -7,6 +7,7 @@ import net.lucent.easygui.gui.overaly.EasyOverlayPosition;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.general.Container;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.hud.HudContainer;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.skill_casting.SkillHotBarContainer;
 
 public class ModOverlays {
@@ -23,7 +24,10 @@ public class ModOverlays {
         frame2.setRoot(container);
         EasyOverlayHandler.registerOverlay(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_casting"),EasyOverlayPosition.ABOVE_ALL(),frame2);
 
-
+        UIFrame hudFrame=new UIFrame();
+        HudContainer hudContainer = new HudContainer(frame);
+        hudFrame.setRoot(hudContainer);
+        EasyOverlayHandler.registerOverlay(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"hud_overlay"),EasyOverlayPosition.ABOVE_ALL(),hudFrame);
 
     }
 
