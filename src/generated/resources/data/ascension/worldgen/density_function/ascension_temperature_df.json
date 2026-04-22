@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:flat_cache",
+  "argument": {
+    "type": "minecraft:noise",
+    "noise": "ascension:ascension_continents_noise",
+    "xz_scale": 0.12,
+    "y_scale": 0.0
+  }
+}

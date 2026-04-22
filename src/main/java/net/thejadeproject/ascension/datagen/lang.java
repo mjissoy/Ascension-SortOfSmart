@@ -80,6 +80,8 @@ public class lang extends LanguageProvider {
 
 
 
+        // World Preset
+        add("generator.ascension.ascension", "Jianghu");
 
 
 

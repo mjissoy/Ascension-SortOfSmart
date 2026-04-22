@@ -1,0 +1,11 @@
+
+
+Steps:
+1. Custom World Type [DONE]
+2. Adjust World Height/min-max y/ [DOING]
+3. Adjust Surface rules [NEED TO DO]
+4. Biome Climate Placement [OPTIONAL]
+
+
+In Progress:
+    - Routing

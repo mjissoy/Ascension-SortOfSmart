@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:add",
+  "argument1": 0.02,
+  "argument2": {
+    "type": "minecraft:mul",
+    "argument1": 1.2,
+    "argument2": {
+      "type": "minecraft:flat_cache",
+      "argument": {
+        "type": "minecraft:noise",
+        "noise": "ascension:ascension_continents_noise",
+        "xz_scale": 0.08,
+        "y_scale": 0.0
+      }
+    }
+  }
+}
