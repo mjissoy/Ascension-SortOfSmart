@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.terrain_gen;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.presets.WorldPreset;
@@ -11,9 +12,15 @@ import net.thejadeproject.ascension.AscensionCraft;
 
 public class ModTerrainGenKeys {
 
+    // World Preset
     public static final ResourceKey<WorldPreset> ASCENSION_WORLD_PRESET =
             ResourceKey.create(Registries.WORLD_PRESET,
                     ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension"));
+
+    // Dimension Type
+    public static final ResourceKey<DimensionType> ASCENSION_OVERWORLD_TYPE =
+            ResourceKey.create(Registries.DIMENSION_TYPE,
+                    ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ascension_dimension_type_overworld"));
 
 
     // Noise

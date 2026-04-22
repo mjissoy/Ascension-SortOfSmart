@@ -11,10 +11,7 @@ import net.minecraft.world.damagesource.DeathMessageType;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.terrain_gen.ModDensityFunctions;
-import net.thejadeproject.ascension.terrain_gen.ModNoiseGeneratorSettings;
-import net.thejadeproject.ascension.terrain_gen.ModTerrainNoises;
-import net.thejadeproject.ascension.terrain_gen.ModWorldPresets;
+import net.thejadeproject.ascension.terrain_gen.*;
 import net.thejadeproject.ascension.util.ModTags;
 import net.thejadeproject.ascension.worldgen.*;
 
@@ -35,6 +32,7 @@ public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
             .add(Registries.DENSITY_FUNCTION, ModDensityFunctions::bootstrap)
             .add(Registries.NOISE_SETTINGS, ModNoiseGeneratorSettings::bootstrap)
             .add(Registries.WORLD_PRESET, ModWorldPresets::bootstrap)
+            .add(Registries.DIMENSION_TYPE, ModDimensionTypes::bootstrap)
 
             .add(Registries.DAMAGE_TYPE, bootstrap -> {
                 bootstrap.register(ModTags.DamageTypes.DAO_DAMAGE_KEY, new DamageType(ModTags.DamageTypes.DAO_DAMAGE_KEY.location().toString(),

@@ -36,7 +36,7 @@ public class ModWorldPresets {
                 MultiNoiseBiomeSource.createFromPreset(overworldBiomeParams);
 
         LevelStem overworldStem = new LevelStem(
-                dimensionTypes.getOrThrow(BuiltinDimensionTypes.OVERWORLD),
+                dimensionTypes.getOrThrow(ModTerrainGenKeys.ASCENSION_OVERWORLD_TYPE),
                 new NoiseBasedChunkGenerator(overworldBiomeSource, overworldNoise)
         );
 

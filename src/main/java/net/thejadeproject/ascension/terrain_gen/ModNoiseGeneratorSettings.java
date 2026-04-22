@@ -17,7 +17,7 @@ public class ModNoiseGeneratorSettings {
 
     public static void bootstrap(BootstrapContext<NoiseGeneratorSettings> context) {
 
-        // world height -64 to 448 (need to fix build height)
+        // world height -64 to 448
         NoiseSettings noiseSettings = NoiseSettings.create(-64, 512, 4, 1);
 
         HolderGetter<DensityFunction> densityFunctions = context.lookup(Registries.DENSITY_FUNCTION);
@@ -32,21 +32,21 @@ public class ModNoiseGeneratorSettings {
         DensityFunction finalDensity = new DensityFunctions.HolderHolder(densityFunctions.getOrThrow(ModTerrainGenKeys.ASCENSION_FINAL_DENSITY_DF));
 
         NoiseRouter noiseRouter = new NoiseRouter(
-                DensityFunctions.zero(),
-                DensityFunctions.zero(),
-                DensityFunctions.zero(),
-                DensityFunctions.zero(),
-                temperature,
-                vegetation,
-                continents,
-                erosion,
-                depth,
-                ridges,
-                baseTerrain,
-                finalDensity,
-                DensityFunctions.zero(),
-                DensityFunctions.zero(),
-                DensityFunctions.zero()
+                DensityFunctions.zero(), //barrierNoise
+                DensityFunctions.zero(), //fluidLevelFloodednessNoise
+                DensityFunctions.zero(), //fluidLevelSpreadNoise
+                DensityFunctions.zero(), //lavaNoise
+                temperature, //temperature
+                vegetation, //vegetation
+                continents, //continents
+                erosion, //erosion
+                depth, //depth
+                ridges, //ridges
+                baseTerrain, //initialDensityWithoutJaggedness
+                finalDensity, //finalDensity
+                DensityFunctions.zero(), // vein toggle
+                DensityFunctions.zero(), // vein rigid
+                DensityFunctions.zero() // vein gap
         );
 
 

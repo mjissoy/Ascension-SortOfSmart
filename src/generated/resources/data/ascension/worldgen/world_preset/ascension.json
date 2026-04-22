@@ -1,7 +1,7 @@
 {
   "dimensions": {
     "minecraft:overworld": {
-      "type": "minecraft:overworld",
+      "type": "ascension:ascension_dimension_type_overworld",
       "generator": {
         "type": "minecraft:noise",
         "biome_source": {
