@@ -11,9 +11,6 @@ public final class MobBiasList {
     private MobBiasList() {
     }
 
-    public static final MobBodyStatBias NONE =
-            new MobBodyStatBias(0, 0, 0);
-
     public static final MobBodyStatBias ZOMBIE =
             new MobBodyStatBias(8, 4, -1);
 
@@ -50,7 +47,7 @@ public final class MobBiasList {
             return GENERIC_ANIMAL;
         }
 
-        return NONE;
+        return MobBodyStatBias.NONE;
     }
 
 }

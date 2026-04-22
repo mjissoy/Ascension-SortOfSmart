@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.mob_ranks.client_debugging_remove_later;
+package net.thejadeproject.ascension.mob_ranks.overlay;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -16,8 +16,12 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.mob_ranks.MobRankData;
 import org.joml.Matrix4f;
 
+/*
+* TODO: Remove in favour of Spirit Sensing
+* */
+
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID, value = Dist.CLIENT)
-public class DebugRenderNameTags {
+public class MobRankOverlay {
 
     private static final double MAX_RENDER_DISTANCE_SQR = 32.0 * 32.0;
 
@@ -106,7 +110,4 @@ public class DebugRenderNameTags {
         poseStack.popPose();
     }
 
-    private static int eventLight(int packedLight) {
-        return packedLight;
-    }
 }

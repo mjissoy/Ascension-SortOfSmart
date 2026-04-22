@@ -10,18 +10,18 @@ public final class MobRankRoller {
     private static final Random RANDOM = new Random();
 
     private static final List<WeightedMobRank> DEFAULT_WEIGHTS = List.of(
-            new WeightedMobRank(MobRankList.MORTAL_1, 45),
-            new WeightedMobRank(MobRankList.MORTAL_2, 30),
-            new WeightedMobRank(MobRankList.MORTAL_3, 17),
-            new WeightedMobRank(MobRankList.QI_GATHERING_1, 6),
-            new WeightedMobRank(MobRankList.QI_GATHERING_2, 2),
-            new WeightedMobRank(MobRankList.QI_GATHERING_3, 0),
-            new WeightedMobRank(MobRankList.FORMATION_ESTABLISHMENT_1, 0),
-            new WeightedMobRank(MobRankList.FORMATION_ESTABLISHMENT_2, 0),
-            new WeightedMobRank(MobRankList.FORMATION_ESTABLISHMENT_3, 0),
-            new WeightedMobRank(MobRankList.GOLDEN_CORE_1, 0),
-            new WeightedMobRank(MobRankList.GOLDEN_CORE_2, 0),
-            new WeightedMobRank(MobRankList.GOLDEN_CORE_3, 0)
+            new WeightedMobRank(MobRankList.get("mortal", 1), 45),
+            new WeightedMobRank(MobRankList.get("mortal", 2), 30),
+            new WeightedMobRank(MobRankList.get("mortal", 3), 17),
+            new WeightedMobRank(MobRankList.get("qi_gathering", 1), 6),
+            new WeightedMobRank(MobRankList.get("qi_gathering", 2), 2),
+            new WeightedMobRank(MobRankList.get("qi_gathering", 3), 0),
+            new WeightedMobRank(MobRankList.get("formation_establishment", 1), 0),
+            new WeightedMobRank(MobRankList.get("formation_establishment", 2), 0),
+            new WeightedMobRank(MobRankList.get("formation_establishment", 3), 0),
+            new WeightedMobRank(MobRankList.get("golden_core", 1), 0),
+            new WeightedMobRank(MobRankList.get("golden_core", 2), 0),
+            new WeightedMobRank(MobRankList.get("golden_core", 3), 0)
     );
 
     private MobRankRoller() {
@@ -44,7 +44,7 @@ public final class MobRankRoller {
         }
 
         if (totalWeight <= 0) {
-            return MobRankList.MORTAL_1;
+            return MobRankList.getFirst();
         }
 
         int roll = RANDOM.nextInt(totalWeight);
@@ -57,6 +57,6 @@ public final class MobRankRoller {
             }
         }
 
-        return MobRankList.MORTAL_1;
+        return MobRankList.getFirst();
     }
 }

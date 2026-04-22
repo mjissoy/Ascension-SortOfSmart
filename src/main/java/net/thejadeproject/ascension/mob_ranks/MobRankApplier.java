@@ -82,11 +82,14 @@ public final class MobRankApplier {
     }
 
     private static void applyBossStats (LivingEntity entity, MobRankDefinition definition, MobRankStatProfile finalStats) {
-        // Same as Hostile, higher multi
-        // Scale
-        // Spawn Reinforcement
+        // Currently same stats as Hostile but 50% higher
+        double armorBonus = AscensionStatConversions.hostileArmorBonus(finalStats);
+        double armorToughnessBonus = AscensionStatConversions.hostileArmorToughnessBonus(finalStats);
+        double waterMovementBonus = AscensionStatConversions.hostileWaterMovementBonus(finalStats);
 
-        applyHostileStats(entity, definition, finalStats);
+        applyAddValue(entity, Attributes.ARMOR, ARMOR_ID, armorBonus*1.5);
+        applyAddValue(entity, Attributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS_ID, armorToughnessBonus*1.5);
+        applyAddValue(entity, Attributes.WATER_MOVEMENT_EFFICIENCY, WATER_MOVEMENT_ID, waterMovementBonus*1.5);
     }
 
 
@@ -116,7 +119,6 @@ public final class MobRankApplier {
         removeModifier(entity, Attributes.ARMOR, ARMOR_ID);
         removeModifier(entity, Attributes.ARMOR_TOUGHNESS, ARMOR_TOUGHNESS_ID);
         removeModifier(entity, Attributes.WATER_MOVEMENT_EFFICIENCY, WATER_MOVEMENT_ID);
-        removeModifier(entity, Attributes.SAFE_FALL_DISTANCE, SAFE_FALL_ID);
     }
 
 }

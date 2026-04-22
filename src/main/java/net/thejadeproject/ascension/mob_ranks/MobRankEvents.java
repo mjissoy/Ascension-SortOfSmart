@@ -15,7 +15,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.mob_ranks.client_debugging_remove_later.SyncMobRanks;
+import net.thejadeproject.ascension.mob_ranks.overlay.SyncMobRank;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class MobRankEvents {
@@ -38,7 +38,7 @@ public class MobRankEvents {
 
         PacketDistributor.sendToPlayer(
                 player,
-                new SyncMobRanks(
+                new SyncMobRank(
                         living.getId(),
                         data.getRealmId(),
                         data.getStage(),
@@ -46,6 +46,8 @@ public class MobRankEvents {
                 )
         );
     }
+
+    // TODO: Remove/Hide Debugging Tools before Release
 
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
@@ -71,14 +73,14 @@ public class MobRankEvents {
 
         if (player.getMainHandItem().is(Items.BONE)) {
             sendMobRankInfo(player, living, "Before applying rank");
-            debugApplyRank(living, "formation_establishment", 3);
+            debugApplyRank(living, "soul_formation", 3);
             sendMobRankInfo(player, living, "After applying rank");
             event.setCanceled(true);
         }
 
         if (player.getMainHandItem().is(Items.END_ROD)) {
             sendMobRankInfo(player, living, "Before applying rank");
-            debugApplyRank(living, "golden_core", 3);
+            debugApplyRank(living, "earth_immortal", 3);
             sendMobRankInfo(player, living, "After applying rank");
             event.setCanceled(true);
         }
@@ -192,7 +194,7 @@ public class MobRankEvents {
 
         PacketDistributor.sendToPlayersTrackingEntity(
                 entity,
-                new SyncMobRanks(
+                new SyncMobRank(
                         entity.getId(),
                         data.getRealmId(),
                         data.getStage(),
@@ -200,4 +202,6 @@ public class MobRankEvents {
                 )
         );
     }
+
+
 }

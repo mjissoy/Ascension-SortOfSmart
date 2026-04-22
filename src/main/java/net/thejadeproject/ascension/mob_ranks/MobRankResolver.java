@@ -35,7 +35,7 @@ public final class MobRankResolver {
     public static MobRankDefinition resolveFromPlayer(Player player) {
         PathData strongest = getStrongestPath(player);
         if (strongest == null) {
-            return MobRankList.MORTAL_1;
+            return MobRankList.getFirst();
         }
 
         String realmId = mapPathMajorRealmToMobRealm(strongest.getMajorRealm());
@@ -88,7 +88,13 @@ public final class MobRankResolver {
             case 2 -> "formation_establishment";
             case 3 -> "golden_core";
             case 4 -> "nascent_soul";
-            default -> majorRealm < 0 ? "mortal" : "nascent_soul";
+            case 5 -> "soul_formation";
+            case 6 -> "void_refinement";
+            case 7 -> "body_integration";
+            case 8 -> "tribulation_transcendence";
+            case 9 -> "mahayana";
+            case 10 -> "earth_immortal";
+            default -> majorRealm < 0 ? "mortal" : "earth_immortal";
         };
     }
 

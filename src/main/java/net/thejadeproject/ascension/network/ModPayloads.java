@@ -4,7 +4,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 
-import net.thejadeproject.ascension.mob_ranks.client_debugging_remove_later.SyncMobRanks;
+import net.thejadeproject.ascension.mob_ranks.overlay.SyncMobRank;
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
@@ -78,9 +78,9 @@ public class ModPayloads {
 
         // Temp for display purposes
         registrar.playToClient(
-                SyncMobRanks.TYPE,
-                SyncMobRanks.STREAM_CODEC,
-                SyncMobRanks::handlePayload
+                SyncMobRank.TYPE,
+                SyncMobRank.STREAM_CODEC,
+                SyncMobRank::handlePayload
         );
 
         //===================================== SERVER ==================================

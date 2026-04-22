@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.mob_ranks.client_debugging_remove_later;
+package net.thejadeproject.ascension.mob_ranks.overlay;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -12,28 +12,28 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.mob_ranks.MobRankData;
 
-public record SyncMobRanks(
+public record SyncMobRank(
         int entityId,
         String realmId,
         int stage,
         boolean initialized
 ) implements CustomPacketPayload {
 
-    public static final Type<SyncMobRanks> TYPE =
+    public static final Type<SyncMobRank> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sync_mob_rank"));
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, SyncMobRanks> STREAM_CODEC =
-            StreamCodec.of(SyncMobRanks::encode, SyncMobRanks::decode);
+    public static final StreamCodec<RegistryFriendlyByteBuf, SyncMobRank> STREAM_CODEC =
+            StreamCodec.of(SyncMobRank::encode, SyncMobRank::decode);
 
-    private static void encode(RegistryFriendlyByteBuf buf, SyncMobRanks packet) {
+    private static void encode(RegistryFriendlyByteBuf buf, SyncMobRank packet) {
         buf.writeInt(packet.entityId);
         buf.writeUtf(packet.realmId);
         buf.writeInt(packet.stage);
         buf.writeBoolean(packet.initialized);
     }
 
-    private static SyncMobRanks decode(RegistryFriendlyByteBuf buf) {
-        return new SyncMobRanks(
+    private static SyncMobRank decode(RegistryFriendlyByteBuf buf) {
+        return new SyncMobRank(
                 buf.readInt(),
                 buf.readUtf(),
                 buf.readInt(),
@@ -41,7 +41,7 @@ public record SyncMobRanks(
         );
     }
 
-    public static void handlePayload(SyncMobRanks payload, IPayloadContext context) {
+    public static void handlePayload(SyncMobRank payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             Minecraft mc = Minecraft.getInstance();
             if (mc.level == null) return;
@@ -52,9 +52,9 @@ public record SyncMobRanks(
             MobRankData data = living.getData(ModAttachments.MOB_RANK);
             if (data == null) return;
 
-            data.setRealmId(payload.realmId);
-            data.setStage(payload.stage);
-            data.setInitialized(payload.initialized);
+            data.setRealmId(payload.realmId());
+            data.setStage(payload.stage());
+            data.setInitialized(payload.initialized());
         });
     }
 
