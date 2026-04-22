@@ -15,7 +15,7 @@ public class PlayerMixin {
 
 
     @Inject(method = "getSpeed", at = @At("HEAD"), cancellable = true)
-    private void overrideSpeed(CallbackInfoReturnable<Float> cir) {
+    private void getSpeed(CallbackInfoReturnable<Float> cir) {
         LivingEntity self = (LivingEntity) (Object) this;
 
         if(self.hasData(ModAttachments.ENTITY_DATA)){

@@ -284,7 +284,7 @@ public class AscensionCraft {
 
     private void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = (Player) event.getEntity();
-
+        //player.setHealth(player.getMaxHealth()/2);
         player.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(player.getData(ModAttachments.MOVEMENT_SPEED));
 
         if(!event.getEntity().level().isClientSide()){

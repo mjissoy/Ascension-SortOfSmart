@@ -1,8 +1,6 @@
 package net.thejadeproject.ascension.items;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -10,7 +8,6 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.constants.CultivationSource;
 
 import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
@@ -27,15 +24,12 @@ import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.items.tools.SpiritualStoneTools;
 import net.thejadeproject.ascension.util.ItemUtil;
 
-import java.util.HashSet;
-import java.util.List;
-
 import static net.thejadeproject.ascension.items.pills.PillItem.PillType.*;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
 
-    public static final DeferredItem<Item> TEST_FAN = ITEMS.register("test_fan",
+    public static final DeferredItem<Item> FAN = ITEMS.register("fan",
             () -> new FanItem(new Item.Properties()));
 
 
@@ -338,6 +332,11 @@ public class ModItems {
     public static final DeferredItem<Item> HUNDRED_YEAR_FIRE_GINSENG = ITEMS.register("hundred_year_fire_ginseng",
             () -> new HundredYearFireGinseng(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_FIRE_GINSENG)));
+
+
+
+    public static final DeferredItem<Item> PEACH = ITEMS.register("peach",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.PEACH)));
 
 
     //MobEggs
