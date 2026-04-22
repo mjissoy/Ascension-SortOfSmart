@@ -26,22 +26,21 @@ public class ModDensityFunctions {
         );
 
         DensityFunction rawRidges = DensityFunctions.flatCache(
-                DensityFunctions.noise(mountainsNoise, 0.18, 0.0)
+                DensityFunctions.noise(mountainsNoise, 0.20, 0.0)
         );
 
         // large-scale terrain detail used for broad rolling hills
         DensityFunction broadDetail = DensityFunctions.flatCache(
-                DensityFunctions.noise(detailNoise, 0.14, 0.0)
+                DensityFunctions.noise(detailNoise, 0.12, 0.0)
         );
 
         // smaller-scale terrain detail used for softer local variation
         DensityFunction fineDetail = DensityFunctions.flatCache(
-                DensityFunctions.noise(detailNoise, 0.22, 0.0)
+                DensityFunctions.noise(detailNoise, 0.18, 0.0)
         );
 
         // light surface jitter noise used to break up overly smooth terrain
-        DensityFunction surfaceJitterNoise = DensityFunctions.noise(detailNoise, 0.45, 0.08);
-
+        DensityFunction surfaceJitterNoise = DensityFunctions.noise(detailNoise, 1.10, 0.20);
 
         // Scales and offsets the continent noise
         DensityFunction continents = DensityFunctions.add(
@@ -57,18 +56,19 @@ public class ModDensityFunctions {
 
         // offsets ridge values upward. bias all ridges
         DensityFunction ridgeGate = DensityFunctions.max(
-                DensityFunctions.add(ridges, DensityFunctions.constant(-0.08)),
+                DensityFunctions.add(ridges, DensityFunctions.constant(-0.10)),
                 DensityFunctions.constant(0.0)
         );
 
         // stricter peak mask so only the strongest ridges get tall peak boosts
         DensityFunction peakMask = clamp(
                 DensityFunctions.mul(
-                        DensityFunctions.add(ridges, DensityFunctions.constant(-0.45)),
-                        DensityFunctions.constant(4.0)
+                        DensityFunctions.add(ridges, DensityFunctions.constant(-0.30)),
+                        DensityFunctions.constant(3.0)
                 ),
                 0.0, 1.0
         );
+
 
         // smooth land mask so terrain effects fade in gradually from ocean to land
         DensityFunction landMask = DensityFunctions.max(
@@ -82,21 +82,33 @@ public class ModDensityFunctions {
                 )
         );
 
+        // mountain height cap
+        DensityFunction mountainCeilingFade = clamp(
+                DensityFunctions.yClampedGradient(405, 438, 1.0, 0.0),
+                0.0, 1.0
+        );
+
         // main mountain body from ridge strength and land presence
         DensityFunction mountainBody = DensityFunctions.mul(
                 DensityFunctions.mul(
-                        DensityFunctions.mul(ridgeGate, ridgeGate),
-                        landMask
+                        DensityFunctions.mul(
+                                DensityFunctions.mul(ridgeGate, ridgeGate),
+                                landMask
+                        ),
+                        mountainCeilingFade
                 ),
-                DensityFunctions.constant(150.0)
+                DensityFunctions.constant(210.0)
         );
 
         // extra height to the strongest mountain peaks
         DensityFunction peakMaskSq   = DensityFunctions.mul(peakMask, peakMask);
         DensityFunction peakMaskCube = DensityFunctions.mul(peakMaskSq, peakMask);
         DensityFunction peakBoost = DensityFunctions.mul(
-                DensityFunctions.mul(peakMaskCube, landMask),
-                DensityFunctions.constant(220.0)
+                DensityFunctions.mul(
+                        DensityFunctions.mul(peakMaskCube, landMask),
+                        mountainCeilingFade
+                ),
+                DensityFunctions.constant(170.0)
         );
 
         // combines mountain bulk and peak boosts into the final mountain height
@@ -111,13 +123,13 @@ public class ModDensityFunctions {
         // ocean floor height
         DensityFunction oceanHeight = DensityFunctions.add(
                 DensityFunctions.constant(63.0),
-                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(82.0))
+                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(78.0))
         );
 
         // land height
         DensityFunction landHeight = DensityFunctions.add(
                 DensityFunctions.constant(63.0),
-                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(51.0))
+                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(50.0))
         );
 
         // chooses between ocean and land base height depending on continent value
@@ -130,8 +142,8 @@ public class ModDensityFunctions {
         // softer detail mask so terrain detail fades in near coastlines
         DensityFunction oceanDetailMask = clamp(
                 DensityFunctions.mul(
-                        DensityFunctions.add(continents, DensityFunctions.constant(-0.06)),
-                        DensityFunctions.constant(1.8)
+                        DensityFunctions.add(continents, DensityFunctions.constant(-0.08)),
+                        DensityFunctions.constant(1.6)
                 ),
                 0.0, 1.0
         );
@@ -139,8 +151,8 @@ public class ModDensityFunctions {
         //  combines broad and fine terrain detail
         DensityFunction detailHeight = DensityFunctions.mul(
                 DensityFunctions.add(
-                        DensityFunctions.mul(broadDetail, DensityFunctions.constant(0.9)),
-                        DensityFunctions.mul(fineDetail, DensityFunctions.constant(0.04))
+                        DensityFunctions.mul(broadDetail, DensityFunctions.constant(0.8)),
+                        DensityFunctions.mul(fineDetail, DensityFunctions.constant(0.03))
                 ),
                 oceanDetailMask
         );
@@ -160,7 +172,7 @@ public class ModDensityFunctions {
         // scales the surface jitter noise into a small final terrain roughness
         DensityFunction surfaceJitter = DensityFunctions.mul(
                 surfaceJitterNoise,
-                DensityFunctions.constant(2.00)
+                DensityFunctions.constant(5.0)
         );
 
 
