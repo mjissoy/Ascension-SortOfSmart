@@ -20,8 +20,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
-import net.thejadeproject.ascension.events.ModDataComponents;
-import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 
 import org.jetbrains.annotations.Nullable;
 

@@ -3,8 +3,7 @@ package net.thejadeproject.ascension.refactor_packages.util.value_modifiers;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 /**
  * a modifier that is applied to a value
@@ -37,15 +36,15 @@ public class ValueContainerModifier {
 
     public void encode(RegistryFriendlyByteBuf buf){
         buf.writeDouble(val);
-        ByteBufHelper.encodeString(buf,operation.toString());
-        ByteBufHelper.encodeString(buf,modifierIdentifier.toString());
-        ByteBufHelper.encodeString(buf,groupIdentifier.toString());
+        ByteBufUtil.encodeString(buf,operation.toString());
+        ByteBufUtil.encodeString(buf,modifierIdentifier.toString());
+        ByteBufUtil.encodeString(buf,groupIdentifier.toString());
     }
     public static ValueContainerModifier decode(RegistryFriendlyByteBuf buf){
         double val = buf.readDouble();
-        ModifierOperation operation = ModifierOperation.valueOf(ByteBufHelper.readString(buf));
-        ResourceLocation modifierIdentifier = ByteBufHelper.readResourceLocation(buf);
-        ResourceLocation groupIdentifier = ByteBufHelper.readResourceLocation(buf);
+        ModifierOperation operation = ModifierOperation.valueOf(ByteBufUtil.readString(buf));
+        ResourceLocation modifierIdentifier = ByteBufUtil.readResourceLocation(buf);
+        ResourceLocation groupIdentifier = ByteBufUtil.readResourceLocation(buf);
         return new ValueContainerModifier(val,operation,modifierIdentifier,groupIdentifier);
     }
 }

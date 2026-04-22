@@ -7,13 +7,10 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.techniques.TechniqueTransferItem;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreativeTabHandler {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =

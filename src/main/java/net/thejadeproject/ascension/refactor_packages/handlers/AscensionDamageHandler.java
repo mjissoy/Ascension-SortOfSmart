@@ -104,8 +104,16 @@ public class AscensionDamageHandler {
         AscensionDamageEvent.Post postEvent = new AscensionDamageEvent.Post(finalDamageSource,event.getContainer(),container,event.getEntity());
         NeoForge.EVENT_BUS.post(postEvent);
         event.setNewDamage((float) postEvent.getDamage());
-
+        if(event.getSource().getEntity() != null && event.getSource().getEntity().hasData(ModAttachments.ENTITY_DATA)){
+            IEntityData entityData = event.getSource().getEntity().getData(ModAttachments.ENTITY_DATA);
+            for(ResourceLocation path : finalDamageSource.getPathAttributes()){
+                System.out.println();
+                event.setNewDamage((float) (event.getNewDamage()*entityData.getPathBonusHandler().getPathBonus(path)));
+            }
         }
+
+
+    }
 
 }
 

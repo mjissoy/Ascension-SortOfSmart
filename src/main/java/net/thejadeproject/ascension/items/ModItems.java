@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension.items;
 
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -9,9 +8,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 
-import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.formations.PlayerAccessItemToken;
 import net.thejadeproject.ascension.items.herbs.*;
 import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
@@ -22,9 +21,11 @@ import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.FanItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.items.tools.SpiritualStoneTools;
+import net.thejadeproject.ascension.refactor_packages.alchemy.ModPillEffects;
 import net.thejadeproject.ascension.util.ItemUtil;
 
-import static net.thejadeproject.ascension.items.pills.PillItem.PillType.*;
+import java.util.List;
+
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
@@ -273,27 +274,29 @@ public class ModItems {
 
 
     // ── Poison Pills ──────────────────────────────────────────────
-    public static final DeferredItem<Item> QI_DEVOURING_PARASITE_PILL = ITEMS.register("qi_devouring_parasite_pill",
-            () -> new PillItem(new Item.Properties().food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL),
-                    POISON, new MobEffectInstance(ModEffects.PARASITE, 400, 1)));
-
+    public static final DeferredItem<PillItem> QI_DEVOURING_PARASITE_PILL = ITEMS.register("qi_devouring_parasite_pill",
+            () -> new PillItem(new Item.Properties()
+                    .food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL)
+                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.PARASITE_PILL_EFFECT.getId().toString()))
+                    , 0));
     // ── Important Pills ───────────────────────────────────────────
-    public static final DeferredItem<Item> REBIRTH_PILL = ITEMS.register("rebirth_pill",
-            () -> new PillItem(new Item.Properties().food(ModFoodProperties.REBIRTH_PILL),
-                    REBIRTH, 400 /* will be 72000 on release */));
 
     // ── Antidote Pills ────────────────────────────────────────────
-    public static final DeferredItem<Item> ANTIDOTE_PILL_T1 = ITEMS.register("antidote_pill_qdppill",
-            () -> new PillItem(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL),
-                    ANTIDOTE, 400, new MobEffectInstance(ModEffects.PARASITE, 1, 0)));
-
-    public static final DeferredItem<Item> ANTIDOTE_PILL_T2 = ITEMS.register("antidote_pill_t2",
-            () -> new PillItem(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL),
-                    ANTIDOTE, 400, new MobEffectInstance(ModEffects.PARASITE, 1, 0)));
-
-    public static final DeferredItem<Item> ANTIDOTE_PILL_T3 = ITEMS.register("antidote_pill_t3",
-            () -> new PillItem(new Item.Properties().food(ModFoodProperties.ANTIDOTE_PILL),
-                    ANTIDOTE, 400, new MobEffectInstance(ModEffects.PARASITE, 1, 0)));
+    public static final DeferredItem<PillItem> ANTIDOTE_PILL_T1 = ITEMS.register("antidote_pill_t1",
+            () -> new PillItem(new Item.Properties()
+                    .food(ModFoodProperties.ANTIDOTE_PILL)
+                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.ANTIDOTE_PILL_EFFECT.getId().toString()))
+                    , 0));
+    public static final DeferredItem<PillItem> ANTIDOTE_PILL_T2 = ITEMS.register("antidote_pill_t2",
+            () -> new PillItem(new Item.Properties()
+                    .food(ModFoodProperties.ANTIDOTE_PILL)
+                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.ANTIDOTE_PILL_EFFECT.getId().toString()))
+                    , 0));
+    public static final DeferredItem<PillItem> ANTIDOTE_PILL_T3 = ITEMS.register("antidote_pill_t3",
+            () -> new PillItem(new Item.Properties()
+                    .food(ModFoodProperties.ANTIDOTE_PILL)
+                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.ANTIDOTE_PILL_EFFECT.getId().toString()))
+                    , 0));
 
 
     //Phys Stuff

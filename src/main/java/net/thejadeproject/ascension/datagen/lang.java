@@ -13,6 +13,8 @@ public class lang extends LanguageProvider {
     protected void addTranslations() {
 
 
+
+
         // Path names
         add("ascension.path.essence", "Essence");
         add("ascension.path.body", "Body");
@@ -65,13 +67,21 @@ public class lang extends LanguageProvider {
         add("ascension.technique.five_element","Five Element Circulation Method");
 
 
+        //Pill effects
+        add("ascension.pill_effects.body_cultivation_pill_effect.name","Body Cultivation");
+        add("ascension.pill_effects.body_cultivation_pill_effect.description","Increases Body cultivation");
 
+        add("ascension.pill_effects.essence_cultivation_pill_effect.name","Essence Cultivation");
+        add("ascension.pill_effects.essence_cultivation_pill_effect.description","Increases Essence cultivation");
 
+        add("ascension.pill_effects.soul_cultivation_pill_effect.name","Soul Cultivation");
+        add("ascension.pill_effects.soul_cultivation_pill_effect.description","Increases Soul cultivation");
 
+        add("ascension.pill_effects.antidote_pill_effect.name","Antidote");
+        add("ascension.pill_effects.antidote_pill_effect.description","Cures Parasites");
 
-
-
-
+        add("ascension.pill_effects.parasite_pill_effect.name","Parasite");
+        add("ascension.pill_effects.parasite_pill_effect.description","Infects targets with a qi devouring parasite");
 
         //Menus
         add("container.ascension.spatial_stones", "§5Spatial Stones");

@@ -69,6 +69,10 @@ public class FiveElementCultivationTechnique implements ITechnique {
                 ModSkills.FIVE_ELEMENT_CIRCULATION.getId(),
                 ModForms.MORTAL_VESSEL.getId()
         );
+        heldEntity.giveSkill(
+                ModSkills.FIRE_SPRAY.getId(),
+                ModForms.MORTAL_VESSEL.getId()
+        );
         elements.forEach(element->heldEntity.getPathBonusHandler().addPathBonus(element,1));
         heldEntity.getPathBonusHandler().addPathBonus(elements.getFirst(),2); //first element is first realm
 
@@ -76,7 +80,10 @@ public class FiveElementCultivationTechnique implements ITechnique {
 
     @Override
     public void onTechniqueRemoved(IEntityData heldEntity, ITechniqueData techniqueData) {
-
+        heldEntity.removeSkill(ModSkills.FIVE_ELEMENT_CIRCULATION.getId(),ModForms.MORTAL_VESSEL.getId());
+        heldEntity.removeSkill(ModSkills.FIRE_SPRAY.getId(),ModForms.MORTAL_VESSEL.getId());
+        elements.forEach(element->heldEntity.getPathBonusHandler().removePathBonus(element,1));
+        heldEntity.getPathBonusHandler().removePathBonus(elements.getFirst(),2); //first element is first realm
     }
     public void applyElementalBonus(IEntityData entityData,int majorRealm){
         if(majorRealm == 0) return;

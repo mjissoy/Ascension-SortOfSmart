@@ -12,7 +12,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;

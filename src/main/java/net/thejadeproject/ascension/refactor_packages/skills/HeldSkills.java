@@ -1,23 +1,15 @@
 package net.thejadeproject.ascension.refactor_packages.skills;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLLoader;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.UUID;
 
 public class HeldSkills {
 
@@ -152,7 +144,7 @@ public class HeldSkills {
         }
         //removed
         for(int i =0;i<buf.readInt();i++){
-            skills.remove(ByteBufHelper.readResourceLocation(buf));
+            skills.remove(ByteBufUtil.readResourceLocation(buf));
         }
 
         //modified skills
@@ -181,7 +173,7 @@ public class HeldSkills {
         //write removed
         buf.writeInt(removalSyncBuffer.size());
         for(HeldSkill heldSkill : removalSyncBuffer){
-            ByteBufHelper.encodeString(buf,heldSkill.getKey().toString());
+            ByteBufUtil.encodeString(buf,heldSkill.getKey().toString());
         }
         //write modified
         buf.writeInt(modifiedSyncBuffer.size());

@@ -1,17 +1,15 @@
-package net.thejadeproject.ascension.events;
+package net.thejadeproject.ascension.items.data_components;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.attachment.AttachmentType;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.events.SealedEntityData;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -103,17 +101,6 @@ public class ModDataComponents {
 
 
 
-    //Physiques
-    // Add this with the other data components
-    public static final Supplier<DataComponentType<Integer>> TAIL_COUNT = DATA_COMPONENTS.register(
-            "tail_count",
-            () -> DataComponentType.<Integer>builder()
-                    .persistent(Codec.INT)
-                    .networkSynchronized(ByteBufCodecs.VAR_INT)
-                    .build()
-    );
-
-
 
 
 
@@ -137,6 +124,13 @@ public class ModDataComponents {
                     .build()
     );
 
+    public static final Supplier<DataComponentType<List<String>>> PILL_EFFECTS = DATA_COMPONENTS.register(
+            "pill_effects",
+            () -> DataComponentType.<List<String>>builder()
+                    .persistent(Codec.STRING.listOf())
+                    .networkSynchronized(ByteBufUtil.STRING_LIST)
+                    .build()
+    );
     // NOTE: PILL_MINOR_REALM is REMOVED.
     // Purity grade (Basic/Average/Advanced/Peak) is now derived
     // at tooltip time from the numeric PILL_PURITY value.

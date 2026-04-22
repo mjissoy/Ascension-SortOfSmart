@@ -25,11 +25,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.thejadeproject.ascension.items.herbs.HerbBonusEffects;
-import net.thejadeproject.ascension.items.pills.PillItem;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 import net.thejadeproject.ascension.recipe.LowHumanPillCauldronRecipe;
 import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.recipe.PillCauldronInput;
+import net.thejadeproject.ascension.refactor_packages.util.PillEffectUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -341,7 +341,7 @@ public class PillCauldronLowHumanEntity extends BlockEntity implements MenuProvi
         int targetSlot    = isSuccess ? OUTPUT_SUCCESS : OUTPUT_FAIL;
 
         // New signature — no minor realm parameter
-        PillItem.applyPillData(output, finalMajorRealm, finalPurity, bonusEffect);
+        PillEffectUtil.applyPillData(output, finalMajorRealm, finalPurity, bonusEffect);
 
         ItemStack current = itemHandler.getStackInSlot(targetSlot);
         if (current.isEmpty()) {

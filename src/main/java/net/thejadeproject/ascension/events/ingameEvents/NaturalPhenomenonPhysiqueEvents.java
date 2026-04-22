@@ -23,7 +23,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
 import org.joml.Vector3f;
 

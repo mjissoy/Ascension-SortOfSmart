@@ -6,6 +6,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)

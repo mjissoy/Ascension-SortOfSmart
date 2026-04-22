@@ -75,6 +75,8 @@ public class PillRealmData {
         return getMajorRealmName(majorRealm) + " — " + getPurityGrade(purity);
     }
 
+    //TODO setup a registry for pill effects...
+
     // ── Bonus effect display strings ──────────────────────────────
     public static String getBonusEffectDisplay(String id) {
         if (id == null || id.isEmpty()) return "";

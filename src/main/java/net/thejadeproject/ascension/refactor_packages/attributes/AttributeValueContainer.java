@@ -13,7 +13,7 @@ import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegist
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
 import net.thejadeproject.ascension.refactor_packages.stats.StatInstance;
 import net.thejadeproject.ascension.refactor_packages.stats.StatSheet;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainer;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
 
@@ -130,7 +130,7 @@ public class AttributeValueContainer extends ValueContainer {
 
     }
     public static AttributeValueContainer decode(RegistryFriendlyByteBuf buf){
-        ResourceLocation identifier = ByteBufHelper.readResourceLocation(buf);
+        ResourceLocation identifier = ByteBufUtil.readResourceLocation(buf);
         Component displayName = ComponentSerialization.STREAM_CODEC.decode(buf);
         double base = buf.readDouble();
         int modifierNumber = buf.readInt();

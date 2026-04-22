@@ -9,10 +9,9 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
-import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 public record SyncPhysique(ResourceLocation form, ResourceLocation physique, IPhysiqueData physiqueData) implements CustomPacketPayload {
 
@@ -21,17 +20,17 @@ public record SyncPhysique(ResourceLocation form, ResourceLocation physique, IPh
             StreamCodec.of(SyncPhysique::encode, SyncPhysique::decode);
 
     public static void encode(RegistryFriendlyByteBuf buf,SyncPhysique packet){
-        ByteBufHelper.encodeString(buf,packet.form.toString());
+        ByteBufUtil.encodeString(buf,packet.form.toString());
         buf.writeBoolean(packet.physique != null);
-        if(packet.physique != null) ByteBufHelper.encodeString(buf,packet.physique.toString());
+        if(packet.physique != null) ByteBufUtil.encodeString(buf,packet.physique.toString());
         if(packet.physiqueData != null) packet.physiqueData.encode(buf);
     }
     public static SyncPhysique decode(RegistryFriendlyByteBuf buf){
-        ResourceLocation form = ByteBufHelper.readResourceLocation(buf);
+        ResourceLocation form = ByteBufUtil.readResourceLocation(buf);
         ResourceLocation physique = null;
         IPhysiqueData physiqueData = null;
         if(buf.readBoolean()){
-            physique = ByteBufHelper.readResourceLocation(buf);
+            physique = ByteBufUtil.readResourceLocation(buf);
             physiqueData = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physique).fromNetwork(buf);
         }
         return new SyncPhysique(form,physique,physiqueData);

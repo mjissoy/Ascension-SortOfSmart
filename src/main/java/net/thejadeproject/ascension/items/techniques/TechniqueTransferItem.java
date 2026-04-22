@@ -1,6 +1,5 @@
 package net.thejadeproject.ascension.items.techniques;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -10,9 +9,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 

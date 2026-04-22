@@ -391,7 +391,7 @@ public class ModCreativeModeTabs {
 
 
                         //Important Pills
-                        output.accept(ModItems.REBIRTH_PILL);
+
 
                     }).build());
 

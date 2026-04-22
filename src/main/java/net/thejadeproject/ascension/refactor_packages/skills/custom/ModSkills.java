@@ -9,6 +9,7 @@ import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.physiques.custom.GenericPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.attack.fire.FireSpray;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.five_element.FiveElementCirculation;
@@ -31,6 +32,8 @@ public class ModSkills {
 
     public static final DeferredHolder<ISkill,? extends FiveElementCirculation> FIVE_ELEMENT_CIRCULATION = SKILLS.register("five_element_circulation",
             FiveElementCirculation::new);
+    public static final DeferredHolder<ISkill,? extends FireSpray> FIRE_SPRAY = SKILLS.register("fire_spray",
+            FireSpray::new);
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);

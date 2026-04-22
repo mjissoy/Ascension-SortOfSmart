@@ -17,7 +17,7 @@ import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
 
 import java.util.HashMap;

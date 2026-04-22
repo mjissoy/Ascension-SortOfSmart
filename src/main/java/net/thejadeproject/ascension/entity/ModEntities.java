@@ -2,11 +2,14 @@ package net.thejadeproject.ascension.entity;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.entity.custom.CushionEntity;
+import net.thejadeproject.ascension.entity.custom.PillProjectile;
 import net.thejadeproject.ascension.entity.custom.form.PlayerBodyEntity;
 import net.thejadeproject.ascension.entity.custom.shaders.RiftEntity;
 import net.thejadeproject.ascension.entity.custom.TreasureRatEntity;
@@ -22,7 +25,17 @@ public class ModEntities {
             ENTITY_TYPES.register("treasure_rat", () -> EntityType.Builder.of(TreasureRatEntity::new, MobCategory.CREATURE)
                     .sized(0.5f, 0.35f).build("treasure_rat"));
 
-
+    public static final Supplier<EntityType<PillProjectile>> PILL_PROJECTILE =
+            ENTITY_TYPES.register("pill_projectile",
+                    ()-> EntityType.Builder.<PillProjectile>of(
+                            ((entityType, level) -> new PillProjectile(entityType,level,new ItemStack(Items.SNOWBALL))),
+                            MobCategory.MISC
+                    )
+                    .sized(0.25F, 0.25F)
+                    .clientTrackingRange(4)
+                    .updateInterval(10)
+                    .build("pill_projectile")
+                    );
 
     public static final Supplier<EntityType<PoisonPillProjectile>> POISON_PILL =
             ENTITY_TYPES.register("poison_pill",

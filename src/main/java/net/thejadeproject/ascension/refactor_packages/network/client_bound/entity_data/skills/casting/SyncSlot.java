@@ -11,7 +11,7 @@ import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 public record SyncSlot(int slot, ResourceLocation skill, IPreCastData preCastData) implements CustomPacketPayload {
 
@@ -24,7 +24,7 @@ public record SyncSlot(int slot, ResourceLocation skill, IPreCastData preCastDat
         buf.writeInt(slot.slot);
         buf.writeBoolean(slot.skill != null);
         if(slot.skill != null){
-            ByteBufHelper.encodeString(buf,slot.skill.toString());
+            ByteBufUtil.encodeString(buf,slot.skill.toString());
             if(slot.preCastData != null) slot.preCastData.encode(buf);
         }
 
@@ -32,7 +32,7 @@ public record SyncSlot(int slot, ResourceLocation skill, IPreCastData preCastDat
     public static SyncSlot decode(RegistryFriendlyByteBuf buf){
         int slot = buf.readInt();
         if(buf.readBoolean()) {
-            ResourceLocation skill = ByteBufHelper.readResourceLocation(buf);
+            ResourceLocation skill = ByteBufUtil.readResourceLocation(buf);
             IPreCastData preCastData = null;
             if (AscensionRegistries.Skills.SKILL_REGISTRY.get(skill) instanceof ICastableSkill castableSkill) preCastData = castableSkill.preCastDataFromNetwork(buf);
             return new SyncSlot(slot, skill, preCastData);
