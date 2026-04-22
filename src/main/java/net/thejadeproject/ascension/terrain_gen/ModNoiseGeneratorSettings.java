@@ -62,7 +62,27 @@ public class ModNoiseGeneratorSettings {
                 SurfaceRules.state(Blocks.STONE.defaultBlockState())
         );
 
+        SurfaceRules.RuleSource riverRules = SurfaceRules.sequence(
+                SurfaceRules.ifTrue(
+                        SurfaceRules.ON_FLOOR,
+                        SurfaceRules.state(Blocks.WATER.defaultBlockState())
+                ),
+                SurfaceRules.ifTrue(
+                        SurfaceRules.UNDER_FLOOR,
+                        SurfaceRules.state(Blocks.SAND.defaultBlockState())
+                ),
+                SurfaceRules.state(Blocks.STONE.defaultBlockState())
+        );
+
         SurfaceRules.RuleSource surfaceRule = SurfaceRules.sequence(
+
+                SurfaceRules.ifTrue(
+                        SurfaceRules.isBiome(
+                                net.minecraft.world.level.biome.Biomes.RIVER,
+                                net.minecraft.world.level.biome.Biomes.FROZEN_RIVER
+                        ),
+                        riverRules
+                ),
 
                 SurfaceRules.ifTrue(
                         SurfaceRules.isBiome(
@@ -74,9 +94,7 @@ public class ModNoiseGeneratorSettings {
                                 net.minecraft.world.level.biome.Biomes.DEEP_LUKEWARM_OCEAN,
                                 net.minecraft.world.level.biome.Biomes.WARM_OCEAN,
                                 net.minecraft.world.level.biome.Biomes.FROZEN_OCEAN,
-                                net.minecraft.world.level.biome.Biomes.DEEP_FROZEN_OCEAN,
-                                net.minecraft.world.level.biome.Biomes.RIVER,
-                                net.minecraft.world.level.biome.Biomes.FROZEN_RIVER
+                                net.minecraft.world.level.biome.Biomes.DEEP_FROZEN_OCEAN
                         ),
                         oceanFloorRules
                 ),
@@ -95,6 +113,8 @@ public class ModNoiseGeneratorSettings {
                 SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())),
                 SurfaceRules.state(Blocks.STONE.defaultBlockState())
         );
+
+
 
         NoiseGeneratorSettings settings = new NoiseGeneratorSettings(
                 noiseSettings,

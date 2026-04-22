@@ -34,7 +34,7 @@ public class ModDensityFunctions {
         );
 
         DensityFunction fineDetail = DensityFunctions.flatCache(
-                DensityFunctions.noise(detailNoise, 0.7, 0.0)
+                DensityFunctions.noise(detailNoise, 0.80, 0.0)
         );
 
         DensityFunction surfaceJitterNoise = DensityFunctions.noise(detailNoise, 1.5, 0.8);
@@ -54,6 +54,43 @@ public class ModDensityFunctions {
                 DensityFunctions.add(ridges, DensityFunctions.constant(0.04)),
                 DensityFunctions.constant(0.0)
         );
+
+        DensityFunction peakMask = clamp(
+                DensityFunctions.mul(
+                        DensityFunctions.add(ridges, DensityFunctions.constant(-0.18)),
+                        DensityFunctions.constant(2.2)
+                ),
+                0.0, 1.0
+        );
+
+        DensityFunction landMask = DensityFunctions.max(
+                DensityFunctions.constant(0.0),
+                DensityFunctions.min(
+                        DensityFunctions.constant(1.0),
+                        DensityFunctions.mul(
+                                DensityFunctions.add(continents, DensityFunctions.constant(-0.04)),
+                                DensityFunctions.constant(2.4)
+                        )
+                )
+        );
+
+        DensityFunction mountainBody = DensityFunctions.mul(
+                DensityFunctions.mul(
+                        DensityFunctions.mul(ridgeGate, ridgeGate),
+                        landMask
+                ),
+                DensityFunctions.constant(220.0)
+        );
+
+        DensityFunction peakBoost = DensityFunctions.mul(
+                DensityFunctions.mul(
+                        DensityFunctions.mul(peakMask, peakMask),
+                        landMask
+                ),
+                DensityFunctions.constant(190.0)
+        );
+
+        DensityFunction mountainHeight = DensityFunctions.add(mountainBody, peakBoost);
 
 
         DensityFunction continentsOffset = DensityFunctions.add(
@@ -77,40 +114,22 @@ public class ModDensityFunctions {
         );
 
 
-        DensityFunction landMask = DensityFunctions.max(
-                DensityFunctions.constant(0.0),
-                DensityFunctions.min(
-                        DensityFunctions.constant(1.0),
-                        DensityFunctions.mul(
-                                DensityFunctions.add(continents, DensityFunctions.constant(-0.04)),
-                                DensityFunctions.constant(3.0)
-                        )
-                )
-        );
+
 
         DensityFunction oceanDetailMask = clamp(
                 DensityFunctions.mul(
                         DensityFunctions.add(continents, DensityFunctions.constant(-0.01)),
-                        DensityFunctions.constant(6.0)
+                        DensityFunctions.constant(4.0)
                 ),
                 0.0, 1.0
         );
 
 
-        DensityFunction mountainHeight = DensityFunctions.mul(
-                DensityFunctions.mul(
-                        DensityFunctions.mul(ridgeGate, ridgeGate),
-                        landMask
-                ),
-                DensityFunctions.constant(260.0)
-
-        );
-
 
         DensityFunction detailHeight = DensityFunctions.mul(
                 DensityFunctions.add(
-                        DensityFunctions.mul(broadDetail, DensityFunctions.constant(9.0)),
-                        DensityFunctions.mul(fineDetail,  DensityFunctions.constant(2.5))
+                        DensityFunctions.mul(broadDetail, DensityFunctions.constant(7.0)),
+                        DensityFunctions.mul(fineDetail,  DensityFunctions.constant(1.25))
                 ),
                 oceanDetailMask
         );
@@ -129,7 +148,7 @@ public class ModDensityFunctions {
 
         DensityFunction surfaceJitter = DensityFunctions.mul(
                 surfaceJitterNoise,
-                DensityFunctions.constant(7.0)
+                DensityFunctions.constant(2.25)
         );
 
 
