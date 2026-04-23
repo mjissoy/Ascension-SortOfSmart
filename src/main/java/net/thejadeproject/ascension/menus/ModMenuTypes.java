@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
+import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventoryMenu;
 
 
 public class ModMenuTypes {
@@ -23,7 +24,8 @@ public class ModMenuTypes {
             registerMenuType("pill_cauldron_low_human_menu", PillCauldronLowHumanMenu::new);
 
 
-
+    public static final DeferredHolder<MenuType<?>,MenuType<SpatialRingInventoryMenu>> SPATIAL_RING_INVENTORY_MENU =
+            registerMenuType("spirit_ring_inventory_menu", SpatialRingInventoryMenu::new);
 
 
     private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
