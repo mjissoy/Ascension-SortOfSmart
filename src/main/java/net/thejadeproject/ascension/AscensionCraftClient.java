@@ -25,7 +25,7 @@ import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.CushionRenderer;
 import net.thejadeproject.ascension.entity.client.form.PlayerBodyEntityRenderer;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.items.artifacts.FlameGourd;

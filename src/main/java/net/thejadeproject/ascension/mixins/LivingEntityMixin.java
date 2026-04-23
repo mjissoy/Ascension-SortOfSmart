@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LivingEntityMixin {
     @Inject(method = "getMaxAbsorption",at=@At("HEAD"),cancellable = true)
     private void getMaxAbsorption(CallbackInfoReturnable<Float> cir){
+
+
         LivingEntity self = (LivingEntity) (Object) this;
 
         if(self.hasData(ModAttachments.ENTITY_DATA)){

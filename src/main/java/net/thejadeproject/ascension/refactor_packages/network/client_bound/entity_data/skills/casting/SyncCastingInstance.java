@@ -7,13 +7,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastingInstance;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastData;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
-import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 public record SyncCastingInstance(ResourceLocation skill, ICastData castData)implements CustomPacketPayload {
 
@@ -25,7 +23,7 @@ public record SyncCastingInstance(ResourceLocation skill, ICastData castData)imp
     public static void encode(RegistryFriendlyByteBuf buf,SyncCastingInstance packet){
         buf.writeBoolean(packet.skill != null);
         if(packet.skill != null){
-            ByteBufHelper.encodeString(buf,packet.skill.toString());
+            ByteBufUtil.encodeString(buf,packet.skill.toString());
         }
         buf.writeBoolean(packet.castData != null);
         if(packet.castData != null){
@@ -36,7 +34,7 @@ public record SyncCastingInstance(ResourceLocation skill, ICastData castData)imp
     public static SyncCastingInstance decode(RegistryFriendlyByteBuf buf){
         ResourceLocation skill = null;
         if(buf.readBoolean()){
-            skill = ByteBufHelper.readResourceLocation(buf);
+            skill = ByteBufUtil.readResourceLocation(buf);
         }
         ICastData castData = null;
         if(buf.readBoolean()){

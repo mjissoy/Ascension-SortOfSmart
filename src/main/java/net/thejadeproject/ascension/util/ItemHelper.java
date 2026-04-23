@@ -1,7 +1,7 @@
 package net.thejadeproject.ascension.util;
 
 import net.minecraft.world.item.ItemStack;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 

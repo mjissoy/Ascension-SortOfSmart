@@ -20,13 +20,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.events.SealedEntityData;
 import net.thejadeproject.ascension.util.ModTags;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class SpiritSealingRingItem extends Item {
 

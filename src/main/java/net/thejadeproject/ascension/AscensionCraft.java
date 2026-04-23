@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +23,6 @@ import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -34,10 +32,9 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.command.cultivation.ResetAttributesCommand;
-import net.thejadeproject.ascension.constants.CultivationSource;
 import net.thejadeproject.ascension.command.cultivation.SetCultivationCommand;
 
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.events.TeleportationEventHandler;
 
 import net.thejadeproject.ascension.items.artifacts.DeathRecallTalisman;
@@ -56,6 +53,7 @@ import net.thejadeproject.ascension.recipe.ModRecipes;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 
+import net.thejadeproject.ascension.refactor_packages.alchemy.ModPillEffects;
 import net.thejadeproject.ascension.refactor_packages.entity_data.GenericEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
@@ -85,7 +83,6 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -142,7 +139,7 @@ public class AscensionCraft {
 
         ModSkills.register(modEventBus);
 
-
+        ModPillEffects.register(modEventBus);
         ModStats.register(modEventBus);
         // In your main mod class, in the constructor:
         NeoForge.EVENT_BUS.register(TeleportationEventHandler.class);

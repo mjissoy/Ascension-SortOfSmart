@@ -4,7 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 
 import java.util.Collection;
@@ -90,9 +90,9 @@ public class AscensionModifier implements IDataInstance {
 
     @Override
     public void encode(RegistryFriendlyByteBuf buf) {
-        ByteBufHelper.encodeString(buf,modifierId.toString());
-        ByteBufHelper.encodeString(buf,groupId.toString());
-        ByteBufHelper.encodeString(buf,operator.name());
+        ByteBufUtil.encodeString(buf,modifierId.toString());
+        ByteBufUtil.encodeString(buf,groupId.toString());
+        ByteBufUtil.encodeString(buf,operator.name());
         buf.writeDouble(getValue());
     }
 
@@ -104,9 +104,9 @@ public class AscensionModifier implements IDataInstance {
         return new AscensionModifier(operator,id,groupId,val);
     }
     public static AscensionModifier decode(RegistryFriendlyByteBuf buf){
-        ResourceLocation id = ByteBufHelper.readResourceLocation(buf);
-        ResourceLocation groupId = ByteBufHelper.readResourceLocation(buf);
-        Operator operator = Operator.valueOf(ByteBufHelper.readString(buf));
+        ResourceLocation id = ByteBufUtil.readResourceLocation(buf);
+        ResourceLocation groupId = ByteBufUtil.readResourceLocation(buf);
+        Operator operator = Operator.valueOf(ByteBufUtil.readString(buf));
         double val = buf.readDouble();
         return new AscensionModifier(operator,id,groupId,val);
     }

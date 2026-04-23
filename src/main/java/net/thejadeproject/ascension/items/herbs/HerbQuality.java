@@ -3,7 +3,7 @@ package net.thejadeproject.ascension.items.herbs;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;

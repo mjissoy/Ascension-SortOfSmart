@@ -4,7 +4,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 import java.util.*;
 
@@ -127,7 +127,7 @@ public class ValueContainer {
 
 
     public static void encode(RegistryFriendlyByteBuf buf,ValueContainer container){
-        ByteBufHelper.encodeString(buf,container.getIdentifier().toString());
+        ByteBufUtil.encodeString(buf,container.getIdentifier().toString());
         ComponentSerialization.STREAM_CODEC.encode(buf,container.getDisplayName());
         buf.writeDouble(container.base);
         Collection<ValueContainerModifier> modifiers = container.getAllModifiers();
@@ -138,7 +138,7 @@ public class ValueContainer {
 
     }
     public static ValueContainer decode(RegistryFriendlyByteBuf buf){
-        ResourceLocation identifier = ByteBufHelper.readResourceLocation(buf);
+        ResourceLocation identifier = ByteBufUtil.readResourceLocation(buf);
         Component displayName = ComponentSerialization.STREAM_CODEC.decode(buf);
         double base = buf.readDouble();
         int modifierNumber = buf.readInt();

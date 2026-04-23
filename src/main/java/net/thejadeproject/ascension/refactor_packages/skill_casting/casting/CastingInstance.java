@@ -52,7 +52,8 @@ public class CastingInstance {
         skillKey = null;
         castData = null;
         ticksElapsed = 0;
-        PacketDistributor.sendToPlayer((ServerPlayer) entity,new SyncCastingInstance(null,null));
+
+        if(entity instanceof ServerPlayer player) PacketDistributor.sendToPlayer(player,new SyncCastingInstance(null,null));
         return castEndData;
     }
 

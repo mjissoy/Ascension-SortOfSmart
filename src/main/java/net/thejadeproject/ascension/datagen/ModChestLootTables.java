@@ -16,7 +16,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 
 import java.util.function.BiConsumer;
 
@@ -135,8 +135,6 @@ public class ModChestLootTables implements LootTableSubProvider {
                                                 .setWeight(15))
                                         .add(LootItem.lootTableItem(ModItems.CLEANSING_PILL_T3.get())
                                                 .setWeight(15))
-                                        .add(LootItem.lootTableItem(ModItems.REBIRTH_PILL.get())
-                                                .setWeight(8))
                                         .add(LootItem.lootTableItem(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get())
                                                 .setWeight(8))
                                         .add(LootItem.lootTableItem(ModItems.TABLET_OF_DESTRUCTION_EARTH.get())

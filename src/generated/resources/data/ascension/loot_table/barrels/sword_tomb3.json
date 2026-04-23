@@ -69,11 +69,6 @@
         },
         {
           "type": "minecraft:item",
-          "name": "ascension:rebirth_pill",
-          "weight": 8
-        },
-        {
-          "type": "minecraft:item",
           "name": "ascension:todh",
           "weight": 8
         },

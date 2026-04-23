@@ -1,19 +1,8 @@
 package net.thejadeproject.ascension.refactor_packages.stats;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-import net.thejadeproject.ascension.refactor_packages.modifiers.AscensionModifier;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
-import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainer;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
-
-import java.util.HashMap;
 
 public class StatInstance extends ValueContainer {
 

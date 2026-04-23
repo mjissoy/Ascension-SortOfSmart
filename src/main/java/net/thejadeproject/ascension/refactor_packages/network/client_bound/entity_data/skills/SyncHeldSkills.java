@@ -10,9 +10,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
-import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
 
 public record SyncHeldSkills(String form,HeldSkills heldSkills)implements CustomPacketPayload {
 

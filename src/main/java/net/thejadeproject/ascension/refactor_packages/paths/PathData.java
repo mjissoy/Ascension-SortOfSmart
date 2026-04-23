@@ -14,7 +14,7 @@ import net.thejadeproject.ascension.refactor_packages.network.client_bound.entit
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 import oshi.util.tuples.Pair;
 
 import java.util.*;
@@ -364,7 +364,7 @@ public class PathData {
         buf.writeInt(currentRealmStability);
         buf.writeBoolean(cultivating);
         buf.writeBoolean(lastUsedTechnique != null);
-        if(lastUsedTechnique != null) ByteBufHelper.encodeString(buf,lastUsedTechnique.toString());
+        if(lastUsedTechnique != null) ByteBufUtil.encodeString(buf,lastUsedTechnique.toString());
 
 
         buf.writeInt(realmStability.size());
@@ -373,11 +373,11 @@ public class PathData {
         }
         buf.writeInt(techniqueHistory.size());
         for(ResourceLocation technique:techniqueHistory){
-            ByteBufHelper.encodeString(buf,technique.toString());
+            ByteBufUtil.encodeString(buf,technique.toString());
         }
         buf.writeInt(techniqueData.size());
         for(ResourceLocation technique:techniqueData.keySet()){
-            ByteBufHelper.encodeString(buf,technique.toString());
+            ByteBufUtil.encodeString(buf,technique.toString());
             System.out.println("trying to write data for skill : "+technique.toString());
             techniqueData.get(technique).encode(buf);
         }
@@ -395,7 +395,7 @@ public class PathData {
         currentRealmProgress = buf.readDouble();
         currentRealmStability = buf.readInt();
         cultivating = buf.readBoolean();
-        if(buf.readBoolean())lastUsedTechnique = ByteBufHelper.readResourceLocation(buf);
+        if(buf.readBoolean())lastUsedTechnique = ByteBufUtil.readResourceLocation(buf);
 
 
         int size = buf.readInt();
@@ -406,12 +406,12 @@ public class PathData {
         size = buf.readInt();
         techniqueHistory.clear();
         for(int i=0;i<size;i++){
-            techniqueHistory.add(ByteBufHelper.readResourceLocation(buf));
+            techniqueHistory.add(ByteBufUtil.readResourceLocation(buf));
         }
         size = buf.readInt();
         techniqueData.clear();
         for(int i =0;i<size;i++){
-            ResourceLocation technique = ByteBufHelper.readResourceLocation(buf);
+            ResourceLocation technique = ByteBufUtil.readResourceLocation(buf);
             ITechniqueData techniqueDataInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique).fromNetwork(buf);
             techniqueData.put(technique,techniqueDataInstance);
         }

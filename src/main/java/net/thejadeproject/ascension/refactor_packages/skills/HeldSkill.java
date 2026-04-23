@@ -1,19 +1,11 @@
 package net.thejadeproject.ascension.refactor_packages.skills;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
-import net.thejadeproject.ascension.refactor_packages.util.IDataInstance;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 public class HeldSkill  {
 
@@ -57,7 +49,7 @@ public class HeldSkill  {
 
     public void encode(RegistryFriendlyByteBuf buf){
         System.out.println("writing skill : "+getKey().toString());
-        ByteBufHelper.encodeString(buf,getKey().toString());
+        ByteBufUtil.encodeString(buf,getKey().toString());
 
         System.out.println("data encoded? : "+(persistentData != null));
         if(persistentData != null) persistentData.encode(buf);
@@ -65,7 +57,7 @@ public class HeldSkill  {
 
     }
     public static HeldSkill decode(RegistryFriendlyByteBuf buf){
-        ResourceLocation skillKey = ByteBufHelper.readResourceLocation(buf);
+        ResourceLocation skillKey = ByteBufUtil.readResourceLocation(buf);
 
         HeldSkill skill = new HeldSkill(skillKey);
 
