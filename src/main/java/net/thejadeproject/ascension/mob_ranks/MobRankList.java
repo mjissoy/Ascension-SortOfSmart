@@ -46,8 +46,6 @@ public final class MobRankList {
         return stats;
     }
 
-    // TODO: Link to a drop rule? idk
-
     // How much is added each major realm increase
     private static MobRankStatProfile getMajorGain(int majorRealmIndex) {
         return switch (majorRealmIndex) {
@@ -126,6 +124,58 @@ public final class MobRankList {
 
     public static MobRankDefinition getFirst() {
         return new MobRankDefinition("mortal", 1, buildStats(0, 1));
+    }
+
+    // Drop Rule Helpers
+    public static int getRealmIndex(String realmId) {
+        for (int i = 0; i < REALMS.length; i++) {
+            if (REALMS[i].equals(realmId)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static boolean isAtLeast(String realmId, int stage, String minRealmId, int minStage) {
+        int realm = getRealmIndex(realmId);
+        int minRealm = getRealmIndex(minRealmId);
+
+        if (realm < 0 || minRealm < 0) return false;
+        if (realm > minRealm) return true;
+        if (realm < minRealm) return false;
+        return stage >= minStage;
+    }
+
+    public static int compare(String realmIdA, int stageA, String realmIdB, int stageB) {
+        int realmA = getRealmIndex(realmIdA);
+        int realmB = getRealmIndex(realmIdB);
+
+        if (realmA < 0 || realmB < 0) {
+            return Integer.MIN_VALUE;
+        }
+
+        if (realmA != realmB) {
+            return Integer.compare(realmA, realmB);
+        }
+
+        return Integer.compare(stageA, stageB);
+    }
+
+    public static boolean isExact(String realmId, int stage, String targetRealmId, int targetStage) {
+        return compare(realmId, stage, targetRealmId, targetStage) == 0;
+    }
+
+    public static boolean isBetweenInclusive(String realmId, int stage,
+                                             String minRealmId, int minStage,
+                                             String maxRealmId, int maxStage) {
+        int lower = compare(realmId, stage, minRealmId, minStage);
+        int upper = compare(realmId, stage, maxRealmId, maxStage);
+
+        if (lower == Integer.MIN_VALUE || upper == Integer.MIN_VALUE) {
+            return false;
+        }
+
+        return lower >= 0 && upper <= 0;
     }
 
 }

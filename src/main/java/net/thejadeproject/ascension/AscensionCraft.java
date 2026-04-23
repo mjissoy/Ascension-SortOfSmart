@@ -47,6 +47,7 @@ import net.thejadeproject.ascension.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.loot.ModLootModifiers;
+import net.thejadeproject.ascension.loot.conditions.ModLootConditions;
 import net.thejadeproject.ascension.mob_ranks.util.EntityAttributeManager;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.particle.ModParticles;
@@ -125,6 +126,7 @@ public class AscensionCraft {
         ModMenuTypes.register(modEventBus);
 
         ModLootModifiers.register(modEventBus);
+        ModLootConditions.register(modEventBus);
         ModAttachments.register(modEventBus);
 
         ModParticles.register(modEventBus);
