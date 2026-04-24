@@ -60,12 +60,7 @@ public class ScrollBox extends RenderableElement {
 
     public void updateVisibility(RenderableElement element){
 
-        //TODO can simplify into one boolean expression
-        if(element.getPositioning().getY()+element.getHeight() <0) element.setVisible(false);
-        else if(element.getPositioning().getY() > getHeight()) element.setVisible(false);
-        else if(element.getPositioning().getX()+element.getWidth() < 0) element.setVisible(false);
-        else if (element.getPositioning().getX()>getWidth()) element.setVisible(false);
-        else element.setVisible(true);
+        element.setVisible(element.getPositioning().getY() >= 0 && element.getPositioning().getY() < getHeight());
     }
     public void updateChildrenY(int change){
         for (RenderableElement element: getChildren()){

@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -28,7 +30,25 @@ public class ByteBufUtil {
             }
         }
     };
+    public static StreamCodec<RegistryFriendlyByteBuf, List<ItemStack>> ITEM_STACK_LIST = new StreamCodec<RegistryFriendlyByteBuf, List<ItemStack>>() {
+        @Override
+        public List<ItemStack> decode(RegistryFriendlyByteBuf buf) {
+            int size=buf.readInt();
+            ArrayList<ItemStack> array = new ArrayList<>();
+            for(int i =0;i<size;i++){
+                array.add(ItemStack.STREAM_CODEC.decode(buf));
+            }
+            return array;
+        }
 
+        @Override
+        public void encode(RegistryFriendlyByteBuf buf, List<ItemStack> itemStacks) {
+            buf.writeInt(itemStacks.size());
+            for(ItemStack itemStack : itemStacks){
+                ItemStack.STREAM_CODEC.encode(buf,itemStack);
+            }
+        }
+    };
 
     public static void encodeString(RegistryFriendlyByteBuf buf,String string){
         buf.writeInt(string.length());

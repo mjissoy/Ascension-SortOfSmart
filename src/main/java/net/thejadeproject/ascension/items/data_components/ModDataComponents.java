@@ -9,6 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.events.SealedEntityData;
+import net.thejadeproject.ascension.items.data_components.spatial_ring.SpatialRingComponent;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 import java.util.List;
@@ -101,7 +102,14 @@ public class ModDataComponents {
 
 
 
+    public static final Supplier<DataComponentType<SpatialRingComponent>> SPIRIT_RING_DATA = DATA_COMPONENTS.register(
+            "spirit_ring_data",
+            ()->DataComponentType.<SpatialRingComponent>builder()
+                    .persistent(SpatialRingComponent.CODEC)
+                    .networkSynchronized(SpatialRingComponent.STREAM_CODEC)
+                    .build()
 
+    );
 
 
 

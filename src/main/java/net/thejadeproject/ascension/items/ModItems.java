@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.data_components.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.spatial_ring.SpatialRingComponent;
 import net.thejadeproject.ascension.items.formations.PlayerAccessItemToken;
 import net.thejadeproject.ascension.items.herbs.*;
 import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
@@ -46,6 +47,11 @@ public class ModItems {
 
 
     //Spatial Ring Stuff
+
+    public static final DeferredItem<Item> SPATIAL_RING = ITEMS.register("spatial_ring",
+            ()->new SpatialRing(new Item.Properties()
+                    .stacksTo(1)
+                    .component(ModDataComponents.SPIRIT_RING_DATA,new SpatialRingComponent(36,18,18))));
 
     public static final DeferredItem<Item> SPATIAL_STONE_TIER_1 = ITEMS.register("spatial_stone_tier_1",
             () -> new SpatialStoneItem(1, "I", Rarity.COMMON));
