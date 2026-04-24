@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.AscensionCraft;
 
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanMenu;
 import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventoryMenu;
+import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingModifierMenu;
 
 
 public class ModMenuTypes {
@@ -27,10 +28,15 @@ public class ModMenuTypes {
     public static final DeferredHolder<MenuType<?>,MenuType<SpatialRingInventoryMenu>> SPATIAL_RING_INVENTORY_MENU =
             registerMenuType("spirit_ring_inventory_menu", SpatialRingInventoryMenu::new);
 
+    public static final DeferredHolder<MenuType<?>,MenuType<SpatialRingModifierMenu>> SPATIAL_RING_MODIFIER_MENU =
+            registerMenuType("spirit_ring_modifier_menu", SpatialRingModifierMenu::new);
+
+
 
     private static <T extends AbstractContainerMenu>DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IMenuTypeExtension.create(factory));
     }
+
 
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);

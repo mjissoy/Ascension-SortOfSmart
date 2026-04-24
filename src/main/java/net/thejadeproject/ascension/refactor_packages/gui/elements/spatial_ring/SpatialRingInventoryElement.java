@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.refactor_packages.gui.elements.spirit_ring;
+package net.thejadeproject.ascension.refactor_packages.gui.elements.spatial_ring;
 
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
@@ -59,6 +59,7 @@ public class SpatialRingInventoryElement extends RenderableElement {
         addChild(playerInventoryContainer);
         getPositioning().setX(-getWidth()/2);
         getPositioning().setY(-getHeight()/2);
+
     }
 
     @Override

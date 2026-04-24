@@ -36,7 +36,9 @@ public class ByteBufUtil {
             int size=buf.readInt();
             ArrayList<ItemStack> array = new ArrayList<>();
             for(int i =0;i<size;i++){
-                array.add(ItemStack.STREAM_CODEC.decode(buf));
+                System.out.println("decoding slot " + i );
+                if(!buf.readBoolean()) array.add(ItemStack.EMPTY);
+                else array.add(ItemStack.STREAM_CODEC.decode(buf));
             }
             return array;
         }
@@ -44,7 +46,10 @@ public class ByteBufUtil {
         @Override
         public void encode(RegistryFriendlyByteBuf buf, List<ItemStack> itemStacks) {
             buf.writeInt(itemStacks.size());
+            System.out.println("encoding " + itemStacks.size() +" items");
             for(ItemStack itemStack : itemStacks){
+                buf.writeBoolean(!itemStack.isEmpty());
+                if(itemStack.isEmpty()) continue;
                 ItemStack.STREAM_CODEC.encode(buf,itemStack);
             }
         }

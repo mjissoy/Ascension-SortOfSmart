@@ -51,7 +51,7 @@ public class ScrollItemContainer extends ScrollBox {
                 System.out.println("generated slot : "+(startSlot+i*9+l));
                 System.out.println((1+l*18));
                 System.out.println((1+i*18));
-
+                updateVisibility(element);
             }
         }
     }
@@ -61,6 +61,7 @@ public class ScrollItemContainer extends ScrollBox {
         System.out.println("updating");
         System.out.println("height : "+getHeight());
         System.out.println("y : "+element.getPositioning().getY());
-        element.setVisible(element.getPositioning().getY() > 1 && element.getPositioning().getY() < getHeight());
+        element.setActive(element.getPositioning().getY() >= 1 && element.getPositioning().getY() < getHeight());
+        System.out.println(element.isActive());
     }
 }
