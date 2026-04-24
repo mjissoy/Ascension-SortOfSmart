@@ -65,14 +65,15 @@ public class ModNoiseGeneratorSettings {
         SurfaceRules.RuleSource riverRules = SurfaceRules.sequence(
                 SurfaceRules.ifTrue(
                         SurfaceRules.ON_FLOOR,
-                        SurfaceRules.state(Blocks.WATER.defaultBlockState())
+                        SurfaceRules.state(Blocks.GRASS_BLOCK.defaultBlockState())
                 ),
                 SurfaceRules.ifTrue(
                         SurfaceRules.UNDER_FLOOR,
-                        SurfaceRules.state(Blocks.SAND.defaultBlockState())
+                        SurfaceRules.state(Blocks.DIRT.defaultBlockState())
                 ),
                 SurfaceRules.state(Blocks.STONE.defaultBlockState())
         );
+
 
         SurfaceRules.RuleSource surfaceRule = SurfaceRules.sequence(
 

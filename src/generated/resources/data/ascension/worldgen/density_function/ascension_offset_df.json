@@ -2,10 +2,10 @@
   "type": "minecraft:range_choice",
   "input": {
     "type": "minecraft:add",
-    "argument1": 0.02,
+    "argument1": 0.28,
     "argument2": {
       "type": "minecraft:mul",
-      "argument1": 1.15,
+      "argument1": 1.1,
       "argument2": {
         "type": "minecraft:flat_cache",
         "argument": {
@@ -24,10 +24,10 @@
     "type": "minecraft:range_choice",
     "input": {
       "type": "minecraft:add",
-      "argument1": 0.02,
+      "argument1": 0.28,
       "argument2": {
         "type": "minecraft:mul",
-        "argument1": 1.15,
+        "argument1": 1.1,
         "argument2": {
           "type": "minecraft:flat_cache",
           "argument": {
@@ -46,10 +46,10 @@
       "type": "minecraft:range_choice",
       "input": {
         "type": "minecraft:add",
-        "argument1": 0.02,
+        "argument1": 0.28,
         "argument2": {
           "type": "minecraft:mul",
-          "argument1": 1.15,
+          "argument1": 1.1,
           "argument2": {
             "type": "minecraft:flat_cache",
             "argument": {

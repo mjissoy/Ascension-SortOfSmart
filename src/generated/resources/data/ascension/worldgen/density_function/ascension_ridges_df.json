@@ -5,7 +5,7 @@
     "argument": {
       "type": "minecraft:noise",
       "noise": "ascension:ascension_mountains_noise",
-      "xz_scale": 0.2,
+      "xz_scale": 0.12,
       "y_scale": 0.0
     }
   },
@@ -17,7 +17,7 @@
       "argument": {
         "type": "minecraft:noise",
         "noise": "ascension:ascension_mountains_noise",
-        "xz_scale": 0.2,
+        "xz_scale": 0.12,
         "y_scale": 0.0
       }
     }

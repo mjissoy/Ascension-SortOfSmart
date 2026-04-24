@@ -3,7 +3,7 @@
   "argument": {
     "type": "minecraft:noise",
     "noise": "ascension:ascension_detail_noise",
-    "xz_scale": 0.15,
+    "xz_scale": 0.055,
     "y_scale": 0.0
   }
 }

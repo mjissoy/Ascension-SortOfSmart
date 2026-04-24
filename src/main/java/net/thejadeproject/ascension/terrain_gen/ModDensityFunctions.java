@@ -26,7 +26,7 @@ public class ModDensityFunctions {
         );
 
         DensityFunction rawRidges = DensityFunctions.flatCache(
-                DensityFunctions.noise(mountainsNoise, 0.20, 0.0)
+                DensityFunctions.noise(mountainsNoise, 0.12, 0.0)
         );
 
         // large-scale terrain detail used for broad rolling hills
@@ -44,8 +44,8 @@ public class ModDensityFunctions {
 
         // Scales and offsets the continent noise
         DensityFunction continents = DensityFunctions.add(
-                DensityFunctions.mul(rawContinents, DensityFunctions.constant(1.15)),
-                DensityFunctions.constant(0.02)
+                DensityFunctions.mul(rawContinents, DensityFunctions.constant(1.10)),
+                DensityFunctions.constant(0.28)
         );
 
         // Converts ridge noise into an absolute-value style function
@@ -55,16 +55,19 @@ public class ModDensityFunctions {
         );
 
         // offsets ridge values upward. bias all ridges
-        DensityFunction ridgeGate = DensityFunctions.max(
-                DensityFunctions.add(ridges, DensityFunctions.constant(-0.10)),
-                DensityFunctions.constant(0.0)
+        DensityFunction ridgeGate = clamp(
+                DensityFunctions.mul(
+                        DensityFunctions.add(ridges, DensityFunctions.constant(-0.16)),
+                        DensityFunctions.constant(4.0)
+                ),
+                0.0, 1.0
         );
 
         // stricter peak mask so only the strongest ridges get tall peak boosts
         DensityFunction peakMask = clamp(
                 DensityFunctions.mul(
-                        DensityFunctions.add(ridges, DensityFunctions.constant(-0.30)),
-                        DensityFunctions.constant(3.0)
+                        DensityFunctions.add(ridges, DensityFunctions.constant(-0.34)),
+                        DensityFunctions.constant(3.8)
                 ),
                 0.0, 1.0
         );
@@ -83,21 +86,20 @@ public class ModDensityFunctions {
         );
 
         // mountain height cap
-        DensityFunction mountainCeilingFade = clamp(
-                DensityFunctions.yClampedGradient(405, 438, 1.0, 0.0),
-                0.0, 1.0
-        );
+        DensityFunction mountainCeilingFade =
+                DensityFunctions.yClampedGradient(385, 430, 1.0, 0.0);
+
+        // cubic ease on ridgeGate so the mountain base eases
+        DensityFunction ridgeGateSq   = DensityFunctions.mul(ridgeGate, ridgeGate);
+        DensityFunction ridgeGateCube = DensityFunctions.mul(ridgeGateSq, ridgeGate);
 
         // main mountain body from ridge strength and land presence
         DensityFunction mountainBody = DensityFunctions.mul(
                 DensityFunctions.mul(
-                        DensityFunctions.mul(
-                                DensityFunctions.mul(ridgeGate, ridgeGate),
-                                landMask
-                        ),
+                        DensityFunctions.mul(ridgeGateCube, landMask),
                         mountainCeilingFade
                 ),
-                DensityFunctions.constant(210.0)
+                DensityFunctions.constant(100.0)
         );
 
         // extra height to the strongest mountain peaks
@@ -108,7 +110,7 @@ public class ModDensityFunctions {
                         DensityFunctions.mul(peakMaskCube, landMask),
                         mountainCeilingFade
                 ),
-                DensityFunctions.constant(170.0)
+                DensityFunctions.constant(260.0)
         );
 
         // combines mountain bulk and peak boosts into the final mountain height
@@ -117,24 +119,24 @@ public class ModDensityFunctions {
 
         // Shifts continent values for the sea-to-land transition point
         DensityFunction continentsOffset = DensityFunctions.add(
-                continents, DensityFunctions.constant(-0.05)
+                continents, DensityFunctions.constant(-0.02)
         );
 
         // ocean floor height
         DensityFunction oceanHeight = DensityFunctions.add(
-                DensityFunctions.constant(63.0),
-                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(78.0))
+                DensityFunctions.constant(50.0),
+                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(30.0))
         );
 
         // land height
         DensityFunction landHeight = DensityFunctions.add(
-                DensityFunctions.constant(63.0),
-                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(50.0))
+                DensityFunctions.constant(72.0),
+                DensityFunctions.mul(continentsOffset, DensityFunctions.constant(30.0))
         );
 
         // chooses between ocean and land base height depending on continent value
         DensityFunction baseHeight = DensityFunctions.rangeChoice(
-                continents, -10.0, 0.06,
+                continents, -10.0, -0.08,
                 oceanHeight,
                 landHeight
         );
@@ -151,28 +153,117 @@ public class ModDensityFunctions {
         //  combines broad and fine terrain detail
         DensityFunction detailHeight = DensityFunctions.mul(
                 DensityFunctions.add(
-                        DensityFunctions.mul(broadDetail, DensityFunctions.constant(0.8)),
-                        DensityFunctions.mul(fineDetail, DensityFunctions.constant(0.03))
+                        DensityFunctions.mul(broadDetail, DensityFunctions.constant(1.6)),
+                        DensityFunctions.mul(fineDetail, DensityFunctions.constant(0.25))
                 ),
                 oceanDetailMask
         );
 
-        //  combines base height, mountains, and detail into the total terrain height shape
+        DensityFunction erosion = DensityFunctions.flatCache(
+                DensityFunctions.noise(detailNoise, 0.055, 0.0)
+        );
+
+        DensityFunction riverDistance = DensityFunctions.max(
+                erosion,
+                DensityFunctions.mul(erosion, DensityFunctions.constant(-1.0))
+        );
+
+        DensityFunction riverMask = DensityFunctions.flatCache(
+                clamp(
+                        DensityFunctions.mul(
+                                DensityFunctions.add(
+                                        DensityFunctions.constant(0.055),
+                                        DensityFunctions.mul(riverDistance, DensityFunctions.constant(-1.0))
+                                ),
+                                DensityFunctions.constant(18.0)
+                        ),
+                        0.0, 1.0
+                )
+        );
+
+        DensityFunction riverBedMask = DensityFunctions.flatCache(
+                clamp(
+                        DensityFunctions.mul(
+                                DensityFunctions.add(
+                                        DensityFunctions.constant(0.022),
+                                        DensityFunctions.mul(riverDistance, DensityFunctions.constant(-1.0))
+                                ),
+                                DensityFunctions.constant(45.0)
+                        ),
+                        0.0, 1.0
+                )
+        );
+
+        DensityFunction riverLandMask = DensityFunctions.flatCache(
+                clamp(
+                        DensityFunctions.mul(
+                                DensityFunctions.add(continents, DensityFunctions.constant(-0.18)),
+                                DensityFunctions.constant(6.0)
+                        ),
+                        0.0, 1.0
+                )
+        );
+
+        // suppresses rivers when mountains are present
+        DensityFunction riverMountainGate = clamp(
+                DensityFunctions.add(
+                        DensityFunctions.constant(1.0),
+                        DensityFunctions.mul(ridgeGate, DensityFunctions.constant(-4.0))
+                ),
+                0.0, 1.0
+        );
+
+        DensityFunction riverBankLift = DensityFunctions.constant(0.0);
+
+        // carve the valley into the terrain height (negative = dig downward).
+        DensityFunction riverCarving = DensityFunctions.add(
+                DensityFunctions.mul(
+                        DensityFunctions.mul(
+                                DensityFunctions.mul(riverMask, riverLandMask),
+                                riverMountainGate
+                        ),
+                        DensityFunctions.constant(-1.5)
+                ),
+                DensityFunctions.mul(
+                        DensityFunctions.mul(
+                                DensityFunctions.mul(riverBedMask, riverLandMask),
+                                riverMountainGate
+                        ),
+                        DensityFunctions.constant(-42.0)
+                )
+        );
+
+
+        //  combines base height, mountains, detail, and river valleys into the total terrain height shape
         DensityFunction terrainHeight = DensityFunctions.add(
                 baseHeight,
-                DensityFunctions.add(mountainHeight, detailHeight)
+                DensityFunctions.add(
+                        DensityFunctions.add(
+                                DensityFunctions.add(mountainHeight, detailHeight),
+                                riverCarving
+                        ),
+                        riverBankLift
+                )
         );
 
         // vertical falloff
         DensityFunction vertical = DensityFunctions.yClampedGradient(-64, 448, 64.0, -448.0);
 
-        // terrain height with the vertical gradient
-        DensityFunction baseTerrain = DensityFunctions.add(terrainHeight, vertical);
+        // terrain height with the vertical gradient, interpolated for better smoothing
+        DensityFunction baseTerrain = DensityFunctions.interpolated(
+                DensityFunctions.add(terrainHeight, vertical)
+        );
 
         // scales the surface jitter noise into a small final terrain roughness
         DensityFunction surfaceJitter = DensityFunctions.mul(
                 surfaceJitterNoise,
-                DensityFunctions.constant(5.0)
+                DensityFunctions.constant(1.25)
+        );
+
+        // noise gated to mountain areas to break up horizontal banding on steep slopes
+        DensityFunction slopeBreaker = DensityFunctions.mul(
+                DensityFunctions.noise(mountainsNoise, 0.10, 0.08),
+                DensityFunctions.mul(ridgeGate, DensityFunctions.constant(7.0))
         );
 
 
@@ -201,11 +292,6 @@ public class ModDensityFunctions {
                 DensityFunctions.noise(detailNoise, 0.10, 0.0)
         );
 
-        // erosion noise
-        DensityFunction erosion = DensityFunctions.flatCache(
-                DensityFunctions.noise(detailNoise, 0.15, 0.0)
-        );
-
         // vertical depth gradient
         DensityFunction depthGradient = DensityFunctions.yClampedGradient(-64, 448, 1.0, -1.5);
 
@@ -230,8 +316,11 @@ public class ModDensityFunctions {
         // small surface jitter layer
         DensityFunction withJitter  = DensityFunctions.add(baseTerrain, surfaceJitter);
 
-        // combines terrain, jitter, and caves into the final density
-        DensityFunction finalDensity = DensityFunctions.add(withJitter, caveContrib);
+        // combines terrain, jitter, slope breaker, and caves into the final density
+        DensityFunction finalDensity = DensityFunctions.add(
+                DensityFunctions.add(withJitter, caveContrib),
+                slopeBreaker
+        );
 
 
         context.register(ModTerrainGenKeys.ASCENSION_CONTINENTS_DF,   continents);
