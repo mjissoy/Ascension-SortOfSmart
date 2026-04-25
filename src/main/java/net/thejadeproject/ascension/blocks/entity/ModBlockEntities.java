@@ -16,7 +16,6 @@ public class ModBlockEntities {
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, AscensionCraft.MOD_ID);
 
 
-
     public static final Supplier<BlockEntityType<PillCauldronLowHumanEntity>> PILL_CAULDRON_LOW_HUMAN =
             BLOCK_ENTITIES.register("pill_cauldron_low_human", () -> BlockEntityType.Builder.of(
                     PillCauldronLowHumanEntity::new, ModBlocks.PILL_CAULDRON_HUMAN_LOW.get()).build(null));
