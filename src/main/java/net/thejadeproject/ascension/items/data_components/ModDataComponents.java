@@ -71,6 +71,11 @@ public class ModDataComponents {
 
 
 
+    public static final DataComponentType<Integer> EXTRA_SLOTS = DataComponentType.<Integer>builder()
+            .persistent(Codec.INT)
+            .networkSynchronized(ByteBufCodecs.VAR_INT)
+            .cacheEncoding()
+            .build();
     //Spatial Ring Stuff
 
     public static final DataComponentType<Integer> EXTRA_ROWS = DataComponentType.<Integer>builder()

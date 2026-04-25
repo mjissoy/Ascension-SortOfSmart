@@ -50,8 +50,7 @@ public class ModItems {
 
     public static final DeferredItem<Item> SPATIAL_RING = ITEMS.register("spatial_ring",
             ()->new SpatialRing(new Item.Properties()
-                    .stacksTo(1)
-                    .component(ModDataComponents.SPIRIT_RING_DATA,new SpatialRingComponent(36,18,18))));
+                    .stacksTo(1)));
 
     public static final DeferredItem<Item> SPATIAL_STONE_TIER_1 = ITEMS.register("spatial_stone_tier_1",
             () -> new SpatialStoneItem(1, "I", Rarity.COMMON));

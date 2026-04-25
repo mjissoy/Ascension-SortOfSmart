@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.thejadeproject.ascension.items.data_components.ModDataComponents;
+import net.thejadeproject.ascension.items.data_components.spatial_ring.SpatialRingComponent;
 import net.thejadeproject.ascension.items.data_components.spatial_ring.SpatialRingItemStackHandler;
 import net.thejadeproject.ascension.items.data_components.spatial_ring.SpatialRingMenuProvider;
 
@@ -20,15 +21,17 @@ public class SpatialRing extends Item {
         if(usedHand != InteractionHand.MAIN_HAND) return InteractionResultHolder.fail(player.getItemInHand(usedHand));
 
         ItemStack stack = player.getMainHandItem();
-        if(stack.has(ModDataComponents.SPIRIT_RING_DATA)){
-            if(!player.isShiftKeyDown()){
+        if(!stack.has(ModDataComponents.SPIRIT_RING_DATA)) stack.set(ModDataComponents.SPIRIT_RING_DATA,
+                new SpatialRingComponent(36, 18, 18));
+        if(!player.isShiftKeyDown()){
                 player.openMenu(new SpatialRingMenuProvider(SpatialRingItemStackHandler.Type.INVENTORY));
             }else{
-                //TODO open modifier menu
+                player.openMenu(new SpatialRingMenuProvider(SpatialRingItemStackHandler.Type.MODIFIERS));
             }
+        return InteractionResultHolder.success(stack);
 
-            return InteractionResultHolder.success(stack);
-        }
-        return  super.use(level, player, usedHand);
+
     }
+
+
 }

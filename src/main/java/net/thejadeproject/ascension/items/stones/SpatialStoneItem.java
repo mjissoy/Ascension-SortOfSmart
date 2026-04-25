@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.items.stones;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 
 
 import java.util.List;
@@ -14,7 +15,8 @@ public class SpatialStoneItem extends Item {
     public SpatialStoneItem(int rowsAdded, String tierName, Rarity rarity) {
         super(new Item.Properties()
                 .stacksTo(1)
-                .rarity(rarity));
+                .rarity(rarity)
+                .component(ModDataComponents.EXTRA_SLOTS,rowsAdded*9));
         this.rowsAdded = rowsAdded;
         this.tierName = tierName;
     }

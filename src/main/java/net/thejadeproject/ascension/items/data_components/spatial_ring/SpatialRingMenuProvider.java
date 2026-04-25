@@ -6,6 +6,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventoryMenu;
+import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingModifierMenu;
 import org.jetbrains.annotations.Nullable;
 
 public class SpatialRingMenuProvider implements MenuProvider {
@@ -25,7 +26,7 @@ public class SpatialRingMenuProvider implements MenuProvider {
         if(type == SpatialRingItemStackHandler.Type.INVENTORY){
             return new SpatialRingInventoryMenu(i,inventory,null);
         }
-        //TODO return modifier menu
-        return null;
+
+        return new SpatialRingModifierMenu(i,inventory,null);
     }
 }

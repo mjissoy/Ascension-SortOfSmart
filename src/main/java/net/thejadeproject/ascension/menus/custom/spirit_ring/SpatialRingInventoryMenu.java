@@ -56,4 +56,5 @@ public class SpatialRingInventoryMenu extends AbstractContainerMenu {
     public boolean stillValid(Player player) {
         return player.getItemInHand(InteractionHand.MAIN_HAND).equals(stack);
     }
+
 }
