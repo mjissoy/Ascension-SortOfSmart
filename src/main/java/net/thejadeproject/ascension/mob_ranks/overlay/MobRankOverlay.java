@@ -23,7 +23,7 @@ import org.joml.Matrix4f;
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID, value = Dist.CLIENT)
 public class MobRankOverlay {
 
-    private static final double MAX_RENDER_DISTANCE_SQR = 32.0 * 32.0;
+    private static final double MAX_RENDER_DISTANCE_SQR = 64.0 * 64.0;
 
     private static String formatRealm(String realmId) {
         String[] parts = realmId.split("_");

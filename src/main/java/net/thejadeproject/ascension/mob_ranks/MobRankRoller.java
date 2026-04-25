@@ -10,18 +10,20 @@ public final class MobRankRoller {
     private static final Random RANDOM = new Random();
 
     private static final List<WeightedMobRank> DEFAULT_WEIGHTS = List.of(
-            new WeightedMobRank(MobRankList.get("mortal", 1), 45),
-            new WeightedMobRank(MobRankList.get("mortal", 2), 30),
-            new WeightedMobRank(MobRankList.get("mortal", 3), 17),
-            new WeightedMobRank(MobRankList.get("qi_gathering", 1), 6),
-            new WeightedMobRank(MobRankList.get("qi_gathering", 2), 2),
-            new WeightedMobRank(MobRankList.get("qi_gathering", 3), 0),
-            new WeightedMobRank(MobRankList.get("formation_establishment", 1), 0),
-            new WeightedMobRank(MobRankList.get("formation_establishment", 2), 0),
-            new WeightedMobRank(MobRankList.get("formation_establishment", 3), 0),
-            new WeightedMobRank(MobRankList.get("golden_core", 1), 0),
-            new WeightedMobRank(MobRankList.get("golden_core", 2), 0),
-            new WeightedMobRank(MobRankList.get("golden_core", 3), 0)
+            new WeightedMobRank(MobRankList.get("mortal", 1), 30),
+            new WeightedMobRank(MobRankList.get("mortal", 2), 18),
+            new WeightedMobRank(MobRankList.get("mortal", 3), 12),
+
+            new WeightedMobRank(MobRankList.get("qi_gathering", 1), 10),
+            new WeightedMobRank(MobRankList.get("qi_gathering", 2), 6),
+            new WeightedMobRank(MobRankList.get("qi_gathering", 3), 5),
+
+            new WeightedMobRank(MobRankList.get("formation_establishment", 1), 4),
+            new WeightedMobRank(MobRankList.get("formation_establishment", 2), 3),
+            new WeightedMobRank(MobRankList.get("formation_establishment", 3), 2),
+
+            new WeightedMobRank(MobRankList.get("golden_core", 1), 1),
+            new WeightedMobRank(MobRankList.get("golden_core", 2), 1)
     );
 
     private MobRankRoller() {
