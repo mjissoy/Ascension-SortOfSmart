@@ -36,6 +36,13 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
                         output.accept(ModItems.TALISMAN_PAPER);
+
+                        output.accept(ModItems.SCHOLARLY_SOUL_RECTIFICATION_OF_NAMES);
+                        output.accept(ModItems.SCHOLARLY_SOUL_GREAT_LEARNING);
+                        output.accept(ModItems.SCHOLARLY_SOUL_THOUSAND_COMMENTARIES);
+                        output.accept(ModItems.SCHOLARLY_SOUL_SAGE_MANDATE);
+
+
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",

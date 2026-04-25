@@ -65,6 +65,7 @@ public class lang extends LanguageProvider {
 
         //Techniques
         add("ascension.technique.five_element","Five Element Circulation Method");
+        add("ascension.technique.scholarly_soul_technique","A Scholar's Soul Transcendence");
 
 
         //Pill effects
@@ -853,6 +854,16 @@ public class lang extends LanguageProvider {
         add("ascension.skill.active.space_infusion.desc4", "§8• Must be cast in The End dimension§r");
         add("ascension.skill.active.space_infusion.desc5", "§8• 5-second infusion | 15s cooldown§r");
 
+        // Scholarly Pages
+        add("item.ascension.scholarly_soul_rectification_of_names", "Rectification of Names");
+        add("item.ascension.scholarly_soul_great_learning", "Great Learning");
+        add("item.ascension.scholarly_soul_thousand_commentaries", "Hundred Thousand Commentaries");
+        add("item.ascension.scholarly_soul_sage_mandate", "Mandate of the Sage");
+        add("ascension.physiques.scholars_soul", "Soul of The Scholar");
+
+        // World Dominator
+        add("ascension.physiques.world_dominator", "World Dominator.");
+        add("ascension.message.physique.world_dominator.acquired", "The [World] bears the burdens of your Ascension.");
 
 
     }
