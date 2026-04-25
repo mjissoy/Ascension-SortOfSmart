@@ -745,7 +745,7 @@ public class GenericEntityData implements IEntityData {
         this.currentHealth = val;
         if(currentHealth <= 0 && getAttachedEntity() != null && getAttachedEntity() instanceof LivingEntity entity) {
 
-            entity.setHealth(0);
+            if(val != 0) entity.setHealth(0);
             currentHealth = 0;
         }
         if(getAttachedEntity() instanceof  ServerPlayer serverPlayer && serverPlayer.connection != null){
@@ -758,7 +758,7 @@ public class GenericEntityData implements IEntityData {
     public void setHealth(double val, DamageSource source) {
         this.currentHealth = val;
         if(currentHealth <= 0 && getAttachedEntity() != null && getAttachedEntity() instanceof  LivingEntity entity) {
-            entity.setHealth(0);
+            if(val != 0) entity.setHealth(0);
             currentHealth = 0;
             //entity.die(source);
 
