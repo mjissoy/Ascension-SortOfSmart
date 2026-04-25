@@ -17,6 +17,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.breakthroughs.IBreakthroughInstance;
+import net.thejadeproject.ascension.refactor_packages.breakthroughs.NineHeavenlyTribulations;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.events.CultivateEvent;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.skills.cultivation.CultivationProgressBar;
@@ -40,7 +41,6 @@ import java.util.List;
 public class ScholarlySoulCultivationSkill implements ICastableSkill {
 
     private static final ResourceLocation SOUL_PATH = ModPaths.SOUL.getId();
-
     private static final double BASE_RATE = 2.0D;
 
     @Override
@@ -80,38 +80,67 @@ public class ScholarlySoulCultivationSkill implements ICastableSkill {
             if (pathData.isBreakingThrough()) return false;
             if (pathData.getLastUsedTechnique() == null) return false;
 
-            ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
+            ITechnique rawTechnique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
 
-            if (!(technique instanceof ScholarlySoulTechnique scholarlyTechnique)) {
+            if (!(rawTechnique instanceof ScholarlySoulTechnique technique)) {
                 return false;
             }
 
             ITechniqueData techniqueData = pathData.getTechniqueData(pathData.getLastUsedTechnique());
 
-            if (!scholarlyTechnique.canCultivateMajorRealm(techniqueData, pathData.getMajorRealm())) {
+            if (!technique.canCultivateMajorRealm(techniqueData, pathData.getMajorRealm())) {
                 return false;
             }
 
             double pathBonus = Math.max(1.0D, entityData.getPathBonusHandler().getPathBonus(SOUL_PATH));
-            double amount = BASE_RATE * pathBonus;
+            double base = BASE_RATE * pathBonus;
 
             CultivateEvent event = new CultivateEvent(
                     caster,
-                    amount,
+                    base,
                     SOUL_PATH,
                     List.of()
             );
 
             NeoForge.EVENT_BUS.post(event);
 
-            applyCultivationProgress(
-                    caster,
-                    entityData,
-                    pathData,
-                    scholarlyTechnique,
-                    techniqueData,
-                    event.getRate()
-            );
+            if (pathData.getCurrentRealmProgress() + event.getRate() >= technique.getMaxQiForRealm(pathData.getMajorRealm(), pathData.getMinorRealm())) {
+                pathData.setCurrentRealmProgress(
+                        technique.getMaxQiForRealm(pathData.getMajorRealm(), pathData.getMinorRealm())
+                );
+
+                if (
+                        pathData.getMinorRealm() < technique.getMaxMinorRealm(pathData.getMajorRealm())
+                                && technique.canBreakthroughMinorRealm(
+                                entityData,
+                                pathData.getMajorRealm(),
+                                pathData.getMinorRealm(),
+                                pathData.getCurrentRealmProgress()
+                        )
+                ) {
+                    pathData.handleRealmChange(
+                            pathData.getMajorRealm(),
+                            pathData.getMinorRealm() + 1,
+                            entityData
+                    );
+                } else {
+                    int nextMajorRealm = pathData.getMajorRealm() + 1;
+
+                    if (
+                            technique.canCultivateMajorRealm(techniqueData, nextMajorRealm)
+                                    && pathData.getMajorRealm() < technique.getMaxMajorRealm()
+                                    && technique.getStabilityHandler() != null
+                                    && pathData.getCurrentRealmStability() < technique.getStabilityHandler().getMaxCultivationTicks()
+                    ) {
+                        IBreakthroughInstance instance = new NineHeavenlyTribulations(1);
+
+                        pathData.setBreakthroughInstance(instance);
+                        pathData.setBreakingThrough(true);
+                    }
+                }
+            } else {
+                pathData.setCurrentRealmProgress(pathData.getCurrentRealmProgress() + event.getRate());
+            }
 
             if (caster instanceof Player player) {
                 pathData.sync(player);
@@ -119,92 +148,6 @@ public class ScholarlySoulCultivationSkill implements ICastableSkill {
         }
 
         return caster.getData(ModAttachments.INPUT_STATES).isHeld("skill_cast");
-    }
-
-    private void applyCultivationProgress(
-            Entity caster,
-            IEntityData entityData,
-            PathData pathData,
-            ScholarlySoulTechnique technique,
-            ITechniqueData techniqueData,
-            double amount
-    ) {
-        double maxQi = technique.getMaxQiForRealm(
-                pathData.getMajorRealm(),
-                pathData.getMinorRealm()
-        );
-
-        if (pathData.getCurrentRealmProgress() + amount < maxQi) {
-            pathData.setCurrentRealmProgress(pathData.getCurrentRealmProgress() + amount);
-            return;
-        }
-
-        pathData.setCurrentRealmProgress(maxQi);
-
-        if (
-                pathData.getMinorRealm() < technique.getMaxMinorRealm(pathData.getMajorRealm())
-                        && technique.canBreakthroughMinorRealm(
-                        entityData,
-                        pathData.getMajorRealm(),
-                        pathData.getMinorRealm(),
-                        pathData.getCurrentRealmProgress()
-                )
-        ) {
-            pathData.handleRealmChange(
-                    pathData.getMajorRealm(),
-                    pathData.getMinorRealm() + 1,
-                    entityData
-            );
-            return;
-        }
-
-        int nextMajorRealm = pathData.getMajorRealm() + 1;
-
-        if (!technique.canCultivateMajorRealm(techniqueData, nextMajorRealm)) {
-            return;
-        }
-
-        if (
-                !technique.canBreakthrough(
-                        entityData,
-                        pathData.getMajorRealm(),
-                        pathData.getMinorRealm(),
-                        pathData.getCurrentRealmProgress()
-                )
-        ) {
-            return;
-        }
-
-        if (technique.getStabilityHandler() == null) {
-            startBreakthrough(pathData, technique, entityData);
-            return;
-        }
-
-        int maxStability = (int) Math.ceil(technique.getStabilityHandler().getMaxCultivationTicks());
-        int newStability = pathData.getCurrentRealmStability() + 1;
-
-        if (newStability >= maxStability) {
-            pathData.setCurrentRealmStability(maxStability);
-            startBreakthrough(pathData, technique, entityData);
-        } else {
-            pathData.setCurrentRealmStability(newStability);
-        }
-
-    }
-
-    private void startBreakthrough(
-            PathData pathData,
-            ScholarlySoulTechnique technique,
-            IEntityData entityData
-    ) {
-        IBreakthroughInstance instance = technique.freshBreakthroughData(entityData);
-
-        if (instance == null) {
-            return;
-        }
-
-        pathData.setBreakthroughInstance(instance);
-        pathData.setBreakingThrough(true);
     }
 
     @Override

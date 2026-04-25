@@ -108,7 +108,7 @@ public class ScholarlySoulTechnique extends GenericTechnique {
 
     @Override
     public IBreakthroughInstance freshBreakthroughData(IEntityData heldEntity) {
-        return new NineHeavenlyTribulations(1);
+        return null;
     }
 
     @Override
