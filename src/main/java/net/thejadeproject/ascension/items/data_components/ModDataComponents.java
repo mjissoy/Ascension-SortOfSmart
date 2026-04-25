@@ -19,6 +19,8 @@ public class ModDataComponents {
     public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS =
             DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, AscensionCraft.MOD_ID);
 
+
+
     public static final Supplier<DataComponentType<String>> PHYSIQUE_ID = DATA_COMPONENTS.register(
             "physique_id",
             () -> DataComponentType.<String>builder()
