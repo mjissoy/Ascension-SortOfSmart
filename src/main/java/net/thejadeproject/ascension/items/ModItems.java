@@ -271,9 +271,8 @@ public class ModItems {
 
 
     //Important Pills
-  // ── Cultivation Pills ─────────────────────────────────────────
+    // ── Cultivation Pills ─────────────────────────────────────────
 
-    //Cultivation Pills
 
 
 
