@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.menus.custom.spirit_ring;
 
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -56,10 +57,16 @@ public class SpatialRingModifierMenu extends AbstractContainerMenu {
         return null;
     }
 
+    @Override
+    public void slotsChanged(Container container) {
+        super.slotsChanged(container);
+        inventory.setChanged();
+    }
 
     @Override
     public boolean stillValid(Player player) {
         return player.getItemInHand(InteractionHand.MAIN_HAND).equals(stack);
     }
+
 
 }
