@@ -1,14 +1,17 @@
 package net.thejadeproject.ascension.refactor_packages.entity_data;
 
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributeHolder;
+import net.thejadeproject.ascension.refactor_packages.attributes.AttributeValueContainer;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
@@ -146,6 +149,15 @@ public interface IEntityData {
         holder.addAttribute(ModAttributes.QI_REGEN_RATE,Component.literal("Qi Regen Rate"));
         holder.updateAttributes(this);
         //if(entity.getAttribute(Attributes.MOVEMENT_SPEED) != null) entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0);
+    }
+    default AttributeValueContainer getAttribute(Holder<Attribute> attributeHolder){
+        return getAscensionAttributeHolder().getAttribute(attributeHolder);
+    }
+    default double getAttributeBaseValue(Holder<Attribute> attributeHolder){
+        return getAttribute(attributeHolder) == null? 0: getAttribute(attributeHolder).getBaseValue();
+    }
+    default double getAttributeValue(Holder<Attribute> attributeHolder){
+        return getAttribute(attributeHolder) == null? 0: getAttribute(attributeHolder).getValue();
     }
     void setHealth(double newVal);
     void setHealth(double val, DamageSource source);

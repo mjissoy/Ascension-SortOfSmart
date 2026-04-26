@@ -80,12 +80,6 @@ public class ModDataComponents {
             .build();
     //Spatial Ring Stuff
 
-    public static final DataComponentType<Integer> EXTRA_ROWS = DataComponentType.<Integer>builder()
-            .persistent(Codec.INT)
-            .networkSynchronized(ByteBufCodecs.VAR_INT)
-            .cacheEncoding()
-            .build();
-
     public static final DataComponentType<Integer> STACK_MULTIPLIER = DataComponentType.<Integer>builder()
             .persistent(Codec.INT)
             .networkSynchronized(ByteBufCodecs.VAR_INT)

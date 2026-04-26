@@ -141,13 +141,19 @@ public class SpatialRingComponent {
         return new SpatialRingComponent(initialSlots,items,modifiers,upgrades);
     }
 
-
+    public SpatialRingComponent copy(){
+        return new SpatialRingComponent(getInitialSlots(),getItems(),getModifiers(),getUpgrades());
+    }
     @Override
     public boolean equals(Object o) {
+        return this == o;
+        /*
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SpatialRingComponent that = (SpatialRingComponent) o;
         return maxSlots == that.maxSlots && Objects.equals(items, that.items) && Objects.equals(modifiers, that.modifiers) && Objects.equals(upgrades, that.upgrades);
+         */
+
     }
 
     @Override

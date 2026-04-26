@@ -1,5 +1,0 @@
-constants are used in place of enums when i want other devs to be able to modify it
-    for example player state. someone adding a puppet technique will need to add a new state for it.
-    now that example is not great because it would also remove permanent and non state dependant modifiers
-    but the user can use tempRemove for that
-

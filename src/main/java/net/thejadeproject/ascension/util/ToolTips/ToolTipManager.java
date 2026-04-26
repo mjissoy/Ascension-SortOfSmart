@@ -62,8 +62,6 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.ENDER_POUCH.get(), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FIRE_GOURD.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.RED));
 
-        ToolTipHandler.registerTooltip(ModItems.FORMATION_SLIP_ACACIA.get(), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerAnimatedTooltip(ModItems.FORMATION_SLIP_ACACIA.get(), Component.translatable("ascension.tooltip.rgb.jade_slip"), 0.001f);
 
         //Crafting Ingredients
         ToolTipHandler.registerTooltip(ModItems.TALISMAN_PAPER.get(), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));

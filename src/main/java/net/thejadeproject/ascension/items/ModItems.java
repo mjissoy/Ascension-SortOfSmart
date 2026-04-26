@@ -12,7 +12,7 @@ import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.data_components.spatial_ring.SpatialRingComponent;
-import net.thejadeproject.ascension.items.formations.PlayerAccessItemToken;
+
 import net.thejadeproject.ascension.items.herbs.*;
 import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
 import net.thejadeproject.ascension.items.pills.*;
@@ -152,40 +152,6 @@ public class ModItems {
     public static final DeferredItem<Item> SPIRITUAL_STONE_HOE = ITEMS.register("spiritual_stone_hoe",
             () -> new SpiritualStoneTools.Hoe(ModToolTiers.SPIRITUAL_STONE,
                     new Item.Properties().attributes(HoeItem.createAttributes(ModToolTiers.SPIRITUAL_STONE, -2.0F, -1.0F))));
-
-
-
-    //Formation Items
-
-    public static final DeferredItem<Item> FORMATION_SLIP_ACACIA = ITEMS.register("formation_slip_acacia",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_BAMBOO = ITEMS.register("formation_slip_bamboo",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_BIRCH = ITEMS.register("formation_slip_birch",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_CHERRY = ITEMS.register("formation_slip_cherry",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_CRIMSON = ITEMS.register("formation_slip_crimson",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_DARK_OAK = ITEMS.register("formation_slip_dark_oak",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_GOLDEN_PALM = ITEMS.register("formation_slip_golden_palm",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_IRONWOOD = ITEMS.register("formation_slip_ironwood",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_JUNGLE = ITEMS.register("formation_slip_jungle",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_MANGROVE = ITEMS.register("formation_slip_mangrove",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_OAK = ITEMS.register("formation_slip_oak",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_SPRUCE = ITEMS.register("formation_slip_spruce",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FORMATION_SLIP_WARPED = ITEMS.register("formation_slip_warped",
-            () -> new PlayerAccessItemToken(new Item.Properties().stacksTo(1)));
-
-
-
 
 
 
