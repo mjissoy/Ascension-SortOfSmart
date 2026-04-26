@@ -76,6 +76,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Artifacts
 
+
         basicItem(ModItems.SPIRIT_SEALING_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
@@ -123,6 +124,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Items
         basicItem(ModItems.JADE.get());
         basicItem(ModItems.JADE_NUGGET.get());
+
 
 
         basicItem(ModItems.SPATIAL_STONE_TIER_1.get());
