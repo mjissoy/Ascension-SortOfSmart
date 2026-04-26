@@ -19,6 +19,8 @@ public class ModDataComponents {
     public static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS =
             DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, AscensionCraft.MOD_ID);
 
+
+
     public static final Supplier<DataComponentType<String>> PHYSIQUE_ID = DATA_COMPONENTS.register(
             "physique_id",
             () -> DataComponentType.<String>builder()
@@ -138,10 +140,6 @@ public class ModDataComponents {
                     .networkSynchronized(ByteBufUtil.STRING_LIST)
                     .build()
     );
-    // NOTE: PILL_MINOR_REALM is REMOVED.
-    // Purity grade (Basic/Average/Advanced/Peak) is now derived
-    // at tooltip time from the numeric PILL_PURITY value.
-    // See PillRealmData.getPurityGrade(int purity).
 
     // ── Pill: bonus herb effect ID ────────────────────────────────
     public static final Supplier<DataComponentType<String>> PILL_BONUS_EFFECT = DATA_COMPONENTS.register(
@@ -152,11 +150,6 @@ public class ModDataComponents {
                     .build()
     );
 
-    // ── Herb: ticks spent at max age (lazy timestamp, no ticking) ─
-    // Stored as a Long. The crop writes (currentGameTime) when it
-    // first reaches max age. At harvest the item stores
-    // (harvestTime - grownSinceTime) as the age in ticks.
-    // 100,000 ticks ≈ 100 in-game years at default scale.
     public static final Supplier<DataComponentType<Long>> HERB_AGE_TICKS = DATA_COMPONENTS.register(
             "herb_age_ticks",
             () -> DataComponentType.<Long>builder()

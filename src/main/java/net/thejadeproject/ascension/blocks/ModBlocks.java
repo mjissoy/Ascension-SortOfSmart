@@ -35,6 +35,11 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCK =
             DeferredRegister.createBlocks(AscensionCraft.MOD_ID);
 
+
+
+
+
+
     public static final DeferredBlock<FlameStandBlock> FLAME_STAND_BLOCK =
             registerBlock("flame_stand",
                     () -> new FlameStandBlock(BlockBehaviour.Properties.of()
