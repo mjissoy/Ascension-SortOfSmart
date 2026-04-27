@@ -13,6 +13,25 @@ public class ModPaths {
     public static final DeferredRegister<IPath> PATHS =DeferredRegister.create(AscensionRegistries.Paths.PATHS_REGISTRY, AscensionCraft.MOD_ID);
 
 
+    /*
+    Paths are the foundation of the Cultivation system. It is what allows cultivation and makes it possible.
+    To make a new path just copy existing one and change the
+    "essence" -> "Your choice" and also change the .addMajorRealmName("ascension.path.essence.mortal") to be
+    .addMajorRealmName("ascension.path.your_choice.mortal") and so on.
+     */
+
+    /*
+    You might have noticed that there are 2 different paths
+    GenericPath and ComprehensionPath.
+
+    GenericPath is the 3 Main Paths so Essence, Body and Soul. These are what we like to call Main Paths It is what all physiques
+    Should atleast have 1 of these.
+
+    ComprehensionPath is like the Myriad of dao. This would include stuff Like Flame Dao, Space, etc all sub type paths to
+    cultivation. ComprehensionPath is where you really get do design your own stuff!
+     */
+
+
     public static final DeferredHolder<IPath, ? extends GenericPath> ESSENCE = PATHS.register("essence",()->
             new GenericPath(Component.translatable("ascension.path.essence"))
                     .addMajorRealmName("ascension.path.essence.mortal")
@@ -48,32 +67,50 @@ public class ModPaths {
     );
     public static final DeferredHolder<IPath, ? extends GenericPath> WATER = PATHS.register("water",()->
             new ComprehensionPath(Component.translatable("ascension.path.water"))
-                    .addMajorRealmName("ascension.path.fire.kindling")
-                    .addMajorRealmName("ascension.path.fire.ignition")
-                    .addMajorRealmName("ascension.path.fire.true_flame")
-                    .addMajorRealmName("ascension.path.fire.origin_flame")
+                    .addMajorRealmName("ascension.path.water.tidepool")
+                    .addMajorRealmName("ascension.path.water.current")
+                    .addMajorRealmName("ascension.path.water.true_water")
+                    .addMajorRealmName("ascension.path.water.origin_water")
     );
     public static final DeferredHolder<IPath, ? extends GenericPath> WOOD = PATHS.register("wood",()->
             new ComprehensionPath(Component.translatable("ascension.path.wood"))
-                    .addMajorRealmName("ascension.path.fire.kindling")
-                    .addMajorRealmName("ascension.path.fire.ignition")
-                    .addMajorRealmName("ascension.path.fire.true_flame")
-                    .addMajorRealmName("ascension.path.fire.origin_flame")
+                    .addMajorRealmName("ascension.path.wood.sprout")
+                    .addMajorRealmName("ascension.path.wood.growth")
+                    .addMajorRealmName("ascension.path.wood.true_wood")
+                    .addMajorRealmName("ascension.path.wood.origin_wood")
     );
     public static final DeferredHolder<IPath, ? extends GenericPath> EARTH = PATHS.register("earth",()->
             new ComprehensionPath(Component.translatable("ascension.path.earth"))
-                    .addMajorRealmName("ascension.path.fire.kindling")
-                    .addMajorRealmName("ascension.path.fire.ignition")
-                    .addMajorRealmName("ascension.path.fire.true_flame")
-                    .addMajorRealmName("ascension.path.fire.origin_flame")
+                    .addMajorRealmName("ascension.path.earth.pebble")
+                    .addMajorRealmName("ascension.path.earth.stone")
+                    .addMajorRealmName("ascension.path.earth.true_earth")
+                    .addMajorRealmName("ascension.path.earth.origin_earth")
     );
     public static final DeferredHolder<IPath, ? extends GenericPath> METAL = PATHS.register("metal",()->
             new ComprehensionPath(Component.translatable("ascension.path.metal"))
-                    .addMajorRealmName("ascension.path.fire.kindling")
-                    .addMajorRealmName("ascension.path.fire.ignition")
-                    .addMajorRealmName("ascension.path.fire.true_flame")
-                    .addMajorRealmName("ascension.path.fire.origin_flame")
+                    .addMajorRealmName("ascension.path.metal.ore")
+                    .addMajorRealmName("ascension.path.metal.ingot")
+                    .addMajorRealmName("ascension.path.metal.true_metal")
+                    .addMajorRealmName("ascension.path.metal.origin_metal")
     );
+
+    //Deviated Elements
+
+    public static final DeferredHolder<IPath, ? extends GenericPath> LIGHTNING = PATHS.register("lightning",()->
+            new ComprehensionPath(Component.translatable("ascension.path.lightning"))
+                    .addMajorRealmName("ascension.path.lightning.spark")
+                    .addMajorRealmName("ascension.path.lightning.lesser_lightning")
+                    .addMajorRealmName("ascension.path.lightning.true_lightning")
+                    .addMajorRealmName("ascension.path.lightning.origin_lightning")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> WIND = PATHS.register("wind",()->
+            new ComprehensionPath(Component.translatable("ascension.path.wind"))
+                    .addMajorRealmName("ascension.path.wind.gust")
+                    .addMajorRealmName("ascension.path.wind.lesser_breeze")
+                    .addMajorRealmName("ascension.path.wind.true_wind")
+                    .addMajorRealmName("ascension.path.wind.origin_wind")
+    );
+
 
     public static final DeferredHolder<IPath, ? extends GenericPath> SWORD = PATHS.register("sword",()->
             new ComprehensionPath(Component.translatable("ascension.path.sword"))
@@ -81,6 +118,55 @@ public class ModPaths {
                     .addMajorRealmName("ascension.path.sword.intent")
                     .addMajorRealmName("ascension.path.sword.aura")
                     .addMajorRealmName("ascension.path.sword.unity")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> AXE = PATHS.register("axe",()->
+            new ComprehensionPath(Component.translatable("ascension.path.axe"))
+                    .addMajorRealmName("ascension.path.axe.initiate")
+                    .addMajorRealmName("ascension.path.axe.intent")
+                    .addMajorRealmName("ascension.path.axe.aura")
+                    .addMajorRealmName("ascension.path.axe.unity")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> BLADE = PATHS.register("blade",()->
+            new ComprehensionPath(Component.translatable("ascension.path.blade"))
+                    .addMajorRealmName("ascension.path.blade.initiate")
+                    .addMajorRealmName("ascension.path.blade.intent")
+                    .addMajorRealmName("ascension.path.blade.aura")
+                    .addMajorRealmName("ascension.path.blade.unity")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> SPEAR = PATHS.register("spear",()->
+            new ComprehensionPath(Component.translatable("ascension.path.spear"))
+                    .addMajorRealmName("ascension.path.spear.initiate")
+                    .addMajorRealmName("ascension.path.spear.intent")
+                    .addMajorRealmName("ascension.path.spear.aura")
+                    .addMajorRealmName("ascension.path.spear.unity")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> BOW = PATHS.register("bow",()->
+            new ComprehensionPath(Component.translatable("ascension.path.bow"))
+                    .addMajorRealmName("ascension.path.bow.initiate")
+                    .addMajorRealmName("ascension.path.bow.intent")
+                    .addMajorRealmName("ascension.path.bow.aura")
+                    .addMajorRealmName("ascension.path.bow.unity")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> TRIDENT = PATHS.register("trident",()->
+            new ComprehensionPath(Component.translatable("ascension.path.trident"))
+                    .addMajorRealmName("ascension.path.trident.initiate")
+                    .addMajorRealmName("ascension.path.trident.intent")
+                    .addMajorRealmName("ascension.path.trident.aura")
+                    .addMajorRealmName("ascension.path.trident.unity")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> MACE = PATHS.register("mace",()->
+            new ComprehensionPath(Component.translatable("ascension.path.mace"))
+                    .addMajorRealmName("ascension.path.mace.initiate")
+                    .addMajorRealmName("ascension.path.mace.intent")
+                    .addMajorRealmName("ascension.path.mace.aura")
+                    .addMajorRealmName("ascension.path.mace.unity")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> SHIELD = PATHS.register("shield",()->
+            new ComprehensionPath(Component.translatable("ascension.path.shield"))
+                    .addMajorRealmName("ascension.path.shield.initiate")
+                    .addMajorRealmName("ascension.path.shield.intent")
+                    .addMajorRealmName("ascension.path.shield.aura")
+                    .addMajorRealmName("ascension.path.shield.unity")
     );
     public static void register(IEventBus modEventBus){
         PATHS.register(modEventBus);

@@ -45,11 +45,42 @@ public class lang extends LanguageProvider {
         add("ascension.path.soul.gold_battle_soul", "Gold Battle Soul");
 
 
-        //fire
+        //Fire
         add("ascension.path.fire.kindling", "Kindling");
         add("ascension.path.fire.ignition", "Ignition");
         add("ascension.path.fire.true_flame", "True Flame");
         add("ascension.path.fire.origin_flame", "Origin Flame");
+        //Water
+        add("ascension.path.water.tidepool", "Tidepool");
+        add("ascension.path.water.current", "Current");
+        add("ascension.path.water.true_water", "True Water");
+        add("ascension.path.water.origin_water", "Origin Water");
+        //Wood
+        add("ascension.path.wood.sprout", "Sprout");
+        add("ascension.path.wood.growth", "Growth");
+        add("ascension.path.wood.true_wood", "True Wood");
+        add("ascension.path.wood.origin_wood", "Origin Wood");
+        //Earth
+        add("ascension.path.earth.pebble", "Pebble");
+        add("ascension.path.earth.stone", "Stone");
+        add("ascension.path.earth.true_earth", "True Earth");
+        add("ascension.path.earth.origin_earth", "Origin Earth");
+        //Metal
+        add("ascension.path.metal.ore", "Ore");
+        add("ascension.path.metal.ingot", "Ingot");
+        add("ascension.path.metal.true_metal", "True Metal");
+        add("ascension.path.metal.origin_metal", "Origin Metal");
+        //Wind
+        add("ascension.path.wind.gust", "Gust");
+        add("ascension.path.wind.lesser_breeze", "Lesser Breeze");
+        add("ascension.path.wind.true_wind", "True Wind");
+        add("ascension.path.wind.origin_wind", "Origin Wind");
+        //Lightning
+        add("ascension.path.lightning.spark", "Spark");
+        add("ascension.path.lightning.lesser_lightning", "Lesser Lightning");
+        add("ascension.path.lightning.true_lightning", "True Lightning");
+        add("ascension.path.lightning.origin_lightning", "Origin Lightning");
+
         //sword
         add("ascension.path.sword.initiate", "Initiate");
         add("ascension.path.sword.intent", "Intent");

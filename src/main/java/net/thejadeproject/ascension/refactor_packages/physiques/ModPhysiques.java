@@ -21,6 +21,17 @@ public class ModPhysiques {
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);
 
 
+
+    /*
+    .addPath(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence")) allows you to choose what path to give the Physique what it can cultivate.
+    Without a path it can not cultivate anything. You can add as many paths as you want or as little as you want.
+
+    .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"),0.5) is what chooses how fast it can cultivate that specific path.
+    It can be set to 0.1 - Max Integer and the higher the faster.
+
+     */
+
+
     public static final DeferredHolder<IPhysique,? extends GenericPhysique> MORTAL = PHYSIQUES.register("mortal",()->
             new GenericPhysique(Component.translatable("ascension.physiques.mortal"))
                     .addPath(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"))
