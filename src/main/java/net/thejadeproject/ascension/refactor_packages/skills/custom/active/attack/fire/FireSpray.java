@@ -89,6 +89,7 @@ public class FireSpray implements ICastableSkill {
                         new HashSet<>(){{add(ModPaths.FIRE.getId());}},
                         targetedEntity.damageSources().source(targetedEntity.damageSources().magic().typeHolder().getKey(),caster)
                 );
+
                 targetedEntity.hurt(source,2);
                 targetedEntity.igniteForSeconds(4);
                 travelled = Math.sqrt( caster.distanceToSqr(entityHit.getLocation()));

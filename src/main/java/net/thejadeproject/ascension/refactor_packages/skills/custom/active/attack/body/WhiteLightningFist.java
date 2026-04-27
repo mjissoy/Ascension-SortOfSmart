@@ -44,34 +44,6 @@ public class WhiteLightningFist implements ICastableSkill {
 
     @Override
     public boolean continueCasting(int ticksElapsed, Entity caster, ICastData castData) {
-
-        if (!(caster instanceof Player player)) return false;
-        if (!player.getMainHandItem().isEmpty()) return false;
-
-        if (!player.level().isClientSide()) {
-            LivingEntity target = findTarget(player);
-
-            if (target != null) {
-
-                float damage = BASE_DAMAGE + getBodyBonus(player);
-
-                target.hurt(
-                        player.damageSources().playerAttack(player),
-                        damage
-                );
-
-                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 0));
-                target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0));
-
-                Vec3 push = player.getViewVector(1.0F).scale(0.45D);
-                target.push(push.x, 0.12D, push.z);
-                target.hurtMarked = true;
-
-                player.swing(net.minecraft.world.InteractionHand.MAIN_HAND, true);
-                playCastEffects(player, target);
-            }
-        }
-
         return false;
     }
 
@@ -231,7 +203,35 @@ public class WhiteLightningFist implements ICastableSkill {
     @Override public void onEquip(IEntityData entityData) {}
     @Override public void onUnEquip(IEntityData entityData, IPreCastData preCastData) {}
     @Override public void finalCast(CastEndData reason, Entity caster, ICastData castData) {}
-    @Override public void initialCast(Entity caster, IPreCastData preCastData) {}
+    @Override public void initialCast(Entity caster, IPreCastData preCastData) {
+
+        if (!(caster instanceof Player player)) return;
+        if (!player.getMainHandItem().isEmpty()) return;
+
+        if (!player.level().isClientSide()) {
+            LivingEntity target = findTarget(player);
+
+            if (target != null) {
+
+                float damage = BASE_DAMAGE + getBodyBonus(player);
+
+                target.hurt(
+                        player.damageSources().playerAttack(player),
+                        damage
+                );
+
+                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 0));
+                target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0));
+
+                Vec3 push = player.getViewVector(1.0F).scale(0.45D);
+                target.push(push.x, 0.12D, push.z);
+                target.hurtMarked = true;
+
+                player.swing(net.minecraft.world.InteractionHand.MAIN_HAND, true);
+                playCastEffects(player, target);
+            }
+        }
+    }
     @Override public void selected(IEntityData entityData) {}
     @Override public void unselected(IEntityData entityData) {}
     @Override public IPreCastData freshPreCastData() { return null; }
