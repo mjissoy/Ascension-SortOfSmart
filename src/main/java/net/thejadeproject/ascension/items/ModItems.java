@@ -11,9 +11,7 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.data_components.ModDataComponents;
-import net.thejadeproject.ascension.items.data_components.spatial_ring.SpatialRingComponent;
 
-import net.thejadeproject.ascension.items.formations.PlayerAccessItemToken;
 import net.thejadeproject.ascension.items.herbs.*;
 import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
 import net.thejadeproject.ascension.items.pills.*;

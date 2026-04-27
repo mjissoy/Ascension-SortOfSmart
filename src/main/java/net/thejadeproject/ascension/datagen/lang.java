@@ -865,7 +865,7 @@ public class lang extends LanguageProvider {
 
         // World Dominator
         add("ascension.physiques.world_dominator", "World Dominator.");
-        add("ascension.message.physique.world_dominator.acquired", "The [World] bears the burdens of your Ascension.");
+        add("ascension.message.physique.world_dominator.acquired", "%s has awakened become the [World Dominator]. Bear witness to their Ascension!");
 
 
     }

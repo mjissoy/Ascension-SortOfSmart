@@ -71,14 +71,17 @@ public class ModPhysiques {
                             super.onPhysiqueAdded(heldEntity, oldPhysique, oldPhysiqueData);
 
                             if (heldEntity.getAttachedEntity() instanceof ServerPlayer player) {
-                                player.sendSystemMessage(
-                                        Component.translatable("ascension.message.physique.world_dominator.acquired")
-                                                .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.BOLD)
-                                );
+                                Component message = Component.translatable(
+                                                "ascension.message.physique.world_dominator.acquired",
+                                                player.getDisplayName()
+                                        )
+                                        .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.BOLD);
+
+                                player.server.getPlayerList().broadcastSystemMessage(message, false);
                             }
                         }
                     }
-                    .addPath(ModPaths.BODY.getId()).addPathBonus(ModPaths.BODY.getId(), 5.0)
+                            .addPath(ModPaths.BODY.getId()).addPathBonus(ModPaths.BODY.getId(), 5.0)
             );
 
 

@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.attack.fire.
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ScholarlySoulCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental.*;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.five_element.FiveElementCirculation;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.form_change.EnterSpiritForm;
 
@@ -35,6 +36,18 @@ public class ModSkills {
 
     public static final DeferredHolder<ISkill, ? extends ScholarlySoulCultivationSkill> SCHOLARLY_SOUL_CULTIVATION_SKILL =
             SKILLS.register("scholarly_soul_cultivation_skill", ScholarlySoulCultivationSkill::new);
+
+    // Basic Element/Essence Cultivation Skills
+    public static final DeferredHolder<ISkill, ? extends FireEssenceCultivationSkill> FIRE_ESSENCE_CULTIVATION_SKILL =
+            SKILLS.register("fire_essence_cultivation_skill", FireEssenceCultivationSkill::new);
+    public static final DeferredHolder<ISkill, ? extends WaterEssenceCultivationSkill> WATER_ESSENCE_CULTIVATION_SKILL =
+            SKILLS.register("water_essence_cultivation_skill", WaterEssenceCultivationSkill::new);
+    public static final DeferredHolder<ISkill, ? extends WoodEssenceCultivationSkill> WOOD_ESSENCE_CULTIVATION_SKILL =
+            SKILLS.register("wood_essence_cultivation_skill", WoodEssenceCultivationSkill::new);
+    public static final DeferredHolder<ISkill, ? extends EarthEssenceCultivationSkill> EARTH_ESSENCE_CULTIVATION_SKILL =
+            SKILLS.register("earth_essence_cultivation_skill", EarthEssenceCultivationSkill::new);
+    public static final DeferredHolder<ISkill, ? extends MetalEssenceCultivationSkill> METAL_ESSENCE_CULTIVATION_SKILL =
+            SKILLS.register("metal_essence_cultivation_skill", MetalEssenceCultivationSkill::new);
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);

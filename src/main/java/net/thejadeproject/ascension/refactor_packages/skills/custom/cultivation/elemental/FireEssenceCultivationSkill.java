@@ -1,0 +1,47 @@
+package net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ElementalEssenceCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.ElementalEssenceTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.FireEssenceTechnique;
+
+public class FireEssenceCultivationSkill extends ElementalEssenceCultivationSkill {
+
+    @Override
+    protected ResourceLocation getElementPath() {
+        return ModPaths.FIRE.getId();
+    }
+
+    @Override
+    protected double getEnvironmentMultiplier(Entity caster) {
+        if (caster.isInLava()) {
+            return 2.25D;
+        }
+
+        if (caster.isOnFire()) {
+            return 1.50D;
+        }
+
+        return 0.75D;
+    }
+
+    @Override
+    protected Class<? extends ElementalEssenceTechnique> getTechniqueClass() {
+        return FireEssenceTechnique.class;
+    }
+
+    @Override
+    protected Component getSkillTitle() {
+        return Component.literal("Fire Essence Cultivation");
+    }
+
+    @Override
+    protected Component getSkillDescription() {
+        return Component.literal(
+                "Cultivates Essence through fire. 75% base speed, 150% while burning, and 225% while in lava."
+        );
+    }
+}
