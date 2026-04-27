@@ -323,17 +323,9 @@ public class lang extends LanguageProvider {
         add("item.ascension.cleansing_pill_t3", "Cleansing Pill");
         add("item.ascension.cleansing_pill_t4", "Cleansing Pill");
 
-        add("item.ascension.inner_reinforcement_pill_t1", "Inner Reinforcement Pill");
-        add("item.ascension.inner_reinforcement_pill_t2", "Inner Reinforcement Pill");
-        add("item.ascension.inner_reinforcement_pill_t3", "Inner Reinforcement Pill");
-
-        add("item.ascension.essence_gathering_pill_t1", "Essence Gathering Pill");
-        add("item.ascension.essence_gathering_pill_t2", "Essence Gathering Pill");
-        add("item.ascension.essence_gathering_pill_t3", "Essence Gathering Pill");
-
-        add("item.ascension.spirit_focus_pill_t1", "Spirit Focus Pill");
-        add("item.ascension.spirit_focus_pill_t2", "Spirit Focus Pill");
-        add("item.ascension.spirit_focus_pill_t3", "Spirit Focus Pill");
+        add("item.ascension.inner_reinforcement_pill_t", "Inner Reinforcement Pill");
+        add("item.ascension.essence_gathering_pill", "Essence Gathering Pill");
+        add("item.ascension.soul_focus_pill", "Soul Focus Pill");
 
 
 
