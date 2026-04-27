@@ -59,6 +59,7 @@ public class ScholarlySoulTechnique extends GenericTechnique {
         );
 
         heldEntity.getPathBonusHandler().addPathBonus(ModPaths.SOUL.getId(), 1.0D);
+        refreshUniversalTechniqueSkills(heldEntity);
     }
 
     @Override
@@ -75,6 +76,7 @@ public class ScholarlySoulTechnique extends GenericTechnique {
         );
 
         heldEntity.getPathBonusHandler().removePathBonus(ModPaths.SOUL.getId(), 1.0D);
+        refreshUniversalTechniqueSkills(heldEntity);
     }
 
     public boolean canCultivateMajorRealm(ITechniqueData techniqueData, int majorRealm) {

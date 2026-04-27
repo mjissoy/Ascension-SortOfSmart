@@ -55,6 +55,9 @@ public class WhiteLightningTenStageTechnique extends GenericTechnique {
         ensurePathData(heldEntity, ModPaths.FIST.getId());
 
         PathData pathData = heldEntity.getPathData(getPath());
+
+        refreshUniversalTechniqueSkills(heldEntity);
+
         refreshRealmUnlockSkills(
                 heldEntity,
                 pathData == null ? 0 : pathData.getMajorRealm()
@@ -77,6 +80,7 @@ public class WhiteLightningTenStageTechnique extends GenericTechnique {
         heldEntity.getPathBonusHandler().removePathBonus(ModPaths.FIST.getId(), 1.0D);
 
         refreshRealmUnlockSkills(heldEntity, -1);
+        refreshUniversalTechniqueSkills(heldEntity);
     }
 
     @Override
@@ -103,6 +107,7 @@ public class WhiteLightningTenStageTechnique extends GenericTechnique {
                 ModSkills.WHITE_LIGHTNING_FIST.getId(),
                 majorRealm >= FIST_UNLOCK_REALM
         );
+
     }
 
     private void refreshSkill(IEntityData entityData, ResourceLocation skillId, boolean shouldHave) {

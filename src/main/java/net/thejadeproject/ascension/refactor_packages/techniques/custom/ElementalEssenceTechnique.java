@@ -57,6 +57,7 @@ public abstract class ElementalEssenceTechnique extends GenericTechnique {
         heldEntity.getPathBonusHandler().addPathBonus(elementPath, 1.0D);
 
         PathData pathData = heldEntity.getPathData(getPath());
+        refreshUniversalTechniqueSkills(heldEntity);
         refreshRealmUnlockSkills(
                 heldEntity,
                 pathData == null ? 0 : pathData.getMajorRealm()
@@ -77,7 +78,7 @@ public abstract class ElementalEssenceTechnique extends GenericTechnique {
         );
 
         heldEntity.getPathBonusHandler().removePathBonus(elementPath, 1.0D);
-
+        refreshUniversalTechniqueSkills(heldEntity);
         refreshRealmUnlockSkills(heldEntity, -1);
     }
 
