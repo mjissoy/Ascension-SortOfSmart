@@ -13,6 +13,25 @@ public class ModPaths {
     public static final DeferredRegister<IPath> PATHS =DeferredRegister.create(AscensionRegistries.Paths.PATHS_REGISTRY, AscensionCraft.MOD_ID);
 
 
+    /*
+    Paths are the foundation of the Cultivation system. It is what allows cultivation and makes it possible.
+    To make a new path just copy existing one and change the
+    "essence" -> "Your choice" and also change the .addMajorRealmName("ascension.path.essence.mortal") to be
+    .addMajorRealmName("ascension.path.your_choice.mortal") and so on.
+     */
+
+    /*
+    You might have noticed that there are 2 different paths
+    GenericPath and ComprehensionPath.
+
+    GenericPath is the 3 Main Paths so Essence, Body and Soul. These are what we like to call Main Paths It is what all physiques
+    Should atleast have 1 of these.
+
+    ComprehensionPath is like the Myriad of dao. This would include stuff Like Flame Dao, Space, etc all sub type paths to
+    cultivation. ComprehensionPath is where you really get do design your own stuff!
+     */
+
+
     public static final DeferredHolder<IPath, ? extends GenericPath> ESSENCE = PATHS.register("essence",()->
             new GenericPath(Component.translatable("ascension.path.essence"))
                     .addMajorRealmName("ascension.path.essence.mortal")
