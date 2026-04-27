@@ -9,13 +9,9 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
-import net.thejadeproject.ascension.refactor_packages.paths.custom.GenericPath;
 import net.thejadeproject.ascension.refactor_packages.physiques.custom.GenericPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-
-import java.util.List;
 
 public class ModPhysiques {
     public static final DeferredRegister<IPhysique> PHYSIQUES =DeferredRegister.create(AscensionRegistries.Physiques.PHSIQUES_REGISTRY, AscensionCraft.MOD_ID);
@@ -155,7 +151,27 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.SPEAR.getId(),2.0)
     ); // add a skill to make this super good because its only weapon paths right now
 
-//    public static final DeferredHolder<IPhysique, ? extends GenericPhysique>
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> THIN_SWORD_PULSE = PHYSIQUES.register("thin_sword_pulse",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.thin_sword_pulse"))
+            .addPath(ModPaths.SWORD.getId())
+            .addPath(ModPaths.ESSENCE.getId())
+            .addPathBonus(ModPaths.SWORD.getId(),1.5)
+            .addPathBonus(ModPaths.ESSENCE.getId(),1.25)
+    );
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> WILD_CLEAVER_VETERAN = PHYSIQUES.register("wild_cleaver_veteran",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.wild_cleaver_veteran"))
+            .addPath(ModPaths.BLADE.getId())
+            .addPath(ModPaths.BODY.getId())
+            .addPathBonus(ModPaths.BLADE.getId(),1.5)
+            .addPathBonus(ModPaths.BODY.getId(),1.25)
+    );
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> ARROW_BLESSED = PHYSIQUES.register("arrow_blessed",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.arrow_blessed"))
+            .addPath(ModPaths.BOW.getId())
+            .addPath(ModPaths.ESSENCE.getId())
+            .addPathBonus(ModPaths.BOW.getId(),1.5)
+            .addPathBonus(ModPaths.ESSENCE.getId(),1.25)
+    );
 
 
     // Other Physiques
@@ -179,10 +195,6 @@ public class ModPhysiques {
                             .addPathBonus(ModPaths.EARTH.getId(),2.0)
             // chaos dao idk?
     );
-
-
-
-
 
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> TYRANT_BODY = PHYSIQUES.register("tyrant_body",()->
             new GenericPhysique(Component.translatable("ascension.physiques.tyrant_body"))
