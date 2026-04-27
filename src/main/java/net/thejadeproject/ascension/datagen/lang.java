@@ -81,11 +81,51 @@ public class lang extends LanguageProvider {
         add("ascension.path.lightning.true_lightning", "True Lightning");
         add("ascension.path.lightning.origin_lightning", "Origin Lightning");
 
-        //sword
+        //Sword
         add("ascension.path.sword.initiate", "Initiate");
         add("ascension.path.sword.intent", "Intent");
         add("ascension.path.sword.aura", "Aura");
         add("ascension.path.sword.unity", "Unity");
+        //Axe
+        add("ascension.path.axe.initiate", "Initiate");
+        add("ascension.path.axe.intent", "Intent");
+        add("ascension.path.axe.aura", "Aura");
+        add("ascension.path.axe.unity", "Unity");
+        //Blade
+        add("ascension.path.blade.initiate", "Initiate");
+        add("ascension.path.blade.intent", "Intent");
+        add("ascension.path.blade.aura", "Aura");
+        add("ascension.path.blade.unity", "Unity");
+        //Spear
+        add("ascension.path.spear.initiate", "Initiate");
+        add("ascension.path.spear.intent", "Intent");
+        add("ascension.path.spear.aura", "Aura");
+        add("ascension.path.spear.unity", "Unity");
+        //Bow
+        add("ascension.path.bow.initiate", "Initiate");
+        add("ascension.path.bow.intent", "Intent");
+        add("ascension.path.bow.aura", "Aura");
+        add("ascension.path.bow.unity", "Unity");
+        //Trident
+        add("ascension.path.trident.initiate", "Initiate");
+        add("ascension.path.trident.intent", "Intent");
+        add("ascension.path.trident.aura", "Aura");
+        add("ascension.path.trident.unity", "Unity");
+        //Mace
+        add("ascension.path.mace.initiate", "Initiate");
+        add("ascension.path.mace.intent", "Intent");
+        add("ascension.path.mace.aura", "Aura");
+        add("ascension.path.mace.unity", "Unity");
+        //Shield
+        add("ascension.path.shield.initiate", "Initiate");
+        add("ascension.path.shield.intent", "Intent");
+        add("ascension.path.shield.aura", "Aura");
+        add("ascension.path.shield.unity", "Unity");
+        //Fist
+        add("ascension.path.fist.initiate", "Initiate");
+        add("ascension.path.fist.intent", "Intent");
+        add("ascension.path.fist.aura", "Aura");
+        add("ascension.path.fist.unity", "Unity");
 
         // Physiques
         add("ascension.physiques.mortal", "Mortal Physique");
