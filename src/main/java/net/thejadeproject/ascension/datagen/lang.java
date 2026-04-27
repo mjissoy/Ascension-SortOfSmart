@@ -139,6 +139,22 @@ public class lang extends LanguageProvider {
         add("ascension.path.fist.aura", "Aura");
         add("ascension.path.fist.unity", "Unity");
 
+        //Buddhist
+        add("ascension.path.buddhist.sramana", "Sramana");
+        add("ascension.path.buddhist.arhat", "Arhat");
+        add("ascension.path.buddhist.bodhisattva", "Bodhisattva");
+        add("ascension.path.buddhist.tathagata", "Tathagata");
+        //Demonic
+        add("ascension.path.demonic.seed", "Seed");
+        add("ascension.path.demonic.heart", "Heart");
+        add("ascension.path.demonic.demon", "Demon");
+        add("ascension.path.demonic.demonic", "Demonic");
+        //Virtuous
+        add("ascension.path.virtuous.self", "Self");
+        add("ascension.path.virtuous.family", "Family");
+        add("ascension.path.virtuous.state", "State");
+        add("ascension.path.virtuous.universal", "Universal");
+
         // Physiques
         add("ascension.physiques.mortal", "Mortal Physique");
         add("ascension.physiques.severed_meridians", "Severed Meridians");
