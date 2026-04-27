@@ -373,6 +373,11 @@ public class ModCreativeModeTabs {
                         //Waste
                         output.accept(ModItems.PILL_RESIDUE);
 
+                        //Cultivation
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL);
+                        output.accept(ModItems.SOUL_FOCUS_PILL);
+                        output.accept(ModItems.ESSENCE_GATHERING_PILL);
+
                         //Medicinal
                         output.accept(ModItems.FASTING_PILL_T1);
                         output.accept(ModItems.FASTING_PILL_T2);
@@ -381,10 +386,13 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.CLEANSING_PILL_T2);
                         output.accept(ModItems.CLEANSING_PILL_T3);
                         output.accept(ModItems.CLEANSING_PILL_T4);
+                        output.accept(ModItems.ANTIDOTE_PILL_QDP);
 
-                        output.accept(ModItems.ANTIDOTE_PILL_T2);
-                        output.accept(ModItems.ANTIDOTE_PILL_T3);
+                        //Poison
+                        output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
 
+
+                        //Misc
                         output.accept(ModItems.NEUTRALITY_PILL);
 
                         //Cultivation

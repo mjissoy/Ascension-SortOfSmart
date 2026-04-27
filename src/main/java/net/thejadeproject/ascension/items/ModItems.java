@@ -238,7 +238,21 @@ public class ModItems {
 
     //Important Pills
     // ── Cultivation Pills ─────────────────────────────────────────
-
+    public static final DeferredItem<PillItem> ESSENCE_GATHERING_PILL = ITEMS.register("essence_gathering_pill",
+            () -> new PillItem(new Item.Properties()
+                    .food(ModFoodProperties.CULT_PILL)
+                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.ESSENCE_EFFECT.getId().toString()))
+                    , 200, false));
+    public static final DeferredItem<PillItem> INNER_REINFORCEMENT_PILL = ITEMS.register("inner_reinforcement_pill",
+            () -> new PillItem(new Item.Properties()
+                    .food(ModFoodProperties.CULT_PILL)
+                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.BODY_EFFECT.getId().toString()))
+                    , 200, false));
+    public static final DeferredItem<PillItem> SOUL_FOCUS_PILL = ITEMS.register("soul_focus_pill",
+            () -> new PillItem(new Item.Properties()
+                    .food(ModFoodProperties.CULT_PILL)
+                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.SOUL_EFFECT.getId().toString()))
+                    , 200, false));
 
 
 
@@ -248,25 +262,14 @@ public class ModItems {
             () -> new PillItem(new Item.Properties()
                     .food(ModFoodProperties.QI_DEVOURING_PARASITE_PILL)
                     .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.PARASITE_PILL_EFFECT.getId().toString()))
-                    , 0));
-    // ── Important Pills ───────────────────────────────────────────
+                    , 0, true));
 
     // ── Antidote Pills ────────────────────────────────────────────
-    public static final DeferredItem<PillItem> ANTIDOTE_PILL_T1 = ITEMS.register("antidote_pill_t1",
+    public static final DeferredItem<PillItem> ANTIDOTE_PILL_QDP = ITEMS.register("antidote_qdp_pill",
             () -> new PillItem(new Item.Properties()
                     .food(ModFoodProperties.ANTIDOTE_PILL)
                     .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.ANTIDOTE_PILL_EFFECT.getId().toString()))
-                    , 0));
-    public static final DeferredItem<PillItem> ANTIDOTE_PILL_T2 = ITEMS.register("antidote_pill_t2",
-            () -> new PillItem(new Item.Properties()
-                    .food(ModFoodProperties.ANTIDOTE_PILL)
-                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.ANTIDOTE_PILL_EFFECT.getId().toString()))
-                    , 0));
-    public static final DeferredItem<PillItem> ANTIDOTE_PILL_T3 = ITEMS.register("antidote_pill_t3",
-            () -> new PillItem(new Item.Properties()
-                    .food(ModFoodProperties.ANTIDOTE_PILL)
-                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.ANTIDOTE_PILL_EFFECT.getId().toString()))
-                    , 0));
+                    , 0, false));
 
 
     //Phys Stuff

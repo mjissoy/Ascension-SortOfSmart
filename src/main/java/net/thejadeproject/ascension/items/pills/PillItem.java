@@ -21,31 +21,41 @@ import java.util.List;
 
 public class PillItem extends Item {
     public final int cooldown;
-    public PillItem(Properties properties, int cooldown) {
+    public final boolean throwable;
+
+    public PillItem(Properties properties, int cooldown, boolean throwable) {
         super(properties);
         this.cooldown = cooldown;
-
+        this.throwable = throwable;
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-
         ItemStack stack = player.getItemInHand(hand);
-        if (player.isShiftKeyDown()) {
+
+        if (throwable) {
+            // Shift + right-click → throw
+            if (player.isShiftKeyDown()) {
+                if (!level.isClientSide()) {
+                    PillProjectile proj = new PillProjectile(
+                            ModEntities.PILL_PROJECTILE.get(), level, player, stack);
+                    proj.setItem(stack);
+                    proj.shootFromRotation(player, player.getXRot(), player.getYRot(), 0f, 1.5f, 1f);
+                    level.addFreshEntity(proj);
+                }
+                if (!player.getAbilities().instabuild) stack.shrink(1);
+                return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
+            }
+            // Right-click → eat
+            else {
+                player.startUsingItem(hand);
+                return InteractionResultHolder.consume(stack);
+            }
+        } else {
+            // Non-throwable: right-click always eats
             player.startUsingItem(hand);
             return InteractionResultHolder.consume(stack);
         }
-        if (!level.isClientSide()) {
-            //TODO update to just be pill Projectile
-            PillProjectile proj = new PillProjectile(
-                    ModEntities.PILL_PROJECTILE.get(), level, player, stack);
-            proj.setItem(stack);
-            proj.shootFromRotation(player, player.getXRot(), player.getYRot(), 0f, 1.5f, 1f);
-            level.addFreshEntity(proj);
-        }
-        if (!player.getAbilities().instabuild) stack.shrink(1);
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide());
-
     }
     @Override public UseAnim getUseAnimation(ItemStack stack) { return UseAnim.EAT; }
     @Override public int getUseDuration(ItemStack stack, LivingEntity e) {
