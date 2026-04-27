@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-27T15:35:47.31982	Item Models: ascension
+// 1.21.1	2026-04-27T19:36:32.9403776	Item Models: ascension
 065cf0c2d6f096a66238aa015daa1101f5d07a88 assets/ascension/models/item/antidote_qdp_pill.json
 34dabeb5a8be2b07546251a0b1b7bf79b4730464 assets/ascension/models/item/black_iron_ingot.json
 4797248d81db0dfdf041f22734e73e775b6dc54e assets/ascension/models/item/black_iron_nugget.json
@@ -88,6 +88,7 @@ ebdce9167636ca7d3b71c4ca3a83644e8d8b0119 assets/ascension/models/item/red_marble
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/soulstead_return_talisman.json
 858237a12c745a4a95c58dee5fd5ffff719a4aba assets/ascension/models/item/soul_flame.json
 1e63ab1fb2ec5188b06eab75aaa13ef4a69b7908 assets/ascension/models/item/soul_focus_pill.json
+640788c6cb5cca40186410e11c51593c9b765383 assets/ascension/models/item/spatial_ring.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t1.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t2.json
 5e1ec283b04a8814535445cc550383b58117291a assets/ascension/models/item/spatial_rupture_talisman_t3.json

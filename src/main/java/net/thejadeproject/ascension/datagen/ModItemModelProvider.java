@@ -77,6 +77,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Artifacts
 
 
+        basicItem(ModItems.SPATIAL_RING.get());
         basicItem(ModItems.SPIRIT_SEALING_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());

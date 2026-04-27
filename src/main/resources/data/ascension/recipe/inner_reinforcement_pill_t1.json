@@ -5,7 +5,7 @@
     { "item": "ascension:golden_sun_leaf",      "count": 1 },
     { "item": "ascension:hundred_year_ginseng", "count": 1 }
   ],
-  "success":          { "id": "ascension:inner_reinforcement_pill_t1", "count": 1 },
+  "success":          { "id": "ascension:inner_reinforcement_pill", "count": 1 },
   "fail":             { "id": "ascension:pill_residue",                "count": 1 },
   "chance":           0.75,
   "min_temp":         250,
