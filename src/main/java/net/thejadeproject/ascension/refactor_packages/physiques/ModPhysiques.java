@@ -178,14 +178,18 @@ public class ModPhysiques {
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> VIRTUOSO_BUDDHA = PHYSIQUES.register("virtuoso_buddha",()->
             new GenericPhysique(Component.translatable("ascension.physiques.virtuoso_buddha"))
                     .addPath(ModPaths.BODY.getId())
+                    .addPath(ModPaths.BUDDHIST.getId())
+                    .addPath(ModPaths.VIRTUOUS.getId())
                     .addPathBonus(ModPaths.BODY.getId(),3.0)
-            // buddhist path here I think
+                    .addPathBonus(ModPaths.BUDDHIST.getId(),2.0)
+                    .addPathBonus(ModPaths.VIRTUOUS.getId(),1.0)
     );
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> BLOOD_FIEND = PHYSIQUES.register("blood_fiend",()->
             new GenericPhysique(Component.translatable("ascension.physiques.blood_fiend"))
                     .addPath(ModPaths.SOUL.getId())
+                    .addPath(ModPaths.DEMONIC.getId())
                     .addPathBonus(ModPaths.SOUL.getId(),2.0)
-            // add a demon or blood path
+                    .addPathBonus(ModPaths.DEMONIC.getId(),3.0)
     );
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> STONE_MONKEY = PHYSIQUES.register("stone_monkey",()->
                     new GenericPhysique(Component.translatable("ascension.physiques.stone_monkey"))
