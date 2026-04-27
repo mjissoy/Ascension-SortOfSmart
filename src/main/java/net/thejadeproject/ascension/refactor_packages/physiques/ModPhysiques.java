@@ -23,7 +23,7 @@ public class ModPhysiques {
     Without a path it can not cultivate anything. You can add as many paths as you want or as little as you want.
 
     .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"),0.5) is what chooses how fast it can cultivate that specific path.
-    It can be set to 0.1 - Max Integer and the higher the faster.
+    It can be set to 0.1 - Max Integer and the higher the faster. -[number] reduces efficiency
 
      */
 

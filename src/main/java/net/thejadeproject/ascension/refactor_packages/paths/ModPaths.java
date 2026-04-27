@@ -175,6 +175,30 @@ public class ModPaths {
                     .addMajorRealmName("ascension.path.fist.aura")
                     .addMajorRealmName("ascension.path.fist.unity")
     );
+
+
+
+    public static final DeferredHolder<IPath, ? extends GenericPath> BUDDHIST = PATHS.register("buddhist",()->
+            new ComprehensionPath(Component.translatable("ascension.path.buddhist"))
+                    .addMajorRealmName("ascension.path.buddhist.sramana")
+                    .addMajorRealmName("ascension.path.buddhist.arhat")
+                    .addMajorRealmName("ascension.path.buddhist.bodhisattva")
+                    .addMajorRealmName("ascension.path.buddhist.tathagata")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> DEMONIC = PATHS.register("demonic",()->
+            new ComprehensionPath(Component.translatable("ascension.path.demonic"))
+                    .addMajorRealmName("ascension.path.demonic.seed")
+                    .addMajorRealmName("ascension.path.demonic.heart")
+                    .addMajorRealmName("ascension.path.demonic.demon")
+                    .addMajorRealmName("ascension.path.demonic.demonic")
+    );
+    public static final DeferredHolder<IPath, ? extends GenericPath> VIRTUOUS = PATHS.register("virtuous",()->
+            new ComprehensionPath(Component.translatable("ascension.path.virtuous"))
+                    .addMajorRealmName("ascension.path.virtuous.self")
+                    .addMajorRealmName("ascension.path.virtuous.family")
+                    .addMajorRealmName("ascension.path.virtuous.state")
+                    .addMajorRealmName("ascension.path.virtuous.universal")
+    );
     public static void register(IEventBus modEventBus){
         PATHS.register(modEventBus);
     }

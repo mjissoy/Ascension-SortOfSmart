@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.thejadeproject.ascension.items.ModItems;
 import net.thejadeproject.ascension.refactor_packages.alchemy.IPillEffect;
 import net.thejadeproject.ascension.refactor_packages.util.PillEffectUtil;
 
@@ -19,22 +20,28 @@ import java.util.List;
 
 public class PillProjectile extends ThrowableItemProjectile {
 
+    private Item defaultItem;
+
     public PillProjectile(EntityType<? extends PillProjectile> entityType, Level level, ItemStack pillItem) {
-        super(entityType,level);
+        super(entityType, level);
+        this.defaultItem = pillItem.getItem();
         setItem(pillItem.copy());
     }
     public PillProjectile(EntityType<? extends PillProjectile> entityType, Level level, LivingEntity shooter, ItemStack pillItem) {
-        super(entityType, shooter,level);
+        super(entityType, shooter, level);
+        this.defaultItem = pillItem.getItem();
         setItem(pillItem.copy());
     }
     public PillProjectile(EntityType<? extends PillProjectile> entityType, Level level, double x, double y, double z, ItemStack pillItem) {
         super(entityType, x, y, z, level);
-        this.setItem(pillItem.copy());
+        this.defaultItem = pillItem.getItem();
+        setItem(pillItem.copy());
     }
     @Override
     protected Item getDefaultItem() {
-        return getItem().getItem();
+        return defaultItem != null ? defaultItem : ModItems.QI_DEVOURING_PARASITE_PILL.get();
     }
+
     private ParticleOptions getParticle() {
         ItemStack itemstack = this.getItem(); // Use getItemRaw to avoid entity data issues
         return !itemstack.isEmpty() ? new ItemParticleOption(ParticleTypes.ITEM, itemstack) : ParticleTypes.ITEM_SNOWBALL;

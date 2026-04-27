@@ -175,8 +175,17 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.CLEANSING_PILL_T4.get());
 
 
-        pills(ModItems.ANTIDOTE_PILL_T2.get());
-        pills(ModItems.ANTIDOTE_PILL_T3.get());
+
+        pills(ModItems.ESSENCE_GATHERING_PILL.get());
+        pills(ModItems.SOUL_FOCUS_PILL.get());
+        pills(ModItems.INNER_REINFORCEMENT_PILL.get());
+
+
+        pills(ModItems.ANTIDOTE_PILL_QDP.get());
+
+
+
+        pills(ModItems.QI_DEVOURING_PARASITE_PILL.get());
 
 
 

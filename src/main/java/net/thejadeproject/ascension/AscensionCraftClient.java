@@ -75,6 +75,8 @@ public class AscensionCraftClient {
         @SubscribeEvent
         public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
 
+            event.registerEntityRenderer(ModEntities.PILL_PROJECTILE.get(), ThrownItemRenderer::new);
+
             // Floating item above each ingredient pedestal
             event.registerBlockEntityRenderer(
                     ModBlockEntities.CAULDRON_PEDESTAL.get(),
