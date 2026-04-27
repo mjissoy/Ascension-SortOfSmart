@@ -1,0 +1,68 @@
+package net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental;
+
+import net.lucent.easygui.gui.textures.ITextureData;
+import net.lucent.easygui.gui.textures.TextureData;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.events.skills.ElementalEssenceSkillEvents;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ElementalEssenceCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.ElementalEssenceTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.LightningEssenceTechnique;
+
+public class LightningEssenceCultivationSkill extends ElementalEssenceCultivationSkill {
+
+    @Override
+    protected ResourceLocation getElementPath() {
+        return ModPaths.LIGHTNING.getId();
+    }
+
+    @Override
+    protected double getEnvironmentMultiplier(Entity caster) {
+        if (caster instanceof Player player && ElementalEssenceSkillEvents.hasActiveLightningBoost(player)) {
+            return 2.50D;
+        }
+
+        boolean stormingUnderOpenSky = caster.level().isThundering()
+                && caster.level().canSeeSky(caster.blockPosition());
+
+        if (stormingUnderOpenSky) {
+            return 1.20D;
+        }
+
+        return 1.00D;
+    }
+
+    @Override
+    protected Class<? extends ElementalEssenceTechnique> getTechniqueClass() {
+        return LightningEssenceTechnique.class;
+    }
+
+    @Override
+    protected Component getSkillTitle() {
+        return Component.literal("Lightning Essence Cultivation");
+    }
+
+    @Override
+    protected Component getSkillDescription() {
+        return Component.literal(
+                "Cultivates Essence through thunderous resonance. It cultivates normally at rest, faster beneath storms, and surges after being struck by lightning outside tribulations."
+        );
+    }
+
+    @Override
+    public ITextureData getIcon() {
+        return new TextureData(
+                ResourceLocation.fromNamespaceAndPath(
+                        AscensionCraft.MOD_ID,
+                        "textures/spells/icon/lightning_essence_cultivation_skill.png"
+                ),
+                16,
+                16
+        );
+    }
+
+}

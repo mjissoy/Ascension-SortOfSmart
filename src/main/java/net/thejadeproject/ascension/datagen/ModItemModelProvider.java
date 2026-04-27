@@ -127,7 +127,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.JADE_NUGGET.get());
 
 
-
         basicItem(ModItems.SPATIAL_STONE_TIER_1.get());
         basicItem(ModItems.SPATIAL_STONE_TIER_2.get());
 
@@ -222,6 +221,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //MobEggs
         withExistingParent(ModItems.RAT_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+
+        // Scholarly Pages
+        basicItem(ModItems.SCHOLARLY_SOUL_RECTIFICATION_OF_NAMES.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_GREAT_LEARNING.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_THOUSAND_COMMENTARIES.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_SAGE_MANDATE.get());
 
 
 

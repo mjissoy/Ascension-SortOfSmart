@@ -157,14 +157,41 @@ public class lang extends LanguageProvider {
 
         // Physiques
         add("ascension.physiques.mortal", "Mortal Physique");
+        add("ascension.physiques.cripple", "Cripple");
         add("ascension.physiques.severed_meridians", "Severed Meridians");
         add("ascension.physiques.sword_bone", "Sword Bone");
         add("ascension.physiques.flame_touched", "Flame Touched");
         add("ascension.physiques.tyrant_body", "Tyrant Body");
+        add("ascension.physiques.scholars_soul", "Soul of The Scholar");
+        add("ascension.physiques.stone_monkey", "Stone Monkey");
+        add("ascension.physiques.blood_fiend", "Blood Fiend");
+        add("ascension.physiques.virtuoso_buddha", "Virtuoso Buddha");
+        add("ascension.physiques.pointed_eyes", "Pointed Eyes");
+        add("ascension.physiques.bruised_knuckle_body", "Bruised Knuckle Body");
+        add("ascension.physiques.iron_bulwark_spine", "Iron Bulwark Spine");
+        add("ascension.physiques.arrow_blessed", "Arrow Blessed");
+        add("ascension.physiques.wild_cleaver_veteran", "Wild Cleaver Veteran");
+        add("ascension.physiques.thin_sword_pulse", "Thin Sword Pulse");
+        add("ascension.physiques.flow_severing_eyes", "Flow Severing Eyes");
+        add("ascension.physiques.divine_essence_bone", "Divine Essence Bone");
+        add("ascension.physiques.heavenly_essence_bone", "Heavenly Essence Bone");
+        add("ascension.physiques.special_essence_bone", "Special Essence Bone");
+        add("ascension.physiques.wind_attuned", "Wind Attuned");
+        add("ascension.physiques.lightning_attuned", "Lightning Attuned");
+        add("ascension.physiques.metal_attuned", "Metal Attuned");
+        add("ascension.physiques.wood_attuned", "Wood Attuned");
+        add("ascension.physiques.earth_attuned", "Earth Attuned");
+        add("ascension.physiques.water_attuned", "Water Attuned");
+        add("ascension.physiques.fire_attuned", "Fire Attuned");
+
+        add("ascension.physiques.world_dominator", "World Dominator.");
+        add("ascension.message.physique.world_dominator.acquired", "%s has become the %s. Bear witness to their Ascension!");
+        add("ascension.physiques.world_dominator.bracketed", "[World Dominator]");
 
 
         //Techniques
         add("ascension.technique.five_element","Five Element Circulation Method");
+        add("ascension.technique.scholarly_soul_technique","A Scholar's Soul Transcendence");
 
 
         //Skills
@@ -173,6 +200,20 @@ public class lang extends LanguageProvider {
         //Pill effects
         add("ascension.pill_effects.body_cultivation_pill_effect.name","Body Cultivation");
         add("ascension.pill_effects.body_cultivation_pill_effect.description","Increases Body cultivation");
+
+        //Commands
+        add("command.ascension.cultivation.info.header", "=== Cultivation Info for %s ===");
+        add("command.ascension.cultivation.info.path", "%s: Realm %d.%d");
+        add("command.ascension.cultivation.info.progress", "  Progress: %s");
+        add("command.ascension.cultivation.info.technique", "  Technique: %s");
+        add("command.ascension.cultivation.info.cultivating.yes", "  Status: Cultivating");
+        add("command.ascension.cultivation.info.cultivating.no", "  Status: Idle");
+        add("command.ascension.cultivation.info.no_paths", "No active cultivation paths.");
+        add("command.ascension.cultivation.info.physique", "Physique: %s");
+        add("command.ascension.cultivation.info.path_header", "%s — %s %d.%d");
+
+
+
 
         add("ascension.pill_effects.essence_cultivation_pill_effect.name","Essence Cultivation");
         add("ascension.pill_effects.essence_cultivation_pill_effect.description","Increases Essence cultivation");
@@ -478,7 +519,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.ironwood_door", "Ironwood Door");
         add("block.ascension.ironwood_trapdoor", "Ironwood Trapdoor");
 
-        /** Marble */
+        /* Marble */
         add("block.ascension.raw_marble", "Marble");
         add("block.ascension.polished_marble", "Polished Marble");
         add("block.ascension.marble_bricks", "Marble Bricks");
@@ -561,7 +602,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_polished_marble", "Polished Yellow Marble");
 
 
-        /** Slabs */
+        /* Slabs */
         add("block.ascension.marble_brick_slabs", "Marble Brick Slab");
         add("block.ascension.marble_tile_slabs", "Marble Tile Slab");
         add("block.ascension.burned_marble_brick_slabs", "Black Marble Brick Slab");
@@ -595,7 +636,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_marble_brick_slabs", "Yellow Marble Brick Slab");
         add("block.ascension.yellow_marble_tile_slabs", "Yellow Marble Tile Slab");
 
-        /** Stairs */
+        /* Stairs */
         add("block.ascension.marble_brick_stairs", "Marble Brick Stair");
         add("block.ascension.marble_tile_stairs", "Marble Tile Stair");
         add("block.ascension.burned_marble_brick_stairs", "Black Marble Brick Stair");
@@ -629,7 +670,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_marble_brick_stairs", "Yellow Marble Brick Stairs");
         add("block.ascension.yellow_marble_tile_stairs", "Yellow Marble Tile Stairs");
 
-        /** Walls */
+        /* Walls */
         add("block.ascension.marble_brick_wall", "Marble Brick Wall");
         add("block.ascension.marble_tile_wall", "Marble Tile Wall");
         add("block.ascension.burned_marble_brick_wall", "Black Marble Brick Wall");
@@ -773,6 +814,68 @@ public class lang extends LanguageProvider {
 
         //messages
         add("message.ascension.milk_denied","§cMilk buckets are not drinkable in this mod. Use antidote pills instead!");
+
+
+        //tags'
+
+        //skill title
+        add("ascension.skill.active.rootwardens_call","Rootwardens Call");
+        add("ascension.skill.active.spiritual_sense","Spiritual Sense");
+
+        //skill descriptions
+        add("ascension.physique.passive.kitsune_illusion.desc","");
+        add("ascension.physique.passive.stonehide.desc",
+                """
+                        §6Stone Monkey's Primitive Defense
+                        §7Your flesh hardens like unhewn stone.
+
+                        §e◆ §f+5% Damage Reduction
+                        §e◆ §f+100% Knockback Resistance
+                        §e◆ §fScales with Body Path cultivation""");
+
+        //Skills
+        add("ascension.physique.passive.stonehide", "Stonehide");
+
+
+        add("ascension.physique.passive.diamond_adamant", "Diamond Adamant");
+        add("ascension.physique.passive.diamond_adamant.desc1", "§6Heaven-Forged Resilience\"");
+        add("ascension.physique.passive.diamond_adamant.desc2", "§7Your body becomes as hard as diamond.");
+        add("ascension.physique.passive.diamond_adamant.desc3", "");
+        add("ascension.physique.passive.diamond_adamant.desc4", "§e◆ §fCritical hits deal 50% less damage");
+        add("ascension.physique.passive.diamond_adamant.desc5", "§e◆ §fChance to survive fatal blows at 1 HP");
+        add("ascension.physique.passive.diamond_adamant.desc6", "§c◆ §f5 minute cooldown on survival");
+
+        add("ascension.physique.active.indestructible_vajra", "Indestructible Vajra");
+        add("ascension.physique.active.indestructible_vajra.desc1", "§6Ultimate Stone Monkey Defense");
+        add("ascension.physique.active.indestructible_vajra.desc2", "§7Become truly invulnerable for a short time.");
+        add("ascension.physique.active.indestructible_vajra.desc3", "");
+        add("ascension.physique.active.indestructible_vajra.desc4", "§e◆ §fBecome completely invulnerable");
+        add("ascension.physique.active.indestructible_vajra.desc5", "§e◆ §fStore all damage taken");
+        add("ascension.physique.active.indestructible_vajra.desc6", "§e◆ §fRelease stored damage as shockwave");
+        add("ascension.physique.active.indestructible_vajra.desc7", "§c◆ §fCost: 100 Qi");
+        add("ascension.physique.active.indestructible_vajra.desc8", "§c◆ §fCooldown: 2 minutes");
+
+        add("ascension.skill.active.ore_sight", "Ore Sight");
+        add("ascension.skill.active.ore_sight.desc1", "What stone conceals, the Metal Dao reveals. The cultivator's qi illuminates what time and earth have hidden.");
+        add("ascension.skill.active.ore_sight.desc2", "Each ore sings with a different color—coal's dark hum, copper's warm glow, diamond's cold fire, emerald's verdant whisper.");
+        add("ascension.skill.active.ore_sight.desc3", "As the moon waxes with each night, so too does the cultivator's sight sharpen with each realm ascended.");
+        add("ascension.skill.active.ore_sight.desc4", "§c◆ §fCost: 15 Qi");
+        add("ascension.skill.active.ore_sight.desc5", "§c◆ §fCooldown: 1 minute");
+
+        add("ascension.skill.active.space_infusion", "Space Infusion");
+        add("ascension.skill.active.space_infusion.desc1", "§dSpace Infusion§r");
+        add("ascension.skill.active.space_infusion.desc2", "§7-------------------§r");
+        add("ascension.skill.active.space_infusion.desc3", "§bChannel the void energies of The End to transmute a Spiritual Stone.§r");
+        add("ascension.skill.active.space_infusion.desc4", "§8• Must be cast in The End dimension§r");
+        add("ascension.skill.active.space_infusion.desc5", "§8• 5-second infusion | 15s cooldown§r");
+
+        // Scholarly Pages
+        add("item.ascension.scholarly_soul_rectification_of_names", "Rectification of Names");
+        add("item.ascension.scholarly_soul_great_learning", "Great Learning");
+        add("item.ascension.scholarly_soul_thousand_commentaries", "Hundred Thousand Commentaries");
+        add("item.ascension.scholarly_soul_sage_mandate", "Mandate of the Sage");
+
+        // World Dominator
 
 
     }

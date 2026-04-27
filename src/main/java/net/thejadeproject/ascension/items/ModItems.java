@@ -11,18 +11,19 @@ import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.items.artifacts.*;
 import net.thejadeproject.ascension.items.data_components.ModDataComponents;
-import net.thejadeproject.ascension.items.data_components.spatial_ring.SpatialRingComponent;
 
 import net.thejadeproject.ascension.items.herbs.*;
 import net.thejadeproject.ascension.items.physiques.PhysiqueTransferItem;
 import net.thejadeproject.ascension.items.pills.*;
 import net.thejadeproject.ascension.items.stones.SpatialStoneItem;
+import net.thejadeproject.ascension.items.techniques.ScholarlySoulChapterItem;
 import net.thejadeproject.ascension.items.techniques.TechniqueTransferItem;
 import net.thejadeproject.ascension.items.tools.BladeItem;
 import net.thejadeproject.ascension.items.tools.FanItem;
 import net.thejadeproject.ascension.items.tools.SpearItem;
 import net.thejadeproject.ascension.items.tools.SpiritualStoneTools;
 import net.thejadeproject.ascension.refactor_packages.alchemy.ModPillEffects;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.technique_data.ScholarlySoulTechniqueData;
 import net.thejadeproject.ascension.util.ItemUtil;
 
 import java.util.List;
@@ -319,6 +320,34 @@ public class ModItems {
     public static final DeferredItem<Item> RAT_SPAWN_EGG = ITEMS.register("rat_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.RAT, 0x4F2242, 0x703240,
                     new Item.Properties()));
+
+    //Scholar Chapters
+
+    public static final DeferredItem<ScholarlySoulChapterItem> SCHOLARLY_SOUL_RECTIFICATION_OF_NAMES =
+            ITEMS.register("scholarly_soul_rectification_of_names",
+                    () -> new ScholarlySoulChapterItem(
+                            new Item.Properties(),
+                            ScholarlySoulTechniqueData.RECTIFICATION_OF_NAMES
+                    ));
+    public static final DeferredItem<ScholarlySoulChapterItem> SCHOLARLY_SOUL_GREAT_LEARNING =
+            ITEMS.register("scholarly_soul_great_learning",
+                    () -> new ScholarlySoulChapterItem(
+                            new Item.Properties(),
+                            ScholarlySoulTechniqueData.GREAT_LEARNING
+                    ));
+    public static final DeferredItem<ScholarlySoulChapterItem> SCHOLARLY_SOUL_THOUSAND_COMMENTARIES =
+            ITEMS.register("scholarly_soul_thousand_commentaries",
+                    () -> new ScholarlySoulChapterItem(
+                            new Item.Properties(),
+                            ScholarlySoulTechniqueData.THOUSAND_COMMENTARIES
+                    ));
+    public static final DeferredItem<ScholarlySoulChapterItem> SCHOLARLY_SOUL_SAGE_MANDATE =
+            ITEMS.register("scholarly_soul_sage_mandate",
+                    () -> new ScholarlySoulChapterItem(
+                            new Item.Properties(),
+                            ScholarlySoulTechniqueData.SAGE_MANDATE
+                    ));
+
 
 
 
