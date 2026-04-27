@@ -157,10 +157,36 @@ public class lang extends LanguageProvider {
 
         // Physiques
         add("ascension.physiques.mortal", "Mortal Physique");
+        add("ascension.physiques.cripple", "Cripple");
         add("ascension.physiques.severed_meridians", "Severed Meridians");
         add("ascension.physiques.sword_bone", "Sword Bone");
         add("ascension.physiques.flame_touched", "Flame Touched");
         add("ascension.physiques.tyrant_body", "Tyrant Body");
+        add("ascension.physiques.scholars_soul", "Soul of The Scholar");
+        add("ascension.physiques.stone_monkey", "Stone Monkey");
+        add("ascension.physiques.blood_fiend", "Blood Fiend");
+        add("ascension.physiques.virtuoso_buddha", "Virtuoso Buddha");
+        add("ascension.physiques.pointed_eyes", "Pointed Eyes");
+        add("ascension.physiques.bruised_knuckle_body", "Bruised Knuckle Body");
+        add("ascension.physiques.iron_bulwark_spine", "Iron Bulwark Spine");
+        add("ascension.physiques.arrow_blessed", "Arrow Blessed");
+        add("ascension.physiques.wild_cleaver_veteran", "Wild Cleaver Veteran");
+        add("ascension.physiques.thin_sword_pulse", "Thin Sword Pulse");
+        add("ascension.physiques.flow_severing_eyes", "Flow Severing Eyes");
+        add("ascension.physiques.divine_essence_bone", "Divine Essence Bone");
+        add("ascension.physiques.heavenly_essence_bone", "Heavenly Essence Bone");
+        add("ascension.physiques.special_essence_bone", "Special Essence Bone");
+        add("ascension.physiques.wind_attuned", "Wind Attuned");
+        add("ascension.physiques.lightning_attuned", "Lightning Attuned");
+        add("ascension.physiques.metal_attuned", "Metal Attuned");
+        add("ascension.physiques.wood_attuned", "Wood Attuned");
+        add("ascension.physiques.earth_attuned", "Earth Attuned");
+        add("ascension.physiques.water_attuned", "Water Attuned");
+        add("ascension.physiques.fire_attuned", "Fire Attuned");
+
+        add("ascension.physiques.world_dominator", "World Dominator.");
+        add("ascension.message.physique.world_dominator.acquired", "%s has become the %s. Bear witness to their Ascension!");
+        add("ascension.physiques.world_dominator.bracketed", "[World Dominator]");
 
 
         //Techniques
@@ -848,12 +874,9 @@ public class lang extends LanguageProvider {
         add("item.ascension.scholarly_soul_great_learning", "Great Learning");
         add("item.ascension.scholarly_soul_thousand_commentaries", "Hundred Thousand Commentaries");
         add("item.ascension.scholarly_soul_sage_mandate", "Mandate of the Sage");
-        add("ascension.physiques.scholars_soul", "Soul of The Scholar");
 
         // World Dominator
-        add("ascension.physiques.world_dominator", "World Dominator.");
-        add("ascension.message.physique.world_dominator.acquired", "%s has become the %s. Bear witness to their Ascension!");
-        add("ascension.physiques.world_dominator.bracketed", "[World Dominator]");
+
 
     }
 }
