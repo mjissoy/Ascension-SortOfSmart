@@ -36,6 +36,8 @@ public class VerdantRecoverySkill extends SimplePassiveSkill implements ITicking
         if (player.getHealth() >= player.getMaxHealth()) return;
         if (!isNearPlantLife(player, WOOD_SCAN_RADIUS)) return;
 
+
+        // TODO: Actual regen, not effect
         player.addEffect(new MobEffectInstance(
                 MobEffects.REGENERATION,
                 60,

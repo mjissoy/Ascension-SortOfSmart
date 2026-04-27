@@ -48,7 +48,6 @@ public class AscensionCraftClient {
         KeyBindHandler.register();
 
 
-
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
         NeoForge.EVENT_BUS.register(FlameBarOverlay.class);

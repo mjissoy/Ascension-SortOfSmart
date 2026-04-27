@@ -149,7 +149,7 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.BLADE.getId(),2.0)
                     .addPathBonus(ModPaths.AXE.getId(),2.0)
                     .addPathBonus(ModPaths.SPEAR.getId(),2.0)
-    ); // add a skill to make this super good because its only weapon paths right now
+    );
 
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> THIN_SWORD_PULSE = PHYSIQUES.register("thin_sword_pulse",()->
             new GenericPhysique(Component.translatable("ascension.physiques.thin_sword_pulse"))

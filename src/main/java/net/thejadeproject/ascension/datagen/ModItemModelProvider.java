@@ -126,7 +126,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.JADE_NUGGET.get());
 
 
-
         basicItem(ModItems.SPATIAL_STONE_TIER_1.get());
         basicItem(ModItems.SPATIAL_STONE_TIER_2.get());
 
