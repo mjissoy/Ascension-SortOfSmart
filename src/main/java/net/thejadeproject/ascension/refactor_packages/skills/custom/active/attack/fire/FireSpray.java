@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.refactor_packages.skills.custom.attack.fire;
+package net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire;
 
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
@@ -8,14 +8,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.particle.ModParticles;
@@ -32,7 +30,6 @@ import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableS
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
 
 import java.util.HashSet;
-import java.util.Set;
 
 public class FireSpray implements ICastableSkill {
     @Override

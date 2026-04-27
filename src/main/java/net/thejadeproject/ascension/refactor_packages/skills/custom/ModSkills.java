@@ -7,13 +7,16 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
-import net.thejadeproject.ascension.refactor_packages.skills.custom.attack.fire.FireSpray;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire.FireSpray;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ScholarlySoulCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental.*;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.five_element.FiveElementCirculation;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.form_change.EnterSpiritForm;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.AquaticCirculationSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.FlameTemperedBodySkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.VerdantRecoverySkill;
 
 
 public class ModSkills {
@@ -37,7 +40,8 @@ public class ModSkills {
     public static final DeferredHolder<ISkill, ? extends ScholarlySoulCultivationSkill> SCHOLARLY_SOUL_CULTIVATION_SKILL =
             SKILLS.register("scholarly_soul_cultivation_skill", ScholarlySoulCultivationSkill::new);
 
-    // Basic Element/Essence Cultivation Skills
+    // Basic Essence/Elemental Skills
+        // Cultivation Skills
     public static final DeferredHolder<ISkill, ? extends FireEssenceCultivationSkill> FIRE_ESSENCE_CULTIVATION_SKILL =
             SKILLS.register("fire_essence_cultivation_skill", FireEssenceCultivationSkill::new);
     public static final DeferredHolder<ISkill, ? extends WaterEssenceCultivationSkill> WATER_ESSENCE_CULTIVATION_SKILL =
@@ -48,6 +52,13 @@ public class ModSkills {
             SKILLS.register("earth_essence_cultivation_skill", EarthEssenceCultivationSkill::new);
     public static final DeferredHolder<ISkill, ? extends MetalEssenceCultivationSkill> METAL_ESSENCE_CULTIVATION_SKILL =
             SKILLS.register("metal_essence_cultivation_skill", MetalEssenceCultivationSkill::new);
+        // Passive Skills
+    public static final DeferredHolder<ISkill, ? extends FlameTemperedBodySkill> FLAME_TEMPERED_BODY = SKILLS.register("flame_tempered_body", FlameTemperedBodySkill::new);
+    public static final DeferredHolder<ISkill, ? extends AquaticCirculationSkill> AQUATIC_CIRCULATION = SKILLS.register("aquatic_circulation", AquaticCirculationSkill::new);
+    public static final DeferredHolder<ISkill, ? extends VerdantRecoverySkill> VERDANT_RECOVERY = SKILLS.register("verdant_recovery", VerdantRecoverySkill::new);
+        // Active Skills
+
+
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);

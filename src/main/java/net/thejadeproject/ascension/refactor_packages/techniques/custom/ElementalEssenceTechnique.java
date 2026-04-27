@@ -55,6 +55,12 @@ public abstract class ElementalEssenceTechnique extends GenericTechnique {
         );
 
         heldEntity.getPathBonusHandler().addPathBonus(elementPath, 1.0D);
+
+        PathData pathData = heldEntity.getPathData(getPath());
+        refreshRealmUnlockSkills(
+                heldEntity,
+                pathData == null ? 0 : pathData.getMajorRealm()
+        );
     }
 
     @Override
@@ -71,6 +77,72 @@ public abstract class ElementalEssenceTechnique extends GenericTechnique {
         );
 
         heldEntity.getPathBonusHandler().removePathBonus(elementPath, 1.0D);
+
+        refreshRealmUnlockSkills(heldEntity, -1);
+    }
+
+    @Override
+    public void onRealmChange(
+            IEntityData entityData,
+            int oldMajorRealm,
+            int oldMinorRealm,
+            int newMajorRealm,
+            int newMinorRealm
+    ) {
+        super.onRealmChange(
+                entityData,
+                oldMajorRealm,
+                oldMinorRealm,
+                newMajorRealm,
+                newMinorRealm
+        );
+
+        refreshRealmUnlockSkills(entityData, newMajorRealm);
+    }
+
+    protected void refreshRealmUnlockSkills(IEntityData entityData, int majorRealm) {
+        if (getElementPath().equals(ModPaths.FIRE.getId())) {
+            refreshSkill(
+                    entityData,
+                    ModSkills.FIRE_SPRAY.getId(),
+                    majorRealm >= 2
+            );
+            refreshSkill(
+                    entityData,
+                    ModSkills.FLAME_TEMPERED_BODY.getId(),
+                    majorRealm >= 3
+            );
+        }
+
+        if (getElementPath().equals(ModPaths.WATER.getId())) {
+            refreshSkill(
+                    entityData,
+                    ModSkills.AQUATIC_CIRCULATION.getId(),
+                    majorRealm >= 4
+            );
+        }
+
+        if (getElementPath().equals(ModPaths.WOOD.getId())) {
+            refreshSkill(
+                    entityData,
+                    ModSkills.VERDANT_RECOVERY.getId(),
+                    majorRealm >= 3
+            );
+        }
+    }
+
+    private void refreshSkill(IEntityData entityData, ResourceLocation skillId, boolean shouldHave) {
+        if (shouldHave) {
+            if (!entityData.hasSkill(skillId)) {
+                entityData.giveSkill(skillId, ModForms.MORTAL_VESSEL.getId());
+            }
+
+            return;
+        }
+
+        if (entityData.hasSkill(skillId)) {
+            entityData.removeSkill(skillId, ModForms.MORTAL_VESSEL.getId());
+        }
     }
 
     @Override
