@@ -4,9 +4,11 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.events.skills.SkillTickManager;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
+import net.thejadeproject.ascension.refactor_packages.skills.ITickingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.body.WhiteLightningFist;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire.FireSpray;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
@@ -16,6 +18,8 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental.*;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.five_element.FiveElementCirculation;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.form_change.EnterSpiritForm;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.QiSustainedBodySkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.RegenerationBoostSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.TurbidEnergyPurgeSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.AquaticCirculationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.FlameTemperedBodySkill;
@@ -39,6 +43,12 @@ public class ModSkills {
             FiveElementCirculation::new);
     public static final DeferredHolder<ISkill,? extends FireSpray> FIRE_SPRAY = SKILLS.register("fire_spray",
             FireSpray::new);
+
+    public static final DeferredHolder<ISkill, RegenerationBoostSkill> REGENERATION_BOOST =
+            SKILLS.register("regeneration_boost", RegenerationBoostSkill::new);
+
+    public static final DeferredHolder<ISkill, QiSustainedBodySkill> QI_SUSTAINED_BODY =
+            SKILLS.register("qi_sustained_body", QiSustainedBodySkill::new);
 
 
     // White Lightning Fist Thing
@@ -82,6 +92,25 @@ public class ModSkills {
     // TODO: Wood and Metal and Lightning and Wind Skills
 
 
+
+
+    public static void registerTickingSkills() {
+        registerTickingSkill(TURBID_ENERGY_PURGE);
+        registerTickingSkill(AQUATIC_CIRCULATION);
+        registerTickingSkill(VERDANT_RECOVERY);
+        registerTickingSkill(REGENERATION_BOOST);
+        registerTickingSkill(QI_SUSTAINED_BODY);
+    }
+
+    private static void registerTickingSkill(DeferredHolder<ISkill, ? extends ISkill> skillHolder) {
+        ISkill skill = skillHolder.get();
+
+        if (skill instanceof ITickingSkill tickingSkill) {
+            SkillTickManager.register(skillHolder.getId(), tickingSkill);
+        } else {
+            throw new IllegalStateException(skillHolder.getId() + " is not an ITickingSkill.");
+        }
+    }
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);
