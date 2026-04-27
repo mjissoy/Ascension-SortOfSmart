@@ -324,6 +324,8 @@ public class AscensionCraft {
         ToolTipManager.registerAllTooltips();
         FreezingEffectItems.onCommonSetup(event);
 
+        event.enqueueWork(ModSkills::registerTickingSkills);
+
     }
 
     // Add the example block item to the building blocks tab
