@@ -4,59 +4,59 @@ import net.lucent.easygui.gui.textures.ITextureData;
 import net.lucent.easygui.gui.textures.TextureData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ElementalEssenceCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.ElementalEssenceTechnique;
-import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.WoodEssenceTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.WindEssenceTechnique;
 
-public class WoodEssenceCultivationSkill extends ElementalEssenceCultivationSkill {
+public class WindEssenceCultivationSkill extends ElementalEssenceCultivationSkill {
 
     @Override
     protected ResourceLocation getElementPath() {
-        return ModPaths.WOOD.getId();
+        return ModPaths.WIND.getId();
     }
 
     @Override
     protected double getEnvironmentMultiplier(Entity caster) {
-        int plants = countNearbyBlocks(caster, 3, this::isWoodResonantBlock);
+        int seaLevel = caster.level().getSeaLevel();
+        int heightAboveSea = caster.blockPosition().getY() - seaLevel;
+        boolean openSky = caster.level().canSeeSky(caster.blockPosition());
 
-        if (plants >= 24) {
+        if (!openSky) {
+            return 0.75D;
+        }
+
+        if (heightAboveSea >= 140) {
+            return 1.60D;
+        }
+
+        if (heightAboveSea >= 80) {
             return 1.35D;
         }
 
-        if (plants >= 8) {
+        if (heightAboveSea >= 32) {
             return 1.15D;
         }
 
-        return 0.85D;
-    }
-
-    private boolean isWoodResonantBlock(BlockState state) {
-        return state.is(BlockTags.SAPLINGS)
-                || state.is(BlockTags.LEAVES)
-                || state.is(BlockTags.LOGS)
-                || state.is(BlockTags.FLOWERS)
-                || state.is(BlockTags.CROPS);
+        return 1.00D;
     }
 
     @Override
     protected Class<? extends ElementalEssenceTechnique> getTechniqueClass() {
-        return WoodEssenceTechnique.class;
+        return WindEssenceTechnique.class;
     }
 
     @Override
     protected Component getSkillTitle() {
-        return Component.literal("Wood Essence Cultivation");
+        return Component.literal("Wind Essence Cultivation");
     }
 
     @Override
     protected Component getSkillDescription() {
         return Component.literal(
-                "Cultivates Essence through nearby plants, trees, and living growth."
+                "Cultivates Essence through open sky and high altitude. It weakens in enclosed spaces and strengthens the higher you stand beneath the wind."
         );
     }
 
@@ -65,7 +65,7 @@ public class WoodEssenceCultivationSkill extends ElementalEssenceCultivationSkil
         return new TextureData(
                 ResourceLocation.fromNamespaceAndPath(
                         AscensionCraft.MOD_ID,
-                        "textures/spells/icon/wood_essence_cultivation_skill.png"
+                        "textures/spells/icon/wind_essence_cultivation_skill.png"
                 ),
                 16,
                 16

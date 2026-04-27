@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.FiveElementCultivationTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.GenericTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.ScholarlySoulTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.WhiteLightningTenStageTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.*;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ModifierOperation;
@@ -39,18 +40,20 @@ public class ModTechniques {
 
 
 
-
-
-
     public static final DeferredHolder<ITechnique,? extends FiveElementCultivationTechnique> FIVE_ELEMENT_CIRCULATION_METHOD = TECHNIQUES.register("five_element_cultivation_technique",(
             ()->new FiveElementCultivationTechnique(testHandler)));
 
+    // White Lightning Fist Thing
+    public static final DeferredHolder<ITechnique, ? extends WhiteLightningTenStageTechnique> WHITE_LIGHTNING_TEN_STAGE_TECHNIQUE =
+            TECHNIQUES.register("white_lightning_ten_stage_technique",
+                    () -> new WhiteLightningTenStageTechnique(testHandler));
+
+    //TODO: Fix this
     public static final DeferredHolder<ITechnique, ? extends ScholarlySoulTechnique> SCHOLARLY_SOUL_TECHNIQUE =
             TECHNIQUES.register("scholarly_soul_technique",
                     () -> new ScholarlySoulTechnique(testHandler));
 
     // Basic Element/Essence Techniques
-
     public static final DeferredHolder<ITechnique, ? extends FireEssenceTechnique> FIRE_ESSENCE_TECHNIQUE =
             TECHNIQUES.register("fire_essence_technique",
                     () -> new FireEssenceTechnique(testHandler));
@@ -66,6 +69,13 @@ public class ModTechniques {
     public static final DeferredHolder<ITechnique, ? extends MetalEssenceTechnique> METAL_ESSENCE_TECHNIQUE =
             TECHNIQUES.register("metal_essence_technique",
                     () -> new MetalEssenceTechnique(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends LightningEssenceTechnique> LIGHTNING_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("lightning_essence_technique",
+                    () -> new LightningEssenceTechnique(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends WindEssenceTechnique> WIND_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("wind_essence_technique",
+                    () -> new WindEssenceTechnique(testHandler));
+
 
     public static void register(IEventBus modEventBus){
         TECHNIQUES.register(modEventBus);

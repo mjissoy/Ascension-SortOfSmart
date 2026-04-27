@@ -107,9 +107,10 @@ public class EntityQiContainer {
         currentPureQi = Math.min(regenAmount+currentPureQi, getMaxPureQi());
     }
 
-    public void tryConsumeQi(double amount){
-        //TODO
+    public boolean tryConsumeQi(double amount){
+        return true;
     }
+
     public boolean tryConsumeQi(ResourceLocation path,double amount){
         if(!path.equals(PURE_QI)){
             if(!segmentedQi.containsKey(path)) return false;
@@ -122,6 +123,7 @@ public class EntityQiContainer {
         AscensionRegistries.Paths.PATHS_REGISTRY.get(path).qiConsumed(amount,attachedEntity);
         return true;
     }
+
     public void reduceMaxConvertedQi(ResourceLocation path,double amount){
         if(!segmentedQi.containsKey(path)) return;
 
@@ -135,6 +137,7 @@ public class EntityQiContainer {
         }
         return currentPureQi;
     }
+
     public double getMaxQi(ResourceLocation path){
         if(!path.equals(PURE_QI) && segmentedQi.containsKey(path)){
             return segmentedQi.get(path).getMaxQi();

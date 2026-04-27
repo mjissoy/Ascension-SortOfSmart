@@ -4,59 +4,52 @@ import net.lucent.easygui.gui.textures.ITextureData;
 import net.lucent.easygui.gui.textures.TextureData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.events.skills.ElementalEssenceSkillEvents;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ElementalEssenceCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.ElementalEssenceTechnique;
-import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.WoodEssenceTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.LightningEssenceTechnique;
 
-public class WoodEssenceCultivationSkill extends ElementalEssenceCultivationSkill {
+public class LightningEssenceCultivationSkill extends ElementalEssenceCultivationSkill {
 
     @Override
     protected ResourceLocation getElementPath() {
-        return ModPaths.WOOD.getId();
+        return ModPaths.LIGHTNING.getId();
     }
 
     @Override
     protected double getEnvironmentMultiplier(Entity caster) {
-        int plants = countNearbyBlocks(caster, 3, this::isWoodResonantBlock);
-
-        if (plants >= 24) {
-            return 1.35D;
+        if (caster instanceof Player player && ElementalEssenceSkillEvents.hasActiveLightningBoost(player)) {
+            return 2.50D;
         }
 
-        if (plants >= 8) {
-            return 1.15D;
+        boolean stormingUnderOpenSky = caster.level().isThundering()
+                && caster.level().canSeeSky(caster.blockPosition());
+
+        if (stormingUnderOpenSky) {
+            return 1.20D;
         }
 
-        return 0.85D;
-    }
-
-    private boolean isWoodResonantBlock(BlockState state) {
-        return state.is(BlockTags.SAPLINGS)
-                || state.is(BlockTags.LEAVES)
-                || state.is(BlockTags.LOGS)
-                || state.is(BlockTags.FLOWERS)
-                || state.is(BlockTags.CROPS);
+        return 1.00D;
     }
 
     @Override
     protected Class<? extends ElementalEssenceTechnique> getTechniqueClass() {
-        return WoodEssenceTechnique.class;
+        return LightningEssenceTechnique.class;
     }
 
     @Override
     protected Component getSkillTitle() {
-        return Component.literal("Wood Essence Cultivation");
+        return Component.literal("Lightning Essence Cultivation");
     }
 
     @Override
     protected Component getSkillDescription() {
         return Component.literal(
-                "Cultivates Essence through nearby plants, trees, and living growth."
+                "Cultivates Essence through thunderous resonance. It cultivates normally at rest, faster beneath storms, and surges after being struck by lightning outside tribulations."
         );
     }
 
@@ -65,7 +58,7 @@ public class WoodEssenceCultivationSkill extends ElementalEssenceCultivationSkil
         return new TextureData(
                 ResourceLocation.fromNamespaceAndPath(
                         AscensionCraft.MOD_ID,
-                        "textures/spells/icon/wood_essence_cultivation_skill.png"
+                        "textures/spells/icon/lightning_essence_cultivation_skill.png"
                 ),
                 16,
                 16

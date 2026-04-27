@@ -10,7 +10,7 @@ public class WoodEssenceTechnique extends ElementalEssenceTechnique {
 
     public WoodEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
-                Component.literal("Earth Essence Technique"),
+                Component.literal("Wood Essence Technique"),
                 ModPaths.WOOD.getId(),
                 ModSkills.WOOD_ESSENCE_CULTIVATION_SKILL.getId(),
                 statChangeHandler

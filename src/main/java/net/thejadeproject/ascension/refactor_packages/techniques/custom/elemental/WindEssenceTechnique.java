@@ -6,26 +6,26 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.ElementalEssenceTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 
-public class MetalEssenceTechnique extends ElementalEssenceTechnique {
+public class WindEssenceTechnique extends ElementalEssenceTechnique {
 
-    public MetalEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
+    public WindEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
-                Component.literal("Metal Essence Technique"),
-                ModPaths.METAL.getId(),
-                ModSkills.METAL_ESSENCE_CULTIVATION_SKILL.getId(),
+                Component.literal("Wind Essence Technique"),
+                ModPaths.WIND.getId(),
+                ModSkills.WIND_ESSENCE_CULTIVATION_SKILL.getId(),
                 statChangeHandler
         );
     }
 
     @Override
     public Component getShortDescription() {
-        return Component.literal("Cultivates Essence through metal, ores, and natural veins.");
+        return Component.literal("Cultivates Essence through wind, air, and whirlwinds.");
     }
 
     @Override
     public Component getDescription() {
         return Component.literal(
-                "A Metal-aligned Essence technique. It cultivates slowly at rest, faster near ores, and fastest within rich mineral deposits."
+                "A wind-aligned Essence technique. It cultivates slowly at rest, faster near ores, and fastest within rich mineral deposits."
         );
     }
 

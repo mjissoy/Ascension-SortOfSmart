@@ -39,6 +39,7 @@ public class ModPhysiques {
                     .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"body"),0.5)
                     .addPathBonus(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"essence"),0.5)
             );
+
     public static final DeferredHolder<IPhysique,? extends GenericPhysique> CRIPPLE = PHYSIQUES.register("cripple",()->
             new GenericPhysique(Component.translatable("ascension.physiques.cripple"))
             );
@@ -76,11 +77,11 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.FIST.getId(), 2.2)
     );
 
-    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> SCHOLARS_SOUL = PHYSIQUES.register("scholars_soul",()->
-            new GenericPhysique(Component.translatable("ascension.physiques.scholars_soul"))
-                    .addPath(ModPaths.SOUL.getId())
-                    .addPathBonus(ModPaths.SOUL.getId(),1.5)
-    );
+//    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> SCHOLARS_SOUL = PHYSIQUES.register("scholars_soul",()->
+//            new GenericPhysique(Component.translatable("ascension.physiques.scholars_soul"))
+//                    .addPath(ModPaths.SOUL.getId())
+//                    .addPathBonus(ModPaths.SOUL.getId(),1.5)
+//    );
 
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> WORLD_DOMINATOR =
             PHYSIQUES.register("world_dominator", () ->
@@ -96,18 +97,16 @@ public class ModPhysiques {
 
                             if (heldEntity.getAttachedEntity() instanceof ServerPlayer player) {
                                 Component message = Component.translatable(
-                                                "ascension.message.physique.world_dominator.acquired",
-                                                player.getDisplayName()
-                                        )
-                                        .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.BOLD);
-
-                                player.server.getPlayerList().broadcastSystemMessage(message, false);
+                                        "ascension.message.physique.world_dominator.acquired",
+                                        player.getDisplayName().copy().withStyle(ChatFormatting.WHITE),
+                                        Component.translatable("ascension.physiques.world_dominator.bracketed")
+                                                .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.BOLD)
+                                ).withStyle(ChatFormatting.GOLD);
                             }
                         }
                     }
                             .addPath(ModPaths.BODY.getId()).addPathBonus(ModPaths.BODY.getId(), 5.0)
             );
-
 
 
 

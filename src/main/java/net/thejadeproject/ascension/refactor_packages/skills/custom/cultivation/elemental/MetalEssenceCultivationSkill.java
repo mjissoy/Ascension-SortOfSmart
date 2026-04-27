@@ -1,10 +1,13 @@
 package net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental;
 
+import net.lucent.easygui.gui.textures.ITextureData;
+import net.lucent.easygui.gui.textures.TextureData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.Tags;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ElementalEssenceCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.ElementalEssenceTechnique;
@@ -52,4 +55,17 @@ public class MetalEssenceCultivationSkill extends ElementalEssenceCultivationSki
                 "Cultivates Essence through nearby ores and condensed mineral power."
         );
     }
+
+    @Override
+    public ITextureData getIcon() {
+        return new TextureData(
+                ResourceLocation.fromNamespaceAndPath(
+                        AscensionCraft.MOD_ID,
+                        "textures/spells/icon/placeholder.png"
+                ),
+                16,
+                16
+        );
+    }
+
 }

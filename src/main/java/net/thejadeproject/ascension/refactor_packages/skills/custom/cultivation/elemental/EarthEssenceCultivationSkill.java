@@ -1,10 +1,13 @@
 package net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental;
 
+import net.lucent.easygui.gui.textures.ITextureData;
+import net.lucent.easygui.gui.textures.TextureData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ElementalEssenceCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.EarthEssenceTechnique;
@@ -24,19 +27,18 @@ public class EarthEssenceCultivationSkill extends ElementalEssenceCultivationSki
         boolean underground = caster.blockPosition().getY() < caster.level().getSeaLevel();
 
         if (onEarth && underground) {
-            return 1.45D;
+            return 1.35D;
         }
 
         if (onEarth || underground) {
-            return 1.20D;
+            return 1.0D;
         }
 
-        return 0.75D;
+        return 0.80D;
     }
 
     private boolean isEarthResonantBlock(BlockState state) {
-        return state.is(BlockTags.DIRT)
-                || state.is(BlockTags.BASE_STONE_OVERWORLD)
+        return state.is(BlockTags.BASE_STONE_OVERWORLD)
                 || state.is(BlockTags.SAND)
                 || state.is(BlockTags.TERRACOTTA);
     }
@@ -57,4 +59,18 @@ public class EarthEssenceCultivationSkill extends ElementalEssenceCultivationSki
                 "Cultivates Essence through stone, soil, depth, and grounded stillness."
         );
     }
+
+    @Override
+    public ITextureData getIcon() {
+        return new TextureData(
+                ResourceLocation.fromNamespaceAndPath(
+                        AscensionCraft.MOD_ID,
+                        "textures/spells/icon/earth_essence_cultivation_skill.png"
+                ),
+                16,
+                16
+        );
+    }
+
+
 }

@@ -7,13 +7,16 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.body.WhiteLightningFist;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire.FireSpray;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ScholarlySoulCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.WhiteLightningCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental.*;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.five_element.FiveElementCirculation;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.form_change.EnterSpiritForm;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.TurbidEnergyPurgeSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.AquaticCirculationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.FlameTemperedBodySkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.VerdantRecoverySkill;
@@ -37,8 +40,20 @@ public class ModSkills {
     public static final DeferredHolder<ISkill,? extends FireSpray> FIRE_SPRAY = SKILLS.register("fire_spray",
             FireSpray::new);
 
+
+    // White Lightning Fist Thing
+    public static final DeferredHolder<ISkill, ? extends WhiteLightningCultivationSkill> WHITE_LIGHTNING_CULTIVATION_SKILL =
+            SKILLS.register("white_lightning_cultivation_skill", WhiteLightningCultivationSkill::new);
+    public static final DeferredHolder<ISkill, ? extends TurbidEnergyPurgeSkill> TURBID_ENERGY_PURGE =
+            SKILLS.register("turbid_energy_purge", TurbidEnergyPurgeSkill::new);
+    public static final DeferredHolder<ISkill, ? extends WhiteLightningFist> WHITE_LIGHTNING_FIST =
+            SKILLS.register("white_lightning_fist", WhiteLightningFist::new);
+
+
+    //TODO: Fix this
     public static final DeferredHolder<ISkill, ? extends ScholarlySoulCultivationSkill> SCHOLARLY_SOUL_CULTIVATION_SKILL =
             SKILLS.register("scholarly_soul_cultivation_skill", ScholarlySoulCultivationSkill::new);
+
 
     // Basic Essence/Elemental Skills
         // Cultivation Skills
@@ -52,11 +67,19 @@ public class ModSkills {
             SKILLS.register("earth_essence_cultivation_skill", EarthEssenceCultivationSkill::new);
     public static final DeferredHolder<ISkill, ? extends MetalEssenceCultivationSkill> METAL_ESSENCE_CULTIVATION_SKILL =
             SKILLS.register("metal_essence_cultivation_skill", MetalEssenceCultivationSkill::new);
+
+    public static final DeferredHolder<ISkill, ? extends LightningEssenceCultivationSkill> LIGHTNING_ESSENCE_CULTIVATION_SKILL =
+            SKILLS.register("lightning_essence_cultivation_skill", LightningEssenceCultivationSkill::new);
+    public static final DeferredHolder<ISkill, ? extends WindEssenceCultivationSkill> WIND_ESSENCE_CULTIVATION_SKILL =
+            SKILLS.register("wind_essence_cultivation_skill", WindEssenceCultivationSkill::new);
+
         // Passive Skills
     public static final DeferredHolder<ISkill, ? extends FlameTemperedBodySkill> FLAME_TEMPERED_BODY = SKILLS.register("flame_tempered_body", FlameTemperedBodySkill::new);
     public static final DeferredHolder<ISkill, ? extends AquaticCirculationSkill> AQUATIC_CIRCULATION = SKILLS.register("aquatic_circulation", AquaticCirculationSkill::new);
     public static final DeferredHolder<ISkill, ? extends VerdantRecoverySkill> VERDANT_RECOVERY = SKILLS.register("verdant_recovery", VerdantRecoverySkill::new);
+    // TODO: Metal and Earth Skill
         // Active Skills
+    // TODO: Wood and Metal and Lightning and Wind Skills
 
 
 
