@@ -519,7 +519,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.ironwood_door", "Ironwood Door");
         add("block.ascension.ironwood_trapdoor", "Ironwood Trapdoor");
 
-        /** Marble */
+        /* Marble */
         add("block.ascension.raw_marble", "Marble");
         add("block.ascension.polished_marble", "Polished Marble");
         add("block.ascension.marble_bricks", "Marble Bricks");
@@ -602,7 +602,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_polished_marble", "Polished Yellow Marble");
 
 
-        /** Slabs */
+        /* Slabs */
         add("block.ascension.marble_brick_slabs", "Marble Brick Slab");
         add("block.ascension.marble_tile_slabs", "Marble Tile Slab");
         add("block.ascension.burned_marble_brick_slabs", "Black Marble Brick Slab");
@@ -636,7 +636,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_marble_brick_slabs", "Yellow Marble Brick Slab");
         add("block.ascension.yellow_marble_tile_slabs", "Yellow Marble Tile Slab");
 
-        /** Stairs */
+        /* Stairs */
         add("block.ascension.marble_brick_stairs", "Marble Brick Stair");
         add("block.ascension.marble_tile_stairs", "Marble Tile Stair");
         add("block.ascension.burned_marble_brick_stairs", "Black Marble Brick Stair");
@@ -670,7 +670,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_marble_brick_stairs", "Yellow Marble Brick Stairs");
         add("block.ascension.yellow_marble_tile_stairs", "Yellow Marble Tile Stairs");
 
-        /** Walls */
+        /* Walls */
         add("block.ascension.marble_brick_wall", "Marble Brick Wall");
         add("block.ascension.marble_tile_wall", "Marble Tile Wall");
         add("block.ascension.burned_marble_brick_wall", "Black Marble Brick Wall");
