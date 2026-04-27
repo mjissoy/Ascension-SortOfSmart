@@ -76,6 +76,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Artifacts
 
+
         basicItem(ModItems.SPIRIT_SEALING_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
@@ -125,6 +126,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.JADE_NUGGET.get());
 
 
+
         basicItem(ModItems.SPATIAL_STONE_TIER_1.get());
         basicItem(ModItems.SPATIAL_STONE_TIER_2.get());
 
@@ -134,22 +136,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.RAW_FROST_SILVER.get());
         basicItem(ModItems.FROST_SILVER_INGOT.get());
         basicItem(ModItems.FROST_SILVER_NUGGET.get());
-
-
-        //Formation Stuff
-        tokens(ModItems.FORMATION_SLIP_ACACIA.get());
-        tokens(ModItems.FORMATION_SLIP_BAMBOO.get());
-        tokens(ModItems.FORMATION_SLIP_BIRCH.get());
-        tokens(ModItems.FORMATION_SLIP_CHERRY.get());
-        tokens(ModItems.FORMATION_SLIP_CRIMSON.get());
-        tokens(ModItems.FORMATION_SLIP_DARK_OAK.get());
-        tokens(ModItems.FORMATION_SLIP_GOLDEN_PALM.get());
-        tokens(ModItems.FORMATION_SLIP_IRONWOOD.get());
-        tokens(ModItems.FORMATION_SLIP_JUNGLE.get());
-        tokens(ModItems.FORMATION_SLIP_MANGROVE.get());
-        tokens(ModItems.FORMATION_SLIP_OAK.get());
-        tokens(ModItems.FORMATION_SLIP_SPRUCE.get());
-        tokens(ModItems.FORMATION_SLIP_WARPED.get());
 
 
 

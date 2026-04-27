@@ -668,6 +668,8 @@ public class lang extends LanguageProvider {
 
 
         //Artifacts
+
+
         add("item.ascension.spatial_ring", "Spatial Ring");
         add("item.ascension.spirit_sealing_ring", "Spirit Sealing Ring");
 

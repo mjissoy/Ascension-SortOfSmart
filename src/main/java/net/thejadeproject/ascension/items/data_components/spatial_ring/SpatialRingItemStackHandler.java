@@ -22,7 +22,8 @@ public class SpatialRingItemStackHandler extends ItemStackHandler {
     protected void onContentsChanged(int slot) {
         // save back into component
         super.onContentsChanged(slot);
-
+        System.out.println("modifying slot : "+slot);
+        System.out.println("has item : "+getStackInSlot(slot));
         if(stack.has(ModDataComponents.SPIRIT_RING_DATA)){
             SpatialRingComponent component= stack.get(ModDataComponents.SPIRIT_RING_DATA);
             if(type == Type.INVENTORY){
@@ -32,7 +33,7 @@ public class SpatialRingItemStackHandler extends ItemStackHandler {
             }else if(type == Type.MODIFIERS){
                 component.addModifierItem(getStackInSlot(slot),slot);
             }
-            stack.set(ModDataComponents.SPIRIT_RING_DATA, component);//syncs
+            stack.set(ModDataComponents.SPIRIT_RING_DATA, component.copy());//syncs
         }
     }
 

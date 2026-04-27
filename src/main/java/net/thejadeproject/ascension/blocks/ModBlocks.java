@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.blocks.custom.*;
-import net.thejadeproject.ascension.blocks.custom.air.QiMembrane;
+
 import net.thejadeproject.ascension.blocks.custom.crops.GenericSlowCropBlock;
 import net.thejadeproject.ascension.blocks.custom.crops.StemSlowCropBlock;
 import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
@@ -574,17 +574,6 @@ public class ModBlocks {
                     20,    // Custom spread delay (lower = faster spread)
                     10     // Custom extinguish chance (higher = less likely to extinguish)
             ));
-    //special water block
-    public static final DeferredBlock<QiMembrane> QI_MEMBRANE =
-
-            registerBlockNoItem("qi_membrane",()->
-                    new QiMembrane(BlockBehaviour.Properties.of()
-                            .noLootTable()
-                            .strength(-1.0F, 3600000.8F)
-                            .strength(0.0F)
-                            .noOcclusion()
-
-                    ));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCK.register(name, block);
