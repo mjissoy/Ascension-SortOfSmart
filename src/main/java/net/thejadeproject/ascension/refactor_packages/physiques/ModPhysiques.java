@@ -172,7 +172,27 @@ public class ModPhysiques {
             .addPathBonus(ModPaths.BOW.getId(),1.5)
             .addPathBonus(ModPaths.ESSENCE.getId(),1.25)
     );
-
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> IRON_BULWARK_SPINE = PHYSIQUES.register("iron_bulwark_spine",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.iron_bulwark_spine"))
+            .addPath(ModPaths.SHIELD.getId())
+            .addPath(ModPaths.BODY.getId())
+            .addPathBonus(ModPaths.SHIELD.getId(),1.5)
+            .addPathBonus(ModPaths.BODY.getId(),1.25)
+    );
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> BRUISED_KNUCKLE_BODY = PHYSIQUES.register("bruised_knuckle_body",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.bruised_knuckle_body"))
+            .addPath(ModPaths.FIST.getId())
+            .addPath(ModPaths.BODY.getId())
+            .addPathBonus(ModPaths.FIST.getId(),1.5)
+            .addPathBonus(ModPaths.BODY.getId(),1.25)
+    );
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> POINTED_EYES = PHYSIQUES.register("pointed_eyes",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.pointed_eyes"))
+            .addPath(ModPaths.SPEAR.getId())
+            .addPath(ModPaths.ESSENCE.getId())
+            .addPathBonus(ModPaths.SPEAR.getId(),1.5)
+            .addPathBonus(ModPaths.ESSENCE.getId(),1.25)
+    );
 
     // Other Physiques
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> VIRTUOSO_BUDDHA = PHYSIQUES.register("virtuoso_buddha",()->
