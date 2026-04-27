@@ -4,6 +4,8 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.Simp
 
 public class FlameTemperedBodySkill extends SimplePassiveSkill {
 
+    // marker class
+
     @Override
     protected String getName() {
         return "Flame Tempered Body";

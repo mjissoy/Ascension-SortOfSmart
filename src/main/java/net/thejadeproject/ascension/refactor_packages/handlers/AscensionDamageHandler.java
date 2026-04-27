@@ -52,6 +52,8 @@ public class AscensionDamageHandler {
     public static void onAttack(AttackEntityEvent event){
 
     }
+
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onIncomingDamage(LivingIncomingDamageEvent event){
         if(event.getSource().getEntity() == null) return;
@@ -66,7 +68,6 @@ public class AscensionDamageHandler {
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onDamage(LivingDamageEvent.Pre event){
         AscensionDamageSource finalDamageSource = null;
-        System.out.println("base event damage : "+event.getNewDamage());
         if(event.getSource() instanceof AscensionDamageSource ascensionDamageSource){
             finalDamageSource = ascensionDamageSource;
         }else{
@@ -99,7 +100,6 @@ public class AscensionDamageHandler {
                 Component.empty(),
                 0
         );
-
         AscensionDamageEvent.Pre preEvent = new AscensionDamageEvent.Pre(finalDamageSource,event.getContainer(),container,event.getEntity());
         NeoForge.EVENT_BUS.post(preEvent);
         System.out.println("dealt : "+preEvent.getDamage());
@@ -109,8 +109,7 @@ public class AscensionDamageHandler {
         if(event.getSource().getEntity() != null && event.getSource().getEntity().hasData(ModAttachments.ENTITY_DATA)){
             IEntityData entityData = event.getSource().getEntity().getData(ModAttachments.ENTITY_DATA);
             for(ResourceLocation path : finalDamageSource.getPathAttributes()){
-                System.out.println("applying bonus for path "+path);
-                System.out.println("applying bonus : "+entityData.getPathBonusHandler().getPathBonus(path));
+                System.out.println();
                 event.setNewDamage((float) (event.getNewDamage()*entityData.getPathBonusHandler().getPathBonus(path)));
             }
         }

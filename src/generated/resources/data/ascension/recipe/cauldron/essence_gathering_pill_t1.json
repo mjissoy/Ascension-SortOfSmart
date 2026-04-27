@@ -1,0 +1,31 @@
+{
+  "type": "ascension:pill_cauldron_low_human",
+  "chance": 0.75,
+  "fail": {
+    "count": 1,
+    "id": "ascension:pill_residue"
+  },
+  "ideal_temp": 790,
+  "ingredients": [
+    {
+      "count": 1,
+      "item": "ascension:hundred_year_fire_ginseng"
+    },
+    {
+      "count": 1,
+      "item": "ascension:white_jade_orchid"
+    },
+    {
+      "count": 1,
+      "item": "ascension:hundred_year_snow_ginseng"
+    }
+  ],
+  "max_temp": 1236,
+  "min_temp": 672,
+  "purity_max": 100,
+  "recipe_time": 5,
+  "success": {
+    "count": 1,
+    "id": "ascension:essence_gathering_pill"
+  }
+}
