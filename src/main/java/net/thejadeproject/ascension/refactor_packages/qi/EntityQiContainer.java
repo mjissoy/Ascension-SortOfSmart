@@ -1,6 +1,7 @@
 package net.thejadeproject.ascension.refactor_packages.qi;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
