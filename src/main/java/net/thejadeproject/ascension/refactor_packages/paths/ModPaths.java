@@ -168,6 +168,13 @@ public class ModPaths {
                     .addMajorRealmName("ascension.path.shield.aura")
                     .addMajorRealmName("ascension.path.shield.unity")
     );
+    public static final DeferredHolder<IPath, ? extends GenericPath> FIST = PATHS.register("fist",()->
+            new ComprehensionPath(Component.translatable("ascension.path.fist"))
+                    .addMajorRealmName("ascension.path.fist.initiate")
+                    .addMajorRealmName("ascension.path.fist.intent")
+                    .addMajorRealmName("ascension.path.fist.aura")
+                    .addMajorRealmName("ascension.path.fist.unity")
+    );
     public static void register(IEventBus modEventBus){
         PATHS.register(modEventBus);
     }
