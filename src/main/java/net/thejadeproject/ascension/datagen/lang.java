@@ -24,7 +24,19 @@ public class lang extends LanguageProvider {
         add("ascension.path.wood","Wood");
         add("ascension.path.earth","Earth");
         add("ascension.path.metal","Metal");
+        add("ascension.path.lightning","Lightning");
+        add("ascension.path.wind","Wind");
         add("ascension.path.sword", "Sword");
+        add("ascension.path.blade", "Blade");
+        add("ascension.path.axe", "Axe");
+        add("ascension.path.spear", "Spear");
+        add("ascension.path.mace", "Mace");
+        add("ascension.path.bow", "Bow");
+        add("ascension.path.shield", "Shield");
+        add("ascension.path.trident", "Trident");
+        add("ascension.path.fist", "Fist");
+
+
         //essence
         add("ascension.path.essence.mortal", "Mortal");
         add("ascension.path.essence.qi_condensation", "Qi Condensation");
@@ -45,31 +57,163 @@ public class lang extends LanguageProvider {
         add("ascension.path.soul.gold_battle_soul", "Gold Battle Soul");
 
 
-        //fire
+        //Fire
         add("ascension.path.fire.kindling", "Kindling");
         add("ascension.path.fire.ignition", "Ignition");
         add("ascension.path.fire.true_flame", "True Flame");
         add("ascension.path.fire.origin_flame", "Origin Flame");
-        //sword
+        //Water
+        add("ascension.path.water.tidepool", "Tidepool");
+        add("ascension.path.water.current", "Current");
+        add("ascension.path.water.true_water", "True Water");
+        add("ascension.path.water.origin_water", "Origin Water");
+        //Wood
+        add("ascension.path.wood.sprout", "Sprout");
+        add("ascension.path.wood.growth", "Growth");
+        add("ascension.path.wood.true_wood", "True Wood");
+        add("ascension.path.wood.origin_wood", "Origin Wood");
+        //Earth
+        add("ascension.path.earth.pebble", "Pebble");
+        add("ascension.path.earth.stone", "Stone");
+        add("ascension.path.earth.true_earth", "True Earth");
+        add("ascension.path.earth.origin_earth", "Origin Earth");
+        //Metal
+        add("ascension.path.metal.ore", "Ore");
+        add("ascension.path.metal.ingot", "Ingot");
+        add("ascension.path.metal.true_metal", "True Metal");
+        add("ascension.path.metal.origin_metal", "Origin Metal");
+        //Wind
+        add("ascension.path.wind.gust", "Gust");
+        add("ascension.path.wind.lesser_breeze", "Lesser Breeze");
+        add("ascension.path.wind.true_wind", "True Wind");
+        add("ascension.path.wind.origin_wind", "Origin Wind");
+        //Lightning
+        add("ascension.path.lightning.spark", "Spark");
+        add("ascension.path.lightning.lesser_lightning", "Lesser Lightning");
+        add("ascension.path.lightning.true_lightning", "True Lightning");
+        add("ascension.path.lightning.origin_lightning", "Origin Lightning");
+
+        //Sword
         add("ascension.path.sword.initiate", "Initiate");
         add("ascension.path.sword.intent", "Intent");
         add("ascension.path.sword.aura", "Aura");
         add("ascension.path.sword.unity", "Unity");
+        //Axe
+        add("ascension.path.axe.initiate", "Initiate");
+        add("ascension.path.axe.intent", "Intent");
+        add("ascension.path.axe.aura", "Aura");
+        add("ascension.path.axe.unity", "Unity");
+        //Blade
+        add("ascension.path.blade.initiate", "Initiate");
+        add("ascension.path.blade.intent", "Intent");
+        add("ascension.path.blade.aura", "Aura");
+        add("ascension.path.blade.unity", "Unity");
+        //Spear
+        add("ascension.path.spear.initiate", "Initiate");
+        add("ascension.path.spear.intent", "Intent");
+        add("ascension.path.spear.aura", "Aura");
+        add("ascension.path.spear.unity", "Unity");
+        //Bow
+        add("ascension.path.bow.initiate", "Initiate");
+        add("ascension.path.bow.intent", "Intent");
+        add("ascension.path.bow.aura", "Aura");
+        add("ascension.path.bow.unity", "Unity");
+        //Trident
+        add("ascension.path.trident.initiate", "Initiate");
+        add("ascension.path.trident.intent", "Intent");
+        add("ascension.path.trident.aura", "Aura");
+        add("ascension.path.trident.unity", "Unity");
+        //Mace
+        add("ascension.path.mace.initiate", "Initiate");
+        add("ascension.path.mace.intent", "Intent");
+        add("ascension.path.mace.aura", "Aura");
+        add("ascension.path.mace.unity", "Unity");
+        //Shield
+        add("ascension.path.shield.initiate", "Initiate");
+        add("ascension.path.shield.intent", "Intent");
+        add("ascension.path.shield.aura", "Aura");
+        add("ascension.path.shield.unity", "Unity");
+        //Fist
+        add("ascension.path.fist.initiate", "Initiate");
+        add("ascension.path.fist.intent", "Intent");
+        add("ascension.path.fist.aura", "Aura");
+        add("ascension.path.fist.unity", "Unity");
+
+        //Buddhist
+        add("ascension.path.buddhist.sramana", "Sramana");
+        add("ascension.path.buddhist.arhat", "Arhat");
+        add("ascension.path.buddhist.bodhisattva", "Bodhisattva");
+        add("ascension.path.buddhist.tathagata", "Tathagata");
+        //Demonic
+        add("ascension.path.demonic.seed", "Seed");
+        add("ascension.path.demonic.heart", "Heart");
+        add("ascension.path.demonic.demon", "Demon");
+        add("ascension.path.demonic.demonic", "Demonic");
+        //Virtuous
+        add("ascension.path.virtuous.self", "Self");
+        add("ascension.path.virtuous.family", "Family");
+        add("ascension.path.virtuous.state", "State");
+        add("ascension.path.virtuous.universal", "Universal");
 
         // Physiques
         add("ascension.physiques.mortal", "Mortal Physique");
+        add("ascension.physiques.cripple", "Cripple");
         add("ascension.physiques.severed_meridians", "Severed Meridians");
         add("ascension.physiques.sword_bone", "Sword Bone");
         add("ascension.physiques.flame_touched", "Flame Touched");
+        add("ascension.physiques.tyrant_body", "Tyrant Body");
+        add("ascension.physiques.scholars_soul", "Soul of The Scholar");
+        add("ascension.physiques.stone_monkey", "Stone Monkey");
+        add("ascension.physiques.blood_fiend", "Blood Fiend");
+        add("ascension.physiques.virtuoso_buddha", "Virtuoso Buddha");
+        add("ascension.physiques.pointed_eyes", "Pointed Eyes");
+        add("ascension.physiques.bruised_knuckle_body", "Bruised Knuckle Body");
+        add("ascension.physiques.iron_bulwark_spine", "Iron Bulwark Spine");
+        add("ascension.physiques.arrow_blessed", "Arrow Blessed");
+        add("ascension.physiques.wild_cleaver_veteran", "Wild Cleaver Veteran");
+        add("ascension.physiques.thin_sword_pulse", "Thin Sword Pulse");
+        add("ascension.physiques.flow_severing_eyes", "Flow Severing Eyes");
+        add("ascension.physiques.divine_essence_bone", "Divine Essence Bone");
+        add("ascension.physiques.heavenly_essence_bone", "Heavenly Essence Bone");
+        add("ascension.physiques.special_essence_bone", "Special Essence Bone");
+        add("ascension.physiques.wind_attuned", "Wind Attuned");
+        add("ascension.physiques.lightning_attuned", "Lightning Attuned");
+        add("ascension.physiques.metal_attuned", "Metal Attuned");
+        add("ascension.physiques.wood_attuned", "Wood Attuned");
+        add("ascension.physiques.earth_attuned", "Earth Attuned");
+        add("ascension.physiques.water_attuned", "Water Attuned");
+        add("ascension.physiques.fire_attuned", "Fire Attuned");
+
+        add("ascension.physiques.world_dominator", "World Dominator.");
+        add("ascension.message.physique.world_dominator.acquired", "%s has become the %s. Bear witness to their Ascension!");
+        add("ascension.physiques.world_dominator.bracketed", "[World Dominator]");
 
 
         //Techniques
         add("ascension.technique.five_element","Five Element Circulation Method");
+        add("ascension.technique.scholarly_soul_technique","A Scholar's Soul Transcendence");
+
+
+        //Skills
 
 
         //Pill effects
         add("ascension.pill_effects.body_cultivation_pill_effect.name","Body Cultivation");
         add("ascension.pill_effects.body_cultivation_pill_effect.description","Increases Body cultivation");
+
+        //Commands
+        add("command.ascension.cultivation.info.header", "=== Cultivation Info for %s ===");
+        add("command.ascension.cultivation.info.path", "%s: Realm %d.%d");
+        add("command.ascension.cultivation.info.progress", "  Progress: %s");
+        add("command.ascension.cultivation.info.technique", "  Technique: %s");
+        add("command.ascension.cultivation.info.cultivating.yes", "  Status: Cultivating");
+        add("command.ascension.cultivation.info.cultivating.no", "  Status: Idle");
+        add("command.ascension.cultivation.info.no_paths", "No active cultivation paths.");
+        add("command.ascension.cultivation.info.physique", "Physique: %s");
+        add("command.ascension.cultivation.info.path_header", "%s — %s %d.%d");
+
+
+
 
         add("ascension.pill_effects.essence_cultivation_pill_effect.name","Essence Cultivation");
         add("ascension.pill_effects.essence_cultivation_pill_effect.description","Increases Essence cultivation");
@@ -89,11 +233,6 @@ public class lang extends LanguageProvider {
 
 
 
-        add("ascension.technique.path.essence", "§6[Essence]");
-        add("ascension.technique.path.intent", "§5[Intent]");
-        add("ascension.technique.path.body", "§c[Body]");
-
-
 
         //Advancements
         add("advancements.ascension.root.install", "Ascension Loaded");
@@ -102,24 +241,6 @@ public class lang extends LanguageProvider {
 
         //Death msgs
         add("death.attack.pill_residue", "%1$s finally learned not to eat Pill Residue leftover in the Pill Cauldron");
-
-        //Attributes & Technical Shit
-
-
-        //Items
-        add("item.ascension.formation_slip_acacia", "Formation Slip");
-        add("item.ascension.formation_slip_bamboo", "Formation Slip");
-        add("item.ascension.formation_slip_birch", "Formation Slip");
-        add("item.ascension.formation_slip_cherry", "Formation Slip");
-        add("item.ascension.formation_slip_crimson", "Formation Slip");
-        add("item.ascension.formation_slip_dark_oak", "Formation Slip");
-        add("item.ascension.formation_slip_golden_palm", "Formation Slip");
-        add("item.ascension.formation_slip_ironwood", "Formation Slip");
-        add("item.ascension.formation_slip_jungle", "Formation Slip");
-        add("item.ascension.formation_slip_mangrove", "Formation Slip");
-        add("item.ascension.formation_slip_oak", "Formation Slip");
-        add("item.ascension.formation_slip_spruce", "Formation Slip");
-        add("item.ascension.formation_slip_warped", "Formation Slip");
 
         //Tools and Swords and Armor
         add("item.ascension.wooden_blade", "Wooden Blade");
@@ -183,11 +304,6 @@ public class lang extends LanguageProvider {
 
         //Mobs
         add("entity.ascension.treasure_rat", "Treasure Rat");
-
-
-        //Villagers
-        add("entity.minecraft.villager.ascension.herbalist", "Herbalist");
-        add("entity.minecraft.villager.herbalist", "Herbalist");
 
 
         //Pills
@@ -303,9 +419,6 @@ public class lang extends LanguageProvider {
         add("item.ascension.tablet_of_destruction_earth", "Tablet of Destruction (Earth Tier)");
         add("item.ascension.tablet_of_destruction_heaven", "Tablet of Destruction (Heaven Tier)");
 
-        add("item.ascension.player_acess_token.already_linked", "This Formation Token is already linked to %s and cannot be re-linked!");
-        add("item.ascension.player_acess_token.linked", "Formation Token linked to %s");
-        add("item.ascension.player_acess_token.tooltip.linked", "Linked to: %s");
         add("ascension.tooltip.rgb.jade_slip", "Formation Identification");
         add("ascension.tooltip.rgb.rebirth_warning", "Be Cautious This Pill Resets Everything!");
 
@@ -315,47 +428,6 @@ public class lang extends LanguageProvider {
         //Poison Pills
         add("item.ascension.qi_devouring_parasite_pill", "Qi Devouring Parasite Pill");
 
-        //manuals
-
-        //Essence
-        add("item.ascension.pure_fire_technique","Pure Fire Technique");
-        add("item.ascension.pure_water_technique","Pure Water Technique");
-        add("item.ascension.pure_wood_technique","Pure Wood Technique");
-        add("item.ascension.pure_earth_technique","Pure Earth Technique");
-        add("item.ascension.pure_metal_technique","Pure Metal Technique");
-        add("item.ascension.void_swallowing_technique","Void Swallowing Technique");
-        add("item.ascension.swift_breeze_technique","Swift Breeze Technique");
-        add("item.ascension.thunder_heart_technique","Thunder Heart Technique");
-        add("item.ascension.void_walker_technique","Void Walker Technique");
-        add("item.ascension.cosmic_creation_essence_technique","Cosmic Creation Essence Technique");
-        add("item.ascension.infinite_time_essence_technique","Infinite Time Essence Technique");
-
-        //Intent
-        add("item.ascension.pure_sword_intent","Pure Sword Intent Technique");
-        add("item.ascension.pure_fist_intent","Pure Fist Intent Technique");
-        add("item.ascension.pure_axe_intent","Pure Axe Intent Technique");
-        add("item.ascension.pure_spear_intent","Pure Spear Intent Technique");
-        add("item.ascension.pure_blade_intent","Pure Blade Intent Technique");
-        add("item.ascension.fist_king_intent","Fist Kings Technique");
-        add("item.ascension.focused_strike_technique","Focused Strike Technique");
-        add("item.ascension.blade_dance_technique","Blade Dance Technique");
-        add("item.ascension.sword_saint_technique","Sword Saint Technique");
-        add("item.ascension.universe_devourer_intent_technique","Universe Devourer Intent Technique");
-        add("item.ascension.eternal_reincarnation_intent_technique","Eternal Reincarnation Intent Technique");
-
-        //Body
-
-        add("item.ascension.wood_elemental_technique","Wood Elemental Technique");
-        add("item.ascension.water_elemental_technique","Water Elemental Technique");
-        add("item.ascension.earth_elemental_technique","Earth Elemental Technique");
-        add("item.ascension.metal_elemental_technique","Metal Elemental Technique");
-        add("item.ascension.fire_elemental_technique","Fire Elemental Technique");
-        add("item.ascension.divine_phoenix_technique","Divine Phoenix Technique");
-        add("item.ascension.iron_skin_technique","Iron Skin Technique");
-        add("item.ascension.jade_bone_technique","Jade Bone Technique");
-        add("item.ascension.celestial_body_technique","Celestial Body Technique");
-        add("item.ascension.primordial_chaos_body_technique","Primordial Chaos Body Technique");
-        add("item.ascension.dragon_king_body_technique","Dragon King Body Technique");
 
 
         add("ascension.learnt_technique","You have learned the %s");
@@ -447,7 +519,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.ironwood_door", "Ironwood Door");
         add("block.ascension.ironwood_trapdoor", "Ironwood Trapdoor");
 
-        /** Marble */
+        /* Marble */
         add("block.ascension.raw_marble", "Marble");
         add("block.ascension.polished_marble", "Polished Marble");
         add("block.ascension.marble_bricks", "Marble Bricks");
@@ -530,7 +602,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_polished_marble", "Polished Yellow Marble");
 
 
-        /** Slabs */
+        /* Slabs */
         add("block.ascension.marble_brick_slabs", "Marble Brick Slab");
         add("block.ascension.marble_tile_slabs", "Marble Tile Slab");
         add("block.ascension.burned_marble_brick_slabs", "Black Marble Brick Slab");
@@ -564,7 +636,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_marble_brick_slabs", "Yellow Marble Brick Slab");
         add("block.ascension.yellow_marble_tile_slabs", "Yellow Marble Tile Slab");
 
-        /** Stairs */
+        /* Stairs */
         add("block.ascension.marble_brick_stairs", "Marble Brick Stair");
         add("block.ascension.marble_tile_stairs", "Marble Tile Stair");
         add("block.ascension.burned_marble_brick_stairs", "Black Marble Brick Stair");
@@ -598,7 +670,7 @@ public class lang extends LanguageProvider {
         add("block.ascension.yellow_marble_brick_stairs", "Yellow Marble Brick Stairs");
         add("block.ascension.yellow_marble_tile_stairs", "Yellow Marble Tile Stairs");
 
-        /** Walls */
+        /* Walls */
         add("block.ascension.marble_brick_wall", "Marble Brick Wall");
         add("block.ascension.marble_tile_wall", "Marble Tile Wall");
         add("block.ascension.burned_marble_brick_wall", "Black Marble Brick Wall");
@@ -653,6 +725,8 @@ public class lang extends LanguageProvider {
 
 
         //Artifacts
+
+
         add("item.ascension.spatial_ring", "Spatial Ring");
         add("item.ascension.spirit_sealing_ring", "Spirit Sealing Ring");
 
@@ -726,50 +800,6 @@ public class lang extends LanguageProvider {
         add("key.ascension.skill_wheel", "Skill Wheel");
 
         //CONFIG
-        add("ascension.configuration.Multipliers", "Stats Multipliers");
-        add("ascension.configuration.CultivationMultipliers", "Cultivation Multipliers");
-        add("ascension.configuration.Cultivation_Speed", "Cultivation Speed");
-        add("ascension.configuration.Minor_Cultivation_Stats_Multiplier", "Minor Cultivation Stats Multiplier");
-        add("ascension.configuration.Major_Cultivation_Stats_Multiplier", "Major Cultivation Stats Multiplier");
-        add("ascension.configuration.Flight_Realm", "Flight Realm");
-
-        add("ascension.configuration.AttributeMultipliers", "Attributes Multipliers");
-        add("ascension.configuration.Speed_Multiplier_Max", "Max Speed");
-
-        add("ascension.configuration.AttackDamageMultipliers","Attack Damage Multipliers");
-        add("ascension.configuration.minor_realm_attack_damage_increase","Minor Realm Increase");
-        add("ascension.configuration.major_realm_attack_damage_increase","Major Realm Increase");
-        add("ascension.configuration.attack_damage_applicable_realms","Applicable Realms");
-
-        add("ascension.configuration.AttackSpeedMultipliers","Attack Speed Multipliers");
-        add("ascension.configuration.minor_realm_attack_speed_increase","Minor Realm Increase");
-        add("ascension.configuration.major_realm_attack_speed_increase","Major Realm Increase");
-        add("ascension.configuration.attack_speed_applicable_realms","Applicable Realms");
-
-        add("ascension.configuration.MaxHealthMultipliers","Max Health Multipliers");
-        add("ascension.configuration.minor_realm_max_health_increase","Minor Realm Increase");
-        add("ascension.configuration.major_realm_max_health_increase","Major Realm Increase");
-        add("ascension.configuration.max_health_applicable_realms","Applicable Realms");
-
-        add("ascension.configuration.JumpStrengthMultipliers","Jump Strength Multipliers");
-        add("ascension.configuration.minor_realm_jump_strength_increase","Minor Realm Increase");
-        add("ascension.configuration.major_realm_jump_strength_increase","Major Realm Increase");
-        add("ascension.configuration.jump_strength_applicable_realms","Applicable Realms");
-
-        add("ascension.configuration.MovementSpeedMultipliers","Movement Speed Multipliers");
-        add("ascension.configuration.minor_realm_movement_speed_increase","Minor Realm Increase");
-        add("ascension.configuration.major_realm_movement_speed_increase","Major Realm Increase");
-        add("ascension.configuration.movement_speed_applicable_realms","Applicable Realms");
-
-        add("ascension.configuration.StartingPhysiqueOptions","Starting Physique Options");
-        add("ascension.configuration.intent_options","Intent Options");
-        add("ascension.configuration.body_options","Body Options");
-        add("ascension.configuration.essence_options","Essence Options");
-
-        add("ascension.configuration.CultivationModifiers","Cultivation Modifiers");
-        add("ascension.configuration.essence_path_modifier","Essence Options");
-        add("ascension.configuration.body_path_modifier","Body Options");
-        add("ascension.configuration.intent_path_modifier","Intent Options");
 
         add("ascension.configuration.PillCauldron","Pill Cauldron");
         add("ascension.configuration.heat_items","Heat Items");
@@ -839,6 +869,13 @@ public class lang extends LanguageProvider {
         add("ascension.skill.active.space_infusion.desc4", "§8• Must be cast in The End dimension§r");
         add("ascension.skill.active.space_infusion.desc5", "§8• 5-second infusion | 15s cooldown§r");
 
+        // Scholarly Pages
+        add("item.ascension.scholarly_soul_rectification_of_names", "Rectification of Names");
+        add("item.ascension.scholarly_soul_great_learning", "Great Learning");
+        add("item.ascension.scholarly_soul_thousand_commentaries", "Hundred Thousand Commentaries");
+        add("item.ascension.scholarly_soul_sage_mandate", "Mandate of the Sage");
+
+        // World Dominator
 
 
     }

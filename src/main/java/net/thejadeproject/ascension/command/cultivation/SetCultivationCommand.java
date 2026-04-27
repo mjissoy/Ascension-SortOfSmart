@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 import java.util.ArrayList;
@@ -86,7 +87,77 @@ public class SetCultivationCommand {
 
     private static int getCultivationInfo(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         ServerPlayer player = EntityArgument.getPlayer(context, "target");
-        // TODO
+        var entityData = player.getData(ModAttachments.ENTITY_DATA);
+
+        // Header
+        context.getSource().sendSuccess(() ->
+                Component.translatable("command.ascension.cultivation.info.header",
+                        player.getName().getString()), false);
+
+        // Physique display — get ID from registry key
+        IPhysique physique = entityData.getPhysique();
+        if (physique != null) {
+            ResourceLocation physiqueId = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.getKey(physique);
+            if (physiqueId != null && !physiqueId.toString().equals("minecraft:none")) {
+                Component physiqueName = Component.translatable(
+                        "ascension.physiques." + physiqueId.getPath());
+                context.getSource().sendSuccess(() ->
+                        Component.translatable("command.ascension.cultivation.info.physique",
+                                physiqueName), false);
+            }
+        }
+
+        boolean hasAnyPath = false;
+
+        // Iterate all registered paths — new paths automatically appear here
+        for (var entry : AscensionRegistries.Paths.PATHS_REGISTRY.entrySet()) {
+            ResourceLocation pathId = entry.getKey().location();
+            PathData data = entityData.getPathData(pathId);
+
+            if (data == null || data.getLastUsedTechnique() == null) continue;
+
+            hasAnyPath = true;
+            var path = entry.getValue();
+
+            // Path name from lang (e.g., ascension.path.essence)
+            Component pathName = Component.translatable(
+                    "ascension.path." + pathId.getPath());
+
+            // Realm name from the path's registered realm keys
+            Component realmName = path.getMajorRealmName(data.getMajorRealm());
+
+            // Technique name from lang (e.g., ascension.technique.basic_cultivation_technique)
+            ResourceLocation techniqueId = data.getLastUsedTechnique();
+            Component techniqueName = Component.translatable(
+                    "ascension.technique." + techniqueId.getPath());
+
+            // Path header: "Essence Path — Qi Condensation 1.3"
+            context.getSource().sendSuccess(() ->
+                    Component.translatable("command.ascension.cultivation.info.path_header",
+                            pathName, realmName, data.getMajorRealm(), data.getMinorRealm()), false);
+
+            // Technique
+            context.getSource().sendSuccess(() ->
+                    Component.translatable("command.ascension.cultivation.info.technique",
+                            techniqueName), false);
+
+            // Progress
+            context.getSource().sendSuccess(() ->
+                    Component.translatable("command.ascension.cultivation.info.progress",
+                            String.format("%.2f", data.getCurrentRealmProgress())), false);
+
+            // Status
+            context.getSource().sendSuccess(() ->
+                    Component.translatable(data.isCultivating()
+                            ? "command.ascension.cultivation.info.cultivating.yes"
+                            : "command.ascension.cultivation.info.cultivating.no"), false);
+        }
+
+        if (!hasAnyPath) {
+            context.getSource().sendSuccess(() ->
+                    Component.translatable("command.ascension.cultivation.info.no_paths"), false);
+        }
+
         return 1;
     }
 

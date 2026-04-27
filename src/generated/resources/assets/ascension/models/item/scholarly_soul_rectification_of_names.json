@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "ascension:item/scholarly_soul_rectification_of_names"
+  }
+}

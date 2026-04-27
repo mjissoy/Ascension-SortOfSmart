@@ -53,7 +53,7 @@ public class AscensionCraftClient {
 
         NeoForge.EVENT_BUS.register(FlameBarOverlay.class);
 
-        ModOverlays.register();
+        //ModOverlays.register();
     }
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID,value = Dist.CLIENT)
@@ -74,6 +74,8 @@ public class AscensionCraftClient {
 
         @SubscribeEvent
         public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+
+            event.registerEntityRenderer(ModEntities.PILL_PROJECTILE.get(), ThrownItemRenderer::new);
 
             // Floating item above each ingredient pedestal
             event.registerBlockEntityRenderer(

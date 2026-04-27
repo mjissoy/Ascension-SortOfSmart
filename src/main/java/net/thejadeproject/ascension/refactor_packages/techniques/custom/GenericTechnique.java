@@ -20,6 +20,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.util.UniversalTechniqueSkillHelper;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.IStabilityHandler;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.LnStabilityHandler;
 
@@ -75,6 +76,8 @@ public class GenericTechnique implements ITechnique {
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.giveSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
+
+        refreshUniversalTechniqueSkills(heldEntity);
     }
 
     @Override
@@ -82,10 +85,13 @@ public class GenericTechnique implements ITechnique {
         heldEntity.getPathData(getPath()).handleRealmChange(heldEntity.getPathData(getPath()).getMajorRealm(),0,heldEntity);
         if(getPath().equals(ModPaths.ESSENCE.getId())){
             heldEntity.removeSkill(ModSkills.BASIC_CULTIVATION_SKILL.getId(), ModForms.MORTAL_VESSEL.getId());
+            heldEntity.giveSkill(ModSkills.ENTER_SPIRIT_FORM.getId(),ModForms.SOUL_FORM.getId());
         }
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.removeSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
+
+        refreshUniversalTechniqueSkills(heldEntity);
     }
 
     @Override
@@ -93,6 +99,8 @@ public class GenericTechnique implements ITechnique {
         System.out.println("technique: "+AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.getKey(this).toString());
         System.out.println("realm: ("+oldMajorRealm+","+oldMinorRealm+") -> ("+newMajorRealm+","+newMinorRealm+")");
         statChangeHandler.applyChanges(entityData,this,oldMajorRealm,oldMinorRealm,newMajorRealm,newMinorRealm);
+
+        UniversalTechniqueSkillHelper.refresh(entityData, newMajorRealm);
 
         entityData.getActiveFormData().getStatSheet().log();
         entityData.getAscensionAttributeHolder().log();
@@ -105,6 +113,19 @@ public class GenericTechnique implements ITechnique {
         for (IEntityFormData formData : entityData.getFormData()){
             formData.getStatSheet().sync(serverPlayer,formData.getEntityFormId());
         }
+    }
+
+    protected void refreshUniversalTechniqueSkills(IEntityData entityData) {
+        PathData pathData = entityData.getPathData(getPath());
+
+        UniversalTechniqueSkillHelper.refresh(
+                entityData,
+                pathData == null ? 0 : pathData.getMajorRealm()
+        );
+    }
+
+    protected void clearUniversalTechniqueSkills(IEntityData entityData) {
+        UniversalTechniqueSkillHelper.refresh(entityData, -1);
     }
 
     @Override
