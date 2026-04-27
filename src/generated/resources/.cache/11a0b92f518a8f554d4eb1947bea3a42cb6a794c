@@ -1,4 +1,4 @@
-// 1.21.1	2026-04-26T11:18:17.187542	Item Models: ascension
+// 1.21.1	2026-04-27T10:22:40.3127215	Item Models: ascension
 1791abb2759450f095ddf4863d00e57e8541bf14 assets/ascension/models/item/antidote_pill_t2.json
 b1e2fa903c67397db4a8c5086b9a33130b6e7608 assets/ascension/models/item/antidote_pill_t3.json
 34dabeb5a8be2b07546251a0b1b7bf79b4730464 assets/ascension/models/item/black_iron_ingot.json
@@ -25,19 +25,6 @@ ec888e01b36fabc3bb4c793825ffaf8361baf4b0 assets/ascension/models/item/fan.json
 a7a0cfdd0338bc05cdd2bcfd788629bc35994828 assets/ascension/models/item/fasting_pill_t2.json
 5c9d7b313153f0eb76da3df42e0894407138cce3 assets/ascension/models/item/fasting_pill_t3.json
 ae6a5f2d5c0ca7e23de639f65104a8a1eb2607ff assets/ascension/models/item/flame.json
-b481e86fd377ad7ba73442d193d497665b06c78e assets/ascension/models/item/formation_slip_acacia.json
-12350753ffd9a452c7cb731d5282de5cc09a9bb3 assets/ascension/models/item/formation_slip_bamboo.json
-4325ed8dc4ee442dd6c59600173bdf3146d07c96 assets/ascension/models/item/formation_slip_birch.json
-9887a16dd2c749fb2abfd5ed6e067f5206e26739 assets/ascension/models/item/formation_slip_cherry.json
-c35a1880363747f2384c3ff7e316234b25bb2d81 assets/ascension/models/item/formation_slip_crimson.json
-287b6f50319a6ce993750d413a6e4112991d08d7 assets/ascension/models/item/formation_slip_dark_oak.json
-b222dcceca1471ae1741ff7b784961b7ec9fd847 assets/ascension/models/item/formation_slip_golden_palm.json
-8524d75b709e5c116c8fff4dc0e28f87da73872f assets/ascension/models/item/formation_slip_ironwood.json
-501d0509502bae79c232616f7afe26604a27c721 assets/ascension/models/item/formation_slip_jungle.json
-1ff3ff8bb41b33d50e357ef8e834942a54f3d762 assets/ascension/models/item/formation_slip_mangrove.json
-ccc8b04a766bf3880df497eb74c84e6f5976c97f assets/ascension/models/item/formation_slip_oak.json
-8359f35ecd4069916001626dfbec47f7d30acc5e assets/ascension/models/item/formation_slip_spruce.json
-2b58c3374928271a78f9544a996986abc4147835 assets/ascension/models/item/formation_slip_warped.json
 ac639595d71c1a885634b3e591c0f522a6be1bc2 assets/ascension/models/item/frost_silver_ingot.json
 a45ea3a13a12d6b29ea2c6dc67e288843e9d07f6 assets/ascension/models/item/frost_silver_nugget.json
 922e3b4df3ad678fc0b44e8e93d1a2891111ab36 assets/ascension/models/item/golden_palm_button.json
@@ -90,7 +77,6 @@ d444f0d2fa5e69c9b94fc7845713f61b53575a39 assets/ascension/models/item/orange_mar
 fd8380413755ee016f51bb609fd2839c0616cb46 assets/ascension/models/item/pink_marble_tile_wall.json
 a570ec5a0189fb3ab5e1aebbb03df97ef2b451c3 assets/ascension/models/item/purple_marble_brick_wall.json
 65f50d85d05bc701ae9d88ae691f6ac505ad7182 assets/ascension/models/item/purple_marble_tile_wall.json
-1a44fa2af1364b540985932ac3a3930d888d5b6e assets/ascension/models/item/qi_compass.json
 63ec6c618a3a23eab4cab9c52d7d3250de9b516e assets/ascension/models/item/rat_spawn_egg.json
 7d3ee3a2e8aeb1b97a2dc02fc170abc39347b1a8 assets/ascension/models/item/raw_black_iron.json
 1855bd7b416d745f7f0bc48085da4d4d9ccb8748 assets/ascension/models/item/raw_frost_silver.json
