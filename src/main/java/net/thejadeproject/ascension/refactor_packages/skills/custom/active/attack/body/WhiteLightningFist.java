@@ -21,6 +21,7 @@ import net.minecraft.world.phys.Vec3;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.handlers.AscensionDamageHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndData;
@@ -30,6 +31,8 @@ import net.thejadeproject.ascension.refactor_packages.skills.castable.CastType;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastData;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
+
+import java.util.HashSet;
 
 public class WhiteLightningFist implements ICastableSkill {
 
@@ -44,34 +47,6 @@ public class WhiteLightningFist implements ICastableSkill {
 
     @Override
     public boolean continueCasting(int ticksElapsed, Entity caster, ICastData castData) {
-
-        if (!(caster instanceof Player player)) return false;
-        if (!player.getMainHandItem().isEmpty()) return false;
-
-        if (!player.level().isClientSide()) {
-            LivingEntity target = findTarget(player);
-
-            if (target != null) {
-
-                float damage = BASE_DAMAGE + getBodyBonus(player);
-
-                target.hurt(
-                        player.damageSources().playerAttack(player),
-                        damage
-                );
-
-                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 0));
-                target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0));
-
-                Vec3 push = player.getViewVector(1.0F).scale(0.45D);
-                target.push(push.x, 0.12D, push.z);
-                target.hurtMarked = true;
-
-                player.swing(net.minecraft.world.InteractionHand.MAIN_HAND, true);
-                playCastEffects(player, target);
-            }
-        }
-
         return false;
     }
 
@@ -231,7 +206,42 @@ public class WhiteLightningFist implements ICastableSkill {
     @Override public void onEquip(IEntityData entityData) {}
     @Override public void onUnEquip(IEntityData entityData, IPreCastData preCastData) {}
     @Override public void finalCast(CastEndData reason, Entity caster, ICastData castData) {}
-    @Override public void initialCast(Entity caster, IPreCastData preCastData) {}
+    @Override public void initialCast(Entity caster, IPreCastData preCastData) {
+
+        if (!(caster instanceof Player player)) return;
+        if (!player.getMainHandItem().isEmpty()) return;
+
+        if (!player.level().isClientSide()) {
+            LivingEntity target = findTarget(player);
+
+            if (target != null) {
+
+                float damage = BASE_DAMAGE + getBodyBonus(player);
+                AscensionDamageHandler.AscensionDamageSource source = new AscensionDamageHandler.AscensionDamageSource(
+                        new HashSet<>(){{add(ModPaths.BODY.getId());}},
+                        target.damageSources().source(target.damageSources().magic().typeHolder().getKey(),caster)
+                );
+
+                System.out.println("dealing "+damage+"  base damage");
+                target.hurt(
+                        source,
+                        damage
+                );
+
+                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 0));
+                target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0));
+
+                Vec3 push = player.getViewVector(1.0F).scale(0.45D);
+                target.push(push.x, 0.12D, push.z);
+                target.hurtMarked = true;
+
+                player.swing(net.minecraft.world.InteractionHand.MAIN_HAND, true);
+                playCastEffects(player, target);
+            }
+        }
+
+
+    }
     @Override public void selected(IEntityData entityData) {}
     @Override public void unselected(IEntityData entityData) {}
     @Override public IPreCastData freshPreCastData() { return null; }

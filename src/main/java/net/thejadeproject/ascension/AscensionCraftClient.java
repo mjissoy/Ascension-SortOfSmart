@@ -53,7 +53,7 @@ public class AscensionCraftClient {
 
         NeoForge.EVENT_BUS.register(FlameBarOverlay.class);
 
-        //ModOverlays.register();
+        ModOverlays.register();
     }
 
     @EventBusSubscriber(modid = AscensionCraft.MOD_ID,value = Dist.CLIENT)

@@ -402,6 +402,10 @@ public class GenericEntityData implements IEntityData {
                 addPathData(path,pathData);
             }
         }
+        Map<ResourceLocation,Double> bonuses = heldFormData.get(physiqueForm).getPhysique().pathBonuses();
+        for(ResourceLocation path : bonuses.keySet()){
+            getPathBonusHandler().addPathBonus(path,bonuses.get(path));
+        }
 
         PhysiqueChangeEvent.Post event = new PhysiqueChangeEvent.Post(preEvent,heldFormData.get(physiqueForm).getPhysiqueData());
         System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
@@ -479,7 +483,7 @@ public class GenericEntityData implements IEntityData {
     //============================ CULTIVATION DATA HANDLING ==================================
     @Override
     public boolean hasPath(ResourceLocation path) {
-        return false;//TODO
+        return pathDataLocation.containsKey(path);
     }
 
     @Override
