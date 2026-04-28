@@ -23,11 +23,11 @@ public final class AscensionStatConversions {
     }
 
     public static double hostileArmorBonus(MobRankStatProfile stats) {
-        return stats.vitality() * 0.25;
+        return stats.vitality() * 0.0;
     }
 
     public static double hostileArmorToughnessBonus(MobRankStatProfile stats) {
-        return (stats.vitality() * 0.10) + (stats.strength() * 0.05);
+        return (stats.vitality() * 0.0) + (stats.strength() * 0.00);
     }
 
     public static double hostileWaterMovementBonus(MobRankStatProfile stats) {

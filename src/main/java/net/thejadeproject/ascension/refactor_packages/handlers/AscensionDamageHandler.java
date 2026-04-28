@@ -61,13 +61,7 @@ public class AscensionDamageHandler {
 
         if(!event.getSource().getEntity().hasData(ModAttachments.ENTITY_DATA)) return;
         System.out.println("dealing increased damage");
-        event.setAmount((float)event
-                .getSource()
-                .getEntity()
-                .getData(ModAttachments.ENTITY_DATA)
-                .getAscensionAttributeHolder()
-                .getAttribute(Attributes.ATTACK_DAMAGE)
-                .getValue());
+        //event.setAmount((float)event.getSource().getEntity().getData(ModAttachments.ENTITY_DATA).getAscensionAttributeHolder().getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
 
@@ -119,6 +113,7 @@ public class AscensionDamageHandler {
                 event.setNewDamage((float) (event.getNewDamage()*entityData.getPathBonusHandler().getPathBonus(path)));
             }
         }
+        System.out.println("final damage "+event.getNewDamage());
 
 
     }

@@ -21,6 +21,7 @@ import net.minecraft.world.phys.Vec3;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.handlers.AscensionDamageHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndData;
@@ -30,6 +31,8 @@ import net.thejadeproject.ascension.refactor_packages.skills.castable.CastType;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastData;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
+
+import java.util.HashSet;
 
 public class WhiteLightningFist implements ICastableSkill {
 
@@ -214,9 +217,14 @@ public class WhiteLightningFist implements ICastableSkill {
             if (target != null) {
 
                 float damage = BASE_DAMAGE + getBodyBonus(player);
+                AscensionDamageHandler.AscensionDamageSource source = new AscensionDamageHandler.AscensionDamageSource(
+                        new HashSet<>(){{add(ModPaths.BODY.getId());}},
+                        target.damageSources().source(target.damageSources().magic().typeHolder().getKey(),caster)
+                );
 
+                System.out.println("dealing "+damage+"  base damage");
                 target.hurt(
-                        player.damageSources().playerAttack(player),
+                        source,
                         damage
                 );
 
@@ -231,6 +239,8 @@ public class WhiteLightningFist implements ICastableSkill {
                 playCastEffects(player, target);
             }
         }
+
+
     }
     @Override public void selected(IEntityData entityData) {}
     @Override public void unselected(IEntityData entityData) {}

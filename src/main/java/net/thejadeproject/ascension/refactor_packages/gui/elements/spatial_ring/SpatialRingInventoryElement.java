@@ -12,7 +12,7 @@ import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventor
 import net.thejadeproject.ascension.refactor_packages.gui.elements.general.PlayerInventoryContainer;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.general.ScrollItemContainer;
 
-public class SpatialRingInventoryElement extends RenderableElement {
+public class    SpatialRingInventoryElement extends RenderableElement {
     ResourceLocation textureLocation = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/spatial_rings/spatial_ring.png");
 
     ITextureData topBgElement = new TextureDataSubsection(
