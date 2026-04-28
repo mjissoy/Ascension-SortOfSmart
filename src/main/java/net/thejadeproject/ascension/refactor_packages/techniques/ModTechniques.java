@@ -39,16 +39,14 @@ public class ModTechniques {
             new GenericTechnique(ModPaths.SWORD.getId(),Component.literal("Sword Comprehension Technique"),10.0,Set.of()));
 
 
-
     public static final DeferredHolder<ITechnique,? extends FiveElementCultivationTechnique> FIVE_ELEMENT_CIRCULATION_METHOD = TECHNIQUES.register("five_element_cultivation_technique",(
             ()->new FiveElementCultivationTechnique(testHandler)));
 
-    // White Lightning Fist Thing
     public static final DeferredHolder<ITechnique, ? extends WhiteLightningTenStageTechnique> WHITE_LIGHTNING_TEN_STAGE_TECHNIQUE =
             TECHNIQUES.register("white_lightning_ten_stage_technique",
                     () -> new WhiteLightningTenStageTechnique(testHandler));
 
-    //TODO: Fix this
+    //TODO: Fix this, the multi-part thing
     public static final DeferredHolder<ITechnique, ? extends ScholarlySoulTechnique> SCHOLARLY_SOUL_TECHNIQUE =
             TECHNIQUES.register("scholarly_soul_technique",
                     () -> new ScholarlySoulTechnique(testHandler));
@@ -75,6 +73,8 @@ public class ModTechniques {
     public static final DeferredHolder<ITechnique, ? extends WindEssenceTechnique> WIND_ESSENCE_TECHNIQUE =
             TECHNIQUES.register("wind_essence_technique",
                     () -> new WindEssenceTechnique(testHandler));
+
+    //TODO: Sharp Weapons Techniques 4, Blunt Weapons Techniques 2, Bow Technique 2, Shield Technique 2, Fist Technique 1, Buddhist Technique 1, Demonic Technique 1,
 
 
     public static void register(IEventBus modEventBus){

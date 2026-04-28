@@ -23,6 +23,7 @@ import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.handlers.AscensionDamageHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
+import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastResult;
@@ -85,17 +86,22 @@ public class WhiteLightningFist implements ICastableSkill {
         return (LivingEntity) entityHit.getEntity();
     }
 
+
     private float getBodyBonus(Player player) {
         if (!player.hasData(ModAttachments.ENTITY_DATA)) return 0.0F;
 
         IEntityData entityData = player.getData(ModAttachments.ENTITY_DATA);
 
-        if (!entityData.hasPath(ModPaths.BODY.getId())) return 0.0F;
-        if (entityData.getPathData(ModPaths.BODY.getId()) == null) return 0.0F;
+        PathData bodyData = entityData.getPathData(ModPaths.BODY.getId());
+        if (bodyData == null) return 0.0F;
 
-        int majorRealm = entityData.getPathData(ModPaths.BODY.getId()).getMajorRealm();
+        int majorRealm = bodyData.getMajorRealm();
+        int minorRealm = bodyData.getMinorRealm();
 
-        return majorRealm * 1.5F;
+        float majorBonus = (majorRealm + 1) * 1.5F;
+        float minorBonus = minorRealm * 0.15F;
+
+        return majorBonus + minorBonus;
     }
 
     private void playCastEffects(Player player, LivingEntity target) {
@@ -217,6 +223,7 @@ public class WhiteLightningFist implements ICastableSkill {
             if (target != null) {
 
                 float damage = BASE_DAMAGE + getBodyBonus(player);
+
                 AscensionDamageHandler.AscensionDamageSource source = new AscensionDamageHandler.AscensionDamageSource(
                         new HashSet<>(){{add(ModPaths.BODY.getId());}},
                         target.damageSources().source(target.damageSources().magic().typeHolder().getKey(),caster)

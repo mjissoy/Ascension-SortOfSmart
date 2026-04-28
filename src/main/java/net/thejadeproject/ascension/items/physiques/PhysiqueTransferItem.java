@@ -3,6 +3,7 @@ package net.thejadeproject.ascension.items.physiques;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -11,9 +12,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.toast.ShowAscensionToast;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
@@ -37,7 +40,6 @@ public class PhysiqueTransferItem extends Item {
                 return InteractionResultHolder.fail(stack);
             }
 
-            // Check if purity is 100%
             if (purity < 100) {
                 player.sendSystemMessage(
                         Component.literal("Cannot transfer physique: ")
@@ -49,18 +51,33 @@ public class PhysiqueTransferItem extends Item {
                 return InteractionResultHolder.fail(stack);
             }
 
+            Component physiqueName = getPhysiqueDisplayName(targetPhysiqueId);
+
+            ItemStack toastIcon = stack.copy();
+            toastIcon.setCount(1);
+
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
 
-            player.getData(ModAttachments.ENTITY_DATA).setPhysique(ResourceLocation.bySeparator(targetPhysiqueId,':'));
+            player.getData(ModAttachments.ENTITY_DATA).setPhysique(ResourceLocation.bySeparator(targetPhysiqueId, ':'));
 
-            // Send feedback message
-            player.sendSystemMessage(
-                    Component.literal("Successfully transferred to ")
-                            .append(getPhysiqueDisplayName(targetPhysiqueId))
-                            .append(Component.literal("!"))
-            );
+//            player.sendSystemMessage(
+//                    Component.literal("Successfully transferred to ")
+//                            .append(physiqueName)
+//                            .append(Component.literal("!"))
+//            );
+
+            if (player instanceof ServerPlayer serverPlayer) {
+                PacketDistributor.sendToPlayer(
+                        serverPlayer,
+                        new ShowAscensionToast(
+                                physiqueName.getString(),
+                                "Physique Transferred",
+                                toastIcon
+                        )
+                );
+            }
 
             return InteractionResultHolder.success(stack);
         }
@@ -75,21 +92,22 @@ public class PhysiqueTransferItem extends Item {
 
         if (targetPhysiqueId != null && !targetPhysiqueId.isEmpty()) {
             ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
-            IPhysique physique = null;
-            //TODO implement physique transfer
+            IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
+
             if (physique != null) {
                 Component baseName = Component.empty().append(physique.getDisplayTitle()).append(" Essence");
 
-                // Add purity to name if not 100%
                 if (purity != null && purity < 100) {
                     return baseName.copy()
                             .append(Component.literal(" [").withStyle(ChatFormatting.GRAY))
                             .append(Component.literal(purity + "%").withStyle(ChatFormatting.GOLD))
                             .append(Component.literal("]").withStyle(ChatFormatting.GRAY));
                 }
+
                 return baseName;
             }
         }
+
         return Component.literal("Essence");
     }
 
@@ -106,6 +124,7 @@ public class PhysiqueTransferItem extends Item {
 
             if (purity != null) {
                 ChatFormatting purityColor = ChatFormatting.GRAY;
+
                 if (purity >= 100) purityColor = ChatFormatting.GREEN;
                 else if (purity >= 75) purityColor = ChatFormatting.YELLOW;
                 else if (purity >= 50) purityColor = ChatFormatting.GOLD;
@@ -132,9 +151,11 @@ public class PhysiqueTransferItem extends Item {
     private Component getPhysiqueDisplayName(String targetPhysiqueId) {
         ResourceLocation physiqueResource = ResourceLocation.parse(targetPhysiqueId);
         IPhysique physique = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physiqueResource);
+
         if (physique != null) {
             return Component.empty().append(physique.getDisplayTitle()).withStyle(ChatFormatting.GOLD);
         }
+
         return Component.literal("Unknown Physique").withStyle(ChatFormatting.GRAY);
     }
 
@@ -145,7 +166,6 @@ public class PhysiqueTransferItem extends Item {
         return stack;
     }
 
-    // Check if two slips can be combined (same physique ID)
     public static boolean canCombine(ItemStack stack1, ItemStack stack2) {
         String id1 = stack1.get(ModDataComponents.PHYSIQUE_ID.get());
         String id2 = stack2.get(ModDataComponents.PHYSIQUE_ID.get());
@@ -154,7 +174,6 @@ public class PhysiqueTransferItem extends Item {
         return id1.equals(id2);
     }
 
-    // Get the resulting purity when combining two slips
     public static int getCombinedPurity(ItemStack stack1, ItemStack stack2) {
         Integer purity1 = stack1.get(ModDataComponents.PURITY.get());
         Integer purity2 = stack2.get(ModDataComponents.PURITY.get());

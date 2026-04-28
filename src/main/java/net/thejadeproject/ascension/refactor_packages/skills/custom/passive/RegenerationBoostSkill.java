@@ -21,6 +21,8 @@ public class RegenerationBoostSkill extends SimplePassiveSkill implements ITicki
         if (player.tickCount % 80 != 0) return;
         if (player.getHealth() >= player.getMaxHealth()) return;
 
+        //TODO: add scaling based on major realm
+
         player.heal(1.0F);
     }
 }
