@@ -271,7 +271,9 @@ public class AscensionCraft {
     }
 
     private void onPlayerTick(PlayerTickEvent.Pre event) {
-
+        if (!event.getEntity().level().isClientSide()) {
+            event.getEntity().getData(ModAttachments.ENTITY_DATA).tick();
+        }
     }
 
     private void onPlayerLogOut(PlayerEvent.PlayerLoggedOutEvent event){

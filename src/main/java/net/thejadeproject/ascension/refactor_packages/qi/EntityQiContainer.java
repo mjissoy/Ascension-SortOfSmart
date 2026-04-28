@@ -45,7 +45,7 @@ public class EntityQiContainer {
             current += amount;
         }
         public void setCurrentQi(double amount){
-
+            this.current = amount;
         }
         public double getCurrentQi(){return current;}
         public double getMaxQi(){return MAX;}

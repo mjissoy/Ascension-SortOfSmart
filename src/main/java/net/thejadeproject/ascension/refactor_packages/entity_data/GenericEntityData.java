@@ -725,6 +725,13 @@ public class GenericEntityData implements IEntityData {
         return entityQiContainer;
     }
 
+    @Override
+    public void tick() {
+        if (((LivingEntity) attachedEntity).tickCount % 20 == 0) {
+            entityQiContainer.tryRegenQi();
+        }
+    }
+
     //============================= ATTRIBUTES =======================================
     @Override
     public AscensionAttributeHolder getAscensionAttributeHolder() {

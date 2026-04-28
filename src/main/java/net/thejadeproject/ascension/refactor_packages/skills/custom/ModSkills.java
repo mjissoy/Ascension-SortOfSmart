@@ -10,10 +10,12 @@ import net.thejadeproject.ascension.refactor_packages.physiques.custom.GenericPh
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.attack.fire.FireSpray;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.BodyCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.five_element.FiveElementCirculation;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.form_change.EnterSpiritForm;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.qi.QiRelease;
 
 import java.util.Set;
 
@@ -25,6 +27,9 @@ public class ModSkills {
     public static final DeferredHolder<ISkill,? extends GenericCultivationSkill> BASIC_CULTIVATION_SKILL = SKILLS.register("basic_essence_cultivation_skill",
             ()->new GenericCultivationSkill(2.0,ModPaths.ESSENCE.getId()));
 
+    public static final DeferredHolder<ISkill, ? extends BodyCultivationSkill> BODY_CULTIVATION_SKILL = SKILLS.register("body_cultivation_skill",
+            BodyCultivationSkill::new);
+
     public static final DeferredHolder<ISkill,? extends SwordCultivationSkill> SWORD_CULTIVATION_SKILL = SKILLS.register("sword_cultivation_skill",
             SwordCultivationSkill::new);
     public static final DeferredHolder<ISkill,? extends EnterSpiritForm> ENTER_SPIRIT_FORM = SKILLS.register("enter_spirit_form",
@@ -34,6 +39,9 @@ public class ModSkills {
             FiveElementCirculation::new);
     public static final DeferredHolder<ISkill,? extends FireSpray> FIRE_SPRAY = SKILLS.register("fire_spray",
             FireSpray::new);
+
+    public static final DeferredHolder<ISkill,? extends QiRelease> QI_RELEASE = SKILLS.register("qi_release",
+            QiRelease::new);
 
     public static void register(IEventBus modEventBus){
         SKILLS.register(modEventBus);
