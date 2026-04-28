@@ -6,13 +6,11 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.effects.ModEffects;
+import net.thejadeproject.ascension.common.effects.ModEffects;
 import net.thejadeproject.ascension.refactor_packages.alchemy.effects.AntidotePillEffect;
 import net.thejadeproject.ascension.refactor_packages.alchemy.effects.CultivationPillEffect;
 import net.thejadeproject.ascension.refactor_packages.alchemy.effects.MobEffectPillEffect;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
-import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
-import net.thejadeproject.ascension.refactor_packages.physiques.custom.GenericPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 public class ModPillEffects {

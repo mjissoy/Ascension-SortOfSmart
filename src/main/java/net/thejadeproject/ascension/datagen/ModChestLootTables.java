@@ -15,8 +15,8 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.items.data_components.ModDataComponents;
+import net.thejadeproject.ascension.common.items.ModItems;
+import net.thejadeproject.ascension.common.items.data_components.ModDataComponents;
 
 import java.util.function.BiConsumer;
 

@@ -4,16 +4,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.loot.AddItemModifier;
-import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
-import net.thejadeproject.ascension.loot.AddPhysiqueRandomPurityModifier;
-import net.thejadeproject.ascension.loot.conditions.MobRankLootCondition;
+import net.thejadeproject.ascension.common.items.ModItems;
+import net.thejadeproject.ascension.datagen.loot.AddItemModifier;
+import net.thejadeproject.ascension.datagen.loot.AddPhysiqueRandomPurityModifier;
 
 import java.util.concurrent.CompletableFuture;
 
