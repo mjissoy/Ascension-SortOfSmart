@@ -5,7 +5,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.breakthroughs.IBreakthroughInstance;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -20,7 +19,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
-import net.thejadeproject.ascension.refactor_packages.techniques.custom.util.UniversalTechniqueSkillHelper;
+import net.thejadeproject.ascension.refactor_packages.techniques.helpers.UniversalTechniqueSkillHelper;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.IStabilityHandler;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.LnStabilityHandler;
 

@@ -11,6 +11,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.ITickingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.body.WhiteLightningFist;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire.FireSpray;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.QiFlightSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ScholarlySoulCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.SwordCultivationSkill;
@@ -24,6 +25,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.Turb
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.AquaticCirculationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.FlameTemperedBodySkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.elemental.VerdantRecoverySkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.flight.TrueFlightSkill;
 
 
 public class ModSkills {
@@ -44,11 +46,18 @@ public class ModSkills {
     public static final DeferredHolder<ISkill,? extends FireSpray> FIRE_SPRAY = SKILLS.register("fire_spray",
             FireSpray::new);
 
+    // Generally Applicable
     public static final DeferredHolder<ISkill, RegenerationBoostSkill> REGENERATION_BOOST =
             SKILLS.register("regeneration_boost", RegenerationBoostSkill::new);
 
     public static final DeferredHolder<ISkill, QiSustainedBodySkill> QI_SUSTAINED_BODY =
             SKILLS.register("qi_sustained_body", QiSustainedBodySkill::new);
+
+    public static final DeferredHolder<ISkill, TrueFlightSkill> TRUE_FLIGHT =
+            SKILLS.register("true_flight", TrueFlightSkill::new);
+
+    public static final DeferredHolder<ISkill, ? extends QiFlightSkill> AIR_STEP =
+            SKILLS.register("air_step", QiFlightSkill::new);
 
 
     // White Lightning Fist Thing
@@ -102,6 +111,7 @@ public class ModSkills {
         registerTickingSkill(VERDANT_RECOVERY);
         registerTickingSkill(REGENERATION_BOOST);
         registerTickingSkill(QI_SUSTAINED_BODY);
+        registerTickingSkill(TRUE_FLIGHT);
     }
 
     private static void registerTickingSkill(DeferredHolder<ISkill, ? extends ISkill> skillHolder) {
