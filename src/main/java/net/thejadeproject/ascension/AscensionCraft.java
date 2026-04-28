@@ -32,6 +32,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.blocks.ModBlocks;
 import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.command.cultivation.GiveSkillCommand;
 import net.thejadeproject.ascension.command.cultivation.ResetAttributesCommand;
 import net.thejadeproject.ascension.command.cultivation.SetCultivationCommand;
 
@@ -339,6 +340,7 @@ public class AscensionCraft {
     private void registerCommands(RegisterCommandsEvent event) {
         SetCultivationCommand.register(event.getDispatcher());
         ResetAttributesCommand.register(event.getDispatcher());
+        GiveSkillCommand.register(event.getDispatcher());
     }
 
 
