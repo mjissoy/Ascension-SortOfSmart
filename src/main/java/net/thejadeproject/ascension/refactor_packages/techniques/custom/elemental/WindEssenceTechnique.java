@@ -10,7 +10,7 @@ public class WindEssenceTechnique extends ElementalEssenceTechnique {
 
     public WindEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
-                Component.literal("Wind Essence Technique"),
+                Component.translatable("ascension.technique.wind_essence_technique"),
                 ModPaths.WIND.getId(),
                 ModSkills.WIND_ESSENCE_CULTIVATION_SKILL.getId(),
                 statChangeHandler

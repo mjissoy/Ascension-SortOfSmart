@@ -13,9 +13,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
 import net.thejadeproject.ascension.datagen.builders.PillCauldronRecipeBuilder;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 import net.thejadeproject.ascension.util.ModTags;
 
@@ -706,8 +706,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         // Pill Recipes
 
-
-        // Eizy give me temps and things i want to test this works....
+        // TODO: give actual heat values
         PillCauldronRecipeBuilder.lowHuman(
                         ModItems.ESSENCE_GATHERING_PILL.get(),
                         ModItems.PILL_RESIDUE.get()

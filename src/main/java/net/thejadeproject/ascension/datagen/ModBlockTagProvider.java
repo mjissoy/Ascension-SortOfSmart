@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
 import net.thejadeproject.ascension.util.ModTags;
 
 import javax.annotation.Nullable;

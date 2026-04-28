@@ -19,10 +19,10 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.blocks.custom.crops.GenericSlowCropBlock;
-import net.thejadeproject.ascension.blocks.custom.crops.StemSlowCropBlock;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.blocks.custom.crops.GenericSlowCropBlock;
+import net.thejadeproject.ascension.common.blocks.custom.crops.StemSlowCropBlock;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 import java.util.Set;
 

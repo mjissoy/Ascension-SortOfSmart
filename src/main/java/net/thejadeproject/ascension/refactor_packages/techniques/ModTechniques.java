@@ -30,25 +30,22 @@ public class ModTechniques {
             .addMinorRealmStatModifier(ModStats.AGILITY.getId(),new ValueContainerModifier(5,ModifierOperation.ADD_BASE,test));
 
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> BASIC_CULTIVATION_TECHNIQUE = TECHNIQUES.register("basic_cultivation_technique",()->
-            new GenericTechnique(ModPaths.ESSENCE.getId(),Component.literal("Basic Cultivation Technique"),2.0, Set.of())
+            new GenericTechnique(ModPaths.ESSENCE.getId(),Component.translatable("ascension.technique.basic_cultivation_technique"),2.0, Set.of())
                     .setStatChangeHandler(testHandler));
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> ADVANCED_CULTIVATION_TECHNIQUE = TECHNIQUES.register("advanced_cultivation_technique",()->
-            new GenericTechnique(ModPaths.ESSENCE.getId(),Component.literal("Advanced Cultivation Technique"),10.0,Set.of())
+            new GenericTechnique(ModPaths.ESSENCE.getId(),Component.translatable("ascension.technique.advanced_cultivation_technique"),10.0,Set.of())
                     .setStatChangeHandler(testHandler));
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> SWORD_COMPREHENSION_TECHNIQUE = TECHNIQUES.register("sword_comprehension_technique",()->
-            new GenericTechnique(ModPaths.SWORD.getId(),Component.literal("Sword Comprehension Technique"),10.0,Set.of()));
-
-
+            new GenericTechnique(ModPaths.SWORD.getId(),Component.translatable("ascension.technique.sword_comprehension_technique"),10.0,Set.of()));
 
     public static final DeferredHolder<ITechnique,? extends FiveElementCultivationTechnique> FIVE_ELEMENT_CIRCULATION_METHOD = TECHNIQUES.register("five_element_cultivation_technique",(
             ()->new FiveElementCultivationTechnique(testHandler)));
 
-    // White Lightning Fist Thing
     public static final DeferredHolder<ITechnique, ? extends WhiteLightningTenStageTechnique> WHITE_LIGHTNING_TEN_STAGE_TECHNIQUE =
             TECHNIQUES.register("white_lightning_ten_stage_technique",
                     () -> new WhiteLightningTenStageTechnique(testHandler));
 
-    //TODO: Fix this
+    //TODO: Fix this, the multi-part thing - sortofsmart
     public static final DeferredHolder<ITechnique, ? extends ScholarlySoulTechnique> SCHOLARLY_SOUL_TECHNIQUE =
             TECHNIQUES.register("scholarly_soul_technique",
                     () -> new ScholarlySoulTechnique(testHandler));
@@ -75,6 +72,25 @@ public class ModTechniques {
     public static final DeferredHolder<ITechnique, ? extends WindEssenceTechnique> WIND_ESSENCE_TECHNIQUE =
             TECHNIQUES.register("wind_essence_technique",
                     () -> new WindEssenceTechnique(testHandler));
+
+    //TODO: (roughly) Blunt Weapons Techniques 1, Fist Technique 1, Soul Techniques 4~5
+
+    // public static final DeferredHolder<ITechnique, ? extends IndestructibleVajraTechnique> INDESTRUCTIBLE_VAJRA_SCRIPTURE
+    // public static final DeferredHolder<ITechnique, ? extends AbyssDwellerTechnique> ABYSS_DWELLERS_MANUAL
+
+    // public static final DeferredHolder<ITechnique, ? extends MirageArrowTechnique> MIRAGE_ARROW_MANUAL
+    // public static final DeferredHolder<ITechnique, ? extends GreatWallTechnique> BASTION_WALL_TECHNIQUE
+    // public static final DeferredHolder<ITechnique, ? extends MortalNineSaberTechnique> NINE_BLADES_SABER
+    // public static final DeferredHolder<ITechnique, ? extends EdgeTemperingTechnique> EDGE_TEMPERING_METHOD
+    // public static final DeferredHolder<ITechnique, ? extends FallingLeafBladeTechnique> FALLING_LEAF_BLADE
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
 
 
     public static void register(IEventBus modEventBus){

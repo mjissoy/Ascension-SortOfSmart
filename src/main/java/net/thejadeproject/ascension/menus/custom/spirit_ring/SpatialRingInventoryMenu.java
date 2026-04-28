@@ -8,7 +8,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
-import net.thejadeproject.ascension.items.data_components.ModDataComponents;
+import net.thejadeproject.ascension.common.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 public class SpatialRingInventoryMenu extends AbstractContainerMenu {

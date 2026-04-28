@@ -10,7 +10,7 @@ public class LightningEssenceTechnique extends ElementalEssenceTechnique {
 
     public LightningEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
-                Component.literal("Lightning Essence Technique"),
+                Component.translatable("ascension.technique.lightning_essence_technique"),
                 ModPaths.LIGHTNING.getId(),
                 ModSkills.LIGHTNING_ESSENCE_CULTIVATION_SKILL.getId(),
                 statChangeHandler

@@ -121,6 +121,7 @@ public interface IEntityData {
     //============================= SKILL CASTING ====================================
     SkillCastHandler getSkillCastHandler();
     EntityQiContainer getQiContainer();
+    default void tick() {}
     //============================= ATTRIBUTES =======================================
     AscensionAttributeHolder getAscensionAttributeHolder();
     void setAscensionAttributeHolder(LivingEntity entity,AscensionAttributeHolder holder);

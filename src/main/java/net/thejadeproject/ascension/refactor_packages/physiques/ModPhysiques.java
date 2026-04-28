@@ -64,14 +64,6 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.FIRE.getId(),2.0)
     );
 
-    /*
-    Basic Attuned Physiques (IDK dropped by unsuspecting villagers or pillagers in like really low percentages?
-    Like the 'regular beings in the world have some a small chance of being born with a weak spirit-root' type shi that cultivation novels pull)
-    This would also lead to things like villager slaughter farms, which promotes the demonic path :0
-    And then do the same but with like body path, where instead of attuned, its like different organs (plays into flips technique idea)
-
-    But IDK if these are like too repetitive since there are already techniques...
-   */
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> FIRE_ATTUNED = PHYSIQUES.register("fire_attuned",()->
             new GenericPhysique(Component.translatable("ascension.physiques.fire_attuned"))
                     .addPath(ModPaths.ESSENCE.getId())
@@ -125,17 +117,17 @@ public class ModPhysiques {
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> ESSENCE_BONE_SPECIAL = PHYSIQUES.register("special_essence_bone",()->
             new GenericPhysique(Component.translatable("ascension.physiques.special_essence_bone"))
                     .addPath(ModPaths.ESSENCE.getId())
-                    .addPathBonus(ModPaths.ESSENCE.getId(),2.0)
+                    .addPathBonus(ModPaths.ESSENCE.getId(),3.0)
     );
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> ESSENCE_BONE_HEAVENLY = PHYSIQUES.register("heavenly_essence_bone",()->
             new GenericPhysique(Component.translatable("ascension.physiques.heavenly_essence_bone"))
                     .addPath(ModPaths.ESSENCE.getId())
-                    .addPathBonus(ModPaths.ESSENCE.getId(),3.0)
+                    .addPathBonus(ModPaths.ESSENCE.getId(),6.0)
     );
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> ESSENCE_BONE_DIVINE = PHYSIQUES.register("divine_essence_bone",()->
             new GenericPhysique(Component.translatable("ascension.physiques.divine_essence_bone"))
                     .addPath(ModPaths.ESSENCE.getId())
-                    .addPathBonus(ModPaths.ESSENCE.getId(),5.0)
+                    .addPathBonus(ModPaths.ESSENCE.getId(),10.0)
     );
 
     // Weapon Physiques
@@ -204,6 +196,7 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.BUDDHIST.getId(),2.0)
                     .addPathBonus(ModPaths.VIRTUOUS.getId(),1.0)
     );
+
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> BLOOD_FIEND = PHYSIQUES.register("blood_fiend",()->
             new GenericPhysique(Component.translatable("ascension.physiques.blood_fiend"))
                     .addPath(ModPaths.SOUL.getId())
@@ -211,13 +204,13 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.SOUL.getId(),2.0)
                     .addPathBonus(ModPaths.DEMONIC.getId(),3.0)
     );
+
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> STONE_MONKEY = PHYSIQUES.register("stone_monkey",()->
                     new GenericPhysique(Component.translatable("ascension.physiques.stone_monkey"))
                             .addPath(ModPaths.BODY.getId())
                             .addPath(ModPaths.EARTH.getId())
                             .addPathBonus(ModPaths.BODY.getId(),1.75)
-                            .addPathBonus(ModPaths.EARTH.getId(),2.0)
-            // chaos dao idk?
+                            .addPathBonus(ModPaths.EARTH.getId(),3.0)
     );
 
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> TYRANT_BODY = PHYSIQUES.register("tyrant_body",()->
@@ -228,11 +221,11 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.FIST.getId(), 2.2)
     );
 
-//    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> SCHOLARS_SOUL = PHYSIQUES.register("scholars_soul",()->
-//            new GenericPhysique(Component.translatable("ascension.physiques.scholars_soul"))
-//                    .addPath(ModPaths.SOUL.getId())
-//                    .addPathBonus(ModPaths.SOUL.getId(),1.5)
-//    );
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> ACADEMIC_SPIRIT = PHYSIQUES.register("academic_spirit",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.academic_spirit"))
+                    .addPath(ModPaths.SOUL.getId())
+                    .addPathBonus(ModPaths.SOUL.getId(),2.0)
+    );
 
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> WORLD_DOMINATOR =
             PHYSIQUES.register("world_dominator", () ->
@@ -250,7 +243,7 @@ public class ModPhysiques {
                                 Component message = Component.translatable(
                                         "ascension.message.physique.world_dominator.acquired",
                                         player.getDisplayName().copy().withStyle(ChatFormatting.WHITE),
-                                        Component.translatable("ascension.physiques.world_dominator.bracketed")
+                                        Component.translatable("ascension.physiques.world_dominator")
                                                 .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.BOLD)
                                 ).withStyle(ChatFormatting.GOLD);
 

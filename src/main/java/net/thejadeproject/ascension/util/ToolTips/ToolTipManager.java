@@ -2,7 +2,7 @@ package net.thejadeproject.ascension.util.ToolTips;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 
 public class ToolTipManager {

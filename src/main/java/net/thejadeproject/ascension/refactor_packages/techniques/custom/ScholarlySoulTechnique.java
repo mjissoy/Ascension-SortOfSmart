@@ -24,7 +24,7 @@ public class ScholarlySoulTechnique extends GenericTechnique {
     public ScholarlySoulTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
                 ModPaths.SOUL.getId(),
-                Component.literal("Scholarly Soul Technique"),
+                Component.translatable("ascension.technique.scholarly_soul_technique"),
                 BASE_RATE,
                 Set.of()
         );

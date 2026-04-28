@@ -22,7 +22,7 @@ public class WhiteLightningTenStageTechnique extends GenericTechnique {
     public WhiteLightningTenStageTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
                 ModPaths.BODY.getId(),
-                Component.literal("White Lightning Ten-Stage Technique"),
+                Component.translatable("ascension.technique.white_lightning_ten_stage_technique"),
                 2.0D,
                 Set.of(ModPaths.FIST.getId())
         );

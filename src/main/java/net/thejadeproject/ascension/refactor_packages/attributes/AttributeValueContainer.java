@@ -53,7 +53,7 @@ public class AttributeValueContainer extends ValueContainer {
                 AscensionRegistries.Stats.STATS_REGISTRY.getKey(stat),
                 stat.getDisplayName(),
                 0
-                ));
+        ));
         statMultipliers.get(stat).setBaseValue(Math.max(0,statMultipliers.get(stat).getBaseValue()+scaling));
     }
     public void removeStatScaling(Stat stat,double scaling){
@@ -86,8 +86,10 @@ public class AttributeValueContainer extends ValueContainer {
     }
     public void validateAttributeValue(){
         if(attachedEntity == null) return;
-        if(attachedEntity.getAttribute(attributeHolder)!=null && attachedEntity.getAttribute(attributeHolder).getValue() != cachedAttributeValue) {
-            cachedAttributeValue = attachedEntity.getAttribute(attributeHolder).getValue();
+        var inst = attachedEntity.getAttribute(attributeHolder);
+        double target = (inst != null) ? inst.getValue() : attributeHolder.value().getDefaultValue();
+        if(target != cachedAttributeValue) {
+            cachedAttributeValue = target;
             calculateCachedVal();
         }
     }
