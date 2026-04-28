@@ -50,6 +50,7 @@ public class GenericFormData implements IEntityFormData {
         statSheet.addStat(ModStats.VITALITY.get(),5);
         statSheet.addStat(ModStats.AGILITY.get(),5);
         statSheet.addStat(ModStats.STRENGTH.get(),5);
+        statSheet.addStat(ModStats.INTELLIGENCE.get(),5);
     }
 
     @Override

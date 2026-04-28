@@ -26,125 +26,42 @@ import java.util.HashMap;
  */
 public class EntityQiContainer {
 
-    public static class QiSegment{
-        private double MAX;
-        private double current;
-        private final ResourceLocation path;
-        public QiSegment(ResourceLocation path,double max) {
-            this.MAX = max;
-            this.current = max;
-            this.path = path;
-        }
-        public double getMaxPureQiEquivalent(){
-            return AscensionRegistries.Paths.PATHS_REGISTRY.get(path).getQiConversionRatio()*MAX;
-        }
-        public double getPureQiEquivalent(){
-            return AscensionRegistries.Paths.PATHS_REGISTRY.get(path).getQiConversionRatio()*current;
-        }
-        public void addConvertedQi(double amount){
-            MAX += amount;
-            current += amount;
-        }
-        public void setCurrentQi(double amount){
 
-        }
-        public double getCurrentQi(){return current;}
-        public double getMaxQi(){return MAX;}
-    }
-
-
-    public static final ResourceLocation PURE_QI = ModPaths.ESSENCE.getId();
-    private double currentPureQi;
+    private double currentQi;
     private IEntityData attachedEntity;
-
-
-    private HashMap<ResourceLocation,QiSegment> segmentedQi = new HashMap<>();
 
     public EntityQiContainer(IEntityData attachedEntity){
         this.attachedEntity = attachedEntity;
 
     }
     public void fullFillQi(){
-        for(QiSegment segment : segmentedQi.values()){
-            segment.setCurrentQi(segment.getMaxQi());
-        }
-        currentPureQi = getMaxPureQi();
+        currentQi = getMaxQi();
     }
-    public double getMaxPureQi(){
-        double maxQi = attachedEntity.getAscensionAttributeHolder().getAttribute(ModAttributes.MAX_QI).getValue();
-        for(QiSegment segment : segmentedQi.values()){
-            maxQi -= segment.getPureQiEquivalent();
-        }
-        return maxQi;
-    }
-    public double getPureQiEquivalent(ResourceLocation path,double amount){
-        return AscensionRegistries.Paths.PATHS_REGISTRY.get(path).getQiConversionRatio()*amount;
-    }
-    public boolean tryConvertQi(ResourceLocation path,double amount){
-        double maxQi = getMaxPureQi();
-        if(maxQi<getPureQiEquivalent(path,amount)) return false;
 
-        if(segmentedQi.containsKey(path))segmentedQi.get(path).addConvertedQi(amount);
-        else segmentedQi.put(path,new QiSegment(path,amount));
+    public double getMaxQi(){
+        return attachedEntity.getAscensionAttributeHolder().getAttribute(ModAttributes.MAX_QI).getValue();
+    }
 
-        currentPureQi = Math.max(0,currentPureQi-getPureQiEquivalent(path,amount));
-        return true;
+    public double getCurrentQi(){
+        return currentQi;
     }
 
     public void tryRegenQi(){
         double regenRate = attachedEntity.getAscensionAttributeHolder().getAttribute(ModAttributes.QI_REGEN_RATE).getValue();
-        for(QiSegment segment : segmentedQi.values()){
-
-            IPath path = AscensionRegistries.Paths.PATHS_REGISTRY.get(segment.path);
-            double regenAmount = regenRate
-                    *(1/path.getQiConversionRatio())
-                    *attachedEntity.getPathBonusHandler().getPathBonus(segment.path);
-            regenAmount = path.tryRegenQi(regenAmount,attachedEntity);
-            segment.setCurrentQi(Math.min(segment.current+regenAmount,segment.MAX));
-
-        }
-        IPath essence = AscensionRegistries.Paths.PATHS_REGISTRY.get(PURE_QI);
-        double regenAmount = regenRate*attachedEntity.getPathBonusHandler().getPathBonus(PURE_QI);
-        currentPureQi = Math.min(regenAmount+currentPureQi, getMaxPureQi());
+        currentQi = Math.max(currentQi+regenRate,getMaxQi());
     }
 
     public boolean tryConsumeQi(double amount){
+        if(currentQi-amount <0) return false;
+        currentQi -= amount;
         return true;
     }
 
-    public boolean tryConsumeQi(ResourceLocation path,double amount){
-        if(!path.equals(PURE_QI)){
-            if(!segmentedQi.containsKey(path)) return false;
-            if(segmentedQi.get(path).current < amount)return false;
-            segmentedQi.get(path).current -= amount;
-        }else{
-            if(currentPureQi < amount) return false;
-            currentPureQi -= amount;
-        }
-        AscensionRegistries.Paths.PATHS_REGISTRY.get(path).qiConsumed(amount,attachedEntity);
-        return true;
-    }
 
-    public void reduceMaxConvertedQi(ResourceLocation path,double amount){
-        if(!segmentedQi.containsKey(path)) return;
 
-        segmentedQi.get(path).addConvertedQi(amount);
-        if(segmentedQi.get(path).getMaxQi() <=0) segmentedQi.remove(path);
-    }
 
-    public double getCurrentQi(ResourceLocation path){
-        if(!path.equals(PURE_QI) && segmentedQi.containsKey(path)){
-            return segmentedQi.get(path).getCurrentQi();
-        }
-        return currentPureQi;
-    }
 
-    public double getMaxQi(ResourceLocation path){
-        if(!path.equals(PURE_QI) && segmentedQi.containsKey(path)){
-            return segmentedQi.get(path).getMaxQi();
-        }
-        return getMaxPureQi();
-    }
+
 
 
 }
