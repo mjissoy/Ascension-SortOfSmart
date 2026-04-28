@@ -23,6 +23,7 @@ public final class MobRankList {
             "earth_immortal"
     };
 
+
     private static final int STAGES_PER_REALM = 3;
 
 

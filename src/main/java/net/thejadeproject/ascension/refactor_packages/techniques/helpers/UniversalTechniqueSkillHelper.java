@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.refactor_packages.techniques.custom.util;
+package net.thejadeproject.ascension.refactor_packages.techniques.helpers;
 
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -8,7 +8,9 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
 public final class UniversalTechniqueSkillHelper {
 
     private static final int REGENERATION_UNLOCK_REALM = 2;
+    private static final int QI_FLIGHT_UNLOCK_REALM = 2;
     private static final int QI_SUSTAINED_UNLOCK_REALM = 3;
+    private static final int TRUE_FLIGHT_UNLOCK_REALM = 4;
 
     private UniversalTechniqueSkillHelper() {
     }
@@ -24,6 +26,18 @@ public final class UniversalTechniqueSkillHelper {
                 entityData,
                 ModSkills.QI_SUSTAINED_BODY.getId(),
                 majorRealm >= QI_SUSTAINED_UNLOCK_REALM
+        );
+
+        refreshSkill(
+                entityData,
+                ModSkills.TRUE_FLIGHT.getId(),
+                majorRealm >= TRUE_FLIGHT_UNLOCK_REALM
+        );
+
+        refreshSkill(
+                entityData,
+                ModSkills.AIR_STEP.getId(),
+                majorRealm >= QI_FLIGHT_UNLOCK_REALM
         );
     }
 

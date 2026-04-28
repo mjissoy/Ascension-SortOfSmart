@@ -80,7 +80,6 @@ public final class MobRankResolver {
         );
     }
 
-
     private static String mapPathMajorRealmToMobRealm(int majorRealm) {
         return switch (majorRealm) {
             case 0 -> "mortal";

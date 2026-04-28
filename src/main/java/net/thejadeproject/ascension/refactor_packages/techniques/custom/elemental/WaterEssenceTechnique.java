@@ -10,7 +10,7 @@ public class WaterEssenceTechnique extends ElementalEssenceTechnique {
 
     public WaterEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
-                Component.literal("Water Essence Technique"),
+                Component.translatable("ascension.technique.water_essence_technique"),
                 ModPaths.WATER.getId(),
                 ModSkills.WATER_ESSENCE_CULTIVATION_SKILL.getId(),
                 statChangeHandler

@@ -64,14 +64,6 @@ public class ModPhysiques {
                     .addPathBonus(ModPaths.FIRE.getId(),2.0)
     );
 
-    /*
-    Basic Attuned Physiques (IDK dropped by unsuspecting villagers or pillagers in like really low percentages?
-    Like the 'regular beings in the world have some a small chance of being born with a weak spirit-root' type shi that cultivation novels pull)
-    This would also lead to things like villager slaughter farms, which promotes the demonic path :0
-    And then do the same but with like body path, where instead of attuned, its like different organs (plays into flips technique idea)
-
-    But IDK if these are like too repetitive since there are already techniques...
-   */
     public static final DeferredHolder<IPhysique, ? extends GenericPhysique> FIRE_ATTUNED = PHYSIQUES.register("fire_attuned",()->
             new GenericPhysique(Component.translatable("ascension.physiques.fire_attuned"))
                     .addPath(ModPaths.ESSENCE.getId())

@@ -14,16 +14,17 @@ import net.thejadeproject.ascension.AscensionCraft;
 public class AscensionToast implements Toast {
 
     private static final ResourceLocation BACKGROUND =
-            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "toast/ascension");
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "toast/ascension_toast");
 
-    private static final long DISPLAY_TIME = 7500L;
+    private static final long DISPLAY_TIME = 5000L;
 
-    private static final int WIDTH = 180;
+    private static final int WIDTH = 190;
     private static final int HEIGHT = 32;
 
     private static final int TEXT_X = 30;
 
-    private static final float MESSAGE_SCALE = 0.85F;
+    private static final float TITLE_SCALE = 0.90F;
+    private static final float MESSAGE_SCALE = 0.80F;
 
     private final Component title;
     private final Component message;
@@ -44,14 +45,19 @@ public class AscensionToast implements Toast {
 
         guiGraphics.renderFakeItem(icon, 8, 8);
 
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().scale(TITLE_SCALE, TITLE_SCALE, 1.0F);
+
         guiGraphics.drawString(
                 font,
                 title.copy().withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD),
-                TEXT_X,
-                7,
+                (int) (TEXT_X / TITLE_SCALE),
+                (int) (7 / TITLE_SCALE),
                 0xFFFFFF,
                 false
         );
+
+        guiGraphics.pose().popPose();
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(MESSAGE_SCALE, MESSAGE_SCALE, 1.0F);

@@ -10,7 +10,7 @@ public class MetalEssenceTechnique extends ElementalEssenceTechnique {
 
     public MetalEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
-                Component.literal("Metal Essence Technique"),
+                Component.translatable("ascension.technique.metal_essence_technique"),
                 ModPaths.METAL.getId(),
                 ModSkills.METAL_ESSENCE_CULTIVATION_SKILL.getId(),
                 statChangeHandler
