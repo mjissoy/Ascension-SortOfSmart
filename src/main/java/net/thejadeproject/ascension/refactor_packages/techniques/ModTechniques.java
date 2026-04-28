@@ -2,7 +2,6 @@ package net.thejadeproject.ascension.refactor_packages.techniques;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -15,6 +14,9 @@ import net.thejadeproject.ascension.refactor_packages.techniques.custom.Combined
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.FiveElementBodyTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.FiveElementCultivationTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.GenericTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.ScholarlySoulTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.WhiteLightningTenStageTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.*;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ModifierOperation;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
@@ -38,9 +40,15 @@ public class ModTechniques {
 
     // --- Essence/Sword placeholder handler (unchanged) ---
     public static BasicStatChangeHandler testHandler = new BasicStatChangeHandler()
+            .addMinorRealmStatModifier(ModStats.VITALITY.getId(),new ValueContainerModifier(2, ModifierOperation.ADD_BASE, test))
+            .addMajorRealmStatModifier(ModStats.VITALITY.getId(),new ValueContainerModifier(0.2,ModifierOperation.MULTIPLY_FINAL,test))
+            .addMinorRealmStatModifier(ModStats.AGILITY.getId(),new ValueContainerModifier(5,ModifierOperation.ADD_BASE,test));
+
+    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> BASIC_CULTIVATION_TECHNIQUE = TECHNIQUES.register("basic_cultivation_technique",()->
+            new GenericTechnique(ModPaths.ESSENCE.getId(),Component.translatable("ascension.technique.basic_cultivation_technique"),2.0, Set.of())
             .addMinorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(2, ModifierOperation.ADD_BASE, test))
             .addMajorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(0.2, ModifierOperation.MULTIPLY_FINAL, test))
-            .addMinorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(5, ModifierOperation.ADD_BASE, test));
+            .addMinorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(5, ModifierOperation.ADD_BASE, test)));
 
     // --- Single-element body technique handlers ---
     // Fire: Vitality + Strength focus, max health
@@ -115,6 +123,8 @@ public class ModTechniques {
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> ADVANCED_CULTIVATION_TECHNIQUE = TECHNIQUES.register("advanced_cultivation_technique", () ->
             new GenericTechnique(ModPaths.ESSENCE.getId(), Component.literal("Advanced Cultivation Technique"), 10.0, Set.of())
                     .setStatChangeHandler(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> SWORD_COMPREHENSION_TECHNIQUE = TECHNIQUES.register("sword_comprehension_technique",()->
+            new GenericTechnique(ModPaths.SWORD.getId(),Component.translatable("ascension.technique.sword_comprehension_technique"),10.0,Set.of()));
 
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> SWORD_COMPREHENSION_TECHNIQUE = TECHNIQUES.register("sword_comprehension_technique", () ->
             new GenericTechnique(ModPaths.SWORD.getId(), Component.literal("Sword Comprehension Technique"), 10.0, Set.of()));
@@ -211,7 +221,62 @@ public class ModTechniques {
         TECHNIQUES.register("water_wood_fire_earth_body_technique", () ->
             new CombinedBodyElementTechnique(Component.literal("Smoldering Grove Method"), 12.0, Set.of(ModPaths.WATER.getId(), ModPaths.WOOD.getId(), ModPaths.FIRE.getId(), ModPaths.EARTH.getId()), tier4BodyHandler));
 
-    public static void register(IEventBus modEventBus) {
+    public static final DeferredHolder<ITechnique, ? extends WhiteLightningTenStageTechnique> WHITE_LIGHTNING_TEN_STAGE_TECHNIQUE =
+            TECHNIQUES.register("white_lightning_ten_stage_technique",
+                    () -> new WhiteLightningTenStageTechnique(testHandler));
+
+    //TODO: Fix this, the multi-part thing - sortofsmart
+    public static final DeferredHolder<ITechnique, ? extends ScholarlySoulTechnique> SCHOLARLY_SOUL_TECHNIQUE =
+            TECHNIQUES.register("scholarly_soul_technique",
+                    () -> new ScholarlySoulTechnique(testHandler));
+
+    // Basic Element/Essence Techniques
+    public static final DeferredHolder<ITechnique, ? extends FireEssenceTechnique> FIRE_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("fire_essence_technique",
+                    () -> new FireEssenceTechnique(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends WaterEssenceTechnique> WATER_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("water_essence_technique",
+                    () -> new WaterEssenceTechnique(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends WoodEssenceTechnique> WOOD_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("wood_essence_technique",
+                    () -> new WoodEssenceTechnique(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends EarthEssenceTechnique> EARTH_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("earth_essence_technique",
+                    () -> new EarthEssenceTechnique(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends MetalEssenceTechnique> METAL_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("metal_essence_technique",
+                    () -> new MetalEssenceTechnique(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends LightningEssenceTechnique> LIGHTNING_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("lightning_essence_technique",
+                    () -> new LightningEssenceTechnique(testHandler));
+    public static final DeferredHolder<ITechnique, ? extends WindEssenceTechnique> WIND_ESSENCE_TECHNIQUE =
+            TECHNIQUES.register("wind_essence_technique",
+                    () -> new WindEssenceTechnique(testHandler));
+
+    //TODO: (roughly) Blunt Weapons Techniques 1, Fist Technique 1, Soul Techniques 4~5
+
+    // public static final DeferredHolder<ITechnique, ? extends IndestructibleVajraTechnique> INDESTRUCTIBLE_VAJRA_SCRIPTURE
+    // public static final DeferredHolder<ITechnique, ? extends AbyssDwellerTechnique> ABYSS_DWELLERS_MANUAL
+
+    // public static final DeferredHolder<ITechnique, ? extends MirageArrowTechnique> MIRAGE_ARROW_MANUAL
+    // public static final DeferredHolder<ITechnique, ? extends GreatWallTechnique> BASTION_WALL_TECHNIQUE
+    // public static final DeferredHolder<ITechnique, ? extends MortalNineSaberTechnique> NINE_BLADES_SABER
+    // public static final DeferredHolder<ITechnique, ? extends EdgeTemperingTechnique> EDGE_TEMPERING_METHOD
+    // public static final DeferredHolder<ITechnique, ? extends FallingLeafBladeTechnique> FALLING_LEAF_BLADE
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+    // public static final DeferredHolder<ITechnique, ? extends >
+
+
+    public static void register(IEventBus modEventBus){
+    }
+
+     static void register(IEventBus modEventBus) {
         TECHNIQUES.register(modEventBus);
     }
 }

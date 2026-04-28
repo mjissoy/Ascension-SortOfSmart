@@ -12,8 +12,8 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 import java.util.Objects;
 
@@ -77,6 +77,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Artifacts
 
 
+        basicItem(ModItems.SPATIAL_RING.get());
         basicItem(ModItems.SPIRIT_SEALING_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
@@ -124,7 +125,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         //Items
         basicItem(ModItems.JADE.get());
         basicItem(ModItems.JADE_NUGGET.get());
-
 
 
         basicItem(ModItems.SPATIAL_STONE_TIER_1.get());
@@ -175,8 +175,17 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.CLEANSING_PILL_T4.get());
 
 
-        pills(ModItems.ANTIDOTE_PILL_T2.get());
-        pills(ModItems.ANTIDOTE_PILL_T3.get());
+
+        pills(ModItems.ESSENCE_GATHERING_PILL.get());
+        pills(ModItems.SOUL_FOCUS_PILL.get());
+        pills(ModItems.INNER_REINFORCEMENT_PILL.get());
+
+
+        pills(ModItems.ANTIDOTE_PILL_QDP.get());
+
+
+
+        pills(ModItems.QI_DEVOURING_PARASITE_PILL.get());
 
 
 
@@ -212,6 +221,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //MobEggs
         withExistingParent(ModItems.RAT_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+
+        // Scholarly Pages
+        basicItem(ModItems.SCHOLARLY_SOUL_RECTIFICATION_OF_NAMES.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_GREAT_LEARNING.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_THOUSAND_COMMENTARIES.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_SAGE_MANDATE.get());
 
 
 

@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.data_attachments;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -10,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.attachments.PlayerInputStates;
+import net.thejadeproject.ascension.mob_ranks.MobRankData;
 import net.thejadeproject.ascension.refactor_packages.entity_data.EntityDataProvider;
 import net.thejadeproject.ascension.refactor_packages.entity_data.GenericEntityData;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -32,6 +34,13 @@ public class ModAttachments {
             ()->AttachmentType.<IEntityData>builder((holder) -> holder instanceof Entity entity ? new GenericEntityData(entity):null)
                     .serialize(new EntityDataProvider())
                     .copyOnDeath()
+                    .build()
+    );
+
+    public static final Supplier<AttachmentType<MobRankData>> MOB_RANK = ATTACHMENT_TYPES.register(
+            "mob_rank",
+            () -> AttachmentType.builder(holder -> holder instanceof LivingEntity ? new MobRankData() : null)
+                    .serialize(MobRankData.CODEC)
                     .build()
     );
 

@@ -147,7 +147,9 @@ public interface IEntityData {
         holder.getAttribute(Attributes.WATER_MOVEMENT_EFFICIENCY).addStatScaling(ModStats.AGILITY.get(),0.5); //50% of agility
 
         holder.addAttribute(ModAttributes.MAX_QI,Component.literal("Max Qi"));
+        holder.getAttribute(ModAttributes.MAX_QI).addStatScaling(ModStats.INTELLIGENCE.get(),10);
         holder.addAttribute(ModAttributes.QI_REGEN_RATE,Component.literal("Qi Regen Rate"));
+        holder.getAttribute(ModAttributes.QI_REGEN_RATE).addStatScaling(ModStats.INTELLIGENCE.get(),0.01);
         holder.updateAttributes(this);
         //if(entity.getAttribute(Attributes.MOVEMENT_SPEED) != null) entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.0);
     }

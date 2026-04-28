@@ -2,7 +2,7 @@ package net.thejadeproject.ascension.util.ToolTips;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 
 public class ToolTipManager {
@@ -24,8 +24,8 @@ public class ToolTipManager {
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T2.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★☆☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.FASTING_PILL_T3.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
 
-        ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T2.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
-        ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_T3.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+        ToolTipHandler.registerTooltip(ModItems.ANTIDOTE_PILL_QDP.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★★").withStyle(ChatFormatting.YELLOW));
+
 
         ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL_T1.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★☆☆").withStyle(ChatFormatting.YELLOW));
         ToolTipHandler.registerTooltip(ModItems.CLEANSING_PILL_T2.get(), Component.translatable("ascension.tooltip.medicinal").withStyle(ChatFormatting.RED), Component.literal("★★★★☆").withStyle(ChatFormatting.YELLOW));

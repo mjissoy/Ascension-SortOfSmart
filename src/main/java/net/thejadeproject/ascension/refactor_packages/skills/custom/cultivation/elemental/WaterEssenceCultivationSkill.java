@@ -1,0 +1,59 @@
+package net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.elemental;
+
+import net.lucent.easygui.gui.textures.ITextureData;
+import net.lucent.easygui.gui.textures.TextureData;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.ElementalEssenceCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.ElementalEssenceTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental.WaterEssenceTechnique;
+
+public class WaterEssenceCultivationSkill extends ElementalEssenceCultivationSkill {
+
+    @Override
+    protected ResourceLocation getElementPath() {
+        return ModPaths.WATER.getId();
+    }
+
+    @Override
+    protected double getEnvironmentMultiplier(Entity caster) {
+        if (caster.isUnderWater()) {
+            return 1.30D;
+        }
+
+        return 0.80D;
+    }
+
+    @Override
+    protected Class<? extends ElementalEssenceTechnique> getTechniqueClass() {
+        return WaterEssenceTechnique.class;
+    }
+
+    @Override
+    protected Component getSkillTitle() {
+        return Component.literal("Water Essence Cultivation");
+    }
+
+    @Override
+    protected Component getSkillDescription() {
+        return Component.literal(
+                "Cultivates Essence through water. 80% base speed and 130% while submerged in water."
+        );
+    }
+
+    @Override
+    public ITextureData getIcon() {
+        return new TextureData(
+                ResourceLocation.fromNamespaceAndPath(
+                        AscensionCraft.MOD_ID,
+                        "textures/spells/icon/water_essence_cultivation_skill.png"
+                ),
+                16,
+                16
+        );
+    }
+
+}

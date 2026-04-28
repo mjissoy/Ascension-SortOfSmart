@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.data.AdvancementProvider; // Correct import
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

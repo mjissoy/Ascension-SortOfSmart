@@ -7,9 +7,9 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.thejadeproject.ascension.items.data_components.ModDataComponents;
-import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.items.techniques.TechniqueTransferItem;
+import net.thejadeproject.ascension.common.items.data_components.ModDataComponents;
+import net.thejadeproject.ascension.common.items.ModItems;
+import net.thejadeproject.ascension.common.items.techniques.TechniqueTransferItem;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 public class CreativeTabHandler {

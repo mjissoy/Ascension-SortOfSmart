@@ -12,7 +12,7 @@ import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventor
 import net.thejadeproject.ascension.refactor_packages.gui.elements.general.PlayerInventoryContainer;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.general.ScrollItemContainer;
 
-public class SpatialRingInventoryElement extends RenderableElement {
+public class    SpatialRingInventoryElement extends RenderableElement {
     ResourceLocation textureLocation = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/spatial_rings/spatial_ring.png");
 
     ITextureData topBgElement = new TextureDataSubsection(
@@ -43,8 +43,8 @@ public class SpatialRingInventoryElement extends RenderableElement {
         //TODO add spirit ring inventory
         int startSlot = 36;
         int totalSlots = menu.getSpatialRingInventorySlots();
-        ScrollItemContainer spatialRingItemContainer = new ScrollItemContainer(frame,3,startSlot,startSlot+totalSlots-1);
-        extraRows = Math.min((spatialRingItemContainer.getHeight() - 18) / 18, 3);
+        ScrollItemContainer spatialRingItemContainer = new ScrollItemContainer(frame,6,startSlot,startSlot+totalSlots-1);
+        extraRows = Math.min((spatialRingItemContainer.getHeight() - 18) / 18, 5);
 
         spatialRingItemContainer.getPositioning().setY(17);
         spatialRingItemContainer.getPositioning().setX(7);

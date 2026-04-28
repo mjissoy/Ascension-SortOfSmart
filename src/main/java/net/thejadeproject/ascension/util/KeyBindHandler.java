@@ -18,8 +18,8 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 
-import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionEarth;
-import net.thejadeproject.ascension.items.artifacts.TabletOfDestructionHeaven;
+import net.thejadeproject.ascension.common.items.artifacts.TabletOfDestructionEarth;
+import net.thejadeproject.ascension.common.items.artifacts.TabletOfDestructionHeaven;
 
 import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
 import net.thejadeproject.ascension.particle.ModParticles;

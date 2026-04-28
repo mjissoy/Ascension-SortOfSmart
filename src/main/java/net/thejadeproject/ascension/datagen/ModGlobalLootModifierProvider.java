@@ -8,10 +8,9 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.loot.AddItemModifier;
-import net.thejadeproject.ascension.loot.AddPhysiqueItemModifier;
-import net.thejadeproject.ascension.loot.AddPhysiqueRandomPurityModifier;
+import net.thejadeproject.ascension.common.items.ModItems;
+import net.thejadeproject.ascension.datagen.loot.AddItemModifier;
+import net.thejadeproject.ascension.datagen.loot.AddPhysiqueRandomPurityModifier;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -385,6 +384,38 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         this.add("undead_core_from_wither", new AddItemModifier(new LootItemCondition[] {
                 new LootTableIdCondition.Builder(ResourceLocation.withDefaultNamespace("entities/wither")).build(),
                 LootItemRandomChanceCondition.randomChance(0.29F).build()}, ModItems.UNDEAD_CORE.get()));
+
+
+
+        // Example implementation of rank conditional drops (P.S. this can also be used in ModEntityLootTables (different pattern))
+
+        /*
+                Example of at least (if golden core or greater, drops a hundred-year ginseng when killed by a player)
+        this.add("hundred_year_ginseng_from_ranked_zombie", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("entities/zombie")).build(),
+                LootItemKilledByPlayerCondition.killedByPlayer().build(),
+                LootItemRandomChanceCondition.randomChance(0.10F).build(),
+                MobRankLootCondition.atLeast("golden_core", 1).build()
+        }, ModItems.HUNDRED_YEAR_GINSENG.get()));
+
+                Example of exact (if exactly nascent soul, drops a white jade orchid when killed by a player)
+        this.add("white_jade_orchid_from_ranked_zombie", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("entities/zombie")).build(),
+                LootItemKilledByPlayerCondition.killedByPlayer().build(),
+                LootItemRandomChanceCondition.randomChance(0.25F).build(),
+                MobRankLootCondition.exact("nascent_soul", 2).build()
+        }, ModItems.WHITE_JADE_ORCHID.get()));
+
+                Example of between (if between soul formation and tribulation transcendence, drops a hundred-year fire ginseng when killed by a player)
+        this.add("hundred_year_fire_ginseng_from_ranked_zombie", new AddItemModifier(new LootItemCondition[] {
+                LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace("entities/zombie")).build(),
+                LootItemKilledByPlayerCondition.killedByPlayer().build(),
+                LootItemRandomChanceCondition.randomChance(0.18F).build(),
+                MobRankLootCondition.between("soul_formation", 1, "tribulation_transcendence", 3).build()
+        }, ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()));
+        */
+
+
 
     }
 }

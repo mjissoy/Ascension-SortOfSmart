@@ -24,6 +24,8 @@ public class ModStats {
 
     public static final DeferredHolder<Stat,Stat> STRENGTH = STATS.register("strength",()->
             new Stat(Component.literal("Strength"),Component.literal("STR"),Component.empty()));
+    public static final DeferredHolder<Stat,Stat> INTELLIGENCE = STATS.register("intelligence",()->
+            new Stat(Component.literal("Intelligence"),Component.literal("INT"),Component.empty()));
 
     public static void register(IEventBus modEventBus){
         STATS.register(modEventBus);

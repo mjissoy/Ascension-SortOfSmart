@@ -4,6 +4,7 @@ package net.thejadeproject.ascension.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.*;
@@ -12,8 +13,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.datagen.builders.PillCauldronRecipeBuilder;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 import net.thejadeproject.ascension.util.ModTags;
 
@@ -702,8 +704,35 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         trapdoorBuilder(ModBlocks.IRONWOOD_TRAPDOOR.get(), Ingredient.of(ModBlocks.IRONWOOD_PLANKS.get())).group("ironwood_planks")
                 .unlockedBy("has_ironwood_planks", has(ModBlocks.IRONWOOD_PLANKS.get())).save(recipeOutput);
 
+        // Pill Recipes
+
+        // TODO: give actual heat values
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.ESSENCE_GATHERING_PILL.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), 1)
+                .ingredient(ModItems.WHITE_JADE_ORCHID.get(), 1)
+                .ingredient(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), 1)
+                .chance(0.75D)
+                .temperature(672, 1236, 790)
+                .timeSeconds(5)
+                .realm(1, "lower")
+                .purity(10, 100)
+                .bonusChance(0.08D)
+                .unlockedBy("has_hundred_year_ginseng", has(ModItems.HUNDRED_YEAR_GINSENG.get()))
+                .save(
+                        recipeOutput,
+                        ResourceLocation.fromNamespaceAndPath(
+                                AscensionCraft.MOD_ID,
+                                "cauldron/essence_gathering_pill_t1"
+                        )
+                );
+
 
     }
+
+
 
 
 

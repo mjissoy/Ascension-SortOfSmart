@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
@@ -28,22 +29,25 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.blocks.custom.functions.FreezingEffectItems;
-import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
-import net.thejadeproject.ascension.command.cultivation.ResetAttributesCommand;
-import net.thejadeproject.ascension.command.cultivation.SetCultivationCommand;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.blocks.custom.functions.FreezingEffectItems;
+import net.thejadeproject.ascension.common.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.common.command.cultivation.GiveSkillCommand;
+import net.thejadeproject.ascension.common.command.cultivation.ResetAscensionCommand;
+import net.thejadeproject.ascension.common.command.cultivation.SetCultivationCommand;
 
-import net.thejadeproject.ascension.items.data_components.ModDataComponents;
+import net.thejadeproject.ascension.common.items.data_components.ModDataComponents;
 import net.thejadeproject.ascension.events.TeleportationEventHandler;
 
-import net.thejadeproject.ascension.items.artifacts.DeathRecallTalisman;
+import net.thejadeproject.ascension.common.items.artifacts.DeathRecallTalisman;
 
 
-import net.thejadeproject.ascension.effects.ModEffects;
+import net.thejadeproject.ascension.common.effects.ModEffects;
 import net.thejadeproject.ascension.entity.ModEntities;
-import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.loot.ModLootModifiers;
+import net.thejadeproject.ascension.common.items.ModItems;
+import net.thejadeproject.ascension.datagen.loot.ModLootModifiers;
+import net.thejadeproject.ascension.datagen.loot.conditions.ModLootConditions;
+import net.thejadeproject.ascension.mob_ranks.util.EntityAttributeManager;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.particle.ModParticles;
 
@@ -66,7 +70,7 @@ import net.thejadeproject.ascension.util.KeyBindHandler;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.util.ModAttributes;
 import net.thejadeproject.ascension.util.ToolTips.ToolTipManager;
-import net.thejadeproject.ascension.villager.ModVillagers;
+import net.thejadeproject.ascension.common.villager.ModVillagers;
 import net.thejadeproject.ascension.worldgen.ModFeatureRegistration;
 import org.slf4j.Logger;
 
@@ -121,6 +125,7 @@ public class AscensionCraft {
         ModMenuTypes.register(modEventBus);
 
         ModLootModifiers.register(modEventBus);
+        ModLootConditions.register(modEventBus);
         ModAttachments.register(modEventBus);
 
         ModParticles.register(modEventBus);
@@ -304,21 +309,25 @@ public class AscensionCraft {
     }
 
     public void onLoadComplete(FMLLoadCompleteEvent event) {
-        /*
-            TODO
-            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.MAX_HEALTH.value());
-            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.ATTACK_DAMAGE.value());
-            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.STEP_HEIGHT.value());
-            EntityAttributeManager.changeAttributeRange(1,Double.MAX_VALUE,(RangedAttribute) Attributes.ATTACK_SPEED.value());
 
-         */
-        //EntityAttributeManager.changeAttributeRange(0,ModTechniques.MaxSpeed,(RangedAttribute) Attributes.MOVEMENT_SPEED.value());
-        //EntityAttributeManager.changeAttributeRange(0,ModTechniques.MaxJumpStrength,(RangedAttribute) Attributes.JUMP_STRENGTH.value());
+        // Subject to change
+        EntityAttributeManager.changeAttributeRange(1.0, Double.MAX_VALUE, (RangedAttribute) Attributes.MAX_HEALTH.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.ATTACK_DAMAGE.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.ARMOR.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.ARMOR_TOUGHNESS.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.SAFE_FALL_DISTANCE.value());
+        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.WATER_MOVEMENT_EFFICIENCY.value());
+
+        EntityAttributeManager.changeAttributeRange(0.0, 100.0, (RangedAttribute) Attributes.MOVEMENT_SPEED.value());
+        EntityAttributeManager.changeAttributeRange(0.0, 100.0, (RangedAttribute) Attributes.JUMP_STRENGTH.value());
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         ToolTipManager.registerAllTooltips();
         FreezingEffectItems.onCommonSetup(event);
+
+        event.enqueueWork(ModSkills::registerTickingSkills);
 
     }
 
@@ -332,7 +341,8 @@ public class AscensionCraft {
 
     private void registerCommands(RegisterCommandsEvent event) {
         SetCultivationCommand.register(event.getDispatcher());
-        ResetAttributesCommand.register(event.getDispatcher());
+        GiveSkillCommand.register(event.getDispatcher());
+        ResetAscensionCommand.register(event.getDispatcher());
     }
 
 
@@ -345,6 +355,9 @@ public class AscensionCraft {
             event.add(EntityType.PLAYER, ModAttributes.PLAYER_MAX_QI);
             event.add(EntityType.PLAYER, ModAttributes.PLAYER_QI_REGEN_RATE);
             event.add(EntityType.PLAYER, ModAttributes.SKILL_DAMAGE_MULTIPLIER);
+            event.add(EntityType.PLAYER, ModAttributes.MAX_QI);
+            event.add(EntityType.PLAYER, ModAttributes.QI_REGEN_RATE);
+
         }
 
         @SubscribeEvent

@@ -4,6 +4,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.mob_ranks.SyncMobRank;
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
@@ -16,6 +17,7 @@ import net.thejadeproject.ascension.refactor_packages.network.server_bound.techn
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncCastingInstance;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.stats.SyncStat;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.toast.ShowAscensionToast;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.ClearSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.SetActiveSlot;
@@ -74,6 +76,20 @@ public class ModPayloads {
                 SyncPhysique.TYPE,
                 SyncPhysique.STREAM_CODEC,
                 SyncPhysique::handlePayload
+        );
+
+        registrar.playToClient(
+                ShowAscensionToast.TYPE,
+                ShowAscensionToast.STREAM_CODEC,
+                ShowAscensionToast::handlePayload
+        );
+
+
+        // Temp for display purposes
+        registrar.playToClient(
+                SyncMobRank.TYPE,
+                SyncMobRank.STREAM_CODEC,
+                SyncMobRank::handlePayload
         );
 
         registrar.playToClient(

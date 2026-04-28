@@ -1,0 +1,32 @@
+package net.thejadeproject.ascension.refactor_packages.techniques.custom.elemental;
+
+import net.minecraft.network.chat.Component;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.ElementalEssenceTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
+
+public class WindEssenceTechnique extends ElementalEssenceTechnique {
+
+    public WindEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
+        super(
+                Component.translatable("ascension.technique.wind_essence_technique"),
+                ModPaths.WIND.getId(),
+                ModSkills.WIND_ESSENCE_CULTIVATION_SKILL.getId(),
+                statChangeHandler
+        );
+    }
+
+    @Override
+    public Component getShortDescription() {
+        return Component.literal("Cultivates Essence through wind, air, and whirlwinds.");
+    }
+
+    @Override
+    public Component getDescription() {
+        return Component.literal(
+                "A wind-aligned Essence technique. It cultivates slowly at rest, faster near ores, and fastest within rich mineral deposits."
+        );
+    }
+
+}

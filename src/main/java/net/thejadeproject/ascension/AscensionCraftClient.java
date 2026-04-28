@@ -15,7 +15,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
-import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.common.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
 import net.thejadeproject.ascension.clients.hud.FlameBarOverlay;
 import net.thejadeproject.ascension.clients.renderer.CauldronPedestalRenderer;
@@ -25,10 +25,10 @@ import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.CushionRenderer;
 import net.thejadeproject.ascension.entity.client.form.PlayerBodyEntityRenderer;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
-import net.thejadeproject.ascension.items.data_components.ModDataComponents;
+import net.thejadeproject.ascension.common.items.data_components.ModDataComponents;
 
-import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.items.artifacts.FlameGourd;
+import net.thejadeproject.ascension.common.items.ModItems;
+import net.thejadeproject.ascension.common.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventoryScreen;
@@ -46,7 +46,6 @@ public class AscensionCraftClient {
     public AscensionCraftClient(IEventBus modEventBus, ModContainer modContainer)
     {
         KeyBindHandler.register();
-
 
 
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
@@ -74,6 +73,8 @@ public class AscensionCraftClient {
 
         @SubscribeEvent
         public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+
+            event.registerEntityRenderer(ModEntities.PILL_PROJECTILE.get(), ThrownItemRenderer::new);
 
             // Floating item above each ingredient pedestal
             event.registerBlockEntityRenderer(

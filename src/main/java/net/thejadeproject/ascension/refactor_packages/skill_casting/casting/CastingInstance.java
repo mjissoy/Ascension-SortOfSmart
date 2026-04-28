@@ -96,7 +96,6 @@ public class CastingInstance {
             System.out.println("adding ui element");
             frame.setRoot(element);
         }
-
         this.castData = getCastableSkill().freshCastData();
         SkillHotBar hotBar = entity.getData(ModAttachments.ENTITY_DATA).getSkillCastHandler().getHotBar();
         getCastableSkill().initialCast(entity,hotBar.getPreCastData(hotBar.getSlot(skillKey)));
