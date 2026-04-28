@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.command.cultivation;
+package net.thejadeproject.ascension.common.command.cultivation;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
