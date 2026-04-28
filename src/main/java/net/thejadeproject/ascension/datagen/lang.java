@@ -184,9 +184,9 @@ public class lang extends LanguageProvider {
         add("ascension.physiques.water_attuned", "Water Attuned");
         add("ascension.physiques.fire_attuned", "Fire Attuned");
 
-        add("ascension.physiques.world_dominator", "World Dominator.");
+        add("ascension.physiques.world_dominator", "World Dominator");
         add("ascension.message.physique.world_dominator.acquired", "%s has become the %s. Bear witness to their Ascension!");
-        add("ascension.physiques.world_dominator.bracketed", "[World Dominator]");
+
 
 
         //Techniques

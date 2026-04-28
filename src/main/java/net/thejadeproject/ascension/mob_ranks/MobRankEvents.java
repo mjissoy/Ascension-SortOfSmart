@@ -15,7 +15,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.mob_ranks.overlay.SyncMobRank;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.mob_ranks.SyncMobRank;
 
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID)
 public class MobRankEvents {

@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.mob_ranks.overlay;
+package net.thejadeproject.ascension.refactor_packages.network.client_bound.mob_ranks;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;

@@ -32,20 +32,11 @@ public class VerdantRecoverySkill extends SimplePassiveSkill implements ITicking
 
     @Override
     public void onPlayerTick(ServerPlayer player, IEntityData entityData) {
-        if (player.tickCount % 20 != 0) return;
+        if (player.tickCount % 40 != 0) return;
         if (player.getHealth() >= player.getMaxHealth()) return;
         if (!isNearPlantLife(player, WOOD_SCAN_RADIUS)) return;
 
-
-        // TODO: Actual regen, not effect
-        player.addEffect(new MobEffectInstance(
-                MobEffects.REGENERATION,
-                60,
-                0,
-                true,
-                false,
-                true
-        ));
+        player.heal(4.0F);
     }
 
     private static boolean isNearPlantLife(ServerPlayer player, int radius) {
@@ -71,10 +62,9 @@ public class VerdantRecoverySkill extends SimplePassiveSkill implements ITicking
     }
 
     private static boolean isPlantLife(BlockState state) {
-        return state.is(BlockTags.LEAVES)
-                || state.is(BlockTags.LOGS)
-                || state.is(BlockTags.SAPLINGS)
+        return state.is(BlockTags.SAPLINGS)
                 || state.is(BlockTags.FLOWERS)
-                || state.is(BlockTags.CROPS);
+                || state.is(BlockTags.CROPS)
+                || state.is(BlockTags.LEAVES);
     }
 }

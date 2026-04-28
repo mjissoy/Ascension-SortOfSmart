@@ -60,7 +60,7 @@ public class ModSkills {
             SKILLS.register("white_lightning_fist", WhiteLightningFist::new);
 
 
-    //TODO: Fix this
+    //TODO: add bookshelf check to this
     public static final DeferredHolder<ISkill, ? extends ScholarlySoulCultivationSkill> SCHOLARLY_SOUL_CULTIVATION_SKILL =
             SKILLS.register("scholarly_soul_cultivation_skill", ScholarlySoulCultivationSkill::new);
 

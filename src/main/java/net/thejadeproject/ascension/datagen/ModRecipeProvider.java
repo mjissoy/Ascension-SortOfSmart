@@ -706,8 +706,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         // Pill Recipes
 
-
-        // Eizy give me temps and things i want to test this works....
+        // TODO: give actual heat values
         PillCauldronRecipeBuilder.lowHuman(
                         ModItems.ESSENCE_GATHERING_PILL.get(),
                         ModItems.PILL_RESIDUE.get()
