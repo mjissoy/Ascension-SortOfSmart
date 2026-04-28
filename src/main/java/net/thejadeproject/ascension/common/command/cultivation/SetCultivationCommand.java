@@ -8,6 +8,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -158,8 +159,6 @@ public class SetCultivationCommand {
             context.getSource().sendSuccess(() ->
                     Component.translatable("command.ascension.cultivation.info.no_paths"), false);
         }
-
-        IEntityData entityData = player.getData(ModAttachments.ENTITY_DATA);
 
         StringBuilder sb = new StringBuilder();
         sb.append("=== ").append(player.getName().getString()).append(" — Cultivation ===\n");

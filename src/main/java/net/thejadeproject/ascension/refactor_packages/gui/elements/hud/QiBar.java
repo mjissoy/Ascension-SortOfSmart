@@ -8,10 +8,8 @@ import net.lucent.easygui.gui.textures.ITextureData;
 import net.lucent.easygui.gui.textures.TextureData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
@@ -20,13 +18,23 @@ import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
 import java.text.DecimalFormat;
 
 public class QiBar extends RenderableElement {
-    ResourceLocation textureIdentifier = ResourceLocation.fromNamespaceAndPath(
+
+    private final ResourceLocation textureIdentifier = ResourceLocation.fromNamespaceAndPath(
             AscensionCraft.MOD_ID,
             "textures/gui/main/overlays/qi_bar.png"
     );
-    ITextureData textureData = new TextureData(
-            textureIdentifier,85,9);
-    DecimalFormat format = new DecimalFormat("#.0");
+
+    private final ITextureData textureData = new TextureData(textureIdentifier, 85, 9);
+    private final DecimalFormat format = new DecimalFormat("#.0");
+
+    /**
+     * Which qi pool this bar displays.
+     *
+     * By default this shows pure/essence qi.
+     * You can change this to another path id later if you want a Fire Qi bar,
+     * Water Qi bar, etc.
+     */
+    private final ResourceLocation displayedQiPath = EntityQiContainer.PURE_QI;
 
     public QiBar(UIFrame frame) {
         super(frame);
@@ -34,39 +42,71 @@ public class QiBar extends RenderableElement {
         setHeight(textureData.getHeight());
     }
 
-    public double getProgress(){
-
-        IEntityData entityData = Minecraft.getInstance().player.getData(ModAttachments.ENTITY_DATA);
-        EntityQiContainer entityQiContainer = entityData.getQiContainer();
-        if(getChildren().isEmpty()){
+    private EasyLabel getOrCreateLabel() {
+        if (getChildren().isEmpty()) {
             EasyLabel label = new EasyLabel(getUiFrame());
             addChild(label);
+
             label.setWidth(50);
             label.setHeight(getHeight());
 
             label.getPositioning().setXPositioningRule(PositioningRules.CENTER);
-            label.getPositioning().setX(-label.getWidth()/2);
+            label.getPositioning().setX(-label.getWidth() / 2);
+
             label.setTextPositioningX(EasyLabel.TextPositionRule.CENTER);
             label.setTextPositioningY(EasyLabel.TextPositionRule.CENTER);
             label.setTextColor(-1);
             label.setScaleToFit(true);
         }
 
-        EasyLabel label = (EasyLabel) getChildren().getFirst();
+        return (EasyLabel) getChildren().get(0);
+    }
+
+    public double getProgress() {
+        Minecraft minecraft = Minecraft.getInstance();
+
+        if (minecraft.player == null) {
+            getOrCreateLabel().setText(Component.empty());
+            return 0.0D;
+        }
+
+        if (!minecraft.player.hasData(ModAttachments.ENTITY_DATA)) {
+            getOrCreateLabel().setText(Component.empty());
+            return 0.0D;
+        }
+
+        IEntityData entityData = minecraft.player.getData(ModAttachments.ENTITY_DATA);
+        EntityQiContainer entityQiContainer = entityData.getQiContainer();
+
+        double currentQi = entityQiContainer.getCurrentQi(displayedQiPath);
+        double maxQi = entityQiContainer.getMaxQi(displayedQiPath);
+
+        EasyLabel label = getOrCreateLabel();
+
+        if (maxQi <= 0.0D) {
+            label.setText(Component.literal("0.0/0.0"));
+            return 0.0D;
+        }
+
         label.setText(Component.literal(
-                format.format(entityQiContainer.getCurrentQi())+"/"+
-                        format.format(entityQiContainer.getMaxQi())));
+                format.format(currentQi) + "/" + format.format(maxQi)
+        ));
 
-        return entityQiContainer.getCurrentQi()/entityQiContainer.getMaxQi();
-
+        return Math.max(0.0D, Math.min(1.0D, currentQi / maxQi));
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-        if(getProgress() != 0){
-            System.out.println(getProgress());
-            textureData.render(guiGraphics, (int) ((getWidth())*getProgress()),getHeight());
+
+        double progress = getProgress();
+
+        if (progress > 0.0D) {
+            textureData.render(
+                    guiGraphics,
+                    (int) (getWidth() * progress),
+                    getHeight()
+            );
         }
     }
 }

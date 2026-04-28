@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.refactor_packages.techniques;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -44,11 +45,6 @@ public class ModTechniques {
             .addMajorRealmStatModifier(ModStats.VITALITY.getId(),new ValueContainerModifier(0.2,ModifierOperation.MULTIPLY_FINAL,test))
             .addMinorRealmStatModifier(ModStats.AGILITY.getId(),new ValueContainerModifier(5,ModifierOperation.ADD_BASE,test));
 
-    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> BASIC_CULTIVATION_TECHNIQUE = TECHNIQUES.register("basic_cultivation_technique",()->
-            new GenericTechnique(ModPaths.ESSENCE.getId(),Component.translatable("ascension.technique.basic_cultivation_technique"),2.0, Set.of())
-            .addMinorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(2, ModifierOperation.ADD_BASE, test))
-            .addMajorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(0.2, ModifierOperation.MULTIPLY_FINAL, test))
-            .addMinorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(5, ModifierOperation.ADD_BASE, test)));
 
     // --- Single-element body technique handlers ---
     // Fire: Vitality + Strength focus, max health
@@ -125,9 +121,6 @@ public class ModTechniques {
                     .setStatChangeHandler(testHandler));
     public static final DeferredHolder<ITechnique, ? extends GenericTechnique> SWORD_COMPREHENSION_TECHNIQUE = TECHNIQUES.register("sword_comprehension_technique",()->
             new GenericTechnique(ModPaths.SWORD.getId(),Component.translatable("ascension.technique.sword_comprehension_technique"),10.0,Set.of()));
-
-    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> SWORD_COMPREHENSION_TECHNIQUE = TECHNIQUES.register("sword_comprehension_technique", () ->
-            new GenericTechnique(ModPaths.SWORD.getId(), Component.literal("Sword Comprehension Technique"), 10.0, Set.of()));
 
     public static final DeferredHolder<ITechnique, ? extends FiveElementCultivationTechnique> FIVE_ELEMENT_CIRCULATION_METHOD = TECHNIQUES.register("five_element_cultivation_technique", () ->
             new FiveElementCultivationTechnique(testHandler));
@@ -274,9 +267,6 @@ public class ModTechniques {
 
 
     public static void register(IEventBus modEventBus){
-    }
-
-     static void register(IEventBus modEventBus) {
         TECHNIQUES.register(modEventBus);
     }
 }
