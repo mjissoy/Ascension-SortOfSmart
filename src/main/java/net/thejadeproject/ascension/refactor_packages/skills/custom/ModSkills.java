@@ -56,11 +56,13 @@ public class ModSkills {
             SKILLS.register("white_lightning_cultivation_skill", WhiteLightningCultivationSkill::new);
     public static final DeferredHolder<ISkill, ? extends TurbidEnergyPurgeSkill> TURBID_ENERGY_PURGE =
             SKILLS.register("turbid_energy_purge", TurbidEnergyPurgeSkill::new);
+
+    //TODO: Make weaker - sortofsmart
     public static final DeferredHolder<ISkill, ? extends WhiteLightningFist> WHITE_LIGHTNING_FIST =
             SKILLS.register("white_lightning_fist", WhiteLightningFist::new);
 
 
-    //TODO: add bookshelf check to this
+    //TODO: add bookshelf check to this - sortofsmart
     public static final DeferredHolder<ISkill, ? extends ScholarlySoulCultivationSkill> SCHOLARLY_SOUL_CULTIVATION_SKILL =
             SKILLS.register("scholarly_soul_cultivation_skill", ScholarlySoulCultivationSkill::new);
 

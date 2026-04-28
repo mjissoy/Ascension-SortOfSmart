@@ -1,7 +1,6 @@
 package net.thejadeproject.ascension.refactor_packages.qi;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.MegaJungleTrunkPlacer;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
@@ -46,7 +45,7 @@ public class EntityQiContainer {
             current += amount;
         }
         public void setCurrentQi(double amount){
-
+            this.current = amount;
         }
         public double getCurrentQi(){return current;}
         public double getMaxQi(){return MAX;}
@@ -108,8 +107,8 @@ public class EntityQiContainer {
         currentPureQi = Math.min(regenAmount+currentPureQi, getMaxPureQi());
     }
 
-    public boolean tryConsumeQi(double amount){
-        return true;
+    public void tryConsumeQi(double amount){
+        //TODO
     }
 
     public boolean tryConsumeQi(ResourceLocation path,double amount){
@@ -124,7 +123,6 @@ public class EntityQiContainer {
         AscensionRegistries.Paths.PATHS_REGISTRY.get(path).qiConsumed(amount,attachedEntity);
         return true;
     }
-
     public void reduceMaxConvertedQi(ResourceLocation path,double amount){
         if(!segmentedQi.containsKey(path)) return;
 
@@ -138,7 +136,6 @@ public class EntityQiContainer {
         }
         return currentPureQi;
     }
-
     public double getMaxQi(ResourceLocation path){
         if(!path.equals(PURE_QI) && segmentedQi.containsKey(path)){
             return segmentedQi.get(path).getMaxQi();

@@ -10,7 +10,7 @@ public class EarthEssenceTechnique extends ElementalEssenceTechnique {
 
     public EarthEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
-                Component.literal("Earth Essence Technique"),
+                Component.translatable("ascension.technique.earth_essence_technique"),
                 ModPaths.EARTH.getId(),
                 ModSkills.EARTH_ESSENCE_CULTIVATION_SKILL.getId(),
                 statChangeHandler

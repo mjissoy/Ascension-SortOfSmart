@@ -10,7 +10,7 @@ public class FireEssenceTechnique extends ElementalEssenceTechnique {
 
     public FireEssenceTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
-                Component.literal("Fire Essence Technique"),
+                Component.translatable("ascension.technique.fire_essence_technique"),
                 ModPaths.FIRE.getId(),
                 ModSkills.FIRE_ESSENCE_CULTIVATION_SKILL.getId(),
                 statChangeHandler
