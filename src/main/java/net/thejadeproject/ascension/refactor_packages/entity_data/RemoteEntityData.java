@@ -133,10 +133,6 @@ public class RemoteEntityData implements IEntityData{
         return EntityDataManager.getEntityData(getWatchedEntityData()).setPhysique(physique);
     }
 
-    @Override
-    public void setPhysiqueForm(ResourceLocation form) {
-
-    }
 
     @Override
     public boolean setPhysique(ResourceLocation physique, IPhysiqueData existingData) {
@@ -293,11 +289,6 @@ public class RemoteEntityData implements IEntityData{
         EntityDataManager.getEntityData(getWatchedEntityData()).removePath(path);
     }
 
-
-    @Override
-    public void setPathData(ResourceLocation form, ResourceLocation path, PathData data) {
-
-    }
 
     @Override
     public PathBonusHandler getPathBonusHandler() {

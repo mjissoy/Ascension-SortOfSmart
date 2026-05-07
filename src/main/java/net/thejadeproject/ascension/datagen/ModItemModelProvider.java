@@ -26,18 +26,10 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
 
-        // TEMP RuneItems
-        runes(ModItems.ARMOR_RUNE.get());
-        runes(ModItems.ENDURANCE_RUNE.get());
-        runes(ModItems.STRENGTH_RUNE.get());
-        runes(ModItems.VITALITY_RUNE.get());
-
-        runes(ModItems.ESSENCE_RUNE.get());
-        runes(ModItems.REGEN_RUNE.get());
-
-        runes(ModItems.SPEED_RUNE.get());
-        runes(ModItems.PRECISION_RUNE.get());
-
+        // Runic Things
+        basicItemWithTexture(ModItems.RUNIC_CODEX.get(), "jade_slip");
+        basicItemWithTexture(ModItems.RUNIC_TOME.get(), "damaged_page");
+        basicItemWithTexture(ModItems.BASIC_RUNIC_BRUSH.get(), "fan");
 
         //Block Items
         buttonItem(ModBlocks.GOLDEN_PALM_BUTTON, ModBlocks.GOLDEN_PALM_PLANKS);
@@ -330,17 +322,16 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .texture("layer0", textureLoc);
     }
 
-    // TEMP RUNE BUILDER
-    public ItemModelBuilder runes(Item item) {
-        ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
-        String itemName = itemId.getPath();
-        ResourceLocation textureLoc = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "item/runes/" + itemName);
+    private ItemModelBuilder basicItemWithTexture(Item item, String texturePath) {
+        ResourceLocation itemId = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
 
-        return getBuilder(itemName)
+        return getBuilder(itemId.getPath())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", textureLoc);
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(
+                        AscensionCraft.MOD_ID,
+                        "item/" + texturePath
+                ));
     }
-
 
     public ItemModelBuilder herbs(Item item) {
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);

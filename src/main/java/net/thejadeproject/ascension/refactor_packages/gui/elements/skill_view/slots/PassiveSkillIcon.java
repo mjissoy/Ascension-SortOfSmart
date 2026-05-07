@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.gui.elements.skill_view.slots;
+package net.thejadeproject.ascension.refactor_packages.gui.elements.skill_view.slots;
 
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
@@ -7,14 +7,14 @@ import net.lucent.easygui.gui.events.EasyEvents;
 import net.lucent.easygui.gui.events.EventPhase;
 import net.lucent.easygui.gui.events.type.EasyEvent;
 import net.lucent.easygui.gui.textures.ITextureData;
+import net.lucent.easygui.gui.textures.TextureDataSubsection;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.thejadeproject.ascension.gui.elements.skill_view.PassiveSkillList;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 public class PassiveSkillIcon extends RenderableElement {
-    private final PassiveSkillList parent;
     private ResourceLocation skillId;
     private ITextureData skillIcon;
     private Component title;
@@ -22,12 +22,13 @@ public class PassiveSkillIcon extends RenderableElement {
 
     private EasyLabel label;
 
-    public PassiveSkillIcon(PassiveSkillList parent, UIFrame frame, ResourceLocation skill) {
+    private final ITextureData background =  new TextureDataSubsection(
+            ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"textures/gui/screen/skill_stuff/skill_menu.png"),
+            320,256,
+            0,236,92,20
+    );
+    public PassiveSkillIcon(UIFrame frame, ResourceLocation skill) {
         super(frame);
-        this.parent = parent;
-        setWidth(92);
-        setHeight(20);
-
         label = new EasyLabel(frame);
         label.getPositioning().setX(27);
         label.getPositioning().setY(5);
@@ -35,23 +36,25 @@ public class PassiveSkillIcon extends RenderableElement {
         label.setHeight(8);
         label.setTextPositioningY(EasyLabel.TextPositionRule.CENTER);
         label.setTextPositioningX(EasyLabel.TextPositionRule.START);
+        label.setTextColor(-1);
         label.setTextScale(0.5f);
-        label.setTextColor(0xFFEAF6FF);
-
         setSkill(skill);
-        addEventListener(EasyEvents.GLOBAL_MOUSE_MOVE_EVENT, this::onMouseMove, EventPhase.BUBBLE);
+        addEventListener(EasyEvents.GLOBAL_MOUSE_MOVE_EVENT,this::onMouseMove, EventPhase.BUBBLE);
         addChild(label);
+        setWidth(background.getWidth());
+        setHeight(background.getHeight());
         this.skillId = skill;
     }
 
     @Override
-    public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTick) {
-        int w = getWidth(), h = getHeight();
-        gfx.fill(0, 0, w, h, 0xCC050810);
-        if (isHovered()) gfx.fill(0, 0, w, h, 0x22FFFFFF);
-        gfx.fill(0, h - 1, w, h, 0x33006396);
-        if (skillIcon != null) skillIcon.renderAt(gfx, 2, (getHeight() - skillIcon.getHeight()) / 2);
-        super.render(gfx, mouseX, mouseY, partialTick);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+
+        background.renderAt(guiGraphics,2,0,background.getWidth(),background.getHeight());
+        if(skillIcon != null){
+            skillIcon.renderAt(guiGraphics,4,2);
+        }
+        if(isHovered()) guiGraphics.fill(0,0,getWidth(),getHeight(),-930773627);
     }
 
     public void setSkill(ResourceLocation skill){
@@ -61,11 +64,8 @@ public class PassiveSkillIcon extends RenderableElement {
         if(text == null) text = Component.empty();
         label.setText(text);
     }
-
-
     public boolean isHovered(){return hovered;}
     public void onMouseMove(EasyEvent event){
         hovered = event.getTarget() == this;
     }
-
 }

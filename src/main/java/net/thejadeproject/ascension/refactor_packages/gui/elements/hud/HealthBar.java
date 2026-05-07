@@ -6,19 +6,16 @@ import net.lucent.easygui.gui.elements.built_in.EasyLabel;
 import net.lucent.easygui.gui.layout.positioning.rules.PositioningRules;
 import net.lucent.easygui.gui.textures.ITextureData;
 import net.lucent.easygui.gui.textures.TextureData;
-import net.lucent.easygui.gui.textures.TextureDataSubsection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 public class HealthBar extends RenderableElement {
     ResourceLocation textureIdentifier = ResourceLocation.fromNamespaceAndPath(

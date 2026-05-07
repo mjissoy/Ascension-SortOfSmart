@@ -22,7 +22,6 @@ import net.thejadeproject.ascension.refactor_packages.attributes.AttributeValueC
 import net.thejadeproject.ascension.refactor_packages.gui.elements.general.BetterButton;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.supressors.UpdateSuppressionValue;
 
-
 import java.text.DecimalFormat;
 
 public class SuppressedStat extends RenderableElement {

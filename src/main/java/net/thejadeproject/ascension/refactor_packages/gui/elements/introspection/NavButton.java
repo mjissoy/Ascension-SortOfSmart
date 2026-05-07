@@ -10,7 +10,6 @@ import net.lucent.easygui.gui.textures.ITextureData;
 import net.lucent.easygui.gui.textures.TextureDataSubsection;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
-import net.thejadeproject.ascension.AscensionCraft;
 
 public class NavButton extends EasyButton {
     private final String screen;

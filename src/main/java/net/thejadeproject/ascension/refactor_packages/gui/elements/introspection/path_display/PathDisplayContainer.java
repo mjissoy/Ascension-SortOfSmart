@@ -21,7 +21,6 @@ import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegist
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 
 import java.util.Collection;
-import java.util.List;
 
 public class PathDisplayContainer extends RenderableElement {
     ResourceLocation textureIdentifier = ResourceLocation.fromNamespaceAndPath(

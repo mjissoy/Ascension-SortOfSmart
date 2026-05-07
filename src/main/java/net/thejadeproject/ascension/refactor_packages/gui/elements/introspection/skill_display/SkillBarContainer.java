@@ -15,7 +15,6 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.introspection.skill_display.skill_buttons.SkillSelectionButton;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.ClearSlot;
-import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.SetActiveSlot;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.UpdateSkillSlot;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillHotBar;

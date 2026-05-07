@@ -3,7 +3,6 @@ package net.thejadeproject.ascension.refactor_packages.gui.elements.info_element
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
 import net.lucent.easygui.gui.elements.built_in.EasyLabel;
-import net.lucent.easygui.gui.layout.positioning.rules.PositioningRules;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.general.ScrollBox;

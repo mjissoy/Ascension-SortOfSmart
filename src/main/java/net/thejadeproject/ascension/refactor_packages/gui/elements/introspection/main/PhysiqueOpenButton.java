@@ -1,7 +1,6 @@
 package net.thejadeproject.ascension.refactor_packages.gui.elements.introspection.main;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
 import net.lucent.easygui.gui.elements.built_in.EasyButton;
 import net.lucent.easygui.gui.elements.built_in.EasyLabel;
@@ -15,7 +14,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 
 public class PhysiqueOpenButton extends EasyButton {

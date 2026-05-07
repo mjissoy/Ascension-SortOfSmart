@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -49,7 +50,11 @@ public class OpenRunicCastingSkill implements ICastableSkill {
             return new CastResult(CastResult.Type.FAILURE, Component.translatable("ascension.runic.cast.not_on_path"));
         }
 
-        if (RunicPathHelper.getUsableKnownRunes(caster).isEmpty()) {
+        if (!(caster instanceof LivingEntity livingCaster)) {
+            return new CastResult(CastResult.Type.FAILURE, Component.translatable("ascension.runic.cast.invalid_caster"));
+        }
+
+        if (RunicPathHelper.getUsableKnownRunes(livingCaster).isEmpty()) {
             return new CastResult(CastResult.Type.FAILURE, Component.translatable("ascension.runic.cast.no_usable_runes"));
         }
 
@@ -84,8 +89,13 @@ public class OpenRunicCastingSkill implements ICastableSkill {
     @Override public IPersistentSkillData persistentInstanceFromCompound(CompoundTag tag) { return null; }
     @Override public IPersistentSkillData persistentInstanceFromNetwork(RegistryFriendlyByteBuf buf) { return null; }
     @Override public CastType getCastType() { return CastType.INSTANT; }
-    @Override public RenderableElement getCastElement(UIFrame frame) { return null; }
 
+
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public RenderableElement getCastElement(UIFrame frame) {
+        return null;
+    }
     @Override public void onAdded(IEntityData attachedEntityData) {}
     @Override public void onRemoved(IEntityData attachedEntityData, IPersistentSkillData persistentData) {}
     @Override public void onFormAdded(IEntityData heldEntity, ResourceLocation form, IPhysiqueData physiqueData) {}

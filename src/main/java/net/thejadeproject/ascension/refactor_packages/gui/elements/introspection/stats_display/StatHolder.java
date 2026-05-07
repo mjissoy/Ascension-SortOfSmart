@@ -3,16 +3,11 @@ package net.thejadeproject.ascension.refactor_packages.gui.elements.introspectio
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
 import net.lucent.easygui.gui.layout.positioning.rules.PositioningRules;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.stats.Stat;
-import net.thejadeproject.ascension.refactor_packages.stats.StatSheet;
 import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class StatHolder extends RenderableElement {
     public StatHolder(UIFrame frame) {

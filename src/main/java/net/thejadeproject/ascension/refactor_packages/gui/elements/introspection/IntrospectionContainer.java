@@ -7,7 +7,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.refactor_packages.gui.elements.info_elements.IInformationContainer;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.introspection.main.MainContainer;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.introspection.path_display.PathDisplayContainer;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.introspection.skill_display.SkillDisplayContainer;

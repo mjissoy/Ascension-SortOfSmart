@@ -15,7 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
-import org.checkerframework.checker.units.qual.C;
 
 public class PathSelectionButton extends EasyButton {
     ResourceLocation textureIdentifier = ResourceLocation.fromNamespaceAndPath(

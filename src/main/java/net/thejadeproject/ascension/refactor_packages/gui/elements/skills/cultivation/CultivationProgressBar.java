@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.gui.elements.skills.cultivation;
+package net.thejadeproject.ascension.refactor_packages.gui.elements.skills.cultivation;
 
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;

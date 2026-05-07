@@ -13,9 +13,11 @@ import net.thejadeproject.ascension.refactor_packages.skills.ITickingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.body.WhiteLightningFist;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire.FireSpray;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.runic.OpenRunicCastingSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.PurifyingMantraSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.QiFlightSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.VoidstepSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.body.VajraBreathingCultivationSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.essence.BloodfeastBanquetSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.soul.*;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.weapon.SwordCultivationSkill;
@@ -280,6 +282,11 @@ public class ModSkills {
             SKILLS.register("frost_silkworm_poison", FrostSilkwormPoisonDebuff::new);
     public static final DeferredHolder<ISkill, FrostSilkwormVenomDebuff> FROST_SILKWORM_POISON_TEMP =
             SKILLS.register("frost_silkworm_poison_temp", FrostSilkwormVenomDebuff::new);
+
+    public static final DeferredHolder<ISkill, VajraBreathingCultivationSkill> VAJRA_BREATHING_CULTIVATION_SKILL =
+            SKILLS.register("vajra_breathing_cultivation_skill", VajraBreathingCultivationSkill::new);
+    public static final DeferredHolder<ISkill, PurifyingMantraSkill> PURIFYING_MANTRA =
+            SKILLS.register("purifying_mantra_skill", PurifyingMantraSkill::new);
 
     // Actives
 
