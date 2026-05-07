@@ -1424,5 +1424,11 @@ public class lang extends LanguageProvider {
         add("ascension.runic.codex.not_on_path", "The codex remains shut. You have not entered the Runic Path.");
         add("ascension.runic.cast.failure", "The runes do not align.");
 
+        add("ascension.runic.casting.empty.title", "The script is silent.");
+        add("ascension.runic.casting.empty.line_1", "You do not know any usable runes yet.");
+        add("ascension.runic.casting.empty.line_2", "Study a Runic Tome to awaken your first script.");
+        add("ascension.runic.casting.selected.no_usable", "No usable runes known.");
+        add("ascension.runic.casting.close", "Close");
+
     }
 }

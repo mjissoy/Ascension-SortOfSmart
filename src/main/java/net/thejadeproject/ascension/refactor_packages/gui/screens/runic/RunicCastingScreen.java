@@ -101,22 +101,26 @@ public class RunicCastingScreen extends EasyScreen {
         int gap = 6;
         int columns = 4;
 
-        for (int i = 0; i < usableRunes.size(); i++) {
-            ResourceLocation runeId = usableRunes.get(i);
-            int col = i % columns;
-            int row = i / columns;
+        if (usableRunes.isEmpty()) {
+            addEmptyState(panel, frame);
+        } else {
+            for (int i = 0; i < usableRunes.size(); i++) {
+                ResourceLocation runeId = usableRunes.get(i);
+                int col = i % columns;
+                int row = i / columns;
 
-            RuneButton runeButton = new RuneButton(
-                    frame,
-                    runeId,
-                    startX + col * (buttonW + gap),
-                    startY + row * (buttonH + gap),
-                    buttonW,
-                    buttonH
-            );
+                RuneButton runeButton = new RuneButton(
+                        frame,
+                        runeId,
+                        startX + col * (buttonW + gap),
+                        startY + row * (buttonH + gap),
+                        buttonW,
+                        buttonH
+                );
 
-            runeButtons.add(runeButton);
-            panel.addChild(runeButton);
+                runeButtons.add(runeButton);
+                panel.addChild(runeButton);
+            }
         }
 
         TextButton backspace = new TextButton(frame, 15, 195, 100, 18, Component.translatable("ascension.runic.casting.backspace")) {
@@ -139,9 +143,23 @@ public class RunicCastingScreen extends EasyScreen {
         };
         panel.addChild(clear);
 
-        TextButton cast = new TextButton(frame, 245, 195, 100, 18, Component.translatable("ascension.runic.casting.cast")) {
+        TextButton cast = new TextButton(
+                frame,
+                245,
+                195,
+                100,
+                18,
+                Component.translatable(usableRunes.isEmpty()
+                        ? "ascension.runic.casting.close"
+                        : "ascension.runic.casting.cast")
+        ) {
             @Override
             public void onClick() {
+                if (usableRunes.isEmpty()) {
+                    Minecraft.getInstance().setScreen(null);
+                    return;
+                }
+
                 if (selectedRunes.isEmpty()) {
                     return;
                 }
@@ -151,6 +169,59 @@ public class RunicCastingScreen extends EasyScreen {
             }
         };
         panel.addChild(cast);
+    }
+
+    private void addEmptyState(RenderableElement panel, UIFrame frame) {
+        RenderableElement emptyBox = new RenderableElement(frame, 42, 78) {
+            @Override
+            public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                guiGraphics.fill(0, 0, getWidth(), getHeight(), 0x6612091F);
+                guiGraphics.renderOutline(0, 0, getWidth(), getHeight(), 0xAA7A5ACF);
+            }
+        };
+
+        emptyBox.setWidth(276);
+        emptyBox.setHeight(78);
+        panel.addChild(emptyBox);
+
+        EasyLabel title = label(
+                frame,
+                Component.translatable("ascension.runic.casting.empty.title"),
+                0,
+                10,
+                276,
+                12,
+                0xFFE8D8FF
+        );
+        title.setTextPositioningX(EasyLabel.TextPositionRule.CENTER);
+        title.setTextScale(0.9F);
+        emptyBox.addChild(title);
+
+        EasyLabel lineOne = label(
+                frame,
+                Component.translatable("ascension.runic.casting.empty.line_1"),
+                12,
+                31,
+                252,
+                10,
+                0xFFBEB4D7
+        );
+        lineOne.setTextPositioningX(EasyLabel.TextPositionRule.CENTER);
+        lineOne.setTextScale(0.75F);
+        emptyBox.addChild(lineOne);
+
+        EasyLabel lineTwo = label(
+                frame,
+                Component.translatable("ascension.runic.casting.empty.line_2"),
+                12,
+                46,
+                252,
+                10,
+                0xFFBEB4D7
+        );
+        lineTwo.setTextPositioningX(EasyLabel.TextPositionRule.CENTER);
+        lineTwo.setTextScale(0.75F);
+        emptyBox.addChild(lineTwo);
     }
 
     private void addRune(ResourceLocation runeId) {
@@ -168,7 +239,11 @@ public class RunicCastingScreen extends EasyScreen {
         }
 
         if (selectedRunes.isEmpty()) {
-            selectedLabel.setText(Component.translatable("ascension.runic.casting.selected.empty"));
+            selectedLabel.setText(Component.translatable(
+                    usableRunes.isEmpty()
+                            ? "ascension.runic.casting.selected.no_usable"
+                            : "ascension.runic.casting.selected.empty"
+            ));
             return;
         }
 
