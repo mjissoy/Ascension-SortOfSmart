@@ -71,6 +71,11 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModItems.RUNIC_CODEX);
                         output.accept(ModItems.RUNIC_TOME);
+                        output.accept(ModItems.RUNIC_TOME_BASE_ELEMENTS);
+                        output.accept(ModItems.RUNIC_TOME_DEEP_ELEMENTS);
+                        output.accept(ModItems.RUNIC_TOME_INTENTS);
+                        output.accept(ModItems.RUNIC_TOME_FORMS);
+                        output.accept(ModItems.RUNIC_TOME_MODIFIERS);
                         output.accept(ModItems.BASIC_RUNIC_BRUSH);
                     }).build());
 

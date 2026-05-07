@@ -1340,8 +1340,15 @@ public class lang extends LanguageProvider {
         add("item.ascension.runic_tome", "Runic Tomb");
         add("item.ascension.runic_codex", "Runic Codex");
         add("item.ascension.basic_runic_brush", "Basic Runic Brush");
-        add("ascension.technique.basic_runic_script", "Basic Runic Scripture");
         add("ascension.physiques.runic_test", "Runic Test Physique");
+
+        add("item.ascension.runic_tome_base_elements", "Runic Tome: Base Elemental");
+        add("item.ascension.runic_tome_deep_elements", "Runic Tome: Deep Elements");
+        add("item.ascension.runic_tome_intents", "Runic Tome: Intents");
+        add("item.ascension.runic_tome_forms", "Runic Tome: Forms");
+        add("item.ascension.runic_tome_modifiers", "Runic Tome: Modifiers");
+
+        add("ascension.runic.tome.teaches", "Teaches:");
 
         add("ascension.runic.casting.hover", "%s | %s | %s");
 

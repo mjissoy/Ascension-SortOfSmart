@@ -28,7 +28,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         // Runic Things
         basicItem(ModItems.RUNIC_CODEX.get());
-        basicItem(ModItems.RUNIC_TOME.get());
+        runicTome(ModItems.RUNIC_TOME.get());
+        runicTome(ModItems.RUNIC_TOME_BASE_ELEMENTS.get());
+        runicTome(ModItems.RUNIC_TOME_DEEP_ELEMENTS.get());
+        runicTome(ModItems.RUNIC_TOME_INTENTS.get());
+        runicTome(ModItems.RUNIC_TOME_FORMS.get());
+        runicTome(ModItems.RUNIC_TOME_MODIFIERS.get());
         basicItem(ModItems.BASIC_RUNIC_BRUSH.get());
 
         //Block Items
@@ -342,6 +347,14 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", textureLoc);
     }
+
+    public ItemModelBuilder runicTome(Item item) {
+        return basicItemWithSharedTexture(
+                item,
+                ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "runic_tome")
+        );
+    }
+
     public ItemModelBuilder basicItemWithSharedTexture(Item item,ResourceLocation texture){
         return basicItemWithSharedTexture(
                 Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)),

@@ -49,6 +49,61 @@ public class ModItems {
                     ModRunicRunes.allRuneIds()
             ));
 
+    public static final DeferredItem<RunicTomeItem> RUNIC_TOME_BASE_ELEMENTS = ITEMS.register("runic_tome_base_elements",
+            () -> new RunicTomeItem(
+                    new Item.Properties().stacksTo(1),
+                    List.of(
+                            ModRunicRunes.FLAME,
+                            ModRunicRunes.WATER,
+                            ModRunicRunes.WIND,
+                            ModRunicRunes.EARTH
+                    )
+            ));
+
+    public static final DeferredItem<RunicTomeItem> RUNIC_TOME_DEEP_ELEMENTS = ITEMS.register("runic_tome_deep_elements",
+            () -> new RunicTomeItem(
+                    new Item.Properties().stacksTo(1),
+                    List.of(
+                            ModRunicRunes.WOOD,
+                            ModRunicRunes.METAL,
+                            ModRunicRunes.LIGHTNING,
+                            ModRunicRunes.FROST
+                    )
+            ));
+
+    public static final DeferredItem<RunicTomeItem> RUNIC_TOME_INTENTS = ITEMS.register("runic_tome_intents",
+            () -> new RunicTomeItem(
+                    new Item.Properties().stacksTo(1),
+                    List.of(
+                            ModRunicRunes.BIND,
+                            ModRunicRunes.PUSH,
+                            ModRunicRunes.PULL,
+                            ModRunicRunes.GUARD,
+                            ModRunicRunes.CUT,
+                            ModRunicRunes.HEAL
+                    )
+            ));
+
+    public static final DeferredItem<RunicTomeItem> RUNIC_TOME_FORMS = ITEMS.register("runic_tome_forms",
+            () -> new RunicTomeItem(
+                    new Item.Properties().stacksTo(1),
+                    List.of(
+                            ModRunicRunes.BOLT,
+                            ModRunicRunes.VEIL,
+                            ModRunicRunes.CIRCLE,
+                            ModRunicRunes.MARK
+                    )
+            ));
+
+    public static final DeferredItem<RunicTomeItem> RUNIC_TOME_MODIFIERS = ITEMS.register("runic_tome_modifiers",
+            () -> new RunicTomeItem(
+                    new Item.Properties().stacksTo(1),
+                    List.of(
+                            ModRunicRunes.QUICKEN,
+                            ModRunicRunes.STABILISE
+                    )
+            ));
+
     public static final DeferredItem<RunicCodexItem> RUNIC_CODEX = ITEMS.register("runic_codex",
             () -> new RunicCodexItem(new Item.Properties().stacksTo(1)));
 
