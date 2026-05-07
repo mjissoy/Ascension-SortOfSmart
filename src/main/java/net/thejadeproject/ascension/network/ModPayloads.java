@@ -15,6 +15,7 @@ import net.thejadeproject.ascension.refactor_packages.network.client_bound.entit
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.physique.SyncPhysique;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.techniques.ShowMergePromptPayload;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCastingScreenPayload;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCodexScreenPayload;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.runic.CastRunicSequencePayload;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.supressors.UpdateSuppressionValue;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.techniques.MergeResponsePayload;
@@ -107,10 +108,17 @@ public class ModPayloads {
                 ShowMergePromptPayload::handlePayload
         );
 
+        // Runic Things
         registrar.playToClient(
                 OpenRunicCastingScreenPayload.TYPE,
                 OpenRunicCastingScreenPayload.STREAM_CODEC,
                 OpenRunicCastingScreenPayload::handlePayload
+        );
+
+        registrar.playToClient(
+                OpenRunicCodexScreenPayload.TYPE,
+                OpenRunicCodexScreenPayload.STREAM_CODEC,
+                OpenRunicCodexScreenPayload::handlePayload
         );
 
 
@@ -159,6 +167,7 @@ public class ModPayloads {
                 MergeResponsePayload::handlePayload
         );
 
+        // Runic Things
         registrar.playToServer(
                 CastRunicSequencePayload.TYPE,
                 CastRunicSequencePayload.STREAM_CODEC,

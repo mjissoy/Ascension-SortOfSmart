@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCastingScreenPayload;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCodexScreenPayload;
 import net.thejadeproject.ascension.refactor_packages.runic.RunicPathHelper;
 
 public class RunicCodexItem extends Item {
@@ -31,7 +32,7 @@ public class RunicCodexItem extends Item {
         }
 
         if (player instanceof ServerPlayer serverPlayer) {
-            OpenRunicCastingScreenPayload.sendTo(serverPlayer);
+            OpenRunicCodexScreenPayload.sendTo(serverPlayer);
         }
 
         return InteractionResultHolder.success(stack);

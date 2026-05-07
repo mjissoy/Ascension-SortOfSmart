@@ -1352,6 +1352,18 @@ public class lang extends LanguageProvider {
 
         add("ascension.runic.casting.hover", "%s | %s | %s");
 
+        add("ascension.runic.codex.title", "Runic Codex");
+        add("ascension.runic.codex.runes", "Known Runes");
+        add("ascension.runic.codex.sequences", "Discovered Sequences");
+        add("ascension.runic.codex.no_runes", "No known runes.");
+        add("ascension.runic.codex.no_sequences", "No discovered sequences.");
+        add("ascension.runic.codex.select_entry", "Select a rune or sequence to inspect it.");
+        add("ascension.runic.codex.page", "%s / %s");
+        add("ascension.runic.codex.rune_details", "Type: %s | Depth: %s | Use Realm: %s");
+        add("ascension.runic.codex.rune_id", "Rune ID: %s");
+        add("ascension.runic.codex.sequence_details", "Tier: %s | Min Realm: %s | Qi: %s");
+        add("ascension.runic.codex.sequence_formula", "Formula: %s");
+
         add("ascension.runic.tome.not_on_path", "The runes remain silent. You have not entered the Runic Path.");
         add("ascension.runic.tome.no_new_runes", "This tome contains no new runes.");
         add("ascension.runic.tome.learned", "You learned %s runes.");
@@ -1379,12 +1391,19 @@ public class lang extends LanguageProvider {
         add("ascension.runic.rune.stabilise", "Stabilise Rune");
 
         add("ascension.runic.sequence.ember_mark", "Ember Mark");
+        add("ascension.runic.sequence.ember_mark.desc", "Condenses flame into a brief aggressive mark.");
         add("ascension.runic.sequence.clear_water_mend", "Clear Water Mend");
+        add("ascension.runic.sequence.clear_water_mend.desc", "Guides clear water through the body to mend minor wounds.");
         add("ascension.runic.sequence.stone_ward", "Stone Ward");
+        add("ascension.runic.sequence.stone_ward.desc", "Raises a short-lived ward of compacted earth and stone.");
         add("ascension.runic.sequence.wind_push", "Wind Push");
+        add("ascension.runic.sequence.wind_push.desc", "Releases a compressed gust that pushes enemies away.");
         add("ascension.runic.sequence.frost_bind", "Frost Bind");
+        add("ascension.runic.sequence.frost_bind.desc", "Chains cold intent around a target, slowing their movement.");
         add("ascension.runic.sequence.wind_step", "Wind Step");
+        add("ascension.runic.sequence.wind_step.desc", "Lightens the caster’s step with a quick breath of wind.");
         add("ascension.runic.sequence.thunder_cut_bolt", "Thunder-Cut Bolt");
+        add("ascension.runic.sequence.thunder_cut_bolt.desc", "Shapes lightning through a cutting script and releases it forward.");
 
         add("ascension.technique.basic_runic_script", "Basic Runic Script");
         add("ascension.technique.basic_runic_script.description.short", "A simple script for tracing and casting basic runic sequences.");
