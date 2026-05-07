@@ -30,14 +30,13 @@ import net.thejadeproject.ascension.common.items.data_components.ModDataComponen
 
 import net.thejadeproject.ascension.common.items.ModItems;
 import net.thejadeproject.ascension.common.items.artifacts.FlameGourd;
-import net.thejadeproject.ascension.entity.custom.NeedleProjectile;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventoryScreen;
 import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingModifierScreen;
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
-import net.thejadeproject.ascension.gui.ModOverlays;
+import net.thejadeproject.ascension.refactor_packages.gui.ModOverlays;
 import net.thejadeproject.ascension.shaders.client.ModShaders;
 import net.thejadeproject.ascension.shaders.client.RiftRenderer;
 

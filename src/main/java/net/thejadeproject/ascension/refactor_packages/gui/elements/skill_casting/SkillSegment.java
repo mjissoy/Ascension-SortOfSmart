@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.gui.elements.skill_casting;
+package net.thejadeproject.ascension.refactor_packages.gui.elements.skill_casting;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;

@@ -137,11 +137,6 @@ public class AttributeValueContainer extends ValueContainer {
         this.suppressed = this.suppressionPercent > 0.0;
     }
 
-    public double getUnsuppressedValue() {
-        validateAttributeValue();
-        return super.getValue();
-    }
-
 
     public static void encode(RegistryFriendlyByteBuf buf, AttributeValueContainer container){
         ValueContainer.encode(buf,container);

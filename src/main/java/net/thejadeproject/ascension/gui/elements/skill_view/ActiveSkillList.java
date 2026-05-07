@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.gui.elements.general.ScrollBox;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.general.ScrollBox;
 import net.thejadeproject.ascension.gui.elements.skill_view.slots.ActiveSkillIcon;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;

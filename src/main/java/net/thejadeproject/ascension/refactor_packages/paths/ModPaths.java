@@ -58,6 +58,20 @@ public class ModPaths {
                     .addMajorRealmName("ascension.path.soul.gold_battle_soul")
     );
 
+    public static final DeferredHolder<IPath, ? extends GenericPath> RUNIC = PATHS.register("runic",()->
+            new GenericPath(Component.translatable("ascension.path.runic"))
+                    .addMajorRealmName("ascension.path.runic.trace_sensing")
+                    .addMajorRealmName("ascension.path.runic.rune_knowing")
+                    .addMajorRealmName("ascension.path.runic.script_visualisation")
+                    .addMajorRealmName("ascension.path.runic.pattern_enlightenment")
+                    .addMajorRealmName("ascension.path.runic.rune_breath")
+                    .addMajorRealmName("ascension.path.runic.soul_inscription")
+                    .addMajorRealmName("ascension.path.runic.living_script")
+                    .addMajorRealmName("ascension.path.runic.dao_seed")
+                    .addMajorRealmName("ascension.path.runic.origin_spark")
+                    .addMajorRealmName("ascension.path.runic.infinite_script")
+    );
+
 
     // 5 Elements Paths
     public static final DeferredHolder<IPath, ? extends GenericPath> FIRE = PATHS.register("fire",()->

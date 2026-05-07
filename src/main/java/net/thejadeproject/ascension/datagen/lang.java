@@ -41,7 +41,20 @@ public class lang extends LanguageProvider {
         add("ascension.path.buddhist", "Buddhist");
 
 
+        add("ascension.path.runic", "Runic");
 
+
+        // Runic Realms
+        add("ascension.path.runic.trace_sensing", "Trace Sensing");
+        add("ascension.path.runic.rune_knowing", "Rune Knowing");
+        add("ascension.path.runic.script_visualisation", "Script Visualization");
+        add("ascension.path.runic.pattern_enlightenment", "Pattern Enlightenment");
+        add("ascension.path.runic.rune_breath", "Rune Breath");
+        add("ascension.path.runic.soul_inscription", "Soul Inscription");
+        add("ascension.path.runic.living_script", "Living Script");
+        add("ascension.path.runic.dao_seed", "Dao Seed");
+        add("ascension.path.runic.origin_spark", "Origin Spark");
+        add("ascension.path.runic.infinite_script", "Infinite Script");
 
         // Essence realms
         add("ascension.path.essence.mortal", "Mortal");
@@ -1318,16 +1331,53 @@ public class lang extends LanguageProvider {
 
 
 
-
-
-
-
-
-
         // Messages
         add("message.ascension.milk_denied","§cMilk buckets are not drinkable in this mod. Use antidote pills instead!");
 
 
+
+        // Runic Path Things
+        add("item.ascension.runic_tome.", "Runic Tomb");
+        add("ascension.runic.tome.not_on_path", "The runes remain silent. You have not entered the Runic Path.");
+        add("ascension.runic.tome.no_new_runes", "This tome contains no new runes.");
+        add("ascension.runic.tome.learned", "You learned %s runes.");
+        add("ascension.runic.sequence.cast", "You cast the sequence: %s");
+
+        add("ascension.runic.rune.flame", "Flame Rune");
+        add("ascension.runic.rune.water", "Water Rune");
+        add("ascension.runic.rune.wind", "Wind Rune");
+        add("ascension.runic.rune.earth", "Earth Rune");
+        add("ascension.runic.rune.wood", "Wood Rune");
+        add("ascension.runic.rune.metal", "Metal Rune");
+        add("ascension.runic.rune.lightning", "Lightning Rune");
+        add("ascension.runic.rune.frost", "Frost Rune");
+        add("ascension.runic.rune.bind", "Bind Rune");
+        add("ascension.runic.rune.push", "Push Rune");
+        add("ascension.runic.rune.pull", "Pull Rune");
+        add("ascension.runic.rune.guard", "Guard Rune");
+        add("ascension.runic.rune.cut", "Cut Rune");
+        add("ascension.runic.rune.heal", "Heal Rune");
+        add("ascension.runic.rune.bolt", "Bolt Rune");
+        add("ascension.runic.rune.veil", "Veil Rune");
+        add("ascension.runic.rune.circle", "Circle Rune");
+        add("ascension.runic.rune.mark", "Mark Rune");
+        add("ascension.runic.rune.quicken", "Quicken Rune");
+        add("ascension.runic.rune.stabilise", "Stabilise Rune");
+
+        add("ascension.skill.open_runic_casting", "Runic Casting");
+        add("ascension.skill.open_runic_casting.description"  , "Open the Runic Casting interface and weave known runes into a sequence.");
+        add("ascension.runic.casting.title", "Runic Casting");
+        add("ascension.runic.casting.info", "Slots: %s | Time: %ss");
+        add("ascension.runic.casting.selected.empty", "Selected: none");
+        add("ascension.runic.casting.backspace", "Back");
+        add("ascension.runic.casting.clear", "Clear");
+        add("ascension.runic.casting.cast", "Cast");
+        add("ascension.runic.cast.success", "Sequence aligned: %s");
+        add("ascension.runic.cast.failure", "The runes do not align: %s");
+        add("ascension.runic.cast.no_entity_data", "No ascension data found.");
+        add("ascension.runic.cast.not_on_path", "You have not entered the Runic Path.");
+        add("ascension.runic.cast.no_usable_runes", "You do not know any usable runes.");
+        add("ascension.runic.codex.not_on_path", "The codex remains shut. You have not entered the Runic Path.");
 
     }
 }

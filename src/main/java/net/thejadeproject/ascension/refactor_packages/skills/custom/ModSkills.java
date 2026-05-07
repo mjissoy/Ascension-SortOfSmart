@@ -12,6 +12,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.ITickingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.body.WhiteLightningFist;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire.FireSpray;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.runic.OpenRunicCastingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.QiFlightSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.VoidstepSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
@@ -253,11 +254,6 @@ public class ModSkills {
     // Actives
 
 
-
-
-
-
-
     //Demonic shhhh
     public static final DeferredHolder<ISkill, ? extends BloodfeastBanquetSkill> BLOODFEAST_BANQUET_SKILL =
             SKILLS.register("bloodfeast_banquet_skill", BloodfeastBanquetSkill::new);
@@ -287,6 +283,10 @@ public class ModSkills {
 
     // Actives
 
+
+    // ──── RUNIC SKILLS ────────────────────────────────────────────
+    public static final DeferredHolder<ISkill, ? extends OpenRunicCastingSkill> OPEN_RUNIC_CASTING =
+            SKILLS.register("open_runic_casting", OpenRunicCastingSkill::new);
 
 
     // ──── Register Skills with onPlayerTick methods ────────────────────────────────────────────

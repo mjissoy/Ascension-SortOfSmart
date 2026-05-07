@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.gui.elements.general;
+package net.thejadeproject.ascension.refactor_packages.gui.elements.general;
 
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;

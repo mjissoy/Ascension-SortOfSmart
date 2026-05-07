@@ -28,6 +28,10 @@ import net.thejadeproject.ascension.common.items.tools.FanItem;
 import net.thejadeproject.ascension.common.items.tools.SpearItem;
 import net.thejadeproject.ascension.common.items.tools.SpiritualStoneTools;
 import net.thejadeproject.ascension.refactor_packages.alchemy.ModPillEffects;
+import net.thejadeproject.ascension.refactor_packages.runic.items.RunicBrushItem;
+import net.thejadeproject.ascension.refactor_packages.runic.items.RunicCodexItem;
+import net.thejadeproject.ascension.refactor_packages.runic.items.RunicTomeItem;
+import net.thejadeproject.ascension.refactor_packages.runic.runes.ModRunicRunes;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.technique_data.ScholarlySoulTechniqueData;
 import net.thejadeproject.ascension.util.ItemUtil;
 
@@ -36,6 +40,28 @@ import java.util.List;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
+
+    // ── Runic Path Things ──────────────────────────────────────────────────────────
+
+    public static final DeferredItem<RunicTomeItem> RUNIC_TOME = ITEMS.register("runic_tome",
+            () -> new RunicTomeItem(
+                    new Item.Properties().stacksTo(1),
+                    ModRunicRunes.allRuneIds()
+            ));
+
+    public static final DeferredItem<RunicCodexItem> RUNIC_CODEX = ITEMS.register("runic_codex",
+            () -> new RunicCodexItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<RunicBrushItem> BASIC_RUNIC_BRUSH = ITEMS.register("basic_runic_brush",
+            () -> new RunicBrushItem(
+                    new Item.Properties().stacksTo(1),
+                    1,
+                    ModRunicRunes.STABILISE
+            ));
+
+
+
+    // ── Alchemy Items ──────────────────────────────────────────────────────────
 
     public static final DeferredItem<Item> FAN = ITEMS.register("fan",
             () -> new FanItem(new Item.Properties()));

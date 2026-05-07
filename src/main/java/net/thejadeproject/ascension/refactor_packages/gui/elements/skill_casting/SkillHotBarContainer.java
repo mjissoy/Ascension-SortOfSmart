@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.gui.elements.skill_casting;
+package net.thejadeproject.ascension.refactor_packages.gui.elements.skill_casting;
 
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;

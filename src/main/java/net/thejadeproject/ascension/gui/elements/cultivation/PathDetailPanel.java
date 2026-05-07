@@ -22,11 +22,6 @@ import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
-import net.thejadeproject.ascension.runic_path.RunicPathHelper;
-import net.thejadeproject.ascension.runic_path.network.ClientRunicData;
-import net.thejadeproject.ascension.runic_path.Rune;
-import net.thejadeproject.ascension.runic_path.Runes;
-
 import java.util.Set;
 
 public class PathDetailPanel extends RenderableElement {
@@ -284,41 +279,5 @@ public class PathDetailPanel extends RenderableElement {
 
         super.render(gfx, mouseX, mouseY, partialTick);
     }
-
-    private int drawSelectedRealmLine(GuiGraphics gfx, Font font, IEntityData entityData, int y, int majorRealm, String realmName) {
-        var selected = ClientRunicData.getSelectedRunes(majorRealm);
-
-        int selectedCount = selected.size();
-        int unlockedSlots = entityData != null
-                ? RunicPathHelper.getUnlockedRuneSelectionsForRealm(entityData, majorRealm)
-                : 0;
-        int maxSlots = entityData != null
-                ? RunicPathHelper.getMaxRuneSelectionsForRealm(entityData, majorRealm)
-                : 0;
-
-        String names;
-        if (selected.isEmpty()) {
-            names = "None";
-        } else {
-            StringBuilder builder = new StringBuilder();
-            boolean first = true;
-
-            for (ResourceLocation runeId : selected) {
-                Rune rune = Runes.get(runeId);
-                String name = rune != null ? rune.getDisplayName().getString() : runeId.getPath();
-
-                if (!first) builder.append(", ");
-                builder.append(name);
-                first = false;
-            }
-
-            names = builder.toString();
-        }
-
-        String text = realmName + " (" + selectedCount + "/" + unlockedSlots + "/" + maxSlots + "): " + names;
-        gfx.drawString(font, text, 6, y, 0xFFD8C8FF, false);
-
-        return y + 10;
-    }
-
+    
 }

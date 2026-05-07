@@ -105,6 +105,13 @@ public class ModPayloads {
                 ShowMergePromptPayload::handlePayload
         );
 
+        registrar.playToClient(
+                OpenRunicCastingScreenPayload.TYPE,
+                OpenRunicCastingScreenPayload.STREAM_CODEC,
+                OpenRunicCastingScreenPayload::handlePayload
+        );
+
+
         //===================================== SERVER ==================================
 
 
@@ -149,5 +156,12 @@ public class ModPayloads {
                 MergeResponsePayload.STREAM_CODEC,
                 MergeResponsePayload::handlePayload
         );
+
+        registrar.playToServer(
+                CastRunicSequencePayload.TYPE,
+                CastRunicSequencePayload.STREAM_CODEC,
+                CastRunicSequencePayload::handlePayload
+        );
+
     }
 }
