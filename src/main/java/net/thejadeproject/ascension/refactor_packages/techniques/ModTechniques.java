@@ -14,6 +14,7 @@ import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.body.*;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.GenericTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.essence.*;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.runic.BasicRunicScriptTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.soul.*;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
@@ -249,14 +250,8 @@ public class ModTechniques {
 
 
     // ──── RUNIC PATH THINGS ────────────────────────────────────────────
-    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> BASIC_RUNIC_SCRIPT =
-            TECHNIQUES.register("basic_runic_script",
-                    () -> new GenericTechnique(
-                            ModPaths.RUNIC.getId(),
-                            Component.translatable("ascension.technique.basic_runic_script"),
-                            10.0,
-                            Set.of())
-            );
+    public static final DeferredHolder<ITechnique, ? extends BasicRunicScriptTechnique> BASIC_RUNIC_SCRIPT =
+            TECHNIQUES.register("basic_runic_script", BasicRunicScriptTechnique::new);
 
 
     /* ──── TECHNIQUE IDEAS | Fill in as you please ──────────────────────────────────────────── //

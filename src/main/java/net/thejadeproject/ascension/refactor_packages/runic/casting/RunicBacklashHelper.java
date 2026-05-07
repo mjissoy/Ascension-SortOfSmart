@@ -16,7 +16,7 @@ public final class RunicBacklashHelper {
                 true
         );
 
-        player.hurt(player.damageSources().generic(), 2.0F);
+        player.hurt(player.damageSources().magic(), 2.0F);
         player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 80, 0));
     }
 }

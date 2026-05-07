@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ascension:item/fan"
+    "layer0": "ascension:item/basic_runic_brush"
   }
 }

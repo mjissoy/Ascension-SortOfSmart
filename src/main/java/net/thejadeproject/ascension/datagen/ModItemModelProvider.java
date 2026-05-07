@@ -27,9 +27,9 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         // Runic Things
-        basicItemWithTexture(ModItems.RUNIC_CODEX.get(), "jade_slip");
-        basicItemWithTexture(ModItems.RUNIC_TOME.get(), "damaged_page");
-        basicItemWithTexture(ModItems.BASIC_RUNIC_BRUSH.get(), "fan");
+        basicItem(ModItems.RUNIC_CODEX.get());
+        basicItem(ModItems.RUNIC_TOME.get());
+        basicItem(ModItems.BASIC_RUNIC_BRUSH.get());
 
         //Block Items
         buttonItem(ModBlocks.GOLDEN_PALM_BUTTON, ModBlocks.GOLDEN_PALM_PLANKS);

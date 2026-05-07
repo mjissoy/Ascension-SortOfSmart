@@ -48,14 +48,14 @@ public class RunicCastingScreen extends EasyScreen {
         frame.setPauseGame(false);
 
         RunicPanel panel = new RunicPanel(frame);
-        panel.setWidth(270);
-        panel.setHeight(190);
+        panel.setWidth(360);
+        panel.setHeight(230);
         panel.getPositioning().setPositioningRule(PositioningRules.CENTER);
-        panel.getPositioning().setX(-135);
-        panel.getPositioning().setY(-95);
+        panel.getPositioning().setX(-180);
+        panel.getPositioning().setY(-115);
         frame.setRoot(panel);
 
-        EasyLabel title = label(frame, Component.translatable("ascension.runic.casting.title"), 0, 8, 270, 12, 0xFFE8D8FF);
+        EasyLabel title = label(frame, Component.translatable("ascension.runic.casting.title"), 0, 8, 360, 12, 0xFFE8D8FF);
         title.setTextPositioningX(EasyLabel.TextPositionRule.CENTER);
         panel.addChild(title);
 
@@ -64,7 +64,7 @@ public class RunicCastingScreen extends EasyScreen {
                 Component.translatable("ascension.runic.casting.info", maxRuneSlots, durationSeconds),
                 0,
                 23,
-                270,
+                360,
                 10,
                 0xFFBEB4D7
         );
@@ -72,12 +72,12 @@ public class RunicCastingScreen extends EasyScreen {
         info.setTextScale(0.8F);
         panel.addChild(info);
 
-        selectedLabel = label(frame, Component.empty(), 15, 42, 240, 14, 0xFFFFFFFF);
+        selectedLabel = label(frame, Component.empty(), 15, 42, 330, 14, 0xFFFFFFFF);
         selectedLabel.setTextScale(0.85F);
         panel.addChild(selectedLabel);
         refreshSelectedLabel();
 
-        hoverBox = new RenderableElement(frame, 276, 24) {
+        hoverBox = new RenderableElement(frame, 190, 40) {
             @Override
             public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 guiGraphics.fill(0, 0, getWidth(), getHeight(), 0xCC12091F);
@@ -85,25 +85,26 @@ public class RunicCastingScreen extends EasyScreen {
             }
         };
 
-        hoverBox.setWidth(160);
+        hoverBox.setWidth(155);
         hoverBox.setHeight(22);
         hoverBox.setVisible(false);
         panel.addChild(hoverBox);
 
-        hoverLabel = label(frame, Component.empty(), 6, 5, 148, 10, 0xFFE8D8FF);
+        hoverLabel = label(frame, Component.empty(), 6, 5, 143, 10, 0xFFE8D8FF);
         hoverLabel.setTextScale(0.75F);
         hoverBox.addChild(hoverLabel);
 
         int startX = 15;
-        int startY = 64;
-        int buttonW = 76;
+        int startY = 68;
+        int buttonW = 78;
         int buttonH = 16;
         int gap = 6;
+        int columns = 4;
 
         for (int i = 0; i < usableRunes.size(); i++) {
             ResourceLocation runeId = usableRunes.get(i);
-            int col = i % 3;
-            int row = i / 3;
+            int col = i % columns;
+            int row = i / columns;
 
             RuneButton runeButton = new RuneButton(
                     frame,
@@ -118,7 +119,7 @@ public class RunicCastingScreen extends EasyScreen {
             panel.addChild(runeButton);
         }
 
-        TextButton backspace = new TextButton(frame, 15, 154, 76, 18, Component.translatable("ascension.runic.casting.backspace")) {
+        TextButton backspace = new TextButton(frame, 15, 195, 100, 18, Component.translatable("ascension.runic.casting.backspace")) {
             @Override
             public void onClick() {
                 if (!selectedRunes.isEmpty()) {
@@ -129,7 +130,7 @@ public class RunicCastingScreen extends EasyScreen {
         };
         panel.addChild(backspace);
 
-        TextButton clear = new TextButton(frame, 97, 154, 76, 18, Component.translatable("ascension.runic.casting.clear")) {
+        TextButton clear = new TextButton(frame, 130, 195, 100, 18, Component.translatable("ascension.runic.casting.clear")) {
             @Override
             public void onClick() {
                 selectedRunes.clear();
@@ -138,7 +139,7 @@ public class RunicCastingScreen extends EasyScreen {
         };
         panel.addChild(clear);
 
-        TextButton cast = new TextButton(frame, 179, 154, 76, 18, Component.translatable("ascension.runic.casting.cast")) {
+        TextButton cast = new TextButton(frame, 245, 195, 100, 18, Component.translatable("ascension.runic.casting.cast")) {
             @Override
             public void onClick() {
                 if (selectedRunes.isEmpty()) {

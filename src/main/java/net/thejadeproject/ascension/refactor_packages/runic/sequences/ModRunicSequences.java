@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+
+import net.minecraft.world.entity.LivingEntity;
 
 public final class ModRunicSequences {
 
@@ -19,6 +22,7 @@ public final class ModRunicSequences {
             0,
             8,
             false,
+            RunicSequenceEffects::emberMark,
             ModRunicRunes.FLAME,
             ModRunicRunes.MARK
     );
@@ -29,6 +33,7 @@ public final class ModRunicSequences {
             0,
             10,
             false,
+            RunicSequenceEffects::clearWaterMend,
             ModRunicRunes.WATER,
             ModRunicRunes.HEAL
     );
@@ -39,6 +44,7 @@ public final class ModRunicSequences {
             0,
             12,
             false,
+            RunicSequenceEffects::stoneWard,
             ModRunicRunes.EARTH,
             ModRunicRunes.GUARD
     );
@@ -49,6 +55,7 @@ public final class ModRunicSequences {
             0,
             8,
             false,
+            RunicSequenceEffects::windPush,
             ModRunicRunes.WIND,
             ModRunicRunes.PUSH
     );
@@ -59,6 +66,7 @@ public final class ModRunicSequences {
             1,
             15,
             false,
+            RunicSequenceEffects::frostBind,
             ModRunicRunes.FROST,
             ModRunicRunes.BIND
     );
@@ -69,6 +77,7 @@ public final class ModRunicSequences {
             1,
             18,
             false,
+            RunicSequenceEffects::windStep,
             ModRunicRunes.WIND,
             ModRunicRunes.PUSH,
             ModRunicRunes.QUICKEN
@@ -80,6 +89,7 @@ public final class ModRunicSequences {
             2,
             25,
             true,
+            RunicSequenceEffects::thunderCutBolt,
             ModRunicRunes.LIGHTNING,
             ModRunicRunes.CUT,
             ModRunicRunes.BOLT
@@ -102,17 +112,19 @@ public final class ModRunicSequences {
             int minimumRunicRealm,
             int qiCost,
             boolean orderSensitive,
+            Consumer<LivingEntity> castAction,
             ResourceLocation... requiredRunes
     ) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, path);
 
-        IRunicSequence sequence = new GenericRunicSequence(
+        IRunicSequence sequence = new FunctionalRunicSequence(
                 id,
                 List.of(requiredRunes),
                 tier,
                 minimumRunicRealm,
                 qiCost,
-                orderSensitive
+                orderSensitive,
+                castAction
         );
 
         BY_ID.put(id, sequence);

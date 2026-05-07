@@ -1337,11 +1337,11 @@ public class lang extends LanguageProvider {
 
 
         // Runic Path Things
-        add("item.ascension.runic_tome.", "Runic Tomb");
-        add("item.ascension.runic_codex.", "Runic Codex");
-        add("item.ascension.basic_runic_brush.", "Basic Runic Brush");
-        add("ascension.technique.basic_runic_script.", "Basic Runic Scripture");
-        add("ascension.physiques.runic_test.", "Runic Test Physique");
+        add("item.ascension.runic_tome", "Runic Tomb");
+        add("item.ascension.runic_codex", "Runic Codex");
+        add("item.ascension.basic_runic_brush", "Basic Runic Brush");
+        add("ascension.technique.basic_runic_script", "Basic Runic Scripture");
+        add("ascension.physiques.runic_test", "Runic Test Physique");
 
         add("ascension.runic.casting.hover", "%s | %s | %s");
 
@@ -1371,6 +1371,18 @@ public class lang extends LanguageProvider {
         add("ascension.runic.rune.quicken", "Quicken Rune");
         add("ascension.runic.rune.stabilise", "Stabilise Rune");
 
+        add("ascension.runic.sequence.ember_mark", "Ember Mark");
+        add("ascension.runic.sequence.clear_water_mend", "Clear Water Mend");
+        add("ascension.runic.sequence.stone_ward", "Stone Ward");
+        add("ascension.runic.sequence.wind_push", "Wind Push");
+        add("ascension.runic.sequence.frost_bind", "Frost Bind");
+        add("ascension.runic.sequence.wind_step", "Wind Step");
+        add("ascension.runic.sequence.thunder_cut_bolt", "Thunder-Cut Bolt");
+
+        add("ascension.technique.basic_runic_script", "Basic Runic Script");
+        add("ascension.technique.basic_runic_script.description.short", "A simple script for tracing and casting basic runic sequences.");
+        add("ascension.technique.basic_runic_script.description", "A beginner Runic Path technique that teaches the cultivator how to arrange known runes into simple castable sequences.");
+
         add("ascension.skill.open_runic_casting", "Runic Casting");
         add("ascension.skill.open_runic_casting.description"  , "Open the Runic Casting interface and weave known runes into a sequence.");
         add("ascension.runic.casting.title", "Runic Casting");
@@ -1379,7 +1391,7 @@ public class lang extends LanguageProvider {
         add("ascension.runic.casting.backspace", "Back");
         add("ascension.runic.casting.clear", "Clear");
         add("ascension.runic.casting.cast", "Cast");
-        add("ascension.runic.cast.success", "Sequence aligned: %s");
+        add("ascension.runic.cast.success", "The sequence takes form: %s");
         add("ascension.runic.cast.no_entity_data", "No ascension data found.");
         add("ascension.runic.cast.not_on_path", "You have not entered the Runic Path.");
         add("ascension.runic.cast.no_usable_runes", "You do not know any usable runes.");

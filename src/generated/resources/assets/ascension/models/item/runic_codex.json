@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ascension:item/jade_slip"
+    "layer0": "ascension:item/runic_codex"
   }
 }
