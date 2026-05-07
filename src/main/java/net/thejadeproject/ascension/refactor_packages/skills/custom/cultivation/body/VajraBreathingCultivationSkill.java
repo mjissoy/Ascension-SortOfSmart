@@ -1,0 +1,95 @@
+package net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.body;
+
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
+import net.thejadeproject.ascension.refactor_packages.paths.PathData;
+import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.passive.SimplePassiveSkill;
+
+public class VajraBreathingCultivationSkill extends SimplePassiveSkill {
+
+    private static final float MIN_DAMAGE = 8.0f;
+    private static final double BASE_MULTIPLIER = 2.8;
+    private static final double UNARMED_BONUS = 0.25;
+    private static final double NO_ARMOR_BONUS = 0.20;
+    private static final double NO_WEAPON_BONUS = 0.20;
+
+    public VajraBreathingCultivationSkill() {
+        NeoForge.EVENT_BUS.addListener(this::onLivingDamage);
+    }
+
+    @SubscribeEvent
+    public void onLivingDamage(LivingDamageEvent.Post event) {
+        if (event.getEntity().level().isClientSide()) return;
+        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+
+        float damage = event.getNewDamage();
+        if (damage < MIN_DAMAGE) return;
+
+        IEntityData entityData = player.getData(ModAttachments.ENTITY_DATA);
+
+        if (!entityData.hasSkill(ModSkills.VAJRA_BREATHING_CULTIVATION_SKILL.getId())) return;
+
+        PathData bodyPath = entityData.getPathData(ModPaths.BODY.getId());
+        if (bodyPath == null || bodyPath.isBreakingThrough()) return;
+
+        EntityQiContainer qiContainer = entityData.getQiContainer();
+        if (qiContainer == null) return;
+        if (!qiContainer.tryConsumeQi(damage)) return;
+
+        double multiplier = BASE_MULTIPLIER * getCultivationMultiplier(player);
+        bodyPath.setCurrentRealmProgress(
+                bodyPath.getCurrentRealmProgress() + damage * multiplier
+        );
+
+        bodyPath.sync(player);
+    }
+
+    private double getCultivationMultiplier(ServerPlayer player) {
+        double bonus = 1.0;
+
+        if (isUnarmed(player)) bonus += UNARMED_BONUS;
+        if (hasNoArmor(player)) bonus += NO_ARMOR_BONUS;
+        if (hasNoWeapon(player)) bonus += NO_WEAPON_BONUS;
+
+        return bonus;
+    }
+
+    private boolean isUnarmed(LivingEntity entity) {
+        return entity.getMainHandItem().isEmpty() && entity.getOffhandItem().isEmpty();
+    }
+
+    private boolean hasNoWeapon(LivingEntity entity) {
+        return entity.getMainHandItem().isEmpty();
+    }
+
+    private boolean hasNoArmor(LivingEntity entity) {
+        return entity.getItemBySlot(EquipmentSlot.HEAD).isEmpty()
+                && entity.getItemBySlot(EquipmentSlot.CHEST).isEmpty()
+                && entity.getItemBySlot(EquipmentSlot.LEGS).isEmpty()
+                && entity.getItemBySlot(EquipmentSlot.FEET).isEmpty();
+    }
+
+    @Override
+    protected String getTitleKey() {
+        return "ascension.skill.vajra_breathing_cultivation_skill";
+    }
+
+    @Override
+    protected String getDescriptionKey() {
+        return "ascension.skill.vajra_breathing_cultivation_skill.description";
+    }
+
+    @Override
+    protected String getIconPath() {
+        return "textures/spells/icon/placeholder_gold.png";
+    }
+}
