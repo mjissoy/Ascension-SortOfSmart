@@ -1338,6 +1338,13 @@ public class lang extends LanguageProvider {
 
         // Runic Path Things
         add("item.ascension.runic_tome.", "Runic Tomb");
+        add("item.ascension.runic_codex.", "Runic Codex");
+        add("item.ascension.basic_runic_brush.", "Basic Runic Brush");
+        add("ascension.technique.basic_runic_script.", "Basic Runic Scripture");
+        add("ascension.physiques.runic_test.", "Runic Test Physique");
+
+        add("ascension.runic.casting.hover", "%s | %s | %s");
+
         add("ascension.runic.tome.not_on_path", "The runes remain silent. You have not entered the Runic Path.");
         add("ascension.runic.tome.no_new_runes", "This tome contains no new runes.");
         add("ascension.runic.tome.learned", "You learned %s runes.");
@@ -1373,11 +1380,11 @@ public class lang extends LanguageProvider {
         add("ascension.runic.casting.clear", "Clear");
         add("ascension.runic.casting.cast", "Cast");
         add("ascension.runic.cast.success", "Sequence aligned: %s");
-        add("ascension.runic.cast.failure", "The runes do not align: %s");
         add("ascension.runic.cast.no_entity_data", "No ascension data found.");
         add("ascension.runic.cast.not_on_path", "You have not entered the Runic Path.");
         add("ascension.runic.cast.no_usable_runes", "You do not know any usable runes.");
         add("ascension.runic.codex.not_on_path", "The codex remains shut. You have not entered the Runic Path.");
+        add("ascension.runic.cast.failure", "The runes do not align.");
 
     }
 }

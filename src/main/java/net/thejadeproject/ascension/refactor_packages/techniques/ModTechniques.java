@@ -248,6 +248,16 @@ public class ModTechniques {
             );
 
 
+    // ──── RUNIC PATH THINGS ────────────────────────────────────────────
+    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> BASIC_RUNIC_SCRIPT =
+            TECHNIQUES.register("basic_runic_script",
+                    () -> new GenericTechnique(
+                            ModPaths.RUNIC.getId(),
+                            Component.translatable("ascension.technique.basic_runic_script"),
+                            10.0,
+                            Set.of())
+            );
+
 
     /* ──── TECHNIQUE IDEAS | Fill in as you please ──────────────────────────────────────────── //
 

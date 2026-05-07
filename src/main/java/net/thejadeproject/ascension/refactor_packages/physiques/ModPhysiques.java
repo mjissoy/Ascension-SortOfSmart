@@ -441,6 +441,12 @@ public class ModPhysiques {
 
 
 
+    public static final DeferredHolder<IPhysique, ? extends GenericPhysique> RUNIC_TEST_PHYSIQUE = PHYSIQUES.register("runic_test",()->
+            new GenericPhysique(Component.translatable("ascension.physiques.runic_test"))
+                    .addPath(ModPaths.RUNIC.getId())
+                    .addPathBonus(ModPaths.RUNIC.getId(),10.0)
+    );
+
 
 
     public static void register(IEventBus modEventBus){

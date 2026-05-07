@@ -22,6 +22,9 @@ public class RunicCastingScreen extends EasyScreen {
 
     private final List<ResourceLocation> usableRunes;
     private final List<ResourceLocation> selectedRunes = new ArrayList<>();
+    private final List<RuneButton> runeButtons = new ArrayList<>();
+    private EasyLabel hoverLabel;
+    private RenderableElement hoverBox;
     private final int maxRuneSlots;
     private final int durationSeconds;
     private EasyLabel selectedLabel;
@@ -74,6 +77,23 @@ public class RunicCastingScreen extends EasyScreen {
         panel.addChild(selectedLabel);
         refreshSelectedLabel();
 
+        hoverBox = new RenderableElement(frame, 276, 24) {
+            @Override
+            public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+                guiGraphics.fill(0, 0, getWidth(), getHeight(), 0xCC12091F);
+                guiGraphics.renderOutline(0, 0, getWidth(), getHeight(), 0xFFB79CFF);
+            }
+        };
+
+        hoverBox.setWidth(160);
+        hoverBox.setHeight(22);
+        hoverBox.setVisible(false);
+        panel.addChild(hoverBox);
+
+        hoverLabel = label(frame, Component.empty(), 6, 5, 148, 10, 0xFFE8D8FF);
+        hoverLabel.setTextScale(0.75F);
+        hoverBox.addChild(hoverLabel);
+
         int startX = 15;
         int startY = 64;
         int buttonW = 76;
@@ -85,7 +105,16 @@ public class RunicCastingScreen extends EasyScreen {
             int col = i % 3;
             int row = i / 3;
 
-            RuneButton runeButton = new RuneButton(frame, runeId, startX + col * (buttonW + gap), startY + row * (buttonH + gap), buttonW, buttonH);
+            RuneButton runeButton = new RuneButton(
+                    frame,
+                    runeId,
+                    startX + col * (buttonW + gap),
+                    startY + row * (buttonH + gap),
+                    buttonW,
+                    buttonH
+            );
+
+            runeButtons.add(runeButton);
             panel.addChild(runeButton);
         }
 
@@ -188,30 +217,58 @@ public class RunicCastingScreen extends EasyScreen {
     }
 
     private static class TextButton extends EasyButton {
-        private final EasyLabel label;
+        private final Component text;
 
         private TextButton(UIFrame frame, int x, int y, int width, int height, Component text) {
             super(frame, x, y);
+            this.text = text;
+
             setWidth(width);
             setHeight(height);
-
-            label = label(frame, text, 0, 0, width, height, 0xFFFFFFFF);
-            label.setTextScale(0.75F);
-            label.setTextPositioningX(EasyLabel.TextPositionRule.CENTER);
-            addChild(label);
         }
 
         @Override
         public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-            int color = isPressed() ? 0xCC6F4DBA : isHovered() ? 0xAA4F3A7A : 0xAA211733;
+            boolean manuallyHovered = isPointBounded(mouseX, mouseY);
+
+            int color = isPressed()
+                    ? 0xCC6F4DBA
+                    : manuallyHovered ? 0xAA4F3A7A : 0xAA211733;
+
             guiGraphics.fill(0, 0, getWidth(), getHeight(), color);
             guiGraphics.renderOutline(0, 0, getWidth(), getHeight(), 0xFFB79CFF);
+
+            int textY = (getHeight() - Minecraft.getInstance().font.lineHeight) / 2 + 1;
+
+            guiGraphics.drawCenteredString(
+                    Minecraft.getInstance().font,
+                    text,
+                    getWidth() / 2,
+                    textY,
+                    0xFFFFFFFF
+            );
         }
     }
 
-    private static class RunicPanel extends RenderableElement {
+    private class RunicPanel extends RenderableElement {
         private RunicPanel(UIFrame frame) {
             super(frame);
+        }
+
+        @Override
+        public void renderTick(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            ResourceLocation hoveredRune = null;
+
+            for (RuneButton button : runeButtons) {
+                if (button.isPointBounded(mouseX, mouseY)) {
+                    hoveredRune = button.runeId;
+                    break;
+                }
+            }
+
+            refreshHoverLabel(hoveredRune);
+
+            super.renderTick(guiGraphics, mouseX, mouseY, partialTick);
         }
 
         @Override
@@ -220,4 +277,43 @@ public class RunicCastingScreen extends EasyScreen {
             guiGraphics.renderOutline(0, 0, getWidth(), getHeight(), 0xFFE8D8FF);
         }
     }
+
+    private void refreshHoverLabel(ResourceLocation hoveredRune) {
+        if (hoverBox == null || hoverLabel == null) {
+            return;
+        }
+
+        if (hoveredRune == null) {
+            hoverBox.setVisible(false);
+            hoverLabel.setText(Component.empty());
+            return;
+        }
+
+        IRunicRune rune = ModRunicRunes.get(hoveredRune);
+
+        if (rune == null) {
+            hoverBox.setVisible(false);
+            hoverLabel.setText(Component.empty());
+            return;
+        }
+
+        hoverBox.setVisible(true);
+        hoverLabel.setText(Component.translatable(
+                "ascension.runic.casting.hover",
+                rune.getName(),
+                formatEnumName(rune.getType().name()),
+                formatEnumName(rune.getDepth().name())
+        ));
+    }
+
+    private static String formatEnumName(String name) {
+        String lower = name.toLowerCase();
+
+        if (lower.isEmpty()) {
+            return lower;
+        }
+
+        return Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
+    }
+
 }

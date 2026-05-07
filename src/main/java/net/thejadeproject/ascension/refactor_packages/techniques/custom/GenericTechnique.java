@@ -82,6 +82,9 @@ public class GenericTechnique implements ITechnique {
             heldEntity.giveSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
             heldEntity.giveSkill(ModSkills.SWORD_MASTERY_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
+        if(getPath().equals(ModPaths.RUNIC.getId())){
+            heldEntity.giveSkill(ModSkills.OPEN_RUNIC_CASTING.getId(),ModForms.MORTAL_VESSEL.getId());
+        }
 
         refreshUniversalTechniqueSkills(heldEntity);
     }
@@ -95,6 +98,9 @@ public class GenericTechnique implements ITechnique {
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.removeSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
             heldEntity.removeSkill(ModSkills.SWORD_MASTERY_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
+        }
+        if(getPath().equals(ModPaths.RUNIC.getId())){
+            heldEntity.removeSkill(ModSkills.OPEN_RUNIC_CASTING.getId(),ModForms.MORTAL_VESSEL.getId());
         }
 
         refreshUniversalTechniqueSkills(heldEntity);

@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.runic.casting.RunicBacklashHelper;
 import net.thejadeproject.ascension.refactor_packages.runic.casting.RunicCastingResult;
 import net.thejadeproject.ascension.refactor_packages.runic.casting.RunicSequenceMatcher;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
@@ -63,10 +64,7 @@ public record CastRunicSequencePayload(List<ResourceLocation> runes) implements 
                 return;
             }
 
-            player.displayClientMessage(
-                    Component.translatable("ascension.runic.cast.failure", result.getFailureReason()),
-                    true
-            );
+            RunicBacklashHelper.applyMinorBacklash(player, result.getFailureReason());
         });
     }
 }
