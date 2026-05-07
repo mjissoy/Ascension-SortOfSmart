@@ -28,7 +28,7 @@ public class ServerPlayerEventHandlers {
     public static void onInputStateChanged(PlayerInputStates.InputStateChanged inputStateChanged){
         if(inputStateChanged.input.equals("skill_cast") && inputStateChanged.state == PlayerInputStates.InputState.PRESSED){
             IEntityData entityData = inputStateChanged.player.getData(ModAttachments.ENTITY_DATA);
-            System.out.println("trying to cast active slot: "+entityData.getSkillCastHandler().getHotBar().getActiveSlot());
+            //System.out.println("trying to cast active slot: "+entityData.getSkillCastHandler().getHotBar().getActiveSlot());
             entityData.getSkillCastHandler().tryCast(inputStateChanged.player);
         }
     }
@@ -39,6 +39,24 @@ public class ServerPlayerEventHandlers {
             player.getData(ModAttachments.ENTITY_DATA).getSkillCastHandler().tick(player);
             for(PathData pathData:player.getData(ModAttachments.ENTITY_DATA).getAllPathData()){
                 if(pathData.isBreakingThrough() && pathData.getBreakthroughInstance() != null) pathData.getBreakthroughInstance().tick(player.getData(ModAttachments.ENTITY_DATA),pathData.getPath());
+            }
+        }
+    }
+    @SubscribeEvent
+    public static void onDimensionChange(PlayerEvent.PlayerChangedDimensionEvent event){
+        Player player = event.getEntity();
+        player.getData(ModAttachments.ENTITY_DATA).setHealth(player.getData(ModAttachments.ENTITY_DATA).getAscensionAttributeHolder().getAttribute(Attributes.MAX_HEALTH).getValue());
+
+        if(!event.getEntity().level().isClientSide()){
+            if(player.getData(ModAttachments.ENTITY_DATA) instanceof GenericEntityData genericEntityData){
+                genericEntityData.sync(player);
+                genericEntityData.getAscensionAttributeHolder().log();
+            }
+            player.getData(ModAttachments.ENTITY_DATA).getSkillCastHandler().sync(player);
+            PacketDistributor.sendToPlayer((ServerPlayer) player,new SyncAttributeHolder(player.getData(ModAttachments.ENTITY_DATA).getAscensionAttributeHolder()));
+
+            for(IEntityFormData formData:player.getData(ModAttachments.ENTITY_DATA).getFormData()){
+                formData.getStatSheet().sync((ServerPlayer) player,formData.getEntityFormId());
             }
         }
     }

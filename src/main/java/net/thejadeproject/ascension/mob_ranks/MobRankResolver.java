@@ -35,7 +35,7 @@ public final class MobRankResolver {
     public static MobRankDefinition resolveFromPlayer(Player player) {
         PathData strongest = getStrongestPath(player);
         if (strongest == null) {
-            return MobRankList.MORTAL_1;
+            return MobRankList.getFirst();
         }
 
         String realmId = mapPathMajorRealmToMobRealm(strongest.getMajorRealm());
@@ -80,7 +80,6 @@ public final class MobRankResolver {
         );
     }
 
-
     private static String mapPathMajorRealmToMobRealm(int majorRealm) {
         return switch (majorRealm) {
             case 0 -> "mortal";
@@ -88,7 +87,13 @@ public final class MobRankResolver {
             case 2 -> "formation_establishment";
             case 3 -> "golden_core";
             case 4 -> "nascent_soul";
-            default -> majorRealm < 0 ? "mortal" : "nascent_soul";
+            case 5 -> "soul_formation";
+            case 6 -> "void_refinement";
+            case 7 -> "body_integration";
+            case 8 -> "tribulation_transcendence";
+            case 9 -> "mahayana";
+            case 10 -> "earth_immortal";
+            default -> majorRealm < 0 ? "mortal" : "earth_immortal";
         };
     }
 
@@ -102,6 +107,42 @@ public final class MobRankResolver {
 
     public static MobRankCategory resolveCategory(LivingEntity entity) {
         return MobCategoryResolver.resolve(entity);
+    }
+
+    // relative realm gap
+    public static int resolveCombatPower(LivingEntity entity) {
+        if (entity instanceof Player player) {
+            return resolvePlayerCombatPower(player);
+        }
+
+        MobRankData data = entity.getData(ModAttachments.MOB_RANK);
+        if (data == null || !data.isInitialized() || data.isUnranked()) {
+            return 0;
+        }
+
+        return getRankPower(data.getRealmId(), data.getStage());
+    }
+
+    public static int resolvePlayerCombatPower(Player player) {
+        PathData strongest = getStrongestPath(player);
+        if (strongest == null) {
+            return 0;
+        }
+
+        String realmId = mapPathMajorRealmToMobRealm(strongest.getMajorRealm());
+        int stage = mapPathMinorRealmToMobStage(strongest.getMinorRealm());
+
+        return getRankPower(realmId, stage);
+    }
+
+    public static int getRankPower(String realmId, int stage) {
+        int realmIndex = MobRankList.getRealmIndex(realmId);
+        if (realmIndex < 0) {
+            return 0;
+        }
+
+        int clampedStage = Math.max(1, Math.min(3, stage));
+        return realmIndex * 3 + (clampedStage - 1);
     }
 
 }

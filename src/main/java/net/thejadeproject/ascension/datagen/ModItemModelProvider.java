@@ -12,8 +12,8 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 import java.util.Objects;
 
@@ -87,9 +87,14 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //Artifacts
 
-        basicItem(ModItems.SPIRIT_SEALING_RING.get());
+
+        basicItem(ModItems.SPATIAL_RING.get());
         basicItem(ModItems.REPAIR_SLIP.get());
         basicItem(ModItems.ENDER_POUCH.get());
+
+
+        talisman(ModItems.SOUL_ANCHOR_TALISMAN.get());
+
 
 
         talisman(ModItems.SPATIAL_RUPTURE_TALISMAN_T1.get());
@@ -137,7 +142,6 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
         basicItem(ModItems.SPATIAL_STONE_TIER_1.get());
-        basicItem(ModItems.SPATIAL_STONE_TIER_2.get());
 
         basicItem(ModItems.RAW_BLACK_IRON.get());
         basicItem(ModItems.BLACK_IRON_INGOT.get());
@@ -147,22 +151,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.FROST_SILVER_NUGGET.get());
 
 
-        //Formation Stuff
-        tokens(ModItems.FORMATION_SLIP_ACACIA.get());
-        tokens(ModItems.FORMATION_SLIP_BAMBOO.get());
-        tokens(ModItems.FORMATION_SLIP_BIRCH.get());
-        tokens(ModItems.FORMATION_SLIP_CHERRY.get());
-        tokens(ModItems.FORMATION_SLIP_CRIMSON.get());
-        tokens(ModItems.FORMATION_SLIP_DARK_OAK.get());
-        tokens(ModItems.FORMATION_SLIP_GOLDEN_PALM.get());
-        tokens(ModItems.FORMATION_SLIP_IRONWOOD.get());
-        tokens(ModItems.FORMATION_SLIP_JUNGLE.get());
-        tokens(ModItems.FORMATION_SLIP_MANGROVE.get());
-        tokens(ModItems.FORMATION_SLIP_OAK.get());
-        tokens(ModItems.FORMATION_SLIP_SPRUCE.get());
-        tokens(ModItems.FORMATION_SLIP_WARPED.get());
-
-
 
         //Drops
         basicItem(ModItems.LIVING_CORE.get());
@@ -170,7 +158,20 @@ public class ModItemModelProvider extends ItemModelProvider {
 
 
 
-        basicItem(ModItems.TECHNIQUE_MANUAL.get());
+        withExistingParent(Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(ModItems.TECHNIQUE_MANUAL.get())).getPath(), "item/generated")
+                .texture("layer0", "ascension:item/technique_manual")
+                .override().predicate(ResourceLocation.fromNamespaceAndPath("ascension", "technique_variant"), 1.0F)
+                    .model(new ModelFile.UncheckedModelFile("ascension:item/fire_body_technique")).end()
+                .override().predicate(ResourceLocation.fromNamespaceAndPath("ascension", "technique_variant"), 2.0F)
+                    .model(new ModelFile.UncheckedModelFile("ascension:item/water_body_technique")).end()
+                .override().predicate(ResourceLocation.fromNamespaceAndPath("ascension", "technique_variant"), 3.0F)
+                    .model(new ModelFile.UncheckedModelFile("ascension:item/wood_body_technique")).end()
+                .override().predicate(ResourceLocation.fromNamespaceAndPath("ascension", "technique_variant"), 4.0F)
+                    .model(new ModelFile.UncheckedModelFile("ascension:item/earth_body_technique")).end()
+                .override().predicate(ResourceLocation.fromNamespaceAndPath("ascension", "technique_variant"), 5.0F)
+                    .model(new ModelFile.UncheckedModelFile("ascension:item/metal_body_technique")).end();
+        basicItem(ModItems.TECHNIQUE_PAGE.get());
+        basicItem(ModItems.TECHNIQUE_BINDER.get());
 
         //Spiritual Fires
         basicItem(ModItems.CRIMSON_LOTUS_FLAME.get());
@@ -191,7 +192,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.PILL_RESIDUE.get());
 
         pills(ModItems.NEUTRALITY_PILL.get());
-        pills(ModItems.REBIRTH_PILL.get());
 
         pills(ModItems.FASTING_PILL_T1.get());
         pills(ModItems.FASTING_PILL_T2.get());
@@ -202,8 +202,22 @@ public class ModItemModelProvider extends ItemModelProvider {
         pills(ModItems.CLEANSING_PILL_T4.get());
 
 
-        pills(ModItems.ANTIDOTE_PILL_T2.get());
-        pills(ModItems.ANTIDOTE_PILL_T3.get());
+        pills(ModItems.QI_ENHANCED_REGEN_PILL.get());
+
+
+
+        pills(ModItems.ESSENCE_GATHERING_PILL.get());
+        pills(ModItems.SOUL_FOCUS_PILL.get());
+        pills(ModItems.INNER_REINFORCEMENT_PILL.get());
+
+
+        pills(ModItems.ANTIDOTE_PILL_QDP.get());
+
+
+        pills(ModItems.MARROW_CLEANSE_PILL.get());
+
+
+        pills(ModItems.QI_DEVOURING_PARASITE_PILL.get());
 
 
 
@@ -239,6 +253,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         //MobEggs
         withExistingParent(ModItems.RAT_SPAWN_EGG.getId().getPath(), mcLoc("item/template_spawn_egg"));
+
+        // Scholarly Pages
+        basicItem(ModItems.SCHOLARLY_SOUL_RECTIFICATION_OF_NAMES.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_GREAT_LEARNING.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_THOUSAND_COMMENTARIES.get());
+        basicItem(ModItems.SCHOLARLY_SOUL_SAGE_MANDATE.get());
 
 
 

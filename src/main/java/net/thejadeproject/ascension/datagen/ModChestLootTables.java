@@ -15,8 +15,8 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.common.items.ModItems;
+import net.thejadeproject.ascension.common.items.data_components.ModDataComponents;
 
 import java.util.function.BiConsumer;
 
@@ -36,9 +36,6 @@ public class ModChestLootTables implements LootTableSubProvider {
                         LootTable.lootTable()
                                 .withPool(LootPool.lootPool()
                                         .setRolls(UniformGenerator.between(3, 5))
-                                        .add(LootItem.lootTableItem(ModItems.SPIRITUAL_STONE.get())
-                                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 5)))
-                                                .setWeight(40))
                                         .add(LootItem.lootTableItem(Items.EMERALD)
                                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 4)))
                                                 .setWeight(35))
@@ -74,9 +71,6 @@ public class ModChestLootTables implements LootTableSubProvider {
                         LootTable.lootTable()
                                 .withPool(LootPool.lootPool()
                                         .setRolls(UniformGenerator.between(3, 6))
-                                        .add(LootItem.lootTableItem(ModItems.SPIRITUAL_STONE.get())
-                                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 8)))
-                                                .setWeight(35))
                                         .add(LootItem.lootTableItem(Items.DIAMOND)
                                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3)))
                                                 .setWeight(25))
@@ -120,29 +114,19 @@ public class ModChestLootTables implements LootTableSubProvider {
                         LootTable.lootTable()
                                 .withPool(LootPool.lootPool()
                                         .setRolls(UniformGenerator.between(4, 7))
-                                        .add(LootItem.lootTableItem(ModItems.SPIRITUAL_STONE.get())
-                                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(6, 12)))
-                                                .setWeight(30))
-                                        .add(LootItem.lootTableItem(Items.ANCIENT_DEBRIS)
-                                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3)))
-                                                .setWeight(20))
                                         .add(LootItem.lootTableItem(Items.NETHERITE_SCRAP)
                                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4)))
-                                                .setWeight(25))
+                                                .setWeight(6))
                                         .add(LootItem.lootTableItem(Items.NETHERITE_SWORD)
                                                 .setWeight(10))
                                         .add(LootItem.lootTableItem(Items.NETHERITE_INGOT)
-                                                .setWeight(15))
+                                                .setWeight(1))
                                         .add(LootItem.lootTableItem(ModItems.CLEANSING_PILL_T3.get())
                                                 .setWeight(15))
-                                        .add(LootItem.lootTableItem(ModItems.REBIRTH_PILL.get())
-                                                .setWeight(8))
                                         .add(LootItem.lootTableItem(ModItems.TABLET_OF_DESTRUCTION_HUMAN.get())
                                                 .setWeight(8))
                                         .add(LootItem.lootTableItem(ModItems.TABLET_OF_DESTRUCTION_EARTH.get())
                                                 .setWeight(5))
-                                        .add(LootItem.lootTableItem(ModItems.SPATIAL_STONE_TIER_2.get())
-                                                .setWeight(12))
                                         .add(LootItem.lootTableItem(ModItems.UNDEAD_CORE.get())
                                                 .setWeight(10))
                                         .add(LootItem.lootTableItem(ModItems.FIRE_GOURD.get())
@@ -156,7 +140,6 @@ public class ModChestLootTables implements LootTableSubProvider {
                                                 .apply(SetComponentsFunction.setComponent(ModDataComponents.PERMANENT.get(), true))
                                                 .setWeight(35))
                                         .add(LootItem.lootTableItem(ModItems.TABLET_OF_DESTRUCTION_HEAVEN.get())
-                                                .apply(SetComponentsFunction.setComponent(ModDataComponents.PERMANENT.get(), true))
                                                 .setWeight(25))
                                         .add(LootItem.lootTableItem(ModItems.WORLD_AXIS_TALISMAN.get())
                                                 .apply(SetComponentsFunction.setComponent(ModDataComponents.PERMANENT.get(), true))

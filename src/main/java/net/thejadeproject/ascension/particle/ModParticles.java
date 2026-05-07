@@ -17,7 +17,8 @@ public class ModParticles {
     public static final Supplier<SimpleParticleType> CULTIVATION_PARTICLES =
             PARTICLE_TYPES.register("cultivation_particles", () -> new SimpleParticleType(true));
 
-
+    public static final Supplier<SimpleParticleType> FIRE_PARTICLE =
+            PARTICLE_TYPES.register("fire_particle",()->new SimpleParticleType(true));
     public static void register(IEventBus eventBus) {
 
         PARTICLE_TYPES.register(eventBus);

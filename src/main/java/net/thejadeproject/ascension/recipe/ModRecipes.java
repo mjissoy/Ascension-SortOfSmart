@@ -34,19 +34,6 @@ public class ModRecipes {
 
 
 
-    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<QiChannelingRecipe>> QI_CHANNELING_SERIALIZER =
-            SERIALIZERS.register("qi_channeling", QiChannelingRecipe.Serializer::new);
-
-    public static final DeferredHolder<RecipeType<?>, RecipeType<QiChannelingRecipe>> QI_CHANNELING_TYPE =
-            TYPES.register("qi_channeling", () -> new RecipeType<QiChannelingRecipe>() {
-                @Override
-                public String toString() {
-                    return "qi_channeling";
-                }
-            });
-
-
-
 
     public static void register(IEventBus eventBus) {
         SERIALIZERS.register(eventBus);

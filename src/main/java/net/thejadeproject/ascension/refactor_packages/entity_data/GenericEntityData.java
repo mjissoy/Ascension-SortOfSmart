@@ -1,25 +1,36 @@
 package net.thejadeproject.ascension.refactor_packages.entity_data;
 
+import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.Hash;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.attributes.AscensionAttributeHolder;
+import net.thejadeproject.ascension.refactor_packages.attributes.AttributeValueContainer;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodlineData;
+import net.thejadeproject.ascension.refactor_packages.entity_data_source.IEntityDataSource;
+import net.thejadeproject.ascension.refactor_packages.entity_data_source.IEntityDataSourceContainer;
 import net.thejadeproject.ascension.refactor_packages.events.PhysiqueChangeEvent;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityForm;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncCurrentHealth;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.physique.SyncPhysique;
@@ -34,13 +45,9 @@ import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
 import net.thejadeproject.ascension.refactor_packages.qi.EntityQiContainer;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.SkillCastHandler;
-import net.thejadeproject.ascension.refactor_packages.skills.HeldSkill;
-import net.thejadeproject.ascension.refactor_packages.skills.HeldSkills;
-import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
-import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
+import net.thejadeproject.ascension.refactor_packages.skills.*;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
-import net.thejadeproject.ascension.runic_path.technique.RunicTechnique;
 
 import java.util.*;
 //TODO set up some sort of tick handler for entity data and all its parts that need it
@@ -62,13 +69,19 @@ public class GenericEntityData implements IEntityData {
     private final EntityQiContainer entityQiContainer = new EntityQiContainer(this);
     boolean attachedEntityLoaded;
 
+    private HashMap<ResourceLocation,IEntityDataSourceContainer> sourceContainers = new HashMap<>();
 
     //used during loading to temporarily store data, and when we save ignore.
     //important because during simulation something might exist before we actually made any data for it
     private HashMap<ResourceLocation,IEntityFormData> cachedFormData = new HashMap<>();
     private HashMap<ResourceLocation, IPersistentSkillData> cachedSkillData = new HashMap<>();
+    private HashMap<ResourceLocation,ArrayList<Pair<ResourceLocation,CompoundTag>>> cachedFormPathDataTag = new HashMap<>();
 
     private double currentHealth = 0;
+    private boolean loading = false;
+
+    @Override
+    public boolean isLoading() { return loading; }
     //========================== SAVE DATA HANDLING ==========================
     public GenericEntityData(Entity attachedEntity){
         this.attachedEntity = attachedEntity;
@@ -86,97 +99,182 @@ public class GenericEntityData implements IEntityData {
         }
         getQiContainer().fullFillQi();
         currentHealth = getAscensionAttributeHolder().getAttribute(Attributes.MAX_HEALTH).getValue();
+
+        setPhysique(ModPhysiques.MORTAL.getId());//give default physique
+        //setBloodline() //give default bloodline
     }
     //TODO add better error handling so an error does not delete all data
     public GenericEntityData(Entity attachedEntity, CompoundTag tag){
-        System.out.println("creating player data");
+        //System.out.println("creating player data");
         this.attachedEntity = attachedEntity;
-        //TODO load cached form data
+
         ListTag formDataTags = tag.getList("form_data", Tag.TAG_COMPOUND);
         ListTag skillDataTags = tag.getList("skill_data",Tag.TAG_COMPOUND);
         ListTag pathDataTags = tag.getList("path_progress",Tag.TAG_COMPOUND);
 
-
-        for(int i=0;i<formDataTags.size();i++){
-            CompoundTag formDataTag = formDataTags.getCompound(i);
-            ResourceLocation formId = ResourceLocation.bySeparator(formDataTag.getString("form"),':');
-            IEntityForm form = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(formId);
-            IEntityFormData formData = form.fromCompound(formDataTag.getCompound("data"),this);
-            cachedFormData.put(formId,formData);
+        try {
+            for(int i=0;i<formDataTags.size();i++){
+                try{
+                    CompoundTag formDataTag = formDataTags.getCompound(i);
+                    ResourceLocation formId = ResourceLocation.bySeparator(formDataTag.getString("form"),':');
+                    IEntityForm form = AscensionRegistries.getRegistryObject(formId,AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY);
+                    IEntityFormData formData = IEntityForm.getFromCompound(this,form,formDataTag.getCompound("data"));
+                    cachedFormData.put(formId,formData);
+                }catch (Exception e){
+                    AscensionCraft.LOGGER.error("error trying to load individual form",e);
+                }
+            }
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error trying to load all forms",e);
+            //TODO make sure to add back in MORTAL VESSEL AND SOUL_FORM
         }
-        for(int i=0;i<skillDataTags.size();i++){
-            CompoundTag skillDataTag = skillDataTags.getCompound(i);
-            ResourceLocation skillId = ResourceLocation.bySeparator(skillDataTag.getString("skill"),':');
-            ISkill skill = AscensionRegistries.Skills.SKILL_REGISTRY.get(skillId);
-            IPersistentSkillData skillData = skill.fromCompound(skillDataTag.getCompound("data"),this);
-            cachedSkillData.put(skillId,skillData);
+        try{
+            for(int i=0;i<skillDataTags.size();i++){
+                try{
+                    CompoundTag skillDataTag = skillDataTags.getCompound(i);
+                    ResourceLocation skillId = ResourceLocation.bySeparator(skillDataTag.getString("skill"),':');
+                    ISkill skill = AscensionRegistries.getRegistryObject(skillId,AscensionRegistries.Skills.SKILL_REGISTRY);
+                    IPersistentSkillData skillData = ISkill.getFromCompound(this,skill,skillDataTag.getCompound("data"));
+                    cachedSkillData.put(skillId,skillData);
+                }catch (Exception e){
+                    AscensionCraft.LOGGER.error("error trying to load individual skill",e);
+                }
+            }
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error trying to load all skill data",e);
         }
 
-        if(tag.getBoolean("vessel_flag")){
-
-            heldFormData.put(ModForms.MORTAL_VESSEL.getId(),
-                    cachedFormData.containsKey(ModForms.MORTAL_VESSEL.getId()) ?
-                            cachedFormData.get(ModForms.MORTAL_VESSEL.getId()) : ModForms.MORTAL_VESSEL.get().freshEntityFormData(this));
+        try{
+            if(tag.getBoolean("vessel_flag")){
+                heldFormData.put(ModForms.MORTAL_VESSEL.getId(),
+                        cachedFormData.containsKey(ModForms.MORTAL_VESSEL.getId()) ?
+                                cachedFormData.get(ModForms.MORTAL_VESSEL.getId()) : ModForms.MORTAL_VESSEL.get().freshEntityFormData(this));
+            }
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error trying to read lost mortal vessel flag",e);
         }
 
         heldFormData.put(ModForms.SOUL_FORM.getId(),
                 cachedFormData.containsKey(ModForms.SOUL_FORM.getId()) ?
                         cachedFormData.get(ModForms.SOUL_FORM.getId()) : ModForms.SOUL_FORM.get().freshEntityFormData(this));
+
         if(attachedEntity instanceof LivingEntity entity){
             ascensionAttributeHolder = new AscensionAttributeHolder(entity);
             addDefaultAttributes(entity);
+        }
+        try {
+            String rawPhysique = tag.getString("physique");
+            //the user has no physique
+            if(!rawPhysique.equals("none")){
+                ResourceLocation physique = ResourceLocation.bySeparator(rawPhysique,':');
+                IPhysique physiqueInstance = AscensionRegistries.getRegistryObject(physique,AscensionRegistries.Physiques.PHSIQUES_REGISTRY);
+                IPhysiqueData physiqueData = IPhysique.getFromCompound(this,physiqueInstance,tag.getCompound("physique_data"));
+                setPhysique(physique,physiqueData);
+            }
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error when trying to load physique",e);
+            //TODO make sure to set physique to default
+            //if mortal vessel is present -> mortal
+            //if soul is present -> smth?
+        }
+        try{
+            String rawBloodline = tag.getString("bloodline");
+            //no bloodline
+            if(!rawBloodline.equals("none")){
+                ResourceLocation bloodline = ResourceLocation.bySeparator(rawBloodline,':');
+                IBloodline bloodlineInstance = AscensionRegistries.getRegistryObject(bloodline,AscensionRegistries.Bloodlines.BLOODLINE_REGISTRY);
+                IBloodlineData bloodlineData = IBloodline.getFromCompound(this,bloodlineInstance,tag.getCompound("bloodline_data"));
 
+            }
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error when trying to load physique",e);
+            //TODO make sure to set bloodline to default
+            //if in soul form set to null
+            //yes make sure bloodline can have a null state
         }
 
-        String rawPhysique = tag.getString("physique");
-        //the user has no physique
-        if (!rawPhysique.equals("none")) {
-            ResourceLocation physique = ResourceLocation.bySeparator(rawPhysique, ':');
-            IPhysique physiqueInstance = AscensionRegistries.Physiques.PHSIQUES_REGISTRY.get(physique);
-            IPhysiqueData physiqueData = physiqueInstance.fromCompound(tag.getCompound("physique_data"), this);
 
-            ResourceLocation formWithPhysique = null;
 
-            for (Map.Entry<ResourceLocation, IEntityFormData> entry : heldFormData.entrySet()) {
-                if (entry.getValue().getPhysiqueKey() != null) {
-                    formWithPhysique = entry.getKey();
-                    break;
+        loading = true;
+        try {
+            for(int i = 0;i<pathDataTags.size();i++){
+                try {
+                    CompoundTag pathDataTag = pathDataTags.getCompound(i);
+                    ResourceLocation pathId = ResourceLocation.parse(pathDataTag.getString("path"));
+                    IPath path = AscensionRegistries.getRegistryObject(pathId,AscensionRegistries.Paths.PATHS_REGISTRY);
+                    if(pathDataLocation.containsKey(pathId) && heldFormData.containsKey(path.defaultForm()) ){
+                        heldFormData.get(pathDataLocation.get(pathId)).getPathData(pathId).read(pathDataTag.getCompound("data"),this);
+                    }else if(heldFormData.containsKey(path.defaultForm())){
+                        path.fromCompound(pathDataTag,this);
+                    }
+                    else{
+                        if(!cachedFormPathDataTag.containsKey(path.defaultForm())) cachedFormPathDataTag.put(path.defaultForm(),new ArrayList<>());
+                        cachedFormPathDataTag.get(path.defaultForm()).add(new Pair<>(pathId,pathDataTag));
+                    }
+                }catch (Exception e){
+                    AscensionCraft.LOGGER.error("error logging path",e);
+                }
+
+
+            }
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error loading all paths",e);
+        }
+
+        loading = false;
+
+        loading = true;
+
+        try{
+            ListTag dataSources = tag.getList("entity_data_sources",Tag.TAG_COMPOUND);
+            for(int i = 0;i<dataSources.size();i++){
+                try {
+                    CompoundTag dataSource = dataSources.getCompound(i);
+                    ResourceLocation key = ResourceLocation.parse(dataSource.getString("type"));
+                    IEntityDataSource source = AscensionRegistries.getRegistryObject(key,AscensionRegistries.EntityDataSources.ENTITY_DATA_SOURCES_REGISTRY);
+                    IEntityDataSourceContainer container = source.fromCompound(dataSource);
+                    sourceContainers.put(container.getInstanceIdentifier(),container);
+                    container.getDataSource().onAdded(this,container);
+                }catch (Exception e){
+                    AscensionCraft.LOGGER.error("error loading entity data source container",e);
                 }
             }
-
-            if (formWithPhysique == null) {
-                formWithPhysique = ModForms.MORTAL_VESSEL.getId();
-            }
-
-            setPhysique(physique, physiqueData, formWithPhysique);
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error loading entity data sources",e);
         }
 
-
-        String rawBloodline = tag.getString("bloodline");
-        //no bloodline
-        if(!rawBloodline.equals("none")){
-            ResourceLocation bloodline = ResourceLocation.bySeparator(rawBloodline,':');
-            IBloodline bloodlineInstance = AscensionRegistries.Bloodlines.BLOODLINE_REGISTRY.get(bloodline);
-            IBloodlineData bloodlineData = bloodlineInstance.fromCompound(tag.getCompound("bloodline_data"),this);
-            //TODO add to mortal vessel, then run proper physique addition code
+        loading = false;
+        try {
+            getSkillCastHandler().read(tag.getCompound("skill_cast_handler"));
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error loading skill cast handler");
         }
-
-        //TODO add cultivation
-        for(int i = 0;i<pathDataTags.size();i++){
-            CompoundTag pathDataTag = pathDataTags.getCompound(i);
-            ResourceLocation pathId = ResourceLocation.parse(pathDataTag.getString("path"));
-            if(pathDataLocation.containsKey(pathId)){
-                heldFormData.get(pathDataLocation.get(pathId)).getPathData(pathId).read(pathDataTag.getCompound("data"),this);
-            }
-
-            //TODO add a cache for when the form does not yet exist
-        }
-        getSkillCastHandler().read(tag.getCompound("skill_cast_handler"));
         getAscensionAttributeHolder().updateAttributes(this);
         getQiContainer().fullFillQi();
 
         currentHealth = tag.getDouble("current_health");
+
+        try {
+            ListTag suppressors = tag.getList("suppressed_values",Tag.TAG_COMPOUND);
+            for(int i = 0;i<suppressors.size();i++){
+                CompoundTag attributeTag = suppressors.getCompound(i);
+
+                Holder<Attribute> attributeHolder = BuiltInRegistries.ATTRIBUTE.getHolderOrThrow(
+                        ResourceKey.create(BuiltInRegistries.ATTRIBUTE.key(), ResourceLocation.parse(attributeTag.getString("attribute")))
+                );
+
+                getAscensionAttributeHolder().getAttribute(attributeHolder).setSuppressedValue(attributeTag.getDouble("value"));
+                if (getAttachedEntity() instanceof ServerPlayer serverPlayer && serverPlayer.connection != null) {
+                    PacketDistributor.sendToPlayer(serverPlayer,new SyncAttributeHolder(getAscensionAttributeHolder()));
+                }
+            }
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error loading suppressed values",e);
+        }
+
     }
+
+
     public void sync(Player player){
         for(ResourceLocation form:heldFormData.keySet()){
 
@@ -240,8 +338,27 @@ public class GenericEntityData implements IEntityData {
         tag.put("skill_data",skillTags);
         tag.put("path_progress",pathDataTags);
 
+        ListTag dataSources = new ListTag();
+        for(ResourceLocation key : sourceContainers.keySet()){
+            CompoundTag dataSource = new CompoundTag();
+            dataSource.putString("type",AscensionRegistries.EntityDataSources.ENTITY_DATA_SOURCES_REGISTRY.getKey(sourceContainers.get(key).getDataSource()).toString());
+            sourceContainers.get(key).write(dataSource);
+            //System.out.println("writing data source:"+sourceContainers.get(key).getInstanceIdentifier());
+            dataSources.add(dataSource);
+        }
+        tag.put("entity_data_sources",dataSources);
 
         tag.put("skill_cast_handler",getSkillCastHandler().write());
+        ListTag suppressorTag = new ListTag();
+        for(AttributeValueContainer valueContainer : getAscensionAttributeHolder().getContainers()){
+            if(valueContainer.isSuppressed()){
+                CompoundTag attributeTag = new CompoundTag();
+                attributeTag.putString("attribute",valueContainer.getAttributeHolder().getKey().location().toString());
+                attributeTag.putDouble("value",valueContainer.getSuppressedValue());
+                suppressorTag.add(attributeTag);
+            }
+        }
+        tag.put("suppressed_values",suppressorTag);
         //path data, make sure to also hold the path
     }
 
@@ -251,6 +368,7 @@ public class GenericEntityData implements IEntityData {
         return attachedEntity;
     }
 
+
     public void setAttachedEntity(Entity attachedEntity) {
         this.attachedEntity = attachedEntity;
     }
@@ -259,6 +377,14 @@ public class GenericEntityData implements IEntityData {
         return heldFormData.get(activeForm);
     }
 
+    /*
+        the way it works
+        the form data is STILL ON THE ENTITY WHEN EVERYTHING ELSE IS FIRST REMOVED
+
+        then remove the form and re add all the data
+        this way when re adding it to a different entity we do not need to worry about double-dipping
+
+     */
     @Override
     public IEntityFormData removeEntityForm(ResourceLocation form) {
         IEntityFormData removedForm = heldFormData.get(form);
@@ -320,6 +446,8 @@ public class GenericEntityData implements IEntityData {
         IEntityFormData formData = formFactory.freshEntityFormData(this);
         addEntityForm(form,formData);
 
+
+
     }
 
     @Override
@@ -329,9 +457,24 @@ public class GenericEntityData implements IEntityData {
         heldFormData.put(form,formData);
         formFactory.onAdded(this);
 
+        //TODO handle addition of existing data on formData
+        //TODO make sure to fully run re add stuff, essentially simulate it
+
+
         for(Map.Entry<ResourceLocation,IEntityFormData> heldForm : forms){
             IEntityForm heldFormFactory = AscensionRegistries.EntityForms.ENTITY_FORMS_REGISTRY.get(heldForm.getKey());
             heldFormFactory.onFormAdded(this,heldForm.getValue(),formData);
+        }
+
+        if(cachedFormPathDataTag.containsKey(form)){
+            for(Pair<ResourceLocation,CompoundTag> pathDataTags : cachedFormPathDataTag.get(form)){
+                try {
+                    IPath path = AscensionRegistries.getRegistryObject(pathDataTags.getFirst(),AscensionRegistries.Paths.PATHS_REGISTRY);
+                    path.fromCompound(pathDataTags.getSecond(),this);
+                } catch (Exception e){
+                    AscensionCraft.LOGGER.error("error trying to load path for later added form: "+ form, e);
+                }
+            }
         }
     }
 
@@ -340,7 +483,6 @@ public class GenericEntityData implements IEntityData {
     public void setActiveForm(ResourceLocation activeForm) {
         this.activeForm = activeForm;
         getAscensionAttributeHolder().updateAttributes(this);
-
     }
 
     @Override
@@ -366,7 +508,11 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public boolean setPhysique(ResourceLocation physique, IPhysiqueData physiqueData,ResourceLocation form) {
+        return setPhysique(physique,physiqueData,form,heldFormData.get(physiqueForm));
 
+    }
+
+    public boolean setPhysique(ResourceLocation physique,IPhysiqueData physiqueData,ResourceLocation form,IEntityFormData olPhysiqueForm){
         if(!heldFormData.containsKey(form)) return false;
 
 
@@ -374,19 +520,19 @@ public class GenericEntityData implements IEntityData {
         IPhysiqueData oldPhysiqueData = null;
         if(physiqueForm != null){
             //no old physique just replace directly
-            oldPhysique = heldFormData.get(physiqueForm).getPhysiqueKey();
-            oldPhysiqueData = heldFormData.get(physiqueForm).getPhysiqueData();
+            oldPhysique = olPhysiqueForm.getPhysiqueKey();
+            oldPhysiqueData = olPhysiqueForm.getPhysiqueData();
 
         }
-        System.out.println("trying to replace :"+(oldPhysique == null ? "none" : oldPhysique.toString()));
+        //System.out.println("trying to replace :"+(oldPhysique == null ? "none" : oldPhysique.toString()));
 
         PhysiqueChangeEvent.Pre preEvent = new PhysiqueChangeEvent.Pre(oldPhysique,oldPhysiqueData,physique,this);
         NeoForge.EVENT_BUS.post(preEvent);
         if(preEvent.isCanceled()) return false;
         physique = preEvent.getNewPhysique();
         if(oldPhysique != null){
-            heldFormData.get(physiqueForm).getPhysique().onPhysiqueRemoved(this,oldPhysiqueData,physique);
-            heldFormData.get(physiqueForm).setPhysique(null);
+            olPhysiqueForm.getPhysique().onPhysiqueRemoved(this,oldPhysiqueData,physique);
+            olPhysiqueForm.setPhysique(null);
         }
 
 
@@ -405,60 +551,52 @@ public class GenericEntityData implements IEntityData {
         }
 
         PhysiqueChangeEvent.Post event = new PhysiqueChangeEvent.Post(preEvent,heldFormData.get(physiqueForm).getPhysiqueData());
-        System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
+        //System.out.println("changed physique to : "+heldFormData.get(physiqueForm).getPhysique().getDisplayTitle().getString());
         NeoForge.EVENT_BUS.post(event);
-
-        if (getAttachedEntity() instanceof ServerPlayer serverPlayer && serverPlayer.connection != null) {
-            PacketDistributor.sendToPlayer(serverPlayer, new SyncPhysique(physiqueForm, physique, physiqueData));
-        }
-
-
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer  && serverPlayer.connection != null)PacketDistributor.sendToPlayer(serverPlayer,new SyncPhysique(physiqueForm,physique,physiqueData));
         return true;
     }
 
     @Override
-    public void setPhysiqueForm(ResourceLocation form) {
-        this.physiqueForm = form;
-    }
-
-    @Override
     public IPhysiqueData getPhysiqueData() {
+
         if (physiqueForm == null) return null;
-        IEntityFormData formData = heldFormData.get(physiqueForm);
-        return formData == null ? null : formData.getPhysiqueData();
+        if (!heldFormData.containsKey(physiqueForm)) return null;
+
+        return heldFormData.get(physiqueForm).getPhysiqueData();
+
     }
 
     @Override
     public ResourceLocation getPhysiqueForm() {
         return physiqueForm;
+
     }
 
     @Override
     public IPhysiqueData removePhysique() {
-        return null; //TODO
+        IPhysiqueData data = getPhysiqueData();
+        setPhysique(ModPhysiques.MORTAL.getId());
+        return data;
     }
 
     @Override
     public IPhysique getPhysique() {
         if (physiqueForm == null) return null;
         IEntityFormData formData = heldFormData.get(physiqueForm);
-        return formData == null ? null : formData.getPhysique();
+        if (formData == null) return null;
+        return formData.getPhysique();
     }
 
     @Override
     public void movePhysique(ResourceLocation form) {
-        if (physiqueForm == null) return;
-        if (!heldFormData.containsKey(form)) return;
-        if (!heldFormData.containsKey(physiqueForm)) return;
-
+        if(!heldFormData.containsKey(form))return;
         ResourceLocation physique = heldFormData.get(physiqueForm).getPhysiqueKey();
-        IPhysiqueData physiqueData = heldFormData.get(physiqueForm).getPhysiqueData();
-
+        IPhysiqueData physiqueData = heldFormData.get(physique).getPhysiqueData();
         heldFormData.get(physiqueForm).setPhysique(null);
-        heldFormData.get(form).setPhysique(physique, physiqueData);
+        heldFormData.get(form).setPhysique(physique,physiqueData);
         physiqueForm = form;
     }
-
 
     //============================ BLOODLINE HANDLING =======================================
     @Override
@@ -504,30 +642,30 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public boolean isCultivating() {
-        return false;//TODO
+        for(ResourceLocation path : pathDataLocation.keySet()){
+            if(getPathData(path).isCultivating()) return true;
+        }
+        return false;
     }
 
     @Override
     public boolean isCultivating(ResourceLocation path) {
-        return false;//TODO
+        if(!pathDataLocation.containsKey(path)) return false;
+
+        return getPathData(path).isCultivating();
     }
 
     @Override
     public ResourceLocation getTechnique(ResourceLocation path) {
-        PathData pathData = getPathData(path);
-        if (pathData == null) return null;
-        return pathData.getLastUsedTechnique();
+        if(!pathDataLocation.containsKey(path)) return null;
+        return getPathData(path).getLastUsedTechnique();
     }
 
     @Override
     public ITechniqueData getTechniqueData(ResourceLocation path) {
-        PathData pathData = getPathData(path);
-        if (pathData == null) return null;
-
-        ResourceLocation technique = pathData.getLastUsedTechnique();
-        if (technique == null) return null;
-
-        return pathData.getTechniqueData(technique);
+        if(!pathDataLocation.containsKey(path)) return null;
+        if(getPathData(path).getLastUsedTechnique() == null) return null;
+        return getPathData(path).getTechniqueData(getPathData(path).getLastUsedTechnique());
     }
 
     @Override
@@ -556,7 +694,29 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public ITechniqueData removeTechnique(ResourceLocation path) {
-        return null;//TODO
+        if(!pathDataLocation.containsKey(path)) return null;
+        if(getPathData(path).getLastUsedTechnique() == null) return null;
+
+        ITechniqueData techniqueData = getPathData(path).getTechniqueData(getPathData(path).getLastUsedTechnique());
+
+        PathData pathData = getPathData(path);
+        pathData.handleRealmChange(pathData.getMajorRealm(),0,this);
+        ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
+        technique.onTechniqueRemoved(this,techniqueData);
+        pathData.removeLastUsedTechnique();
+
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer && serverPlayer.connection != null) {
+            PacketDistributor.sendToPlayer(serverPlayer, new SyncPathData(pathDataLocation.get(path), pathData));
+        }
+        return techniqueData;
+
+    }
+
+    @Override
+    public void setPathForm(ResourceLocation path, ResourceLocation form) {
+        if(pathDataLocation.containsKey(path) || !heldFormData.containsKey(form)) return;
+
+        pathDataLocation.put(path,form);
     }
 
     @Override
@@ -566,40 +726,25 @@ public class GenericEntityData implements IEntityData {
 
     @Override
     public boolean setTechnique(ResourceLocation technique, ITechniqueData techniqueData) {
-        System.out.println("trying to set technique");
+        //System.out.println("trying to set technique");
         ITechnique techniqueInstance = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique);
-
-        if (techniqueInstance instanceof RunicTechnique runicTechnique) {
-            if (!runicTechnique.canUseTechnique(this)) {
-                System.out.println("Runic technique denied: prerequisite not met");
-                return false;
-            }
-        }
-
         ResourceLocation path = techniqueInstance.getPath();
-        if(!pathDataLocation.containsKey(path)) {
-            System.out.println("setTechnique failed: path not present yet for " + path);
-            return false;
-        }
+        if(!pathDataLocation.containsKey(path)) return false;
         PathData pathData = heldFormData.get(pathDataLocation.get(path)).getPathData(path);
-        if(pathData == null) {
-            System.out.println("setTechnique failed: pathData is null for " + path);
-            return false;
-        }
+        if(pathData == null) return false;
         ITechnique oldTechnique = null;
         if(pathData.getLastUsedTechnique() != null){
 
-            if(technique.equals(pathData.getLastUsedTechnique())) {
-                System.out.println("setTechnique failed: already using technique " + technique);
-                return false;
+            if(technique.equals(pathData.getLastUsedTechnique())){
+                return false; //we have already learned this technique
             }
-
             oldTechnique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
             oldTechnique.onTechniqueRemoved(this,pathData.getTechniqueData(pathData.getLastUsedTechnique()));
         }
 
         //TODO then check compatibility with technique history, if even 1 is not compatible we reset cultivation data
         if(oldTechnique != null){
+            //there was a previous technique so check for compatibility
             pathData.removeLastUsedTechnique();
             for(ResourceLocation usedTechnique : pathData.getTechniqueHistory()){
                 if(techniqueInstance.isCompatibleWith(usedTechnique)) continue;
@@ -614,7 +759,7 @@ public class GenericEntityData implements IEntityData {
         pathData.addTechniqueData(technique,techniqueData);
 
         techniqueInstance.onTechniqueAdded(this);
-        System.out.println("technique changed to: "+technique.toString());
+        //System.out.println("technique changed to: "+technique.toString());
         if(getAttachedEntity() instanceof ServerPlayer serverPlayer  && serverPlayer.connection != null){
             PacketDistributor.sendToPlayer(serverPlayer,new SyncPathData(pathDataLocation.get(path),pathData));
         }
@@ -630,9 +775,11 @@ public class GenericEntityData implements IEntityData {
 
      */
 
+
     @Override
     public void addPathData(ResourceLocation path, PathData pathData) {
         if(pathDataLocation.containsKey(path)) return;
+
 
         IPath pathInstance = AscensionRegistries.Paths.PATHS_REGISTRY.get(path);
         if(!heldFormData.containsKey(pathInstance.defaultForm())) return;
@@ -643,22 +790,45 @@ public class GenericEntityData implements IEntityData {
             AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique()).onTechniqueAdded(this);
         }
         if(getAttachedEntity() instanceof ServerPlayer serverPlayer  && serverPlayer.connection != null){
+            //System.out.println("sending sync for path: "+path);
             PacketDistributor.sendToPlayer(serverPlayer,new SyncPathData(pathDataLocation.get(path),pathData));
         }
     }
 
+    //TODO no scenario where this would happen yet so pretend it does not exist
     @Override
     public void removePath(ResourceLocation path) {
-        //TODO
+        if(!pathDataLocation.containsKey(path)) return;
+
+        ResourceLocation form = pathDataLocation.get(path);
+
+        if(!heldFormData.containsKey(form)) {
+            pathDataLocation.remove(path);
+            return;
+        }
+
+        IEntityFormData formData = heldFormData.get(form);
+        PathData pathData = formData.getPathData(path);
+
+        if(pathData == null) {
+            pathDataLocation.remove(path);
+            return;
+        }
+
+        pathData.handleRealmChange(0,0,this);
+        ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
+        ITechniqueData techniqueData = pathData.getTechniqueData(pathData.getLastUsedTechnique());
+        pathData.removeLastUsedTechnique();
+        technique.onTechniqueRemoved(this,techniqueData);
+        pathData.remove(this);
+        formData.removePathData(path);
+        pathDataLocation.remove(path);
+
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer && serverPlayer.connection != null) {
+            PacketDistributor.sendToPlayer(serverPlayer, new SyncEntityForm(formData));
+        }
     }
 
-    @Override
-    public void setPathData(ResourceLocation form, ResourceLocation path, PathData data) {
-        if (!heldFormData.containsKey(form)) return;
-
-        heldFormData.get(form).addPathData(path, data);
-        pathDataLocation.put(path, form);
-    }
 
     @Override
     public PathBonusHandler getPathBonusHandler() {
@@ -726,6 +896,27 @@ public class GenericEntityData implements IEntityData {
     }
 
     @Override
+    public void removeSkill(ResourceLocation skill) {
+        if(!hasSkill(skill)) return;
+        IPersistentSkillData skillData = null;
+        HashSet<ResourceLocation> modifiedForms = new HashSet<>();
+        for(ResourceLocation formKey : heldFormData.keySet()){
+            IEntityFormData formData = heldFormData.get(formKey);
+            if(!formData.getHeldSkills().hasSkill(skill)) continue;
+            skillData = formData.getHeldSkills().removeSkill(skill);
+            modifiedForms.add(formKey);
+        }
+        ISkill skillInstance = AscensionRegistries.Skills.SKILL_REGISTRY.get(skill);
+        skillInstance.onRemoved(this,skillData);
+        if(getAttachedEntity() instanceof ServerPlayer serverPlayer && serverPlayer.connection != null){
+            for(ResourceLocation modifiedForm : modifiedForms){
+                PacketDistributor.sendToPlayer(serverPlayer,new SyncHeldSkills(modifiedForm.toString(),heldFormData.get(modifiedForm).getHeldSkills()));
+            }
+
+        }
+    }
+
+    @Override
     public boolean hasSkill(ResourceLocation skill) {
         for(IEntityFormData formData : heldFormData.values()){
             if(formData.getHeldSkills() != null && formData.getHeldSkills().hasSkill(skill)) return true;
@@ -756,6 +947,7 @@ public class GenericEntityData implements IEntityData {
         return skills;
     }
 
+
     //============================= SKILL CASTING ====================================
     @Override
     public SkillCastHandler getSkillCastHandler() {
@@ -765,6 +957,53 @@ public class GenericEntityData implements IEntityData {
     @Override
     public EntityQiContainer getQiContainer() {
         return entityQiContainer;
+    }
+
+    @Override
+    public void tick() {
+        if (((LivingEntity) attachedEntity).tickCount % 20 == 0) {
+            entityQiContainer.tryRegenQi();
+        }
+
+        Collection<IEntityDataSourceContainer> containers = sourceContainers.values();
+        for(IEntityDataSourceContainer container : containers){
+            container.getDataSource().tick(this,container);
+        }
+
+    }
+    //============================= ENTITY DATA SOURCES ===============================
+    @Override
+    public void addEntityDataSource(IEntityDataSourceContainer container) {
+        if(sourceContainers.containsKey(container.getInstanceIdentifier())){
+            IEntityDataSourceContainer other = sourceContainers.remove(container.getInstanceIdentifier());
+            other.getDataSource().onRemoved(this,other);
+        }
+        sourceContainers.put(container.getInstanceIdentifier(),container);
+        container.getDataSource().onAdded(this,container);
+    }
+
+    @Override
+    public IEntityDataSourceContainer getSourceContainer(ResourceLocation identifier) {
+        return sourceContainers.get(identifier);
+    }
+
+    @Override
+    public IEntityDataSourceContainer removeEntitySource(ResourceLocation identifier) {
+        if(sourceContainers.containsKey(identifier)){
+            IEntityDataSourceContainer container = sourceContainers.remove(identifier);
+            container.getDataSource().onRemoved(this,container);
+            return container;
+        }
+        return null;
+    }
+
+    @Override
+    public Collection<IEntityDataSourceContainer> getContainersOfType(IEntityDataSource source) {
+        ArrayList<IEntityDataSourceContainer> containers = new ArrayList<>();
+        for(ResourceLocation key : sourceContainers.keySet()){
+            if(sourceContainers.get(key).getDataSource() == source) containers.add(sourceContainers.get(key));
+        }
+        return containers;
     }
 
     //============================= ATTRIBUTES =======================================
@@ -784,19 +1023,25 @@ public class GenericEntityData implements IEntityData {
      */
     @Override
     public void setHealth(double val) {
+        val = Math.min(val,getAscensionAttributeHolder().getAttribute(Attributes.MAX_HEALTH).getValue());
         this.currentHealth = val;
         if(currentHealth <= 0 && getAttachedEntity() != null && getAttachedEntity() instanceof LivingEntity entity) {
 
-            entity.setHealth(0);
+            if(val != 0) entity.setHealth(0);
+            currentHealth = 0;
         }
+        if(getAttachedEntity() instanceof  ServerPlayer serverPlayer && serverPlayer.connection != null){
+            PacketDistributor.sendToPlayer(serverPlayer,new SyncCurrentHealth(currentHealth));
 
+        }
     }
 
     @Override
-    public void setHealth(double val, DamageSource soFurce) {
+    public void setHealth(double val, DamageSource source) {
         this.currentHealth = val;
         if(currentHealth <= 0 && getAttachedEntity() != null && getAttachedEntity() instanceof  LivingEntity entity) {
-            entity.setHealth(0);
+            if(val != 0) entity.setHealth(0);
+            currentHealth = 0;
             //entity.die(source);
 
 
@@ -806,6 +1051,7 @@ public class GenericEntityData implements IEntityData {
 
         }
     }
+
 
     @Override
     public double getHealth() {

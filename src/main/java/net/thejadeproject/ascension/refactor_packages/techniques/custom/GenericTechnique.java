@@ -1,15 +1,20 @@
 package net.thejadeproject.ascension.refactor_packages.techniques.custom;
 
+import net.lucent.easygui.gui.RenderableElement;
+import net.lucent.easygui.gui.UIFrame;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.breakthroughs.IBreakthroughInstance;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
 import net.thejadeproject.ascension.refactor_packages.forms.forms.ModForms;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.info_elements.PathDataDisplayElement;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
@@ -19,10 +24,9 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
+import net.thejadeproject.ascension.refactor_packages.techniques.helpers.UniversalTechniqueSkillHelper;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.IStabilityHandler;
 import net.thejadeproject.ascension.refactor_packages.techniques.stability.LnStabilityHandler;
-import net.thejadeproject.ascension.runic_path.Runes;
-import net.thejadeproject.ascension.runic_path.RunicPathHelper;
 
 import java.util.Set;
 
@@ -46,6 +50,8 @@ public class GenericTechnique implements ITechnique {
         this.statChangeHandler = statChangeHandler;
         return this;
     }
+
+    public double getBaseRate() { return baseRate; }
 
     @Override
     public Component getDisplayTitle() {
@@ -71,16 +77,14 @@ public class GenericTechnique implements ITechnique {
     public void onTechniqueAdded(IEntityData heldEntity) {
         if(getPath().equals(ModPaths.ESSENCE.getId())){
             heldEntity.giveSkill(ModSkills.BASIC_CULTIVATION_SKILL.getId(),new GenericCultivationSkillData(baseRate, secondaryPaths), ModForms.MORTAL_VESSEL.getId());
-            heldEntity.giveSkill(ModSkills.ENTER_SPIRIT_FORM.getId(),ModForms.SOUL_FORM.getId());
-
         }
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.giveSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
+            heldEntity.giveSkill(ModSkills.SWORD_MASTERY_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
 
+        refreshUniversalTechniqueSkills(heldEntity);
     }
-
-
 
     @Override
     public void onTechniqueRemoved(IEntityData heldEntity, ITechniqueData techniqueData) {
@@ -90,27 +94,45 @@ public class GenericTechnique implements ITechnique {
         }
         if(getPath().equals(ModPaths.SWORD.getId())){
             heldEntity.removeSkill(ModSkills.SWORD_CULTIVATION_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
+            heldEntity.removeSkill(ModSkills.SWORD_MASTERY_SKILL.getId(),ModForms.MORTAL_VESSEL.getId());
         }
 
+        refreshUniversalTechniqueSkills(heldEntity);
     }
 
     @Override
     public void onRealmChange(IEntityData entityData, int oldMajorRealm, int oldMinorRealm, int newMajorRealm, int newMinorRealm) {
-        System.out.println("technique: "+AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.getKey(this).toString());
-        System.out.println("realm: ("+oldMajorRealm+","+oldMinorRealm+") -> ("+newMajorRealm+","+newMinorRealm+")");
+        //System.out.println("technique: "+AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.getKey(this).toString());
+        //System.out.println("realm: ("+oldMajorRealm+","+oldMinorRealm+") -> ("+newMajorRealm+","+newMinorRealm+")");
         statChangeHandler.applyChanges(entityData,this,oldMajorRealm,oldMinorRealm,newMajorRealm,newMinorRealm);
+
+        UniversalTechniqueSkillHelper.refresh(entityData, newMajorRealm);
 
         entityData.getActiveFormData().getStatSheet().log();
         entityData.getAscensionAttributeHolder().log();
 
+        if(entityData.isLoading()) return;
         if(entityData.getAttachedEntity().level().isClientSide()) return;
         if(!(entityData.getAttachedEntity() instanceof  ServerPlayer serverPlayer)) return;
         if(serverPlayer.connection == null) return;
-        System.out.println("sending out sync packets");
+        //System.out.println("sending out sync packets");
         PacketDistributor.sendToPlayer(serverPlayer,new SyncAttributeHolder(entityData.getAscensionAttributeHolder()));
         for (IEntityFormData formData : entityData.getFormData()){
             formData.getStatSheet().sync(serverPlayer,formData.getEntityFormId());
         }
+    }
+
+    protected void refreshUniversalTechniqueSkills(IEntityData entityData) {
+        PathData pathData = entityData.getPathData(getPath());
+
+        UniversalTechniqueSkillHelper.refresh(
+                entityData,
+                pathData == null ? 0 : pathData.getMajorRealm()
+        );
+    }
+
+    protected void clearUniversalTechniqueSkills(IEntityData entityData) {
+        UniversalTechniqueSkillHelper.refresh(entityData, -1);
     }
 
     @Override
@@ -128,6 +150,15 @@ public class GenericTechnique implements ITechnique {
         return AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(technique) instanceof GenericTechnique;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public RenderableElement getInformationContainer(UIFrame frame,PathData pathData) {
+        return new PathDataDisplayElement(frame,
+                getMajorRealmName(pathData.getMajorRealm()),
+                getMinorRealmName(pathData.getMajorRealm(),pathData.getMinorRealm()),
+                getDescription());
+    }
+
     @Override
     public IStabilityHandler getStabilityHandler() {
         return stabilityHandler;
@@ -135,17 +166,17 @@ public class GenericTechnique implements ITechnique {
 
     @Override
     public ITechniqueData freshTechniqueData(IEntityData heldEntity) {
-        return new EmptyTechniqueData();
+        return null;
     }
 
     @Override
     public ITechniqueData fromCompound(CompoundTag tag) {
-        return new EmptyTechniqueData();
+        return null;
     }
 
     @Override
     public ITechniqueData fromNetwork(RegistryFriendlyByteBuf buf) {
-        return new EmptyTechniqueData();
+        return null;
     }
 
     @Override
@@ -162,17 +193,4 @@ public class GenericTechnique implements ITechnique {
     public IBreakthroughInstance breakthroughInstanceFromNetwork(RegistryFriendlyByteBuf buf,int majorRealm,int minorRealm,ITechniqueData data) {
         return null;
     }
-
-    public GenericTechnique setDescription(Component description){
-        this.description = description;
-        return this;
-    }
-
-    public GenericTechnique setShortDescription(Component shortDescription){
-        this.shortDescription = shortDescription;
-        return this;
-    }
-
-
-
 }

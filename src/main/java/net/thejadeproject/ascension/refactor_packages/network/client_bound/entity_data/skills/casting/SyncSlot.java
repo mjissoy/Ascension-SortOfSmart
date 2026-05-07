@@ -7,12 +7,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
-import net.thejadeproject.ascension.gui.elements.skill_view.SkillMenuState;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
 public record SyncSlot(int slot, ResourceLocation skill, IPreCastData preCastData) implements CustomPacketPayload {
 
@@ -25,7 +24,7 @@ public record SyncSlot(int slot, ResourceLocation skill, IPreCastData preCastDat
         buf.writeInt(slot.slot);
         buf.writeBoolean(slot.skill != null);
         if(slot.skill != null){
-            ByteBufHelper.encodeString(buf,slot.skill.toString());
+            ByteBufUtil.encodeString(buf,slot.skill.toString());
             if(slot.preCastData != null) slot.preCastData.encode(buf);
         }
 
@@ -33,7 +32,7 @@ public record SyncSlot(int slot, ResourceLocation skill, IPreCastData preCastDat
     public static SyncSlot decode(RegistryFriendlyByteBuf buf){
         int slot = buf.readInt();
         if(buf.readBoolean()) {
-            ResourceLocation skill = ByteBufHelper.readResourceLocation(buf);
+            ResourceLocation skill = ByteBufUtil.readResourceLocation(buf);
             IPreCastData preCastData = null;
             if (AscensionRegistries.Skills.SKILL_REGISTRY.get(skill) instanceof ICastableSkill castableSkill) preCastData = castableSkill.preCastDataFromNetwork(buf);
             return new SyncSlot(slot, skill, preCastData);
@@ -47,16 +46,16 @@ public record SyncSlot(int slot, ResourceLocation skill, IPreCastData preCastDat
     }
 
     public static void handlePayload(SyncSlot payload, IPayloadContext context) {
-        context.enqueueWork(() -> {
+        context.enqueueWork(()->{
             IEntityData entityData = context.player().getData(ModAttachments.ENTITY_DATA);
-            if (payload.skill == null) {
-                System.out.println("un slotting skill");
-                entityData.getSkillCastHandler().getHotBar().unSlotSkill(entityData, payload.slot);
-            } else {
-                entityData.getSkillCastHandler().getHotBar().slotSkill(entityData, payload.skill, payload.slot, payload.preCastData);
+            if(payload.skill == null){
+                //System.out.println("un slotting skill");
+                entityData.getSkillCastHandler().getHotBar().unSlotSkill(entityData,payload.slot);
+
+            }else{
+                entityData.getSkillCastHandler().getHotBar().slotSkill(entityData,payload.skill,payload.slot,payload.preCastData);
             }
 
-            SkillMenuState.markDirty();
         });
     }
 }

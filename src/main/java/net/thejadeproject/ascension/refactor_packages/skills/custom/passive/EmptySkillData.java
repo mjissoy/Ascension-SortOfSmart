@@ -13,15 +13,7 @@ public class EmptySkillData implements IPersistentSkillData {
 
     @Override
     public void encode(RegistryFriendlyByteBuf buf) {
-        // no data
-    }
 
-    public static EmptySkillData fromCompound(CompoundTag tag) {
-        return new EmptySkillData();
-    }
-
-    public static EmptySkillData fromNetwork(RegistryFriendlyByteBuf buf) {
-        return new EmptySkillData();
     }
 
     @Override

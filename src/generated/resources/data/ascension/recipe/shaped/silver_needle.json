@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "ascension:frost_silver_ingot"
+    }
+  },
+  "pattern": [
+    "  B",
+    " B ",
+    "B  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "ascension:silver_needle"
+  }
+}

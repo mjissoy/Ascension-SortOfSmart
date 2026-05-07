@@ -4,7 +4,8 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 
-import net.thejadeproject.ascension.mob_ranks.client_debugging_remove_later.SyncMobRanks;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.qi.SyncQi;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.mob_ranks.SyncMobRank;
 import net.thejadeproject.ascension.network.serverBound.*;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
@@ -12,9 +13,13 @@ import net.thejadeproject.ascension.refactor_packages.network.client_bound.entit
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncCurrentHealth;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.physique.SyncPhysique;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.techniques.ShowMergePromptPayload;
+import net.thejadeproject.ascension.refactor_packages.network.server_bound.supressors.UpdateSuppressionValue;
+import net.thejadeproject.ascension.refactor_packages.network.server_bound.techniques.MergeResponsePayload;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncCastingInstance;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.stats.SyncStat;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.toast.ShowAscensionToast;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.ClearSlot;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.SyncHeldSkills;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.skills.SetActiveSlot;
@@ -30,6 +35,11 @@ public class ModPayloads {
                 SyncHeldSkills.TYPE,
                 SyncHeldSkills.STREAM_CODEC,
                 SyncHeldSkills::handlePayload
+        );
+        registrar.playToClient(
+                SyncQi.TYPE,
+                SyncQi.STREAM_CODEC,
+                SyncQi::handlePayload
         );
         registrar.playToClient(
                 SyncEntityForm.TYPE,
@@ -75,12 +85,24 @@ public class ModPayloads {
                 SyncPhysique::handlePayload
         );
 
+        registrar.playToClient(
+                ShowAscensionToast.TYPE,
+                ShowAscensionToast.STREAM_CODEC,
+                ShowAscensionToast::handlePayload
+        );
+
 
         // Temp for display purposes
         registrar.playToClient(
-                SyncMobRanks.TYPE,
-                SyncMobRanks.STREAM_CODEC,
-                SyncMobRanks::handlePayload
+                SyncMobRank.TYPE,
+                SyncMobRank.STREAM_CODEC,
+                SyncMobRank::handlePayload
+        );
+
+        registrar.playToClient(
+                ShowMergePromptPayload.TYPE,
+                ShowMergePromptPayload.STREAM_CODEC,
+                ShowMergePromptPayload::handlePayload
         );
 
         //===================================== SERVER ==================================
@@ -91,6 +113,11 @@ public class ModPayloads {
                 ToggleTabletDropModePayload.TYPE,
                 ToggleTabletDropModePayload.STREAM_CODEC,
                 ToggleTabletDropModePayload::handlePayload
+        );
+        registrar.playToServer(
+                UpdateSuppressionValue.TYPE,
+                UpdateSuppressionValue.STREAM_CODEC,
+                UpdateSuppressionValue::handlePayload
         );
 
         registrar.playToServer(
@@ -115,11 +142,12 @@ public class ModPayloads {
                 SetActiveSlot.TYPE,
                 SetActiveSlot.STREAM_CODEC,
                 SetActiveSlot::handlePayload
-
         );
 
-
-
-
+        registrar.playToServer(
+                MergeResponsePayload.TYPE,
+                MergeResponsePayload.STREAM_CODEC,
+                MergeResponsePayload::handlePayload
+        );
     }
 }

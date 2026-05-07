@@ -16,10 +16,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.blocks.custom.crops.GenericSlowCropBlock;
-import net.thejadeproject.ascension.blocks.custom.crops.StemSlowCropBlock;
-import net.thejadeproject.ascension.blocks.custom.fires.CrimsonLotusFire;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.blocks.custom.crops.GenericSlowCropBlock;
+import net.thejadeproject.ascension.common.blocks.custom.crops.StemSlowCropBlock;
+import net.thejadeproject.ascension.common.blocks.custom.fires.CrimsonLotusFire;
 
 import java.util.function.Function;
 

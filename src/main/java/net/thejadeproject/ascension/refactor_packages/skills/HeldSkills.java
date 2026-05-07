@@ -1,20 +1,15 @@
 package net.thejadeproject.ascension.refactor_packages.skills;
 
-import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLLoader;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.refactor_packages.util.ByteBufHelper;
+import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
-import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 public class HeldSkills {
 
@@ -24,9 +19,9 @@ public class HeldSkills {
     private final HashMap<ResourceLocation,HeldSkill> skills = new HashMap<>();
 
 
-    private final Set<ResourceLocation> modifiedSyncBuffer = new HashSet<>();
-    private final Set<ResourceLocation> additionSyncBuffer = new HashSet<>();
-    private final Set<ResourceLocation> removalSyncBuffer = new HashSet<>();
+    private final ArrayList<HeldSkill> modifiedSyncBuffer = new ArrayList<>();
+    private final ArrayList<HeldSkill> additionSyncBuffer = new ArrayList<>();
+    private final ArrayList<HeldSkill> removalSyncBuffer = new ArrayList<>();
 
 
     /*
@@ -42,12 +37,11 @@ public class HeldSkills {
         
      */
 
-    public void addSkill(ResourceLocation skill, IPersistentSkillData skillData){
+    public void addSkill(ResourceLocation skill,IPersistentSkillData skillData){
         HeldSkill heldSkill = new HeldSkill(skill);
         heldSkill.setPersistentData(skillData);
-
-        skills.put(skill, heldSkill);
-        additionSyncBuffer.add(skill);
+        skills.put(skill,heldSkill);
+        additionSyncBuffer.add(heldSkill);
     }
 
 
@@ -69,16 +63,18 @@ public class HeldSkills {
         markDirty(skillKey);
     }
 
+
     public void markDirty(ResourceLocation skillKey){
         if(!skills.containsKey(skillKey)) return;
-        modifiedSyncBuffer.add(skillKey);
+        modifiedSyncBuffer.add(skills.get(skillKey));
     }
 
     public IPersistentSkillData removeSkill(ResourceLocation skillKey){
-        if(!skills.containsKey(skillKey)) return null;
+        if(!skills.containsKey(skillKey))return null;
         HeldSkill heldSkill = skills.remove(skillKey);
-        removalSyncBuffer.add(skillKey);
+        removalSyncBuffer.add(heldSkill);
         return heldSkill.getPersistentData();
+
     }
 
     public boolean hasSkill(ResourceLocation skillKey){
@@ -109,7 +105,6 @@ public class HeldSkills {
         //TODO used when it is added to an existing entity data
     }
 
-
     //============================== NETWORK =================================
     public static HeldSkills decodeFull(RegistryFriendlyByteBuf buf){
 
@@ -124,13 +119,17 @@ public class HeldSkills {
         }
         return heldSkills;
     }
-    public static void encodeFull(RegistryFriendlyByteBuf buf, HeldSkills heldSkills) {
-        List<HeldSkill> snapshot = new ArrayList<>(heldSkills.skills.values());
+    public static void encodeFull(RegistryFriendlyByteBuf buf,HeldSkills heldSkills){
 
-        buf.writeInt(snapshot.size());
-        for (HeldSkill skill : snapshot) {
+        buf.writeInt(heldSkills.skills.size());
+        //System.out.println("encoding : "+heldSkills.skills.size());
+        Collection<HeldSkill> group = new ArrayList<>(heldSkills.skills.values());
+        for(HeldSkill skill : group){
+            //System.out.println("encoding skill :" +skill.getKey());
             skill.encode(buf);
+            //System.out.println("finished encoding");
         }
+
     }
 
 
@@ -148,7 +147,7 @@ public class HeldSkills {
         }
         //removed
         for(int i =0;i<buf.readInt();i++){
-            skills.remove(ByteBufHelper.readResourceLocation(buf));
+            skills.remove(ByteBufUtil.readResourceLocation(buf));
         }
 
         //modified skills
@@ -157,48 +156,33 @@ public class HeldSkills {
         }
 
 
-        if(FMLLoader.getDist() != Dist.CLIENT) clearBuffers();
+        if(FMLLoader.getDist() != Dist.CLIENT) clearBuffers(); //should prevent accidental memory leak
     }
 
 
-    public void encode(RegistryFriendlyByteBuf buf, boolean onlyChanges) {
+    public void encode(RegistryFriendlyByteBuf buf,boolean onlyChanges){
+
         buf.writeBoolean(onlyChanges);
+        if(onlyChanges) encodeChanges(buf);
 
-        if (onlyChanges) {
-            encodeChanges(buf);
-        } else {
-            encodeFull(buf, this);
-        }
     }
-
-
     private void encodeChanges(RegistryFriendlyByteBuf buf){
+        //write added
 
-        List<ResourceLocation> added = new ArrayList<>(additionSyncBuffer);
-        List<ResourceLocation> removed = new ArrayList<>(removalSyncBuffer);
-        List<ResourceLocation> modified = new ArrayList<>(modifiedSyncBuffer);
-
-        buf.writeInt(added.size());
-        for(ResourceLocation key : added){
-            HeldSkill skill = skills.get(key);
-            if (skill != null) {
-                skill.encode(buf);
-            }
+        buf.writeInt(additionSyncBuffer.size());
+        for(HeldSkill heldSkill : additionSyncBuffer){
+            heldSkill.encode(buf);
         }
-
-        buf.writeInt(removed.size());
-        for(ResourceLocation key : removed){
-            ByteBufHelper.encodeString(buf, key.toString());
+        //write removed
+        buf.writeInt(removalSyncBuffer.size());
+        for(HeldSkill heldSkill : removalSyncBuffer){
+            ByteBufUtil.encodeString(buf,heldSkill.getKey().toString());
         }
-
-        buf.writeInt(modified.size());
-        for(ResourceLocation key : modified){
-            HeldSkill skill = skills.get(key);
-            if (skill != null) {
-                skill.encode(buf);
-            }
+        //write modified
+        buf.writeInt(modifiedSyncBuffer.size());
+        for(HeldSkill heldSkill : modifiedSyncBuffer){
+            heldSkill.encode(buf);
         }
-
         clearBuffers();
 
     }

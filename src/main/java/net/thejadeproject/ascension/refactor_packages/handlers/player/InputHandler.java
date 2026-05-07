@@ -2,7 +2,6 @@ package net.thejadeproject.ascension.refactor_packages.handlers.player;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.lucent.easygui.gui.UIFrame;
-import net.lucent.easygui.gui.layout.positioning.rules.PositioningRules;
 import net.lucent.easygui.gui.overaly.EasyOverlayHandler;
 import net.lucent.easygui.screen.EasyScreen;
 import net.minecraft.client.KeyMapping;
@@ -17,12 +16,10 @@ import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.settings.KeyConflictContext;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.gui.elements.cultivation.CultivationMenuContainer;
-import net.thejadeproject.ascension.gui.elements.general.Container;
-import net.thejadeproject.ascension.gui.elements.general.CultivationScreen;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
-import net.thejadeproject.ascension.gui.elements.skill_casting.SkillHotBarContainer;
-import net.thejadeproject.ascension.gui.elements.skill_view.SkillMenuContainer;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.introspection.IntrospectionContainer;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.skill_casting.SkillHotBarContainer;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.skill_view.SkillMenuContainer;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.HashMap;
@@ -30,47 +27,36 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import static net.thejadeproject.ascension.util.KeyBindHandler.CULTIVATION_CATEGORY;
+
 //lets us dynamically add and remove "actions" associated with inputs
 //these actions are then synced with the server
 @OnlyIn(Dist.CLIENT)
 @EventBusSubscriber(modid = AscensionCraft.MOD_ID,value = Dist.CLIENT)
 public class InputHandler {
-    public static final KeyMapping CAST_SKILL_KEY = new KeyMapping("key.ascension.cast_skill", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_V, "ascension skills");
-    public static final KeyMapping OPEN_SKILL_MENU = new KeyMapping("key.ascension.open_skill_menu", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_L, "ascension skills");
-    public static final KeyMapping SKILL_WHEEL_OVERLAY = new KeyMapping("key.ascension.skill_wheel", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_R, "ascension skills");
-    public static final KeyMapping OPEN_CULTIVATION_MENU = new KeyMapping("key.ascension.open_cultivation_menu", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_I, "ascension skills");
+    public static final KeyMapping CAST_SKILL_KEY = new KeyMapping("key.ascension.cast_skill", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_V, CULTIVATION_CATEGORY);
+    public static final KeyMapping SKILL_WHEEL_OVERLAY = new KeyMapping("key.ascension.skill_wheel", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_R, CULTIVATION_CATEGORY);
+    public static final KeyMapping INTROSPECTION = new KeyMapping("key.ascension.introspection", KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, InputConstants.KEY_I, CULTIVATION_CATEGORY);
 
-
-    private final static HashSet<KeyMapping> state = new HashSet<>();
+    public final static HashSet<KeyMapping> state = new HashSet<>();
     //maps a keyMapping->handler
     private final static HashMap<KeyMapping, ActionHandler> actionHandlerMapping = new HashMap<>(){{
         put(CAST_SKILL_KEY,new ActionHandler("skill_cast").setOnDown((mod)-> {
-            System.out.println("pressed skill cast key");
+            //System.out.println("pressed skill cast key");
 
-        }));
-        put(OPEN_SKILL_MENU,new ActionHandler("skill_menu_opening").setOnRelease((mod)->{
-            UIFrame frame = new UIFrame();
-            frame.setRoot(new SkillMenuContainer(frame));
-            Minecraft.getInstance().setScreen(new EasyScreen(Component.literal("skills"),frame));
         }));
         put(SKILL_WHEEL_OVERLAY,new ActionHandler("skill_wheel").setOnDown(mod->{
             ((SkillHotBarContainer) EasyOverlayHandler.getFrame(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_wheel")).getRoot()).open();
         }).setOnRelease(mod->{
             ((SkillHotBarContainer) EasyOverlayHandler.getFrame(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"skill_wheel")).getRoot()).close();
         }));
-        put(OPEN_CULTIVATION_MENU, new ActionHandler("cultivation_menu_opening").setOnRelease((mod) -> {
-            UIFrame frame = new UIFrame();
-            Container root = new Container(frame, 0, 0);
-            root.getPositioning().setPositioningRule(PositioningRules.CENTER);
-            SkillMenuContainer skillMenu = new SkillMenuContainer(frame);
-            skillMenu.setActive(false);
-            CultivationMenuContainer cult = new CultivationMenuContainer(frame);
-            cult.setSkillMenu(skillMenu);
-            root.addChild(cult);
-            root.addChild(skillMenu);
-            frame.setRoot(root);
-            Minecraft.getInstance().setScreen(new CultivationScreen(Component.literal("cultivation"), frame));
-        }));
+        put(INTROSPECTION,new ActionHandler("open_introspection")
+                .setOnDown(mod->{
+                    UIFrame frame = new UIFrame();
+                    frame.setRoot(new IntrospectionContainer(frame));
+                    Minecraft.getInstance().setScreen( new EasyScreen(Component.literal("Introspection"),frame));
+                })
+        );
     }};
     public static class ActionHandler {
         public Consumer<Integer> actionDown = (val)->{};
@@ -138,7 +124,6 @@ public class InputHandler {
 
 
         for(Map.Entry<KeyMapping,ActionHandler> keyHandler : actionHandlerMapping.entrySet()){
-
             if(keyHandler.getKey().getKey().getValue() == button && action == GLFW.GLFW_PRESS && keyHandler.getKey().isConflictContextAndModifierActive()){
 
                 //mouse down
@@ -151,11 +136,19 @@ public class InputHandler {
                 state.remove(keyHandler.getKey());
                 keyHandler.getValue().actionReleased.accept(modifiers);
                 sendSatePacket(keyHandler.getValue().actionName,modifiers,false);
-            }else if (button == keyHandler.getKey().getKey().getValue() && action == GLFW.GLFW_REPEAT && keyHandler.getKey().isConflictContextAndModifierActive()){
-                //repeat press
+            }else if (button == keyHandler.getKey().getKey().getValue() && action == GLFW.GLFW_REPEAT &&keyHandler.getKey().isConflictContextAndModifierActive()){
                 keyHandler.getValue().actionHeld.accept(modifiers);
+
             }
         }
-
+        if(Minecraft.getInstance().screen != null){
+            for(KeyMapping mapping : state){
+                if(!mapping.isConflictContextAndModifierActive()){
+                    state.remove(mapping);
+                    actionHandlerMapping.get(mapping).actionReleased.accept(modifiers);
+                    sendSatePacket(actionHandlerMapping.get(mapping).actionName,modifiers,false);
+                }
+            }
+        }
     }
 }

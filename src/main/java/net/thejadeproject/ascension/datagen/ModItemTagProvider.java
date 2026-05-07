@@ -16,8 +16,8 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.items.ModItems;
 import net.thejadeproject.ascension.util.ModTags;
 
 import javax.annotation.Nullable;
@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends ItemTagsProvider {
     public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
-                              CompletableFuture<TagsProvider.TagLookup<Block>> blockTags, @Nullable ExistingFileHelper existingFileHelper){
+                              CompletableFuture<TagLookup<Block>> blockTags, @Nullable ExistingFileHelper existingFileHelper){
         super(output, lookupProvider, blockTags, AscensionCraft.MOD_ID, existingFileHelper);
     }
     @Override
@@ -106,6 +106,11 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.DIAMOND_SPEAR.get())
                 .add(ModItems.NETHERITE_SPEAR.get());
 
+
+        tag(ModTags.Items.FLAMES)
+                .add(ModItems.FLAME.get())
+                .add(ModItems.SOUL_FLAME.get())
+                .add(ModItems.CRIMSON_LOTUS_FLAME.get());
 
         tag(ModTags.Items.SPEAR_ENCHANTABLE)
                 .addTag(ModTags.Items.SPEAR);

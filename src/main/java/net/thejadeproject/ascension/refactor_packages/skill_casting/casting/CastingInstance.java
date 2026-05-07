@@ -52,7 +52,8 @@ public class CastingInstance {
         skillKey = null;
         castData = null;
         ticksElapsed = 0;
-        PacketDistributor.sendToPlayer((ServerPlayer) entity,new SyncCastingInstance(null,null));
+
+        if(entity instanceof ServerPlayer player) PacketDistributor.sendToPlayer(player,new SyncCastingInstance(null,null));
         return castEndData;
     }
 
@@ -87,15 +88,14 @@ public class CastingInstance {
         }
 
         this.skillKey = skillKey;
-        System.out.println("setting up UI element");
+        //System.out.println("setting up UI element");
 
         RenderableElement element = getCastableSkill().getCastElement(frame);
 
         if(element != null){
-            System.out.println("adding ui element");
+            //System.out.println("adding ui element");
             frame.setRoot(element);
         }
-
         this.castData = getCastableSkill().freshCastData();
         SkillHotBar hotBar = entity.getData(ModAttachments.ENTITY_DATA).getSkillCastHandler().getHotBar();
         getCastableSkill().initialCast(entity,hotBar.getPreCastData(hotBar.getSlot(skillKey)));

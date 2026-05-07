@@ -7,8 +7,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 
 import java.util.function.Supplier;
@@ -30,12 +30,18 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.FROST_SILVER_NUGGET);
                         output.accept(ModItems.SPIRITUAL_STONE);
                         output.accept(ModItems.SPATIAL_STONE_TIER_1);
-                        output.accept(ModItems.SPATIAL_STONE_TIER_2);
                         output.accept(ModItems.JADE_NUGGET);
                         output.accept(ModItems.JADE);
                         output.accept(ModItems.UNDEAD_CORE);
                         output.accept(ModItems.LIVING_CORE);
                         output.accept(ModItems.TALISMAN_PAPER);
+
+                        output.accept(ModItems.SCHOLARLY_SOUL_RECTIFICATION_OF_NAMES);
+                        output.accept(ModItems.SCHOLARLY_SOUL_GREAT_LEARNING);
+                        output.accept(ModItems.SCHOLARLY_SOUL_THOUSAND_COMMENTARIES);
+                        output.accept(ModItems.SCHOLARLY_SOUL_SAGE_MANDATE);
+
+
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_ARTIFACTS_TAB = CREATIVE_MODE_TAB.register("ascension_artifacts_tab",
@@ -44,6 +50,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.artifacts"))
                     .displayItems((itemDisplayParameters, output) -> {
 
+                        output.accept(ModItems.SPATIAL_RING);
                         output.accept(ModItems.REPAIR_SLIP);
                         output.accept(ModItems.ENDER_POUCH);
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HUMAN);
@@ -51,7 +58,6 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.TABLET_OF_DESTRUCTION_HEAVEN);
 
 
-                        output.accept(ModItems.SPIRIT_SEALING_RING);
                         output.accept(ModItems.FIRE_GOURD);
 
                         output.accept(ModItems.SPATIAL_RUPTURE_TALISMAN_T1);
@@ -61,16 +67,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.WORLD_AXIS_TALISMAN);
                         output.accept(ModItems.VOID_MARKING_TALISMAN);
                         output.accept(ModItems.DEATH_RECALL_TALISMAN);
-
-                        output.accept(ModItems.STRENGTH_RUNE);
-                        output.accept(ModItems.ARMOR_RUNE);
-                        output.accept(ModItems.VITALITY_RUNE);
-                        output.accept(ModItems.ENDURANCE_RUNE);
-                        output.accept(ModItems.ESSENCE_RUNE);
-                        output.accept(ModItems.REGEN_RUNE);
-                        output.accept(ModItems.SPEED_RUNE);
-                        output.accept(ModItems.PRECISION_RUNE);
-
+                        output.accept(ModItems.SOUL_ANCHOR_TALISMAN);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ASCENSION_TOOLS_TAB = CREATIVE_MODE_TAB.register("ascension_tools_tab",
@@ -91,6 +88,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.GOLD_SPEAR);
                         output.accept(ModItems.DIAMOND_SPEAR);
                         output.accept(ModItems.NETHERITE_SPEAR);
+
+                        output.accept(ModItems.SILVER_NEEDLE);
 
                         output.accept(ModItems.SPIRITUAL_STONE_PICKAXE);
                         output.accept(ModItems.SPIRITUAL_STONE_AXE);
@@ -383,6 +382,11 @@ public class ModCreativeModeTabs {
                         //Waste
                         output.accept(ModItems.PILL_RESIDUE);
 
+                        //Cultivation
+                        output.accept(ModItems.INNER_REINFORCEMENT_PILL);
+                        output.accept(ModItems.SOUL_FOCUS_PILL);
+                        output.accept(ModItems.ESSENCE_GATHERING_PILL);
+
                         //Medicinal
                         output.accept(ModItems.FASTING_PILL_T1);
                         output.accept(ModItems.FASTING_PILL_T2);
@@ -391,17 +395,20 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.CLEANSING_PILL_T2);
                         output.accept(ModItems.CLEANSING_PILL_T3);
                         output.accept(ModItems.CLEANSING_PILL_T4);
+                        output.accept(ModItems.ANTIDOTE_PILL_QDP);
+                        output.accept(ModItems.QI_ENHANCED_REGEN_PILL);
 
-                        output.accept(ModItems.ANTIDOTE_PILL_T2);
-                        output.accept(ModItems.ANTIDOTE_PILL_T3);
+                        //Poison
+                        output.accept(ModItems.QI_DEVOURING_PARASITE_PILL);
 
+
+                        //Misc
                         output.accept(ModItems.NEUTRALITY_PILL);
-
-                        //Cultivation
+                        output.accept(ModItems.MARROW_CLEANSE_PILL);
 
 
                         //Important Pills
-                        output.accept(ModItems.REBIRTH_PILL);
+
 
                     }).build());
 

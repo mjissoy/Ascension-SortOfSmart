@@ -1,4 +1,4 @@
-package net.thejadeproject.ascension.gui.elements.general;
+package net.thejadeproject.ascension.refactor_packages.gui.elements.general;
 
 import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
@@ -8,7 +8,7 @@ import net.lucent.easygui.gui.events.type.EasyMouseEvent;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class ScrollBox extends RenderableElement {
-
+    public boolean useCustomChildAdditionLogic = true;
     int yOffset = 0;
     int scrollRate = 0;
     public ScrollBox(UIFrame frame,int scrollRate) {
@@ -38,32 +38,31 @@ public class ScrollBox extends RenderableElement {
         }
         return maxY;
     }
+    public void updatePos(RenderableElement element){
+        //go to the last element, if it is on the same row set y and x if not set only y
+        if(!getChildren().isEmpty()) {
+            RenderableElement lastChild=getChildren().getLast();
 
-    @Override
-    public void addChild(RenderableElement element) {
-        if (!getChildren().isEmpty()) {
-            RenderableElement lastChild = getChildren().getLast();
-
-            element.getPositioning().setFromRawX(2);
-            element.getPositioning().setFromRawY(lastChild.getPositioning().getRawY() + lastChild.getHeight() + 2);
-        } else {
-            element.getPositioning().setFromRawX(2);
-            element.getPositioning().setFromRawY(0);
+            if(lastChild.getPositioning().getX()+lastChild.getWidth()+element.getWidth() < getWidth()){
+                //on a new row
+                element.getPositioning().setFromRawY(lastChild.getPositioning().getRawY()+element.getHeight());
+            }else{
+                element.getPositioning().setFromRawY(lastChild.getPositioning().getRawY());
+                element.getPositioning().setFromRawX(lastChild.getPositioning().getRawX()+lastChild.getWidth());
+            }
         }
 
-        super.addChild(element);
-        updateVisibility(element);
     }
+    @Override
+    public void addChild(RenderableElement element) {
 
+        if(useCustomChildAdditionLogic) updatePos(element);
+        super.addChild(element);
+    }
 
     public void updateVisibility(RenderableElement element){
 
-        //TODO can simplify into one boolean expression
-        if(element.getPositioning().getY()+element.getHeight() <0) element.setVisible(false);
-        else if(element.getPositioning().getY() > getHeight()) element.setVisible(false);
-        else if(element.getPositioning().getX()+element.getWidth() < 0) element.setVisible(false);
-        else if (element.getPositioning().getX()>getWidth()) element.setVisible(false);
-        else element.setVisible(true);
+        element.setVisible(element.getPositioning().getY() >= 0 && element.getPositioning().getY() < getHeight());
     }
     public void updateChildrenY(int change){
         for (RenderableElement element: getChildren()){
@@ -94,15 +93,10 @@ public class ScrollBox extends RenderableElement {
         updateChildrenY(oldYOffset-yOffset);
     }
 
+
     @Override
     public void renderTick(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.renderTick(guiGraphics, mouseX, mouseY, partialTick);
 
     }
-
-    public void clearScrollChildren() {
-        getChildren().clear();
-        yOffset = 0;
-    }
-
 }

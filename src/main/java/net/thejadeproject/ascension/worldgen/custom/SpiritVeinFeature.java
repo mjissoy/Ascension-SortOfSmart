@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.blocks.custom.SpiritVeinBlock;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.blocks.custom.SpiritVeinBlock;
 
 public class SpiritVeinFeature extends Feature<NoneFeatureConfiguration> {
     public SpiritVeinFeature(Codec<NoneFeatureConfiguration> codec) {

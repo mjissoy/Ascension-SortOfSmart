@@ -15,7 +15,8 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
-import net.thejadeproject.ascension.blocks.entity.ModBlockEntities;
+import net.thejadeproject.ascension.clients.renderer.TechniqueStandRenderer;
+import net.thejadeproject.ascension.common.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.clients.FlameGourdClientTooltip;
 import net.thejadeproject.ascension.clients.hud.FlameBarOverlay;
 import net.thejadeproject.ascension.clients.renderer.CauldronPedestalRenderer;
@@ -25,12 +26,15 @@ import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.entity.client.CushionRenderer;
 import net.thejadeproject.ascension.entity.client.form.PlayerBodyEntityRenderer;
 import net.thejadeproject.ascension.entity.client.rat.RatRenderer;
-import net.thejadeproject.ascension.events.ModDataComponents;
+import net.thejadeproject.ascension.common.items.data_components.ModDataComponents;
 
-import net.thejadeproject.ascension.items.ModItems;
-import net.thejadeproject.ascension.items.artifacts.FlameGourd;
+import net.thejadeproject.ascension.common.items.ModItems;
+import net.thejadeproject.ascension.common.items.artifacts.FlameGourd;
+import net.thejadeproject.ascension.entity.custom.NeedleProjectile;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
+import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventoryScreen;
+import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingModifierScreen;
 import net.thejadeproject.ascension.particle.ModParticles;
 import net.thejadeproject.ascension.particle.particles.CultivationParticles;
 import net.thejadeproject.ascension.gui.ModOverlays;
@@ -46,7 +50,6 @@ public class AscensionCraftClient {
         KeyBindHandler.register();
 
 
-
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
         NeoForge.EVENT_BUS.register(FlameBarOverlay.class);
@@ -59,6 +62,8 @@ public class AscensionCraftClient {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
+            event.register(ModMenuTypes.SPATIAL_RING_INVENTORY_MENU.get(), SpatialRingInventoryScreen::new);
+            event.register(ModMenuTypes.SPATIAL_RING_MODIFIER_MENU.get(), SpatialRingModifierScreen::new);
 
         }
 
@@ -70,10 +75,17 @@ public class AscensionCraftClient {
         @SubscribeEvent
         public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
 
+            event.registerEntityRenderer(ModEntities.PILL_PROJECTILE.get(), ThrownItemRenderer::new);
+
             // Floating item above each ingredient pedestal
             event.registerBlockEntityRenderer(
                     ModBlockEntities.CAULDRON_PEDESTAL.get(),
                     CauldronPedestalRenderer::new
+            );
+
+            event.registerBlockEntityRenderer(
+                    ModBlockEntities.TECHNIQUE_STAND_BE.get(),
+                    TechniqueStandRenderer::new
             );
 
             // Ghost-block hints for missing multiblock pieces on the cauldron itself
@@ -114,6 +126,7 @@ public class AscensionCraftClient {
                 EntityRenderers.register(ModEntities.RAT.get(), RatRenderer::new);
                 EntityRenderers.register(ModEntities.POISON_PILL.get(), ThrownItemRenderer::new);
                 EntityRenderers.register(ModEntities.CUSHION_ENTITY.get(), CushionRenderer::new);
+                EntityRenderers.register(ModEntities.NEEDLE_PROJECTILE.get(), ThrownItemRenderer::new);
                 EntityRenderers.register(ModEntities.FAKE_PLAYER.get(), PlayerBodyEntityRenderer::new);
 
                 // Register item properties
@@ -135,6 +148,21 @@ public class AscensionCraftClient {
                                 return 1.0F;
                             }
                             return 0.0F;
+                        });
+
+                ItemProperties.register(ModItems.TECHNIQUE_MANUAL.get(),
+                        ResourceLocation.fromNamespaceAndPath("ascension", "technique_variant"),
+                        (itemStack, clientLevel, livingEntity, seed) -> {
+                            String techniqueId = itemStack.get(ModDataComponents.TECHNIQUE_ID.get());
+                            if (techniqueId == null) return 0.0F;
+                            return switch (techniqueId) {
+                                case "ascension:heart_fire_technique"  -> 1.0F;
+                                case "ascension:kidney_water_technique" -> 2.0F;
+                                case "ascension:liver_wood_technique"  -> 3.0F;
+                                case "ascension:spleen_earth_technique" -> 4.0F;
+                                case "ascension:lung_metal_technique"  -> 5.0F;
+                                default -> 0.0F;
+                            };
                         });
             });
         }

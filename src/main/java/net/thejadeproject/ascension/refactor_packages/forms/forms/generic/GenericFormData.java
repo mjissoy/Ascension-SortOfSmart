@@ -50,6 +50,7 @@ public class GenericFormData implements IEntityFormData {
         statSheet.addStat(ModStats.VITALITY.get(),5);
         statSheet.addStat(ModStats.AGILITY.get(),5);
         statSheet.addStat(ModStats.STRENGTH.get(),5);
+        statSheet.addStat(ModStats.INTELLIGENCE.get(),5);
     }
 
     @Override
@@ -80,6 +81,11 @@ public class GenericFormData implements IEntityFormData {
     @Override
     public PathData getPathData(ResourceLocation path) {
         return pathData.get(path);
+    }
+
+    @Override
+    public void removePathData(ResourceLocation path) {
+        pathData.remove(path);
     }
 
     @Override

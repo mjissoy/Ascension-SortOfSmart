@@ -20,7 +20,7 @@ import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
 
 import java.util.List;
 

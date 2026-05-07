@@ -19,7 +19,8 @@ import net.neoforged.api.distmarker.OnlyIn;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
-import net.thejadeproject.ascension.gui.elements.skills.cultivation.CultivationProgressBar;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.info_elements.DescriptionDisplayContainer;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.skills.cultivation.CultivationProgressBar;
 import net.thejadeproject.ascension.refactor_packages.paths.PathData;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
@@ -34,7 +35,6 @@ import net.thejadeproject.ascension.refactor_packages.skills.castable.ICastableS
 import net.thejadeproject.ascension.refactor_packages.skills.castable.IPreCastData;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.skill_data.GenericCultivationSkillData;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechnique;
-import net.thejadeproject.ascension.runic_path.skills.passive.helpers.CultivationModifierHelper;
 import org.checkerframework.checker.guieffect.qual.UI;
 
 import java.util.Set;
@@ -52,12 +52,12 @@ public class GenericCultivationSkill implements ICastableSkill {
 
     @Override
     public void onAdded(IEntityData attachedEntityData) {
-        System.out.println("added skill : "+ AscensionRegistries.Skills.SKILL_REGISTRY.getKey(this).toString());
+        //System.out.println("added skill : "+ AscensionRegistries.Skills.SKILL_REGISTRY.getKey(this).toString());
     }
 
     @Override
     public void onRemoved(IEntityData attachedEntityData, IPersistentSkillData persistentData) {
-        System.out.println("removed skill : "+ AscensionRegistries.Skills.SKILL_REGISTRY.getKey(this).toString());
+        //System.out.println("removed skill : "+ AscensionRegistries.Skills.SKILL_REGISTRY.getKey(this).toString());
     }
 
     @Override
@@ -92,7 +92,7 @@ public class GenericCultivationSkill implements ICastableSkill {
     public IPersistentSkillData fromNetwork(RegistryFriendlyByteBuf buf) {
         return new GenericCultivationSkillData(buf);
     }
-
+    @OnlyIn(Dist.CLIENT)
     @Override
     public ITextureData getIcon() {
         return new TextureData(
@@ -101,14 +101,25 @@ public class GenericCultivationSkill implements ICastableSkill {
         );
     }
 
+    private Component getPathTitle() {
+        var pathObj = AscensionRegistries.Paths.PATHS_REGISTRY.get(path);
+        return pathObj != null ? pathObj.getDisplayTitle() : Component.literal(path.toString());
+    }
+
     @Override
     public Component getTitle() {
-        return Component.empty().append(AscensionRegistries.Paths.PATHS_REGISTRY.get(path).getDisplayTitle()).append(" Cultivation Skill");
+        return Component.translatable(
+                "ascension.skill.cultivation_skill",
+                getPathTitle()
+        );
     }
 
     @Override
     public Component getDescription() {
-        return Component.empty();
+        return Component.translatable(
+                "ascension.skill.cultivation_skill.description",
+                getPathTitle()
+        );
     }
 
 
@@ -139,45 +150,38 @@ public class GenericCultivationSkill implements ICastableSkill {
         return new CastResult(CastResult.Type.SUCCESS);
     }
 
+    protected double getEffectiveRate(Entity caster) {
+        return baseRate;
+    }
+
     @Override
     public boolean continueCasting(int ticksElapsed, Entity caster, ICastData castData) {
         if(!caster.hasData(ModAttachments.INPUT_STATES)) return false;
 
         if(!caster.level().isClientSide()){
 
-            System.out.println("Player is trying to cultivate");
+            //System.out.println("Player is trying to cultivate");
             PathData pathData = caster.getData(ModAttachments.ENTITY_DATA).getPathData(path);
 
+            if (pathData == null || pathData.getLastUsedTechnique() == null) return false;
+
             //TODO add a cultivate event
-            ResourceLocation lastUsed = pathData.getLastUsedTechnique();
-            System.out.println("Last used technique = " + lastUsed);
-            System.out.println("Has key? " + AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.containsKey(lastUsed));
-            if (lastUsed == null) {
-                throw new IllegalStateException("lastUsedTechnique is null");
-            }
+            ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(pathData.getLastUsedTechnique());
+            if (technique == null) return false;
+            double amount = getEffectiveRate(caster);
 
-            if (!AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.containsKey(lastUsed)) {
-                throw new IllegalStateException("Technique not registered: " + lastUsed);
-            }
-
-            ITechnique technique = AscensionRegistries.Techniques.TECHNIQUES_REGISTRY.get(lastUsed);
-            IEntityData entityData = caster.getData(ModAttachments.ENTITY_DATA);
-            double amount = baseRate * CultivationModifierHelper.getMultiplierForPath(entityData, path);
 
             if(pathData.getCurrentRealmProgress()+amount >= technique.getMaxQiForRealm(pathData.getMajorRealm(),pathData.getMinorRealm())){
                 //TODO minor/major realm breakthrough shenanigans here
                 pathData.setCurrentRealmProgress(technique.getMaxQiForRealm(pathData.getMajorRealm(),pathData.getMinorRealm()));
 
                 if(pathData.getMinorRealm() < technique.getMaxMinorRealm(pathData.getMajorRealm()) && technique.canBreakthroughMinorRealm(
-                        entityData,
+                        caster.getData(ModAttachments.ENTITY_DATA),
                         pathData.getMajorRealm(),
                         pathData.getMinorRealm(),
                         pathData.getCurrentRealmProgress()
                 )){
-                    pathData.handleRealmChange(pathData.getMajorRealm(),pathData.getMinorRealm()+1,entityData);
-                } else if(pathData.getMajorRealm() < technique.getMaxMajorRealm() && entityData.isBreakingThrough(path)) {
-                    pathData.setBreakingThrough(false);
-                    pathData.handleRealmChange(pathData.getMajorRealm() + 1, 0, entityData);
+                    pathData.handleRealmChange(pathData.getMajorRealm(),pathData.getMinorRealm()+1,caster.getData(ModAttachments.ENTITY_DATA));
                 } else if(pathData.getMajorRealm()<technique.getMaxMajorRealm() && technique.getStabilityHandler() != null && pathData.getCurrentRealmStability() < technique.getStabilityHandler().getMaxCultivationTicks()) {
                     pathData.setCurrentRealmStability(pathData.getCurrentRealmStability()+1);
                 }
@@ -257,6 +261,13 @@ public class GenericCultivationSkill implements ICastableSkill {
         return CastType.LONG;
     }
 
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public RenderableElement getInformationContainer(UIFrame frame) {
+        return new DescriptionDisplayContainer(frame,
+                getTitle(),
+                getDescription());
+    }
     @OnlyIn(Dist.CLIENT)
     @Override
     public RenderableElement getCastElement(UIFrame frame) {

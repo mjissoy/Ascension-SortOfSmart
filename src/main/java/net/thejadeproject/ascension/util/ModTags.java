@@ -46,6 +46,9 @@ public class ModTags {
         public static final TagKey<Item> SPEAR_ENCHANTABLE = createTag("spear_enchantable");
 
 
+        public static final TagKey<Item> FLAMES = createTag("flames");
+
+
 
         public static final TagKey<Item> CURIOS_RING = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("curios", "ring"));
 

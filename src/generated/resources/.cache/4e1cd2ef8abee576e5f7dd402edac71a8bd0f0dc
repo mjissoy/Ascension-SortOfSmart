@@ -1,6 +1,7 @@
-// 1.21.1	2026-04-13T13:32:46.3150971	Tags for minecraft:item mod id ascension
+// 1.21.1	2026-05-06T17:30:32.9126832	Tags for minecraft:item mod id ascension
 1c23acb988c2f229b5a9ca028c56c8490c2ec903 data/ascension/tags/item/blade.json
 2d7068e08e99362203966cd5fd23e7a2912a8601 data/ascension/tags/item/crafting/woolable.json
+c44e5e69b22e0248340390143915b409da19ad3d data/ascension/tags/item/flames.json
 b79fab5829410b6b51f4d720188d05dbb1d4bec7 data/ascension/tags/item/herbs/medicinal.json
 1f7bef33b538b6b8705d315fae89a2831963546b data/ascension/tags/item/repair_slip_blacklist.json
 1de804da870546b7fd2742f09754e6db682130f7 data/ascension/tags/item/spear.json

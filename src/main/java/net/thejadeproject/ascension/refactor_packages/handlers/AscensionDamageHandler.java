@@ -14,6 +14,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
+import net.neoforged.neoforge.event.entity.living.LivingHealEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.thejadeproject.ascension.AscensionCraft;
@@ -51,14 +52,16 @@ public class AscensionDamageHandler {
     public static void onAttack(AttackEntityEvent event){
 
     }
+
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onIncomingDamage(LivingIncomingDamageEvent event){
         if(event.getSource().getEntity() == null) return;
         if(event.getSource().getDirectEntity() != event.getSource().getEntity()) return;
 
         if(!event.getSource().getEntity().hasData(ModAttachments.ENTITY_DATA)) return;
-        System.out.println("dealing increased damage");
-        event.setAmount((float)event.getSource().getEntity().getData(ModAttachments.ENTITY_DATA).getAscensionAttributeHolder().getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+        //System.out.println("dealing increased damage");
+        //event.setAmount((float)event.getSource().getEntity().getData(ModAttachments.ENTITY_DATA).getAscensionAttributeHolder().getAttribute(Attributes.ATTACK_DAMAGE).getValue());
     }
 
 
@@ -99,20 +102,24 @@ public class AscensionDamageHandler {
         );
         AscensionDamageEvent.Pre preEvent = new AscensionDamageEvent.Pre(finalDamageSource,event.getContainer(),container,event.getEntity());
         NeoForge.EVENT_BUS.post(preEvent);
-        System.out.println("dealt : "+preEvent.getDamage());
+        //System.out.println("dealt : "+preEvent.getDamage());
         AscensionDamageEvent.Post postEvent = new AscensionDamageEvent.Post(finalDamageSource,event.getContainer(),container,event.getEntity());
         NeoForge.EVENT_BUS.post(postEvent);
         event.setNewDamage((float) postEvent.getDamage());
-        //TODO potentially change to not do this but instead use mixins to change how health is handled through getHealth and setHealth
-        if (event.getEntity().hasData(ModAttachments.ENTITY_DATA)) {
-            event.setNewDamage(0);
-            IEntityData entityData = event.getEntity().getData(ModAttachments.ENTITY_DATA);
-            entityData.setHealth(entityData.getHealth()- postEvent.getDamage(),finalDamageSource);
-            System.out.println("health : "+entityData.getHealth());
-
+        if(event.getSource().getEntity() != null && event.getSource().getEntity().hasData(ModAttachments.ENTITY_DATA)){
+            IEntityData entityData = event.getSource().getEntity().getData(ModAttachments.ENTITY_DATA);
+            for(ResourceLocation path : finalDamageSource.getPathAttributes()){
+                event.setNewDamage((float) (event.getNewDamage()*entityData.getPathBonusHandler().getPathBonus(path)));
+            }
         }
+        //System.out.println("final damage "+event.getNewDamage());
+
 
     }
 
-
 }
+
+
+
+
+

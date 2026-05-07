@@ -12,4 +12,13 @@ public record MobRankStatProfile(
                 Math.max(0, this.agility + other.agility)
         );
     }
+
+    public MobRankStatProfile multiply(double value) {
+        return new MobRankStatProfile(
+                Math.max(0, this.vitality * value),
+                Math.max(0, this.strength * value),
+                Math.max(0, this.agility * value)
+        );
+    }
+
 }

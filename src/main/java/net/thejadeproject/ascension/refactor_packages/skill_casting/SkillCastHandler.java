@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.data_attachments.ModAttachments;
 import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndData;
@@ -32,8 +33,8 @@ public class SkillCastHandler {
 
     private final SkillCooldownHandler cooldownHandler = new SkillCooldownHandler();
 
-    //TODO update to use config with max 14
-    private final SkillHotBar hotBar = new SkillHotBar(6);
+
+    private final SkillHotBar hotBar = new SkillHotBar(5);
 
     public void addPersistentCastingInstance(ResourceLocation skill, IPersistentSkillInstance skillInstance){
         persistentCastingInstances.add(new PersistentCastingInstance(skillInstance,skill));
@@ -87,9 +88,10 @@ public class SkillCastHandler {
         IPreCastData preCastData = hotBar.getPreCastData(hotBar.getActiveSlot());
         //call try cast
         CastResult result = castableSkill.canCast(entity,preCastData);
+
         if(!result.isSuccess()){
             //TODO send message to client
-            System.out.println(result.message.getString());
+            //System.out.println(result.message.getString());
             return;
         }
 
@@ -127,8 +129,18 @@ public class SkillCastHandler {
         return tag;
     }
     public void read(CompoundTag tag){
-        getCooldownHandler().read(tag);
-        getHotBar().read(tag);
+        try {
+            getCooldownHandler().read(tag);
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error loading cooldown handler",e);
+        }
+        try {
+            getHotBar().read(tag);
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error loading hotbar",e);
+        }
+
+
     }
     public void sync(Player player){
         getHotBar().syncSlots(player);

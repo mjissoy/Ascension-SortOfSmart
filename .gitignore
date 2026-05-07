@@ -25,3 +25,7 @@ run-data
 *.cache
 
 repo
+
+# claude code
+.claude
+docs/superpowers

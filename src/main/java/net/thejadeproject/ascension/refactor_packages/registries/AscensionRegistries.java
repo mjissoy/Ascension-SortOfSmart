@@ -8,6 +8,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.registries.NewRegistryEvent;
 import net.neoforged.neoforge.registries.RegistryBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.alchemy.IPillEffect;
+import net.thejadeproject.ascension.refactor_packages.entity_data_source.IEntityDataSource;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
@@ -29,6 +31,7 @@ public class AscensionRegistries {
                 .fromNamespaceAndPath(AscensionCraft.MOD_ID,"entity_forms"));
         public static final Registry<IEntityForm> ENTITY_FORMS_REGISTRY = new RegistryBuilder<>(ENTITY_FORM_REGISTRY_KEY)
                 .create();
+
     }
     public static class Techniques{
         public static final ResourceKey<Registry<ITechnique>> TECHNIQUES_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(
@@ -72,6 +75,30 @@ public class AscensionRegistries {
                 .create();
 
     }
+    public static class PillEffects{
+        public static final ResourceKey<Registry<IPillEffect>> PILL_EFFECT_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation
+                .fromNamespaceAndPath(AscensionCraft.MOD_ID,"pill_effects"));
+        public static final Registry<IPillEffect> PILL_EFFECT_REGISTRY = new RegistryBuilder<>(PILL_EFFECT_REGISTRY_KEY)
+                .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"none"))
+                .create();
+
+    }
+    public static class EntityDataSources{
+        public static final ResourceKey<Registry<IEntityDataSource>> ENTITY_DATA_SOURCES_KEY = ResourceKey.createRegistryKey(ResourceLocation
+                .fromNamespaceAndPath(AscensionCraft.MOD_ID,"entity_data_sources"));
+        public static final Registry<IEntityDataSource> ENTITY_DATA_SOURCES_REGISTRY = new RegistryBuilder<>(ENTITY_DATA_SOURCES_KEY)
+                .defaultKey(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID,"none"))
+                .create();
+
+    }
+    public static <T> T getRegistryObject(ResourceLocation location,Registry<T> registry){
+        try{
+            return registry.get(location);
+        }catch (Exception e){
+            AscensionCraft.LOGGER.error("error loading registry object with id: {} from registry: {}", location, registry.key().location());
+            return null;
+        }
+    }
     @SubscribeEvent // on the mod event bus
     public static void registerRegistries(NewRegistryEvent event) {
         event.register(Stats.STATS_REGISTRY);
@@ -81,6 +108,8 @@ public class AscensionRegistries {
         event.register(Bloodlines.BLOODLINE_REGISTRY);
         event.register(Skills.SKILL_REGISTRY);
         event.register(Paths.PATHS_REGISTRY);
+        event.register(PillEffects.PILL_EFFECT_REGISTRY);
+        event.register(EntityDataSources.ENTITY_DATA_SOURCES_REGISTRY);
 
     }
 }

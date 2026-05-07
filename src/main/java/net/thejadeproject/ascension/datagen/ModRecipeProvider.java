@@ -1,8 +1,6 @@
 package net.thejadeproject.ascension.datagen;
 
 
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -13,17 +11,13 @@ import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import net.thejadeproject.ascension.AscensionCraft;
-import net.thejadeproject.ascension.blocks.ModBlocks;
-import net.thejadeproject.ascension.items.ModItems;
+import net.thejadeproject.ascension.common.blocks.ModBlocks;
+import net.thejadeproject.ascension.datagen.builders.PillCauldronRecipeBuilder;
+import net.thejadeproject.ascension.common.items.ModItems;
 
 import net.thejadeproject.ascension.util.ModTags;
-import net.thejadeproject.ascension.util.NoAdvRecipeOutput;
-import net.thejadeproject.ascension.util.RecipeInjector;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
@@ -38,7 +32,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
-        var consumer = new NoAdvRecipeOutput(recipeOutput);
 
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_BLADE.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_BLADE.get());
         SmithingTransformRecipeBuilder.smithing(Ingredient.of(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE), Ingredient.of(ModItems.DIAMOND_SPEAR.get()), Ingredient.of(Items.NETHERITE_INGOT), RecipeCategory.MISC, ModItems.NETHERITE_SPEAR.get());
@@ -76,6 +69,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                     .unlockedBy("has_" + data.color() + "_wool", has(data.wool()))
                     .save(recipeOutput, "ascension:shaped/" + data.color() + "_cushion");
         }
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TECHNIQUE_BINDER.get())
+                .pattern("PPP")
+
+                .pattern("PSP")
+                .pattern("PPP")
+                .define('S', ModItems.TECHNIQUE_PAGE.get())
+                .define('P', Items.BOOK)
+                .unlockedBy("has_technique_page", has(ModItems.TECHNIQUE_PAGE)).save(recipeOutput, "ascension:shaped/technique_binder");
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_PICKAXE.get())
@@ -173,7 +176,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('F', ModItems.HUNDRED_YEAR_FIRE_GINSENG.get())
                 .define('M', ModBlocks.RAW_MARBLE.get())
                 .unlockedBy("has_marble", has(ModBlocks.RAW_MARBLE)).save(recipeOutput, "ascension:shaped/fire_gourd");
-        /*ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPATIAL_RING.get()) //Todo Fix Spatial Ring (Disabled for now)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPATIAL_RING.get())
                 .pattern("FIF")
                 .pattern("BCB")
                 .pattern("FBF")
@@ -181,16 +184,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('C', Blocks.CHEST)
                 .define('F', ModItems.FROST_SILVER_INGOT.get())
                 .define('B', ModItems.BLACK_IRON_INGOT.get())
-                .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shaped/iron_spatial_ring");
-         */
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRIT_SEALING_RING.get())
-                .pattern("BSB")
-                .pattern("BEB")
-                .pattern("BBB")
-                .define('E', Items.EGG)
-                .define('B', ModItems.BLACK_IRON_INGOT.get())
-                .define('S', ModItems.SPATIAL_STONE_TIER_2.get())
-                .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/spirit_sealing_ring");
+                .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shaped/spatial_ring");
+
 
 
 
@@ -234,99 +229,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
 
-
-        //Formation Stuff
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_ACACIA.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.ACACIA_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/acacia_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_OAK.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.OAK_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/oak_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_DARK_OAK.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.DARK_OAK_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/dark_oak_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_BIRCH.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.BIRCH_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/birch_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_BAMBOO.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.BAMBOO_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/bamboo_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_CHERRY.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.CHERRY_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/cherry_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_CRIMSON.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.CRIMSON_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/crimson_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_WARPED.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.WARPED_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/warped_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_GOLDEN_PALM.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', ModBlocks.GOLDEN_PALM_PLANKS.get())
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/golden_palm_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_IRONWOOD.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', ModBlocks.IRONWOOD_PLANKS.get())
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/ironwood_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_JUNGLE.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.JUNGLE_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/jungle_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_SPRUCE.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.SPRUCE_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/spruce_slip");
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FORMATION_SLIP_MANGROVE.get())
-                .pattern(" SS")
-                .pattern("JJ ")
-                .pattern("JJ ")
-                .define('S', Items.STRING)
-                .define('J', Items.MANGROVE_PLANKS)
-                .unlockedBy("has_wood", has(Blocks.OAK_PLANKS)).save(recipeOutput, "ascension:shaped/mangrove_slip");
 
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TALISMAN_PAPER.get(), 6)
@@ -446,6 +348,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', ModItems.BLACK_IRON_NUGGET.get())
                 .unlockedBy("has_black_iron_nugget", has(ModItems.BLACK_IRON_NUGGET)).save(recipeOutput, "ascension:shaped/black_iron_ingot_from_nugget");
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SILVER_NEEDLE.get())
+                .pattern("  B")
+                .pattern(" B ")
+                .pattern("B  ")
+                .define('B', ModItems.FROST_SILVER_INGOT.get())
+                .unlockedBy("has_frost_silver_ingot", has(ModItems.FROST_SILVER_INGOT)).save(recipeOutput, "ascension:shaped/silver_needle");
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.FROST_SILVER_BLOCK.get())
                 .pattern("BBB")
                 .pattern("BBB")
@@ -465,6 +374,26 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("BBB")
                 .define('B', ModItems.BLACK_IRON_INGOT.get())
                 .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/pill_cauldron_from_black_iron");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.FLAME_STAND_BLOCK.get())
+                .pattern("B B")
+                .pattern("BFB")
+                .pattern("BBB")
+                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .define('F', ModTags.Items.FLAMES)
+                .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/flamestand_from_black_iron");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.CAULDRON_PEDESTAL_BLOCK.get())
+                .pattern("BBB")
+                .pattern("B B")
+                .pattern("B B")
+                .define('B', ModItems.BLACK_IRON_INGOT.get())
+                .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/pedestal_from_black_iron");
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FAN.get())
+                .pattern(" WW")
+                .pattern(" WW")
+                .pattern("S  ")
+                .define('S', Items.STICK)
+                .define('W', ItemTags.WOOL)
+                .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/fan");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.GOLDEN_PALM_PLANKS.get(), 4)
                 .requires(ModBlocks.GOLDEN_PALM_LOG)
@@ -804,8 +733,285 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         trapdoorBuilder(ModBlocks.IRONWOOD_TRAPDOOR.get(), Ingredient.of(ModBlocks.IRONWOOD_PLANKS.get())).group("ironwood_planks")
                 .unlockedBy("has_ironwood_planks", has(ModBlocks.IRONWOOD_PLANKS.get())).save(recipeOutput);
 
+        // Pill Recipes
+
+        // TODO: give actual heat values
+        // ── Cultivation Pills ─────────────────────────────────────────
+
+        // Essence Gathering Pill
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.ESSENCE_GATHERING_PILL.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), 1)
+                .ingredient(ModItems.WHITE_JADE_ORCHID.get(), 1)
+                .ingredient(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), 1)
+                .chance(0.75D)
+                .temperature(478, 1248, 677)
+                .timeSeconds(10)
+                .realm(1, "lower")
+                .purity(10, 100)
+                .bonusChance(0.08D)
+                .unlockedBy("has_hundred_year_fire_ginseng", has(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/essence_gathering_pill"));
+
+        // Inner Reinforcement Pill
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.INNER_REINFORCEMENT_PILL.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.HUNDRED_YEAR_GINSENG.get(), 1)
+                .ingredient(ModItems.IRONWOOD_SPROUT.get(), 1)
+                .ingredient(ModItems.GOLDEN_SUN_LEAF.get(), 1)
+                .chance(0.70D)
+                .temperature(325, 986, 543)
+                .timeSeconds(10)
+                .realm(1, "lower")
+                .purity(15, 90)
+                .bonusChance(0.06D)
+                .unlockedBy("has_hundred_year_ginseng", has(ModItems.HUNDRED_YEAR_GINSENG.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/inner_reinforcement_pill"));
+
+        // Soul Focus Pill
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.SOUL_FOCUS_PILL.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.JADE_BAMBOO_OF_SERENITY.get(), 1)
+                .ingredient(ModItems.WHITE_JADE_ORCHID.get(), 1)
+                .ingredient(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), 1)
+                .chance(0.70D)
+                .temperature(146, 752, 322)
+                .timeSeconds(10)
+                .realm(1, "lower")
+                .purity(15, 90)
+                .bonusChance(0.06D)
+                .unlockedBy("has_jade_bamboo_of_serenity", has(ModItems.JADE_BAMBOO_OF_SERENITY.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/soul_focus_pill"));
+
+
+        // ── Poison Pills ──────────────────────────────────────────────
+
+        // Qi Devouring Parasite Pill
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.QI_DEVOURING_PARASITE_PILL.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(Items.ROTTEN_FLESH, 16)
+                .ingredient(ModItems.IRONWOOD_SPROUT.get(), 1)
+                .ingredient(Items.FERMENTED_SPIDER_EYE, 16)
+                .chance(0.60D)
+                .temperature(587, 1479, 670)
+                .timeSeconds(5)
+                .realm(1, "lower")
+                .purity(20, 80)
+                .bonusChance(0.05D)
+                .unlockedBy("has_hundred_year_fire_ginseng", has(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/qi_devouring_parasite_pill"));
+
+
+        // ── Positive / Medicinal Pills ────────────────────────────────
+
+        // Qi Enhanced Regeneration Pill
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.QI_ENHANCED_REGEN_PILL.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(Items.GOLDEN_APPLE, 2)
+                .ingredient(ModItems.WHITE_JADE_ORCHID.get(), 1)
+                .ingredient(Items.GOLDEN_CARROT, 2)
+                .chance(0.65D)
+                .temperature(345, 974, 666)
+                .timeSeconds(7)
+                .realm(1, "lower")
+                .purity(15, 100)
+                .bonusChance(0.07D)
+                .unlockedBy("has_hundred_year_ginseng", has(ModItems.HUNDRED_YEAR_GINSENG.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/regeneration_pill"));
+
+
+        // ── Antidote Pills ────────────────────────────────────────────
+
+        // Antidote for Qi Devouring Parasite
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.ANTIDOTE_PILL_QDP.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.JADE_BAMBOO_OF_SERENITY.get(), 1)
+                .ingredient(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), 1)
+                .ingredient(ModItems.GOLDEN_SUN_LEAF.get(), 1)
+                .chance(0.70D)
+                .temperature(327, 895, 535)
+                .timeSeconds(6)
+                .realm(1, "lower")
+                .purity(20, 90)
+                .bonusChance(0.06D)
+                .unlockedBy("has_jade_bamboo_of_serenity", has(ModItems.JADE_BAMBOO_OF_SERENITY.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/antidote_qdp_pill"));
+
+
+        // ── Physique Changing Pills ───────────────────────────────────
+
+        // Marrow Cleanse Pill
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.MARROW_CLEANSE_PILL.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.HUNDRED_YEAR_GINSENG.get(), 1)
+                .ingredient(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), 1)
+                .ingredient(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get(), 1)
+                .chance(0.55D)
+                .temperature(175, 1247, 649)
+                .timeSeconds(10)
+                .realm(2, "lower")
+                .purity(25, 100)
+                .bonusChance(0.04D)
+                .unlockedBy("has_hundred_year_ginseng", has(ModItems.HUNDRED_YEAR_GINSENG.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/marrow_cleanse_pill"));
+
+
+        // ── Utility Pills ─────────────────────────────────────────────
+
+        // Neutrality Pill
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.NEUTRALITY_PILL.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(Items.GOLD_INGOT, 2)
+                .ingredient(ModItems.GOLDEN_SUN_LEAF.get(), 1)
+                .ingredient(Items.BONE, 8)
+                .chance(0.80D)
+                .temperature(365, 975, 592)
+                .timeSeconds(4)
+                .realm(1, "lower")
+                .purity(10, 80)
+                .bonusChance(0.10D)
+                .unlockedBy("has_jade_bamboo_of_serenity", has(ModItems.JADE_BAMBOO_OF_SERENITY.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/neutrality_pill"));
+
+        // Cleansing Pill T1
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.CLEANSING_PILL_T1.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.GOLDEN_SUN_LEAF.get(), 1)
+                .ingredient(Items.MILK_BUCKET, 1)
+                .ingredient(ModItems.WHITE_JADE_ORCHID.get(), 1)
+                .chance(0.85D)
+                .temperature(212, 975, 460)
+                .timeSeconds(3)
+                .realm(1, "lower")
+                .purity(10, 60)
+                .bonusChance(0.10D)
+                .unlockedBy("has_golden_sun_leaf", has(ModItems.GOLDEN_SUN_LEAF.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/cleansing_pill_t1"));
+
+        // Cleansing Pill T2
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.CLEANSING_PILL_T2.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.GOLDEN_SUN_LEAF.get(), 1)
+                .ingredient(ModItems.CLEANSING_PILL_T1, 1)
+                .ingredient(ModItems.WHITE_JADE_ORCHID.get(), 1)
+                .chance(0.80D)
+                .temperature(212, 975, 460)
+                .timeSeconds(4)
+                .realm(1, "lower")
+                .purity(15, 70)
+                .bonusChance(0.08D)
+                .unlockedBy("has_jade_bamboo_of_serenity", has(ModItems.JADE_BAMBOO_OF_SERENITY.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/cleansing_pill_t2"));
+
+        // Cleansing Pill T3
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.CLEANSING_PILL_T3.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.GOLDEN_SUN_LEAF.get(), 1)
+                .ingredient(ModItems.CLEANSING_PILL_T2, 1)
+                .ingredient(ModItems.WHITE_JADE_ORCHID.get(), 1)
+                .chance(0.75D)
+                .temperature(212, 975, 460)
+                .timeSeconds(5)
+                .realm(2, "lower")
+                .purity(20, 80)
+                .bonusChance(0.07D)
+                .unlockedBy("has_ironwood_sprout", has(ModItems.IRONWOOD_SPROUT.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/cleansing_pill_t3"));
+
+        // Cleansing Pill T4
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.CLEANSING_PILL_T4.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(ModItems.HUNDRED_YEAR_FIRE_GINSENG.get(), 1)
+                .ingredient(ModItems.CLEANSING_PILL_T2, 1)
+                .ingredient(ModItems.WHITE_JADE_ORCHID.get(), 1)
+                .chance(0.70D)
+                .temperature(212, 975, 460)
+                .timeSeconds(6)
+                .realm(2, "lower")
+                .purity(25, 90)
+                .bonusChance(0.06D)
+                .unlockedBy("has_white_jade_orchid", has(ModItems.WHITE_JADE_ORCHID.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/cleansing_pill_t4"));
+
+        // Fasting Pill T1
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.FASTING_PILL_T1.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(Items.CARROT, 4)
+                .ingredient(Items.APPLE, 4)
+                .ingredient(Items.BEETROOT, 4)
+                .chance(0.80D)
+                .temperature(100, 1000, 500)
+                .timeSeconds(4)
+                .realm(1, "lower")
+                .purity(10, 70)
+                .bonusChance(0.08D)
+                .unlockedBy("has_ironwood_sprout", has(ModItems.IRONWOOD_SPROUT.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/fasting_pill_t1"));
+
+        // Fasting Pill T2
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.FASTING_PILL_T2.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(Items.CARROT, 4)
+                .ingredient(ModItems.FASTING_PILL_T1.get(), 1)
+                .ingredient(Items.BEETROOT, 4)
+                .chance(0.75D)
+                .temperature(100, 1000, 500)
+                .timeSeconds(5)
+                .realm(1, "lower")
+                .purity(15, 75)
+                .bonusChance(0.07D)
+                .unlockedBy("has_hundred_year_ginseng", has(ModItems.HUNDRED_YEAR_GINSENG.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/fasting_pill_t2"));
+
+        // Fasting Pill T3
+        PillCauldronRecipeBuilder.lowHuman(
+                        ModItems.FASTING_PILL_T3.get(),
+                        ModItems.PILL_RESIDUE.get()
+                )
+                .ingredient(Items.CARROT, 4)
+                .ingredient(ModItems.FASTING_PILL_T2.get(), 1)
+                .ingredient(Items.BEETROOT, 4)
+                .chance(0.70D)
+                .temperature(100, 1000, 500)
+                .timeSeconds(6)
+                .realm(2, "lower")
+                .purity(20, 85)
+                .bonusChance(0.06D)
+                .unlockedBy("has_hundred_year_snow_ginseng", has(ModItems.HUNDRED_YEAR_SNOW_GINSENG.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "cauldron/fasting_pill_t3"));
+
 
     }
+
+
 
 
 
