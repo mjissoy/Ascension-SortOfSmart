@@ -77,6 +77,8 @@ import net.thejadeproject.ascension.refactor_packages.handlers.player.InputHandl
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.physiques.ModPhysiques;
+import net.thejadeproject.ascension.refactor_packages.runic.runes.ModRunicRunes;
+import net.thejadeproject.ascension.refactor_packages.runic.sequences.ModRunicSequences;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
 import net.thejadeproject.ascension.refactor_packages.stats.custom.ModStats;
 import net.thejadeproject.ascension.refactor_packages.techniques.ModTechniques;
@@ -133,6 +135,9 @@ public class AscensionCraft {
         RECIPES.register(modEventBus);
 
         ModCreativeModeTabs.register(modEventBus);
+
+        ModRunicRunes.register(modEventBus);
+        ModRunicSequences.register(modEventBus);
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);

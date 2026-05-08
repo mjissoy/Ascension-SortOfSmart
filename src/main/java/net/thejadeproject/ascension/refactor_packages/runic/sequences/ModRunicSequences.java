@@ -1,7 +1,12 @@
 package net.thejadeproject.ascension.refactor_packages.runic.sequences;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 import net.thejadeproject.ascension.refactor_packages.runic.runes.ModRunicRunes;
 
 import java.util.Collection;
@@ -10,13 +15,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import net.minecraft.world.entity.LivingEntity;
-
 public final class ModRunicSequences {
 
-    private static final Map<ResourceLocation, IRunicSequence> BY_ID = new LinkedHashMap<>();
+    public static final DeferredRegister<IRunicSequence> SEQUENCES = DeferredRegister.create(
+            AscensionRegistries.RunicSequences.RUNIC_SEQUENCES_REGISTRY,
+            AscensionCraft.MOD_ID
+    );
 
-    public static final IRunicSequence EMBER_MARK = register(
+    private static final Map<ResourceLocation, DeferredHolder<IRunicSequence, ? extends IRunicSequence>> BY_ID = new LinkedHashMap<>();
+
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> EMBER_MARK = register(
             "ember_mark",
             RunicSequenceTier.BASIC,
             0,
@@ -27,7 +35,7 @@ public final class ModRunicSequences {
             ModRunicRunes.MARK
     );
 
-    public static final IRunicSequence CLEAR_WATER_MEND = register(
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> CLEAR_WATER_MEND = register(
             "clear_water_mend",
             RunicSequenceTier.BASIC,
             0,
@@ -38,7 +46,7 @@ public final class ModRunicSequences {
             ModRunicRunes.HEAL
     );
 
-    public static final IRunicSequence STONE_WARD = register(
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> STONE_WARD = register(
             "stone_ward",
             RunicSequenceTier.BASIC,
             0,
@@ -49,7 +57,7 @@ public final class ModRunicSequences {
             ModRunicRunes.GUARD
     );
 
-    public static final IRunicSequence WIND_PUSH = register(
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> WIND_PUSH = register(
             "wind_push",
             RunicSequenceTier.BASIC,
             0,
@@ -60,7 +68,7 @@ public final class ModRunicSequences {
             ModRunicRunes.PUSH
     );
 
-    public static final IRunicSequence FROST_BIND = register(
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> FROST_BIND = register(
             "frost_bind",
             RunicSequenceTier.BASIC,
             1,
@@ -71,7 +79,7 @@ public final class ModRunicSequences {
             ModRunicRunes.BIND
     );
 
-    public static final IRunicSequence WIND_STEP = register(
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> WIND_STEP = register(
             "wind_step",
             RunicSequenceTier.INTERMEDIATE,
             1,
@@ -83,7 +91,7 @@ public final class ModRunicSequences {
             ModRunicRunes.QUICKEN
     );
 
-    public static final IRunicSequence THUNDER_CUT_BOLT = register(
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> THUNDER_CUT_BOLT = register(
             "thunder_cut_bolt",
             RunicSequenceTier.INTERMEDIATE,
             2,
@@ -98,15 +106,33 @@ public final class ModRunicSequences {
     private ModRunicSequences() {
     }
 
+    public static void register(IEventBus modEventBus) {
+        SEQUENCES.register(modEventBus);
+    }
+
     public static IRunicSequence get(ResourceLocation id) {
-        return BY_ID.get(id);
+        DeferredHolder<IRunicSequence, ? extends IRunicSequence> holder = BY_ID.get(id);
+        if (holder != null) {
+            return holder.get();
+        }
+
+        return AscensionRegistries.getRegistryObject(
+                id,
+                AscensionRegistries.RunicSequences.RUNIC_SEQUENCES_REGISTRY
+        );
     }
 
     public static Collection<IRunicSequence> values() {
-        return List.copyOf(BY_ID.values());
+        return BY_ID.values().stream()
+                .map(holder -> (IRunicSequence) holder.get())
+                .toList();
     }
 
-    private static IRunicSequence register(
+    public static List<ResourceLocation> allSequenceIds() {
+        return List.copyOf(BY_ID.keySet());
+    }
+
+    private static DeferredHolder<IRunicSequence, FunctionalRunicSequence> register(
             String path,
             RunicSequenceTier tier,
             int minimumRunicRealm,
@@ -117,7 +143,7 @@ public final class ModRunicSequences {
     ) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, path);
 
-        IRunicSequence sequence = new FunctionalRunicSequence(
+        DeferredHolder<IRunicSequence, FunctionalRunicSequence> holder = SEQUENCES.register(path, () -> new FunctionalRunicSequence(
                 id,
                 List.of(requiredRunes),
                 tier,
@@ -125,9 +151,9 @@ public final class ModRunicSequences {
                 qiCost,
                 orderSensitive,
                 castAction
-        );
+        ));
 
-        BY_ID.put(id, sequence);
-        return sequence;
+        BY_ID.put(id, holder);
+        return holder;
     }
 }

@@ -2,7 +2,11 @@ package net.thejadeproject.ascension.refactor_packages.runic.runes;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.thejadeproject.ascension.AscensionCraft;
+import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegistries;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -11,7 +15,12 @@ import java.util.Map;
 
 public final class ModRunicRunes {
 
-    private static final Map<ResourceLocation, IRunicRune> BY_ID = new LinkedHashMap<>();
+    public static final DeferredRegister<IRunicRune> RUNES = DeferredRegister.create(
+            AscensionRegistries.RunicRunes.RUNIC_RUNES_REGISTRY,
+            AscensionCraft.MOD_ID
+    );
+
+    private static final Map<ResourceLocation, DeferredHolder<IRunicRune, ? extends IRunicRune>> BY_ID = new LinkedHashMap<>();
 
     public static final ResourceLocation FLAME = id("flame");
     public static final ResourceLocation WATER = id("water");
@@ -37,63 +46,79 @@ public final class ModRunicRunes {
     public static final ResourceLocation QUICKEN = id("quicken");
     public static final ResourceLocation STABILISE = id("stabilise");
 
-    public static final IRunicRune FLAME_RUNE = register(FLAME, RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune WATER_RUNE = register(WATER, RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune WIND_RUNE = register(WIND, RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune EARTH_RUNE = register(EARTH, RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune WOOD_RUNE = register(WOOD, RunicRuneType.SOURCE, RunicRuneDepth.DEEP, 0, 1);
-    public static final IRunicRune METAL_RUNE = register(METAL, RunicRuneType.SOURCE, RunicRuneDepth.DEEP, 0, 1);
-    public static final IRunicRune LIGHTNING_RUNE = register(LIGHTNING, RunicRuneType.SOURCE, RunicRuneDepth.DEEP, 1, 2);
-    public static final IRunicRune FROST_RUNE = register(FROST, RunicRuneType.SOURCE, RunicRuneDepth.DEEP, 1, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> FLAME_RUNE = register("flame", RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> WATER_RUNE = register("water", RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> WIND_RUNE = register("wind", RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> EARTH_RUNE = register("earth", RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> WOOD_RUNE = register("wood", RunicRuneType.SOURCE, RunicRuneDepth.DEEP, 0, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> METAL_RUNE = register("metal", RunicRuneType.SOURCE, RunicRuneDepth.DEEP, 0, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> LIGHTNING_RUNE = register("lightning", RunicRuneType.SOURCE, RunicRuneDepth.DEEP, 1, 2);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> FROST_RUNE = register("frost", RunicRuneType.SOURCE, RunicRuneDepth.DEEP, 1, 1);
 
-    public static final IRunicRune BIND_RUNE = register(BIND, RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune PUSH_RUNE = register(PUSH, RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune PULL_RUNE = register(PULL, RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune GUARD_RUNE = register(GUARD, RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune CUT_RUNE = register(CUT, RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune HEAL_RUNE = register(HEAL, RunicRuneType.INTENT, RunicRuneDepth.DEEP, 0, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> BIND_RUNE = register("bind", RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> PUSH_RUNE = register("push", RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> PULL_RUNE = register("pull", RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> GUARD_RUNE = register("guard", RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> CUT_RUNE = register("cut", RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> HEAL_RUNE = register("heal", RunicRuneType.INTENT, RunicRuneDepth.DEEP, 0, 1);
 
-    public static final IRunicRune BOLT_RUNE = register(BOLT, RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune VEIL_RUNE = register(VEIL, RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune CIRCLE_RUNE = register(CIRCLE, RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
-    public static final IRunicRune MARK_RUNE = register(MARK, RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> BOLT_RUNE = register("bolt", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> VEIL_RUNE = register("veil", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> CIRCLE_RUNE = register("circle", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> MARK_RUNE = register("mark", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
 
-    public static final IRunicRune QUICKEN_RUNE = register(QUICKEN, RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
-    public static final IRunicRune STABILISE_RUNE = register(STABILISE, RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> QUICKEN_RUNE = register("quicken", RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> STABILISE_RUNE = register("stabilise", RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
 
     private ModRunicRunes() {
     }
 
+    public static void register(IEventBus modEventBus) {
+        RUNES.register(modEventBus);
+    }
+
     public static IRunicRune get(ResourceLocation id) {
-        return BY_ID.get(id);
+        DeferredHolder<IRunicRune, ? extends IRunicRune> holder = BY_ID.get(id);
+        if (holder != null) {
+            return holder.get();
+        }
+
+        return AscensionRegistries.getRegistryObject(
+                id,
+                AscensionRegistries.RunicRunes.RUNIC_RUNES_REGISTRY
+        );
     }
 
     public static Collection<IRunicRune> values() {
-        return List.copyOf(BY_ID.values());
+        return BY_ID.values().stream()
+                .map(holder -> (IRunicRune) holder.get())
+                .toList();
     }
 
     public static List<ResourceLocation> allRuneIds() {
         return List.copyOf(BY_ID.keySet());
     }
 
-    private static IRunicRune register(
-            ResourceLocation id,
+    private static DeferredHolder<IRunicRune, GenericRunicRune> register(
+            String path,
             RunicRuneType type,
             RunicRuneDepth depth,
             int minimumRunicRealmToObserve,
             int minimumRunicRealmToUse
     ) {
-        IRunicRune rune = new GenericRunicRune(
+        ResourceLocation id = id(path);
+
+        DeferredHolder<IRunicRune, GenericRunicRune> holder = RUNES.register(path, () -> new GenericRunicRune(
                 id,
-                Component.translatable("ascension.runic.rune." + id.getPath()),
+                Component.translatable("ascension.runic.rune." + path),
                 type,
                 depth,
                 minimumRunicRealmToObserve,
                 minimumRunicRealmToUse
-        );
+        ));
 
-        BY_ID.put(id, rune);
-        return rune;
+        BY_ID.put(id, holder);
+        return holder;
     }
 
     private static ResourceLocation id(String path) {

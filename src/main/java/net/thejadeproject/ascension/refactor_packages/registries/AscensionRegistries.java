@@ -11,6 +11,8 @@ import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.alchemy.IPillEffect;
 import net.thejadeproject.ascension.refactor_packages.entity_data_source.IEntityDataSource;
 import net.thejadeproject.ascension.refactor_packages.paths.IPath;
+import net.thejadeproject.ascension.refactor_packages.runic.runes.IRunicRune;
+import net.thejadeproject.ascension.refactor_packages.runic.sequences.IRunicSequence;
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.bloodlines.IBloodline;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysique;
@@ -91,6 +93,23 @@ public class AscensionRegistries {
                 .create();
 
     }
+
+    // Runic Path Things
+    public static class RunicRunes {
+        public static final ResourceKey<Registry<IRunicRune>> RUNIC_RUNES_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation
+                .fromNamespaceAndPath(AscensionCraft.MOD_ID, "runic_runes"));
+        public static final Registry<IRunicRune> RUNIC_RUNES_REGISTRY = new RegistryBuilder<>(RUNIC_RUNES_REGISTRY_KEY)
+                .create();
+    }
+
+    public static class RunicSequences {
+        public static final ResourceKey<Registry<IRunicSequence>> RUNIC_SEQUENCES_REGISTRY_KEY = ResourceKey.createRegistryKey(ResourceLocation
+                .fromNamespaceAndPath(AscensionCraft.MOD_ID, "runic_sequences"));
+        public static final Registry<IRunicSequence> RUNIC_SEQUENCES_REGISTRY = new RegistryBuilder<>(RUNIC_SEQUENCES_REGISTRY_KEY)
+                .create();
+    }
+
+
     public static <T> T getRegistryObject(ResourceLocation location,Registry<T> registry){
         try{
             return registry.get(location);
@@ -110,6 +129,8 @@ public class AscensionRegistries {
         event.register(Paths.PATHS_REGISTRY);
         event.register(PillEffects.PILL_EFFECT_REGISTRY);
         event.register(EntityDataSources.ENTITY_DATA_SOURCES_REGISTRY);
+        event.register(RunicRunes.RUNIC_RUNES_REGISTRY);
+        event.register(RunicSequences.RUNIC_SEQUENCES_REGISTRY);
 
     }
 }
