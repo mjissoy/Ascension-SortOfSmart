@@ -21,7 +21,6 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -44,11 +43,10 @@ import net.thejadeproject.ascension.common.blocks.ModBlocks;
 import net.thejadeproject.ascension.common.blocks.custom.functions.FreezingEffectItems;
 import net.thejadeproject.ascension.common.blocks.entity.ModBlockEntities;
 import net.thejadeproject.ascension.common.command.AscensionCommand;
+import net.thejadeproject.ascension.common.command.commands.ReadChapterCommand;
 
 import net.thejadeproject.ascension.common.items.artifacts.talismans.SoulAnchorTalisman;
 import net.thejadeproject.ascension.common.items.data_components.ModDataComponents;
-import net.thejadeproject.ascension.common.items.techniques.TechniquePageItem;
-import net.thejadeproject.ascension.common.items.techniques.TechniqueTransferItem;
 import net.thejadeproject.ascension.entity.custom.NeedleProjectile;
 import net.thejadeproject.ascension.events.TeleportationEventHandler;
 
@@ -60,7 +58,7 @@ import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.common.items.ModItems;
 import net.thejadeproject.ascension.datagen.loot.ModLootModifiers;
 import net.thejadeproject.ascension.datagen.loot.conditions.ModLootConditions;
-import net.thejadeproject.ascension.mob_ranks.util.EntityAttributeManager;
+import net.thejadeproject.ascension.mob_cultivation.util.EntityAttributeManager;
 import net.thejadeproject.ascension.network.ModPayloads;
 import net.thejadeproject.ascension.particle.ModParticles;
 
@@ -69,6 +67,7 @@ import net.thejadeproject.ascension.menus.ModMenuTypes;
 
 
 import net.thejadeproject.ascension.refactor_packages.alchemy.ModPillEffects;
+import net.thejadeproject.ascension.refactor_packages.bloodlines.ModBloodlines;
 import net.thejadeproject.ascension.refactor_packages.entity_data.GenericEntityData;
 import net.thejadeproject.ascension.refactor_packages.entity_data_source.ModDataSources;
 import net.thejadeproject.ascension.refactor_packages.forms.IEntityFormData;
@@ -155,6 +154,7 @@ public class AscensionCraft {
 
         ModPhysiques.register(modEventBus);
         ModForms.register(modEventBus);
+        ModBloodlines.register(modEventBus);
         ModPaths.register(modEventBus);
 
         ModEffects.register(modEventBus);
@@ -339,7 +339,6 @@ public class AscensionCraft {
         EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.ARMOR.value());
         EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.ARMOR_TOUGHNESS.value());
         EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.SAFE_FALL_DISTANCE.value());
-        EntityAttributeManager.changeAttributeRange(0.0, Double.MAX_VALUE, (RangedAttribute) Attributes.WATER_MOVEMENT_EFFICIENCY.value());
 
         EntityAttributeManager.changeAttributeRange(0.0, 100.0, (RangedAttribute) Attributes.MOVEMENT_SPEED.value());
         EntityAttributeManager.changeAttributeRange(0.0, 100.0, (RangedAttribute) Attributes.JUMP_STRENGTH.value());
@@ -382,6 +381,7 @@ public class AscensionCraft {
 
     private void registerCommands(RegisterCommandsEvent event) {
         AscensionCommand.register(event.getDispatcher());
+        ReadChapterCommand.register(event.getDispatcher());
     }
 
 
@@ -449,6 +449,7 @@ public class AscensionCraft {
                     makePageStack(AscensionCraft.MOD_ID + ":white_lightning_ten_stage_technique", 9),
                     1, 10, 0f
             ));
+
             rareTrades.add((entity, randomSource) -> new MerchantOffer(
                     new ItemCost(ModItems.SPIRITUAL_STONE.get(), 64),
                     makePageStack(AscensionCraft.MOD_ID + ":bloodfeast_soul_refining_scripture", 0),

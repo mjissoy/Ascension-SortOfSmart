@@ -1,6 +1,12 @@
 package net.thejadeproject.ascension.common.items;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
@@ -40,6 +46,9 @@ import java.util.List;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AscensionCraft.MOD_ID);
+
+    public static final DeferredItem<Item> ANCESTOR_JOURNAL = ITEMS.register("ancestor_journal",
+            () -> new AncestorJournalItem(ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "ancestor_journal")));
 
     // ── Runic Path Things ──────────────────────────────────────────────────────────
 
@@ -397,36 +406,65 @@ public class ModItems {
 
 
 
-    //Herbs Refactor all types of registration to sort it better
+    // ── Herbs ─────────────────────────────────────────────────────────────────
+    // Simple non-block herbs — use HerbItem so Quality/Age tooltips show automatically
     public static final DeferredItem<Item> GOLDEN_SUN_LEAF = ITEMS.register("golden_sun_leaf",
             () -> new HerbItem(new Item.Properties().food(ModFoodProperties.GOLDEN_SUN_LEAF)));
     public static final DeferredItem<Item> JADE_BAMBOO_OF_SERENITY = ITEMS.register("jade_bamboo_of_serenity",
             () -> new HerbItem(new Item.Properties().food(ModFoodProperties.JADE_BAMBOO_OF_SERENITY)));
 
-    public static final DeferredItem<Item> IRONWOOD_SPROUT = ITEMS.register("ironwood_sprout",
-            () -> new PlantableHerb(ModBlocks.IRONWOOD_SPROUT_CROP.get(),
-                    new Item.Properties().food(ModFoodProperties.IRONWOOD_SPROUT)));
+    public static final DeferredItem<Item> JADE_DEW_GRASS = ITEMS.register("jade_dew_grass",
+            () -> new HerbItem(new Item.Properties().food(ModFoodProperties.JADE_DEW_GRASS)));
+    public static final DeferredItem<Item> JADE_DEW_GRASS_SEEDS = ITEMS.register("jade_dew_grass_seeds",
+            () -> new ItemNameBlockItem(ModBlocks.JADE_DEW_GRASS_CROP.get(), new Item.Properties()));
 
+    public static final DeferredItem<Item> IRONWOOD_SPROUT = ITEMS.register("ironwood_sprout",
+            () -> new HerbItem(new Item.Properties().food(ModFoodProperties.IRONWOOD_SPROUT)));
 
     public static final DeferredItem<Item> WHITE_JADE_ORCHID = ITEMS.register("white_jade_orchid",
             () -> new HerbBlockItem(ModBlocks.WHITE_JADE_ORCHID_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.WHITE_JADE_ORCHID)));
+
     public static final DeferredItem<Item> HUNDRED_YEAR_GINSENG = ITEMS.register("hundred_year_ginseng",
             () -> new HerbBlockItem(ModBlocks.HUNDRED_YEAR_GINSENG_CROP.get(),
                     new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_GINSENG)));
 
-
     public static final DeferredItem<Item> HUNDRED_YEAR_SNOW_GINSENG = ITEMS.register("hundred_year_snow_ginseng",
-            () -> new HundredYearSnowGinseng(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
-                    new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_SNOW_GINSENG)));
+            () -> new HerbBlockItem(ModBlocks.HUNDRED_YEAR_SNOW_GINSENG_CROP.get(),
+                    new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_SNOW_GINSENG),
+                    (stack, level, entity) -> {
+                        if (entity instanceof net.minecraft.world.entity.player.Player player) {
+                            player.setTicksFrozen(300);
+                            player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2));
+                            player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2));
+                        }
+                    }));
+
+
     public static final DeferredItem<Item> HUNDRED_YEAR_FIRE_GINSENG = ITEMS.register("hundred_year_fire_ginseng",
-            () -> new HundredYearFireGinseng(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
-                    new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_FIRE_GINSENG)));
+            () -> new HerbBlockItem(ModBlocks.HUNDRED_YEAR_FIRE_GINSENG_CROP.get(),
+                    new Item.Properties().food(ModFoodProperties.HUNDRED_YEAR_FIRE_GINSENG),
+                    (stack, level, entity) -> {
+                        if (entity instanceof Player player) {
+                            player.setRemainingFireTicks(300);
+                            level.playSound(null, player.getX(), player.getY(), player.getZ(),
+                                    SoundEvents.BLAZE_SHOOT, SoundSource.PLAYERS, 0.8F, 1.0F);
+                            for (int i = 0; i < 15; i++) {
+                                double x = player.getX() + (level.random.nextDouble() - 0.5) * 3;
+                                double y = player.getY() + level.random.nextDouble() * 2;
+                                double z = player.getZ() + (level.random.nextDouble() - 0.5) * 3;
+                                level.addParticle(ParticleTypes.FLAME, x, y, z, 0, 0.05, 0);
+                            }
+                        }
+                    }));
 
 
 
     public static final DeferredItem<Item> PEACH = ITEMS.register("peach",
             () -> new Item(new Item.Properties().food(ModFoodProperties.PEACH)));
+
+    public static final DeferredItem<Item> HERB_POUCH = ITEMS.register("herb_pouch",
+            () -> new HerbPouchItem(new Item.Properties().stacksTo(1)));
 
 
     //MobEggs

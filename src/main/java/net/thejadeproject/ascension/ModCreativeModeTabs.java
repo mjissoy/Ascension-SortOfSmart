@@ -36,6 +36,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.LIVING_CORE);
                         output.accept(ModItems.TALISMAN_PAPER);
 
+                        output.accept(ModItems.ANCESTOR_JOURNAL);
+
                         output.accept(ModItems.SCHOLARLY_SOUL_RECTIFICATION_OF_NAMES);
                         output.accept(ModItems.SCHOLARLY_SOUL_GREAT_LEARNING);
                         output.accept(ModItems.SCHOLARLY_SOUL_THOUSAND_COMMENTARIES);
@@ -111,6 +113,8 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativetab.ascension.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
 
+
+                        output.accept(ModBlocks.TECHNIQUE_STAND);
 
                         output.accept(ModBlocks.CUSHION_WHITE);
                         output.accept(ModBlocks.CUSHION_LIGHT_GRAY);
@@ -370,6 +374,11 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SOUL_FLAME);
                         output.accept(ModItems.CRIMSON_LOTUS_FLAME);
 
+                        output.accept(ModItems.JADE_DEW_GRASS);
+                        output.accept(ModItems.JADE_DEW_GRASS_SEEDS);
+
+
+
                         output.accept(ModItems.PEACH);
                         output.accept(ModItems.GOLDEN_SUN_LEAF);
                         output.accept(ModItems.JADE_BAMBOO_OF_SERENITY);
@@ -378,6 +387,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.HUNDRED_YEAR_FIRE_GINSENG);
                         output.accept(ModItems.IRONWOOD_SPROUT);
                         output.accept(ModItems.WHITE_JADE_ORCHID);
+
+
+                        output.accept(ModItems.HERB_POUCH);
 
 
                     }).build());

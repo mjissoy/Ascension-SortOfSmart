@@ -143,6 +143,9 @@ dependencies {
 
     implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
+    compileOnly "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
+    localRuntime "net.favouriteless.modopedia:modopedia-neoforge-${minecraft_version}:${modopedia_version}"
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
@@ -184,7 +187,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             easy_gui_version       : easy_gui_version,
             jei_version        : jei_version,
             jade_version        : jade_version,
-            curios_version        : curios_version
+            curios_version        : curios_version,
+            modopedia_version        : modopedia_version
     ]
     inputs.properties replaceProperties
     expand replaceProperties

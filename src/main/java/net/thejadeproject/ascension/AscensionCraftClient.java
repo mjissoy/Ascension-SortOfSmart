@@ -31,6 +31,7 @@ import net.thejadeproject.ascension.common.items.data_components.ModDataComponen
 import net.thejadeproject.ascension.common.items.ModItems;
 import net.thejadeproject.ascension.common.items.artifacts.FlameGourd;
 import net.thejadeproject.ascension.menus.ModMenuTypes;
+import net.thejadeproject.ascension.menus.custom.herb_pouch.HerbPouchScreen;
 import net.thejadeproject.ascension.menus.custom.pill_cauldron.PillCauldronLowHumanScreen;
 import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingInventoryScreen;
 import net.thejadeproject.ascension.menus.custom.spirit_ring.SpatialRingModifierScreen;
@@ -41,12 +42,15 @@ import net.thejadeproject.ascension.shaders.client.ModShaders;
 import net.thejadeproject.ascension.shaders.client.RiftRenderer;
 
 import net.thejadeproject.ascension.util.KeyBindHandler;
+import net.favouriteless.modopedia.api.registries.client.PageComponentRegistry;
+import net.thejadeproject.ascension.common.modopedia.ContinueButtonComponent;
 
 @Mod(value = AscensionCraft.MOD_ID,dist = Dist.CLIENT)
 public class AscensionCraftClient {
     public AscensionCraftClient(IEventBus modEventBus, ModContainer modContainer)
     {
         KeyBindHandler.register();
+        PageComponentRegistry.get().register(ContinueButtonComponent.ID, ContinueButtonComponent::new);
 
 
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
@@ -63,6 +67,7 @@ public class AscensionCraftClient {
             event.register(ModMenuTypes.PILL_CAULDRON_LOW_HUMAN_MENU.get(), PillCauldronLowHumanScreen::new);
             event.register(ModMenuTypes.SPATIAL_RING_INVENTORY_MENU.get(), SpatialRingInventoryScreen::new);
             event.register(ModMenuTypes.SPATIAL_RING_MODIFIER_MENU.get(), SpatialRingModifierScreen::new);
+            event.register(ModMenuTypes.HERB_POUCH_MENU.get(), HerbPouchScreen::new);
 
         }
 

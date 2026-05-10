@@ -68,6 +68,8 @@ public class CastingInstance {
     public void startClientCast(Entity entity,ResourceLocation skillKey){
         //clear previous data
         if(getCastableSkill() != null && this.skillKey.equals(skillKey)) return;
+        SkillHotBar hotBar = entity.getData(ModAttachments.ENTITY_DATA).getSkillCastHandler().getHotBar();
+        if(hotBar.getSlot(skillKey) ==-1) return;
         if(getCastableSkill() != null) getCastableSkill().finalCast(new CastEndData(skillKey,CastEndReason.CANCELLED,castData,ticksElapsed),entity,castData);
         this.skillKey = null;
         this.castData = null;
@@ -82,6 +84,7 @@ public class CastingInstance {
             return;
         }
 
+
         this.skillKey = skillKey;
         //System.out.println("setting up UI element");
 
@@ -92,7 +95,7 @@ public class CastingInstance {
             frame.setRoot(element);
         }
         this.castData = getCastableSkill().freshCastData();
-        SkillHotBar hotBar = entity.getData(ModAttachments.ENTITY_DATA).getSkillCastHandler().getHotBar();
+
         getCastableSkill().initialCast(entity,hotBar.getPreCastData(hotBar.getSlot(skillKey)));
 
     }

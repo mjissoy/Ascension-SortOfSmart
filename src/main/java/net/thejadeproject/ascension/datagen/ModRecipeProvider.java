@@ -80,6 +80,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('P', Items.BOOK)
                 .unlockedBy("has_technique_page", has(ModItems.TECHNIQUE_PAGE)).save(recipeOutput, "ascension:shaped/technique_binder");
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.TECHNIQUE_STAND.get())
+                .pattern("DDD")
+                .pattern(" S ")
+                .pattern("SSS")
+                .define('S', Items.SPRUCE_PLANKS)
+                .define('D', Items.DEEPSLATE)
+                .unlockedBy("has_spruce_wood", has(Items.SPRUCE_PLANKS)).save(recipeOutput, "ascension:shaped/technique_stand");
+
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SPIRITUAL_STONE_PICKAXE.get())
                 .pattern("SSS")
@@ -112,13 +120,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
 
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SOUL_ANCHOR_TALISMAN.get())
+                .pattern("HEH")
+                .pattern("ETE")
+                .pattern("HEH")
+                .define('T', ModItems.TALISMAN_PAPER.get())
+                .define('E', Items.ENDER_EYE)
+                .define('H', Items.HOPPER)
+                .unlockedBy("has_talisman_paper", has(ModItems.TALISMAN_PAPER)).save(recipeOutput, "ascension:shaped/soul_anchor_talisman");
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DEATH_RECALL_TALISMAN.get())
                 .pattern("TUT")
                 .pattern("TET")
                 .pattern("TTT")
                 .define('T', ModItems.TALISMAN_PAPER.get())
                 .define('E', Items.ENDER_EYE)
-                .define('U', Items.TOTEM_OF_UNDYING)
+                .define('U', Items.AMETHYST_SHARD)
                 .unlockedBy("has_talisman_paper", has(ModItems.TALISMAN_PAPER)).save(recipeOutput, "ascension:shaped/death_recall_talisman");
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SOULSTEAD_RETURN_TALISMAN.get())
                 .pattern("DED")
@@ -394,6 +410,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('S', Items.STICK)
                 .define('W', ItemTags.WOOL)
                 .unlockedBy("has_black_iron_ingot", has(ModItems.BLACK_IRON_INGOT)).save(recipeOutput, "ascension:shaped/fan");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.HERB_POUCH.get())
+                .pattern("BCB")
+                .pattern("ADA")
+                .pattern(" A ")
+                .define('A', Items.LEATHER)
+                .define('B', Items.STRING)
+                .define('C', ModItems.SPIRITUAL_STONE)
+                .define('D', ModTags.Items.HERBS)
+                .unlockedBy("has_spiritual_stone", has(ModItems.SPIRITUAL_STONE)).save(recipeOutput, "ascension:shaped/herb_pouch");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.GOLDEN_PALM_PLANKS.get(), 4)
                 .requires(ModBlocks.GOLDEN_PALM_LOG)

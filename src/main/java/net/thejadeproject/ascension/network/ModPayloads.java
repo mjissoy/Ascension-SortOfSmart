@@ -4,9 +4,12 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.thejadeproject.ascension.AscensionCraft;
 
+import net.thejadeproject.ascension.network.serverBound.ToggleTabletDropModePayload;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.bloodline.SyncBloodline;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.qi.SyncQi;
-import net.thejadeproject.ascension.refactor_packages.network.client_bound.mob_ranks.SyncMobRank;
-import net.thejadeproject.ascension.network.serverBound.*;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.herb_pouch.SyncHerbPouchPayload;
+import net.thejadeproject.ascension.refactor_packages.network.client_bound.mob_culti.SyncMobCultivation;
+import net.thejadeproject.ascension.network.serverBound.UnlockChapterPayload;
 import net.thejadeproject.ascension.network.serverBound.input.ChangePlayerInputState;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.SyncEntityForm;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.attributes.SyncAttributeHolder;
@@ -14,6 +17,7 @@ import net.thejadeproject.ascension.refactor_packages.network.client_bound.entit
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.path_data.SyncPathData;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.physique.SyncPhysique;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.techniques.ShowMergePromptPayload;
+import net.thejadeproject.ascension.refactor_packages.network.server_bound.herb_pouch.ExtractHerbFromPouchPayload;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCastingScreenPayload;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCodexScreenPayload;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.runic.CastRunicSequencePayload;
@@ -89,6 +93,12 @@ public class ModPayloads {
         );
 
         registrar.playToClient(
+                SyncBloodline.TYPE,
+                SyncBloodline.STREAM_CODEC,
+                SyncBloodline::handlePayload
+        );
+
+        registrar.playToClient(
                 ShowAscensionToast.TYPE,
                 ShowAscensionToast.STREAM_CODEC,
                 ShowAscensionToast::handlePayload
@@ -97,15 +107,21 @@ public class ModPayloads {
 
         // Temp for display purposes
         registrar.playToClient(
-                SyncMobRank.TYPE,
-                SyncMobRank.STREAM_CODEC,
-                SyncMobRank::handlePayload
+                SyncMobCultivation.TYPE,
+                SyncMobCultivation.STREAM_CODEC,
+                SyncMobCultivation::handlePayload
         );
 
         registrar.playToClient(
                 ShowMergePromptPayload.TYPE,
                 ShowMergePromptPayload.STREAM_CODEC,
                 ShowMergePromptPayload::handlePayload
+        );
+
+        registrar.playToClient(
+                SyncHerbPouchPayload.TYPE,
+                SyncHerbPouchPayload.STREAM_CODEC,
+                SyncHerbPouchPayload::handlePayload
         );
 
         // Runic Things
@@ -165,6 +181,17 @@ public class ModPayloads {
                 MergeResponsePayload.TYPE,
                 MergeResponsePayload.STREAM_CODEC,
                 MergeResponsePayload::handlePayload
+        );
+        registrar.playToServer(
+                UnlockChapterPayload.TYPE,
+                UnlockChapterPayload.STREAM_CODEC,
+                UnlockChapterPayload::handlePayload
+        );
+
+        registrar.playToServer(
+                ExtractHerbFromPouchPayload.TYPE,
+                ExtractHerbFromPouchPayload.STREAM_CODEC,
+                ExtractHerbFromPouchPayload::handlePayload
         );
 
         // Runic Things
