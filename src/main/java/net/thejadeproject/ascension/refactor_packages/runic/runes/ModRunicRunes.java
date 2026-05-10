@@ -37,14 +37,23 @@ public final class ModRunicRunes {
     public static final ResourceLocation GUARD = id("guard");
     public static final ResourceLocation CUT = id("cut");
     public static final ResourceLocation HEAL = id("heal");
+    public static final ResourceLocation GATHER = id("gather");
+    public static final ResourceLocation RELEASE = id("release");
+    public static final ResourceLocation PIERCE = id("pierce");
+    public static final ResourceLocation COMPRESS = id("compress");
 
     public static final ResourceLocation BOLT = id("bolt");
     public static final ResourceLocation VEIL = id("veil");
     public static final ResourceLocation CIRCLE = id("circle");
     public static final ResourceLocation MARK = id("mark");
+    public static final ResourceLocation WALL = id("wall");
+    public static final ResourceLocation PULSE = id("pulse");
 
     public static final ResourceLocation QUICKEN = id("quicken");
     public static final ResourceLocation STABILISE = id("stabilise");
+    public static final ResourceLocation HEAVY = id("heavy");
+    public static final ResourceLocation VIOLENT = id("violent");
+    public static final ResourceLocation HIDDEN = id("hidden");
 
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> FLAME_RUNE = register("flame", RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> WATER_RUNE = register("water", RunicRuneType.SOURCE, RunicRuneDepth.SURFACE, 0, 0);
@@ -61,14 +70,23 @@ public final class ModRunicRunes {
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> GUARD_RUNE = register("guard", RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> CUT_RUNE = register("cut", RunicRuneType.INTENT, RunicRuneDepth.SURFACE, 0, 0);
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> HEAL_RUNE = register("heal", RunicRuneType.INTENT, RunicRuneDepth.DEEP, 0, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> GATHER_RUNE = register("gather", RunicRuneType.INTENT, RunicRuneDepth.DEEP, 0, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> RELEASE_RUNE = register("release", RunicRuneType.INTENT, RunicRuneDepth.DEEP, 0, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> PIERCE_RUNE = register("pierce", RunicRuneType.INTENT, RunicRuneDepth.DEEP, 0, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> COMPRESS_RUNE = register("compress", RunicRuneType.INTENT, RunicRuneDepth.DEEP, 0, 1);
 
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> BOLT_RUNE = register("bolt", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> VEIL_RUNE = register("veil", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> CIRCLE_RUNE = register("circle", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> MARK_RUNE = register("mark", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> WALL_RUNE = register("wall", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> PULSE_RUNE = register("pulse", RunicRuneType.FORM, RunicRuneDepth.SURFACE, 0, 0);
 
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> QUICKEN_RUNE = register("quicken", RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
     public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> STABILISE_RUNE = register("stabilise", RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> HEAVY_RUNE = register("heavy", RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> VIOLENT_RUNE = register("violent", RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
+    public static final DeferredHolder<IRunicRune, ? extends GenericRunicRune> HIDDEN_RUNE = register("hidden", RunicRuneType.MODIFIER, RunicRuneDepth.DEEP, 1, 1);
 
     private ModRunicRunes() {
     }

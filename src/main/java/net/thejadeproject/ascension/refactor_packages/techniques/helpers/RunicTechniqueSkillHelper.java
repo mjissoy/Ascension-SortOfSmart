@@ -21,6 +21,11 @@ public final class RunicTechniqueSkillHelper {
                 ModSkills.OPEN_RUNIC_CASTING.getId(),
                 shouldHave
         );
+        refreshSkill(
+                entityData,
+                ModSkills.RUNIC_SIGHT.getId(),
+                shouldHave
+        );
     }
 
     public static void clear(IEntityData entityData) {

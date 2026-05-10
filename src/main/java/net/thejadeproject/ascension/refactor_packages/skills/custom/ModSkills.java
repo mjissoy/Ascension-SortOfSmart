@@ -13,6 +13,7 @@ import net.thejadeproject.ascension.refactor_packages.skills.ITickingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.body.WhiteLightningFist;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire.FireSpray;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.runic.OpenRunicCastingSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.runic.RunicSightSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.PurifyingMantraSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.QiFlightSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.VoidstepSkill;
@@ -294,6 +295,8 @@ public class ModSkills {
     // ──── RUNIC SKILLS ────────────────────────────────────────────
     public static final DeferredHolder<ISkill, ? extends OpenRunicCastingSkill> OPEN_RUNIC_CASTING =
             SKILLS.register("open_runic_casting", OpenRunicCastingSkill::new);
+    public static final DeferredHolder<ISkill, ? extends RunicSightSkill> RUNIC_SIGHT =
+            SKILLS.register("runic_sight", RunicSightSkill::new);
 
 
     // ──── Register Skills with onPlayerTick methods ────────────────────────────────────────────
