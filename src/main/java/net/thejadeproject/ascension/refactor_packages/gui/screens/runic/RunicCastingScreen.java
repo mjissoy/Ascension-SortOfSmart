@@ -6,6 +6,7 @@ import net.lucent.easygui.gui.elements.built_in.EasyButton;
 import net.lucent.easygui.gui.elements.built_in.EasyLabel;
 import net.lucent.easygui.gui.layout.positioning.rules.PositioningRules;
 import net.lucent.easygui.screen.EasyScreen;
+import net.thejadeproject.ascension.refactor_packages.gui.elements.general.ScrollBox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -28,6 +29,9 @@ public class RunicCastingScreen extends EasyScreen {
     private final int maxRuneSlots;
     private final int durationSeconds;
     private EasyLabel selectedLabel;
+    private int remainingTicks;
+    private boolean closingSafely;
+
 
     public RunicCastingScreen(int maxRuneSlots, int durationSeconds, List<ResourceLocation> usableRunes) {
         super(Component.translatable("ascension.runic.casting.title"));
@@ -35,6 +39,7 @@ public class RunicCastingScreen extends EasyScreen {
         this.maxRuneSlots = maxRuneSlots;
         this.durationSeconds = durationSeconds;
         this.usableRunes = List.copyOf(usableRunes);
+        this.remainingTicks = Math.max(0, durationSeconds * 20);
 
         build(getUIFrame());
     }
@@ -43,6 +48,46 @@ public class RunicCastingScreen extends EasyScreen {
     public boolean isPauseScreen() {
         return false;
     }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (usableRunes.isEmpty() || closingSafely || durationSeconds <= 0) {
+            return;
+        }
+
+        remainingTicks--;
+
+        if (remainingTicks <= 0) {
+            closingSafely = true;
+            PacketDistributor.sendToServer(new CastRunicSequencePayload(List.of()));
+            Minecraft.getInstance().setScreen(null);
+        }
+    }
+
+    @Override
+    public void onClose() {
+        if (!usableRunes.isEmpty() && !closingSafely) {
+            PacketDistributor.sendToServer(new CastRunicSequencePayload(List.of()));
+        }
+
+        super.onClose();
+    }
+
+    private float getTimerProgress() {
+        if (durationSeconds <= 0) {
+            return 0.0F;
+        }
+
+        return Math.max(0.0F, Math.min(1.0F, remainingTicks / (durationSeconds * 20.0F)));
+    }
+
+    private Component getTimerText() {
+        float secondsLeft = Math.max(0.0F, remainingTicks / 20.0F);
+        return Component.translatable("ascension.runic.casting.timer", String.format("%.1f", secondsLeft));
+    }
+
 
     private void build(UIFrame frame) {
         frame.setPauseGame(false);
@@ -72,12 +117,18 @@ public class RunicCastingScreen extends EasyScreen {
         info.setTextScale(0.8F);
         panel.addChild(info);
 
-        selectedLabel = label(frame, Component.empty(), 15, 42, 330, 14, 0xFFFFFFFF);
+        TimerBar timerBar = new TimerBar(frame, 15, 36, 330, 6);
+        panel.addChild(timerBar);
+
+        TimerLabel timerLabel = new TimerLabel(frame, 15, 42, 330, 10);
+        panel.addChild(timerLabel);
+
+        selectedLabel = label(frame, Component.empty(), 15, 53, 330, 14, 0xFFFFFFFF);
         selectedLabel.setTextScale(0.85F);
         panel.addChild(selectedLabel);
         refreshSelectedLabel();
 
-        hoverBox = new RenderableElement(frame, 190, 40) {
+        hoverBox = new RenderableElement(frame, 190, 51) {
             @Override
             public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 guiGraphics.fill(0, 0, getWidth(), getHeight(), 0xCC12091F);
@@ -94,32 +145,24 @@ public class RunicCastingScreen extends EasyScreen {
         hoverLabel.setTextScale(0.75F);
         hoverBox.addChild(hoverLabel);
 
-        int startX = 15;
-        int startY = 68;
-        int buttonW = 78;
-        int buttonH = 16;
-        int gap = 6;
-        int columns = 4;
-
         if (usableRunes.isEmpty()) {
             addEmptyState(panel, frame);
         } else {
-            for (int i = 0; i < usableRunes.size(); i++) {
-                ResourceLocation runeId = usableRunes.get(i);
-                int col = i % columns;
-                int row = i / columns;
+            RunicRuneScrollBox runeScrollBox = new RunicRuneScrollBox(frame, 15, 78, 330, 106);
+            panel.addChild(runeScrollBox);
 
+            for (ResourceLocation runeId : usableRunes) {
                 RuneButton runeButton = new RuneButton(
                         frame,
                         runeId,
-                        startX + col * (buttonW + gap),
-                        startY + row * (buttonH + gap),
-                        buttonW,
-                        buttonH
+                        0,
+                        0,
+                        RunicRuneScrollBox.BUTTON_WIDTH,
+                        RunicRuneScrollBox.BUTTON_HEIGHT
                 );
 
                 runeButtons.add(runeButton);
-                panel.addChild(runeButton);
+                runeScrollBox.addChild(runeButton);
             }
         }
 
@@ -156,6 +199,7 @@ public class RunicCastingScreen extends EasyScreen {
             @Override
             public void onClick() {
                 if (usableRunes.isEmpty()) {
+                    closingSafely = true;
                     Minecraft.getInstance().setScreen(null);
                     return;
                 }
@@ -164,6 +208,7 @@ public class RunicCastingScreen extends EasyScreen {
                     return;
                 }
 
+                closingSafely = true;
                 PacketDistributor.sendToServer(new CastRunicSequencePayload(List.copyOf(selectedRunes)));
                 Minecraft.getInstance().setScreen(null);
             }
@@ -273,6 +318,60 @@ public class RunicCastingScreen extends EasyScreen {
         return label;
     }
 
+
+    private static class RunicRuneScrollBox extends ScrollBox {
+        private static final int BUTTON_WIDTH = 78;
+        private static final int BUTTON_HEIGHT = 16;
+        private static final int GAP = 6;
+        private static final int COLUMNS = 4;
+        private static final int ROW_HEIGHT = BUTTON_HEIGHT + GAP;
+
+        private RunicRuneScrollBox(UIFrame frame, int x, int y, int width, int height) {
+            super(frame, ROW_HEIGHT);
+            setWidth(width);
+            setHeight(height);
+            getPositioning().setX(x);
+            getPositioning().setY(y);
+            useCustomChildAdditionLogic = true;
+        }
+
+        @Override
+        public void addChild(RenderableElement element) {
+            super.addChild(element);
+            updateVisibility(element);
+        }
+
+        @Override
+        public void updatePos(RenderableElement element) {
+            int index = getChildren().size();
+            int col = index % COLUMNS;
+            int row = index / COLUMNS;
+
+            element.getPositioning().setFromRawX(col * (BUTTON_WIDTH + GAP));
+            element.getPositioning().setFromRawY(row * ROW_HEIGHT);
+        }
+
+        @Override
+        public int getMaxYScroll() {
+            int rows = Math.ceilDiv(getChildren().size(), COLUMNS);
+            return Math.max(0, rows * ROW_HEIGHT - getHeight());
+        }
+
+        @Override
+        public void updateVisibility(RenderableElement element) {
+            boolean visible = element.getPositioning().getY() + element.getHeight() > 0
+                    && element.getPositioning().getY() < getHeight();
+            element.setActive(visible);
+            element.setVisible(visible);
+        }
+
+        @Override
+        public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            guiGraphics.fill(0, 0, getWidth(), getHeight(), 0x6612091F);
+            guiGraphics.renderOutline(0, 0, getWidth(), getHeight(), 0xAA7A5ACF);
+        }
+    }
+
     private class RuneButton extends TextButton {
         private final ResourceLocation runeId;
 
@@ -323,6 +422,45 @@ public class RunicCastingScreen extends EasyScreen {
                     textY,
                     0xFFFFFFFF
             );
+        }
+    }
+
+    private class TimerLabel extends EasyLabel {
+        private TimerLabel(UIFrame frame, int x, int y, int width, int height) {
+            super(frame);
+            setText(Component.empty());
+            setTextColor(0xFFBEB4D7);
+            setWidth(width);
+            setHeight(height);
+            getPositioning().setX(x);
+            getPositioning().setY(y);
+            setScaleToFit(true);
+            setTextScale(0.7F);
+            setTextPositioningX(EasyLabel.TextPositionRule.CENTER);
+            setTextPositioningY(EasyLabel.TextPositionRule.CENTER);
+        }
+
+        @Override
+        public void renderTick(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            setText(getTimerText());
+            super.renderTick(guiGraphics, mouseX, mouseY, partialTick);
+        }
+    }
+
+    private class TimerBar extends RenderableElement {
+        private TimerBar(UIFrame frame, int x, int y, int width, int height) {
+            super(frame, x, y);
+            setWidth(width);
+            setHeight(height);
+        }
+
+        @Override
+        public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+            guiGraphics.fill(0, 0, getWidth(), getHeight(), 0xAA12091F);
+
+            int fillWidth = (int) (getWidth() * getTimerProgress());
+            guiGraphics.fill(0, 0, fillWidth, getHeight(), 0xCC8A63FF);
+            guiGraphics.renderOutline(0, 0, getWidth(), getHeight(), 0xFFB79CFF);
         }
     }
 

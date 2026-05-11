@@ -46,7 +46,7 @@ public final class RunicSequenceMatcher {
             return RunicCastingResult.failure("not_on_runic_path");
         }
 
-        int slotCount = RunicPathHelper.getRuneSlotCount(entityData);
+        int slotCount = RunicPathHelper.getRuneSlotCount(caster, true);
 
         if (inputRunes.size() > slotCount) {
             return RunicCastingResult.failure("too_many_runes");

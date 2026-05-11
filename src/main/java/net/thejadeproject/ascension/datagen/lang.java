@@ -1451,6 +1451,7 @@ public class lang extends LanguageProvider {
         add("ascension.skill.open_runic_casting", "Runic Casting");
         add("ascension.skill.open_runic_casting.description"  , "Open the Runic Casting interface and weave known runes into a sequence.");
         add("ascension.runic.casting.title", "Runic Casting");
+        add("ascension.runic.casting.timer", "Time left: %ss");
         add("ascension.runic.casting.info", "Slots: %s | Time: %ss");
         add("ascension.runic.casting.selected.empty", "Selected: none");
         add("ascension.runic.casting.backspace", "Back");

@@ -339,6 +339,7 @@
   "ascension.runic.casting.info": "Slots: %s | Time: %ss",
   "ascension.runic.casting.selected.empty": "Selected: none",
   "ascension.runic.casting.selected.no_usable": "No usable runes known.",
+  "ascension.runic.casting.timer": "Time left: %ss",
   "ascension.runic.casting.title": "Runic Casting",
   "ascension.runic.codex.no_runes": "No known runes.",
   "ascension.runic.codex.no_sequences": "No discovered sequences.",
