@@ -15,15 +15,21 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.runic.CastRunicSequencePayload;
 import net.thejadeproject.ascension.refactor_packages.runic.runes.IRunicRune;
 import net.thejadeproject.ascension.refactor_packages.runic.runes.ModRunicRunes;
+import net.thejadeproject.ascension.refactor_packages.runic.runes.RunicRuneType;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class RunicCastingScreen extends EasyScreen {
 
     private final List<ResourceLocation> usableRunes;
     private final List<ResourceLocation> selectedRunes = new ArrayList<>();
     private final List<RuneButton> runeButtons = new ArrayList<>();
+    private final Map<RunicRuneType, RunicRuneScrollBox> runeScrollBoxes = new EnumMap<>(RunicRuneType.class);
+    private final Map<RunicRuneType, TextButton> tabButtons = new EnumMap<>(RunicRuneType.class);
+    private RunicRuneType activeRuneType = RunicRuneType.SOURCE;
     private EasyLabel hoverLabel;
     private RenderableElement hoverBox;
     private final int maxRuneSlots;
@@ -148,22 +154,7 @@ public class RunicCastingScreen extends EasyScreen {
         if (usableRunes.isEmpty()) {
             addEmptyState(panel, frame);
         } else {
-            RunicRuneScrollBox runeScrollBox = new RunicRuneScrollBox(frame, 15, 78, 330, 106);
-            panel.addChild(runeScrollBox);
-
-            for (ResourceLocation runeId : usableRunes) {
-                RuneButton runeButton = new RuneButton(
-                        frame,
-                        runeId,
-                        0,
-                        0,
-                        RunicRuneScrollBox.BUTTON_WIDTH,
-                        RunicRuneScrollBox.BUTTON_HEIGHT
-                );
-
-                runeButtons.add(runeButton);
-                runeScrollBox.addChild(runeButton);
-            }
+            addRuneTabs(panel, frame);
         }
 
         TextButton backspace = new TextButton(frame, 15, 195, 100, 18, Component.translatable("ascension.runic.casting.backspace")) {
@@ -529,5 +520,74 @@ public class RunicCastingScreen extends EasyScreen {
 
         return Character.toUpperCase(lower.charAt(0)) + lower.substring(1);
     }
+
+private void addRuneTabs(RenderableElement panel, UIFrame frame) {
+    int tabX = 15;
+
+    for (RunicRuneType type : RunicRuneType.values()) {
+        TextButton tab = new TextButton(
+                frame,
+                tabX,
+                76,
+                78,
+                16,
+                Component.literal(formatEnumName(type.name()))
+        ) {
+            @Override
+            public void onClick() {
+                setActiveRuneType(type);
+            }
+        };
+
+        tabButtons.put(type, tab);
+        panel.addChild(tab);
+        tabX += 84;
+
+        RunicRuneScrollBox scrollBox = new RunicRuneScrollBox(frame, 15, 98, 330, 86);
+        scrollBox.setVisible(type == activeRuneType);
+        scrollBox.setActive(type == activeRuneType);
+
+        runeScrollBoxes.put(type, scrollBox);
+        panel.addChild(scrollBox);
+    }
+
+    for (ResourceLocation runeId : usableRunes) {
+        IRunicRune rune = ModRunicRunes.get(runeId);
+
+        if (rune == null) {
+            continue;
+        }
+
+        RunicRuneScrollBox scrollBox = runeScrollBoxes.get(rune.getType());
+
+        if (scrollBox == null) {
+            continue;
+        }
+
+        RuneButton runeButton = new RuneButton(
+                frame,
+                runeId,
+                0,
+                0,
+                RunicRuneScrollBox.BUTTON_WIDTH,
+                RunicRuneScrollBox.BUTTON_HEIGHT
+        );
+
+        runeButtons.add(runeButton);
+        scrollBox.addChild(runeButton);
+    }
+
+    setActiveRuneType(activeRuneType);
+}
+
+private void setActiveRuneType(RunicRuneType type) {
+    activeRuneType = type;
+
+    for (Map.Entry<RunicRuneType, RunicRuneScrollBox> entry : runeScrollBoxes.entrySet()) {
+        boolean active = entry.getKey() == type;
+        entry.getValue().setVisible(active);
+        entry.getValue().setActive(active);
+    }
+}
 
 }
