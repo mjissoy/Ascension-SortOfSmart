@@ -232,6 +232,165 @@ public final class RunicSequenceEffects {
         );
     }
 
+    public static void veiledStep(LivingEntity caster) {
+        if (!(caster.level() instanceof ServerLevel serverLevel)) return;
+
+        caster.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 80, 0));
+        caster.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100, 0));
+
+        Vec3 look = caster.getLookAngle().normalize().scale(0.55D);
+        caster.push(look.x, 0.08D, look.z);
+        caster.hurtMarked = true;
+
+        serverLevel.sendParticles(
+                ParticleTypes.POOF,
+                caster.getX(),
+                caster.getY() + caster.getBbHeight() * 0.5D,
+                caster.getZ(),
+                18,
+                0.35D,
+                0.35D,
+                0.35D,
+                0.03D
+        );
+    }
+
+    public static void earthenWall(LivingEntity caster) {
+        if (!(caster.level() instanceof ServerLevel serverLevel)) return;
+
+        caster.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 180, 0));
+        caster.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 180, 1));
+        caster.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 0));
+
+        serverLevel.sendParticles(
+                ParticleTypes.CRIT,
+                caster.getX(),
+                caster.getY() + 0.25D,
+                caster.getZ(),
+                26,
+                0.65D,
+                0.25D,
+                0.65D,
+                0.02D
+        );
+    }
+
+    public static void gatheringBreath(LivingEntity caster) {
+        if (!(caster.level() instanceof ServerLevel serverLevel)) return;
+
+        caster.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 100, 0));
+        caster.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 0));
+
+        serverLevel.sendParticles(
+                ParticleTypes.ENCHANT,
+                caster.getX(),
+                caster.getY() + caster.getBbHeight() * 0.5D,
+                caster.getZ(),
+                22,
+                0.45D,
+                0.45D,
+                0.45D,
+                0.03D
+        );
+    }
+
+    public static void piercingFlameBolt(LivingEntity caster) {
+        if (!(caster.level() instanceof ServerLevel serverLevel)) return;
+
+        LivingEntity target = findLookedAtLivingEntity(caster, 12.0D);
+
+        if (target == null) {
+            serverLevel.sendParticles(
+                    ParticleTypes.FLAME,
+                    caster.getX(),
+                    caster.getY() + caster.getBbHeight() * 0.5D,
+                    caster.getZ(),
+                    10,
+                    0.3D,
+                    0.3D,
+                    0.3D,
+                    0.03D
+            );
+            return;
+        }
+
+        target.hurt(caster.damageSources().magic(), 9.0F);
+        target.igniteForSeconds(5);
+
+        Vec3 start = caster.getEyePosition();
+        Vec3 end = target.getBoundingBox().getCenter();
+        spawnParticleLine(serverLevel, ParticleTypes.FLAME, start, end, 10, 0.02D);
+
+        serverLevel.sendParticles(
+                ParticleTypes.FLAME,
+                target.getX(),
+                target.getY() + target.getBbHeight() * 0.5D,
+                target.getZ(),
+                22,
+                0.35D,
+                0.35D,
+                0.35D,
+                0.06D
+        );
+    }
+
+    public static void violentWindPulse(LivingEntity caster) {
+        if (!(caster.level() instanceof ServerLevel serverLevel)) return;
+
+        List<LivingEntity> targets = serverLevel.getEntitiesOfClass(
+                LivingEntity.class,
+                caster.getBoundingBox().inflate(6.0D),
+                entity -> entity != caster && entity.isAlive()
+        );
+
+        for (LivingEntity target : targets) {
+            Vec3 push = target.position().subtract(caster.position()).normalize().scale(1.25D);
+            target.push(push.x, 0.45D, push.z);
+            target.hurt(caster.damageSources().magic(), 3.0F);
+            target.hurtMarked = true;
+        }
+
+        serverLevel.sendParticles(
+                ParticleTypes.CLOUD,
+                caster.getX(),
+                caster.getY() + 0.35D,
+                caster.getZ(),
+                40,
+                1.15D,
+                0.35D,
+                1.15D,
+                0.12D
+        );
+    }
+
+    private static void spawnParticleLine(
+            ServerLevel level,
+            net.minecraft.core.particles.SimpleParticleType particle,
+            Vec3 start,
+            Vec3 end,
+            int steps,
+            double speed
+    ) {
+        Vec3 diff = end.subtract(start);
+
+        for (int i = 0; i <= steps; i++) {
+            double progress = i / (double) steps;
+            Vec3 pos = start.add(diff.scale(progress));
+
+            level.sendParticles(
+                    particle,
+                    pos.x,
+                    pos.y,
+                    pos.z,
+                    1,
+                    0.03D,
+                    0.03D,
+                    0.03D,
+                    speed
+            );
+        }
+    }
+
     private static LivingEntity findLookedAtLivingEntity(LivingEntity caster, double reach) {
         Vec3 eyePosition = caster.getEyePosition();
         Vec3 viewVector = caster.getViewVector(0.0F);

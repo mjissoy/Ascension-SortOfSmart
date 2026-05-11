@@ -4,23 +4,17 @@ import net.lucent.easygui.gui.RenderableElement;
 import net.lucent.easygui.gui.UIFrame;
 import net.lucent.easygui.gui.textures.ITextureData;
 import net.lucent.easygui.gui.textures.TextureData;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Blaze;
-import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.*;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -30,6 +24,7 @@ import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.gui.elements.info_elements.DescriptionDisplayContainer;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.toast.ShowAscensionToast;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
+import net.thejadeproject.ascension.refactor_packages.runic.RunicLearningState;
 import net.thejadeproject.ascension.refactor_packages.runic.RunicPathHelper;
 import net.thejadeproject.ascension.refactor_packages.runic.RunicPlayerData;
 import net.thejadeproject.ascension.refactor_packages.runic.runes.ModRunicRunes;
@@ -101,7 +96,9 @@ public class RunicSightSkill implements ICastableSkill {
                 continue;
             }
 
-            if (runicData.knowsRune(runeId)) {
+            RunicLearningState state = runicData.getLearningState(runeId);
+
+            if (state == RunicLearningState.KNOWN || state == RunicLearningState.OBSERVED) {
                 continue;
             }
 
@@ -152,51 +149,42 @@ public class RunicSightSkill implements ICastableSkill {
     }
 
     private List<ResourceLocation> findRunesInSight(ServerPlayer player) {
-        HitResult hit = player.pick(REACH, 0.0F, false);
+        Vec3 eyePosition = player.getEyePosition();
+        Vec3 viewVector = player.getViewVector(1.0F);
+        Vec3 endPosition = eyePosition.add(viewVector.scale(REACH));
 
-        if (hit instanceof BlockHitResult blockHit && hit.getType() != HitResult.Type.MISS) {
-            BlockPos pos = blockHit.getBlockPos();
-            BlockState state = player.level().getBlockState(pos);
+        HitResult blockHit = player.pick(REACH, 0.0F, false);
 
-            return getRunesForBlock(state);
+        AABB searchBox = player.getBoundingBox()
+                .expandTowards(viewVector.scale(REACH))
+                .inflate(1.0D);
+
+        EntityHitResult entityHit = ProjectileUtil.getEntityHitResult(
+                player.level(),
+                player,
+                eyePosition,
+                endPosition,
+                searchBox,
+                entity -> entity != player
+                        && !entity.isSpectator()
+                        && entity.isPickable()
+        );
+
+        if (entityHit != null) {
+            boolean blockedByBlock = blockHit.getType() != HitResult.Type.MISS
+                    && eyePosition.distanceToSqr(blockHit.getLocation()) < eyePosition.distanceToSqr(entityHit.getLocation());
+
+            if (!blockedByBlock) {
+                return RunicSightResolver.getRunesForEntity(entityHit.getEntity());
+            }
         }
 
-        Entity entity = player.pick(REACH, 0.0F, true).getType() == HitResult.Type.ENTITY
-                ? null
-                : null;
+        if (blockHit instanceof BlockHitResult blockResult && blockHit.getType() != HitResult.Type.MISS) {
+            BlockState state = player.level().getBlockState(blockResult.getBlockPos());
+            return RunicSightResolver.getRunesForBlock(state);
+        }
 
         return List.of();
-    }
-
-    private List<ResourceLocation> getRunesForBlock(BlockState state) {
-        List<ResourceLocation> runes = new ArrayList<>();
-
-        if (state.is(Blocks.FIRE) || state.is(Blocks.LAVA)) {
-            runes.add(ModRunicRunes.FLAME);
-        }
-
-        if (state.is(Blocks.WATER)) {
-            runes.add(ModRunicRunes.WATER);
-        }
-
-        if (state.is(Blocks.STONE) || state.is(Blocks.COBBLESTONE) || state.is(Blocks.DEEPSLATE)) {
-            runes.add(ModRunicRunes.EARTH);
-            runes.add(ModRunicRunes.HEAVY);
-        }
-
-        if (state.is(Blocks.OAK_LOG) || state.is(Blocks.OAK_LEAVES) || state.is(Blocks.GRASS_BLOCK)) {
-            runes.add(ModRunicRunes.WOOD);
-        }
-
-        if (state.is(Blocks.IRON_BLOCK) || state.is(Blocks.IRON_ORE) || state.is(Blocks.DEEPSLATE_IRON_ORE)) {
-            runes.add(ModRunicRunes.METAL);
-        }
-
-        if (state.is(Blocks.ICE) || state.is(Blocks.PACKED_ICE) || state.is(Blocks.BLUE_ICE)) {
-            runes.add(ModRunicRunes.FROST);
-        }
-
-        return runes;
     }
 
     private String readableRuneName(ResourceLocation runeId) {

@@ -1351,7 +1351,7 @@ public class lang extends LanguageProvider {
 
 
         // Runic Path Things
-        add("item.ascension.runic_tome", "Runic Tomb");
+        add("item.ascension.runic_tome", "Runic Tome");
         add("item.ascension.runic_codex", "Runic Codex");
         add("item.ascension.basic_runic_brush", "Basic Runic Brush");
         add("ascension.physiques.runic_test", "Runic Test Physique");
@@ -1403,6 +1403,21 @@ public class lang extends LanguageProvider {
         add("ascension.runic.rune.mark", "Mark Rune");
         add("ascension.runic.rune.quicken", "Quicken Rune");
         add("ascension.runic.rune.stabilise", "Stabilise Rune");
+        add("ascension.runic.rune.gather", "Gather Rune");
+        add("ascension.runic.rune.release", "Release Rune");
+        add("ascension.runic.rune.pierce", "Pierce Rune");
+        add("ascension.runic.rune.compress", "Compress Rune");
+        add("ascension.runic.rune.wall", "Wall Rune");
+        add("ascension.runic.rune.pulse", "Pulse Rune");
+        add("ascension.runic.rune.heavy", "Heavy Rune");
+        add("ascension.runic.rune.violent", "Violent Rune");
+        add("ascension.runic.rune.hidden", "Hidden Rune");
+        add("ascension.runic.rune.light", "Light");
+        add("ascension.runic.rune.shadow", "Shadow");
+        add("ascension.runic.rune.life", "Life");
+        add("ascension.runic.rune.decay", "Decay");
+        add("ascension.runic.rune.line", "Line");
+        add("ascension.runic.rune.sphere", "Sphere");
 
         add("ascension.runic.sequence.ember_mark", "Ember Mark");
         add("ascension.runic.sequence.ember_mark.desc", "Condenses flame into a brief aggressive mark.");
@@ -1418,6 +1433,16 @@ public class lang extends LanguageProvider {
         add("ascension.runic.sequence.wind_step.desc", "Lightens the caster’s step with a quick breath of wind.");
         add("ascension.runic.sequence.thunder_cut_bolt", "Thunder-Cut Bolt");
         add("ascension.runic.sequence.thunder_cut_bolt.desc", "Shapes lightning through a cutting script and releases it forward.");
+        add("ascension.runic.sequence.veiled_step", "Veiled Step");
+        add("ascension.runic.sequence.veiled_step.desc", "Wraps the body in flowing wind and passing haze.");
+        add("ascension.runic.sequence.earthen_wall", "Earthen Wall");
+        add("ascension.runic.sequence.earthen_wall.desc", "Hardens the body beneath a shell of dense earth essence.");
+        add("ascension.runic.sequence.gathering_breath", "Gathering Breath");
+        add("ascension.runic.sequence.gathering_breath.desc", "Draws surrounding currents inward to steady the body and spirit.");
+        add("ascension.runic.sequence.piercing_flame_bolt", "Piercing Flame Bolt");
+        add("ascension.runic.sequence.piercing_flame_bolt.desc", "Condenses flame into a narrow bolt capable of piercing flesh and armor.");
+        add("ascension.runic.sequence.violent_wind_pulse", "Violent Wind Pulse");
+        add("ascension.runic.sequence.violent_wind_pulse.desc", "Detonates a violent ring of compressed wind around the caster.");
 
         add("ascension.technique.basic_runic_script", "Basic Runic Script");
         add("ascension.technique.basic_runic_script.description.short", "A simple script for tracing and casting basic runic sequences.");

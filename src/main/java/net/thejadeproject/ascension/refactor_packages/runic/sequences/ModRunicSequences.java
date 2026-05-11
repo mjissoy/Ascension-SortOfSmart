@@ -31,8 +31,8 @@ public final class ModRunicSequences {
             8,
             false,
             RunicSequenceEffects::emberMark,
-            ModRunicRunes.FLAME,
-            ModRunicRunes.MARK
+            ModRunicRunes.FLAME_RUNE.getId(),
+            ModRunicRunes.MARK_RUNE.getId()
     );
 
     public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> CLEAR_WATER_MEND = register(
@@ -42,8 +42,8 @@ public final class ModRunicSequences {
             10,
             false,
             RunicSequenceEffects::clearWaterMend,
-            ModRunicRunes.WATER,
-            ModRunicRunes.HEAL
+            ModRunicRunes.WATER_RUNE.getId(),
+            ModRunicRunes.HEAL_RUNE.getId()
     );
 
     public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> STONE_WARD = register(
@@ -53,8 +53,8 @@ public final class ModRunicSequences {
             12,
             false,
             RunicSequenceEffects::stoneWard,
-            ModRunicRunes.EARTH,
-            ModRunicRunes.GUARD
+            ModRunicRunes.EARTH_RUNE.getId(),
+            ModRunicRunes.GUARD_RUNE.getId()
     );
 
     public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> WIND_PUSH = register(
@@ -64,8 +64,8 @@ public final class ModRunicSequences {
             8,
             false,
             RunicSequenceEffects::windPush,
-            ModRunicRunes.WIND,
-            ModRunicRunes.PUSH
+            ModRunicRunes.WIND_RUNE.getId(),
+            ModRunicRunes.PUSH_RUNE.getId()
     );
 
     public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> FROST_BIND = register(
@@ -75,8 +75,8 @@ public final class ModRunicSequences {
             15,
             false,
             RunicSequenceEffects::frostBind,
-            ModRunicRunes.FROST,
-            ModRunicRunes.BIND
+            ModRunicRunes.FROST_RUNE.getId(),
+            ModRunicRunes.BIND_RUNE.getId()
     );
 
     public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> WIND_STEP = register(
@@ -86,9 +86,9 @@ public final class ModRunicSequences {
             18,
             false,
             RunicSequenceEffects::windStep,
-            ModRunicRunes.WIND,
-            ModRunicRunes.PUSH,
-            ModRunicRunes.QUICKEN
+            ModRunicRunes.WIND_RUNE.getId(),
+            ModRunicRunes.PUSH_RUNE.getId(),
+            ModRunicRunes.QUICKEN_RUNE.getId()
     );
 
     public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> THUNDER_CUT_BOLT = register(
@@ -98,10 +98,69 @@ public final class ModRunicSequences {
             25,
             true,
             RunicSequenceEffects::thunderCutBolt,
-            ModRunicRunes.LIGHTNING,
-            ModRunicRunes.CUT,
-            ModRunicRunes.BOLT
+            ModRunicRunes.LIGHTNING_RUNE.getId(),
+            ModRunicRunes.CUT_RUNE.getId(),
+            ModRunicRunes.BOLT_RUNE.getId()
     );
+
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> VEILED_STEP = register(
+            "veiled_step",
+            RunicSequenceTier.BASIC,
+            0,
+            12,
+            false,
+            RunicSequenceEffects::veiledStep,
+            ModRunicRunes.WIND_RUNE.getId(),
+            ModRunicRunes.VEIL_RUNE.getId()
+    );
+
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> EARTHEN_WALL = register(
+            "earthen_wall",
+            RunicSequenceTier.BASIC,
+            0,
+            14,
+            false,
+            RunicSequenceEffects::earthenWall,
+            ModRunicRunes.EARTH_RUNE.getId(),
+            ModRunicRunes.WALL_RUNE.getId()
+    );
+
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> GATHERING_BREATH = register(
+            "gathering_breath",
+            RunicSequenceTier.BASIC,
+            0,
+            8,
+            false,
+            RunicSequenceEffects::gatheringBreath,
+            ModRunicRunes.WIND_RUNE.getId(),
+            ModRunicRunes.GATHER_RUNE.getId()
+    );
+
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> PIERCING_FLAME_BOLT = register(
+            "piercing_flame_bolt",
+            RunicSequenceTier.INTERMEDIATE,
+            1,
+            20,
+            true,
+            RunicSequenceEffects::piercingFlameBolt,
+            ModRunicRunes.FLAME_RUNE.getId(),
+            ModRunicRunes.PIERCE_RUNE.getId(),
+            ModRunicRunes.BOLT_RUNE.getId()
+    );
+
+    public static final DeferredHolder<IRunicSequence, ? extends FunctionalRunicSequence> VIOLENT_WIND_PULSE = register(
+            "violent_wind_pulse",
+            RunicSequenceTier.INTERMEDIATE,
+            1,
+            20,
+            false,
+            RunicSequenceEffects::violentWindPulse,
+            ModRunicRunes.WIND_RUNE.getId(),
+            ModRunicRunes.PULSE_RUNE.getId(),
+            ModRunicRunes.VIOLENT_RUNE.getId()
+    );
+
+
 
     private ModRunicSequences() {
     }

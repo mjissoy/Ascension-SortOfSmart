@@ -62,10 +62,10 @@ public class ModItems {
             () -> new RunicTomeItem(
                     new Item.Properties().stacksTo(1),
                     List.of(
-                            ModRunicRunes.FLAME,
-                            ModRunicRunes.WATER,
-                            ModRunicRunes.WIND,
-                            ModRunicRunes.EARTH
+                            ModRunicRunes.FLAME_RUNE.getId(),
+                            ModRunicRunes.WATER_RUNE.getId(),
+                            ModRunicRunes.WIND_RUNE.getId(),
+                            ModRunicRunes.EARTH_RUNE.getId()
                     )
             ));
 
@@ -73,10 +73,14 @@ public class ModItems {
             () -> new RunicTomeItem(
                     new Item.Properties().stacksTo(1),
                     List.of(
-                            ModRunicRunes.WOOD,
-                            ModRunicRunes.METAL,
-                            ModRunicRunes.LIGHTNING,
-                            ModRunicRunes.FROST
+                            ModRunicRunes.WOOD_RUNE.getId(),
+                            ModRunicRunes.METAL_RUNE.getId(),
+                            ModRunicRunes.LIGHTNING_RUNE.getId(),
+                            ModRunicRunes.FROST_RUNE.getId(),
+                            ModRunicRunes.LIGHT_RUNE.getId(),
+                            ModRunicRunes.SHADOW_RUNE.getId(),
+                            ModRunicRunes.LIFE_RUNE.getId(),
+                            ModRunicRunes.DECAY_RUNE.getId()
                     )
             ));
 
@@ -84,12 +88,16 @@ public class ModItems {
             () -> new RunicTomeItem(
                     new Item.Properties().stacksTo(1),
                     List.of(
-                            ModRunicRunes.BIND,
-                            ModRunicRunes.PUSH,
-                            ModRunicRunes.PULL,
-                            ModRunicRunes.GUARD,
-                            ModRunicRunes.CUT,
-                            ModRunicRunes.HEAL
+                            ModRunicRunes.BIND_RUNE.getId(),
+                            ModRunicRunes.PUSH_RUNE.getId(),
+                            ModRunicRunes.PULL_RUNE.getId(),
+                            ModRunicRunes.GUARD_RUNE.getId(),
+                            ModRunicRunes.CUT_RUNE.getId(),
+                            ModRunicRunes.HEAL_RUNE.getId(),
+                            ModRunicRunes.GATHER_RUNE.getId(),
+                            ModRunicRunes.RELEASE_RUNE.getId(),
+                            ModRunicRunes.COMPRESS_RUNE.getId(),
+                            ModRunicRunes.PIERCE_RUNE.getId()
                     )
             ));
 
@@ -97,10 +105,14 @@ public class ModItems {
             () -> new RunicTomeItem(
                     new Item.Properties().stacksTo(1),
                     List.of(
-                            ModRunicRunes.BOLT,
-                            ModRunicRunes.VEIL,
-                            ModRunicRunes.CIRCLE,
-                            ModRunicRunes.MARK
+                            ModRunicRunes.BOLT_RUNE.getId(),
+                            ModRunicRunes.VEIL_RUNE.getId(),
+                            ModRunicRunes.CIRCLE_RUNE.getId(),
+                            ModRunicRunes.MARK_RUNE.getId(),
+                            ModRunicRunes.WALL_RUNE.getId(),
+                            ModRunicRunes.PULSE_RUNE.getId(),
+                            ModRunicRunes.LINE_RUNE.getId(),
+                            ModRunicRunes.SPHERE_RUNE.getId()
                     )
             ));
 
@@ -108,8 +120,11 @@ public class ModItems {
             () -> new RunicTomeItem(
                     new Item.Properties().stacksTo(1),
                     List.of(
-                            ModRunicRunes.QUICKEN,
-                            ModRunicRunes.STABILISE
+                            ModRunicRunes.QUICKEN_RUNE.getId(),
+                            ModRunicRunes.STABILISE_RUNE.getId(),
+                            ModRunicRunes.HEAVY_RUNE.getId(),
+                            ModRunicRunes.VIOLENT_RUNE.getId(),
+                            ModRunicRunes.HIDDEN_RUNE.getId()
                     )
             ));
 
@@ -120,7 +135,7 @@ public class ModItems {
             () -> new RunicBrushItem(
                     new Item.Properties().stacksTo(1),
                     1,
-                    ModRunicRunes.STABILISE
+                    ModRunicRunes.STABILISE_RUNE.getId()
             ));
 
 
