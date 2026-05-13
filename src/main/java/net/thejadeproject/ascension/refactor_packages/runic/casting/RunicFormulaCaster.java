@@ -2,8 +2,10 @@ package net.thejadeproject.ascension.refactor_packages.runic.casting;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +15,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.thejadeproject.ascension.data_attachments.ModAttachments;
+import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.handlers.AscensionDamageHandler;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.runic.RunicPathHelper;
@@ -45,6 +49,23 @@ public final class RunicFormulaCaster {
                 caster,
                 runicRealm
         );
+
+        RunicCastingResult validationResult = validateFormula(caster, formula, stats, runicRealm);
+
+        if (!validationResult.isSuccess()) {
+            applyFormulaBacklash(caster, formula, stats, validationResult.getFailureReason());
+            return validationResult;
+        }
+
+        double qiCost = getFormulaQiCost(formula, stats);
+
+        if (!tryConsumeFormulaQi(caster, qiCost)) {
+            if (caster instanceof ServerPlayer player) {
+                player.displayClientMessage(getBacklashMessage("not_enough_qi"), true);
+            }
+
+            return RunicCastingResult.failure("not_enough_qi");
+        }
 
         String form = formula.formPath();
 
@@ -357,4 +378,128 @@ public final class RunicFormulaCaster {
 
         target.hurt(source, damage);
     }
+
+    private static void applyFormulaBacklash(
+            LivingEntity caster,
+            RunicFormula formula,
+            RunicFormulaStats stats,
+            String reason
+    ) {
+        if (caster == null || caster.level().isClientSide()) {
+            return;
+        }
+
+        float damage = 3.0F + formula.inputRunes().size() * 2.0F;
+
+        if (formula.hasModifier("violent")) {
+            damage += 8.0F;
+        }
+
+        if (formula.hasModifier("heavy")) {
+            damage += 3.0F;
+        }
+
+        if (formula.hasModifier("stabilise")) {
+            damage *= 0.55F;
+        }
+
+        damage *= stats.backlashMultiplier();
+
+        caster.hurt(caster.damageSources().magic(), Math.max(1.0F, damage));
+
+        int duration = 40 + formula.inputRunes().size() * 10;
+
+        caster.addEffect(new MobEffectInstance(MobEffects.CONFUSION, duration, 0));
+        caster.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration / 2, 0));
+
+        if (caster instanceof ServerPlayer player) {
+            player.displayClientMessage(getBacklashMessage(reason), true);
+        }
+    }
+
+    private static Component getBacklashMessage(String reason) {
+        return switch (reason) {
+            case "formula_too_complex" ->
+                    Component.translatable("ascension.runic.cast.formula_too_complex");
+            case "rune_beyond_comprehension" ->
+                    Component.translatable("ascension.runic.cast.rune_beyond_comprehension");
+            case "unstable_modifiers" ->
+                    Component.translatable("ascension.runic.cast.unstable_modifiers");
+            case "not_enough_qi" ->
+                    Component.translatable("ascension.runic.cast.not_enough_qi");
+            default ->
+                    Component.translatable("ascension.runic.cast.runes_do_not_align");
+        };
+    }
+
+    private static RunicCastingResult validateFormula(
+            LivingEntity caster,
+            RunicFormula formula,
+            RunicFormulaStats stats,
+            int runicRealm
+    ) {
+        if (!formula.isValid()) {
+            return RunicCastingResult.failure("invalid_formula");
+        }
+
+        if (caster == null || !caster.hasData(ModAttachments.ENTITY_DATA)) {
+            return RunicCastingResult.failure("missing_entity_data");
+        }
+
+        int availableSlots = RunicPathHelper.getRuneSlotCount(caster, true);
+
+        if (formula.inputRunes().size() > availableSlots) {
+            return RunicCastingResult.failure("formula_too_complex");
+        }
+
+        for (ResourceLocation runeId : formula.inputRunes()) {
+            if (!RunicPathHelper.canUseRune(caster, runeId)) {
+                return RunicCastingResult.failure("rune_beyond_comprehension");
+            }
+        }
+
+        int modifierCount = formula.modifiers().size();
+
+        if (modifierCount > Math.max(1, runicRealm / 2 + 1)) {
+            return RunicCastingResult.failure("unstable_modifiers");
+        }
+
+        return RunicCastingResult.success(formula.getFormulaId());
+    }
+
+    private static double getFormulaQiCost(RunicFormula formula, RunicFormulaStats stats) {
+        double baseCost = 25.0D + formula.inputRunes().size() * 12.0D;
+
+        switch (formula.formPath()) {
+            case "pulse", "circle", "sphere" -> baseCost += 18.0D;
+            case "line", "wall" -> baseCost += 12.0D;
+            case "mark", "veil" -> baseCost += 8.0D;
+        }
+
+        switch (formula.intentPath()) {
+            case "pierce", "compress", "release" -> baseCost += 15.0D;
+            case "cut", "guard", "heal" -> baseCost += 10.0D;
+            case "bind", "push", "pull", "gather" -> baseCost += 6.0D;
+        }
+
+        if (formula.hasModifier("violent")) baseCost += 30.0D;
+        if (formula.hasModifier("heavy")) baseCost += 18.0D;
+        if (formula.hasModifier("hidden")) baseCost += 15.0D;
+        if (formula.hasModifier("quicken")) baseCost += 12.0D;
+        if (formula.hasModifier("stabilise")) baseCost -= 8.0D;
+
+        return Math.max(10.0D, baseCost * stats.qiCostMultiplier());
+    }
+
+    private static boolean tryConsumeFormulaQi(LivingEntity caster, double qiCost) {
+        if (caster == null || !caster.hasData(ModAttachments.ENTITY_DATA)) {
+            return false;
+        }
+
+        IEntityData entityData = caster.getData(ModAttachments.ENTITY_DATA);
+        return entityData.getQiContainer().tryConsumeQi(qiCost);
+    }
+
+
+
 }

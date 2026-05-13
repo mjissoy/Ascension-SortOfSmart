@@ -1402,6 +1402,14 @@ public class lang extends LanguageProvider {
         add("ascension.runic.codex.sequence_details", "Tier: %s | Min Realm: %s | Qi: %s");
         add("ascension.runic.codex.sequence_formula", "Formula: %s");
 
+        add("ascension.runic.codex.not_on_path", "The codex remains shut. You have not entered the Runic Path.");
+        add("ascension.runic.codex.unknown", "Unknown");
+        add("ascension.runic.codex.unknown_formula", "Unknown Formula");
+        add("ascension.runic.codex.generated_formula_name", "%s Formula");
+        add("ascension.runic.codex.generated_formula_desc", "A %s formula shaped from %s and guided by %s.");
+        add("ascension.runic.codex.formula_type", "Type: Discovered Formula");
+        add("ascension.runic.codex.formula_runes", "Formula: %s");
+
         add("ascension.runic.tome.not_on_path", "The runes remain silent. You have not entered the Runic Path.");
         add("ascension.runic.tome.no_new_runes", "This tome contains no new runes.");
         add("ascension.runic.tome.learned", "You learned %s runes.");
@@ -1485,14 +1493,13 @@ public class lang extends LanguageProvider {
         add("ascension.runic.cast.no_entity_data", "No ascension data found.");
         add("ascension.runic.cast.not_on_path", "You have not entered the Runic Path.");
         add("ascension.runic.cast.no_usable_runes", "You do not know any usable runes.");
-        add("ascension.runic.codex.not_on_path", "The codex remains shut. You have not entered the Runic Path.");
+
+        add("ascension.runic.cast.formula_too_complex", "The formula exceeds your current script capacity.");
+        add("ascension.runic.cast.rune_beyond_comprehension", "One or more runes slip beyond your comprehension.");
+        add("ascension.runic.cast.unstable_modifiers", "The modifiers destabilise the formula.");
+        add("ascension.runic.cast.not_enough_qi", "You lack the qi to complete the formula.");
+        add("ascension.runic.cast.runes_do_not_align", "The runes do not align.");
         add("ascension.runic.cast.failure", "The runes do not align.");
-        add("ascension.runic.codex.unknown", "Unknown");
-        add("ascension.runic.codex.unknown_formula", "Unknown Formula");
-        add("ascension.runic.codex.generated_formula_name", "%s Formula");
-        add("ascension.runic.codex.generated_formula_desc", "A %s formula shaped from %s and guided by %s.");
-        add("ascension.runic.codex.formula_type", "Type: Discovered Formula");
-        add("ascension.runic.codex.formula_runes", "Formula: %s");
 
         add("ascension.skill.runic_sight", "Runic Sight");
         add("ascension.skill.runic_sight.description", "Opens the inner eye to glimpse runes hidden in nearby blocks and traces.");
