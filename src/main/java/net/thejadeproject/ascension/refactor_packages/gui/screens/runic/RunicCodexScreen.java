@@ -286,6 +286,11 @@ public class RunicCodexScreen extends EasyScreen {
     }
 
     private void addSequenceDetails(ResourceLocation sequenceId) {
+        if (isFormulaId(sequenceId)) {
+            addFormulaDetails(sequenceId);
+            return;
+        }
+
         IRunicSequence sequence = ModRunicSequences.get(sequenceId);
 
         EasyLabel name = label(getUIFrame(), getSequenceName(sequenceId), 8, 3, 200, 12, 0xFF2A162F);
@@ -357,6 +362,10 @@ public class RunicCodexScreen extends EasyScreen {
     }
 
     private static Component getSequenceName(ResourceLocation sequenceId) {
+        if (isFormulaId(sequenceId)) {
+            return getFormulaName(sequenceId);
+        }
+
         return Component.translatable("ascension.runic.sequence." + sequenceId.getPath());
     }
 
@@ -468,4 +477,83 @@ public class RunicCodexScreen extends EasyScreen {
             guiGraphics.fill(0, 23, getWidth(), 24, 0xFF7A3FD1);
         }
     }
+
+    private void addFormulaDetails(ResourceLocation formulaId) {
+        EasyLabel name = label(getUIFrame(), getFormulaName(formulaId), 8, 3, 220, 12, 0xFF2A162F);
+        name.setTextScale(0.85F);
+        detailContainer.addChild(name);
+
+        List<ResourceLocation> runeIds = getFormulaRuneIds(formulaId);
+
+        addDetailLine(getFormulaDescription(runeIds), 16);
+        addDetailLine(Component.translatable("ascension.runic.codex.formula_type"), 28);
+        addDetailLine(Component.translatable("ascension.runic.codex.formula_runes", formatRuneList(runeIds)), 40);
+    }
+
+
+    private static boolean isFormulaId(ResourceLocation id) {
+        return id.getPath().startsWith("formula/");
+    }
+
+    private static List<ResourceLocation> getFormulaRuneIds(ResourceLocation formulaId) {
+        String raw = formulaId.getPath().substring("formula/".length());
+        String[] parts = raw.split("_");
+
+        java.util.ArrayList<ResourceLocation> runeIds = new java.util.ArrayList<>();
+
+        for (String part : parts) {
+            runeIds.add(ResourceLocation.fromNamespaceAndPath(formulaId.getNamespace(), part));
+        }
+
+        return runeIds;
+    }
+
+    private static Component getFormulaName(ResourceLocation formulaId) {
+        List<ResourceLocation> runeIds = getFormulaRuneIds(formulaId);
+
+        if (runeIds.isEmpty()) {
+            return Component.translatable("ascension.runic.codex.unknown_formula");
+        }
+
+        return Component.translatable("ascension.runic.codex.generated_formula_name", formatRuneListSpaced(runeIds));
+    }
+
+    private static Component getFormulaDescription(List<ResourceLocation> runeIds) {
+        Component source = Component.translatable("ascension.runic.codex.unknown");
+        Component intent = Component.translatable("ascension.runic.codex.unknown");
+        Component form = Component.translatable("ascension.runic.rune.bolt");
+
+        for (ResourceLocation runeId : runeIds) {
+            IRunicRune rune = ModRunicRunes.get(runeId);
+
+            if (rune == null) {
+                continue;
+            }
+
+            switch (rune.getType()) {
+                case SOURCE -> source = rune.getName();
+                case INTENT -> intent = rune.getName();
+                case FORM -> form = rune.getName();
+            }
+        }
+
+        return Component.translatable("ascension.runic.codex.generated_formula_desc", form, source, intent);
+    }
+
+    private static Component formatRuneListSpaced(List<ResourceLocation> runeIds) {
+        Component result = Component.empty();
+
+        for (int i = 0; i < runeIds.size(); i++) {
+            if (i > 0) {
+                result = result.copy().append(Component.literal(" "));
+            }
+
+            IRunicRune rune = ModRunicRunes.get(runeIds.get(i));
+            result = result.copy().append(rune == null ? Component.literal(runeIds.get(i).getPath()) : rune.getName());
+        }
+
+        return result;
+    }
+
+
 }

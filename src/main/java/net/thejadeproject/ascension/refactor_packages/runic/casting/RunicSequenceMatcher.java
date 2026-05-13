@@ -67,6 +67,14 @@ public final class RunicSequenceMatcher {
         IRunicSequence sequence = findMatchingSequence(inputRunes, availableSequences);
 
         if (sequence == null) {
+            RunicCastingResult formulaResult = RunicFormulaCaster.tryCast(caster, inputRunes);
+
+            if (formulaResult.isSuccess()) {
+                runicData.addDiscoveredSequence(formulaResult.getSequenceId());
+                RunicPathHelper.saveRunicData(caster, runicData);
+                return formulaResult;
+            }
+
             return RunicCastingResult.failure("no_matching_sequence");
         }
 
