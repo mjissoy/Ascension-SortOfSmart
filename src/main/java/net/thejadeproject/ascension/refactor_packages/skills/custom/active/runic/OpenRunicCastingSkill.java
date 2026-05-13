@@ -20,6 +20,7 @@ import net.thejadeproject.ascension.refactor_packages.gui.elements.info_elements
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCastingScreenPayload;
 import net.thejadeproject.ascension.refactor_packages.physiques.IPhysiqueData;
 import net.thejadeproject.ascension.refactor_packages.runic.RunicPathHelper;
+import net.thejadeproject.ascension.refactor_packages.runic.casting.RunicCastingSuppressionHandler;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastEndData;
 import net.thejadeproject.ascension.refactor_packages.skill_casting.casting.CastResult;
 import net.thejadeproject.ascension.refactor_packages.skills.IPersistentSkillData;
@@ -68,6 +69,10 @@ public class OpenRunicCastingSkill implements ICastableSkill {
         }
 
         if (caster instanceof ServerPlayer player) {
+            IEntityData entityData = player.getData(ModAttachments.ENTITY_DATA);
+            int durationTicks = RunicPathHelper.getCastingDurationSeconds(entityData) * 20;
+
+            RunicCastingSuppressionHandler.beginCasting(player, durationTicks);
             OpenRunicCastingScreenPayload.sendTo(player);
         }
     }

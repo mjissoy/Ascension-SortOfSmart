@@ -10,6 +10,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.thejadeproject.ascension.AscensionCraft;
 import net.thejadeproject.ascension.refactor_packages.runic.casting.RunicBacklashHelper;
 import net.thejadeproject.ascension.refactor_packages.runic.casting.RunicCastingResult;
+import net.thejadeproject.ascension.refactor_packages.runic.casting.RunicCastingSuppressionHandler;
 import net.thejadeproject.ascension.refactor_packages.runic.casting.RunicSequenceMatcher;
 import net.thejadeproject.ascension.refactor_packages.util.ByteBufUtil;
 
@@ -53,6 +54,8 @@ public record CastRunicSequencePayload(List<ResourceLocation> runes) implements 
             if (!(context.player() instanceof ServerPlayer player)) {
                 return;
             }
+
+            RunicCastingSuppressionHandler.stopCasting(player);
 
             RunicCastingResult result = RunicSequenceMatcher.tryCast(player, payload.runes);
 
