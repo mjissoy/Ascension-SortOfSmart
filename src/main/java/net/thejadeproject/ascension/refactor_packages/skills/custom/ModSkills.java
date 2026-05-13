@@ -15,6 +15,10 @@ import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attac
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.runic.OpenRunicCastingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.runic.RunicSightSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.PurifyingMantraSkill;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.elemental.FireSpray;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.soul.SoulNeedle;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.soul.SoulSuppression;
+import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.weapon.SwordDraw;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.QiFlightSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.VoidstepSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.cultivation.GenericCultivationSkill;
@@ -232,11 +236,18 @@ public class ModSkills {
     // Passives
 
     // Actives
+    public static final DeferredHolder<ISkill, ? extends SoulNeedle> SOUL_NEEDLE =
+            SKILLS.register("soul_needle", SoulNeedle::new);
+    public static final DeferredHolder<ISkill, ? extends SoulSuppression> SOUL_SUPPRESSION =
+            SKILLS.register("soul_suppression", SoulSuppression::new);
 
     // ──── WEAPON SKILLS ────────────────────────────────────────────
     // Cultivation
-    public static final DeferredHolder<ISkill,? extends SwordCultivationSkill> SWORD_CULTIVATION_SKILL =
-            SKILLS.register("sword_cultivation_skill", SwordCultivationSkill::new);
+    public static final DeferredHolder<ISkill, SwordCultivationSkill> SWORD_CULTIVATION_SKILL =
+            SKILLS.register("sword_cultivation_skill", () -> new SwordCultivationSkill(
+                    "ascension.skill.sword_cultivation_skill", "ascension.skill.sword_cultivation_skill.description",
+                    ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "sword_cultivation_skill")
+            ));
 
     // Passives TODO: Give different weapons different damage multi
     public static final DeferredHolder<ISkill, ? extends SwordMasterySkill> SWORD_MASTERY_SKILL =
@@ -255,7 +266,8 @@ public class ModSkills {
             SKILLS.register("blade_mastery_skill", BladeMasterySkill::new);
 
     // Actives
-
+    public static final DeferredHolder<ISkill, ? extends SwordDraw> SWORD_DRAW =
+            SKILLS.register("sword_draw", SwordDraw::new);
 
     //Demonic shhhh
     public static final DeferredHolder<ISkill, ? extends BloodfeastBanquetSkill> BLOODFEAST_BANQUET_SKILL =

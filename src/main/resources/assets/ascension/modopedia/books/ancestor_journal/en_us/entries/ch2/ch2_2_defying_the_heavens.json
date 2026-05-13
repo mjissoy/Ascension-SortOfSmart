@@ -70,7 +70,7 @@
     },
     {
       "components": [
-        { "type": "modopedia:item_gallery", "x": 49, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:physique_essence" } } },
+        { "type": "modopedia:item_gallery", "x": 42, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:physique_essence" } } },
         {
           "type": "modopedia:text",
           "x": 0,

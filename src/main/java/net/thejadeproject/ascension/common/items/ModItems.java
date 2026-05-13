@@ -18,6 +18,8 @@ import net.thejadeproject.ascension.common.blocks.ModBlocks;
 import net.thejadeproject.ascension.common.items.artifacts.talismans.*;
 import net.thejadeproject.ascension.common.items.techniques.TechniqueBinderItem;
 import net.thejadeproject.ascension.common.items.techniques.TechniquePageItem;
+import net.thejadeproject.ascension.common.items.tools.herbs.MortarAndPestle;
+import net.thejadeproject.ascension.common.items.tools.herbs.SpiritualMeal;
 import net.thejadeproject.ascension.common.items.tools.hidden_weapons.NeedleItem;
 import net.thejadeproject.ascension.entity.ModEntities;
 import net.thejadeproject.ascension.common.items.artifacts.*;
@@ -219,6 +221,14 @@ public class ModItems {
 
 
     //Weapons & Tools
+
+    public static final DeferredItem<Item> MORTAR_PESTLE = ITEMS.register("mortar_pestle",
+            () -> new MortarAndPestle(new Item.Properties()));
+    public static final DeferredItem<Item> SPIRITUAL_MEAL = ITEMS.register("spiritual_meal",
+            () -> new SpiritualMeal(new Item.Properties()));
+
+
+
     public static final DeferredItem<BladeItem> WOODEN_BLADE = ITEMS.register("wooden_blade",
             () -> new BladeItem(Tiers.WOOD, new Item.Properties().durability(69).attributes(BladeItem.createAttributes((Tier) Tiers.WOOD, 2, (float) -2))));
     public static final DeferredItem<BladeItem> STONE_BLADE = ITEMS.register("stone_blade",
@@ -373,12 +383,15 @@ public class ModItems {
 
 
 
+
     // ── Poison Pills ──────────────────────────────────────────────
     public static final DeferredItem<PillItem> QI_DEVOURING_PARASITE_PILL = ITEMS.register("qi_devouring_parasite_pill",
             () -> new PillItem(new Item.Properties()
                     .food(ModFoodProperties.POISON_PILL)
                     .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.PARASITE_PILL_EFFECT.getId().toString()))
                     , 0, true));
+    public static final DeferredItem<Item> QI_DEVOURING_POWDER = ITEMS.register("qi_devouring_powder",
+            () -> new Item(new Item.Properties()));
 
 
     // ── Positive Pills ──────────────────────────────────────────────
@@ -387,6 +400,12 @@ public class ModItems {
                     .food(ModFoodProperties.MEDICINAL_PILL)
                     .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.QI_ENHANCED_REGEN_EFFECT.getId().toString()))
                     , 0, false));
+
+    public static final DeferredItem<PillItem> QI_REPLENISHING_PILL = ITEMS.register("qi_replenishing_pill",
+            () -> new PillItem(new Item.Properties()
+                    .food(ModFoodProperties.CULT_PILL)
+                    .component(ModDataComponents.PILL_EFFECTS, List.of(ModPillEffects.QI_REPLENISHING_EFFECT.getId().toString()))
+                    , 100, false));
 
     // ── Antidote Pills ────────────────────────────────────────────
     public static final DeferredItem<PillItem> ANTIDOTE_PILL_QDP = ITEMS.register("antidote_qdp_pill",

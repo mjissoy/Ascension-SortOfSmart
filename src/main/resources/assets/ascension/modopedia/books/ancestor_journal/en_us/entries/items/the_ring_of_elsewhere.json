@@ -4,7 +4,7 @@
   "pages": [
     {
       "components": [
-        { "type": "modopedia:item_gallery", "x": 49, "y": 2, "display": { "type": "modopedia:cycling", "items": [{ "id": "ascension:spatial_ring" }, { "id": "ascension:spatial_stone_tier_1" }] } },
+        { "type": "modopedia:item_gallery", "x": 42, "y": 2, "display": { "type": "modopedia:cycling", "items": [{ "id": "ascension:spatial_ring" }, { "id": "ascension:spatial_stone_tier_1" }] } },
         { "type": "modopedia:header", "x": 0, "y": 22, "text": "Spatial Ring", "centered": true },
         { "type": "modopedia:separator", "x": 0, "y": 34 },
         { "type": "modopedia:text", "x": 0, "y": 42, "text": "The Spatial Ring holds more than its size should allow by operating on a different understanding of what size means. The interior is a separate stable space.\nI found mine on the hand of a skeleton in a collapsed mine." }

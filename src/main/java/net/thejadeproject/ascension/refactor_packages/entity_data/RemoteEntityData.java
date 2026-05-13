@@ -101,6 +101,11 @@ public class RemoteEntityData implements IEntityData{
     }
 
     @Override
+    public boolean hasForm(ResourceLocation form) {
+        return false;
+    }
+
+    @Override
     public void addEntityForm(ResourceLocation form) {
         EntityDataManager.getEntityData(getWatchedEntityData()).addEntityForm(form);
     }
@@ -277,6 +282,11 @@ public class RemoteEntityData implements IEntityData{
     @Override
     public boolean setTechnique(ResourceLocation technique, ITechniqueData techniqueData) {
         return EntityDataManager.getEntityData(getWatchedEntityData()).setTechnique(technique,techniqueData);
+    }
+
+    @Override
+    public void addPathData(ResourceLocation path, PathData pathData, ResourceLocation form) {
+
     }
 
     @Override

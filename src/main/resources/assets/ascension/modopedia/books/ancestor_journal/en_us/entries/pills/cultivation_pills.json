@@ -4,7 +4,7 @@
   "pages": [
     {
       "components": [
-        { "type": "modopedia:item_gallery", "x": 49, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:essence_gathering_pill" } } },
+        { "type": "modopedia:item_gallery", "x": 42, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:essence_gathering_pill" } } },
         { "type": "modopedia:header", "x": 0, "y": 22, "text": "Essence Gathering Pill", "centered": true },
         { "type": "modopedia:separator", "x": 0, "y": 34 },
         { "type": "modopedia:text", "x": 0, "y": 42, "text": "Accelerates Qi absorption significantly — days of careful meditation compressed into hours. The first time I used one I had to stop halfway through to let my meridians settle." }
@@ -17,7 +17,7 @@
     },
     {
       "components": [
-        { "type": "modopedia:item_gallery", "x": 49, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:inner_reinforcement_pill" } } },
+        { "type": "modopedia:item_gallery", "x": 42, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:inner_reinforcement_pill" } } },
         { "type": "modopedia:header", "x": 0, "y": 22, "text": "Inner Reinforcement Pill", "centered": true },
         { "type": "modopedia:separator", "x": 0, "y": 34 },
         { "type": "modopedia:text", "x": 0, "y": 42, "text": "Strengthens the body to better contain and process higher volumes of Qi. As cultivation deepens, the body must be strong enough to hold what the spirit accumulates — otherwise the excess damages from inside." }
@@ -30,7 +30,7 @@
     },
     {
       "components": [
-        { "type": "modopedia:item_gallery", "x": 49, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:soul_focus_pill" } } },
+        { "type": "modopedia:item_gallery", "x": 42, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:soul_focus_pill" } } },
         { "type": "modopedia:header", "x": 0, "y": 22, "text": "Soul Focus Pill", "centered": true },
         { "type": "modopedia:separator", "x": 0, "y": 34 },
         { "type": "modopedia:text", "x": 0, "y": 42, "text": "Sharpens the spirit's ability to direct and control cultivated Qi. Qi without direction is pressure without purpose — it accumulates and causes problems." }

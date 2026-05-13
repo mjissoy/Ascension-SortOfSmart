@@ -4,7 +4,7 @@
   "pages": [
     {
       "components": [
-        { "type": "modopedia:item_gallery", "x": 49, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:marrow_cleanse_pill" } } },
+        { "type": "modopedia:item_gallery", "x": 42, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:marrow_cleanse_pill" } } },
         { "type": "modopedia:header", "x": 0, "y": 22, "text": "Marrow Cleanse Pill", "centered": true },
         { "type": "modopedia:separator", "x": 0, "y": 34 },
         { "type": "modopedia:text", "x": 0, "y": 42, "text": "The Marrow Cleanse Pill is the worst thing I have voluntarily done to myself.\nFor two days I could not move. Whatever it burns through, it burns completely." }

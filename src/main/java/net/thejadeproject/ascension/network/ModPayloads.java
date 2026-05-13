@@ -21,6 +21,7 @@ import net.thejadeproject.ascension.refactor_packages.network.server_bound.herb_
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCastingScreenPayload;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.runic.OpenRunicCodexScreenPayload;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.runic.CastRunicSequencePayload;
+import net.thejadeproject.ascension.refactor_packages.network.server_bound.herb_pouch.InsertCarriedHerbIntoPouchPayload;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.supressors.UpdateSuppressionValue;
 import net.thejadeproject.ascension.refactor_packages.network.server_bound.techniques.MergeResponsePayload;
 import net.thejadeproject.ascension.refactor_packages.network.client_bound.entity_data.skills.casting.SyncCastingInstance;
@@ -192,6 +193,12 @@ public class ModPayloads {
                 ExtractHerbFromPouchPayload.TYPE,
                 ExtractHerbFromPouchPayload.STREAM_CODEC,
                 ExtractHerbFromPouchPayload::handlePayload
+        );
+
+        registrar.playToServer(
+                InsertCarriedHerbIntoPouchPayload.TYPE,
+                InsertCarriedHerbIntoPouchPayload.STREAM_CODEC,
+                InsertCarriedHerbIntoPouchPayload::handlePayload
         );
 
         // Runic Things

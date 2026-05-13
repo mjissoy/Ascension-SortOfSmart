@@ -18,6 +18,7 @@ import net.thejadeproject.ascension.refactor_packages.techniques.custom.runic.Ba
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.soul.*;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.ModSkills;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.weapon.SwordCultivationTechnique;
 import net.thejadeproject.ascension.refactor_packages.techniques.helpers.TechniqueManualRegistry;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ModifierOperation;
 import net.thejadeproject.ascension.refactor_packages.util.value_modifiers.ValueContainerModifier;
@@ -34,6 +35,7 @@ public class ModTechniques {
     public static final ResourceLocation BASE_BODY_KEY    = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "base_body");
     public static final ResourceLocation BASE_ESSENCE_KEY = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "base_essence");
     public static final ResourceLocation BASE_SOUL_KEY    = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "base_soul");
+    public static final ResourceLocation BASE_WEAPON_KEY = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "base_weapon");
 
     // --- Base path handlers ---
     // Body: main VIT + STR, secondary AGI, tertiary INT
@@ -63,6 +65,14 @@ public class ModTechniques {
             .addMinorRealmStatModifier(ModStats.STRENGTH.getId(),     new ValueContainerModifier(1,    ModifierOperation.ADD_BASE,       BASE_SOUL_KEY))
             .addMajorRealmStatModifier(ModStats.INTELLIGENCE.getId(), new ValueContainerModifier(0.15, ModifierOperation.MULTIPLY_FINAL, BASE_SOUL_KEY))
             .addMajorRealmStatModifier(ModStats.AGILITY.getId(),      new ValueContainerModifier(0.25, ModifierOperation.MULTIPLY_FINAL, BASE_SOUL_KEY));
+
+    // Temp Weapon Handler until Flip makes something proper
+    public static BasicStatChangeHandler baseWeaponHandler = new BasicStatChangeHandler()
+            .addMinorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(2, ModifierOperation.ADD_BASE, BASE_WEAPON_KEY))
+            .addMinorRealmStatModifier(ModStats.STRENGTH.getId(), new ValueContainerModifier(2, ModifierOperation.ADD_BASE, BASE_WEAPON_KEY))
+            .addMinorRealmStatModifier(ModStats.INTELLIGENCE.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, BASE_WEAPON_KEY))
+            .addMajorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(0.12, ModifierOperation.MULTIPLY_FINAL, BASE_WEAPON_KEY))
+            .addMajorRealmStatModifier(ModStats.STRENGTH.getId(), new ValueContainerModifier(0.12, ModifierOperation.MULTIPLY_FINAL, BASE_WEAPON_KEY));
 
     // --- Placeholder handler ---
     public static BasicStatChangeHandler testHandler = new BasicStatChangeHandler()
@@ -127,9 +137,9 @@ public class ModTechniques {
     public static final DeferredHolder<ITechnique, ? extends WindEssenceTechnique> WIND_ESSENCE_TECHNIQUE =
             TECHNIQUES.register("wind_essence_technique",
                     () -> new WindEssenceTechnique(baseEssenceHandler));
-    public static final DeferredHolder<ITechnique, ? extends FiveElementCultivationTechnique> FIVE_ELEMENT_CIRCULATION_METHOD =
-            TECHNIQUES.register("five_element_cultivation_technique",
-                    () -> new FiveElementCultivationTechnique(baseEssenceHandler));
+//    public static final DeferredHolder<ITechnique, ? extends FiveElementCultivationTechnique> FIVE_ELEMENT_CIRCULATION_METHOD =
+//            TECHNIQUES.register("five_element_cultivation_technique",
+//                    () -> new FiveElementCultivationTechnique(baseEssenceHandler));
 
 
 
@@ -243,11 +253,11 @@ public class ModTechniques {
 
 
     // ──── WEAPON TECHNIQUES ────────────────────────────────────────────
-    public static final DeferredHolder<ITechnique, ? extends GenericTechnique> SWORD_COMPREHENSION_TECHNIQUE =
+    public static final DeferredHolder<ITechnique, ? extends SwordCultivationTechnique> SWORD_COMPREHENSION_TECHNIQUE =
             TECHNIQUES.register("sword_comprehension_technique",
-                    ()-> new GenericTechnique(ModPaths.SWORD.getId(),
-                            Component.translatable("ascension.technique.sword_comprehension_technique"),
-                            10.0,Set.of())
+                    () -> new SwordCultivationTechnique(ModPaths.SWORD.getId(),
+                            Component.translatable("ascension.technique.sword_comprehension_technique"), 10.0D, Set.of()
+                    ).setStatChangeHandler(baseWeaponHandler)
             );
 
 

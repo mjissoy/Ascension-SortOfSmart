@@ -36,7 +36,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                         LootItemRandomChanceCondition.randomChance(0.03f).build()
                 },
                 ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "bloodfeast_soul_refining_scripture"),
-                4
+                5
         ));
 
         //Techniques
@@ -690,6 +690,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 15,
                 35
         ));
+
 
         add("flow_severing_eyes_from_enderman", new AddPhysiqueRandomPurityModifier(
                 new LootItemCondition[] {

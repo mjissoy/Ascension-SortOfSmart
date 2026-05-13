@@ -1,10 +1,10 @@
 {
   "title": "Bloodfeast Soul Refining Scripture",
-  "icon": { "id": "ascension:technique_manual" },
+  "icon": { "id": "ascension:technique_manual", "components": { "ascension:technique_id": "ascension:bloodfeast_soul_refining_scripture" } },
   "pages": [
     {
       "components": [
-        { "type": "modopedia:item_gallery", "x": 47, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:technique_manual" } } },
+        { "type": "modopedia:item_gallery", "x": 42, "y": 2, "display": { "type": "modopedia:simple", "item": { "id": "ascension:technique_manual", "components": { "ascension:technique_id": "ascension:bloodfeast_soul_refining_scripture" } } } },
         { "type": "modopedia:header", "x": 0, "y": 22, "text": "Bloodfeast Soul Refining Scripture", "centered": true },
         { "type": "modopedia:separator", "x": 0, "y": 34 },
         { "type": "modopedia:text", "x": 0, "y": 42, "text": "The source I could not verify. What I could verify was the method — and what it asks of the practitioner." }

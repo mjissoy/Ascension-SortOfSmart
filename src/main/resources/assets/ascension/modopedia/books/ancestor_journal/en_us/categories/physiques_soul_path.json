@@ -10,7 +10,10 @@
     "physiques/physique_spear_soul_mark",
     "physiques/physique_soul_sword_heart",
     "physiques/physique_thundering_soul_core",
-    "physiques/physique_soul_crowned_king"
+    "physiques/physique_soul_crowned_king",
+    "physiques/physique_yin_eyes",
+    "physiques/physique_yang_eyes",
+    "physiques/physique_yin_yang_eyes"
   ],
   "sort_num": 4,
   "display_on_front_page": false
