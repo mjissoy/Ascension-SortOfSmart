@@ -11,7 +11,6 @@ import net.thejadeproject.ascension.refactor_packages.registries.AscensionRegist
 import net.thejadeproject.ascension.refactor_packages.skills.ISkill;
 import net.thejadeproject.ascension.refactor_packages.skills.ITickingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.body.WhiteLightningFist;
-import net.thejadeproject.ascension.refactor_packages.skills.custom.active.attack.fire.FireSpray;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.runic.OpenRunicCastingSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.runic.RunicSightSkill;
 import net.thejadeproject.ascension.refactor_packages.skills.custom.active.utility.PurifyingMantraSkill;

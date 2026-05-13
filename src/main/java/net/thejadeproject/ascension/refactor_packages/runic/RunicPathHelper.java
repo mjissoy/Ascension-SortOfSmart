@@ -48,6 +48,14 @@ public final class RunicPathHelper {
         return pathData.getMajorRealm();
     }
 
+    public static int getRunicMajorRealm(LivingEntity entity) {
+        if (entity == null || !entity.hasData(ModAttachments.ENTITY_DATA)) {
+            return 0;
+        }
+
+        return getRunicMajorRealm(entity.getData(ModAttachments.ENTITY_DATA));
+    }
+
     public static int getRuneSlotCount(IEntityData entityData) {
         if (!hasEnteredRunicPath(entityData)) {
             return 0;

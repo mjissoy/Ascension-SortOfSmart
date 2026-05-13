@@ -36,6 +36,7 @@ public class ModTechniques {
     public static final ResourceLocation BASE_ESSENCE_KEY = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "base_essence");
     public static final ResourceLocation BASE_SOUL_KEY    = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "base_soul");
     public static final ResourceLocation BASE_WEAPON_KEY = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "base_weapon");
+    private static final ResourceLocation BASE_RUNIC_KEY = ResourceLocation.fromNamespaceAndPath(AscensionCraft.MOD_ID, "base_runic");
 
     // --- Base path handlers ---
     // Body: main VIT + STR, secondary AGI, tertiary INT
@@ -73,6 +74,16 @@ public class ModTechniques {
             .addMinorRealmStatModifier(ModStats.INTELLIGENCE.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, BASE_WEAPON_KEY))
             .addMajorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(0.12, ModifierOperation.MULTIPLY_FINAL, BASE_WEAPON_KEY))
             .addMajorRealmStatModifier(ModStats.STRENGTH.getId(), new ValueContainerModifier(0.12, ModifierOperation.MULTIPLY_FINAL, BASE_WEAPON_KEY));
+
+    // Runic Path Handler
+    public static BasicStatChangeHandler baseRunicHandler = new BasicStatChangeHandler()
+            .addMinorRealmStatModifier(ModStats.INTELLIGENCE.getId(), new ValueContainerModifier(4, ModifierOperation.ADD_BASE, BASE_RUNIC_KEY))
+            .addMinorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(2, ModifierOperation.ADD_BASE, BASE_RUNIC_KEY))
+            .addMinorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(2, ModifierOperation.ADD_BASE, BASE_RUNIC_KEY))
+            .addMinorRealmStatModifier(ModStats.STRENGTH.getId(), new ValueContainerModifier(1, ModifierOperation.ADD_BASE, BASE_RUNIC_KEY))
+            .addMajorRealmStatModifier(ModStats.INTELLIGENCE.getId(), new ValueContainerModifier(0.25, ModifierOperation.MULTIPLY_FINAL, BASE_RUNIC_KEY))
+            .addMajorRealmStatModifier(ModStats.AGILITY.getId(), new ValueContainerModifier(0.15, ModifierOperation.MULTIPLY_FINAL, BASE_RUNIC_KEY))
+            .addMajorRealmStatModifier(ModStats.VITALITY.getId(), new ValueContainerModifier(0.10, ModifierOperation.MULTIPLY_FINAL, BASE_RUNIC_KEY));
 
     // --- Placeholder handler ---
     public static BasicStatChangeHandler testHandler = new BasicStatChangeHandler()
@@ -263,7 +274,7 @@ public class ModTechniques {
 
     // ──── RUNIC PATH THINGS ────────────────────────────────────────────
     public static final DeferredHolder<ITechnique, ? extends BasicRunicScriptTechnique> BASIC_RUNIC_SCRIPT =
-            TECHNIQUES.register("basic_runic_script", BasicRunicScriptTechnique::new);
+            TECHNIQUES.register("basic_runic_script", () -> new BasicRunicScriptTechnique(baseRunicHandler));
 
 
     /* ──── TECHNIQUE IDEAS | Fill in as you please ──────────────────────────────────────────── //

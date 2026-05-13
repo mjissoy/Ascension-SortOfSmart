@@ -5,19 +5,21 @@ import net.thejadeproject.ascension.refactor_packages.entity_data.IEntityData;
 import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
 import net.thejadeproject.ascension.refactor_packages.techniques.ITechniqueData;
 import net.thejadeproject.ascension.refactor_packages.techniques.custom.GenericTechnique;
+import net.thejadeproject.ascension.refactor_packages.techniques.custom.stat_change_handlers.BasicStatChangeHandler;
 import net.thejadeproject.ascension.refactor_packages.techniques.helpers.RunicTechniqueSkillHelper;
 
 import java.util.Set;
 
 public class BasicRunicScriptTechnique extends GenericTechnique {
 
-    public BasicRunicScriptTechnique() {
+    public BasicRunicScriptTechnique(BasicStatChangeHandler statChangeHandler) {
         super(
                 ModPaths.RUNIC.getId(),
                 Component.translatable("ascension.technique.basic_runic_script"),
                 10.0D,
                 Set.of()
         );
+        setStatChangeHandler(statChangeHandler);
     }
 
     @Override

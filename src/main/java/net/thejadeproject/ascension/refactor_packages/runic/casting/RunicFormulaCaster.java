@@ -2,6 +2,7 @@ package net.thejadeproject.ascension.refactor_packages.runic.casting;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -12,7 +13,11 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.thejadeproject.ascension.refactor_packages.handlers.AscensionDamageHandler;
+import net.thejadeproject.ascension.refactor_packages.paths.ModPaths;
+import net.thejadeproject.ascension.refactor_packages.runic.RunicPathHelper;
 
+import java.util.HashSet;
 import java.util.List;
 
 public final class RunicFormulaCaster {
@@ -31,29 +36,39 @@ public final class RunicFormulaCaster {
             return RunicCastingResult.failure("invalid_formula");
         }
 
+
+
+        int runicRealm = RunicPathHelper.getRunicMajorRealm(caster);
+
+        RunicFormulaStats stats = RunicFormulaScaling.calculate(
+                formula,
+                caster,
+                runicRealm
+        );
+
         String form = formula.formPath();
 
         switch (form) {
-            case "veil" -> castVeil(level, caster, formula);
-            case "pulse" -> castPulse(level, caster, formula);
-            case "circle" -> castPulse(level, caster, formula);
-            case "sphere" -> castPulse(level, caster, formula);
-            case "mark" -> castMark(level, caster, formula);
-            case "wall" -> castWall(level, caster, formula);
-            case "line" -> castLine(level, caster, formula);
-            case "bolt" -> castBolt(level, caster, formula);
-            default -> castBolt(level, caster, formula);
+            case "veil" -> castVeil(level, caster, formula, stats);
+            case "pulse" -> castPulse(level, caster, formula, stats);
+            case "circle" -> castPulse(level, caster, formula, stats);
+            case "sphere" -> castPulse(level, caster, formula, stats);
+            case "mark" -> castMark(level, caster, formula, stats);
+            case "wall" -> castWall(level, caster, formula, stats);
+            case "line" -> castLine(level, caster, formula, stats);
+            case "bolt" -> castBolt(level, caster, formula, stats);
+            default -> castBolt(level, caster, formula, stats);
         }
 
         return RunicCastingResult.success(formula.getFormulaId());
     }
 
-    private static void castVeil(ServerLevel level, LivingEntity caster, RunicFormula formula) {
-        applyIntentToSelf(caster, formula);
+    private static void castVeil(ServerLevel level, LivingEntity caster, RunicFormula formula, RunicFormulaStats stats) {
+        applyIntentToSelf(caster, formula, stats);
         spawnSelfParticles(level, caster, particleFor(formula));
     }
 
-    private static void castPulse(ServerLevel level, LivingEntity caster, RunicFormula formula) {
+    private static void castPulse(ServerLevel level, LivingEntity caster, RunicFormula formula, RunicFormulaStats stats) {
         double range = formula.hasModifier("heavy") ? 6.0D : 4.0D;
 
         List<LivingEntity> targets = level.getEntitiesOfClass(
@@ -63,33 +78,33 @@ public final class RunicFormulaCaster {
         );
 
         for (LivingEntity target : targets) {
-            applyIntentToTarget(caster, target, formula, 0.75F);
+            applyIntentToTarget(caster, target, formula, stats, 0.75F);
         }
 
         spawnSelfParticles(level, caster, particleFor(formula));
     }
 
-    private static void castMark(ServerLevel level, LivingEntity caster, RunicFormula formula) {
+    private static void castMark(ServerLevel level, LivingEntity caster, RunicFormula formula, RunicFormulaStats stats) {
         LivingEntity target = findLookedAtLivingEntity(caster, 8.0D);
 
         if (target == null) {
-            applyIntentToSelf(caster, formula);
+            applyIntentToSelf(caster, formula, stats);
             spawnSelfParticles(level, caster, particleFor(formula));
             return;
         }
 
-        applyIntentToTarget(caster, target, formula, 0.8F);
+        applyIntentToTarget(caster, target, formula, stats, 0.8F);
         target.addEffect(new MobEffectInstance(MobEffects.GLOWING, 80, 0));
         spawnParticleLine(level, particleFor(formula), caster.getEyePosition(), target.getBoundingBox().getCenter(), 10);
     }
 
-    private static void castWall(ServerLevel level, LivingEntity caster, RunicFormula formula) {
-        caster.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration(formula), formula.hasModifier("stabilise") ? 1 : 0));
-        caster.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, duration(formula), 0));
+    private static void castWall(ServerLevel level, LivingEntity caster, RunicFormula formula, RunicFormulaStats stats) {
+        caster.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, duration(formula, stats), formula.hasModifier("stabilise") ? 1 : 0));
+        caster.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, duration(formula, stats), 0));
         spawnSelfParticles(level, caster, particleFor(formula));
     }
 
-    private static void castLine(ServerLevel level, LivingEntity caster, RunicFormula formula) {
+    private static void castLine(ServerLevel level, LivingEntity caster, RunicFormula formula, RunicFormulaStats stats) {
         Vec3 start = caster.getEyePosition();
         Vec3 direction = caster.getViewVector(0.0F);
         Vec3 end = start.add(direction.scale(12.0D));
@@ -103,13 +118,13 @@ public final class RunicFormulaCaster {
         );
 
         for (LivingEntity target : targets) {
-            applyIntentToTarget(caster, target, formula, 0.65F);
+            applyIntentToTarget(caster, target, formula, stats, 0.65F);
         }
 
         spawnParticleLine(level, particleFor(formula), start, end, 18);
     }
 
-    private static void castBolt(ServerLevel level, LivingEntity caster, RunicFormula formula) {
+    private static void castBolt(ServerLevel level, LivingEntity caster, RunicFormula formula, RunicFormulaStats stats) {
         LivingEntity target = findLookedAtLivingEntity(caster, 10.0D);
 
         if (target == null) {
@@ -117,12 +132,12 @@ public final class RunicFormulaCaster {
             return;
         }
 
-        applyIntentToTarget(caster, target, formula, 1.0F);
+        applyIntentToTarget(caster, target, formula, stats, 1.0F);
         spawnParticleLine(level, particleFor(formula), caster.getEyePosition(), target.getBoundingBox().getCenter(), 14);
     }
 
-    private static void applyIntentToSelf(LivingEntity caster, RunicFormula formula) {
-        int duration = duration(formula);
+    private static void applyIntentToSelf(LivingEntity caster, RunicFormula formula,  RunicFormulaStats stats) {
+        int duration = duration(formula, stats);
 
         switch (formula.intentPath()) {
             case "heal", "gather" -> {
@@ -135,41 +150,41 @@ public final class RunicFormulaCaster {
             case "cut", "pierce" -> caster.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, duration, 0));
         }
 
-        applySourceSelfBonus(caster, formula);
+        applySourceSelfBonus(caster, formula, stats);
     }
 
-    private static void applyIntentToTarget(LivingEntity caster, LivingEntity target, RunicFormula formula, float multiplier) {
-        float damage = baseDamage(formula) * multiplier;
+    private static void applyIntentToTarget(LivingEntity caster, LivingEntity target, RunicFormula formula, RunicFormulaStats stats, float multiplier) {
+        float damage = baseDamage(formula, stats) * multiplier;
 
         switch (formula.intentPath()) {
-            case "cut" -> target.hurt(caster.damageSources().magic(), damage + 2.0F);
-            case "pierce" -> target.hurt(caster.damageSources().magic(), damage + 4.0F);
+            case "cut" -> hurtWithRunicDamage(caster, target, damage + 2.0F);
+            case "pierce" -> hurtWithRunicDamage(caster, target, damage + 4.0F);
             case "compress" -> {
-                target.hurt(caster.damageSources().magic(), damage + 1.0F);
-                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration(formula) / 2, 1));
+                hurtWithRunicDamage(caster, target, damage + 1.0F);
+                target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration(formula, stats) / 2, 1));
             }
-            case "bind" -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration(formula), formula.hasModifier("heavy") ? 3 : 1));
+            case "bind" -> target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration(formula, stats), formula.hasModifier("heavy") ? 3 : 1));
             case "push" -> pushAway(caster, target, formula);
             case "pull" -> pullToward(caster, target, formula);
-            case "guard" -> target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration(formula), 0));
+            case "guard" -> target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration(formula, stats), 0));
             case "heal", "gather" -> {
                 if (isPositiveSource(formula)) {
                     target.heal(3.0F + multiplier * 3.0F);
                 } else {
-                    target.hurt(caster.damageSources().magic(), damage);
+                    hurtWithRunicDamage(caster, target, damage);
                 }
             }
             case "release" -> {
-                target.hurt(caster.damageSources().magic(), damage + 1.0F);
+                hurtWithRunicDamage(caster, target, damage + 1.0F);
                 pushAway(caster, target, formula);
             }
         }
 
-        applySourceTargetBonus(caster, target, formula);
+        applySourceTargetBonus(caster, target, formula, stats);
     }
 
-    private static void applySourceSelfBonus(LivingEntity caster, RunicFormula formula) {
-        int duration = duration(formula);
+    private static void applySourceSelfBonus(LivingEntity caster, RunicFormula formula,  RunicFormulaStats stats) {
+        int duration = duration(formula, stats);
 
         switch (formula.sourcePath()) {
             case "flame" -> caster.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, duration, 0));
@@ -182,8 +197,8 @@ public final class RunicFormulaCaster {
         }
     }
 
-    private static void applySourceTargetBonus(LivingEntity caster, LivingEntity target, RunicFormula formula) {
-        int duration = duration(formula);
+    private static void applySourceTargetBonus(LivingEntity caster, LivingEntity target, RunicFormula formula, RunicFormulaStats stats) {
+        int duration = duration(formula, stats);
 
         switch (formula.sourcePath()) {
             case "flame" -> target.igniteForSeconds(formula.hasModifier("violent") ? 6 : 3);
@@ -198,24 +213,24 @@ public final class RunicFormulaCaster {
         }
     }
 
-    private static float baseDamage(RunicFormula formula) {
-        float damage = 4.0F;
+    private static float baseDamage(RunicFormula formula, RunicFormulaStats stats) {
+        float damage = 18.0F + formula.inputRunes().size() * 4.0F;
 
         if (formula.hasModifier("violent")) damage += 3.0F;
         if (formula.hasModifier("heavy")) damage += 1.5F;
         if (formula.hasModifier("stabilise")) damage -= 1.0F;
 
-        return Math.max(1.0F, damage);
+        return Math.max(1.0F, damage * stats.damageMultiplier());
     }
 
-    private static int duration(RunicFormula formula) {
+    private static int duration(RunicFormula formula, RunicFormulaStats stats) {
         int duration = 100;
 
         if (formula.hasModifier("quicken")) duration -= 30;
         if (formula.hasModifier("stabilise")) duration += 40;
         if (formula.hasModifier("heavy")) duration += 20;
 
-        return Math.max(40, duration);
+        return Math.max(40, (int)(duration * stats.durationMultiplier()));
     }
 
     private static boolean isPositiveSource(RunicFormula formula) {
@@ -328,5 +343,18 @@ public final class RunicFormulaCaster {
                 && entity.isAlive()
                 && !entity.isSpectator()
                 && entity.isPickable();
+    }
+
+    private static void hurtWithRunicDamage(LivingEntity caster, LivingEntity target, float damage) {
+
+        HashSet<ResourceLocation> paths = new HashSet<>();
+        paths.add(ModPaths.RUNIC.getId());
+
+        AscensionDamageHandler.AscensionDamageSource source =
+                new AscensionDamageHandler.AscensionDamageSource(paths,
+                        target.damageSources().source(target.damageSources().magic().typeHolder().getKey(), caster)
+                );
+
+        target.hurt(source, damage);
     }
 }
